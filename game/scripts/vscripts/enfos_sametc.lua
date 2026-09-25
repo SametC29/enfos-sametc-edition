@@ -54,6 +54,10 @@ function EnfosSametC:InitGameMode()
 	GameRules:SetWeatherEffects(false)
 	gameMode:SetUnseenFogOfWarEnabled(false)
 
+	-- Atmospheric Theme: Colosseum / Motes Ambient Particles
+	local weatherFx = ParticleManager:CreateParticle("particles/rain_fx/coloseum_terrain_motes.vpcf", PATTACH_WORLDORIGIN, nil)
+	ParticleManager:SetParticleControl(weatherFx, 0, Vector(0, 0, 256))
+
 	-- Thinking
 	gameMode:SetThink("OnThink", self, "GlobalThink", 1)
 
