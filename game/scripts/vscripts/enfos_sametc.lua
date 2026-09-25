@@ -49,6 +49,11 @@ function EnfosSametC:InitGameMode()
 	GameRules:SetPostGameTime(60.0)
 	GameRules:SetSameHeroSelectionPreserveNPCAcquisition(true)
 
+	-- Full Map Vision & Disable Fog of War (FOG kaldırıldı)
+	gameMode:SetFogOfWarDisabled(true)
+	GameRules:SetWeatherEffects(false)
+	gameMode:SetUnseenFogOfWarEnabled(false)
+
 	-- Thinking
 	gameMode:SetThink("OnThink", self, "GlobalThink", 1)
 
