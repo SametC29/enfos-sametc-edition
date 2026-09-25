@@ -8,13 +8,7 @@ Classification for each concept:
 
 See: docs/REFERENCE_ANALYSIS_POLICY.md for rules.
 
-## Planned Reports
-- [ ] watcher-of-samsara.md — hero/ability/progression
-- [ ] enfo-map.md — pathing/wave/Spellbringer concepts
-- [ ] custom-hero-clash.md — large hero pool, Mastery, wave scaling
-- [ ] life-in-arena.md — wave tempo and survival flow
-- [ ] legion-td.md — indirect PvP and economy
-- [ ] hero-line-wars.md — Spellbringer/indirect PvP
-- [ ] guarding-athena.md — difficulty, progression, item development
-- [ ] angel-arena.md — boss/item/hero upgrade systems
-- [ ] epic-boss-fight.md — boss encounter design
+## Completed Reports
+- [x] [enfo-map.md](enfo-map.md) — pathing, lane topology, wave batching, Spellbringer fundamentals
+- [x] [watcher-and-chc.md](watcher-and-chc.md) — hero abilities, in-match evolution cards, 100-hero roster scaling, mastery, boss phases
+- [x] [extended-references.md](extended-references.md) — Hero Line Wars, Life in Arena, Guarding Athena, Angel Arena, Epic Boss Fight (economy, solo pacing, ascended upgrades, boss CC caps)
