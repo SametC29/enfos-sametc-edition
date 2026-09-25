@@ -1,8 +1,14 @@
 "AddonInfo"
 {
-	"TeamCount"		"2"
-	"MaxPlayers"	"10"
-	"maps"			"enfos_sametc"
+	"maps"			"enfos_sametc test"
 	"IsPlayable"	"1"
-	"GameModes"		"1024"
+	"TeamCount"		"2"
+	"enfos_sametc"
+	{
+		"MaxPlayers"	"10"
+	}
+	"test"
+	{
+		"MaxPlayers"	"10"
+	}
 }

@@ -16,6 +16,9 @@
 *.vdata_c
 *.vpulse_c
 readonly_tools_asset_info.bin
+tools_asset_info.bin
+tools_thumbnail_cache*
+*.sqlite3*
 
 # === IDE / Editor ===
 .vs/
