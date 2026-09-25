@@ -1,0 +1,6 @@
+<!-- Enfos Team Survival — SametC Edition -->
+<!-- Custom UI root layout. Panorama panels will be added in Phase 15. -->
+<root>
+	<Panel class="enfos-root">
+	</Panel>
+</root>

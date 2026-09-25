@@ -1,0 +1,24 @@
+"lang"
+{
+	"Language"		"SChinese"
+	"Tokens"
+	{
+		"enfos_sametc_addon_title"						"Enfos 团队生存 — SametC 版本"
+		"enfos_sametc_addon_description"				"一款受 Enfo 启发的现代 PvEvP 生存自定义游戏。"
+
+		"enfos_sametc_mode_pvevp"						"标准 PvEvP"
+		"enfos_sametc_mode_coop"						"合作模式"
+
+		"enfos_sametc_difficulty_easy"					"简单"
+		"enfos_sametc_difficulty_normal"					"普通"
+		"enfos_sametc_difficulty_hard"					"困难"
+		"enfos_sametc_difficulty_nightmare"				"噩梦"
+		"enfos_sametc_difficulty_torment"				"折磨"
+
+		"enfos_sametc_team_life"						"团队生命"
+		"enfos_sametc_wave"								"波次"
+		"enfos_sametc_boss_incoming"					"首领来袭"
+
+		"enfos_sametc_error_generic"					"发生了一个错误。"
+	}
+}

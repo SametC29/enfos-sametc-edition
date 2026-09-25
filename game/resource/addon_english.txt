@@ -1,0 +1,33 @@
+"lang"
+{
+	"Language"		"English"
+	"Tokens"
+	{
+		// === System ===
+		"enfos_sametc_addon_title"						"Enfos Team Survival — SametC Edition"
+		"enfos_sametc_addon_description"				"A modern Enfo-inspired PvEvP survival custom game."
+
+		// === Game Modes ===
+		"enfos_sametc_mode_pvevp"						"Standard PvEvP"
+		"enfos_sametc_mode_coop"						"Co-op"
+
+		// === Difficulty ===
+		"enfos_sametc_difficulty_easy"					"Easy"
+		"enfos_sametc_difficulty_normal"					"Normal"
+		"enfos_sametc_difficulty_hard"					"Hard"
+		"enfos_sametc_difficulty_nightmare"				"Nightmare"
+		"enfos_sametc_difficulty_torment"				"Torment"
+
+		// === UI ===
+		"enfos_sametc_team_life"						"Team Life"
+		"enfos_sametc_wave"								"Wave"
+		"enfos_sametc_boss_incoming"					"BOSS INCOMING"
+
+		// === Errors ===
+		"enfos_sametc_error_generic"					"An error occurred."
+
+		// Keys will be added as systems are implemented.
+		// Namespace convention: enfos_sametc_{subsystem}_{key}
+		// See: docs/TECHNICAL_ARCHITECTURE.md §12 for namespace list.
+	}
+}

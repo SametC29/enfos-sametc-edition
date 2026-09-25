@@ -1,0 +1,10 @@
+// Enfos Team Survival — SametC Edition
+// Custom unit definitions (creeps, bosses, elites, summons)
+// See: docs/GAME_DESIGN_MASTER.md §7 for creep archetypes, §10 for bosses
+
+"DOTAUnits"
+{
+	// Creep archetypes, Elites, Bosses, and Spellbringer summons will be
+	// added starting in Phase 2-3.
+	// 14 initial creep archetypes + 12 Bosses + 8+ Elite variants planned.
+}

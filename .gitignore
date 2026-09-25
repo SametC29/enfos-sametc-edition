@@ -1,0 +1,58 @@
+# === Dota 2 Workshop Tools Build/Generated ===
+*.vpk
+*.vpk_dir
+*.vmap_c
+*.vmdl_c
+*.vtex_c
+*.vpcf_c
+*.vsndevts_c
+*.vsnd_c
+*.vmat_c
+*.vrman_c
+*.vxml_c
+*.vcss_c
+*.vjs_c
+*.vts_c
+*.vdata_c
+*.vpulse_c
+readonly_tools_asset_info.bin
+
+# === IDE / Editor ===
+.vs/
+.vscode/
+*.swp
+*.swo
+*~
+.idea/
+*.suo
+*.user
+
+# === OS Generated ===
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# === Node / npm (Panorama tooling) ===
+node_modules/
+package-lock.json
+
+# === Reference game files (large, do not commit) ===
+references/*.zip
+references/*.vpk
+references/watcher_of_samsara/
+references/custom_hero_clash/
+references/enfo_map/
+references/life_in_arena/
+references/legion_td/
+references/hero_line_wars/
+references/guarding_athena/
+references/angel_arena/
+references/epic_boss_fight/
+
+# === Misc ===
+*.log
+*.bak
+*.tmp
+dota2_pvevp_codex_master_pack.zip
+CODEX_MASTER_ALL_IN_ONE.txt
+enfos_sametc_reference_analysis_plan.txt

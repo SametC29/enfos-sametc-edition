@@ -1,0 +1,24 @@
+"lang"
+{
+	"Language"		"Russian"
+	"Tokens"
+	{
+		"enfos_sametc_addon_title"						"Enfos Team Survival — SametC Edition"
+		"enfos_sametc_addon_description"				"Современная PvEvP игра на выживание, вдохновлённая Enfo."
+
+		"enfos_sametc_mode_pvevp"						"Стандартный PvEvP"
+		"enfos_sametc_mode_coop"						"Кооператив"
+
+		"enfos_sametc_difficulty_easy"					"Легко"
+		"enfos_sametc_difficulty_normal"					"Нормально"
+		"enfos_sametc_difficulty_hard"					"Сложно"
+		"enfos_sametc_difficulty_nightmare"				"Кошмар"
+		"enfos_sametc_difficulty_torment"				"Мучение"
+
+		"enfos_sametc_team_life"						"Жизни команды"
+		"enfos_sametc_wave"								"Волна"
+		"enfos_sametc_boss_incoming"					"БОСС ПРИБЛИЖАЕТСЯ"
+
+		"enfos_sametc_error_generic"					"Произошла ошибка."
+	}
+}

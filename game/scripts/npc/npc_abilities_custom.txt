@@ -1,0 +1,9 @@
+// Enfos Team Survival — SametC Edition
+// Custom ability definitions
+// See: docs/GAME_DESIGN_MASTER.md for ability design rules
+
+"DOTAAbilities"
+{
+	// Custom abilities will be added here as heroes are implemented.
+	// Phase 4+ will populate this file with hero Q/W/E/R/Innate definitions.
+}

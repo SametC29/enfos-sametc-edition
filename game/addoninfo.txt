@@ -1,0 +1,8 @@
+"AddonInfo"
+{
+	"TeamCount"		"2"
+	"MaxPlayers"	"10"
+	"maps"			"enfos_sametc"
+	"IsPlayable"	"1"
+	"GameModes"		"1024"
+}

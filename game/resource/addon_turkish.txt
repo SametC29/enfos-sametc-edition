@@ -1,0 +1,24 @@
+"lang"
+{
+	"Language"		"Turkish"
+	"Tokens"
+	{
+		"enfos_sametc_addon_title"						"Enfos Takım Hayatta Kalma — SametC Edisyonu"
+		"enfos_sametc_addon_description"				"Modern Enfo esinli PvEvP hayatta kalma özel oyunu."
+
+		"enfos_sametc_mode_pvevp"						"Standart PvEvP"
+		"enfos_sametc_mode_coop"						"İşbirliği"
+
+		"enfos_sametc_difficulty_easy"					"Kolay"
+		"enfos_sametc_difficulty_normal"					"Normal"
+		"enfos_sametc_difficulty_hard"					"Zor"
+		"enfos_sametc_difficulty_nightmare"				"Kabus"
+		"enfos_sametc_difficulty_torment"				"İşkence"
+
+		"enfos_sametc_team_life"						"Takım Canı"
+		"enfos_sametc_wave"								"Dalga"
+		"enfos_sametc_boss_incoming"					"PATRON GELİYOR"
+
+		"enfos_sametc_error_generic"					"Bir hata oluştu."
+	}
+}

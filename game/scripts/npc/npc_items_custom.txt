@@ -1,0 +1,10 @@
+// Enfos Team Survival — SametC Edition
+// Custom item definitions
+// See: docs/GAME_DESIGN_MASTER.md §23 for Ascended Shop (30 items at launch)
+// Normal Dota shop items remain vanilla — do not clone them here.
+
+"DOTAItems"
+{
+	// Ascended items will be added in Phase 8.
+	// Formula: required normal Dota item + Lumber → Ascended version.
+}

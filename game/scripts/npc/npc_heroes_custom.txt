@@ -1,0 +1,11 @@
+// Enfos Team Survival — SametC Edition
+// Custom hero definitions
+// See: docs/GAME_DESIGN_MASTER.md §13-17 for hero roster and role rules
+// Roles: Tank / Fighter / Carry / Mage / Support
+// Release target: 40 heroes (8 each), long-term: 100 (20 each)
+
+"DOTAHeroes"
+{
+	// Heroes will be added starting in Phase 4.
+	// Each hero requires: stable ID, role tag, Q/W/E/R, Innate, Shard, Scepter.
+}
