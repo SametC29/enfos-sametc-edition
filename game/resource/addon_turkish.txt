@@ -15,10 +15,18 @@
 		"enfos_sametc_difficulty_nightmare"				"Kabus"
 		"enfos_sametc_difficulty_torment"				"İşkence"
 
-		"enfos_sametc_team_life"						"Takım Canı"
-		"enfos_sametc_wave"								"Dalga"
-		"enfos_sametc_boss_incoming"					"PATRON GELİYOR"
-
-		"enfos_sametc_error_generic"					"Bir hata oluştu."
+		// === Heroes: Bulwark ===
+		"npc_dota_hero_sven"							"Bulwark"
+		"npc_dota_hero_sven_hype"						"Takımın sarsılmaz kalesi. Fiziksel hasarı soğurma ve düşman dikkatini üzerine çekmede ustadır."
+		"DOTA_Tooltip_ability_bulwark_shield_slam"		"Kalkan Darbesi"
+		"DOTA_Tooltip_ability_bulwark_shield_slam_Description" "Kalkanını yere vurarak yakındaki düşmanlara fiziksel hasar verir ve onları kısa süreliğine yavaşlatır."
+		"DOTA_Tooltip_ability_bulwark_challenge"		"Meydan Okuma"
+		"DOTA_Tooltip_ability_bulwark_challenge_Description" "Yakındaki yaratıkları Bulwark'a saldırmaya zorlar ve geçici zırh bonusu sağlar."
+		"DOTA_Tooltip_ability_bulwark_iron_guard"		"Demir Muhafız"
+		"DOTA_Tooltip_ability_bulwark_iron_guard_Description" "Pasif olarak temel zırhı artırır ve alınan fiziksel hasarı azaltır."
+		"DOTA_Tooltip_ability_bulwark_fortress"			"Hisar"
+		"DOTA_Tooltip_ability_bulwark_fortress_Description" "Savunma enerjisi yoğunlaştırarak Bulwark ve yakındaki müttefikleri koruyan bir kalkan oluşturur."
+		"DOTA_Tooltip_ability_bulwark_unbreakable"		"Kırılmaz"
+		"DOTA_Tooltip_ability_bulwark_unbreakable_Description" "Doğuştan: Bulwark canı %30'un altına indiğinde geçici devasa can yenilenmesi kazanır."
 	}
 }

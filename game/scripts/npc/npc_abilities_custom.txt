@@ -4,6 +4,56 @@
 
 "DOTAAbilities"
 {
-	// Custom abilities will be added here as heroes are implemented.
-	// Phase 4+ will populate this file with hero Q/W/E/R/Innate definitions.
+	// =========================================================================
+	// Bulwark Abilities
+	// =========================================================================
+	"bulwark_shield_slam"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitDamageType"		"DAMAGE_TYPE_PHYSICAL"
+		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
+		"AbilityCastRange"			"350"
+		"AbilityCastPoint"			"0.2"
+		"AbilityCooldown"			"8.0"
+		"AbilityManaCost"			"75"
+		"MaxLevel"					"4"
+	}
+
+	"bulwark_challenge"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityCastRange"			"450"
+		"AbilityCastPoint"			"0.2"
+		"AbilityCooldown"			"14.0"
+		"AbilityManaCost"			"90"
+		"MaxLevel"					"4"
+	}
+
+	"bulwark_iron_guard"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel"					"4"
+	}
+
+	"bulwark_fortress"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityCastPoint"			"0.3"
+		"AbilityCooldown"			"60.0"
+		"AbilityManaCost"			"120"
+		"MaxLevel"					"3"
+	}
+
+	"bulwark_unbreakable"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Innate"					"1"
+		"MaxLevel"					"8"
+	}
 }

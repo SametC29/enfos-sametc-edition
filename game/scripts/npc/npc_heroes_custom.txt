@@ -6,6 +6,27 @@
 
 "DOTAHeroes"
 {
-	// Heroes will be added starting in Phase 4.
-	// Each hero requires: stable ID, role tag, Q/W/E/R, Innate, Shard, Scepter.
+	// =========================================================================
+	// TANK: Bulwark (Hero prototype for Phase 1 POC)
+	// Overrides npc_dota_hero_sven
+	// =========================================================================
+	"npc_dota_hero_sven"
+	{
+		"override_hero"			"npc_dota_hero_sven"
+		"HeroID"				"18"
+		"Role"					"Tank"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"	"24"
+		"AttributeBaseAgility"	"16"
+		"AttributeBaseIntelligence" "15"
+		"MovementSpeed"			"300"
+		"ArmorPhysical"			"3.0"
+		
+		"Ability1"				"bulwark_shield_slam"
+		"Ability2"				"bulwark_challenge"
+		"Ability3"				"bulwark_iron_guard"
+		"Ability4"				"bulwark_fortress"
+		"Ability5"				"bulwark_unbreakable"
+		"Ability6"				"generic_hidden"
+	}
 }

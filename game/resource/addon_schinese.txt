@@ -15,10 +15,18 @@
 		"enfos_sametc_difficulty_nightmare"				"噩梦"
 		"enfos_sametc_difficulty_torment"				"折磨"
 
-		"enfos_sametc_team_life"						"团队生命"
-		"enfos_sametc_wave"								"波次"
-		"enfos_sametc_boss_incoming"					"首领来袭"
-
-		"enfos_sametc_error_generic"					"发生了一个错误。"
+		// === Heroes: Bulwark ===
+		"npc_dota_hero_sven"							"壁垒 (Bulwark)"
+		"npc_dota_hero_sven_hype"						"队伍中坚不可摧的堡垒。擅长承受物理伤害并吸引敌人注意力。"
+		"DOTA_Tooltip_ability_bulwark_shield_slam"		"盾牌猛击"
+		"DOTA_Tooltip_ability_bulwark_shield_slam_Description" "用盾牌猛击附近地面，造成物理伤害并短暂减速敌人。"
+		"DOTA_Tooltip_ability_bulwark_challenge"		"挑衅"
+		"DOTA_Tooltip_ability_bulwark_challenge_Description" "强迫附近的小怪攻击壁垒，并提供临时额外护甲。"
+		"DOTA_Tooltip_ability_bulwark_iron_guard"		"铁甲守护"
+		"DOTA_Tooltip_ability_bulwark_iron_guard_Description" "被动提高基础护甲并降低受到的物理伤害。"
+		"DOTA_Tooltip_ability_bulwark_fortress"			"坚固要塞"
+		"DOTA_Tooltip_ability_bulwark_fortress_Description" "凝聚防御能量，形成一个保护壁垒及周围盟友的圣所屏障。"
+		"DOTA_Tooltip_ability_bulwark_unbreakable"		"坚不可摧"
+		"DOTA_Tooltip_ability_bulwark_unbreakable_Description" "先天技能：当生命值低于30%时，获得临时的巨额生命恢复。"
 	}
 }

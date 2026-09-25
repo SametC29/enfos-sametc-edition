@@ -41,6 +41,14 @@ function EnfosSametC:InitGameMode()
 	GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 5)
 	GameRules:SetUseUniversalShopMode(true)
 
+	-- Native Hero Selection POC Settings
+	GameRules:SetHeroSelectionTime(30.0)
+	GameRules:SetStrategyTime(0.0)
+	GameRules:SetShowcaseTime(0.0)
+	GameRules:SetPreGameTime(10.0)
+	GameRules:SetPostGameTime(60.0)
+	GameRules:SetSameHeroSelectionPreserveNPCAcquisition(true)
+
 	-- Thinking
 	gameMode:SetThink("OnThink", self, "GlobalThink", 1)
 

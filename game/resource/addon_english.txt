@@ -23,11 +23,18 @@
 		"enfos_sametc_wave"								"Wave"
 		"enfos_sametc_boss_incoming"					"BOSS INCOMING"
 
-		// === Errors ===
-		"enfos_sametc_error_generic"					"An error occurred."
-
-		// Keys will be added as systems are implemented.
-		// Namespace convention: enfos_sametc_{subsystem}_{key}
-		// See: docs/TECHNICAL_ARCHITECTURE.md §12 for namespace list.
+		// === Heroes: Bulwark ===
+		"npc_dota_hero_sven"							"Bulwark"
+		"npc_dota_hero_sven_hype"						"The unyielding fortress of the team. Excels at absorbing physical damage and commanding enemy attention."
+		"DOTA_Tooltip_ability_bulwark_shield_slam"		"Shield Slam"
+		"DOTA_Tooltip_ability_bulwark_shield_slam_Description" "Slams shield onto nearby ground, dealing physical damage and briefly slowing hostiles."
+		"DOTA_Tooltip_ability_bulwark_challenge"		"Challenge"
+		"DOTA_Tooltip_ability_bulwark_challenge_Description" "Forces nearby creeps to attack Bulwark while granting temporary bonus armor."
+		"DOTA_Tooltip_ability_bulwark_iron_guard"		"Iron Guard"
+		"DOTA_Tooltip_ability_bulwark_iron_guard_Description" "Passively increases base armor and reduces incoming physical damage."
+		"DOTA_Tooltip_ability_bulwark_fortress"			"Fortress"
+		"DOTA_Tooltip_ability_bulwark_fortress_Description" "Channels defensive energy, creating a sanctuary barrier that shields Bulwark and nearby allies."
+		"DOTA_Tooltip_ability_bulwark_unbreakable"		"Unbreakable"
+		"DOTA_Tooltip_ability_bulwark_unbreakable_Description" "Innate: Whenever Bulwark drops below 30% health, gains temporary massive health regeneration."
 	}
 }

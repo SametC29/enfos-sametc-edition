@@ -15,10 +15,18 @@
 		"enfos_sametc_difficulty_nightmare"				"Кошмар"
 		"enfos_sametc_difficulty_torment"				"Мучение"
 
-		"enfos_sametc_team_life"						"Жизни команды"
-		"enfos_sametc_wave"								"Волна"
-		"enfos_sametc_boss_incoming"					"БОСС ПРИБЛИЖАЕТСЯ"
-
-		"enfos_sametc_error_generic"					"Произошла ошибка."
+		// === Heroes: Bulwark ===
+		"npc_dota_hero_sven"							"Bulwark"
+		"npc_dota_hero_sven_hype"						"Непоколебимая крепость команды. Специализируется на поглощении физического урона и привлечении внимания врагов."
+		"DOTA_Tooltip_ability_bulwark_shield_slam"		"Удар щитом"
+		"DOTA_Tooltip_ability_bulwark_shield_slam_Description" "Ударяет щитом о землю, нанося физический урон и кратковременно замедляя врагов."
+		"DOTA_Tooltip_ability_bulwark_challenge"		"Вызов"
+		"DOTA_Tooltip_ability_bulwark_challenge_Description" "Заставляет ближайших крипов атаковать Bulwark и временно увеличивает броню."
+		"DOTA_Tooltip_ability_bulwark_iron_guard"		"Железная стража"
+		"DOTA_Tooltip_ability_bulwark_iron_guard_Description" "Пассивно увеличивает базовую броню и снижает получаемый физический урон."
+		"DOTA_Tooltip_ability_bulwark_fortress"			"Крепость"
+		"DOTA_Tooltip_ability_bulwark_fortress_Description" "Создает защитный барьер, укрывающий героя и ближайших союзников."
+		"DOTA_Tooltip_ability_bulwark_unbreakable"		"Несокрушимость"
+		"DOTA_Tooltip_ability_bulwark_unbreakable_Description" "Врождённая: когда здоровье падает ниже 30%, дарует кратковременную мощную регенерацию."
 	}
 }
