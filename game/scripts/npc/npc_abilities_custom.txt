@@ -13,29 +13,188 @@
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_PHYSICAL"
 		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
+		"AbilityTextureName"		"sven_storm_bolt"
 		"AbilityCastRange"			"350"
 		"AbilityCastPoint"			"0.2"
 		"AbilityCooldown"			"8.0"
 		"AbilityManaCost"			"75"
 		"MaxLevel"					"4"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"350"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"120 180 240 300"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"slow_duration"		"2.5"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"slow_pct"			"-30 -40 -50 -60"
+			}
+		}
+
+		"OnSpellStart"
+		{
+			"FireSound"
+			{
+				"EffectName"		"Hero_Sven.StormBolt"
+				"Target"			"CASTER"
+			}
+			"AttachEffect"
+			{
+				"EffectName"		"particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf"
+				"EffectAttachType"	"follow_origin"
+				"Target"			"CASTER"
+			}
+			"ActOnTargets"
+			{
+				"Target"
+				{
+					"Center"		"CASTER"
+					"Radius"		"%radius"
+					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+				}
+				"Action"
+				{
+					"Damage"
+					{
+						"Target"	"TARGET"
+						"Type"		"DAMAGE_TYPE_PHYSICAL"
+						"Damage"	"%damage"
+					}
+					"ApplyModifier"
+					{
+						"ModifierName" "modifier_bulwark_shield_slam_slow"
+						"Target"	"TARGET"
+						"Duration"	"%slow_duration"
+					}
+				}
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_bulwark_shield_slam_slow"
+			{
+				"IsDebuff"			"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%slow_pct"
+				}
+			}
+		}
 	}
 
 	"bulwark_challenge"
 	{
 		"BaseClass"					"ability_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"		"axe_berserkers_call"
 		"AbilityCastRange"			"450"
 		"AbilityCastPoint"			"0.2"
 		"AbilityCooldown"			"14.0"
 		"AbilityManaCost"			"90"
 		"MaxLevel"					"4"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"450"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"bonus_armor"		"10 15 20 25"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"duration"			"3.0 3.5 4.0 4.5"
+			}
+		}
+
+		"OnSpellStart"
+		{
+			"FireSound"
+			{
+				"EffectName"		"Hero_Axe.Berserkers_Call"
+				"Target"			"CASTER"
+			}
+			"AttachEffect"
+			{
+				"EffectName"		"particles/units/heroes/hero_axe/axe_beserkers_call_owner.vpcf"
+				"EffectAttachType"	"follow_origin"
+				"Target"			"CASTER"
+			}
+			"ApplyModifier"
+			{
+				"ModifierName"		"modifier_bulwark_challenge_buff"
+				"Target"			"CASTER"
+				"Duration"			"%duration"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_bulwark_challenge_buff"
+			{
+				"IsBuff"			"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
+				}
+			}
+		}
 	}
 
 	"bulwark_iron_guard"
 	{
 		"BaseClass"					"ability_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"		"dragon_knight_dragon_blood"
 		"MaxLevel"					"4"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"passive_armor"		"4 8 12 16"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage_reduction"	"8 14 20 26"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_bulwark_iron_guard_passive"
+			{
+				"Passive"			"1"
+				"IsBuff"			"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%passive_armor"
+					"MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK" "%damage_reduction"
+				}
+			}
+		}
 	}
 
 	"bulwark_fortress"
@@ -43,17 +202,96 @@
 		"BaseClass"					"ability_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityTextureName"		"sven_gods_strength"
 		"AbilityCastPoint"			"0.3"
 		"AbilityCooldown"			"60.0"
 		"AbilityManaCost"			"120"
 		"MaxLevel"					"3"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"duration"			"10.0 12.0 14.0"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"bonus_hp"			"400 700 1000"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"bonus_armor"		"15 25 35"
+			}
+		}
+
+		"OnSpellStart"
+		{
+			"FireSound"
+			{
+				"EffectName"		"Hero_Sven.GodsStrength"
+				"Target"			"CASTER"
+			}
+			"AttachEffect"
+			{
+				"EffectName"		"particles/units/heroes/hero_sven/sven_spell_gods_strength.vpcf"
+				"EffectAttachType"	"follow_origin"
+				"Target"			"CASTER"
+			}
+			"ApplyModifier"
+			{
+				"ModifierName"		"modifier_bulwark_fortress_active"
+				"Target"			"CASTER"
+				"Duration"			"%duration"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_bulwark_fortress_active"
+			{
+				"IsBuff"			"1"
+				"EffectName"		"particles/units/heroes/hero_sven/sven_gods_strength_hero_effect.vpcf"
+				"EffectAttachType"	"follow_origin"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_EXTRA_HEALTH_BONUS" "%bonus_hp"
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
+				}
+			}
+		}
 	}
 
 	"bulwark_unbreakable"
 	{
 		"BaseClass"					"ability_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"		"sven_warcry"
 		"Innate"					"1"
 		"MaxLevel"					"8"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"bonus_hp_regen"	"15 25 35 45 60 75 90 110"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_bulwark_unbreakable_passive"
+			{
+				"Passive"			"1"
+				"IsBuff"			"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_hp_regen"
+				}
+			}
+		}
 	}
 }

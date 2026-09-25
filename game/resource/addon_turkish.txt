@@ -1,6 +1,6 @@
 "lang"
 {
-	"Language"		"Turkish"
+	"Language"		"turkish"
 	"Tokens"
 	{
 		"enfos_sametc_addon_title"						"Enfos Takım Hayatta Kalma — SametC Edisyonu"
