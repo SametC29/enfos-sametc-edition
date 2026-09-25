@@ -1,9 +1,13 @@
 "AddonInfo"
 {
-	"maps"			"enfos_sametc test enfos_reborn"
+	"maps"			"enfos enfos_reborn test enfos_sametc"
 	"IsPlayable"	"1"
 	"TeamCount"		"2"
-	"enfos_sametc"
+	"enfos"
+	{
+		"MaxPlayers"	"10"
+	}
+	"enfos_reborn"
 	{
 		"MaxPlayers"	"10"
 	}
@@ -11,7 +15,7 @@
 	{
 		"MaxPlayers"	"10"
 	}
-	"enfos_reborn"
+	"enfos_sametc"
 	{
 		"MaxPlayers"	"10"
 	}
