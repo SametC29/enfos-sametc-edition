@@ -1,0 +1,9 @@
+// Enfos Team Survival — SametC Edition
+// Active Hero Selection Whitelist
+// Release target: 40 heroes (8 per role). Long-term: 100 heroes.
+// Phase 1 POC: Whitelist Sven (Bulwark) to prove custom native hero selection.
+
+"CustomHeroList"
+{
+	"npc_dota_hero_sven"		"1"
+}
