@@ -73,6 +73,10 @@ end
 -- Global think function, called once per second.
 --------------------------------------------------------------------------------
 function EnfosSametC:OnThink()
+	-- Grant permanent 100% full map vision for both teams across entire world bounds
+	AddFOWViewer(DOTA_TEAM_GOODGUYS, Vector(0, 0, 0), 20000, 3.0, false)
+	AddFOWViewer(DOTA_TEAM_BADGUYS, Vector(0, 0, 0), 20000, 3.0, false)
+
 	if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
 		-- Main game loop will go here
 	elseif GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then
