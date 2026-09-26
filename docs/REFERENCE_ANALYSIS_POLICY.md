@@ -2,6 +2,14 @@
 
 Watcher of Samsara, Enfo's and other custom games are design references, not source libraries.
 
+## Explicit map exception — 2026-09-26
+
+The user specifically requested the same Enfos Team Survival: Reborn layout with
+an autumn forest / stone-road theme. Preserving its geometry, elevations, paths
+and placement is authorized for this map task. This supersedes the map geometry
+restriction below only; reference gameplay code and unrelated custom assets remain
+excluded. Work is local only; the user declined public GitHub push.
+
 ## Allowed
 Analyze:
 - player-facing mechanics,

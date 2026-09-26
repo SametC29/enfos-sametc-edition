@@ -4,6 +4,7 @@
 --------------------------------------------------------------------------------
 
 require("lib/log")
+local InventoryTransfer = require("lib/inventory_transfer")
 
 local function ReadBuildVersion()
 	return "0.1.0-dev"
@@ -20,6 +21,8 @@ function EnfosSametC:InitGameMode()
 	self.buildVersion = ReadBuildVersion()
 	self.playerCouriers = {}
 	self.playerHeroes = {}
+	self.deliveryRequested = {}
+	self.pendingCouriers = {}
 
 	Log:Info("system", "========================================")
 	Log:Info("system", "Enfos Team Survival — SametC Edition")
@@ -72,7 +75,9 @@ end
 -- Helper: Configure Courier
 --------------------------------------------------------------------------------
 function EnfosSametC:ConfigureCourier(courier, playerId)
-	if not courier or courier:IsNull() then return end
+	if not courier or courier:IsNull() then return false end
+	if playerId == nil or not PlayerResource:IsValidPlayerID(playerId) then return false end
+	if courier:GetPlayerOwnerID() ~= playerId or courier:GetTeamNumber() ~= PlayerResource:GetTeam(playerId) then return false end
 
 	courier:SetMoveCapability(DOTA_UNIT_CAP_MOVE_FLY)
 	courier:SetBaseMoveSpeed(1100)
@@ -102,6 +107,7 @@ function EnfosSametC:ConfigureCourier(courier, playerId)
 	end
 
 	Log:Info("courier", "Configured flying turbo courier with active abilities (Player %s).", tostring(playerId))
+	return true
 end
 
 --------------------------------------------------------------------------------
@@ -110,17 +116,7 @@ end
 function EnfosSametC:TransferStashToCourier(hero, courier)
 	if not hero or hero:IsNull() or not courier or courier:IsNull() then return 0 end
 
-	local transferredCount = 0
-	-- Stash slots in Dota 2 are 9 through 14 (DOTA_STASH_SLOT_1 .. DOTA_STASH_SLOT_6)
-	for slot = 9, 14 do
-		local item = hero:GetItemInSlot(slot)
-		if item and not item:IsNull() then
-			hero:TakeItem(item)
-			courier:AddItem(item)
-			transferredCount = transferredCount + 1
-		end
-	end
-	return transferredCount
+	return InventoryTransfer.Range(hero, courier, 9, 14, 0, 5)
 end
 
 --------------------------------------------------------------------------------
@@ -129,27 +125,7 @@ end
 function EnfosSametC:TransferCourierToHero(courier, hero)
 	if not hero or hero:IsNull() or not courier or courier:IsNull() then return 0 end
 
-	local deliveredCount = 0
-	-- Courier slots 0 to 5
-	for slot = 0, 5 do
-		local item = courier:GetItemInSlot(slot)
-		if item and not item:IsNull() then
-			-- Check if hero has inventory space (main 0..5 or backpack 6..8)
-			local hasSpace = false
-			for hSlot = 0, 8 do
-				if hero:GetItemInSlot(hSlot) == nil then
-					hasSpace = true
-					break
-				end
-			end
-
-			if hasSpace then
-				courier:TakeItem(item)
-				hero:AddItem(item)
-				deliveredCount = deliveredCount + 1
-			end
-		end
-	end
+	local deliveredCount = InventoryTransfer.Range(courier, hero, 0, 5, 0, 5)
 
 	if deliveredCount > 0 then
 		EmitSoundOn("Courier.TransferItems", hero)
@@ -162,33 +138,36 @@ end
 --------------------------------------------------------------------------------
 function EnfosSametC:OrderFilter(filterTable)
 	if not filterTable then return true end
-
-	local orderType = filterTable.order_type
 	local playerID = filterTable.issuer_player_id_const
+	if playerID == nil or not PlayerResource:IsValidPlayerID(playerID) then return true end
+	local courier = self.playerCouriers[playerID]
+	if not courier or courier:IsNull() then return true end
 	local abilityIndex = filterTable.entindex_ability
-
-	-- If a courier delivery ability is triggered
-	if abilityIndex and abilityIndex > 0 then
-		local ability = EntIndexToHScript(abilityIndex)
-		if ability and not ability:IsNull() then
-			local abilityName = ability:GetAbilityName()
-			if abilityName == "courier_take_stash_and_transfer_items"
-				or abilityName == "courier_take_stash_items"
-				or abilityName == "courier_transfer_items"
-				or abilityName == "courier_autodeliver" then
-
-				local hero = self.playerHeroes[playerID]
-				local courier = self.playerCouriers[playerID]
-
-				if hero and courier and not hero:IsNull() and not courier:IsNull() then
-					-- Immediately retrieve all items from hero's stash into courier
-					self:TransferStashToCourier(hero, courier)
-					courier:MoveToNPC(hero)
-				end
-			end
+	local ability = abilityIndex and abilityIndex > 0 and EntIndexToHScript(abilityIndex) or nil
+	if ability and not ability:IsNull() then
+		local name = ability:GetAbilityName()
+		local delivery = name == "courier_take_stash_and_transfer_items" or name == "courier_transfer_items" or name == "courier_autodeliver"
+		local takeOnly = name == "courier_take_stash_items"
+		if delivery or takeOnly then
+			if ability:GetCaster() ~= courier or courier:GetPlayerOwnerID() ~= playerID then return false end
+			local hero = PlayerResource:GetSelectedHeroEntity(playerID)
+			if not hero or hero:IsNull() or hero:GetTeamNumber() ~= courier:GetTeamNumber() then return false end
+			self.playerHeroes[playerID] = hero
+			if name ~= "courier_transfer_items" then self:TransferStashToCourier(hero, courier) end
+			self.deliveryRequested[playerID] = delivery or nil
+			if delivery then courier:MoveToNPC(hero) end
+			-- We handled this command; don't let native delivery race the transfer.
+			return false
+		end
+		if ability:GetCaster() == courier then self.deliveryRequested[playerID] = nil end
+	end
+	if filterTable.order_type == DOTA_UNIT_ORDER_STOP
+		or filterTable.order_type == DOTA_UNIT_ORDER_HOLD_POSITION
+		or filterTable.order_type == DOTA_UNIT_ORDER_MOVE_TO_POSITION then
+		for _, index in pairs(filterTable.units or {}) do
+			if EntIndexToHScript(index) == courier then self.deliveryRequested[playerID] = nil end
 		end
 	end
-
 	return true
 end
 
@@ -196,35 +175,45 @@ end
 -- OnThink
 --------------------------------------------------------------------------------
 function EnfosSametC:OnThink()
+	if GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then return nil end
+	for index, pending in pairs(self.pendingCouriers) do
+		local unit = pending.unit
+		if unit:IsNull() or pending.attempts >= 20 then
+			self.pendingCouriers[index] = nil
+		else
+			local owner = unit:GetPlayerOwnerID()
+			if owner and PlayerResource:IsValidPlayerID(owner) and self:ConfigureCourier(unit, owner) then
+				self.pendingCouriers[index] = nil
+			else
+				pending.attempts = pending.attempts + 1
+			end
+		end
+	end
 	-- Permanent 100% full map vision
 	AddFOWViewer(DOTA_TEAM_GOODGUYS, Vector(0, 0, 0), 20000, 1.5, false)
 	AddFOWViewer(DOTA_TEAM_BADGUYS, Vector(0, 0, 0), 20000, 1.5, false)
 
 	-- Proximity check for courier item hand-off to hero
 	for playerId, courier in pairs(self.playerCouriers) do
-		local hero = self.playerHeroes[playerId]
-		if courier and hero and not courier:IsNull() and not hero:IsNull() and hero:IsAlive() and courier:IsAlive() then
+		local hero = PlayerResource:GetSelectedHeroEntity(playerId)
+		self.playerHeroes[playerId] = hero
+		if self.deliveryRequested[playerId] and courier and hero and not courier:IsNull() and not hero:IsNull()
+			and courier:GetPlayerOwnerID() == playerId and courier:GetTeamNumber() == hero:GetTeamNumber()
+			and hero:IsAlive() and courier:IsAlive() then
 			local dist = (courier:GetAbsOrigin() - hero:GetAbsOrigin()):Length2D()
 			if dist <= 320 then
 				self:TransferCourierToHero(courier, hero)
+				local remaining = false
+				for slot = 0, 5 do
+					if courier:GetItemInSlot(slot) then remaining = true end
+				end
+				if not remaining then self.deliveryRequested[playerId] = nil end
 			end
 		end
 	end
 
-	-- Ensure each hero has a configured courier
-	for playerId, hero in pairs(self.playerHeroes) do
-		if hero and not hero:IsNull() and hero:IsAlive() and not self.playerCouriers[playerId] then
-			local spawnPos = hero:GetAbsOrigin() + Vector(120, 0, 0)
-			local courier = hero:SpawnCourierAtPosition(spawnPos)
-			if courier and not courier:IsNull() then
-				self:ConfigureCourier(courier, playerId)
-			end
-		end
-	end
+	-- FreeCourierMode owns courier creation; never spawn a competing fallback.
 
-	if GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then
-		return nil
-	end
 	return 0.5
 end
 
@@ -251,9 +240,15 @@ function EnfosSametC:OnNPCSpawned(event)
 	-- Reinforce courier when spawned by engine
 	if spawnedUnit:IsCourier() then
 		local playerId = spawnedUnit:GetPlayerOwnerID()
-		if not playerId or playerId < 0 then
-			playerId = 0
+		if playerId and PlayerResource:IsValidPlayerID(playerId) then
+			self:ConfigureCourier(spawnedUnit, playerId)
+		else
+			-- Ownership may not be assigned during npc_spawned. Retry for 10s.
+			local count = 0
+			for _ in pairs(self.pendingCouriers) do count = count + 1 end
+			if count < 20 then
+				self.pendingCouriers[event.entindex] = {unit = spawnedUnit, attempts = 0}
+			end
 		end
-		self:ConfigureCourier(spawnedUnit, playerId)
 	end
 end

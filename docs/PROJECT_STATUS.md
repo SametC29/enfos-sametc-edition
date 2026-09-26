@@ -10,7 +10,7 @@ replacement for GAME_DESIGN_MASTER / DECISIONS_OPEN_ITEMS / IMPLEMENTATION_ROADM
 - Two Ascended item prototypes exist. Lumber purchase, base-item consumption,
   uniqueness, sellback and the designed shield/reflect-heal effects are absent.
 - Challenge currently applies armor only. Its taunt remains an incomplete gameplay
-  feature; localized descriptions now disclose that limitation instead of claiming it works.
+  feature; localized descriptions describe the armor effect without claiming taunt.
 - Four language sources generate both runtime copies. Numeric tooltip values come
   from KV specials. Earlier handoff claims of complete numeric accuracy were false.
 - Source and compiled maps exist. Routing, leak triggers, arena isolation against
@@ -35,6 +35,21 @@ replacement for GAME_DESIGN_MASTER / DECISIONS_OPEN_ITEMS / IMPLEMENTATION_ROADM
   review before map replacement or release; do not regenerate blindly.
 
 ## Remaining gates, in priority order
+
+Courier hardening now checks destination capacity before detaching items, restores
+rejected transfers to the source slot, validates command ownership/team, consumes
+handled native commands, and cancels delivery on Stop. Unknown owners use a bounded
+retry queue; the engine alone creates couriers. Ten mock-engine tests pass. Actual
+engine delivery remains unverified: a test launch reached VConsole but returned no
+fresh gameplay assertion, and the process later became unavailable. The optional
+`tools/dota.mjs` bridge drains replayed console history before querying.
+
+User direction: local commits only, no GitHub push (2026-09-26).
+
+Map direction (2026-09-26): preserve Enfos Team Survival: Reborn's layout and
+elevations; change its theme to autumn forest and stone roads. The user explicitly
+authorized map geometry reuse for this work, superseding the earlier geometry
+prohibition. Other reference gameplay code/custom assets remain excluded.
 
 1. Courier capacity/ownership/reconnect behavior and item conservation.
 2. Complete Phase 1 proofs: selection, six-slot delivery design, shop integration,
