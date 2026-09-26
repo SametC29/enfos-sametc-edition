@@ -7,11 +7,11 @@
 require("enfos_sametc")
 
 function Precache(context)
-	-- Precache resources here as the project grows.
-	-- Examples:
-	--   PrecacheResource("model", "models/example.vmdl", context)
-	--   PrecacheResource("soundfile", "soundevents/example.vsndevts", context)
-	--   PrecacheResource("particle", "particles/example.vpcf", context)
+	PrecacheResource("particle", "particles/rain_fx/coloseum_terrain_motes.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_axe/axe_beserkers_call_owner.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_sven/sven_spell_gods_strength.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_sven/sven_gods_strength_hero_effect.vpcf", context)
 end
 
 function Activate()
