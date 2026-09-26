@@ -13,6 +13,7 @@ local LifeCore = require("waves/life_core")
 local Rewards = require("waves/rewards")
 local BossFramework = require("bosses/boss_framework")
 local EliteFramework = require("bosses/elite_framework")
+local EconomyManager = require("economy/economy_manager")
 
 local WaveManager = {}
 WaveManager.__index = WaveManager
@@ -378,6 +379,7 @@ function WaveManager:SpawnCreepEntity(unitName, defendingTeam, lane, isBoss, act
 	creep.defendingTeam = defendingTeam
 	creep.laneName = lane
 	creep.waveNumber = self.currentWave
+	creep.isBoss = isBoss
 	Rewards:Configure(creep, unitName)
 	creep:SetIdleAcquire(true)
 	creep:SetAcquisitionRange(unitName == "enfos_creep_runner" and 0 or 650)
@@ -431,7 +433,12 @@ function WaveManager:OnEntityKilled(event)
 	local defendingTeam = killedUnit.defendingTeam
 
 	if defendingTeam and self.activeCreeps[defendingTeam] then
-		if self.activeCreeps[defendingTeam][killedUnit:entindex()] then Rewards:OnKill(killedUnit,killerUnit) end
+		if self.activeCreeps[defendingTeam][killedUnit:entindex()] then
+			Rewards:OnKill(killedUnit, killerUnit)
+			if killedUnit.isBoss and EconomyManager then
+				EconomyManager:AwardBossLumber(defendingTeam, self.currentWave)
+			end
+		end
 		self:OnCreepRemoved(killedUnit, defendingTeam)
 	end
 end

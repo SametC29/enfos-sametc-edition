@@ -4,6 +4,7 @@ import { spawnSync } from 'node:child_process';
 import luaparse from 'luaparse';
 import { parseKV } from './lib/kv.mjs';
 import { generateLocalization, root, languages } from './localization.mjs';
+import { runFullSimulation } from './economy_simulator.mjs';
 
 process.chdir(root);
 let failures = 0;
@@ -85,6 +86,9 @@ check('Panorama source mirrors and overview mapping', () => {
     const overview = Object.values(kv(`game/resource/overviews/${map}.txt`))[0];
     if (Number(overview.pos_x) !== -12864 || Number(overview.pos_y) !== 12864 || Number(overview.scale) !== 25.125) throw new Error('Overview does not match Survival map');
   }
+});
+check('economy simulator balance and reconciliation gates', () => {
+  if (!runFullSimulation()) throw new Error('Economy simulator failed verification gates');
 });
 console.log(`${failures} failed check(s). Engine playtests remain separate.`);
 process.exitCode = failures ? 1 : 0;

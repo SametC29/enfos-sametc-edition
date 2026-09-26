@@ -90,7 +90,15 @@ PlayerResource = {
     IsValidPlayerID = function(_, id) return id == 0 or id == 1 end,
     GetTeam = function(_, id) return id == 0 and 2 or 3 end,
     GetSelectedHeroEntity = function(self, id) return self.heroes[id] end,
+    GetGold = function(self, id) return self.gold and self.gold[id] or 0 end,
+    ModifyGold = function(self, id, amt, isReliable, reason)
+        self.gold = self.gold or {}
+        self.gold[id] = (self.gold[id] or 0) + amt
+    end,
+    GetConnectionState = function(self, id) return self.connectionState and self.connectionState[id] or 2 end,
     heroes = {},
+    gold = {},
+    connectionState = {},
 }
 local function mode()
     return setmetatable({playerCouriers = {}, playerHeroes = {}, deliveryRequested = {}, pendingCouriers = {}}, {__index = EnfosSametC})
@@ -692,6 +700,160 @@ test("elite vanguard has 35% physical damage reduction and elite assassin has am
     MODIFIER_STATE_INVISIBLE = 1
     local assassinMod = modifier_enfos_elite_assassin_stealth()
     assert(assassinMod:CheckState()[MODIFIER_STATE_INVISIBLE] == true, "Assassin must have invisible state")
+end)
+
+-- =========================================================================
+-- Economy Manager Tests (Phase 7)
+-- =========================================================================
+local EconomyManager = require("economy/economy_manager")
+PlayerResource.gold = {}
+PlayerResource.GetGold = function(self, id) return self.gold[id] or 0 end
+PlayerResource.ModifyGold = function(self, id, amt, isReliable, reason)
+    self.gold[id] = (self.gold[id] or 0) + amt
+end
+PlayerResource.GetConnectionState = function(self, id) return 2 end
+
+test("economy manager tracks lumber and enforces non-negative clamping", function()
+    EconomyManager:Init()
+    assert(EconomyManager:GetLumber(0) == 0, "Initial lumber must be 0")
+    EconomyManager:ModifyLumber(0, 50, "test_gain")
+    assert(EconomyManager:GetLumber(0) == 50, "Lumber should be 50")
+    EconomyManager:ModifyLumber(0, -100, "test_loss")
+    assert(EconomyManager:GetLumber(0) == 0, "Lumber must not drop below 0")
+end)
+
+test("gold to lumber conversion requires minimum 100 gold and enforces 100:1 rate", function()
+    EconomyManager:Init()
+    PlayerResource.gold = { [0] = 1250 }
+    PlayerResource.IsValidPlayerID = function(_, id) return id == 0 or id == 1 end
+    
+    -- Sub-minimum rejection
+    local ok1 = EconomyManager:ConvertGoldToLumber(0, 50)
+    assert(ok1 == false, "Conversion below 100 gold must fail")
+
+    -- Insufficient gold rejection
+    local ok2 = EconomyManager:ConvertGoldToLumber(0, 2000)
+    assert(ok2 == false, "Conversion exceeding player balance must fail")
+
+    -- Valid 1000 Gold -> 10 Lumber
+    local ok3, lumberGained, goldSpent = EconomyManager:ConvertGoldToLumber(0, 1000)
+    assert(ok3 == true, "Conversion of 1000 gold must succeed")
+    assert(lumberGained == 10, "Must gain 10 lumber")
+    assert(goldSpent == 1000, "Must spend 1000 gold")
+    assert(PlayerResource:GetGold(0) == 250, "Remaining gold must be 250")
+    assert(EconomyManager:GetLumber(0) == 10, "Player lumber must be 10")
+end)
+
+test("lumber to gold conversion applies 10% loss (10 Lumber -> 900 Gold)", function()
+    EconomyManager:Init()
+    PlayerResource.gold = { [0] = 100 }
+    EconomyManager:ModifyLumber(0, 25, "seed")
+
+    -- Insufficient lumber
+    local ok1 = EconomyManager:ConvertLumberToGold(0, 50)
+    assert(ok1 == false, "Conversion with insufficient lumber must fail")
+
+    -- Valid conversion: 10 Lumber -> 900 Gold
+    local ok2, goldGained = EconomyManager:ConvertLumberToGold(0, 10)
+    assert(ok2 == true, "Conversion must succeed")
+    assert(goldGained == 900, "Must gain 900 gold (10% loss applied)")
+    assert(EconomyManager:GetLumber(0) == 15, "Remaining lumber must be 15")
+    assert(PlayerResource:GetGold(0) == 1000, "Gold balance must be 1000")
+end)
+
+test("teammate transfers reject cross-team, overdrafts, and self-transfers", function()
+    EconomyManager:Init()
+    PlayerResource.gold = { [0] = 500, [1] = 200 }
+    PlayerResource.GetTeam = function(_, id)
+        if id == 0 or id == 1 then return 2 end -- Team 2 (teammates)
+        return 3 -- Team 3 (enemy)
+    end
+    PlayerResource.GetConnectionState = function(_, id) return 2 end -- Connected
+    PlayerResource.IsValidPlayerID = function(_, id) return id >= 0 and id <= 2 end
+
+    -- 1. Self transfer rejected
+    assert(EconomyManager:TransferGold(0, 0, 100) == false, "Self transfer must be rejected")
+
+    -- 2. Cross-team transfer rejected (Player 0 to Player 2)
+    assert(EconomyManager:TransferGold(0, 2, 100) == false, "Cross-team transfer must be rejected")
+
+    -- 3. Overdraft rejected
+    assert(EconomyManager:TransferGold(0, 1, 1000) == false, "Overdraft must be rejected")
+
+    -- 4. Valid teammate gold transfer: 300 gold from P0 to P1
+    local okGold = EconomyManager:TransferGold(0, 1, 300)
+    assert(okGold == true, "Teammate gold transfer must succeed")
+    assert(PlayerResource:GetGold(0) == 200, "Sender remaining gold: 200")
+    assert(PlayerResource:GetGold(1) == 500, "Recipient gold: 500")
+
+    -- 5. Teammate lumber transfer
+    EconomyManager:ModifyLumber(0, 20, "seed")
+    local okLum = EconomyManager:TransferLumber(0, 1, 8)
+    assert(okLum == true, "Teammate lumber transfer must succeed")
+    assert(EconomyManager:GetLumber(0) == 12, "Sender remaining lumber: 12")
+    assert(EconomyManager:GetLumber(1) == 8, "Recipient lumber: 8")
+end)
+
+test("boss lumber award scales by wave and distributes to active teammates", function()
+    EconomyManager:Init()
+    PlayerResource.GetTeam = function(_, id) return (id == 0 or id == 1) and 2 or 3 end
+    PlayerResource.GetConnectionState = function(_, id) return 2 end
+    PlayerResource.IsValidPlayerID = function(_, id) return id >= 0 and id <= 3 end
+
+    -- Wave 5 Boss: 5 + floor(5/5) = 6 Lumber
+    local w5Lumber = EconomyManager:AwardBossLumber(2, 5)
+    assert(w5Lumber == 6, "Wave 5 Boss must award 6 Lumber")
+    assert(EconomyManager:GetLumber(0) == 6, "Player 0 must receive 6 Lumber")
+    assert(EconomyManager:GetLumber(1) == 6, "Player 1 must receive 6 Lumber")
+    assert(EconomyManager:GetLumber(2) == 0, "Opponent Team 3 must receive 0 Lumber")
+
+    -- Wave 20 Boss: 5 + floor(20/5) = 9 Lumber
+    local w20Lumber = EconomyManager:AwardBossLumber(2, 20)
+    assert(w20Lumber == 9, "Wave 20 Boss must award 9 Lumber")
+    assert(EconomyManager:GetLumber(0) == 15, "Player 0 total lumber must be 15")
+end)
+
+test("tome purchase escalates cost by 10% and increases hero attributes permanently", function()
+    EconomyManager:Init()
+    PlayerResource.gold = { [0] = 5000 }
+    PlayerResource.IsValidPlayerID = function(_, id) return id == 0 end
+
+    local heroMock = {
+        IsNull = function() return false end,
+        IsAlive = function() return true end,
+        strength = 20,
+        agility = 20,
+        intellect = 20,
+        ModifyStrength = function(self, amt) self.strength = self.strength + amt end,
+        ModifyAgility = function(self, amt) self.agility = self.agility + amt end,
+        ModifyIntellect = function(self, amt) self.intellect = self.intellect + amt end,
+        EmitSound = function() end,
+    }
+    PlayerResource.heroes[0] = heroMock
+
+    -- 1. Initial cost is 500
+    assert(EconomyManager:GetTomeCost(0, "str") == 500, "Base tome cost must be 500")
+
+    -- 2. First STR tome purchase
+    local ok1 = EconomyManager:PurchaseTome(0, "str")
+    assert(ok1 == true, "Tome purchase must succeed")
+    assert(heroMock.strength == 22, "Strength must increase by +2")
+    assert(PlayerResource:GetGold(0) == 4500, "Gold must decrease by 500")
+
+    -- 3. Escalated cost: 500 * (1 + 0.10 * 1) = 550
+    assert(EconomyManager:GetTomeCost(0, "str") == 550, "Second STR tome cost must be 550 (+10%)")
+
+    -- 4. Different type (AGI) still starts at 500
+    assert(EconomyManager:GetTomeCost(0, "agi") == 500, "AGI tome cost must still be base 500")
+
+    -- 5. Second STR tome purchase at 550
+    local ok2 = EconomyManager:PurchaseTome(0, "str")
+    assert(ok2 == true, "Second purchase must succeed")
+    assert(heroMock.strength == 24, "Strength must now be 24 (+4 total)")
+    assert(PlayerResource:GetGold(0) == 3950, "Gold must be 4500 - 550 = 3950")
+
+    -- 6. Third cost: 500 * (1 + 0.10 * 2) = 600
+    assert(EconomyManager:GetTomeCost(0, "str") == 600, "Third STR tome cost must be 600")
 end)
 
 print(string.format("%d Lua behavior tests passed (mock engine; live tests separate).", passed))

@@ -44,4 +44,5 @@ function Activate()
 	WaveManager:Init()
 	require("map/portals"):Init()
 	require("spellbringer/spellbringer_service"):Init(WaveManager)
+	require("economy/economy_manager"):Init(WaveManager)
 end

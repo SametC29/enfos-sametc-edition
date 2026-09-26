@@ -1,0 +1,66 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/dotastyles.css" />
+		<include src="file://{resources}/styles/custom_game/economy.css" />
+	</styles>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/economy.js" />
+	</scripts>
+	<Panel class="EconomyRoot" hittest="false">
+		<!-- Lumber Display Panel (Always visible at top-right / near shop) -->
+		<Panel id="LumberDisplay" class="LumberDisplay">
+			<Panel class="LumberIcon" />
+			<Label id="LumberAmount" class="LumberAmount" text="0" />
+			<Button id="ToggleEconomyBtn" class="EconomyToggleBtn" onactivate="ToggleEconomyPanel()">
+				<Label text="▼" />
+			</Button>
+		</Panel>
+
+		<!-- Expanded Economy Dialog (Conversion & Teammate Transfers & Tomes) -->
+		<Panel id="EconomyPanel" class="EconomyPanel Hidden">
+			<Panel class="EconomyHeader">
+				<Label class="EconomyTitle" text="#enfos_economy_title" />
+				<Button class="CloseBtn" onactivate="ToggleEconomyPanel()">
+					<Label text="X" />
+				</Button>
+			</Panel>
+
+			<!-- Section 1: Gold <-> Lumber Conversion -->
+			<Panel class="EconomySection">
+				<Label class="SectionHeader" text="#enfos_economy_convert_header" />
+				<Panel class="ConvertRow">
+					<Button class="ConvertBtn" onactivate="ConvertGoldToLumber(1000)">
+						<Label text="1000 G ➔ 10 L" />
+					</Button>
+					<Button class="ConvertBtn" onactivate="ConvertLumberToGold(10)">
+						<Label text="10 L ➔ 900 G" />
+					</Button>
+				</Panel>
+			</Panel>
+
+			<!-- Section 2: Tomes Store -->
+			<Panel class="EconomySection">
+				<Label class="SectionHeader" text="#enfos_economy_tomes_header" />
+				<Panel class="TomesRow">
+					<Button id="BuyStrTomeBtn" class="TomeBtn StrTome" onactivate="BuyTome('str')">
+						<Label id="StrTomeLabel" text="STR +2 (500g)" />
+					</Button>
+					<Button id="BuyAgiTomeBtn" class="TomeBtn AgiTome" onactivate="BuyTome('agi')">
+						<Label id="AgiTomeLabel" text="AGI +2 (500g)" />
+					</Button>
+					<Button id="BuyIntTomeBtn" class="TomeBtn IntTome" onactivate="BuyTome('int')">
+						<Label id="IntTomeLabel" text="INT +2 (500g)" />
+					</Button>
+				</Panel>
+			</Panel>
+
+			<!-- Section 3: Teammate Transfers -->
+			<Panel class="EconomySection">
+				<Label class="SectionHeader" text="#enfos_economy_transfer_header" />
+				<Panel id="TeammateList" class="TeammateList">
+					<!-- Dynamically populated teammate rows -->
+				</Panel>
+			</Panel>
+		</Panel>
+	</Panel>
+</root>

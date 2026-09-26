@@ -133,4 +133,103 @@
 			}
 		}
 	}
+
+	// =========================================================================
+	// TOME 1: Strength Tome
+	// Consumed immediately on use for permanent +2 Strength
+	// =========================================================================
+	"item_enfos_tome_str"
+	{
+		"BaseClass"					"item_lua"
+		"ScriptFile"				"items/tomes"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"		"item_tome_of_knowledge"
+		"Model"						"models/props_gameplay/red_box.vmdl"
+		"ItemCost"					"500"
+		"ItemShopTags"				"consumables"
+		"ItemQuality"				"consumable"
+		"ItemPermanent"				"0"
+		"ItemPurchasable"			"1"
+		"ItemKillable"				"0"
+		"ItemDroppable"				"1"
+		"ItemInitialCharges"		"1"
+		"ItemStackable"				"1"
+		"AbilityCooldown"			"0.0"
+		"AbilityManaCost"			"0"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"stat_bonus"		"2"
+			}
+		}
+	}
+
+	// =========================================================================
+	// TOME 2: Agility Tome
+	// Consumed immediately on use for permanent +2 Agility
+	// =========================================================================
+	"item_enfos_tome_agi"
+	{
+		"BaseClass"					"item_lua"
+		"ScriptFile"				"items/tomes"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"		"item_tome_of_knowledge"
+		"Model"						"models/props_gameplay/red_box.vmdl"
+		"ItemCost"					"500"
+		"ItemShopTags"				"consumables"
+		"ItemQuality"				"consumable"
+		"ItemPermanent"				"0"
+		"ItemPurchasable"			"1"
+		"ItemKillable"				"0"
+		"ItemDroppable"				"1"
+		"ItemInitialCharges"		"1"
+		"ItemStackable"				"1"
+		"AbilityCooldown"			"0.0"
+		"AbilityManaCost"			"0"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"stat_bonus"		"2"
+			}
+		}
+	}
+
+	// =========================================================================
+	// TOME 3: Intelligence Tome
+	// Consumed immediately on use for permanent +2 Intelligence
+	// =========================================================================
+	"item_enfos_tome_int"
+	{
+		"BaseClass"					"item_lua"
+		"ScriptFile"				"items/tomes"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"		"item_tome_of_knowledge"
+		"Model"						"models/props_gameplay/red_box.vmdl"
+		"ItemCost"					"500"
+		"ItemShopTags"				"consumables"
+		"ItemQuality"				"consumable"
+		"ItemPermanent"				"0"
+		"ItemPurchasable"			"1"
+		"ItemKillable"				"0"
+		"ItemDroppable"				"1"
+		"ItemInitialCharges"		"1"
+		"ItemStackable"				"1"
+		"AbilityCooldown"			"0.0"
+		"AbilityManaCost"			"0"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"stat_bonus"		"2"
+			}
+		}
+	}
 }

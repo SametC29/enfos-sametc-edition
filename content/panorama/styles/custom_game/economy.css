@@ -1,0 +1,199 @@
+.EconomyRoot {
+	width: 100%;
+	height: 100%;
+}
+
+.LumberDisplay {
+	horizontal-align: right;
+	vertical-align: top;
+	margin-top: 100px;
+	margin-right: 20px;
+	flow-children: right;
+	background-color: rgba(20, 24, 30, 0.9);
+	border: 1px solid rgba(139, 90, 43, 0.8);
+	border-radius: 4px;
+	padding: 4px 8px;
+}
+
+.LumberIcon {
+	width: 22px;
+	height: 22px;
+	background-color: #8b5a2b;
+	border-radius: 2px;
+	margin-right: 6px;
+	vertical-align: center;
+}
+
+.LumberAmount {
+	font-size: 18px;
+	font-weight: bold;
+	color: #e5c158;
+	vertical-align: center;
+	margin-right: 8px;
+}
+
+.EconomyToggleBtn {
+	background-color: #2b3542;
+	border-radius: 3px;
+	padding: 2px 6px;
+	vertical-align: center;
+}
+
+.EconomyToggleBtn Label {
+	font-size: 12px;
+	color: #ffffff;
+}
+
+.EconomyPanel {
+	horizontal-align: right;
+	vertical-align: top;
+	margin-top: 140px;
+	margin-right: 20px;
+	width: 320px;
+	background-color: rgba(14, 18, 24, 0.95);
+	border: 2px solid #5a4225;
+	border-radius: 6px;
+	padding: 12px;
+	flow-children: down;
+	box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.8);
+}
+
+.EconomyPanel.Hidden {
+	visibility: collapse;
+}
+
+.EconomyHeader {
+	width: 100%;
+	flow-children: right;
+	margin-bottom: 8px;
+}
+
+.EconomyTitle {
+	font-size: 16px;
+	font-weight: bold;
+	color: #f0c040;
+	vertical-align: center;
+	width: fill-parent-flow(1.0);
+}
+
+.CloseBtn {
+	background-color: #772222;
+	padding: 2px 8px;
+	border-radius: 3px;
+}
+
+.CloseBtn Label {
+	color: #ffffff;
+	font-weight: bold;
+}
+
+.EconomySection {
+	width: 100%;
+	flow-children: down;
+	margin-bottom: 10px;
+	padding-top: 6px;
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.SectionHeader {
+	font-size: 13px;
+	font-weight: bold;
+	color: #a0b0c0;
+	margin-bottom: 6px;
+}
+
+.ConvertRow, .TomesRow {
+	width: 100%;
+	flow-children: right;
+}
+
+.ConvertBtn {
+	background-color: #2e3a4e;
+	border: 1px solid #4a5c78;
+	border-radius: 3px;
+	padding: 6px 8px;
+	margin-right: 6px;
+	width: fill-parent-flow(1.0);
+}
+
+.ConvertBtn Label {
+	font-size: 12px;
+	color: #ffffff;
+	text-align: center;
+	horizontal-align: center;
+}
+
+.ConvertBtn:hover {
+	background-color: #3f506c;
+}
+
+.TomeBtn {
+	border-radius: 3px;
+	padding: 4px 6px;
+	margin-right: 4px;
+	width: fill-parent-flow(1.0);
+}
+
+.TomeBtn.StrTome {
+	background-color: #552222;
+	border: 1px solid #883333;
+}
+
+.TomeBtn.AgiTome {
+	background-color: #225522;
+	border: 1px solid #338833;
+}
+
+.TomeBtn.IntTome {
+	background-color: #223366;
+	border: 1px solid #335599;
+}
+
+.TomeBtn Label {
+	font-size: 11px;
+	color: #ffffff;
+	text-align: center;
+	horizontal-align: center;
+}
+
+.TeammateList {
+	width: 100%;
+	flow-children: down;
+}
+
+.TeammateRow {
+	width: 100%;
+	flow-children: right;
+	margin-bottom: 4px;
+	background-color: rgba(255, 255, 255, 0.05);
+	padding: 4px;
+	border-radius: 2px;
+}
+
+.TeammateName {
+	font-size: 12px;
+	color: #dddddd;
+	vertical-align: center;
+	width: fill-parent-flow(1.0);
+}
+
+.TransferBtn {
+	padding: 3px 6px;
+	border-radius: 2px;
+	margin-left: 4px;
+}
+
+.TransferBtn.Gold {
+	background-color: #554411;
+	border: 1px solid #887722;
+}
+
+.TransferBtn.Lumber {
+	background-color: #443311;
+	border: 1px solid #665522;
+}
+
+.TransferBtn Label {
+	font-size: 11px;
+	color: #ffffff;
+}
