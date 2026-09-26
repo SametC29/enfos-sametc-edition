@@ -29,4 +29,100 @@
 		"Ability5"				"bulwark_unbreakable"
 		"Ability6"				"generic_hidden"
 	}
+
+	// =========================================================================
+	// FIGHTER: Kılıç Ustası / Juggernaut
+	// Base: npc_dota_hero_juggernaut
+	// =========================================================================
+	"npc_dota_hero_juggernaut"
+	{
+		"override_hero"			"npc_dota_hero_juggernaut"
+		"HeroID"				"8"
+		"Role"					"Fighter"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"	"20"
+		"AttributeBaseAgility"	"26"
+		"AttributeBaseIntelligence" "14"
+		"MovementSpeed"			"305"
+		"ArmorPhysical"			"3.5"
+
+		"Ability1"				"enfos_juggernaut_blade_fury"
+		"Ability2"				"enfos_juggernaut_healing_ward"
+		"Ability3"				"enfos_juggernaut_blade_dance"
+		"Ability4"				"enfos_juggernaut_omni_slash"
+		"Ability5"				"enfos_juggernaut_duelist"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// CARRY: Okçu Muhafız / Drow Ranger
+	// Base: npc_dota_hero_drow_ranger
+	// =========================================================================
+	"npc_dota_hero_drow_ranger"
+	{
+		"override_hero"			"npc_dota_hero_drow_ranger"
+		"HeroID"				"6"
+		"Role"					"Carry"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"	"16"
+		"AttributeBaseAgility"	"23"
+		"AttributeBaseIntelligence" "15"
+		"MovementSpeed"			"295"
+		"ArmorPhysical"			"2.0"
+
+		"Ability1"				"enfos_drow_frost_arrows"
+		"Ability2"				"enfos_drow_gust"
+		"Ability3"				"enfos_drow_multishot"
+		"Ability4"				"enfos_drow_marksmanship"
+		"Ability5"				"enfos_drow_precision_aura"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// MAGE: Alev Büyücüsü / Lina
+	// Base: npc_dota_hero_lina
+	// =========================================================================
+	"npc_dota_hero_lina"
+	{
+		"override_hero"			"npc_dota_hero_lina"
+		"HeroID"				"25"
+		"Role"					"Mage"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"	"18"
+		"AttributeBaseAgility"	"23"
+		"AttributeBaseIntelligence" "30"
+		"MovementSpeed"			"295"
+		"ArmorPhysical"			"2.5"
+
+		"Ability1"				"enfos_lina_dragon_slave"
+		"Ability2"				"enfos_lina_light_strike_array"
+		"Ability3"				"enfos_lina_fiery_soul"
+		"Ability4"				"enfos_lina_laguna_blade"
+		"Ability5"				"enfos_lina_combustion"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// SUPPORT: Işık Koruyucusu / Omniknight
+	// Base: npc_dota_hero_omniknight
+	// =========================================================================
+	"npc_dota_hero_omniknight"
+	{
+		"override_hero"			"npc_dota_hero_omniknight"
+		"HeroID"				"57"
+		"Role"					"Support"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"	"23"
+		"AttributeBaseAgility"	"15"
+		"AttributeBaseIntelligence" "17"
+		"MovementSpeed"			"300"
+		"ArmorPhysical"			"4.0"
+
+		"Ability1"				"enfos_omni_purification"
+		"Ability2"				"enfos_omni_repel"
+		"Ability3"				"enfos_omni_degen_aura"
+		"Ability4"				"enfos_omni_guardian_angel"
+		"Ability5"				"enfos_omni_hammer_of_purity"
+		"Ability6"				"generic_hidden"
+	}
 }

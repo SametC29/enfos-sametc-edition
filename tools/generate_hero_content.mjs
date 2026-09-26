@@ -1,301 +1,16 @@
-// Enfos Team Survival — SametC Edition
-// Custom ability definitions
-// See: docs/GAME_DESIGN_MASTER.md for ability design rules
+import fs from 'node:fs';
+import path from 'node:path';
+import { root, SOURCE_LANG } from './localization.mjs';
 
-"DOTAAbilities"
-{
+const customAbilitiesPath = path.join(root, 'game/scripts/npc/npc_abilities_custom.txt');
+const turkishJsonPath = path.join(root, `localization/${SOURCE_LANG}.json`);
+const addonGameModePath = path.join(root, 'game/scripts/vscripts/addon_game_mode.lua');
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 1. Ability Definitions (KV Text)
+// ─────────────────────────────────────────────────────────────────────────────
+const heroAbilitiesKV = `
 	// =========================================================================
-	// Bulwark Abilities
-	// =========================================================================
-	"bulwark_shield_slam"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityUnitDamageType"		"DAMAGE_TYPE_PHYSICAL"
-		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
-		"AbilityTextureName"		"sven_storm_bolt"
-		"AbilityCastRange"			"350"
-		"AbilityCastPoint"			"0.2"
-		"AbilityCooldown"			"8.0"
-		"AbilityManaCost"			"75"
-		"MaxLevel"					"4"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"radius"			"350"
-			}
-			"02"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"damage"			"120 180 240 300"
-			}
-			"03"
-			{
-				"var_type"			"FIELD_FLOAT"
-				"slow_duration"		"2.5"
-			}
-			"04"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"slow_pct"			"-30 -40 -50 -60"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName"		"Hero_Sven.StormBolt"
-				"Target"			"CASTER"
-			}
-			"AttachEffect"
-			{
-				"EffectName"		"particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf"
-				"EffectAttachType"	"follow_origin"
-				"Target"			"CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"		"CASTER"
-					"Radius"		"%radius"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target"	"TARGET"
-						"Type"		"DAMAGE_TYPE_PHYSICAL"
-						"Damage"	"%damage"
-					}
-					"ApplyModifier"
-					{
-						"ModifierName" "modifier_bulwark_shield_slam_slow"
-						"Target"	"TARGET"
-						"Duration"	"%slow_duration"
-					}
-				}
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_bulwark_shield_slam_slow"
-			{
-				"IsDebuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%slow_pct"
-				}
-			}
-		}
-	}
-
-	"bulwark_challenge"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"		"axe_berserkers_call"
-		"AbilityCastRange"			"450"
-		"AbilityCastPoint"			"0.2"
-		"AbilityCooldown"			"14.0"
-		"AbilityManaCost"			"90"
-		"MaxLevel"					"4"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"radius"			"450"
-			}
-			"02"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"bonus_armor"		"10 15 20 25"
-			}
-			"03"
-			{
-				"var_type"			"FIELD_FLOAT"
-				"duration"			"3.0 3.5 4.0 4.5"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName"		"Hero_Axe.Berserkers_Call"
-				"Target"			"CASTER"
-			}
-			"AttachEffect"
-			{
-				"EffectName"		"particles/units/heroes/hero_axe/axe_beserkers_call_owner.vpcf"
-				"EffectAttachType"	"follow_origin"
-				"Target"			"CASTER"
-			}
-			"ApplyModifier"
-			{
-				"ModifierName"		"modifier_bulwark_challenge_buff"
-				"Target"			"CASTER"
-				"Duration"			"%duration"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_bulwark_challenge_buff"
-			{
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
-				}
-			}
-		}
-	}
-
-	"bulwark_iron_guard"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"dragon_knight_dragon_blood"
-		"MaxLevel"					"4"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"passive_armor"		"4 8 12 16"
-			}
-			"02"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"damage_reduction"	"8 14 20 26"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_bulwark_iron_guard_passive"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%passive_armor"
-					"MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK" "%damage_reduction"
-				}
-			}
-		}
-	}
-
-	"bulwark_fortress"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
-		"AbilityTextureName"		"sven_gods_strength"
-		"AbilityCastPoint"			"0.3"
-		"AbilityCooldown"			"60.0"
-		"AbilityManaCost"			"120"
-		"MaxLevel"					"3"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_FLOAT"
-				"duration"			"10.0 12.0 14.0"
-			}
-			"02"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"bonus_hp"			"400 700 1000"
-			}
-			"03"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"bonus_armor"		"15 25 35"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName"		"Hero_Sven.GodsStrength"
-				"Target"			"CASTER"
-			}
-			"AttachEffect"
-			{
-				"EffectName"		"particles/units/heroes/hero_sven/sven_spell_gods_strength.vpcf"
-				"EffectAttachType"	"follow_origin"
-				"Target"			"CASTER"
-			}
-			"ApplyModifier"
-			{
-				"ModifierName"		"modifier_bulwark_fortress_active"
-				"Target"			"CASTER"
-				"Duration"			"%duration"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_bulwark_fortress_active"
-			{
-				"IsBuff"			"1"
-				"EffectName"		"particles/units/heroes/hero_sven/sven_gods_strength_hero_effect.vpcf"
-				"EffectAttachType"	"follow_origin"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_EXTRA_HEALTH_BONUS" "%bonus_hp"
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
-				}
-			}
-		}
-	}
-
-	"bulwark_unbreakable"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"sven_warcry"
-		"Innate"					"1"
-		"MaxLevel"					"8"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"bonus_hp_regen"	"15 25 35 45 60 75 90 110"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_bulwark_unbreakable_passive"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_hp_regen"
-				}
-			}
-		}
-	}
-
-// =========================================================================
 	// JUGGERNAUT (FIGHTER) ABILITIES
 	// =========================================================================
 
@@ -1598,665 +1313,118 @@
 			}
 		}
 	}
+`;
 
-	// =========================================================================
-	// Creep Archetype Abilities
-	// =========================================================================
-
-	"enfos_creep_runner_passive"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"slark_shadow_dance"
-		"MaxLevel"					"1"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"bonus_ms"			"100"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_creep_runner_passive"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT" "%bonus_ms"
-				}
-			}
-		}
-	}
-
-	"enfos_creep_frostguard_aura"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"crystal_maiden_brilliance_aura"
-		"MaxLevel"					"1"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"radius"			"500"
-			}
-			"02"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"slow_pct"			"-25"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_creep_frostguard_aura"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Aura"				"modifier_enfos_creep_frostguard_slow"
-				"Aura_Radius"		"%radius"
-				"Aura_Teams"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
-				"Aura_Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-			}
-			"modifier_enfos_creep_frostguard_slow"
-			{
-				"IsDebuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%slow_pct"
-				}
-			}
-		}
-	}
-
-	"enfos_creep_venomous_poison"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"venomancer_poison_sting"
-		"MaxLevel"					"1"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"poison_damage"		"15"
-			}
-			"02"
-			{
-				"var_type"			"FIELD_FLOAT"
-				"duration"			"3.0"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_creep_venomous_passive"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"OnAttackLanded"
-				{
-					"ApplyModifier"
-					{
-						"ModifierName"	"modifier_enfos_creep_venomous_debuff"
-						"Target"		"TARGET"
-						"Duration"		"%duration"
-					}
-				}
-			}
-			"modifier_enfos_creep_venomous_debuff"
-			{
-				"IsDebuff"			"1"
-				"ThinkInterval"		"1.0"
-				"OnIntervalThink"
-				{
-					"Damage"
-					{
-						"Target"		"TARGET"
-						"Type"			"DAMAGE_TYPE_MAGICAL"
-						"Damage"		"%poison_damage"
-					}
-				}
-			}
-		}
-	}
-
-	"enfos_creep_healer_heal"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"		"dazzle_shadow_wave"
-		"AbilityCooldown"			"8.0"
-		"AbilityCastRange"			"500"
-		"MaxLevel"					"1"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"heal_amount"		"200"
-			}
-			"02"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"radius"			"500"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"		"CASTER"
-					"Radius"		"%radius"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-					"Types"			"DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Heal"
-					{
-						"Target"	"TARGET"
-						"HealAmount" "%heal_amount"
-					}
-				}
-			}
-		}
-	}
-
-	"enfos_creep_shieldbearer_carapace"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"centaur_hoof_stomp"
-		"MaxLevel"					"1"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"bonus_armor"		"8"
-			}
-			"02"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"damage_block"		"25"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_creep_shieldbearer_passive"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
-					"MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK" "%damage_block"
-				}
-			}
-		}
-	}
-
-	"enfos_creep_mindstealer_burn"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"antimage_mana_break"
-		"MaxLevel"					"1"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"mana_burn"			"30"
-			}
-			"02"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"burn_damage"		"30"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_creep_mindstealer_passive"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"OnAttackLanded"
-				{
-					"ManaBurn"
-					{
-						"Target"		"TARGET"
-						"ManaBurn"		"%mana_burn"
-						"DamagePerMana"	"1.0"
-					}
-				}
-			}
-		}
-	}
-
-	"enfos_creep_conqueror_slam"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"		"centaur_hoof_stomp"
-		"AbilityCooldown"			"10.0"
-		"AbilityCastRange"			"350"
-		"MaxLevel"					"1"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"damage"			"150"
-			}
-			"02"
-			{
-				"var_type"			"FIELD_FLOAT"
-				"stun_duration"		"1.5"
-			}
-			"03"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"radius"			"350"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"		"CASTER"
-					"Radius"		"%radius"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target"	"TARGET"
-						"Type"		"DAMAGE_TYPE_PHYSICAL"
-						"Damage"	"%damage"
-					}
-					"ApplyModifier"
-					{
-						"ModifierName" "modifier_stunned"
-						"Target"	"TARGET"
-						"Duration"	"%stun_duration"
-					}
-				}
-			}
-		}
-	}
-
-	"enfos_creep_assassin_stealth"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"riki_permanent_invisibility"
-		"MaxLevel"					"1"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"bonus_damage"		"80"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_creep_assassin_passive"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-				}
-			}
-		}
-	}
-
-	"enfos_creep_summoner_raise"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"		"undying_tombstone"
-		"AbilityCooldown"			"15.0"
-		"MaxLevel"					"1"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"summon_count"		"2"
-			}
-			"02"
-			{
-				"var_type"			"FIELD_FLOAT"
-				"duration"			"20.0"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"SpawnUnit"
-			{
-				"UnitName"			"enfos_creep_skeleton"
-				"UnitCount"			"%summon_count"
-				"Target"			"CASTER"
-				"Duration"			"%duration"
-			}
-		}
-	}
-
-	"enfos_creep_spellguard_ward"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"antimage_counterspell"
-		"MaxLevel"					"1"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"magic_resist"		"40"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_creep_spellguard_passive"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS" "%magic_resist"
-				}
-			}
-		}
-	}
-
-	"enfos_creep_reflector_spikes"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"spectre_dispersion"
-		"MaxLevel"					"1"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"reflect_pct"		"25"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_creep_reflector_passive"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-			}
-		}
-	}
-
-	"enfos_creep_exploder_burst"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"techies_suicide"
-		"MaxLevel"					"1"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"damage"			"250"
-			}
-			"02"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"radius"			"400"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_creep_exploder_passive"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"OnDeath"
-				{
-					"ActOnTargets"
-					{
-						"Target"
-						{
-							"Center"	"CASTER"
-							"Radius"	"%radius"
-							"Teams"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
-							"Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-						}
-						"Action"
-						{
-							"Damage"
-							{
-								"Target" "TARGET"
-								"Type"	 "DAMAGE_TYPE_MAGICAL"
-								"Damage" "%damage"
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	"enfos_creep_bloodbeast_feast"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"bloodseeker_blood_bath"
-		"MaxLevel"					"1"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"lifesteal_pct"		"30"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_creep_bloodbeast_passive"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-			}
-		}
-	}
-
-	"enfos_creep_cursecaster_amplify"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO"
-		"AbilityTextureName"		"shadow_demon_soul_catcher"
-		"AbilityCooldown"			"12.0"
-		"AbilityCastRange"			"500"
-		"MaxLevel"					"1"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"damage_amplification" "20"
-			}
-			"02"
-			{
-				"var_type"			"FIELD_FLOAT"
-				"duration"			"5.0"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"ApplyModifier"
-			{
-				"ModifierName"		"modifier_enfos_creep_cursecaster_debuff"
-				"Target"			"TARGET"
-				"Duration"			"%duration"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_creep_cursecaster_debuff"
-			{
-				"IsDebuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE" "%damage_amplification"
-				}
-			}
-		}
-	}
-
-	// =========================================================================
-	// Boss Signature Abilities
-	// =========================================================================
-
-	"enfos_boss_stonebreaker_slam"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"		"tiny_avalanche"
-		"AbilityCooldown"			"10.0"
-		"AbilityCastRange"			"450"
-		"MaxLevel"					"1"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"damage"			"350"
-			}
-			"02"
-			{
-				"var_type"			"FIELD_FLOAT"
-				"stun_duration"		"2.0"
-			}
-			"03"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"radius"			"450"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"		"CASTER"
-					"Radius"		"%radius"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target"	"TARGET"
-						"Type"		"DAMAGE_TYPE_PHYSICAL"
-						"Damage"	"%damage"
-					}
-					"ApplyModifier"
-					{
-						"ModifierName" "modifier_stunned"
-						"Target"	"TARGET"
-						"Duration"	"%stun_duration"
-					}
-				}
-			}
-		}
-	}
-
-	"enfos_boss_bloodfang_enrage"
-	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"lycan_shapeshift"
-		"MaxLevel"					"1"
-
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"enrage_hp_pct"		"40"
-			}
-			"02"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"bonus_attack_speed" "100"
-			}
-			"03"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"bonus_lifesteal"	"40"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_boss_bloodfang_passive"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
-				}
-			}
-		}
-	}
+let customAbilities = fs.readFileSync(customAbilitiesPath, 'utf8');
+const insertRegex = /\r?\n\t\/\/ =========================================================================\r?\n\t\/\/ Creep Archetype Abilities/;
+if (!customAbilities.includes('enfos_juggernaut_blade_fury')) {
+  customAbilities = customAbilities.replace(insertRegex, '\n' + heroAbilitiesKV.trim() + '\n\n\t// =========================================================================\n\t// Creep Archetype Abilities');
+  fs.writeFileSync(customAbilitiesPath, customAbilities, 'utf8');
+  console.log('Added 20 hero abilities to npc_abilities_custom.txt.');
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// 2. Turkish Localization Tokens (Source of Truth)
+// ─────────────────────────────────────────────────────────────────────────────
+const turkishHeroTokens = {
+  // Hero Names & Hypes
+  "npc_dota_hero_juggernaut": "Kılıç Ustası",
+  "npc_dota_hero_juggernaut_hype": "Dövüşçü (Fighter) rolünün öncüsü. Kesintisiz kılıç darbeleri, büyü bağışıklığı sağlayan dönüşleri ve takımını ayakta tutan şifa totemiyle dalgaları biçer.",
+  "npc_dota_hero_drow_ranger": "Okçu Muhafız",
+  "npc_dota_hero_drow_ranger_hype": "Taşıyıcı (Carry) rolünün ustası. Dondurucu okları, dalgaları temizleyen yaylım ateşi ve zırh delen nişancılığı ile uzaktan yıkım yaratır.",
+  "npc_dota_hero_lina": "Alev Büyücüsü",
+  "npc_dota_hero_lina_hype": "Büyücü (Mage) rolünün ateş gücü. Ejderha alevleri, alan sersemletmesi ve Laguna Blade yıldırım patlamasıyla düşman sürülerini küle çevirir.",
+  "npc_dota_hero_omniknight": "Işık Koruyucusu",
+  "npc_dota_hero_omniknight_hype": "Destek (Support) rolünün koruyucu kalkanı. Saf hasarla iyileştiren arınması, büyü direnci ve takıma fiziksel hasar dokunulmazlığı veren koruyucu meleğiyle orduları kurtarır.",
+
+  // Juggernaut Abilities
+  "DOTA_Tooltip_Ability_enfos_juggernaut_blade_fury": "Kılıç Fırtınası",
+  "DOTA_Tooltip_Ability_enfos_juggernaut_blade_fury_Description": "Kılıcıyla dönerek büyü bağışıklığı kazanır ve {{duration}} saniye boyunca {{radius}} menzildeki düşmanlara saniyede {{damage_per_sec}} büyü hasarı verir.",
+  "DOTA_Tooltip_Ability_enfos_juggernaut_healing_ward": "Şifa Totemi",
+  "DOTA_Tooltip_Ability_enfos_juggernaut_healing_ward_Description": "{{radius}} menzil içindeki dost birimleri {{duration}} saniye boyunca saniyede azami canlarının %{{heal_pct}} kadarı oranında iyileştirir.",
+  "DOTA_Tooltip_Ability_enfos_juggernaut_blade_dance": "Kılıç Dansı",
+  "DOTA_Tooltip_Ability_enfos_juggernaut_blade_dance_Description": "Her saldırıda %{{crit_chance}} ihtimalle %{{crit_mult}} kritik hasar verme şansı sağlar.",
+  "DOTA_Tooltip_Ability_enfos_juggernaut_omni_slash": "Kutsal Kılıç Akını",
+  "DOTA_Tooltip_Ability_enfos_juggernaut_omni_slash_Description": "Düşman birimler arasında {{duration}} saniye boyunca sıçrayarak dokunulmazlık kazanır ve her vuruşta +{{bonus_damage}} bonus fiziksel hasar indirir.",
+  "DOTA_Tooltip_Ability_enfos_juggernaut_duelist": "Düellocu Çevikliği",
+  "DOTA_Tooltip_Ability_enfos_juggernaut_duelist_Description": "Doğuştan gelen savaş ustalığıyla pasif olarak +{{bonus_attack_speed}} saldırı hızı ve %{{bonus_ms_pct}} hareket hızı kazanır.",
+
+  // Drow Ranger Abilities
+  "DOTA_Tooltip_Ability_enfos_drow_frost_arrows": "Buzul Oklar",
+  "DOTA_Tooltip_Ability_enfos_drow_frost_arrows_Description": "Oklarına dondurucu soğuk ekleyerek hedefin hareket hızını {{duration}} saniye boyunca %{{slow_pct|percent}} yavaşlatır ve her vuruşta +{{bonus_damage}} bonus hasar verir.",
+  "DOTA_Tooltip_Ability_enfos_drow_gust": "Susturan Rüzgar",
+  "DOTA_Tooltip_Ability_enfos_drow_gust_Description": "Düşmanları {{knockback_distance}} birim geri savuran sert bir rüzgar dalgası fırlatır ve onları {{silence_duration}} saniye boyunca susturur.",
+  "DOTA_Tooltip_Ability_enfos_drow_multishot": "Çoklu Ok Yaylımı",
+  "DOTA_Tooltip_Ability_enfos_drow_multishot_Description": "{{channel_time}} saniye boyunca odaklanarak {{arrow_range}} menzile {{arrow_count}} adet ok fırlatır. Her ok baz saldırı gücünün %{{arrow_damage_pct}} kadarını uygular.",
+  "DOTA_Tooltip_Ability_enfos_drow_marksmanship": "Usta Nişancılık",
+  "DOTA_Tooltip_Ability_enfos_drow_marksmanship_Description": "Saldırılarda %{{proc_chance}} şansla düşman zırhını delen ve +{{bonus_damage}} bonus fiziksel hasar vuran ölümcül bir atış yapar.",
+  "DOTA_Tooltip_Ability_enfos_drow_precision_aura": "Hassasiyet Halesi",
+  "DOTA_Tooltip_Ability_enfos_drow_precision_aura_Description": "Pasif olarak menzilli saldırı menzilini {{bonus_range}} birim ve çeviklik verimini artırır.",
+
+  // Lina Abilities
+  "DOTA_Tooltip_Ability_enfos_lina_dragon_slave": "Ejderha Nefesi",
+  "DOTA_Tooltip_Ability_enfos_lina_dragon_slave_Description": "{{dragon_slave_distance}} menzil boyunca ilerleyen alev dalgası yayarak yoluna çıkan tüm düşmanlara {{damage}} büyü hasarı verir.",
+  "DOTA_Tooltip_Ability_enfos_lina_light_strike_array": "Alev Sütunu",
+  "DOTA_Tooltip_Ability_enfos_lina_light_strike_array_Description": "{{radius}} alanda bir alev sütunu patlatarak düşmanları {{stun_duration}} saniye sersemletir ve {{damage}} büyü hasarı verir.",
+  "DOTA_Tooltip_Ability_enfos_lina_fiery_soul": "Ateşli Ruh",
+  "DOTA_Tooltip_Ability_enfos_lina_fiery_soul_Description": "Kullanılan her yetenekle pasif olarak +{{fiery_soul_attack_speed_bonus}} saldırı hızı ve %{{fiery_soul_move_speed_bonus}} hareket hızı kazanır.",
+  "DOTA_Tooltip_Ability_enfos_lina_laguna_blade": "Laguna Bıçağı",
+  "DOTA_Tooltip_Ability_enfos_lina_laguna_blade_Description": "Hedefe yoğunlaştırılmış yıldırım yıldırımı fırlatarak {{damage}} büyü hasarı verir. Enerji taşkını {{overflow_radius}} alandaki birimlere %{{overflow_damage_pct}} hasar sıçratır.",
+  "DOTA_Tooltip_Ability_enfos_lina_combustion": "Tutuşma",
+  "DOTA_Tooltip_Ability_enfos_lina_combustion_Description": "Büyü hasarını pasif olarak %{{spell_amp}} artırır ve düşmanların yanmasını sağlar.",
+
+  // Omniknight Abilities
+  "DOTA_Tooltip_Ability_enfos_omni_purification": "Kutsal Arınma",
+  "DOTA_Tooltip_Ability_enfos_omni_purification_Description": "Dost birimi anında {{heal_amount}} can iyileştirir ve etrafındaki {{radius}} menzildeki düşmanlara {{damage}} saf hasar verir.",
+  "DOTA_Tooltip_Ability_enfos_omni_repel": "Cennet Lütfu",
+  "DOTA_Tooltip_Ability_enfos_omni_repel_Description": "Hedef dosta {{duration}} saniye boyunca +{{bonus_hp_regen}} can yenilenmesi, +{{bonus_strength}} güç ve +{{bonus_armor}} zırh bahşeder.",
+  "DOTA_Tooltip_Ability_enfos_omni_degen_aura": "Çöküş Halesi",
+  "DOTA_Tooltip_Ability_enfos_omni_degen_aura_Description": "{{radius}} menzildeki tüm düşmanların hareket hızını %{{slow_pct|percent}} ve saldırı hızını {{attack_slow}} yavaşlatır.",
+  "DOTA_Tooltip_Ability_enfos_omni_guardian_angel": "Koruyucu Melek",
+  "DOTA_Tooltip_Ability_enfos_omni_guardian_angel_Description": "{{radius}} menzil içindeki tüm dostlara {{duration}} saniye boyunca fiziksel hasar bağışıklığı ve +{{bonus_hp_regen}} can yenilenmesi sağlar.",
+  "DOTA_Tooltip_Ability_enfos_omni_hammer_of_purity": "Saflık Çekici",
+  "DOTA_Tooltip_Ability_enfos_omni_hammer_of_purity_Description": "Her normal saldırıda hedefe +{{bonus_pure_damage}} saf hasar vurur ve {{slow_duration}} saniye boyunca hareket hızını %{{slow_pct|percent}} yavaşlatır."
+};
+
+const turkishData = JSON.parse(fs.readFileSync(turkishJsonPath, 'utf8'));
+for (const [k, v] of Object.entries(turkishHeroTokens)) {
+  turkishData.Tokens[k] = v;
+}
+fs.writeFileSync(turkishJsonPath, JSON.stringify(turkishData, null, 2) + '\n', 'utf8');
+console.log(`Updated turkish.json with ${Object.keys(turkishData.Tokens).length} tokens.`);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 3. Precache Resources in addon_game_mode.lua
+// ─────────────────────────────────────────────────────────────────────────────
+const heroParticlesToPrecache = [
+  'particles/units/heroes/hero_juggernaut/juggernaut_blade_fury.vpcf',
+  'particles/units/heroes/hero_juggernaut/juggernaut_healing_ward.vpcf',
+  'particles/units/heroes/hero_juggernaut/jugg_crit_blur.vpcf',
+  'particles/units/heroes/hero_juggernaut/juggernaut_omni_slash.vpcf',
+  'particles/units/heroes/hero_drow/drow_frost_arrow.vpcf',
+  'particles/units/heroes/hero_drow/drow_silence_wave.vpcf',
+  'particles/units/heroes/hero_drow/drow_multishot_proj_linear_proj.vpcf',
+  'particles/units/heroes/hero_drow/drow_marksmanship_frost_arrow.vpcf',
+  'particles/units/heroes/hero_drow/drow_precision.vpcf',
+  'particles/units/heroes/hero_lina/lina_spell_dragon_slave.vpcf',
+  'particles/units/heroes/hero_lina/lina_spell_light_strike_array.vpcf',
+  'particles/units/heroes/hero_lina/lina_fiery_soul.vpcf',
+  'particles/units/heroes/hero_lina/lina_spell_laguna_blade.vpcf',
+  'particles/units/heroes/hero_omniknight/omniknight_purification.vpcf',
+  'particles/units/heroes/hero_omniknight/omniknight_repel_buff.vpcf',
+  'particles/units/heroes/hero_omniknight/omniknight_degen_aura.vpcf',
+  'particles/units/heroes/hero_omniknight/omniknight_guardian_angel_omni.vpcf'
+];
+
+let addonGameMode = fs.readFileSync(addonGameModePath, 'utf8');
+let precacheBlock = '';
+for (const p of heroParticlesToPrecache) {
+  if (!addonGameMode.includes(p)) {
+    precacheBlock += `\tPrecacheResource("particle", "${p}", context)\n`;
+  }
+}
+if (precacheBlock) {
+  addonGameMode = addonGameMode.replace('function Precache(context)\n', 'function Precache(context)\n' + precacheBlock);
+  fs.writeFileSync(addonGameModePath, addonGameMode, 'utf8');
+  console.log('Precached hero particles in addon_game_mode.lua.');
+}

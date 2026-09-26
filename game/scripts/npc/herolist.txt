@@ -6,4 +6,8 @@
 "CustomHeroList"
 {
 	"npc_dota_hero_sven"		"1"
+	"npc_dota_hero_juggernaut"	"1"
+	"npc_dota_hero_drow_ranger"	"1"
+	"npc_dota_hero_lina"		"1"
+	"npc_dota_hero_omniknight"	"1"
 }
