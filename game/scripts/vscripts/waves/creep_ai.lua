@@ -243,14 +243,26 @@ function CreepAI:OnThink(state)
 				state.lastPos = currentPos
 				return THINK_INTERVAL
 			end
-			-- Explicit acquisition avoids neutral/lane-creep AI overriding aggro.
-			local enemies = FindUnitsInRadius(unit:GetTeamNumber(), currentPos, nil, 650,
-				DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-				DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_NO_INVIS, FIND_CLOSEST, false)
+			-- Explicit acquisition: Query defending team's units (heroes, summons) within aggro range
+			local enemies = FindUnitsInRadius(
+				state.defendingTeam,
+				currentPos,
+				nil,
+				750,
+				DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+				DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+				DOTA_UNIT_TARGET_FLAG_NONE,
+				FIND_CLOSEST,
+				false
+			)
 			for _, enemy in ipairs(enemies) do
-				if enemy:GetTeamNumber() == state.defendingTeam then
-					ExecuteOrderFromTable({UnitIndex=unit:entindex(), OrderType=DOTA_UNIT_ORDER_ATTACK_TARGET,
-						TargetIndex=enemy:entindex(), Queue=false})
+				if enemy and not enemy:IsNull() and enemy:IsAlive() and not enemy:IsInvulnerable() then
+					ExecuteOrderFromTable({
+						UnitIndex = unit:entindex(),
+						OrderType = DOTA_UNIT_ORDER_ATTACK_TARGET,
+						TargetIndex = enemy:entindex(),
+						Queue = false,
+					})
 					state.stuckTimer = 0
 					return THINK_INTERVAL
 				end

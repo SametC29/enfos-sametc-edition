@@ -94,8 +94,12 @@ function WaveManager:GetActivePlayerCount(team)
 	for playerId = 0, (DOTA_MAX_TEAM_PLAYERS or 24)-1 do
 		if PlayerResource:IsValidPlayerID(playerId) then
 			local playerTeam = PlayerResource:GetTeam(playerId)
-			if (not team or playerTeam == team) and PlayerResource:GetConnectionState(playerId) == DOTA_CONNECTION_STATE_CONNECTED then
-				count = count + 1
+			if (not team or playerTeam == team) then
+				local connState = PlayerResource:GetConnectionState(playerId)
+				local hasHero = PlayerResource.GetSelectedHeroEntity and (PlayerResource:GetSelectedHeroEntity(playerId) ~= nil)
+				if connState == (DOTA_CONNECTION_STATE_CONNECTED or 2) or hasHero then
+					count = count + 1
+				end
 			end
 		end
 	end
