@@ -4,6 +4,8 @@
     <Panel class="WaveHud" hittest="false">
         <Label id="WaveStatus" />
         <Label id="WaveLife" />
+        <Label id="WaveBudget" />
+        <Label id="WaveGold" />
         <Button id="NextWave" onactivate="SendNextWave()"><Label text="#enfos_next_wave" /></Button>
     </Panel>
 </root>

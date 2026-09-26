@@ -13,7 +13,7 @@
     "enfos_sametc_team_life": "Team Life",
     "enfos_sametc_wave": "Wave",
     "enfos_sametc_boss_incoming": "BOSS INCOMING",
-    "npc_dota_hero_sven": "Bulwark",
+    "npc_dota_hero_sven": "Sven",
     "npc_dota_hero_sven_hype": "The unyielding fortress of the team. Excels at absorbing physical damage and commanding enemy attention.",
     "DOTA_Tooltip_ability_bulwark_shield_slam": "Shield Slam",
     "DOTA_Tooltip_Ability_bulwark_shield_slam": "Shield Slam",
@@ -47,8 +47,8 @@
     "DOTA_Tooltip_modifier_bulwark_challenge_buff_Description": "Armor is increased.",
     "DOTA_Tooltip_ability_bulwark_iron_guard": "Iron Guard",
     "DOTA_Tooltip_Ability_bulwark_iron_guard": "Iron Guard",
-    "DOTA_Tooltip_ability_bulwark_iron_guard_Description": "Passively fortifies Bulwark's defenses, granting +{{passive_armor|plus}} bonus armor and blocking {{damage_reduction}} damage from each incoming physical attack.",
-    "DOTA_Tooltip_Ability_bulwark_iron_guard_Description": "Passively fortifies Bulwark's defenses, granting +{{passive_armor|plus}} bonus armor and blocking {{damage_reduction}} damage from each incoming physical attack.",
+    "DOTA_Tooltip_ability_bulwark_iron_guard_Description": "Passively fortifies Sven's defenses, granting +{{passive_armor|plus}} bonus armor and blocking {{damage_reduction}} damage from each incoming physical attack.",
+    "DOTA_Tooltip_Ability_bulwark_iron_guard_Description": "Passively fortifies Sven's defenses, granting +{{passive_armor|plus}} bonus armor and blocking {{damage_reduction}} damage from each incoming physical attack.",
     "DOTA_Tooltip_ability_bulwark_iron_guard_SummaryDescription": "Passively boosts armor and blocks incoming physical attack damage.",
     "DOTA_Tooltip_Ability_bulwark_iron_guard_SummaryDescription": "Passively boosts armor and blocks incoming physical attack damage.",
     "DOTA_Tooltip_ability_bulwark_iron_guard_passive_armor": "BONUS ARMOR:",
@@ -59,8 +59,8 @@
     "DOTA_Tooltip_modifier_bulwark_iron_guard_passive_Description": "Passively grants bonus armor and blocks incoming physical attack damage.",
     "DOTA_Tooltip_ability_bulwark_fortress": "Fortress",
     "DOTA_Tooltip_Ability_bulwark_fortress": "Fortress",
-    "DOTA_Tooltip_ability_bulwark_fortress_Description": "Awakens titan resilience for {{duration}} seconds, boosting Bulwark's maximum health by {{bonus_hp}} and armor by +{{bonus_armor|plus}}.",
-    "DOTA_Tooltip_Ability_bulwark_fortress_Description": "Awakens titan resilience for {{duration}} seconds, boosting Bulwark's maximum health by {{bonus_hp}} and armor by +{{bonus_armor|plus}}.",
+    "DOTA_Tooltip_ability_bulwark_fortress_Description": "Awakens titan resilience for {{duration}} seconds, boosting Sven's maximum health by {{bonus_hp}} and armor by +{{bonus_armor|plus}}.",
+    "DOTA_Tooltip_Ability_bulwark_fortress_Description": "Awakens titan resilience for {{duration}} seconds, boosting Sven's maximum health by {{bonus_hp}} and armor by +{{bonus_armor|plus}}.",
     "DOTA_Tooltip_ability_bulwark_fortress_SummaryDescription": "Awakens titan resilience, greatly boosting maximum health and armor.",
     "DOTA_Tooltip_Ability_bulwark_fortress_SummaryDescription": "Awakens titan resilience, greatly boosting maximum health and armor.",
     "DOTA_Tooltip_ability_bulwark_fortress_bonus_hp": "BONUS HEALTH:",
@@ -256,6 +256,10 @@
     "enfos_wave_title_60": "Boss Encounter: Wave 60",
     "enfos_wave_desc_60": "Boss Encounter: Wave 60",
     "enfos_cap_overflow_warning": "UNIT CAP OVERFLOW! Hostiles suppressed and Life was lost!",
-    "enfos_wave_cleared": "Wave Cleared! Prepare for the next assault."
+    "enfos_wave_cleared": "Wave Cleared! Prepare for the next assault.",
+    "npc_dota_hero_juggernaut": "Juggernaut",
+    "npc_dota_hero_drow_ranger": "Drow Ranger",
+    "npc_dota_hero_lina": "Lina",
+    "npc_dota_hero_omniknight": "Omniknight"
   }
 }

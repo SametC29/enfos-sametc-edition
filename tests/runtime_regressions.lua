@@ -13,6 +13,7 @@ DOTA_CONNECTION_STATE_CONNECTED=2
 function Dynamic_Wrap(t,k) return t[k] end
 function ListenToGameEvent() end
 function EmitGlobalSound() end
+function LoadKeyValues() return {} end
 local thinker
 local mode={SetContextThink=function(_,name,fn,delay) assert(type(fn)=='function'); thinker=fn end}
 GameRules={state=7,paused=false,GetGameModeEntity=function() return mode end,
@@ -50,6 +51,7 @@ test('batches conserve exact counts and never spawn for an empty team', function
  local count=0; local original=W.SpawnCreepEntity
  W.SpawnCreepEntity=function(_,_,team) assert(team==2); count=count+1 end
  local def={creeps={{unit_name='enfos_creep_soldier',count_per_player=2,lane='both'}}}
+ W.spawnPlans[2]={{unit_name='enfos_creep_soldier',count=2,lane='both'}}
  for i=1,5 do W.pendingBatches[i]={batchIndex=i,totalBatches=5,waveDef=def} end
  for i=1,5 do W:SpawnNextBatch() end
  W.SpawnCreepEntity=original; assert(count==2)
@@ -60,6 +62,7 @@ test('multiplayer boss spawns once with player scaling input', function()
  W.GetActivePlayerCount=function(_,team) return team==2 and 5 or 0 end
  W.SpawnCreepEntity=function(_,_,team,lane,boss,active) assert(team==2 and lane=='center' and boss and active==5);count=count+1 end
  W.pendingBatches={{batchIndex=1,totalBatches=1,waveDef={creeps={{unit_name='enfos_boss_stonebreaker',count_per_player=1}}}}}
+ W.spawnPlans[2]={{unit_name='enfos_boss_stonebreaker',count=1,lane='center'}}
  W:SpawnNextBatch(); W.SpawnCreepEntity=original;W.GetActivePlayerCount=players;assert(count==1)
 end)
 local P=require('map/portals')

@@ -1328,13 +1328,13 @@ if (!customAbilities.includes('enfos_juggernaut_blade_fury')) {
 // ─────────────────────────────────────────────────────────────────────────────
 const turkishHeroTokens = {
   // Hero Names & Hypes
-  "npc_dota_hero_juggernaut": "Kılıç Ustası",
+  "npc_dota_hero_juggernaut": "Juggernaut",
   "npc_dota_hero_juggernaut_hype": "Dövüşçü (Fighter) rolünün öncüsü. Kesintisiz kılıç darbeleri, büyü bağışıklığı sağlayan dönüşleri ve takımını ayakta tutan şifa totemiyle dalgaları biçer.",
-  "npc_dota_hero_drow_ranger": "Okçu Muhafız",
+  "npc_dota_hero_drow_ranger": "Drow Ranger",
   "npc_dota_hero_drow_ranger_hype": "Taşıyıcı (Carry) rolünün ustası. Dondurucu okları, dalgaları temizleyen yaylım ateşi ve zırh delen nişancılığı ile uzaktan yıkım yaratır.",
-  "npc_dota_hero_lina": "Alev Büyücüsü",
+  "npc_dota_hero_lina": "Lina",
   "npc_dota_hero_lina_hype": "Büyücü (Mage) rolünün ateş gücü. Ejderha alevleri, alan sersemletmesi ve Laguna Blade yıldırım patlamasıyla düşman sürülerini küle çevirir.",
-  "npc_dota_hero_omniknight": "Işık Koruyucusu",
+  "npc_dota_hero_omniknight": "Omniknight",
   "npc_dota_hero_omniknight_hype": "Destek (Support) rolünün koruyucu kalkanı. Saf hasarla iyileştiren arınması, büyü direnci ve takıma fiziksel hasar dokunulmazlığı veren koruyucu meleğiyle orduları kurtarır.",
 
   // Juggernaut Abilities

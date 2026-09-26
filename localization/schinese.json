@@ -13,7 +13,7 @@
     "enfos_sametc_team_life": "团队生命",
     "enfos_sametc_wave": "波次",
     "enfos_sametc_boss_incoming": "首领来袭",
-    "npc_dota_hero_sven": "壁垒",
+    "npc_dota_hero_sven": "Sven",
     "npc_dota_hero_sven_hype": "坚不可摧的团队堡垒。擅长吸收物理伤害并吸引敌方仇恨。",
     "DOTA_Tooltip_ability_bulwark_shield_slam": "盾牌猛击",
     "DOTA_Tooltip_Ability_bulwark_shield_slam": "盾牌猛击",
@@ -256,6 +256,10 @@
     "enfos_wave_title_60": "首领战：第 60 波",
     "enfos_wave_desc_60": "首领战：第 60 波",
     "enfos_cap_overflow_warning": "单位上限溢出！怪物被压制并扣除基地生命！",
-    "enfos_wave_cleared": "波次肃清！准备迎接下一波突袭。"
+    "enfos_wave_cleared": "波次肃清！准备迎接下一波突袭。",
+    "npc_dota_hero_juggernaut": "Juggernaut",
+    "npc_dota_hero_drow_ranger": "Drow Ranger",
+    "npc_dota_hero_lina": "Lina",
+    "npc_dota_hero_omniknight": "Omniknight"
   }
 }

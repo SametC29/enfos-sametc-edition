@@ -78,6 +78,8 @@ end
 --------------------------------------------------------------------------------
 function LifeCore:ProcessLeak(unit, team)
 	if not unit or unit:IsNull() then return end
+	if unit.enfosLeaked then return end
+	unit.enfosLeaked = true
 
 	local unitName = unit:GetUnitName()
 	local damage = WaveDefinitions:GetLeakPenalty(unitName)

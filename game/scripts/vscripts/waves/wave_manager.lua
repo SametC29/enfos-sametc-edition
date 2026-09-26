@@ -10,6 +10,7 @@ require("lib/log")
 local WaveDefinitions = require("waves/wave_definitions")
 local CreepAI = require("waves/creep_ai")
 local LifeCore = require("waves/life_core")
+local Rewards = require("waves/rewards")
 
 local WaveManager = {}
 WaveManager.__index = WaveManager
@@ -56,10 +57,13 @@ function WaveManager:Init()
 		[DOTA_TEAM_BADGUYS or 3] = {},
 	}
 	self.pendingBatches = {}
+	self.spawnPlans = {}
+	self.wavePlayers = {}
 	self.batchSpawnTimer = 0
 
 	-- Initialize Life Core
 	LifeCore:Init(self)
+	Rewards:Init()
 
 	-- Register Listeners
 	ListenToGameEvent("entity_killed", Dynamic_Wrap(WaveManager, "OnEntityKilled"), self)
@@ -81,7 +85,7 @@ end
 --------------------------------------------------------------------------------
 function WaveManager:GetActivePlayerCount(team)
 	local count = 0
-	for playerId = 0, 9 do
+	for playerId = 0, (DOTA_MAX_TEAM_PLAYERS or 24)-1 do
 		if PlayerResource:IsValidPlayerID(playerId) then
 			local playerTeam = PlayerResource:GetTeam(playerId)
 			if (not team or playerTeam == team) and PlayerResource:GetConnectionState(playerId) == DOTA_CONNECTION_STATE_CONNECTED then
@@ -206,6 +210,7 @@ function WaveManager:StartBossIncoming()
 		if creeps then
 			for entIndex, creep in pairs(creeps) do
 				if creep and not creep:IsNull() and creep:IsAlive() then
+					creep.enfosLeaked = true
 					local leakPenalty = WaveDefinitions:GetLeakPenalty(creep:GetUnitName())
 					if leakPenalty > 0 then
 						-- Apply standard leak penalty
@@ -234,6 +239,11 @@ function WaveManager:StartWave(waveNumber)
 	end
 
 	self.currentWave = waveNumber
+	self.spawnPlans, self.wavePlayers = {}, {}
+	for _, team in ipairs({2,3}) do
+		self.wavePlayers[team] = self:GetActivePlayerCount(team)
+		self.spawnPlans[team] = WaveDefinitions:GetSpawnPlan(waveNumber,self.wavePlayers[team])
+	end
 	local waveDef = WaveDefinitions:GetWave(waveNumber)
 	if not waveDef then
 		Log:Error("wave_manager", "Missing wave definition for Wave %d!", waveNumber)
@@ -282,15 +292,15 @@ function WaveManager:SpawnNextBatch()
 	local teams = { DOTA_TEAM_GOODGUYS or 2, DOTA_TEAM_BADGUYS or 3 }
 
 	for _, team in ipairs(teams) do
-		local activePlayers = self:GetActivePlayerCount(team)
+		local activePlayers = self.wavePlayers[team] or self:GetActivePlayerCount(team)
 		local unitCap = self:GetUnitCap(team)
 
 		if activePlayers > 0 then
-			for _, creepEntry in ipairs(waveDef.creeps or {}) do
+			for _, creepEntry in ipairs(self.spawnPlans[team] or {}) do
 				local unitName = creepEntry.unit_name
 				local countPerPlayer = creepEntry.count_per_player or 1
 				local laneAssignment = creepEntry.lane or "both"
-				local totalToSpawn = isBoss and countPerPlayer or math.max(1, countPerPlayer * activePlayers)
+				local totalToSpawn = creepEntry.count
 
 				-- Determine lanes for this creep entry
 				local lanes = {}
@@ -364,6 +374,9 @@ function WaveManager:SpawnCreepEntity(unitName, defendingTeam, lane, isBoss, act
 	creep.defendingTeam = defendingTeam
 	creep.laneName = lane
 	creep.waveNumber = self.currentWave
+	Rewards:Configure(creep, unitName)
+	creep:SetIdleAcquire(true)
+	creep:SetAcquisitionRange(unitName == "enfos_creep_runner" and 0 or 650)
 
 	-- Boss HP scaling: 1 + 0.75 * (players - 1)
 	if isBoss and activePlayers > 1 then
@@ -407,6 +420,7 @@ function WaveManager:OnEntityKilled(event)
 	local defendingTeam = killedUnit.defendingTeam
 
 	if defendingTeam and self.activeCreeps[defendingTeam] then
+		if self.activeCreeps[defendingTeam][killedUnit:entindex()] then Rewards:OnKill(killedUnit,killerUnit) end
 		self:OnCreepRemoved(killedUnit, defendingTeam)
 	end
 end
@@ -425,14 +439,8 @@ function WaveManager:OnWaveCleared()
 		local goldBounty = waveDef.gold_bounty or 50
 		local xpBounty = waveDef.xp_bounty or 75
 
-		for playerId = 0, 9 do
-			if PlayerResource:IsValidPlayerID(playerId) then
-				PlayerResource:ModifyGold(playerId, goldBounty, true, DOTA_ModifyGold_Unspecified)
-				local hero = PlayerResource:GetSelectedHeroEntity(playerId)
-				if hero and not hero:IsNull() and hero:IsAlive() then
-					hero:AddExperience(xpBounty, DOTA_ModifyXP_CreepKill, false, true)
-				end
-			end
+		for _, team in ipairs({2,3}) do
+			for _, playerId in ipairs(Rewards:Players(team)) do Rewards:Credit(playerId,goldBounty,xpBounty) end
 		end
 	end
 
@@ -472,6 +480,14 @@ function WaveManager:SyncNetTable()
 		and (self.currentWave + 1) or self.currentWave
 
 	local displayDef = WaveDefinitions:GetWave(nextWaveNum) or waveDef
+	local summaries = {}
+	for _, team in ipairs({2,3}) do
+		local plan = self.spawnPlans[team] or {}
+		if self.state == self.STATE_PREPARATION or self.state == self.STATE_IDLE then
+			plan = WaveDefinitions:GetSpawnPlan(math.min(self.currentWave+1,WaveDefinitions:GetTotalWaves()),self:GetActivePlayerCount(team))
+		end
+		summaries[team] = Rewards:Estimate(plan)
+	end
 
 	CustomNetTables:SetTableValue("wave_info", "status", {
 		current_wave = self.currentWave,
@@ -479,6 +495,13 @@ function WaveManager:SyncNetTable()
 		max_waves = WaveDefinitions:GetTotalWaves(),
 		state = self.state,
 		can_send_next = self:CanSendNextWave() and 1 or 0,
+		planned_goodguys = summaries[2].count,
+		planned_badguys = summaries[3].count,
+		gold_min_goodguys = summaries[2].goldMin,
+		gold_max_goodguys = summaries[2].goldMax,
+		gold_min_badguys = summaries[3].goldMin,
+		gold_max_badguys = summaries[3].goldMax,
+		clear_gold = displayDef and displayDef.gold_bounty or 0,
 		state_timer = math.max(0, math.floor(self.stateTimer + 0.5)),
 		is_boss = displayDef and WaveDefinitions:IsBossWave(displayDef.wave_number) or false,
 		is_elite = displayDef and WaveDefinitions:IsEliteWave(displayDef.wave_number) or false,

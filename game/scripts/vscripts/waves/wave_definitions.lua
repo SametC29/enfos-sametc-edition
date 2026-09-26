@@ -986,4 +986,40 @@ function WaveDefinitions:GetLeakPenalty(unitName)
 	return WaveDefinitions.LEAK_PENALTIES[leakType] or 1
 end
 
+-- Authored counts express composition weights; the director spends a fixed
+-- 20 basic-creep-equivalent budget per player (boss waves remain boss-only).
+function WaveDefinitions:GetThreatCost(name)
+	if name:find("enfos_elite_", 1, true) then return 2.5 end
+	if name:find("summoner", 1, true) or name:find("cursecaster", 1, true) then return 2.5 end
+	if name:find("healer", 1, true) or name:find("shieldbearer", 1, true)
+		or name:find("spellguard", 1, true) or name:find("reflector", 1, true) then return 2 end
+	if name == "enfos_creep_soldier" or name == "enfos_creep_archer" then return 1 end
+	return 1.25
+end
+
+function WaveDefinitions:GetSpawnPlan(waveNumber, players)
+	local wave = assert(self:GetWave(waveNumber), "Unknown wave")
+	local plan, totalWeight, spent = {}, 0, 0
+	local budget = 20 * math.max(0, players)
+	for _, entry in ipairs(wave.creeps) do totalWeight = totalWeight + entry.count_per_player end
+	for _, entry in ipairs(wave.creeps) do
+		local cost = self:GetThreatCost(entry.unit_name)
+		local desired = budget * entry.count_per_player / totalWeight / cost
+		local count = self:IsBossWave(waveNumber) and (players > 0 and 1 or 0) or math.floor(desired)
+		plan[#plan+1] = {unit_name=entry.unit_name,lane=entry.lane,count=count,cost=cost,desired=desired}
+		spent = spent + count*cost
+	end
+	if not self:IsBossWave(waveNumber) then
+		while true do
+			local best
+			for _, entry in ipairs(plan) do
+				if spent+entry.cost <= budget and (not best or entry.desired-entry.count > best.desired-best.count) then best=entry end
+			end
+			if not best then break end
+			best.count=best.count+1; spent=spent+best.cost
+		end
+	end
+	return plan, spent, budget
+end
+
 return WaveDefinitions

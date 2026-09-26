@@ -90,6 +90,16 @@ local THINK_INTERVAL = 0.4
 local STUCK_THRESHOLD_TIME = 4.0
 local STUCK_MIN_DISTANCE = 35
 
+-- Distance to the lane segment, not distance to the next waypoint. Long lane
+-- segments must not continually interrupt attack windups with movement orders.
+function CreepAI:DistanceToSegment(pos, a, b)
+	local dx, dy = b.x-a.x, b.y-a.y
+	local lengthSquared = dx*dx + dy*dy
+	local t = lengthSquared > 0 and ((pos.x-a.x)*dx + (pos.y-a.y)*dy)/lengthSquared or 0
+	t = math.max(0, math.min(1, t))
+	return math.sqrt((pos.x-a.x-t*dx)^2 + (pos.y-a.y-t*dy)^2)
+end
+
 --------------------------------------------------------------------------------
 -- Attach AI to Unit
 --------------------------------------------------------------------------------
@@ -175,6 +185,8 @@ end
 -- AI Think Loop
 --------------------------------------------------------------------------------
 function CreepAI:OnThink(state)
+	if GameRules:IsGamePaused() then return THINK_INTERVAL end
+	if GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then return nil end
 	local unit = state.unit
 	if not unit or unit:IsNull() or not unit:IsAlive() then
 		return nil -- Stop thinking
@@ -182,6 +194,10 @@ function CreepAI:OnThink(state)
 
 	local currentPos = unit:GetAbsOrigin()
 	local currentWaypoint = state.route[state.waypointIndex]
+	if unit:IsStunned() or unit:IsRooted() or unit:IsChanneling() then
+		state.stuckTimer = 0
+		return THINK_INTERVAL
+	end
 
 	if not currentWaypoint then
 		-- Reached the end of route: Life Core!
@@ -212,15 +228,33 @@ function CreepAI:OnThink(state)
 		end
 	end
 
-	-- Leash check for standard creeps
+	-- Let a valid attack finish. Repath only when outside the lane corridor.
 	if not state.isRunner then
-		local distFromRoutePoint = (currentPos - currentWaypoint):Length2D()
+		local previous = state.route[math.max(1, state.waypointIndex-1)]
+		local distFromRoutePoint = self:DistanceToSegment(currentPos, previous, currentWaypoint)
 		if distFromRoutePoint > LEASH_DISTANCE then
-			-- Unit pulled too far from route by kiting: break combat and re-route
-			CreepAI:OrderMoveToWaypoint(state)
+			if not state.leashed then CreepAI:OrderMoveToWaypoint(state) end
 			state.leashed = true
 		else
 			state.leashed = false
+			local target = unit:GetAttackTarget()
+			if target and not target:IsNull() and target:IsAlive() then
+				state.stuckTimer = 0
+				state.lastPos = currentPos
+				return THINK_INTERVAL
+			end
+			-- Explicit acquisition avoids neutral/lane-creep AI overriding aggro.
+			local enemies = FindUnitsInRadius(unit:GetTeamNumber(), currentPos, nil, 650,
+				DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+				DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_NO_INVIS, FIND_CLOSEST, false)
+			for _, enemy in ipairs(enemies) do
+				if enemy:GetTeamNumber() == state.defendingTeam then
+					ExecuteOrderFromTable({UnitIndex=unit:entindex(), OrderType=DOTA_UNIT_ORDER_ATTACK_TARGET,
+						TargetIndex=enemy:entindex(), Queue=false})
+					state.stuckTimer = 0
+					return THINK_INTERVAL
+				end
+			end
 		end
 	end
 

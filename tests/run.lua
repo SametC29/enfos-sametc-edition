@@ -239,4 +239,86 @@ test("life core starts at 100 life for both teams and deducts on leaks", functio
     assert(GameRules.winner == 3) -- When Radiant (2) reaches 0, Dire (3) wins
 end)
 
+-- =========================================================================
+-- Spawn Plan & Threat Budget Tests (20 creeps per player on Wave 1)
+-- =========================================================================
+test("wave 1 budgets exactly 20 creeps per player", function()
+    local plan1, spent1, budget1 = WaveDefs:GetSpawnPlan(1, 1)
+    assert(budget1 == 20, "Budget for 1 player should be 20")
+    local totalCreeps1 = 0
+    for _, entry in ipairs(plan1) do
+        totalCreeps1 = totalCreeps1 + entry.count
+    end
+    assert(totalCreeps1 == 20, "Wave 1 must produce exactly 20 creeps for 1 player, got: " .. totalCreeps1)
+
+    local plan2, spent2, budget2 = WaveDefs:GetSpawnPlan(1, 2)
+    assert(budget2 == 40, "Budget for 2 players should be 40")
+    local totalCreeps2 = 0
+    for _, entry in ipairs(plan2) do
+        totalCreeps2 = totalCreeps2 + entry.count
+    end
+    assert(totalCreeps2 == 40, "Wave 1 must produce exactly 40 creeps for 2 players, got: " .. totalCreeps2)
+
+    -- Boss wave 5 has exactly 1 boss
+    local bossPlan = WaveDefs:GetSpawnPlan(5, 1)
+    assert(#bossPlan == 1 and bossPlan[1].count == 1, "Boss wave must have 1 boss")
+end)
+
+-- =========================================================================
+-- Rewards System Tests
+-- =========================================================================
+LoadKeyValues = LoadKeyValues or function() return {} end
+local Rewards = require("waves/rewards")
+test("rewards distribute shared gold and award killer bonus, leak gives zero", function()
+    Rewards:Init()
+    local goldGiven = {}
+    local xpGiven = {}
+    DOTA_ModifyGold_CreepKill = 1
+    DOTA_ModifyXP_CreepKill = 1
+    DOTA_CONNECTION_STATE_CONNECTED = 2
+    PlayerResource.ModifyGold = function(self, id, amt, isReliable, reason)
+        goldGiven[id] = (goldGiven[id] or 0) + amt
+    end
+    PlayerResource.GetConnectionState = function(self, id) return 2 end
+    PlayerResource.heroes[0] = {
+        IsNull = function() return false end,
+        AddExperience = function(self, xp, reason, bSelector, bDirect)
+            xpGiven[0] = (xpGiven[0] or 0) + xp
+        end,
+    }
+
+    local testUnit = {
+        enfosGold = 100,
+        enfosXP = 50,
+        defendingTeam = 2,
+        enfosRewardResolved = false,
+        enfosLeaked = false,
+        SetMinimumGoldBounty = function() end,
+        SetMaximumGoldBounty = function() end,
+        SetDeathXP = function() end,
+    }
+    local killerHero = {
+        IsNull = function() return false end,
+        GetPlayerOwnerID = function() return 0 end,
+    }
+
+    -- Normal kill by player 0 on team 2 (only player 0 is on team 2 in mock)
+    local resolved = Rewards:OnKill(testUnit, killerHero)
+    assert(resolved == true)
+    -- Player 0 gets 100 * 1.2 = 120 gold
+    assert(goldGiven[0] == 120, "Killer should receive 20% bonus gold, got: " .. tostring(goldGiven[0]))
+
+    -- Leaked unit gives zero reward
+    local leakedUnit = {
+        enfosGold = 100,
+        enfosXP = 50,
+        defendingTeam = 2,
+        enfosRewardResolved = false,
+        enfosLeaked = true,
+    }
+    local leakResolved = Rewards:OnKill(leakedUnit, nil)
+    assert(leakResolved == false)
+end)
+
 print(string.format("%d Lua behavior tests passed (mock engine; live tests separate).", passed))
+
