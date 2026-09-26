@@ -87,6 +87,11 @@
 				"var_type"			"FIELD_FLOAT"
 				"duration"			"5.5"
 			}
+			"04"
+			{
+				"var_type" "FIELD_INTEGER"
+				"damage_reduction_pct" "-25"
+			}
 		}
 
 		"OnSpellStart"
@@ -123,7 +128,7 @@
 				"EffectAttachType"	"follow_origin"
 				"Properties"
 				{
-					"MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE" "-25"
+					"MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE" "%damage_reduction_pct"
 				}
 			}
 		}

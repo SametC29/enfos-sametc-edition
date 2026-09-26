@@ -37,7 +37,6 @@ Desktop.ini
 
 # === Node / npm (Panorama tooling) ===
 node_modules/
-package-lock.json
 
 # === Reference game files (large, do not commit) ===
 references/*.zip

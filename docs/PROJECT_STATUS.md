@@ -1,0 +1,50 @@
+# Verified project status — 2026-09-26
+
+The desktop handoff report is historical context, not acceptance evidence or a
+replacement for GAME_DESIGN_MASTER / DECISIONS_OPEN_ITEMS / IMPLEMENTATION_ROADMAP.
+
+## Evidence and current scope
+
+- Main entry point, logging and seeded RNG exist. One Sven/Bulwark prototype has
+  five abilities; this does not prove native selection for 40–100 custom heroes.
+- Two Ascended item prototypes exist. Lumber purchase, base-item consumption,
+  uniqueness, sellback and the designed shield/reflect-heal effects are absent.
+- Challenge currently applies armor only. Its taunt remains an incomplete gameplay
+  feature; localized descriptions now disclose that limitation instead of claiming it works.
+- Four language sources generate both runtime copies. Numeric tooltip values come
+  from KV specials. Earlier handoff claims of complete numeric accuracy were false.
+- Source and compiled maps exist. Routing, leak triggers, arena isolation against
+  flight/Blink/TP and multiplayer navigation require engine acceptance tests.
+- No implemented Wave/Life/cap, Spellbringer, economy, progression, Boons or HUD yet.
+- The MCP server initializes and exposes 111 tools. Dota/Workshop Tools/project
+  installation detection passed. Dota was closed during the initial audit;
+  screenshots and runtime claims in the handoff were not reproduced.
+
+## Foundation corrections
+
+- Replaced the broken batch checks with a small CRLF launcher and a portable Node
+  validation command. Added pinned Lua syntax/runtime test dependencies and lockfile.
+- Real KV parsing rejects malformed/duplicate entries; coverage, hero references,
+  generated translations and production map allowlisting are checked.
+- Removed reference/test maps from addoninfo. Local untracked reference/test VPKs
+  were preserved under `references/enfo_map/quarantined-builds/`, outside `game/`.
+  `enfos_reborn.vpk` and `enfos_sametc_reborn.vpk` matched the external reference
+  byte-for-byte. They are not project-authored distributable maps.
+- Map generator still contains reference-derived exact coordinate claims and
+  machine-specific imports. Its provenance/build reproducibility needs a separate
+  review before map replacement or release; do not regenerate blindly.
+
+## Remaining gates, in priority order
+
+1. Courier capacity/ownership/reconnect behavior and item conservation.
+2. Complete Phase 1 proofs: selection, six-slot delivery design, shop integration,
+   authoritative events and unavailable persistence behavior.
+3. Phase 2: original map layout, bounded arena movement, authored routes, stuck
+   recovery and exactly-once Core leaks. Then Phase 3 Wave/Life/cap.
+4. First playable five-wave slice, then accelerated 30+ wave stability tests.
+5. Follow the repository roadmap for heroes, Spellbringer, economy and full content.
+
+Do not replace the documented cap seed (30 × active players), Boss exemption,
+temporary-summon rules or eight named Spellbringer abilities with handoff examples.
+Reference analysis reports exist, but blocked decisions are not automatically
+unblocked by their existence; a concrete decision/proof is still required.

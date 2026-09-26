@@ -2,5 +2,13 @@
   "name": "enfos_sametc",
   "version": "0.1.0",
   "private": true,
-  "description": "Enfos Team Survival — SametC Edition Dota 2 Custom Game"
+  "description": "Enfos Team Survival — SametC Edition Dota 2 Custom Game",
+  "devDependencies": {
+    "fengari-node-cli": "0.1.0",
+    "luaparse": "0.3.1"
+  },
+  "scripts": {
+    "check": "node tools/checks.mjs",
+    "localize": "node tools/localization.mjs"
+  }
 }

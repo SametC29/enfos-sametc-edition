@@ -54,9 +54,22 @@ A modern Enfo-inspired PvEvP survival custom game for Dota 2.
 3. Launch Dota 2 Workshop Tools and select "enfos_sametc"
 
 ### Running Checks
+Install the pinned development tools once with `npm ci`, then run:
 ```
 tools\checks.bat
 ```
+
+`npm run check` runs the same checks cross-platform. It parses authored KeyValues,
+checks Lua 5.1 syntax, verifies content references, localization parity/generated
+values and the production map allowlist, and runs regression tests. These checks
+do not replace Dota engine playtests.
+
+Edit translation sources in `localization/*.json`, then run `npm run localize`.
+Numeric `{{special_name}}` fields are expanded from ability/item definitions into
+both runtime localization directories. Do not edit generated language files.
+
+Current implementation is an early prototype, not the complete feature list above.
+See [verified project status](docs/PROJECT_STATUS.md) for implemented scope and gates.
 
 ## Documentation
 
