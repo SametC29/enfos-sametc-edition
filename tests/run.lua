@@ -1040,6 +1040,207 @@ test("boon stack caps enforce 3 max for ordinary and 1 max for unique, and emerg
     assert(LifeCore:GetLife(2) == 95, "Emergency seal must restore +15 Life to team, got: " .. LifeCore:GetLife(2))
 end)
 
+-- =========================================================================
+-- Progression & Hero Mastery Tests (Phase 10)
+-- =========================================================================
+local StorageAdapter = require("progression/storage_adapter")
+local ProgressionCurves = require("progression/progression_curves")
+local ProgressionManager = require("progression/progression_manager")
+
+test("account xp leveling curve awards legacy points up to level 48 (max 24 points)", function()
+    local profile = StorageAdapter.CreateDefaultProfile("test_user_1")
+    assert(profile.accountLevel == 1)
+    assert(profile.unspentLegacyPoints == 0)
+
+    -- Level 1 -> 2: requires 500 XP
+    ProgressionCurves.AddAccountXP(profile, 500)
+    assert(profile.accountLevel == 2, "Must reach level 2")
+    assert(profile.unspentLegacyPoints == 1, "Must gain 1 Legacy point on level 2")
+
+    -- Add enough XP to level up through 48
+    -- Level 48 should have earned exactly 24 points (48 / 2)
+    for lvl = 2, 47 do
+        local req = ProgressionCurves.GetAccountLevelXPRequired(profile.accountLevel)
+        ProgressionCurves.AddAccountXP(profile, req)
+    end
+    assert(profile.accountLevel == 48, "Must reach level 48, got: " .. profile.accountLevel)
+    assert(profile.unspentLegacyPoints == 24, "Must have 24 legacy points at level 48, got: " .. profile.unspentLegacyPoints)
+
+    -- Levels beyond 48 do not award raw Legacy points (capped at 24)
+    local req48 = ProgressionCurves.GetAccountLevelXPRequired(48)
+    local req49 = ProgressionCurves.GetAccountLevelXPRequired(49)
+    ProgressionCurves.AddAccountXP(profile, req48 + req49)
+    assert(profile.accountLevel == 50, "Must reach level 50")
+    assert(profile.unspentLegacyPoints == 24, "Legacy points must remain capped at 24, got: " .. profile.unspentLegacyPoints)
+end)
+
+test("legacy allocation, branch caps, free respec, and pvevp 50% normalization", function()
+    local profile = StorageAdapter.CreateDefaultProfile("test_user_2")
+    profile.unspentLegacyPoints = 5
+
+    -- Allocate 3 to offense, 2 to defense
+    assert(ProgressionCurves.AllocateLegacyRank(profile, "offense") == true)
+    assert(ProgressionCurves.AllocateLegacyRank(profile, "offense") == true)
+    assert(ProgressionCurves.AllocateLegacyRank(profile, "offense") == true)
+    assert(profile.legacy.offense == 3)
+    assert(profile.unspentLegacyPoints == 2)
+
+    assert(ProgressionCurves.AllocateLegacyRank(profile, "defense") == true)
+    assert(ProgressionCurves.AllocateLegacyRank(profile, "defense") == true)
+    assert(profile.legacy.defense == 2)
+    assert(profile.unspentLegacyPoints == 0)
+
+    -- Insufficient points check
+    local okFail, reason = ProgressionCurves.AllocateLegacyRank(profile, "economy")
+    assert(okFail == false)
+    assert(reason == "insufficient_points")
+
+    -- PvEvP 50% normalization check
+    -- Co-op: 100% effectiveness
+    local coopBonuses = ProgressionCurves.GetLegacyBonuses(profile, false)
+    assert(coopBonuses.effectiveness == 1.0)
+    assert(math.abs(coopBonuses.offenseDamageMultiplier - 0.015) < 0.0001, "Co-op offense should be 3 * 0.005 * 1.0 = +1.5%")
+    assert(math.abs(coopBonuses.defenseMaxHpMultiplier - 0.010) < 0.0001, "Co-op defense should be 2 * 0.005 * 1.0 = +1.0%")
+
+    -- Standard PvEvP: 50% effectiveness
+    local pvevpBonuses = ProgressionCurves.GetLegacyBonuses(profile, true)
+    assert(pvevpBonuses.effectiveness == 0.5)
+    assert(math.abs(pvevpBonuses.offenseDamageMultiplier - 0.0075) < 0.0001, "PvEvP offense should be 3 * 0.005 * 0.5 = +0.75%")
+    assert(math.abs(pvevpBonuses.defenseMaxHpMultiplier - 0.0050) < 0.0001, "PvEvP defense should be 2 * 0.005 * 0.5 = +0.5%")
+
+    -- Free Respec
+    local okRespec, refunded = ProgressionCurves.RespecLegacy(profile)
+    assert(okRespec == true)
+    assert(refunded == 5, "Must refund 5 spent points")
+    assert(profile.legacy.offense == 0 and profile.legacy.defense == 0)
+    assert(profile.unspentLegacyPoints == 5)
+end)
+
+test("hero mastery ranking, passive points, and milestone build unlocks at 5/10/15/20", function()
+    local heroData = { rank = 1, xp = 0, passivePoints = 0, buildUnlocks = {} }
+
+    -- Rank 1 -> 2: requires 100 XP
+    ProgressionCurves.AddHeroMasteryXP(heroData, 100)
+    assert(heroData.rank == 2)
+    assert(heroData.passivePoints == 1, "Even rank must award +1 Hero Passive point")
+
+    -- Advance to rank 5
+    for r = 2, 4 do
+        local req = ProgressionCurves.GetHeroMasteryXPRequired(heroData.rank)
+        ProgressionCurves.AddHeroMasteryXP(heroData, req)
+    end
+    assert(heroData.rank == 5)
+    assert(heroData.buildUnlocks["5"] == true, "Mastery 5 must unlock milestone build choice")
+
+    -- Advance to rank 20
+    for r = 5, 19 do
+        local req = ProgressionCurves.GetHeroMasteryXPRequired(heroData.rank)
+        ProgressionCurves.AddHeroMasteryXP(heroData, req)
+    end
+    assert(heroData.rank == 20)
+    assert(heroData.passivePoints == 10, "Rank 20 must have 10 Hero Passive points total (20 / 2)")
+    assert(heroData.buildUnlocks["20"] == true, "Mastery 20 must unlock milestone build choice")
+end)
+
+test("match reward calculation covers win, loss, surrender, abandon, clear bonus, and endless checkpoints", function()
+    -- 1. Full Clear Normal (Wave 60, Win)
+    local winRewards = ProgressionCurves.CalculateMatchRewards({
+        completedWaves = 60,
+        isFullClear = true,
+        difficulty = "normal",
+        outcome = "win",
+    })
+    -- Base Account: 1200 + 300 = 1500; with Win (+15%): 1725
+    -- Base Hero: 400 + 100 = 500; with Win (+15%): 575
+    assert(winRewards.accountXp == 1725, "Win Account XP should be 1725, got: " .. winRewards.accountXp)
+    assert(winRewards.heroXp == 575, "Win Hero XP should be 575, got: " .. winRewards.heroXp)
+    assert(winRewards.isFullClear == true)
+
+    -- 2. Loss at Wave 30 (Normal difficulty)
+    local lossRewards = ProgressionCurves.CalculateMatchRewards({
+        completedWaves = 30,
+        isFullClear = false,
+        difficulty = "normal",
+        outcome = "loss",
+    })
+    assert(lossRewards.accountXp > 400 and lossRewards.accountXp < 600, "Loss must provide legitimate partial progress")
+    assert(lossRewards.heroXp > 100 and lossRewards.heroXp < 250)
+
+    -- 3. Abandon at Wave 30 (Receives 50% of earned progress)
+    local abandonRewards = ProgressionCurves.CalculateMatchRewards({
+        completedWaves = 30,
+        isFullClear = false,
+        difficulty = "normal",
+        outcome = "abandon",
+    })
+    assert(math.abs(abandonRewards.accountXp - math.floor(lossRewards.accountXp * 0.50 + 0.5)) <= 1,
+        "Abandon must receive 50% of legitimate progress")
+
+    -- 4. Endless Checkpoints (Wave 60 + 3 checkpoints = Wave 75, Hard difficulty = 1.15x)
+    local endlessRewards = ProgressionCurves.CalculateMatchRewards({
+        completedWaves = 60,
+        isFullClear = true,
+        difficulty = "hard",
+        outcome = "loss",
+        endlessCheckpoints = 3,
+    })
+    -- Base Account = (1200 + 300) * 1.15 = 1725 + (3 * 80 * 1.15 = 276) = 2001
+    assert(endlessRewards.accountXp == 2001, "Endless Hard Account XP should be 2001, got: " .. endlessRewards.accountXp)
+end)
+
+test("progression manager coordinates profile, idempotent rewards, difficulty unlock, and storage migration", function()
+    local localAdapter = StorageAdapter.LocalStorageAdapter.New()
+    ProgressionManager:Init(localAdapter, nil, nil)
+
+    -- Mock player 0 hero
+    local heroMock = {
+        IsNull = function() return false end,
+        GetUnitName = function() return "npc_dota_hero_juggernaut" end,
+    }
+    PlayerResource.heroes[0] = heroMock
+
+    -- Load player 0
+    local profile = ProgressionManager:LoadPlayer(0, "steam_76561198000000001")
+    assert(profile ~= nil)
+    assert(profile.highestDifficultyUnlocked == "normal")
+
+    -- 1. Award rewards for Match 101 (Full clear Normal, Win)
+    local summary1, err1 = ProgressionManager:AwardMatchRewards(0, "match_101", {
+        completedWaves = 60,
+        isFullClear = true,
+        difficulty = "normal",
+        outcome = "win",
+        heroId = "npc_dota_hero_juggernaut",
+    })
+    assert(summary1 ~= nil, "First award must succeed")
+    assert(summary1.accountXpEarned == 1725)
+    assert(profile.highestDifficultyUnlocked == "hard", "Full clear on Normal must unlock Hard difficulty")
+    assert(profile.processedMatchIds["match_101"] == true)
+
+    -- 2. Idempotency test: duplicate award for Match 101 must be rejected
+    local summary2, err2 = ProgressionManager:AwardMatchRewards(0, "match_101", {
+        completedWaves = 60,
+        isFullClear = true,
+        difficulty = "normal",
+        outcome = "win",
+    })
+    assert(summary2 == nil, "Duplicate reward must be rejected")
+    assert(err2 == "duplicate_match", "Error must be duplicate_match")
+
+    -- 3. Storage schema migration test
+    local legacyRawProfile = {
+        schemaVersion = 0,
+        steamId = "legacy_steam_user",
+        accountLevel = 10,
+        accountXp = 100,
+        legacy = { offense = 8, defense = 8, economy = 8, spellbringer = 8 }, -- corrupted 32 points (>5 points for lvl 10)
+    }
+    local migrated = StorageAdapter.MigrateProfile(legacyRawProfile)
+    assert(migrated.schemaVersion == 1, "Must migrate to schema v1")
+    assert(migrated.unspentLegacyPoints == 5, "Must reset corrupted points to max earned (10 / 2 = 5)")
+    assert(migrated.legacy.offense == 0, "Corrupted branch allocations must be safely reset")
+end)
+
 print(string.format("%d Lua behavior tests passed (mock engine; live tests separate).", passed))
 
 

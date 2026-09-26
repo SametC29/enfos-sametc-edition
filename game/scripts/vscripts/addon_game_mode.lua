@@ -49,4 +49,6 @@ function Activate()
 	require("economy/ascended_shop"):Init(economyManager)
 	local boonManager = require("boons/boon_manager")
 	boonManager:Init(WaveManager, economyManager, require("spellbringer/spellbringer_service"))
+	local progressionManager = require("progression/progression_manager")
+	progressionManager:Init(nil, WaveManager, require("waves/life_core"))
 end

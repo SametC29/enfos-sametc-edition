@@ -7,5 +7,6 @@
 		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/economy.xml" />
 		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/ascended_shop.xml" />
 		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/boon_vote.xml" />
+		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/progression.xml" />
 	</Panel>
 </root>

@@ -626,6 +626,21 @@
     "enfos_boon_greed_pact": "Açgözlülük Paktı",
     "enfos_boon_greed_pact_desc": "Kazanılan altını %35 artırır, ancak gelen dalga yaratıklarının canını %25 yükseltir (Risk / Ödül Paktı).",
     "enfos_boon_arcane_pact": "Gizemli Pakt",
-    "enfos_boon_arcane_pact_desc": "Spellbringer mana yenilenmesini saniyede +4.0 artırır, ancak azami Spellbringer manasını 50 azaltır (Risk / Ödül Paktı)."
+    "enfos_boon_arcane_pact_desc": "Spellbringer mana yenilenmesini saniyede +4.0 artırır, ancak azami Spellbringer manasını 50 azaltır (Risk / Ödül Paktı).",
+    "enfos_progression_title": "Kalıcı İlerleme",
+    "enfos_account_level": "Hesap Seviyesi",
+    "enfos_legacy_title": "Miras Ağacı",
+    "enfos_legacy_unspent": "Kullanılabilir Miras Puanı",
+    "enfos_legacy_respec": "Puanları Sıfırla",
+    "enfos_legacy_offense": "Saldırı Mirası",
+    "enfos_legacy_offense_bonus": "PvE Hasarı",
+    "enfos_legacy_defense": "Savunma Mirası",
+    "enfos_legacy_defense_bonus": "Azami Can",
+    "enfos_legacy_economy": "Ekonomi Mirası",
+    "enfos_legacy_economy_bonus": "Altın Verimi",
+    "enfos_legacy_spellbringer": "Büyücü Mirası",
+    "enfos_legacy_spellbringer_bonus": "Büyücü Verimi",
+    "enfos_unlocked_difficulty": "Açık En Yüksek Zorluk",
+    "enfos_hero_mastery": "Kahraman Ustalığı"
   }
 }
