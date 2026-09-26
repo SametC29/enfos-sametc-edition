@@ -5,6 +5,7 @@
 --------------------------------------------------------------------------------
 
 require("enfos_sametc")
+local WaveManager = require("waves/wave_manager")
 
 function Precache(context)
 	PrecacheResource("particle", "particles/rain_fx/coloseum_terrain_motes.vpcf", context)
@@ -19,4 +20,5 @@ end
 function Activate()
 	GameRules.EnfosSametC = EnfosSametC()
 	GameRules.EnfosSametC:InitGameMode()
+	WaveManager:Init()
 end

@@ -294,4 +294,665 @@
 			}
 		}
 	}
+
+	// =========================================================================
+	// Creep Archetype Abilities
+	// =========================================================================
+
+	"enfos_creep_runner_passive"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"		"slark_shadow_dance"
+		"MaxLevel"					"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"bonus_ms"			"100"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_enfos_creep_runner_passive"
+			{
+				"Passive"			"1"
+				"IsBuff"			"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT" "%bonus_ms"
+				}
+			}
+		}
+	}
+
+	"enfos_creep_frostguard_aura"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"		"crystal_maiden_brilliance_aura"
+		"MaxLevel"					"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"500"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"slow_pct"			"-25"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_enfos_creep_frostguard_aura"
+			{
+				"Passive"			"1"
+				"IsBuff"			"1"
+				"Aura"				"modifier_enfos_creep_frostguard_slow"
+				"Aura_Radius"		"%radius"
+				"Aura_Teams"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
+				"Aura_Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+			}
+			"modifier_enfos_creep_frostguard_slow"
+			{
+				"IsDebuff"			"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%slow_pct"
+				}
+			}
+		}
+	}
+
+	"enfos_creep_venomous_poison"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"		"venomancer_poison_sting"
+		"MaxLevel"					"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"poison_damage"		"15"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"duration"			"3.0"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_enfos_creep_venomous_passive"
+			{
+				"Passive"			"1"
+				"IsBuff"			"1"
+				"OnAttackLanded"
+				{
+					"ApplyModifier"
+					{
+						"ModifierName"	"modifier_enfos_creep_venomous_debuff"
+						"Target"		"TARGET"
+						"Duration"		"%duration"
+					}
+				}
+			}
+			"modifier_enfos_creep_venomous_debuff"
+			{
+				"IsDebuff"			"1"
+				"ThinkInterval"		"1.0"
+				"OnIntervalThink"
+				{
+					"Damage"
+					{
+						"Target"		"TARGET"
+						"Type"			"DAMAGE_TYPE_MAGICAL"
+						"Damage"		"%poison_damage"
+					}
+				}
+			}
+		}
+	}
+
+	"enfos_creep_healer_heal"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"		"dazzle_shadow_wave"
+		"AbilityCooldown"			"8.0"
+		"AbilityCastRange"			"500"
+		"MaxLevel"					"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"heal_amount"		"200"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"500"
+			}
+		}
+
+		"OnSpellStart"
+		{
+			"ActOnTargets"
+			{
+				"Target"
+				{
+					"Center"		"CASTER"
+					"Radius"		"%radius"
+					"Teams"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+					"Types"			"DOTA_UNIT_TARGET_BASIC"
+				}
+				"Action"
+				{
+					"Heal"
+					{
+						"Target"	"TARGET"
+						"HealAmount" "%heal_amount"
+					}
+				}
+			}
+		}
+	}
+
+	"enfos_creep_shieldbearer_carapace"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"		"centaur_hoof_stomp"
+		"MaxLevel"					"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"bonus_armor"		"8"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage_block"		"25"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_enfos_creep_shieldbearer_passive"
+			{
+				"Passive"			"1"
+				"IsBuff"			"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
+					"MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK" "%damage_block"
+				}
+			}
+		}
+	}
+
+	"enfos_creep_mindstealer_burn"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"		"antimage_mana_break"
+		"MaxLevel"					"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"mana_burn"			"30"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"burn_damage"		"30"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_enfos_creep_mindstealer_passive"
+			{
+				"Passive"			"1"
+				"IsBuff"			"1"
+				"OnAttackLanded"
+				{
+					"ManaBurn"
+					{
+						"Target"		"TARGET"
+						"ManaBurn"		"%mana_burn"
+						"DamagePerMana"	"1.0"
+					}
+				}
+			}
+		}
+	}
+
+	"enfos_creep_conqueror_slam"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"		"centaur_hoof_stomp"
+		"AbilityCooldown"			"10.0"
+		"AbilityCastRange"			"350"
+		"MaxLevel"					"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"150"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"stun_duration"		"1.5"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"350"
+			}
+		}
+
+		"OnSpellStart"
+		{
+			"ActOnTargets"
+			{
+				"Target"
+				{
+					"Center"		"CASTER"
+					"Radius"		"%radius"
+					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+				}
+				"Action"
+				{
+					"Damage"
+					{
+						"Target"	"TARGET"
+						"Type"		"DAMAGE_TYPE_PHYSICAL"
+						"Damage"	"%damage"
+					}
+					"ApplyModifier"
+					{
+						"ModifierName" "modifier_stunned"
+						"Target"	"TARGET"
+						"Duration"	"%stun_duration"
+					}
+				}
+			}
+		}
+	}
+
+	"enfos_creep_assassin_stealth"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"		"riki_permanent_invisibility"
+		"MaxLevel"					"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"bonus_damage"		"80"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_enfos_creep_assassin_passive"
+			{
+				"Passive"			"1"
+				"IsBuff"			"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
+				}
+			}
+		}
+	}
+
+	"enfos_creep_summoner_raise"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"		"undying_tombstone"
+		"AbilityCooldown"			"15.0"
+		"MaxLevel"					"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"summon_count"		"2"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"duration"			"20.0"
+			}
+		}
+
+		"OnSpellStart"
+		{
+			"SpawnUnit"
+			{
+				"UnitName"			"enfos_creep_skeleton"
+				"UnitCount"			"%summon_count"
+				"Target"			"CASTER"
+				"Duration"			"%duration"
+			}
+		}
+	}
+
+	"enfos_creep_spellguard_ward"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"		"antimage_counterspell"
+		"MaxLevel"					"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"magic_resist"		"40"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_enfos_creep_spellguard_passive"
+			{
+				"Passive"			"1"
+				"IsBuff"			"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS" "%magic_resist"
+				}
+			}
+		}
+	}
+
+	"enfos_creep_reflector_spikes"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"		"spectre_dispersion"
+		"MaxLevel"					"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"reflect_pct"		"25"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_enfos_creep_reflector_passive"
+			{
+				"Passive"			"1"
+				"IsBuff"			"1"
+			}
+		}
+	}
+
+	"enfos_creep_exploder_burst"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"		"techies_suicide"
+		"MaxLevel"					"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"250"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"400"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_enfos_creep_exploder_passive"
+			{
+				"Passive"			"1"
+				"IsBuff"			"1"
+				"OnDeath"
+				{
+					"ActOnTargets"
+					{
+						"Target"
+						{
+							"Center"	"CASTER"
+							"Radius"	"%radius"
+							"Teams"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
+							"Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+						}
+						"Action"
+						{
+							"Damage"
+							{
+								"Target" "TARGET"
+								"Type"	 "DAMAGE_TYPE_MAGICAL"
+								"Damage" "%damage"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	"enfos_creep_bloodbeast_feast"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"		"bloodseeker_blood_bath"
+		"MaxLevel"					"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"lifesteal_pct"		"30"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_enfos_creep_bloodbeast_passive"
+			{
+				"Passive"			"1"
+				"IsBuff"			"1"
+			}
+		}
+	}
+
+	"enfos_creep_cursecaster_amplify"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO"
+		"AbilityTextureName"		"shadow_demon_soul_catcher"
+		"AbilityCooldown"			"12.0"
+		"AbilityCastRange"			"500"
+		"MaxLevel"					"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage_amplification" "20"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"duration"			"5.0"
+			}
+		}
+
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"ModifierName"		"modifier_enfos_creep_cursecaster_debuff"
+				"Target"			"TARGET"
+				"Duration"			"%duration"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_enfos_creep_cursecaster_debuff"
+			{
+				"IsDebuff"			"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE" "%damage_amplification"
+				}
+			}
+		}
+	}
+
+	// =========================================================================
+	// Boss Signature Abilities
+	// =========================================================================
+
+	"enfos_boss_stonebreaker_slam"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"		"tiny_avalanche"
+		"AbilityCooldown"			"10.0"
+		"AbilityCastRange"			"450"
+		"MaxLevel"					"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"350"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"stun_duration"		"2.0"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"450"
+			}
+		}
+
+		"OnSpellStart"
+		{
+			"ActOnTargets"
+			{
+				"Target"
+				{
+					"Center"		"CASTER"
+					"Radius"		"%radius"
+					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+				}
+				"Action"
+				{
+					"Damage"
+					{
+						"Target"	"TARGET"
+						"Type"		"DAMAGE_TYPE_PHYSICAL"
+						"Damage"	"%damage"
+					}
+					"ApplyModifier"
+					{
+						"ModifierName" "modifier_stunned"
+						"Target"	"TARGET"
+						"Duration"	"%stun_duration"
+					}
+				}
+			}
+		}
+	}
+
+	"enfos_boss_bloodfang_enrage"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"		"lycan_shapeshift"
+		"MaxLevel"					"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"enrage_hp_pct"		"40"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"bonus_attack_speed" "100"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"bonus_lifesteal"	"40"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_enfos_boss_bloodfang_passive"
+			{
+				"Passive"			"1"
+				"IsBuff"			"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
+				}
+			}
+		}
+	}
 }
+
