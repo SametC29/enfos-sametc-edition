@@ -27,6 +27,7 @@ end
 --------------------------------------------------------------------------------
 function EnfosSametC:InitGameMode()
 	self.buildVersion = ReadBuildVersion()
+	self.playerCouriers = {}
 
 	Log:Info("system", "========================================")
 	Log:Info("system", "Enfos Team Survival — SametC Edition")
@@ -47,11 +48,10 @@ function EnfosSametC:InitGameMode()
 	GameRules:SetShowcaseTime(0.0)
 	GameRules:SetPreGameTime(10.0)
 	GameRules:SetPostGameTime(60.0)
-	GameRules:SetSameHeroSelectionPreserveNPCAcquisition(true)
+	GameRules:SetSameHeroSelectionEnabled(true)
 
 	-- Full Map Vision & Disable Fog of War (FOG kaldırıldı)
 	gameMode:SetFogOfWarDisabled(true)
-	GameRules:SetWeatherEffects(false)
 	gameMode:SetUnseenFogOfWarEnabled(false)
 
 	-- Flying Courier & Shop/Inventory Rules (Phase 1 POC 2)
@@ -104,11 +104,32 @@ function EnfosSametC:OnNPCSpawned(event)
 	local spawnedUnit = EntIndexToHScript(event.entindex)
 	if not spawnedUnit or spawnedUnit:IsNull() then return end
 
-	-- Phase 1 POC 2: Courier Protection
-	-- Couriers must be invulnerable, un-targetable by PvE creeps, and fly
+	-- Phase 1 POC 2: Personal Turbo Flying Courier for each player
+	if spawnedUnit:IsRealHero() then
+		local playerId = spawnedUnit:GetPlayerID()
+		if playerId and not self.playerCouriers[playerId] then
+			local team = spawnedUnit:GetTeamNumber()
+			local spawnPos = spawnedUnit:GetAbsOrigin() + Vector(120, 0, 0)
+			local courier = CreateUnitByName("npc_dota_courier", spawnPos, true, spawnedUnit, spawnedUnit, team)
+			if courier and not courier:IsNull() then
+				courier:SetControllableByPlayer(playerId, true)
+				courier:SetOwner(spawnedUnit)
+				courier:AddNewModifier(courier, nil, "modifier_courier_flying", {})
+				courier:AddNewModifier(courier, nil, "modifier_invulnerable", {})
+				courier:AddNewModifier(courier, nil, "modifier_phased", {})
+				courier:SetBaseMoveSpeed(1100)
+				self.playerCouriers[playerId] = courier
+				Log:Info("courier", "Spawned personal flying turbo courier for player %d (team %d).", playerId, team)
+			end
+		end
+	end
+
+	-- Reinforce courier modifiers
 	if spawnedUnit:IsCourier() then
+		spawnedUnit:AddNewModifier(spawnedUnit, nil, "modifier_courier_flying", {})
 		spawnedUnit:AddNewModifier(spawnedUnit, nil, "modifier_invulnerable", {})
 		spawnedUnit:AddNewModifier(spawnedUnit, nil, "modifier_phased", {})
-		Log:Info("system", "Configured invulnerable flying courier.")
+		spawnedUnit:SetBaseMoveSpeed(1100)
+		Log:Info("courier", "Configured invulnerable flying turbo courier.")
 	end
 end

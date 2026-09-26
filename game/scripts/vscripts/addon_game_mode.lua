@@ -12,6 +12,8 @@ function Precache(context)
 	PrecacheResource("particle", "particles/units/heroes/hero_axe/axe_beserkers_call_owner.vpcf", context)
 	PrecacheResource("particle", "particles/units/heroes/hero_sven/sven_spell_gods_strength.vpcf", context)
 	PrecacheResource("particle", "particles/units/heroes/hero_sven/sven_gods_strength_hero_effect.vpcf", context)
+	PrecacheUnitByNameSync("npc_dota_courier", context)
+	PrecacheUnitByNameSync("npc_dota_flying_courier", context)
 end
 
 function Activate()

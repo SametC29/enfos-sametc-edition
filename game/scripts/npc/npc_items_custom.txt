@@ -5,6 +5,127 @@
 
 "DOTAItems"
 {
-	// Ascended items will be added in Phase 8.
-	// Formula: required normal Dota item + Lumber → Ascended version.
+	// =========================================================================
+	// ASCENDED ITEM PROTOTYPE 1: Worldheart (Heart of Tarrasque -> Worldheart)
+	// Base item: item_heart + Lumber -> item_ascended_worldheart
+	// =========================================================================
+	"item_ascended_worldheart"
+	{
+		"BaseClass"					"item_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"		"item_heart"
+		"Model"						"models/props_gameplay/red_box.vmdl"
+		"ItemCost"					"5000"
+		"ItemShopTags"				"artifacts;hard_to_tag"
+		"ItemQuality"				"artifact"
+		"ItemAliases"				"worldheart;heart"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"bonus_strength"	"50"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"bonus_health"		"600"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"health_regen_pct"	"2.5"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_item_ascended_worldheart"
+			{
+				"Passive"			"1"
+				"IsBuff"			"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_strength"
+					"MODIFIER_PROPERTY_HEALTH_BONUS" "%bonus_health"
+					"MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE" "%health_regen_pct"
+				}
+			}
+		}
+	}
+
+	// =========================================================================
+	// ASCENDED ITEM PROTOTYPE 2: Thornplate (Blade Mail -> Thornplate)
+	// Base item: item_blade_mail + Lumber -> item_ascended_thornplate
+	// =========================================================================
+	"item_ascended_thornplate"
+	{
+		"BaseClass"					"item_datadriven"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"		"item_blade_mail"
+		"AbilityCastPoint"			"0.0"
+		"AbilityCooldown"			"20.0"
+		"AbilityManaCost"			"50"
+		"ItemCost"					"2100"
+		"ItemQuality"				"artifact"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"bonus_armor"		"8"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"bonus_damage"		"30"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"duration"			"5.5"
+			}
+		}
+
+		"OnSpellStart"
+		{
+			"FireSound"
+			{
+				"EffectName"		"DOTA_Item.BladeMail.Activate"
+				"Target"			"CASTER"
+			}
+			"ApplyModifier"
+			{
+				"ModifierName"		"modifier_item_ascended_thornplate_active"
+				"Target"			"CASTER"
+				"Duration"			"%duration"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_item_ascended_thornplate_passive"
+			{
+				"Passive"			"1"
+				"IsBuff"			"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
+				}
+			}
+			"modifier_item_ascended_thornplate_active"
+			{
+				"IsBuff"			"1"
+				"EffectName"		"particles/items_fx/blade_mail.vpcf"
+				"EffectAttachType"	"follow_origin"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE" "-25"
+				}
+			}
+		}
+	}
 }
