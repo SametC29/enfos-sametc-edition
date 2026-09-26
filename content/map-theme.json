@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "workshopId": "3591082091",
+  "referenceTitle": "Enfos survival",
+  "map": "enfos",
+  "theme": "autumn-forest-stone-paths",
+  "materials": {
+    "materials/blends/mod_mines_path_000.vmat_c": "materials/blends/mod_radiant_autumn_path_000.vmat_c",
+    "materials/blends/mod_radiant_path_destruction_000.vmat_c": "materials/blends/mod_radiant_autumn_path_000.vmat_c",
+    "maps/jungle_assets/blends/radiant_jungle_01.vmat_c": "materials/blends/mod_radiant_autumn_000.vmat_c",
+    "materials/blends/mod_dire_rockwall_000.vmat_c": "materials/blends/rockwalls_radiant_fall.vmat_c",
+    "materials/overlays/leaves_white000.vmat_c": "materials/overlays/leaves_fall000.vmat_c"
+  },
+  "tints": {
+    "maps/jungle_assets/trees/kapok/kapok_leaves.vmat_c": [1.8, 0.65, 0.12],
+    "maps/jungle_assets/trees/kapok/kapok_leaves_fade.vmat_c": [1.8, 0.65, 0.12]
+  }
+}

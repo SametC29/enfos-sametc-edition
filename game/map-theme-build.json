@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "referenceTitle": "Enfos survival",
+  "workshopId": "3591082091",
+  "theme": "autumn-forest-stone-paths",
+  "configSha256": "67b0a5a4993eab544f911f905405b613ac97eabca82d91775c9a357a59b2d3fe",
+  "files": [
+    {
+      "path": "maps/enfos.vpk",
+      "source": "maps/enfos.vpk",
+      "sha256": "b1fa84fd3d14becfd0fc29e6fec16e0ca6115837090bc72bf6bca2f06ba4fa51"
+    },
+    {
+      "path": "maps/enfos_sametc.vpk",
+      "source": "maps/enfos.vpk",
+      "sha256": "b1fa84fd3d14becfd0fc29e6fec16e0ca6115837090bc72bf6bca2f06ba4fa51"
+    },
+    {
+      "path": "materials/overviews/enfos.vmat_c",
+      "source": "materials/overviews/enfos.vmat_c",
+      "sha256": "10a6250a61642b1956e83e0f27024b6d7a5a8cd41334b55cddfa2543795c10a1"
+    },
+    {
+      "path": "materials/overviews/enfos_tga_5c43ce9c.vtex_c",
+      "source": "materials/overviews/enfos_tga_5c43ce9c.vtex_c",
+      "sha256": "7be1188978bdf7f2779904c4959beec890dadf09f7821b1427939142e7d04a0d"
+    },
+    {
+      "path": "materials/blends/mod_mines_path_000.vmat_c",
+      "source": "materials/blends/mod_radiant_autumn_path_000.vmat_c",
+      "sha256": "d9cbb3cbfdbe3270276dab99d8912c61dfea120cdbd5b879ae340bf8b1ac69ae"
+    },
+    {
+      "path": "materials/blends/mod_radiant_path_destruction_000.vmat_c",
+      "source": "materials/blends/mod_radiant_autumn_path_000.vmat_c",
+      "sha256": "d9cbb3cbfdbe3270276dab99d8912c61dfea120cdbd5b879ae340bf8b1ac69ae"
+    },
+    {
+      "path": "maps/jungle_assets/blends/radiant_jungle_01.vmat_c",
+      "source": "materials/blends/mod_radiant_autumn_000.vmat_c",
+      "sha256": "35e957f0d9b11cd2f03adbebd1c1a8104a0ae730fca30257ce5acb40fa22600a"
+    },
+    {
+      "path": "materials/blends/mod_dire_rockwall_000.vmat_c",
+      "source": "materials/blends/rockwalls_radiant_fall.vmat_c",
+      "sha256": "ad9a498ab256e56b0175e9a192d2f2064878a76f58f1c337dc907d393b8aad46"
+    },
+    {
+      "path": "materials/overlays/leaves_white000.vmat_c",
+      "source": "materials/overlays/leaves_fall000.vmat_c",
+      "sha256": "396e355f2bd475a48488ce84a091934342745c0af15ae92602f1beb58d65b313"
+    },
+    {
+      "path": "maps/jungle_assets/trees/kapok/kapok_leaves.vmat_c",
+      "source": "maps/jungle_assets/trees/kapok/kapok_leaves.vmat_c",
+      "sha256": "58c2cf250acedd68b2a015fbcc4f82b4cc7df23d1b8686a23f6d01b64a3f6486"
+    },
+    {
+      "path": "maps/jungle_assets/trees/kapok/kapok_leaves_fade.vmat_c",
+      "source": "maps/jungle_assets/trees/kapok/kapok_leaves_fade.vmat_c",
+      "sha256": "9e7c8d8a1edf6a01e5c0a3d28d52a4bb69d86e8d8f18a3c74d9b1ea8d7e368d8"
+    }
+  ],
+  "tints": [
+    {
+      "path": "maps/jungle_assets/trees/kapok/kapok_leaves.vmat_c",
+      "offset": 7592,
+      "rgb": [
+        1.8,
+        0.65,
+        0.12
+      ],
+      "originalSha256": "d44d424c0250cda803c5d5e856552aca825ec9ad5c6b07e484318b23db6bbe41"
+    },
+    {
+      "path": "maps/jungle_assets/trees/kapok/kapok_leaves_fade.vmat_c",
+      "offset": 5756,
+      "rgb": [
+        1.8,
+        0.65,
+        0.12
+      ],
+      "originalSha256": "08696414c810db6963fb0b1a7ecd23f6b85e4206623c9cf7055905f949215788"
+    }
+  ]
+}
