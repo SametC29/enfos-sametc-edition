@@ -67,6 +67,10 @@ local UNIT_LEAK_TYPES = {
 	["enfos_creep_spiderling"] = "summon",
 	["enfos_creep_skeleton"] = "summon",
 	["enfos_creep_minion"] = "summon",
+	["enfos_spellbringer_war_standard"] = "summon",
+	["enfos_spellbringer_thorn_idol"] = "summon",
+	["enfos_spellbringer_void_stalker"] = "summon",
+	["enfos_spellbringer_reinforcement"] = "summon",
 }
 
 -- Authoritative wave table (1..60)

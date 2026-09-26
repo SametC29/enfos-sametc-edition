@@ -183,8 +183,13 @@ end)
 
 -- =========================================================================
 -- Life Core Tests
--- =========================================================================
-function Vector(x, y, z) return {x = x, y = y, z = z} end
+local vecMeta = {
+    __add = function(a, b) return Vector((a.x or 0) + (b.x or 0), (a.y or 0) + (b.y or 0), (a.z or 0) + (b.z or 0)) end,
+    __sub = function(a, b) return Vector((a.x or 0) - (b.x or 0), (a.y or 0) - (b.y or 0), (a.z or 0) - (b.z or 0)) end,
+}
+function Vector(x, y, z)
+    return setmetatable({x = x or 0, y = y or 0, z = z or 0}, vecMeta)
+end
 function EmitGlobalSound() end
 function ScreenShake() end
 function UTIL_Remove() end
@@ -320,5 +325,235 @@ test("rewards distribute shared gold and award killer bonus, leak gives zero", f
     assert(leakResolved == false)
 end)
 
+-- =========================================================================
+-- Spellbringer Tests (Phase 5)
+-- =========================================================================
+local SpellbringerService = require("spellbringer/spellbringer_service")
+
+DOTA_UNIT_TARGET_TEAM_FRIENDLY = 1
+DOTA_UNIT_TARGET_TEAM_ENEMY = 2
+DOTA_UNIT_TARGET_HERO = 1
+DOTA_UNIT_TARGET_BASIC = 2
+DOTA_UNIT_TARGET_FLAG_NONE = 0
+
+-- Mock engine APIs for Spellbringer tests
+CreateUnitByName = CreateUnitByName or function(unitName, pos, bFindClearSpace, npcOwner, entityOwner, team)
+    return {
+        IsNull = function() return false end,
+        IsAlive = function() return true end,
+        GetUnitName = function() return unitName end,
+        GetTeamNumber = function() return team end,
+        GetAbsOrigin = function() return pos end,
+        AddNewModifier = function(self, caster, ability, modName, kv) end,
+        RemoveModifierByName = function(self, modName) self[modName] = nil end,
+        EmitSound = function() end,
+        SetIdleAcquire = function() end,
+        SetAcquisitionRange = function() end,
+        GetMaxHealth = function() return 500 end,
+        SetMaxHealth = function(self, h) self.maxHealth = h end,
+        SetHealth = function(self, h) self.health = h end,
+        GetBaseDamageMin = function() return 30 end,
+        SetBaseDamageMin = function() end,
+        GetBaseDamageMax = function() return 40 end,
+        SetBaseDamageMax = function() end,
+        ForceKill = function() end,
+    }
+end
+
+FindUnitsInRadius = FindUnitsInRadius or function() return {} end
+ApplyDamage = ApplyDamage or function() end
+FindClearSpaceForUnit = FindClearSpaceForUnit or function() end
+CreateModifierThinker = CreateModifierThinker or function() end
+AddFOWViewer = AddFOWViewer or function() end
+
+test("spellbringer initializes with 100 mana and regenerates over time", function()
+    SpellbringerService:Init(nil)
+    assert(SpellbringerService:GetMana(0) == 100, "Starting mana should be 100")
+    assert(SpellbringerService:GetMaxMana(0) == 200, "Max mana should be 200")
+
+    -- Consume mana down to 50
+    SpellbringerService:SetMana(0, 50)
+    assert(SpellbringerService:GetMana(0) == 50)
+
+    -- OnThink(1.0) with default regen (2.5/s) should regenerate 2.5 mana -> 52.5
+    SpellbringerService:OnThink(1.0)
+    assert(SpellbringerService:GetMana(0) == 52.5, "Mana should regenerate by 2.5 after 1 second")
+
+    -- Mana should not exceed max_mana
+    SpellbringerService:SetMana(0, 199)
+    SpellbringerService:OnThink(2.0)
+    assert(SpellbringerService:GetMana(0) == 200, "Mana should not exceed max_mana")
+end)
+
+test("spellbringer cast enforces mana cost and cooldown, rejects duplicate/unfunded cast", function()
+    SpellbringerService:Init(nil)
+    SpellbringerService.isCoop = false
+    SpellbringerService:SetMana(0, 50)
+
+    -- Arcane barrier costs 45
+    local canCast, reason = SpellbringerService:CanCast(0, "spellbringer_arcane_barrier")
+    assert(canCast == true, "Player should have enough mana for arcane barrier")
+
+    -- Whole displacement costs 80, player has 50 -> should fail
+    local canCastWD, reasonWD = SpellbringerService:CanCast(0, "spellbringer_whole_displacement")
+    assert(canCastWD == false and reasonWD == "INSUFFICIENT_MANA", "Should reject with INSUFFICIENT_MANA")
+
+    -- Cast arcane barrier: mana goes 50 -> 5, cooldown set to 20s
+    local castOk = SpellbringerService:CastSpell(0, "spellbringer_arcane_barrier", nil, nil)
+    assert(castOk == true, "Cast should succeed")
+    assert(SpellbringerService:GetMana(0) == 5, "Mana should be deducted to 5")
+    assert(SpellbringerService:GetCooldownRemaining(0, "spellbringer_arcane_barrier") == 20.0, "Cooldown should be 20s")
+
+    -- Immediate recast fails with INSUFFICIENT_MANA (or ON_COOLDOWN)
+    local canRecast, recastReason = SpellbringerService:CanCast(0, "spellbringer_arcane_barrier")
+    assert(canRecast == false)
+
+    -- Reset mana to 100, recast should still fail because of cooldown
+    SpellbringerService:SetMana(0, 100)
+    local canRecastWithMana, cdReason = SpellbringerService:CanCast(0, "spellbringer_arcane_barrier")
+    assert(canRecastWithMana == false and cdReason == "ON_COOLDOWN", "Should fail due to ON_COOLDOWN")
+
+    -- Advance time by 20 seconds, cooldown decays to 0
+    SpellbringerService:OnThink(20.0)
+    assert(SpellbringerService:GetCooldownRemaining(0, "spellbringer_arcane_barrier") == 0, "Cooldown should be expired")
+    assert(SpellbringerService:CanCast(0, "spellbringer_arcane_barrier") == true, "Should be castable again after cooldown")
+end)
+
+test("coop mode disables offensive spellbringer abilities while keeping defensive", function()
+    SpellbringerService:Init(nil)
+    SpellbringerService.isCoop = true
+    SpellbringerService:SetMana(0, 200)
+
+    -- Offensive abilities must fail
+    local canOffensive, offReason = SpellbringerService:CanCast(0, "spellbringer_rift_surge")
+    assert(canOffensive == false and offReason == "COOP_OFFENSIVE_DISABLED", "Offensive ability must be disabled in co-op")
+
+    local canBarrier, barReason = SpellbringerService:CanCast(0, "spellbringer_arcane_barrier")
+    assert(canBarrier == false and barReason == "COOP_OFFENSIVE_DISABLED")
+
+    -- Defensive abilities must remain allowed
+    local canReveal = SpellbringerService:CanCast(0, "spellbringer_reveal")
+    assert(canReveal == true, "Defensive ability should remain castable in co-op")
+
+    local canPurify = SpellbringerService:CanCast(0, "spellbringer_purification")
+    assert(canPurify == true, "Purification should remain castable in co-op")
+
+    local canReinforce = SpellbringerService:CanCast(0, "spellbringer_future_reinforcements")
+    assert(canReinforce == true, "Future reinforcements should remain castable in co-op")
+end)
+
+test("purification dispels spellbringer buffs and destroys summons", function()
+    SpellbringerService:Init(nil)
+    SpellbringerService.isCoop = false
+    SpellbringerService:SetMana(0, 200)
+
+    local removedModifiers = {}
+    local damagedUnits = {}
+
+    local hostileCreep = {
+        IsNull = function() return false end,
+        IsAlive = function() return true end,
+        GetUnitName = function() return "enfos_creep_soldier" end,
+        is_spellbringer_summon = false,
+        RemoveModifierByName = function(self, mod) removedModifiers[mod] = true end,
+    }
+
+    local hostileSummon = {
+        IsNull = function() return false end,
+        IsAlive = function() return true end,
+        GetUnitName = function() return "enfos_spellbringer_war_standard" end,
+        is_spellbringer_summon = true,
+        RemoveModifierByName = function() end,
+    }
+
+    local alliedHero = {
+        IsNull = function() return false end,
+        IsAlive = function() return true end,
+        purged = false,
+        Purge = function(self, bRemovePositiveBuffs, bRemoveDebuffs, bFrameOnly, bRemoveStuns, bRemoveExceptions)
+            self.purged = true
+        end,
+    }
+
+    local originalFind = FindUnitsInRadius
+    FindUnitsInRadius = function(team, pos, cache, radius, targetTeam, targetType, flags, order, bHelp)
+        if targetTeam == DOTA_UNIT_TARGET_TEAM_ENEMY then
+            return { hostileCreep, hostileSummon }
+        elseif targetTeam == DOTA_UNIT_TARGET_TEAM_FRIENDLY then
+            return { alliedHero }
+        end
+        return {}
+    end
+
+    local originalDamage = ApplyDamage
+    ApplyDamage = function(kv)
+        damagedUnits[#damagedUnits+1] = kv
+    end
+
+    local ok = SpellbringerService:CastSpell(0, "spellbringer_purification", Vector(0,0,0), nil)
+    assert(ok == true)
+    assert(removedModifiers["modifier_spellbringer_arcane_barrier"] == true, "Should dispel arcane barrier")
+    assert(removedModifiers["modifier_spellbringer_war_standard_buff"] == true, "Should dispel war standard buff")
+    assert(removedModifiers["modifier_spellbringer_thorn_idol_buff"] == true, "Should dispel thorn idol buff")
+    assert(alliedHero.purged == true, "Allied hero should be purged/cleansed")
+    assert(#damagedUnits == 1 and damagedUnits[1].victim == hostileSummon and damagedUnits[1].damage == 800,
+        "Hostile summon should receive 800 pure counter damage")
+
+    FindUnitsInRadius = originalFind
+    ApplyDamage = originalDamage
+end)
+
+test("future reinforcements summons exactly 5 allied fighters with wave scaling and 0 leak penalty", function()
+    SpellbringerService:Init(nil)
+    SpellbringerService.isCoop = false
+    SpellbringerService:SetMana(0, 200)
+
+    local spawnedUnits = {}
+    local originalCreate = CreateUnitByName
+    CreateUnitByName = function(unitName, pos, bFindClearSpace, npcOwner, entityOwner, team)
+        local u = {
+            name = unitName,
+            team = team,
+            maxHp = 550,
+            baseDmg = 35,
+            GetMaxHealth = function(self) return self.maxHp end,
+            SetMaxHealth = function(self, v) self.maxHp = v end,
+            SetHealth = function() end,
+            GetBaseDamageMin = function(self) return self.baseDmg end,
+            SetBaseDamageMin = function(self, v) self.baseDmg = v end,
+            GetBaseDamageMax = function() return 45 end,
+            SetBaseDamageMax = function() end,
+            SetIdleAcquire = function() end,
+            SetAcquisitionRange = function() end,
+            AddNewModifier = function(self, caster, ability, modName, kv) self.timedLife = kv.duration end,
+        }
+        spawnedUnits[#spawnedUnits+1] = u
+        return u
+    end
+
+    SpellbringerService.waveManager = { currentWave = 10 }
+    local ok = SpellbringerService:CastSpell(0, "spellbringer_future_reinforcements", Vector(0,0,0), nil)
+    assert(ok == true)
+    assert(#spawnedUnits == 5, "Future reinforcements must summon exactly 5 fighters, got: " .. #spawnedUnits)
+
+    for _, unit in ipairs(spawnedUnits) do
+        assert(unit.name == "enfos_spellbringer_reinforcement")
+        assert(unit.is_allied_reinforcement == true)
+        assert(unit.enfosNoReward == true)
+        assert(unit.timedLife == 30.0, "Must have 30s timed life")
+        -- Wave 10 + 4 = 14 -> 14 * 25 = 350 bonus HP -> 550 + 350 = 900
+        assert(unit.maxHp == 900, "HP should scale to wave+4 power")
+    end
+
+    -- Verify leak penalty in wave definitions is 0
+    assert(WaveDefs:GetLeakPenalty("enfos_spellbringer_reinforcement") == 0, "Reinforcement leak penalty must be 0")
+    assert(WaveDefs:GetLeakPenalty("enfos_spellbringer_void_stalker") == 0, "Void stalker leak penalty must be 0")
+    assert(WaveDefs:GetLeakPenalty("enfos_spellbringer_war_standard") == 0, "War standard leak penalty must be 0")
+    assert(WaveDefs:GetLeakPenalty("enfos_spellbringer_thorn_idol") == 0, "Thorn idol leak penalty must be 0")
+
+    CreateUnitByName = originalCreate
+end)
+
 print(string.format("%d Lua behavior tests passed (mock engine; live tests separate).", passed))
+
 

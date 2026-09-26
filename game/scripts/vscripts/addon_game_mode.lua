@@ -32,6 +32,10 @@ function Precache(context)
 	PrecacheResource("particle", "particles/units/heroes/hero_sven/sven_gods_strength_hero_effect.vpcf", context)
 	PrecacheUnitByNameSync("npc_dota_courier", context)
 	PrecacheUnitByNameSync("npc_dota_flying_courier", context)
+	PrecacheUnitByNameSync("enfos_spellbringer_war_standard", context)
+	PrecacheUnitByNameSync("enfos_spellbringer_thorn_idol", context)
+	PrecacheUnitByNameSync("enfos_spellbringer_void_stalker", context)
+	PrecacheUnitByNameSync("enfos_spellbringer_reinforcement", context)
 end
 
 function Activate()
@@ -39,4 +43,5 @@ function Activate()
 	GameRules.EnfosSametC:InitGameMode()
 	WaveManager:Init()
 	require("map/portals"):Init()
+	require("spellbringer/spellbringer_service"):Init(WaveManager)
 end

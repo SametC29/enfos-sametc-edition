@@ -3,5 +3,6 @@
 <root>
 	<Panel>
 		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/wave_hud.xml" />
+		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/spellbringer.xml" />
 	</Panel>
 </root>

@@ -1,0 +1,155 @@
+.SpellbringerHud {
+    horizontal-align: left;
+    vertical-align: bottom;
+    margin-left: 16px;
+    margin-bottom: 230px;
+    flow-children: down;
+    padding: 6px 10px;
+    background-color: #12151deb;
+    border: 1px solid #5a4b7c;
+    border-radius: 4px;
+    box-shadow: #000000aa 0px 0px 8px 0px;
+}
+
+.SpellbringerHeader {
+    flow-children: right;
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+#SpellbringerTitle {
+    color: #c4a7e7;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#SpellbringerCoopNotice {
+    color: #e06c75;
+    font-size: 11px;
+    margin-left: 8px;
+    vertical-align: center;
+    visibility: collapse;
+}
+
+#SpellbringerCoopNotice.Visible {
+    visibility: visible;
+}
+
+.ManaContainer {
+    width: 200px;
+    height: 16px;
+    margin-bottom: 6px;
+}
+
+#ManaProgressBackdrop {
+    width: 100%;
+    height: 100%;
+    background-color: #0b0e14;
+    border: 1px solid #3d4a68;
+    border-radius: 2px;
+}
+
+#ManaProgressBar {
+    width: 50%;
+    height: 100%;
+    background-color: gradient(linear, 0% 0%, 100% 0%, from(#2b5c8f), to(#4a8fe7));
+    transition-property: width;
+    transition-duration: 0.15s;
+}
+
+#SpellbringerManaText {
+    horizontal-align: center;
+    vertical-align: center;
+    color: #ffffff;
+    font-size: 11px;
+    text-shadow: 1px 1px 2px #000000;
+}
+
+.AbilitiesGrid {
+    flow-children: down;
+}
+
+.AbilitiesRow {
+    flow-children: right;
+    margin-bottom: 4px;
+}
+
+.SpellBtn {
+    width: 46px;
+    height: 46px;
+    margin-right: 4px;
+    border-radius: 3px;
+    box-shadow: #00000088 0px 0px 4px 0px;
+    transition-property: brightness, opacity;
+    transition-duration: 0.1s;
+}
+
+.SpellBtn.Offensive {
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#4a1e28), to(#240d14));
+    border: 1px solid #8c3b4d;
+}
+
+.SpellBtn.Defensive {
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#1e334a), to(#0d1824));
+    border: 1px solid #3b688c;
+}
+
+.SpellBtn:hover {
+    brightness: 1.4;
+}
+
+.SpellBtn:active {
+    brightness: 0.8;
+}
+
+.SpellBtn.Disabled {
+    opacity: 0.35;
+    saturation: 0.2;
+}
+
+.SpellBtn.NotEnoughMana {
+    opacity: 0.55;
+    wash-color: #667799;
+}
+
+.SpellShort {
+    horizontal-align: center;
+    vertical-align: center;
+    color: #e4e0ea;
+    font-size: 15px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000000;
+}
+
+.ManaBadge {
+    horizontal-align: right;
+    vertical-align: bottom;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    color: #64b5f6;
+    font-size: 10px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000000;
+}
+
+.CooldownSweep {
+    width: 100%;
+    height: 100%;
+    background-color: #000000cc;
+    visibility: collapse;
+}
+
+.CooldownSweep.Active {
+    visibility: visible;
+}
+
+.CooldownLabel {
+    horizontal-align: center;
+    vertical-align: center;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 0px 0px 4px #000000;
+}
