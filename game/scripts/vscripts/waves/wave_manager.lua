@@ -14,6 +14,7 @@ local Rewards = require("waves/rewards")
 local BossFramework = require("bosses/boss_framework")
 local EliteFramework = require("bosses/elite_framework")
 local EconomyManager = require("economy/economy_manager")
+local BoonManager = require("boons/boon_manager")
 
 local WaveManager = {}
 WaveManager.__index = WaveManager
@@ -435,8 +436,13 @@ function WaveManager:OnEntityKilled(event)
 	if defendingTeam and self.activeCreeps[defendingTeam] then
 		if self.activeCreeps[defendingTeam][killedUnit:entindex()] then
 			Rewards:OnKill(killedUnit, killerUnit)
-			if killedUnit.isBoss and EconomyManager then
-				EconomyManager:AwardBossLumber(defendingTeam, self.currentWave)
+			if killedUnit.isBoss then
+				if EconomyManager then
+					EconomyManager:AwardBossLumber(defendingTeam, self.currentWave)
+				end
+				if BoonManager then
+					BoonManager:StartVote(defendingTeam, self.currentWave)
+				end
 			end
 		end
 		self:OnCreepRemoved(killedUnit, defendingTeam)

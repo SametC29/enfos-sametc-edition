@@ -50,6 +50,23 @@ function LifeCore:SetLife(team, amount)
 end
 
 --------------------------------------------------------------------------------
+-- Restore Life (Boons or Special Mechanics)
+--------------------------------------------------------------------------------
+function LifeCore:RestoreLife(team, amount, reason)
+	if self.isGameOver then return end
+	if amount <= 0 then return end
+
+	local current = self.life[team] or 0
+	local newLife = math.min(LifeCore.STARTING_LIFE, current + amount)
+	self.life[team] = newLife
+
+	Log:Info("life_core", "Team %s restored %d Life (Reason: %s). New Life: %d",
+		tostring(team), amount, tostring(reason or "restore"), newLife)
+
+	self:SyncNetTable()
+end
+
+--------------------------------------------------------------------------------
 -- Apply Damage (Leak or Overflow)
 --------------------------------------------------------------------------------
 function LifeCore:ApplyDamage(team, damage, reason, unitName)

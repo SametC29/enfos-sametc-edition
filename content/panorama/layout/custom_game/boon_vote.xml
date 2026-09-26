@@ -1,0 +1,61 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/dotastyles.css" />
+		<include src="file://{resources}/styles/custom_game/boon_vote.css" />
+	</styles>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/boon_vote.js" />
+	</scripts>
+	<Panel class="BoonVoteRoot" hittest="false">
+		<Panel id="BoonVoteDialog" class="BoonVoteDialog Hidden">
+			<!-- Header -->
+			<Panel class="VoteHeader">
+				<Label class="VoteTitle" text="#enfos_boon_vote_title" />
+				<Label class="VoteSubtitle" text="#enfos_boon_vote_subtitle" />
+				<Panel class="TimerTrack">
+					<Panel id="TimerBar" class="TimerBar" />
+				</Panel>
+				<Label id="TimerNumber" class="TimerNumber" text="10s" />
+			</Panel>
+
+			<!-- 2-Card Selection Container -->
+			<Panel class="CardsRow">
+				<!-- Card 1 -->
+				<Panel id="Card1" class="BoonCard" onactivate="VoteForCard(1)">
+					<Panel class="CardTop">
+						<Label id="Card1Category" class="CategoryBadge" text="OFFENSIVE" />
+						<Label id="Card1Tag" class="TagBadge Hidden" text="TEKİL" />
+					</Panel>
+					<Label id="Card1Title" class="CardTitle" text="Boon 1" />
+					<Label id="Card1Desc" class="CardDesc" text="Description..." />
+					<Panel class="CardFooter">
+						<Label id="Card1Stacks" class="StacksLabel" text="0 / 3" />
+						<Button id="VoteBtn1" class="VoteBtn">
+							<Label id="VoteBtnLabel1" text="OY VER" />
+						</Button>
+					</Panel>
+					<Label id="Card1VoteTally" class="VoteTally" text="0 Oy" />
+				</Panel>
+
+				<Label class="VsDivider" text="VS" />
+
+				<!-- Card 2 -->
+				<Panel id="Card2" class="BoonCard" onactivate="VoteForCard(2)">
+					<Panel class="CardTop">
+						<Label id="Card2Category" class="CategoryBadge" text="DEFENSIVE" />
+						<Label id="Card2Tag" class="TagBadge Hidden" text="TEKİL" />
+					</Panel>
+					<Label id="Card2Title" class="CardTitle" text="Boon 2" />
+					<Label id="Card2Desc" class="CardDesc" text="Description..." />
+					<Panel class="CardFooter">
+						<Label id="Card2Stacks" class="StacksLabel" text="0 / 3" />
+						<Button id="VoteBtn2" class="VoteBtn">
+							<Label id="VoteBtnLabel2" text="OY VER" />
+						</Button>
+					</Panel>
+					<Label id="Card2VoteTally" class="VoteTally" text="0 Oy" />
+				</Panel>
+			</Panel>
+		</Panel>
+	</Panel>
+</root>

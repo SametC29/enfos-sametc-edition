@@ -88,7 +88,7 @@ DOTA_UNIT_ORDER_HOLD_POSITION = 10
 DOTA_UNIT_ORDER_MOVE_TO_POSITION = 1
 PlayerResource = {
     IsValidPlayerID = function(_, id) return id == 0 or id == 1 end,
-    GetTeam = function(_, id) return id == 0 and 2 or 3 end,
+    GetTeam = function(self, id) return self.teams and self.teams[id] or (id == 0 and 2 or 3) end,
     GetSelectedHeroEntity = function(self, id) return self.heroes[id] end,
     GetGold = function(self, id) return self.gold and self.gold[id] or 0 end,
     ModifyGold = function(self, id, amt, isReliable, reason)
@@ -98,6 +98,7 @@ PlayerResource = {
     GetConnectionState = function(self, id) return self.connectionState and self.connectionState[id] or 2 end,
     heroes = {},
     gold = {},
+    teams = {},
     connectionState = {},
 }
 local function mode()
@@ -956,6 +957,87 @@ test("ascended sellback refunds 90% underlying gold and 90% lumber", function()
     assert(PlayerResource:GetGold(0) == 5000, "Gold balance must be 500 + 4500 = 5000")
     assert(EconomyManager:GetLumber(0) == 76, "Lumber balance must be 76")
     assert(hero.items[0] == nil, "Item must be removed from hero inventory")
+end)
+
+-- =========================================================================
+-- Boons & Pacts Tests (Phase 9)
+-- =========================================================================
+local BoonManager = require("boons/boon_manager")
+
+test("boon candidate generation offers 2 cards with category diversity and respects wave limits and stack caps", function()
+    BoonManager:Init(nil, EconomyManager, nil)
+
+    -- Wave 5 candidates for Team 2:
+    local card1, card2 = BoonManager:GenerateTwoCandidates(2, 5)
+    assert(card1 ~= nil and card2 ~= nil, "Must return 2 cards")
+    assert(card1.id ~= card2.id, "Cards must be distinct")
+    -- Check that Pacts (minWave=20) were not offered at wave 5
+    assert(card1.category ~= "pact" and card2.category ~= "pact", "Pacts must not appear on wave 5")
+    -- Category diversity: card1 and card2 should have different categories if pool allows
+    assert(card1.category ~= card2.category, "Candidate cards must prefer different categories")
+
+    -- Check available candidates at Wave 20: Pacts should be present in pool
+    local poolW20 = BoonManager:GetAvailableCandidates(2, 20)
+    local foundPact = false
+    for _, item in ipairs(poolW20) do
+        if item.def.category == "pact" then
+            foundPact = true
+            break
+        end
+    end
+    assert(foundPact == true, "Pacts must be present in candidate pool for wave 20+")
+end)
+
+test("boon vote session tallies votes and resolves winner to team", function()
+    BoonManager:Init(nil, EconomyManager, nil)
+
+    PlayerResource.teams = { [0] = 2, [1] = 2 }
+    PlayerResource.connectionState = { [0] = DOTA_CONNECTION_STATE_CONNECTED, [1] = DOTA_CONNECTION_STATE_CONNECTED }
+
+    -- Start vote on Team 2 for wave 5
+    local started, c1, c2 = BoonManager:StartVote(2, 5)
+    assert(started == true, "Vote session must start")
+    assert(BoonManager.activeVotes[2] ~= nil, "Active vote must exist")
+
+    -- Player 0 votes for Card 2
+    local voted = BoonManager:CastVote(0, 2)
+    assert(voted == true, "Vote cast must succeed")
+    assert(BoonManager.activeVotes[2].votes[0] == 2, "Player 0 vote must be recorded")
+
+    -- Resolve vote: Card 2 has 1 vote, Card 1 has 0 votes -> Card 2 wins
+    local winner = BoonManager:ResolveVote(2)
+    assert(winner.id == c2.id, "Card 2 must win")
+    assert(BoonManager:GetStackCount(2, c2.id) == 1, "Winning card stack count must be 1")
+    assert(BoonManager.activeVotes[2] == nil, "Active vote must be cleared")
+    assert(#BoonManager.teamHistory[2] == 1, "Team history must have 1 entry")
+    assert(BoonManager.teamHistory[2][1].id == c2.id, "History entry ID must match")
+end)
+
+test("boon stack caps enforce 3 max for ordinary and 1 max for unique, and emergency seal restores 15 Life", function()
+    BoonManager:Init(nil, EconomyManager, nil)
+    LifeCore:Init(nil)
+
+    -- Ordinary boon: war_training (maxStacks = 3)
+    assert(BoonManager:ApplyBoon(2, "war_training", 5) == true)
+    assert(BoonManager:ApplyBoon(2, "war_training", 10) == true)
+    assert(BoonManager:ApplyBoon(2, "war_training", 15) == true)
+    assert(BoonManager:GetStackCount(2, "war_training") == 3)
+    -- 4th stack must be rejected
+    assert(BoonManager:ApplyBoon(2, "war_training", 20) == false, "4th stack of war_training must be rejected")
+    assert(BoonManager:GetStackCount(2, "war_training") == 3)
+
+    -- Unique boon: battle_rhythm (maxStacks = 1, isUnique = true)
+    assert(BoonManager:ApplyBoon(2, "battle_rhythm", 5) == true)
+    assert(BoonManager:GetStackCount(2, "battle_rhythm") == 1)
+    -- 2nd stack must be rejected
+    assert(BoonManager:ApplyBoon(2, "battle_rhythm", 10) == false, "2nd stack of unique boon must be rejected")
+    assert(BoonManager:GetStackCount(2, "battle_rhythm") == 1)
+
+    -- Emergency Seal: restores +15 Life to team
+    LifeCore:SetLife(2, 80)
+    assert(LifeCore:GetLife(2) == 80)
+    assert(BoonManager:ApplyBoon(2, "emergency_seal", 25) == true)
+    assert(LifeCore:GetLife(2) == 95, "Emergency seal must restore +15 Life to team, got: " .. LifeCore:GetLife(2))
 end)
 
 print(string.format("%d Lua behavior tests passed (mock engine; live tests separate).", passed))
