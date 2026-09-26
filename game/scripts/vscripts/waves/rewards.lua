@@ -3,8 +3,13 @@ local Rewards = {goldCarry={}, xpCarry={}}
 function Rewards:Players(team)
     local result = {}
     for id=0,(DOTA_MAX_TEAM_PLAYERS or 24)-1 do
-        if PlayerResource:IsValidPlayerID(id) and PlayerResource:GetTeam(id)==team
-            and PlayerResource:GetConnectionState(id)==DOTA_CONNECTION_STATE_CONNECTED then result[#result+1]=id end
+        if PlayerResource:IsValidPlayerID(id) and PlayerResource:GetTeam(id)==team then
+            local connState = PlayerResource:GetConnectionState(id)
+            local hasHero = PlayerResource.GetSelectedHeroEntity and (PlayerResource:GetSelectedHeroEntity(id) ~= nil)
+            if connState == (DOTA_CONNECTION_STATE_CONNECTED or 2) or hasHero then
+                result[#result+1] = id
+            end
+        end
     end
     return result
 end
