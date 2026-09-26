@@ -54,6 +54,13 @@ function EnfosSametC:InitGameMode()
 	GameRules:SetWeatherEffects(false)
 	gameMode:SetUnseenFogOfWarEnabled(false)
 
+	-- Flying Courier & Shop/Inventory Rules (Phase 1 POC 2)
+	-- Each player receives a fast flying courier with invulnerability/un-targetability
+	gameMode:SetFreeCourierModeEnabled(true)
+	gameMode:SetUseTurboCouriers(true)
+	gameMode:SetCanSellAnywhere(true)
+	GameRules:SetUseUniversalShopMode(true)
+
 	-- Atmospheric Theme: Colosseum / Motes Ambient Particles
 	local weatherFx = ParticleManager:CreateParticle("particles/rain_fx/coloseum_terrain_motes.vpcf", PATTACH_WORLDORIGIN, nil)
 	ParticleManager:SetParticleControl(weatherFx, 0, Vector(0, 0, 256))
@@ -94,5 +101,14 @@ function EnfosSametC:OnGameRulesStateChange()
 end
 
 function EnfosSametC:OnNPCSpawned(event)
-	-- Will be used for hero setup, creep AI, etc.
+	local spawnedUnit = EntIndexToHScript(event.entindex)
+	if not spawnedUnit or spawnedUnit:IsNull() then return end
+
+	-- Phase 1 POC 2: Courier Protection
+	-- Couriers must be invulnerable, un-targetable by PvE creeps, and fly
+	if spawnedUnit:IsCourier() then
+		spawnedUnit:AddNewModifier(spawnedUnit, nil, "modifier_invulnerable", {})
+		spawnedUnit:AddNewModifier(spawnedUnit, nil, "modifier_phased", {})
+		Log:Info("system", "Configured invulnerable flying courier.")
+	end
 end
