@@ -60,5 +60,31 @@ if (fs.existsSync('tests/run.lua')) check('Lua behavior tests', () => {
   const result = spawnSync(process.execPath, ['node_modules/fengari-node-cli/src/lua-cli.js', 'tests/run.lua'], { stdio: 'inherit' });
   if (result.status !== 0) throw new Error('Lua behavior tests failed');
 });
+check('wave and portal runtime regressions', () => {
+  const result = spawnSync(process.execPath, ['node_modules/fengari-node-cli/src/lua-cli.js', 'tests/runtime_regressions.lua'], { stdio: 'inherit' });
+  if (result.status !== 0) throw new Error('Runtime regression tests failed');
+});
+check('native tooltip name, description and compact tooltip aliases', () => {
+  const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
+  for (const lang of languages) {
+    const tokens = kv(`game/resource/addon_${lang}.txt`).lang.Tokens;
+    for (const id of Object.keys(abilities)) for (const suffix of ['', '_Description', '_SummaryDescription']) {
+      const key = `DOTA_Tooltip_ability_${id}${suffix}`;
+      if (!tokens[key] || tokens[key] !== tokens[key.replace('_ability_', '_Ability_')]) throw new Error(`Missing native tooltip ${key}`);
+    }
+  }
+});
+check('Panorama source mirrors and overview mapping', () => {
+  const tables = fs.readFileSync('game/scripts/custom_net_tables.txt', 'utf8');
+  if (!tables.startsWith('<!-- kv3 encoding:text:') || !/custom_net_tables\s*=\s*\[\s*"wave_info"\s*\]/.test(tables)) throw new Error('Missing KV3 wave_info registration');
+  for (const lang of languages) if (!fs.readFileSync(`game/resource/addon_${lang}.txt`, 'utf8').startsWith('\uFEFF')) throw new Error('Localization needs a Unicode BOM for Source 2');
+  for (const file of walk('content/panorama')) {
+    if (fs.readFileSync(file, 'utf8') !== fs.readFileSync(file.replace(/^content/, 'game'), 'utf8')) throw new Error(`Stale runtime UI: ${file}`);
+  }
+  for (const map of ['enfos', 'enfos_sametc']) {
+    const overview = Object.values(kv(`game/resource/overviews/${map}.txt`))[0];
+    if (Number(overview.pos_x) !== -12864 || Number(overview.pos_y) !== 12864 || Number(overview.scale) !== 25.125) throw new Error('Overview does not match Survival map');
+  }
+});
 console.log(`${failures} failed check(s). Engine playtests remain separate.`);
 process.exitCode = failures ? 1 : 0;

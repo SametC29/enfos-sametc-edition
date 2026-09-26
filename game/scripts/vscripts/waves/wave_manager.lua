@@ -65,9 +65,12 @@ function WaveManager:Init()
 	ListenToGameEvent("entity_killed", Dynamic_Wrap(WaveManager, "OnEntityKilled"), self)
 
 	-- Start Global Thinker
-	GameRules:GetGameModeEntity():SetThink("WaveManager_Think", function()
+	GameRules:GetGameModeEntity():SetContextThink("WaveManager_Think", function()
 		return self:OnThink()
 	end, WaveManager.THINK_INTERVAL)
+	CustomGameEventManager:RegisterListener("enfos_next_wave", function(_, event)
+		self:RequestNextWave(event.PlayerID)
+	end)
 
 	self:SyncNetTable()
 	Log:Info("wave_manager", "Wave Manager initialized successfully.")
@@ -86,7 +89,7 @@ function WaveManager:GetActivePlayerCount(team)
 			end
 		end
 	end
-	return math.max(1, count)
+	return count
 end
 
 function WaveManager:GetUnitCap(team)
@@ -98,11 +101,13 @@ end
 -- Think Loop
 --------------------------------------------------------------------------------
 function WaveManager:OnThink()
-	if GameRules:State_Get() < DOTA_GAMERULES_STATE_PRE_GAME then
+	if GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME or LifeCore.isGameOver then return nil end
+	if GameRules:IsGamePaused() then return WaveManager.THINK_INTERVAL end
+	if GameRules:State_Get() < DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
 		return WaveManager.THINK_INTERVAL
 	end
 
-	-- Auto-start from IDLE once game reaches PRE_GAME or GAME_IN_PROGRESS
+	-- Auto-start once the match begins.
 	if self.state == WaveManager.STATE_IDLE then
 		if GameRules:State_Get() >= DOTA_GAMERULES_STATE_PRE_GAME then
 			self:StartPreparation()
@@ -280,49 +285,47 @@ function WaveManager:SpawnNextBatch()
 		local activePlayers = self:GetActivePlayerCount(team)
 		local unitCap = self:GetUnitCap(team)
 
-		for _, creepEntry in ipairs(waveDef.creeps or {}) do
-			local unitName = creepEntry.unit_name
-			local countPerPlayer = creepEntry.count_per_player or 1
-			local laneAssignment = creepEntry.lane or "both"
-			local totalToSpawn = math.max(1, countPerPlayer * activePlayers)
+		if activePlayers > 0 then
+			for _, creepEntry in ipairs(waveDef.creeps or {}) do
+				local unitName = creepEntry.unit_name
+				local countPerPlayer = creepEntry.count_per_player or 1
+				local laneAssignment = creepEntry.lane or "both"
+				local totalToSpawn = isBoss and countPerPlayer or math.max(1, countPerPlayer * activePlayers)
 
-			-- Determine lanes for this creep entry
-			local lanes = {}
-			if isBoss or laneAssignment == "center" then
-				lanes = { "center" }
-			elseif laneAssignment == "left" then
-				lanes = { "left" }
-			elseif laneAssignment == "right" then
-				lanes = { "right" }
-			else
-				-- "both" lanes: split creeps evenly between left and right lanes
-				lanes = { "left", "right" }
-			end
-
-			-- Distribute total units across batches
-			local unitsThisBatch = math.ceil(totalToSpawn / batch.totalBatches)
-			if batch.batchIndex == batch.totalBatches then
-				-- Last batch takes remainder
-				unitsThisBatch = totalToSpawn - (unitsThisBatch * (batch.totalBatches - 1))
-				if unitsThisBatch < 1 then unitsThisBatch = 1 end
-			end
-
-			for i = 1, unitsThisBatch do
-				local lane = lanes[((i - 1) % #lanes) + 1]
-				local currentActive = self:GetActiveCreepCount(team)
-
-				-- OVERFLOW LEAK CHECK:
-				-- If current active hostiles >= unitCap:
-				-- Do NOT spawn entity. Immediately apply leak Life penalty!
-				-- Boss is exempt: Boss ALWAYS spawns.
-				if not isBoss and currentActive >= unitCap then
-					local leakCost = WaveDefinitions:GetLeakPenalty(unitName)
-					LifeCore:ApplyDamage(team, leakCost, "unit_cap_overflow", unitName)
-					Log:Warn("wave_manager", "CAP OVERFLOW! Team %d at unit cap (%d/%d). Creep %s suppressed. -%d Life.",
-						team, currentActive, unitCap, unitName, leakCost)
+				-- Determine lanes for this creep entry
+				local lanes = {}
+				if isBoss or laneAssignment == "center" then
+					lanes = { "center" }
+				elseif laneAssignment == "left" then
+					lanes = { "left" }
+				elseif laneAssignment == "right" then
+					lanes = { "right" }
 				else
-					-- Spawn the creep entity
-					self:SpawnCreepEntity(unitName, team, lane, isBoss, activePlayers)
+					-- "both" lanes: split creeps evenly between left and right lanes
+					lanes = { "left", "right" }
+				end
+
+				-- Distribute total units across batches
+				local previous = math.floor(totalToSpawn * (batch.batchIndex - 1) / batch.totalBatches)
+				local unitsThisBatch = math.floor(totalToSpawn * batch.batchIndex / batch.totalBatches) - previous
+
+				for i = 1, unitsThisBatch do
+					local lane = lanes[((previous + i - 1) % #lanes) + 1]
+					local currentActive = self:GetActiveCreepCount(team)
+
+					-- OVERFLOW LEAK CHECK:
+					-- If current active hostiles >= unitCap:
+					-- Do NOT spawn entity. Immediately apply leak Life penalty!
+					-- Boss is exempt: Boss ALWAYS spawns.
+					if not isBoss and currentActive >= unitCap then
+						local leakCost = WaveDefinitions:GetLeakPenalty(unitName)
+						LifeCore:ApplyDamage(team, leakCost, "unit_cap_overflow", unitName)
+						Log:Warn("wave_manager", "CAP OVERFLOW! Team %d at unit cap (%d/%d). Creep %s suppressed. -%d Life.",
+							team, currentActive, unitCap, unitName, leakCost)
+					else
+						-- Spawn the creep entity
+						self:SpawnCreepEntity(unitName, team, lane, isBoss, activePlayers)
+					end
 				end
 			end
 		end
@@ -475,6 +478,7 @@ function WaveManager:SyncNetTable()
 		next_wave = nextWaveNum,
 		max_waves = WaveDefinitions:GetTotalWaves(),
 		state = self.state,
+		can_send_next = self:CanSendNextWave() and 1 or 0,
 		state_timer = math.max(0, math.floor(self.stateTimer + 0.5)),
 		is_boss = displayDef and WaveDefinitions:IsBossWave(displayDef.wave_number) or false,
 		is_elite = displayDef and WaveDefinitions:IsEliteWave(displayDef.wave_number) or false,
@@ -484,6 +488,25 @@ function WaveManager:SyncNetTable()
 		cap_goodguys = self:GetUnitCap(DOTA_TEAM_GOODGUYS or 2),
 		cap_badguys = self:GetUnitCap(DOTA_TEAM_BADGUYS or 3),
 	})
+end
+
+function WaveManager:CanSendNextWave()
+	return self.currentWave > 0 and self.currentWave < WaveDefinitions:GetTotalWaves()
+		and self.state == self.STATE_PREPARATION and #self.pendingBatches == 0
+		and not LifeCore.isGameOver
+		and self:GetActiveCreepCount(2) == 0 and self:GetActiveCreepCount(3) == 0
+end
+
+function WaveManager:RequestNextWave(playerID)
+	if type(playerID) ~= "number" or not PlayerResource:IsValidPlayerID(playerID) then return false end
+	local team = PlayerResource:GetTeam(playerID)
+	if team ~= 2 and team ~= 3 then return false end
+	if GameRules:State_Get() ~= DOTA_GAMERULES_STATE_GAME_IN_PROGRESS or GameRules:IsGamePaused() then return false end
+	if not self:CanSendNextWave() then return false end
+	-- Transition immediately: repeated clicks cannot enqueue another wave.
+	if WaveDefinitions:IsBossWave(self.currentWave + 1) then self:StartBossIncoming()
+	else self:StartWave(self.currentWave + 1) end
+	return true
 end
 
 return WaveManager

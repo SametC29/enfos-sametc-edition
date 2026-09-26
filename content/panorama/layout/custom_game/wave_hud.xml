@@ -1,0 +1,9 @@
+<root>
+    <styles><include src="file://{resources}/styles/custom_game/wave_hud.css" /></styles>
+    <scripts><include src="file://{resources}/scripts/custom_game/wave_hud.js" /></scripts>
+    <Panel class="WaveHud" hittest="false">
+        <Label id="WaveStatus" />
+        <Label id="WaveLife" />
+        <Button id="NextWave" onactivate="SendNextWave()"><Label text="#enfos_next_wave" /></Button>
+    </Panel>
+</root>

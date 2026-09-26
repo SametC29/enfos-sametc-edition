@@ -5,6 +5,9 @@ replacement for GAME_DESIGN_MASTER / DECISIONS_OPEN_ITEMS / IMPLEMENTATION_ROADM
 
 ## Evidence and current scope
 
+Latest playtest fixes and current validation: see [RUNTIME_FIXES.md](RUNTIME_FIXES.md).
+The historical inventory below predates the five-hero and Wave/Life implementation.
+
 - Main entry point, logging and seeded RNG exist. One Sven/Bulwark prototype has
   five abilities; this does not prove native selection for 40–100 custom heroes.
 - Two Ascended item prototypes exist. Lumber purchase, base-item consumption,
@@ -46,7 +49,7 @@ fresh gameplay assertion, and the process later became unavailable. The optional
 
 User direction: local commits only, no GitHub push (2026-09-26).
 
-Map direction (2026-09-26): preserve Enfos Team Survival: Reborn's layout and
+Map direction (2026-09-26): preserve Enfos survival (Workshop 3591082091)'s layout and
 elevations; change its theme to autumn forest and stone roads. The user explicitly
 authorized map geometry reuse for this work, superseding the earlier geometry
 prohibition. Other reference gameplay code/custom assets remain excluded.

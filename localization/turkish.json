@@ -418,6 +418,14 @@
     "DOTA_Tooltip_Ability_enfos_omni_hammer_of_purity_slow_pct": "% HAREKET YAVAŞLATMA:",
     "DOTA_Tooltip_ability_enfos_omni_hammer_of_purity_slow_pct": "% HAREKET YAVAŞLATMA:",
     "DOTA_Tooltip_Ability_enfos_omni_hammer_of_purity_slow_duration": "YAVAŞLATMA SÜRESİ:",
-    "DOTA_Tooltip_ability_enfos_omni_hammer_of_purity_slow_duration": "YAVAŞLATMA SÜRESİ:"
+    "DOTA_Tooltip_ability_enfos_omni_hammer_of_purity_slow_duration": "YAVAŞLATMA SÜRESİ:",
+    "enfos_next_wave": "Sonraki dalgayı gönder",
+    "enfos_wave_IDLE": "Bekleniyor",
+    "enfos_wave_PREPARATION": "Hazırlık",
+    "enfos_wave_BOSS_INCOMING": "BOSS GELİYOR",
+    "enfos_wave_SPAWNING": "Düşmanlar geliyor",
+    "enfos_wave_ACTIVE": "Savaş sürüyor",
+    "enfos_wave_CLEARED": "Temizlendi",
+    "enfos_wave_VICTORY": "Tamamlandı"
   }
 }

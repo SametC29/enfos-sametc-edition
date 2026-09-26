@@ -4,7 +4,7 @@ Watcher of Samsara, Enfo's and other custom games are design references, not sou
 
 ## Explicit map exception — 2026-09-26
 
-The user specifically requested the same Enfos Team Survival: Reborn layout with
+The user specifically requested the same Enfos survival (Workshop 3591082091) layout with
 an autumn forest / stone-road theme. Preserving its geometry, elevations, paths
 and placement is authorized for this map task. This supersedes the map geometry
 restriction below only; reference gameplay code and unrelated custom assets remain

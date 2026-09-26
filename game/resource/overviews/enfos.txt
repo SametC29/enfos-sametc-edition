@@ -1,7 +1,7 @@
 "enfos"
 {
 	"material"	"materials/overviews/enfos.vmat"
-	"pos_x"	"-8192"
-	"pos_y"	"8192"
-	"scale"	"16.0"
+	"pos_x"	"-12864"
+	"pos_y"	"12864"
+	"scale"	"25.125"
 }

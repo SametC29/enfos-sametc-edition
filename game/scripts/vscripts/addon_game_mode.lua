@@ -38,4 +38,5 @@ function Activate()
 	GameRules.EnfosSametC = EnfosSametC()
 	GameRules.EnfosSametC:InitGameMode()
 	WaveManager:Init()
+	require("map/portals"):Init()
 end

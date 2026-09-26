@@ -1,0 +1,5 @@
+.WaveHud { horizontal-align: center; vertical-align: top; margin-top: 64px; flow-children: down; padding: 8px 20px; background-color: #172027ed; border: 1px solid #9c7948; }
+.WaveHud Label { color: #eee4ce; font-size: 18px; horizontal-align: center; }
+#NextWave { horizontal-align: center; margin-top: 6px; padding: 7px 20px; background-color: #53734b; }
+#NextWave:hover { brightness: 1.4; }
+#NextWave:disabled { saturation: 0; opacity: 0.35; }
