@@ -70,8 +70,16 @@ test("null handles and self transfers are rejected", function()
     assert(not Transfer.Move(hero, hero, 9, 0, 5))
     assert(not Transfer.Move({IsNull = function() return true end}, hero, 9, 0, 5))
 end)
--- Exercise the actual game-mode order filter, not a copy of its implementation.
-function class() return {} end
+function class(...)
+    local c = {}
+    c.__index = c
+    setmetatable(c, {
+        __call = function(cls, ...)
+            return setmetatable({}, cls)
+        end
+    })
+    return c
+end
 require("enfos_sametc")
 local fakeEntities = {}
 function EntIndexToHScript(index) return fakeEntities[index] end
@@ -552,6 +560,138 @@ test("future reinforcements summons exactly 5 allied fighters with wave scaling 
     assert(WaveDefs:GetLeakPenalty("enfos_spellbringer_thorn_idol") == 0, "Thorn idol leak penalty must be 0")
 
     CreateUnitByName = originalCreate
+end)
+
+-- =========================================================================
+-- Elite & Boss Framework Tests (Phase 6)
+-- =========================================================================
+LinkLuaModifier = LinkLuaModifier or function() end
+IsServer = function() return true end
+local BossFramework = require("bosses/boss_framework")
+local EliteFramework = require("bosses/elite_framework")
+
+test("boss base modifier enforces CC, reflect, and %-HP damage caps", function()
+    BossFramework:Init()
+
+    local dummyBoss = {
+        IsNull = function() return false end,
+        IsAlive = function() return true end,
+        GetMaxHealth = function() return 10000 end,
+        GetHealth = function() return 10000 end,
+        AddNewModifier = function() end,
+        SetContextThink = function() end,
+        entindex = function() return 999 end,
+    }
+
+    local mod = modifier_enfos_boss_base()
+    mod.GetParent = function() return dummyBoss end
+
+    -- 1. Status Resistance is 60%
+    assert(mod:GetModifierStatusResistanceStacking() == 60, "Boss must have 60% status resistance")
+
+    -- 2. Reflect damage is capped at 150
+    DOTA_DAMAGE_FLAG_REFLECTION = 16
+    local reflectBlock = mod:GetModifierTotal_ConstantBlock({
+        damage = 500,
+        damage_flags = DOTA_DAMAGE_FLAG_REFLECTION,
+    })
+    -- Total damage was 500, cap is 150, so blocked portion is 500 - 150 = 350
+    assert(reflectBlock == 350, "Reflect damage above 150 must be blocked, got blocked: " .. tostring(reflectBlock))
+
+    -- 3. %-HP damage is capped at 4% max HP (4% of 10000 = 400)
+    local giantDamageBlock = mod:GetModifierTotal_ConstantBlock({
+        damage = 2500,
+        damage_flags = 0,
+    })
+    -- Max allowed is 400, so blocked portion is 2500 - 400 = 2100
+    assert(giantDamageBlock == 2100, "%-HP damage above 4% max HP must be blocked, got: " .. tostring(giantDamageBlock))
+end)
+
+test("boss ground telegraph executes callback and notifies warning", function()
+    BossFramework:Init()
+    local callbackExecuted = false
+    local testPos = Vector(100, 200, 0)
+    BossFramework:CreateTelegraph(testPos, 450, 1.5, function(pos, radius)
+        callbackExecuted = true
+        assert(pos.x == 100 and pos.y == 200)
+        assert(radius == 450)
+    end)
+    assert(callbackExecuted == true, "Telegraph callback must execute")
+end)
+
+test("stonebreaker enrages below 30% HP and brood matron spawns adds below 50% HP", function()
+    BossFramework:Init()
+
+    -- Stonebreaker
+    local stonebreaker = {
+        IsNull = function() return false end,
+        IsAlive = function() return true end,
+        maxHp = 3000,
+        hp = 800, -- 800/3000 = 26.6% (<30%)
+        GetMaxHealth = function(self) return self.maxHp end,
+        GetHealth = function(self) return self.hp end,
+        AddNewModifier = function(self, caster, ability, name) self.enragedMod = name end,
+        EmitSound = function() end,
+        GetTeamNumber = function() return 4 end,
+        GetAbsOrigin = function() return Vector(0,0,0) end,
+        SetContextThink = function() end,
+        entindex = function() return 1001 end,
+    }
+
+    BossFramework:RegisterBoss(stonebreaker, "enfos_boss_stonebreaker", 5, 1)
+    BossFramework:ThinkStonebreaker(stonebreaker, stonebreaker.bossState)
+    assert(stonebreaker.bossState.isEnraged == true, "Stonebreaker must enrage below 30% HP")
+    assert(stonebreaker.enragedMod == "modifier_enfos_boss_enrage", "Must apply modifier_enfos_boss_enrage")
+
+    -- Brood Matron
+    local broodMatron = {
+        IsNull = function() return false end,
+        IsAlive = function() return true end,
+        maxHp = 5500,
+        hp = 2500, -- 2500/5500 = 45.4% (<50%)
+        GetMaxHealth = function(self) return self.maxHp end,
+        GetHealth = function(self) return self.hp end,
+        AddNewModifier = function() end,
+        EmitSound = function() end,
+        GetTeamNumber = function() return 4 end,
+        GetAbsOrigin = function() return Vector(0,0,0) end,
+        SetContextThink = function() end,
+        entindex = function() return 1002 end,
+    }
+
+    local spawnedAdds = 0
+    local originalCreate = CreateUnitByName
+    CreateUnitByName = function(name, pos, bFind, caster, owner, team)
+        if name == "enfos_creep_spiderling" then
+            spawnedAdds = spawnedAdds + 1
+        end
+        return { SetIdleAcquire = function() end, SetAcquisitionRange = function() end }
+    end
+
+    BossFramework:RegisterBoss(broodMatron, "enfos_boss_brood_matron", 10, 1)
+    BossFramework:ThinkBroodMatron(broodMatron, broodMatron.bossState)
+    assert(broodMatron.bossState.addsSpawned == true, "Brood Matron must spawn adds below 50% HP")
+    assert(spawnedAdds == 4, "Brood Matron must spawn exactly 4 spiderlings, got: " .. spawnedAdds)
+
+    CreateUnitByName = originalCreate
+end)
+
+test("elite vanguard has 35% physical damage reduction and elite assassin has ambush stealth", function()
+    EliteFramework:Init()
+
+    -- 1. Vanguard Shield Wall
+    local shieldMod = modifier_enfos_elite_vanguard_shield()
+    assert(shieldMod:GetModifierIncomingPhysicalDamage_Percentage() == -35, "Vanguard must have -35% physical damage reduction")
+
+    -- 2. Elite Base status resistance
+    local eliteBase = modifier_enfos_elite_base()
+    assert(eliteBase:GetModifierStatusResistanceStacking() == 35, "Elite must have 35% status resistance")
+    assert(eliteBase:GetModifierModelScale() == 15, "Elite must have +15% model scale")
+
+    -- 3. Elite Assassin Ambush Strike
+    MODIFIER_STATE_INVISIBLE = 1
+    local assassinMod = modifier_enfos_elite_assassin_stealth()
+    assert(assassinMod:CheckState()[MODIFIER_STATE_INVISIBLE] == true, "Assassin must have invisible state")
 end)
 
 print(string.format("%d Lua behavior tests passed (mock engine; live tests separate).", passed))

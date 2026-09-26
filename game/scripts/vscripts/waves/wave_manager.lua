@@ -11,6 +11,8 @@ local WaveDefinitions = require("waves/wave_definitions")
 local CreepAI = require("waves/creep_ai")
 local LifeCore = require("waves/life_core")
 local Rewards = require("waves/rewards")
+local BossFramework = require("bosses/boss_framework")
+local EliteFramework = require("bosses/elite_framework")
 
 local WaveManager = {}
 WaveManager.__index = WaveManager
@@ -61,9 +63,11 @@ function WaveManager:Init()
 	self.wavePlayers = {}
 	self.batchSpawnTimer = 0
 
-	-- Initialize Life Core
+	-- Initialize Life Core, Rewards, Boss and Elite Frameworks
 	LifeCore:Init(self)
 	Rewards:Init()
+	BossFramework:Init()
+	EliteFramework:Init()
 
 	-- Register Listeners
 	ListenToGameEvent("entity_killed", Dynamic_Wrap(WaveManager, "OnEntityKilled"), self)
@@ -391,6 +395,13 @@ function WaveManager:SpawnCreepEntity(unitName, defendingTeam, lane, isBoss, act
 
 	-- Register active creep
 	self.activeCreeps[defendingTeam][creep:entindex()] = creep
+
+	-- Hook Boss / Elite frameworks
+	if isBoss then
+		BossFramework:RegisterBoss(creep, unitName, self.currentWave, activePlayers)
+	elseif unitName:find("enfos_elite_", 1, true) then
+		EliteFramework:RegisterElite(creep, unitName, self.currentWave)
+	end
 
 	-- Attach AI navigation and leak callback
 	CreepAI:Attach(creep, defendingTeam, lane, function(leakingUnit, team)
