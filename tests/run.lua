@@ -856,6 +856,108 @@ test("tome purchase escalates cost by 10% and increases hero attributes permanen
     assert(EconomyManager:GetTomeCost(0, "str") == 600, "Third STR tome cost must be 600")
 end)
 
+-- =========================================================================
+-- Ascended Shop Tests (Phase 8)
+-- =========================================================================
+local AscendedShop = require("economy/ascended_shop")
+
+test("ascended shop initializes with exactly 30 authored launch items", function()
+    AscendedShop:Init(EconomyManager)
+    assert(#AscendedShop.ITEMS == 30, "Ascended shop must contain exactly 30 items, got: " .. #AscendedShop.ITEMS)
+    assert(AscendedShop.LOOKUP["item_ascended_worldheart"] ~= nil, "Worldheart must exist")
+    assert(AscendedShop.LOOKUP["item_ascended_thornplate"] ~= nil, "Thornplate must exist")
+    assert(AscendedShop.LOOKUP["item_ascended_soulpiercer"] ~= nil, "Soulpiercer must exist")
+end)
+
+test("ascended upgrade requires base item and sufficient lumber", function()
+    AscendedShop:Init(EconomyManager)
+    EconomyManager:Init()
+
+    local hero = {
+        IsNull = function() return false end,
+        IsAlive = function() return true end,
+        items = {},
+        GetItemInSlot = function(self, slot) return self.items[slot] end,
+        RemoveItem = function(self, item)
+            for s, it in pairs(self.items) do
+                if it == item then self.items[s] = nil break end
+            end
+        end,
+        AddItemByName = function(self, name)
+            local it = {
+                IsNull = function() return false end,
+                GetAbilityName = function() return name end,
+            }
+            self.items[0] = it
+            return it
+        end,
+        EmitSound = function() end,
+    }
+    PlayerResource.heroes[0] = hero
+
+    -- 1. Missing base item check: hero has nothing in inventory
+    local can1, reason1 = AscendedShop:CanUpgrade(0, "item_ascended_worldheart")
+    assert(can1 == false, "Upgrade without base item must fail")
+    assert(reason1 == "missing_base_item", "Reason must be missing_base_item")
+
+    -- 2. Give hero item_heart, but 0 Lumber
+    local heartItem = { IsNull = function() return false end, GetAbilityName = function() return "item_heart" end }
+    hero.items[0] = heartItem
+    local can2, reason2 = AscendedShop:CanUpgrade(0, "item_ascended_worldheart")
+    assert(can2 == false, "Upgrade with 0 lumber must fail")
+    assert(reason2 == "insufficient_lumber", "Reason must be insufficient_lumber")
+
+    -- 3. Give hero 85 Lumber -> Upgrade must succeed
+    EconomyManager:ModifyLumber(0, 85, "test")
+    local can3 = AscendedShop:CanUpgrade(0, "item_ascended_worldheart")
+    assert(can3 == true, "Upgrade with base item and sufficient lumber must succeed")
+
+    local okUpgrade, _, newItem = AscendedShop:PurchaseUpgrade(0, "item_ascended_worldheart")
+    assert(okUpgrade == true, "PurchaseUpgrade must succeed")
+    assert(EconomyManager:GetLumber(0) == 0, "85 Lumber must be deducted")
+    assert(newItem:GetAbilityName() == "item_ascended_worldheart", "New item must be Worldheart")
+
+    -- 4. One copy restriction: cannot buy second Worldheart
+    hero.items[1] = heartItem
+    EconomyManager:ModifyLumber(0, 85, "test")
+    local canDuplicate, reasonDup = AscendedShop:CanUpgrade(0, "item_ascended_worldheart")
+    assert(canDuplicate == false, "Hero cannot purchase duplicate Ascended item")
+    assert(reasonDup == "already_owned", "Reason must be already_owned")
+end)
+
+test("ascended sellback refunds 90% underlying gold and 90% lumber", function()
+    AscendedShop:Init(EconomyManager)
+    EconomyManager:Init()
+    PlayerResource.gold = { [0] = 500 }
+
+    local worldheart = {
+        IsNull = function() return false end,
+        GetAbilityName = function() return "item_ascended_worldheart" end,
+    }
+    local hero = {
+        IsNull = function() return false end,
+        IsAlive = function() return true end,
+        items = { [0] = worldheart },
+        GetItemInSlot = function(self, slot) return self.items[slot] end,
+        RemoveItem = function(self, item)
+            for s, it in pairs(self.items) do
+                if it == item then self.items[s] = nil break end
+            end
+        end,
+    }
+    PlayerResource.heroes[0] = hero
+
+    -- Worldheart: 5000 Gold, 85 Lumber
+    -- 90% Gold = 4500, 90% Lumber = 76
+    local okSell, goldRefund, lumberRefund = AscendedShop:Sellback(0, worldheart)
+    assert(okSell == true, "Sellback must succeed")
+    assert(goldRefund == 4500, "Must refund 4500 gold (90% of 5000), got: " .. goldRefund)
+    assert(lumberRefund == 76, "Must refund 76 lumber (90% of 85), got: " .. lumberRefund)
+    assert(PlayerResource:GetGold(0) == 5000, "Gold balance must be 500 + 4500 = 5000")
+    assert(EconomyManager:GetLumber(0) == 76, "Lumber balance must be 76")
+    assert(hero.items[0] == nil, "Item must be removed from hero inventory")
+end)
+
 print(string.format("%d Lua behavior tests passed (mock engine; live tests separate).", passed))
 
 

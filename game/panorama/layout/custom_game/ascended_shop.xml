@@ -1,0 +1,57 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/dotastyles.css" />
+		<include src="file://{resources}/styles/custom_game/ascended_shop.css" />
+	</styles>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/ascended_shop.js" />
+	</scripts>
+	<Panel class="AscendedShopRoot" hittest="false">
+		<!-- Quick Toggle Button on HUD -->
+		<Button id="AscendedShopToggleBtn" class="AscendedShopToggleBtn" onactivate="ToggleAscendedShop()">
+			<Panel class="ShopToggleIcon" />
+			<Label text="ASCENDED" />
+		</Button>
+
+		<!-- Main Ascended Shop Window -->
+		<Panel id="AscendedShopWindow" class="AscendedShopWindow Hidden">
+			<!-- Header -->
+			<Panel class="ShopHeader">
+				<Panel class="TitleBlock">
+					<Label class="ShopTitle" text="#enfos_ascended_shop_title" />
+					<Label class="ShopSubtitle" text="#enfos_ascended_shop_hint" />
+				</Panel>
+				<Button class="CloseShopBtn" onactivate="ToggleAscendedShop()">
+					<Label text="X" />
+				</Button>
+			</Panel>
+
+			<!-- Role Filter Tabs -->
+			<Panel class="FilterBar">
+				<Button id="FilterAll" class="FilterTab Active" onactivate="SetRoleFilter('ALL')">
+					<Label text="TÜMÜ" />
+				</Button>
+				<Button id="FilterTank" class="FilterTab" onactivate="SetRoleFilter('Tank')">
+					<Label text="TANK" />
+				</Button>
+				<Button id="FilterFighter" class="FilterTab" onactivate="SetRoleFilter('Fighter')">
+					<Label text="FIGHTER" />
+				</Button>
+				<Button id="FilterCarry" class="FilterTab" onactivate="SetRoleFilter('Carry')">
+					<Label text="CARRY" />
+				</Button>
+				<Button id="FilterMage" class="FilterTab" onactivate="SetRoleFilter('Mage')">
+					<Label text="MAGE" />
+				</Button>
+				<Button id="FilterSupport" class="FilterTab" onactivate="SetRoleFilter('Support')">
+					<Label text="SUPPORT" />
+				</Button>
+			</Panel>
+
+			<!-- Item Cards Container -->
+			<Panel id="AscendedItemsContainer" class="AscendedItemsContainer">
+				<!-- Dynamically generated 30 item cards -->
+			</Panel>
+		</Panel>
+	</Panel>
+</root>
