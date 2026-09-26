@@ -120,4 +120,123 @@ test("stopping the courier cancels pending delivery", function()
     assert(m:OrderFilter({issuer_player_id_const = 0, order_type = DOTA_UNIT_ORDER_STOP, units = {["0"] = 102}}))
     assert(m.deliveryRequested[0] == nil)
 end)
+
+-- =========================================================================
+-- Wave Definitions Tests
+-- =========================================================================
+local WaveDefs = require("waves/wave_definitions")
+test("all 60 authored waves exist and have valid structure", function()
+    assert(WaveDefs.TOTAL_WAVES == 60)
+    for wave = 1, 60 do
+        local def = WaveDefs:GetWave(wave)
+        assert(def ~= nil, "Missing wave " .. wave)
+        assert(def.wave_number == wave)
+        assert(def.batches >= 1 and def.batches <= 5)
+        assert(def.batch_interval >= 0)
+        assert(def.gold_bounty > 0)
+        assert(def.xp_bounty > 0)
+        assert(#def.creeps > 0)
+    end
+end)
+
+test("boss waves are exactly every 5th wave and contain only the Boss", function()
+    local expectedBosses = {5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60}
+    for _, wave in ipairs(expectedBosses) do
+        assert(WaveDefs:IsBossWave(wave), "Wave " .. wave .. " should be a boss wave")
+        local def = WaveDefs:GetWave(wave)
+        assert(def.wave_type == "boss", "Wave " .. wave .. " type should be boss")
+        assert(#def.creeps == 1, "Boss wave " .. wave .. " must contain only the Boss")
+        assert(def.creeps[1].is_boss == true, "Wave " .. wave .. " creep must have is_boss=true")
+    end
+end)
+
+test("elite waves are every 6th wave except boss overlaps", function()
+    local expectedElites = {6, 12, 18, 24, 36, 42, 48, 54}
+    for _, wave in ipairs(expectedElites) do
+        assert(WaveDefs:IsEliteWave(wave), "Wave " .. wave .. " should be an elite wave")
+        local def = WaveDefs:GetWave(wave)
+        assert(def.wave_type == "elite", "Wave " .. wave .. " type should be elite")
+    end
+    -- Wave 30 is a boss wave (6*5=30), boss takes precedence
+    assert(WaveDefs:IsBossWave(30))
+    assert(not WaveDefs:IsEliteWave(30))
+end)
+
+test("unit cap scales accurately with player count", function()
+    assert(WaveDefs:GetUnitCap(1) == 30)
+    assert(WaveDefs:GetUnitCap(2) == 60)
+    assert(WaveDefs:GetUnitCap(3) == 90)
+    assert(WaveDefs:GetUnitCap(4) == 120)
+    assert(WaveDefs:GetUnitCap(5) == 150)
+end)
+
+test("leak penalties strictly follow game design specification", function()
+    assert(WaveDefs:GetLeakPenalty("enfos_creep_soldier") == 1)
+    assert(WaveDefs:GetLeakPenalty("enfos_creep_runner") == 1)
+    assert(WaveDefs:GetLeakPenalty("enfos_elite_vanguard") == 2)
+    assert(WaveDefs:GetLeakPenalty("enfos_elite_assassin") == 2)
+    assert(WaveDefs:GetLeakPenalty("enfos_boss_stonebreaker") == 5)
+    assert(WaveDefs:GetLeakPenalty("enfos_boss_brood_matron") == 5)
+    assert(WaveDefs:GetLeakPenalty("enfos_creep_skeleton") == 0)
+    assert(WaveDefs:GetLeakPenalty("enfos_creep_spiderling") == 0)
+end)
+
+-- =========================================================================
+-- Life Core Tests
+-- =========================================================================
+function Vector(x, y, z) return {x = x, y = y, z = z} end
+function EmitGlobalSound() end
+function ScreenShake() end
+function UTIL_Remove() end
+CustomNetTables = {
+    tables = {},
+    SetTableValue = function(self, tableName, key, val)
+        self.tables[tableName] = self.tables[tableName] or {}
+        self.tables[tableName][key] = val
+    end,
+    GetTableValue = function(self, tableName, key)
+        return (self.tables[tableName] or {})[key]
+    end,
+}
+GameRules = GameRules or {}
+GameRules.SetGameWinner = function(self, winner) self.winner = winner end
+local LifeCore = require("waves/life_core")
+
+test("life core starts at 100 life for both teams and deducts on leaks", function()
+    LifeCore:Init(nil)
+    assert(LifeCore:GetLife(2) == 100)
+    assert(LifeCore:GetLife(3) == 100)
+
+    local function makeCreep(name)
+        return {
+            IsNull = function() return false end,
+            IsAlive = function() return true end,
+            ForceKill = function() end,
+            GetUnitName = function() return name end,
+            GetTeamNumber = function() return 2 end,
+        }
+    end
+
+    -- Normal creep leak (-1)
+    LifeCore:ProcessLeak(makeCreep("enfos_creep_soldier"), 2)
+    assert(LifeCore:GetLife(2) == 99)
+
+    -- Elite creep leak (-2)
+    LifeCore:ProcessLeak(makeCreep("enfos_elite_vanguard"), 2)
+    assert(LifeCore:GetLife(2) == 97)
+
+    -- Boss leak (-5)
+    LifeCore:ProcessLeak(makeCreep("enfos_boss_stonebreaker"), 2)
+    assert(LifeCore:GetLife(2) == 92)
+
+    -- Summon leak (-0)
+    LifeCore:ProcessLeak(makeCreep("enfos_creep_skeleton"), 2)
+    assert(LifeCore:GetLife(2) == 92)
+
+    -- Direct deduction causing defeat
+    LifeCore:ApplyDamage(2, 92, "test_defeat", "boss")
+    assert(LifeCore:GetLife(2) == 0)
+    assert(GameRules.winner == 3) -- When Radiant (2) reaches 0, Dire (3) wins
+end)
+
 print(string.format("%d Lua behavior tests passed (mock engine; live tests separate).", passed))
