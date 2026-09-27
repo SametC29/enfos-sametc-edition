@@ -133,7 +133,45 @@ local modifier_list = {
     'modifier_enfos_dazzle_bad_juju_debuff',
     'modifier_enfos_dazzle_nothl_weave_aura',
     'modifier_enfos_dazzle_nothl_weave_buff',
-    'modifier_enfos_dazzle_nothl_weave_debuff'
+    'modifier_enfos_dazzle_nothl_weave_debuff',
+    -- Bristleback
+    'modifier_enfos_bb_viscous_nasal_goo_debuff',
+    'modifier_enfos_bb_quill_spray_debuff',
+    'modifier_enfos_bb_bristleback_passive',
+    'modifier_enfos_bb_warpath_passive',
+    'modifier_enfos_bb_warpath_buff',
+    -- Tidehunter
+    'modifier_enfos_tide_gush_debuff',
+    'modifier_enfos_tide_kraken_shell_passive',
+    'modifier_enfos_tide_anchor_smash_debuff',
+    'modifier_enfos_tide_ravage_stun',
+    'modifier_enfos_tide_colossal_presence_aura',
+    'modifier_enfos_tide_colossal_presence_debuff',
+    -- Wraith King
+    'modifier_enfos_wk_wraithfire_blast_stun',
+    'modifier_enfos_wk_wraithfire_blast_dot',
+    'modifier_enfos_wk_vampiric_aura',
+    'modifier_enfos_wk_vampiric_aura_buff',
+    'modifier_enfos_wk_mortal_strike_passive',
+    'modifier_enfos_wk_reincarnation_passive',
+    'modifier_enfos_wk_skeleton_army_passive',
+    -- Phantom Assassin
+    'modifier_enfos_pa_stifling_dagger_slow',
+    'modifier_enfos_pa_phantom_strike_buff',
+    'modifier_enfos_pa_blur_passive',
+    'modifier_enfos_pa_blur_active',
+    'modifier_enfos_pa_coup_de_grace_passive',
+    -- Zeus
+    'modifier_enfos_zeus_static_field_passive',
+    'modifier_enfos_zeus_heavenly_jump_buff',
+    'modifier_enfos_zeus_heavenly_jump_slow',
+    -- Witch Doctor
+    'modifier_enfos_wd_paralyzing_cask_stun',
+    'modifier_enfos_wd_voodoo_restoration_aura',
+    'modifier_enfos_wd_voodoo_restoration_buff',
+    'modifier_enfos_wd_maledict_debuff',
+    'modifier_enfos_wd_death_ward_channel',
+    'modifier_enfos_wd_voodoo_switcheroo_buff'
 }
 
 for _, mod_name in ipairs(modifier_list) do
@@ -2144,3 +2182,844 @@ modifier_enfos_dazzle_nothl_weave_debuff=class({})
 function modifier_enfos_dazzle_nothl_weave_debuff:IsDebuff() return true end
 function modifier_enfos_dazzle_nothl_weave_debuff:DeclareFunctions() return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS } end
 function modifier_enfos_dazzle_nothl_weave_debuff:GetModifierPhysicalArmorBonus() return (self:GetStackCount() or 1) * -2 end
+
+
+-- ============================================================================
+-- BATCH 3 PVE HERO KITS: BRISTLEBACK, TIDEHUNTER, WRAITH KING, PA, ZEUS, WITCH DOCTOR
+-- ============================================================================
+
+-- ----------------------------------------------------------------------------
+-- BRISTLEBACK: VISCOUS NASAL GOO, QUILL SPRAY, BRISTLEBACK, WARPATH, HAIRBALL
+-- ----------------------------------------------------------------------------
+
+enfos_bb_viscous_nasal_goo=class({})
+function enfos_bb_viscous_nasal_goo:OnSpellStart()
+    local c = self:GetCaster()
+    local t = self:GetCursorTarget()
+    if not t or not t:IsAlive() then return end
+
+    c:EmitSound('Hero_Bristleback.ViscousGoo.Cast')
+    t:AddNewModifier(c, self, 'modifier_enfos_bb_viscous_nasal_goo_debuff', { duration = 5.0 })
+end
+
+modifier_enfos_bb_viscous_nasal_goo_debuff=class({})
+function modifier_enfos_bb_viscous_nasal_goo_debuff:IsDebuff() return true end
+function modifier_enfos_bb_viscous_nasal_goo_debuff:DeclareFunctions()
+    return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS, MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE }
+end
+function modifier_enfos_bb_viscous_nasal_goo_debuff:OnCreated()
+    if not IsServer() then return end
+    self:SetStackCount(1)
+end
+function modifier_enfos_bb_viscous_nasal_goo_debuff:OnRefresh()
+    if not IsServer() then return end
+    self:SetStackCount(math.min(4, self:GetStackCount() + 1))
+end
+function modifier_enfos_bb_viscous_nasal_goo_debuff:GetModifierPhysicalArmorBonus()
+    local red = (self.GetAbility and value(self:GetAbility(), 'armor_reduction')) or 3
+    return -red * (self:GetStackCount() or 1)
+end
+function modifier_enfos_bb_viscous_nasal_goo_debuff:GetModifierMoveSpeedBonus_Percentage()
+    return -15 - ((self:GetStackCount() or 1) * 3)
+end
+
+enfos_bb_quill_spray=class({})
+function enfos_bb_quill_spray:OnSpellStart()
+    local c = self:GetCaster()
+    c:EmitSound('Hero_Bristleback.QuillSpray.Cast')
+    effect('particles/units/heroes/hero_bristleback/bristleback_quill_spray.vpcf', c)
+
+    local base_dmg = value(self, 'base_damage')
+    if base_dmg <= 0 then base_dmg = 80 end
+    local stack_dmg = value(self, 'stack_damage')
+    if stack_dmg <= 0 then stack_dmg = 40 end
+    local str = c.GetStrength and c:GetStrength() or 0
+
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 700)) do
+        local mod = u:FindModifierByName('modifier_enfos_bb_quill_spray_debuff')
+        local stacks = (mod and mod.GetStackCount and mod:GetStackCount()) or 0
+        local total_dmg = base_dmg + (str * 0.4) + (stacks * (stack_dmg + (str * 0.15)))
+        damage(self, u, total_dmg, DAMAGE_TYPE_PHYSICAL)
+
+        if not mod then
+            mod = u:AddNewModifier(c, self, 'modifier_enfos_bb_quill_spray_debuff', { duration = 14.0 })
+        end
+        if mod and mod.SetStackCount then
+            local cur = (mod.GetStackCount and mod:GetStackCount()) or 0
+            mod:SetStackCount(math.min(10, cur + 1))
+        end
+        if mod and mod.SetDuration then
+            mod:SetDuration(14.0, true)
+        end
+    end
+
+    local warpath = c:FindAbilityByName('enfos_bb_warpath')
+    if warpath then
+        local w_mod = c:FindModifierByName('modifier_enfos_bb_warpath_buff')
+        if not w_mod then
+            w_mod = c:AddNewModifier(c, warpath, 'modifier_enfos_bb_warpath_buff', { duration = 10.0 })
+        end
+        if w_mod and w_mod.SetStackCount then
+            local cur = (w_mod.GetStackCount and w_mod:GetStackCount()) or 0
+            w_mod:SetStackCount(math.min(10, cur + 1))
+        end
+        if w_mod and w_mod.SetDuration then
+            w_mod:SetDuration(10.0, true)
+        end
+    end
+end
+
+modifier_enfos_bb_quill_spray_debuff=class({})
+function modifier_enfos_bb_quill_spray_debuff:IsDebuff() return true end
+
+enfos_bb_bristleback=class({})
+function enfos_bb_bristleback:GetIntrinsicModifierName() return 'modifier_enfos_bb_bristleback_passive' end
+
+modifier_enfos_bb_bristleback_passive=class({})
+function modifier_enfos_bb_bristleback_passive:DeclareFunctions()
+    return { MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE, MODIFIER_EVENT_ON_TAKEDAMAGE }
+end
+function modifier_enfos_bb_bristleback_passive:OnCreated()
+    self.accumulated_damage = 0
+end
+function modifier_enfos_bb_bristleback_passive:GetModifierIncomingDamage_Percentage()
+    return -25
+end
+function modifier_enfos_bb_bristleback_passive:OnTakeDamage(params)
+    if not IsServer() then return end
+    local c = self:GetParent()
+    if params.unit ~= c then return end
+
+    self.accumulated_damage = (self.accumulated_damage or 0) + (params.damage or 0)
+    if self.accumulated_damage >= 200 then
+        self.accumulated_damage = 0
+        local qs = c:FindAbilityByName('enfos_bb_quill_spray')
+        if qs and qs:GetLevel() > 0 then
+            qs:OnSpellStart()
+        end
+    end
+end
+
+enfos_bb_warpath=class({})
+function enfos_bb_warpath:GetIntrinsicModifierName() return 'modifier_enfos_bb_warpath_passive' end
+
+modifier_enfos_bb_warpath_passive=class({})
+function modifier_enfos_bb_warpath_passive:IsHidden() return true end
+
+modifier_enfos_bb_warpath_buff=class({})
+function modifier_enfos_bb_warpath_buff:DeclareFunctions()
+    return { MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE, MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE }
+end
+function modifier_enfos_bb_warpath_buff:GetModifierPreAttack_BonusDamage()
+    return (self:GetStackCount() or 1) * 25
+end
+function modifier_enfos_bb_warpath_buff:GetModifierMoveSpeedBonus_Percentage()
+    return (self:GetStackCount() or 1) * 3
+end
+
+enfos_bb_hairball=class({})
+function enfos_bb_hairball:OnSpellStart()
+    local c = self:GetCaster()
+    local pos = self:GetCursorPosition()
+    c:EmitSound('Hero_Bristleback.Hairball.Cast')
+
+    local goo = c:FindAbilityByName('enfos_bb_viscous_nasal_goo')
+    local qs = c:FindAbilityByName('enfos_bb_quill_spray')
+
+    for _, u in ipairs(enemies(c, pos, 400)) do
+        if goo then
+            u:AddNewModifier(c, goo, 'modifier_enfos_bb_viscous_nasal_goo_debuff', { duration = 5.0 })
+            local m = u:FindModifierByName('modifier_enfos_bb_viscous_nasal_goo_debuff')
+            if m then m:SetStackCount(2) end
+        end
+    end
+    if qs then qs:OnSpellStart() end
+end
+
+-- ----------------------------------------------------------------------------
+-- TIDEHUNTER: GUSH, KRAKEN SHELL, ANCHOR SMASH, RAVAGE, COLOSSAL PRESENCE
+-- ----------------------------------------------------------------------------
+
+enfos_tide_gush=class({})
+function enfos_tide_gush:OnSpellStart()
+    local c = self:GetCaster()
+    local t = self:GetCursorTarget()
+    if not t or not t:IsAlive() then return end
+
+    c:EmitSound('Hero_Tidehunter.Gush.Cast')
+    effect('particles/units/heroes/hero_tidehunter/tidehunter_gush.vpcf', t)
+
+    local base = value(self, 'damage')
+    if base <= 0 then base = 220 end
+    local str = c.GetStrength and c:GetStrength() or 0
+    local dmg = base + (str * 1.0)
+
+    damage(self, t, dmg, DAMAGE_TYPE_MAGICAL)
+    t:AddNewModifier(c, self, 'modifier_enfos_tide_gush_debuff', { duration = 4.5 })
+end
+
+modifier_enfos_tide_gush_debuff=class({})
+function modifier_enfos_tide_gush_debuff:IsDebuff() return true end
+function modifier_enfos_tide_gush_debuff:DeclareFunctions()
+    return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS, MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE }
+end
+function modifier_enfos_tide_gush_debuff:GetModifierPhysicalArmorBonus()
+    return -((self.GetAbility and value(self:GetAbility(), 'armor_reduction')) or 5)
+end
+function modifier_enfos_tide_gush_debuff:GetModifierMoveSpeedBonus_Percentage() return -40 end
+
+enfos_tide_kraken_shell=class({})
+function enfos_tide_kraken_shell:GetIntrinsicModifierName() return 'modifier_enfos_tide_kraken_shell_passive' end
+
+modifier_enfos_tide_kraken_shell_passive=class({})
+function modifier_enfos_tide_kraken_shell_passive:DeclareFunctions()
+    return { MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK, MODIFIER_EVENT_ON_TAKEDAMAGE }
+end
+function modifier_enfos_tide_kraken_shell_passive:OnCreated()
+    self.damage_counter = 0
+end
+function modifier_enfos_tide_kraken_shell_passive:GetModifierPhysical_ConstantBlock()
+    local c = self:GetParent()
+    local str = c.GetStrength and c:GetStrength() or 0
+    local base = (self.GetAbility and value(self:GetAbility(), 'damage_block')) or 50
+    return base + (str * 0.05)
+end
+function modifier_enfos_tide_kraken_shell_passive:OnTakeDamage(params)
+    if not IsServer() then return end
+    local c = self:GetParent()
+    if params.unit ~= c then return end
+    self.damage_counter = (self.damage_counter or 0) + (params.damage or 0)
+    if self.damage_counter >= 450 then
+        self.damage_counter = 0
+        if c.Purge then c:Purge(false, true, false, true, true) end
+    end
+end
+
+enfos_tide_anchor_smash=class({})
+function enfos_tide_anchor_smash:OnSpellStart()
+    local c = self:GetCaster()
+    c:EmitSound('Hero_Tidehunter.AnchorSmash')
+
+    local base = value(self, 'bonus_damage')
+    if base <= 0 then base = 160 end
+    local str = c.GetStrength and c:GetStrength() or 0
+    local dmg = (c.GetAverageTrueAttackDamage and c:GetAverageTrueAttackDamage() or 100) + base + (str * 0.75)
+
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 400)) do
+        damage(self, u, dmg, DAMAGE_TYPE_PHYSICAL)
+        u:AddNewModifier(c, self, 'modifier_enfos_tide_anchor_smash_debuff', { duration = 6.0 })
+    end
+end
+
+modifier_enfos_tide_anchor_smash_debuff=class({})
+function modifier_enfos_tide_anchor_smash_debuff:IsDebuff() return true end
+function modifier_enfos_tide_anchor_smash_debuff:DeclareFunctions()
+    return { MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE }
+end
+function modifier_enfos_tide_anchor_smash_debuff:GetModifierBaseDamageOutgoing_Percentage()
+    return -((self.GetAbility and value(self:GetAbility(), 'damage_reduction')) or 50)
+end
+
+enfos_tide_ravage=class({})
+function enfos_tide_ravage:OnSpellStart()
+    local c = self:GetCaster()
+    c:EmitSound('Hero_Tidehunter.Ravage')
+    effect('particles/units/heroes/hero_tidehunter/tidehunter_spell_ravage.vpcf', c)
+
+    local base = value(self, 'damage')
+    if base <= 0 then base = 325 end
+    local str = c.GetStrength and c:GetStrength() or 0
+    local dmg = base + (str * 2.0)
+    local dur = value(self, 'stun_duration')
+    if dur <= 0 then dur = 2.8 end
+
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 1000)) do
+        local target_dur = is_boss(u) and 1.0 or dur
+        u:AddNewModifier(c, self, 'modifier_enfos_tide_ravage_stun', { duration = target_dur })
+        damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
+    end
+end
+
+modifier_enfos_tide_ravage_stun=class({})
+function modifier_enfos_tide_ravage_stun:IsDebuff() return true end
+function modifier_enfos_tide_ravage_stun:CheckState() return { [MODIFIER_STATE_STUNNED] = true } end
+
+enfos_tide_colossal_presence=class({})
+function enfos_tide_colossal_presence:GetIntrinsicModifierName() return 'modifier_enfos_tide_colossal_presence_aura' end
+
+modifier_enfos_tide_colossal_presence_aura=class({})
+function modifier_enfos_tide_colossal_presence_aura:IsHidden() return true end
+function modifier_enfos_tide_colossal_presence_aura:IsAura() return true end
+function modifier_enfos_tide_colossal_presence_aura:GetAuraRadius() return 900 end
+function modifier_enfos_tide_colossal_presence_aura:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_ENEMY end
+function modifier_enfos_tide_colossal_presence_aura:GetAuraSearchType() return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end
+function modifier_enfos_tide_colossal_presence_aura:GetModifierAura() return 'modifier_enfos_tide_colossal_presence_debuff' end
+function modifier_enfos_tide_colossal_presence_aura:DeclareFunctions() return { MODIFIER_PROPERTY_EXTRA_HEALTH_PERCENTAGE } end
+function modifier_enfos_tide_colossal_presence_aura:GetModifierExtraHealthPercentage() return 25 end
+
+modifier_enfos_tide_colossal_presence_debuff=class({})
+function modifier_enfos_tide_colossal_presence_debuff:IsDebuff() return true end
+function modifier_enfos_tide_colossal_presence_debuff:DeclareFunctions()
+    return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE }
+end
+function modifier_enfos_tide_colossal_presence_debuff:GetModifierMoveSpeedBonus_Percentage() return -15 end
+function modifier_enfos_tide_colossal_presence_debuff:GetModifierBaseDamageOutgoing_Percentage() return -15 end
+
+-- ----------------------------------------------------------------------------
+-- WRAITH KING: WRAITHFIRE BLAST, VAMPIRIC AURA, MORTAL STRIKE, REINCARNATION, SKELETON ARMY
+-- ----------------------------------------------------------------------------
+
+enfos_wk_wraithfire_blast=class({})
+function enfos_wk_wraithfire_blast:OnSpellStart()
+    local c = self:GetCaster()
+    local t = self:GetCursorTarget()
+    if not t or not t:IsAlive() then return end
+
+    c:EmitSound('Hero_SkeletonKing.Hellfire_Blast')
+    effect('particles/units/heroes/hero_skeletonking/skeletonking_hellfireblast.vpcf', t)
+
+    local base = value(self, 'damage')
+    if base <= 0 then base = 200 end
+    local str = c.GetStrength and c:GetStrength() or 0
+    local dmg = base + (str * 1.2)
+
+    damage(self, t, dmg, DAMAGE_TYPE_MAGICAL)
+    local stun_dur = is_boss(t) and 0.6 or (value(self, 'stun_duration') or 1.5)
+    t:AddNewModifier(c, self, 'modifier_enfos_wk_wraithfire_blast_stun', { duration = stun_dur })
+    t:AddNewModifier(c, self, 'modifier_enfos_wk_wraithfire_blast_dot', { duration = 2.0 })
+end
+
+modifier_enfos_wk_wraithfire_blast_stun=class({})
+function modifier_enfos_wk_wraithfire_blast_stun:IsDebuff() return true end
+function modifier_enfos_wk_wraithfire_blast_stun:CheckState() return { [MODIFIER_STATE_STUNNED] = true } end
+
+modifier_enfos_wk_wraithfire_blast_dot=class({})
+function modifier_enfos_wk_wraithfire_blast_dot:IsDebuff() return true end
+function modifier_enfos_wk_wraithfire_blast_dot:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
+function modifier_enfos_wk_wraithfire_blast_dot:GetModifierMoveSpeedBonus_Percentage() return -20 end
+function modifier_enfos_wk_wraithfire_blast_dot:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(1.0)
+end
+function modifier_enfos_wk_wraithfire_blast_dot:OnIntervalThink()
+    local c = self:GetCaster()
+    local p = self:GetParent()
+    local str = (c and c.GetStrength and c:GetStrength()) or 0
+    local base = (self.GetAbility and value(self:GetAbility(), 'dot_damage')) or 80
+    damage(self:GetAbility(), p, base + (str * 0.3), DAMAGE_TYPE_MAGICAL)
+end
+
+enfos_wk_vampiric_aura=class({})
+function enfos_wk_vampiric_aura:GetIntrinsicModifierName() return 'modifier_enfos_wk_vampiric_aura' end
+
+modifier_enfos_wk_vampiric_aura=class({})
+function modifier_enfos_wk_vampiric_aura:IsHidden() return true end
+function modifier_enfos_wk_vampiric_aura:IsAura() return true end
+function modifier_enfos_wk_vampiric_aura:GetAuraRadius() return 900 end
+function modifier_enfos_wk_vampiric_aura:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_FRIENDLY end
+function modifier_enfos_wk_vampiric_aura:GetAuraSearchType() return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end
+function modifier_enfos_wk_vampiric_aura:GetModifierAura() return 'modifier_enfos_wk_vampiric_aura_buff' end
+
+modifier_enfos_wk_vampiric_aura_buff=class({})
+function modifier_enfos_wk_vampiric_aura_buff:DeclareFunctions() return { MODIFIER_EVENT_ON_TAKEDAMAGE } end
+function modifier_enfos_wk_vampiric_aura_buff:OnTakeDamage(params)
+    if not IsServer() then return end
+    local p = self:GetParent()
+    if params.attacker == p and params.damage and params.damage > 0 then
+        local pct = (p == self:GetCaster()) and 0.50 or 0.25
+        p:Heal(params.damage * pct, self:GetAbility())
+    end
+end
+
+enfos_wk_mortal_strike=class({})
+function enfos_wk_mortal_strike:GetIntrinsicModifierName() return 'modifier_enfos_wk_mortal_strike_passive' end
+
+modifier_enfos_wk_mortal_strike_passive=class({})
+function modifier_enfos_wk_mortal_strike_passive:DeclareFunctions()
+    return { MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE, MODIFIER_EVENT_ON_ATTACK_LANDED }
+end
+function modifier_enfos_wk_mortal_strike_passive:GetModifierPreAttack_CriticalStrike()
+    if RollPercentage(20) then
+        self.crit_proc = true
+        return 260
+    end
+    self.crit_proc = false
+    return 0
+end
+function modifier_enfos_wk_mortal_strike_passive:OnAttackLanded(params)
+    if not IsServer() then return end
+    local c = self:GetParent()
+    if params.attacker ~= c then return end
+    local t = params.target
+    if self.crit_proc and t and t:IsAlive() then
+        c:EmitSound('Hero_SkeletonKing.CriticalStrike')
+        effect('particles/units/heroes/hero_skeletonking/skeletonking_mortalstrike.vpcf', t)
+        local cleave_dmg = (params.damage or 200) * 0.5
+        for _, u in ipairs(enemies(c, t:GetAbsOrigin(), 300)) do
+            if u ~= t then damage(self:GetAbility(), u, cleave_dmg, DAMAGE_TYPE_PHYSICAL) end
+        end
+    end
+end
+
+enfos_wk_reincarnation=class({})
+function enfos_wk_reincarnation:GetIntrinsicModifierName() return 'modifier_enfos_wk_reincarnation_passive' end
+
+modifier_enfos_wk_reincarnation_passive=class({})
+function modifier_enfos_wk_reincarnation_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_DEATH } end
+function modifier_enfos_wk_reincarnation_passive:OnDeath(params)
+    if not IsServer() then return end
+    local c = self:GetParent()
+    if params.unit ~= c then return end
+    local a = self:GetAbility()
+    if not a or (a.IsNull and a:IsNull()) or not a:IsCooldownReady() then return end
+
+    a:StartCooldown(60.0)
+    c:EmitSound('Hero_SkeletonKing.Reincarnate')
+
+    local str = c.GetStrength and c:GetStrength() or 0
+    local dmg = 500 + (str * 2.5)
+
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 900)) do
+        damage(a, u, dmg, DAMAGE_TYPE_MAGICAL)
+    end
+end
+
+enfos_wk_skeleton_army=class({})
+function enfos_wk_skeleton_army:GetIntrinsicModifierName() return 'modifier_enfos_wk_skeleton_army_passive' end
+function enfos_wk_skeleton_army:OnSpellStart()
+    local c = self:GetCaster()
+    local mod = c:FindModifierByName('modifier_enfos_wk_skeleton_army_passive')
+    local count = mod and mod:GetStackCount() or 0
+    if count <= 0 then count = 4 end
+    if mod then mod:SetStackCount(0) end
+
+    c:EmitSound('Hero_SkeletonKing.Hellfire_Blast')
+    local str = c.GetStrength and c:GetStrength() or 0
+    local dmg = 120 + (str * 0.8)
+
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 600)) do
+        damage(self, u, dmg, DAMAGE_TYPE_PHYSICAL)
+    end
+end
+
+modifier_enfos_wk_skeleton_army_passive=class({})
+function modifier_enfos_wk_skeleton_army_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_DEATH } end
+function modifier_enfos_wk_skeleton_army_passive:OnDeath(params)
+    if not IsServer() then return end
+    local c = self:GetParent()
+    if params.attacker == c and params.unit ~= c then
+        self:SetStackCount(math.min(8, (self:GetStackCount() or 0) + 1))
+    end
+end
+
+-- ----------------------------------------------------------------------------
+-- PHANTOM ASSASSIN: STIFLING DAGGER, PHANTOM STRIKE, BLUR, COUP DE GRACE, FAN OF KNIVES
+-- ----------------------------------------------------------------------------
+
+enfos_pa_stifling_dagger=class({})
+function enfos_pa_stifling_dagger:OnSpellStart()
+    local c = self:GetCaster()
+    local t = self:GetCursorTarget()
+    if not t or not t:IsAlive() then return end
+
+    c:EmitSound('Hero_PhantomAssassin.Dagger.Cast')
+    local base = value(self, 'base_damage')
+    if base <= 0 then base = 120 end
+    local agi = c.GetAgility and c:GetAgility() or 0
+    local atk = c.GetAverageTrueAttackDamage and c:GetAverageTrueAttackDamage() or 100
+    local dmg = base + (atk * 0.7) + (agi * 0.5)
+
+    -- Pierces up to 3 targets in a line
+    local dir = (t:GetAbsOrigin() - c:GetAbsOrigin()):Normalized()
+    local hits = 0
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 500), 500)) do
+        damage(self, u, dmg, DAMAGE_TYPE_PHYSICAL)
+        u:AddNewModifier(c, self, 'modifier_enfos_pa_stifling_dagger_slow', { duration = 4.0 })
+        effect('particles/units/heroes/hero_phantom_assassin/phantom_assassin_stifling_dagger.vpcf', u)
+        hits = hits + 1
+        if hits >= 3 then break end
+    end
+end
+
+modifier_enfos_pa_stifling_dagger_slow=class({})
+function modifier_enfos_pa_stifling_dagger_slow:IsDebuff() return true end
+function modifier_enfos_pa_stifling_dagger_slow:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
+function modifier_enfos_pa_stifling_dagger_slow:GetModifierMoveSpeedBonus_Percentage() return -50 end
+
+enfos_pa_phantom_strike=class({})
+function enfos_pa_phantom_strike:OnSpellStart()
+    local c = self:GetCaster()
+    local t = self:GetCursorTarget()
+    if not t or not t:IsAlive() then return end
+
+    c:EmitSound('Hero_PhantomAssassin.Strike.Start')
+    FindClearSpaceForUnit(c, t:GetAbsOrigin() + Vector(-60, 0, 0), true)
+    c:AddNewModifier(c, self, 'modifier_enfos_pa_phantom_strike_buff', { duration = 3.0 })
+end
+
+modifier_enfos_pa_phantom_strike_buff=class({})
+function modifier_enfos_pa_phantom_strike_buff:DeclareFunctions()
+    return { MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_EVENT_ON_TAKEDAMAGE }
+end
+function modifier_enfos_pa_phantom_strike_buff:GetModifierAttackSpeedBonus_Constant() return 150 end
+function modifier_enfos_pa_phantom_strike_buff:OnTakeDamage(params)
+    if not IsServer() then return end
+    local c = self:GetParent()
+    if params.attacker == c and params.damage and params.damage > 0 then
+        c:Heal(params.damage * 0.15, self:GetAbility())
+    end
+end
+
+enfos_pa_blur=class({})
+function enfos_pa_blur:GetIntrinsicModifierName() return 'modifier_enfos_pa_blur_passive' end
+function enfos_pa_blur:OnSpellStart()
+    local c = self:GetCaster()
+    c:EmitSound('Hero_PhantomAssassin.Blur')
+    c:AddNewModifier(c, self, 'modifier_enfos_pa_blur_active', { duration = 15.0 })
+end
+
+modifier_enfos_pa_blur_passive=class({})
+function modifier_enfos_pa_blur_passive:DeclareFunctions() return { MODIFIER_PROPERTY_EVASION_CONSTANT } end
+function modifier_enfos_pa_blur_passive:GetModifierEvasion_Constant()
+    return (self.GetAbility and value(self:GetAbility(), 'evasion')) or 40
+end
+
+modifier_enfos_pa_blur_active=class({})
+function modifier_enfos_pa_blur_active:CheckState() return { [MODIFIER_STATE_INVISIBLE] = true } end
+
+enfos_pa_coup_de_grace=class({})
+function enfos_pa_coup_de_grace:GetIntrinsicModifierName() return 'modifier_enfos_pa_coup_de_grace_passive' end
+
+modifier_enfos_pa_coup_de_grace_passive=class({})
+function modifier_enfos_pa_coup_de_grace_passive:DeclareFunctions()
+    return { MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE, MODIFIER_EVENT_ON_ATTACK_LANDED }
+end
+function modifier_enfos_pa_coup_de_grace_passive:GetModifierPreAttack_CriticalStrike()
+    local c = self:GetParent()
+    local is_blur = c:HasModifier('modifier_enfos_pa_blur_active')
+    if is_blur or RollPercentage(15) then
+        if is_blur then c:RemoveModifierByName('modifier_enfos_pa_blur_active') end
+        self.crit_proc = true
+        return 425
+    end
+    self.crit_proc = false
+    return 0
+end
+function modifier_enfos_pa_coup_de_grace_passive:OnAttackLanded(params)
+    if not IsServer() then return end
+    local c = self:GetParent()
+    if params.attacker ~= c then return end
+    local t = params.target
+    if self.crit_proc and t and t:IsAlive() then
+        c:EmitSound('Hero_PhantomAssassin.CoupDeGrace')
+        effect('particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf', t)
+        local aoe_dmg = (params.damage or 400) * 0.5
+        for _, u in ipairs(enemies(c, t:GetAbsOrigin(), 250)) do
+            if u ~= t then damage(self:GetAbility(), u, aoe_dmg, DAMAGE_TYPE_PHYSICAL) end
+        end
+    end
+end
+
+enfos_pa_fan_of_knives=class({})
+function enfos_pa_fan_of_knives:OnSpellStart()
+    local c = self:GetCaster()
+    c:EmitSound('Hero_PhantomAssassin.FanOfKnives')
+    local r = value(self, 'radius')
+    if r <= 0 then r = 550 end
+
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), r)) do
+        local max_hp = u.GetMaxHealth and u:GetMaxHealth() or 1000
+        local pct_dmg = max_hp * 0.12
+        if is_boss(u) then pct_dmg = math.min(600, pct_dmg) end
+        damage(self, u, 150 + pct_dmg, DAMAGE_TYPE_PURE)
+    end
+end
+
+-- ----------------------------------------------------------------------------
+-- ZEUS: ARC LIGHTNING, LIGHTNING BOLT, STATIC FIELD, THUNDERGOD'S WRATH, HEAVENLY JUMP
+-- ----------------------------------------------------------------------------
+
+enfos_zeus_arc_lightning=class({})
+function enfos_zeus_arc_lightning:OnSpellStart()
+    local c = self:GetCaster()
+    local initial = self:GetCursorTarget()
+    if not initial or not initial:IsAlive() then return end
+
+    c:EmitSound('Hero_Zuus.ArcLightning.Cast')
+    local base = value(self, 'damage')
+    if base <= 0 then base = 150 end
+    local int = c.GetIntellect and c:GetIntellect() or 0
+    local dmg = base + (int * 0.6)
+
+    local hit = { [initial:entindex()] = true }
+    local current = initial
+    damage(self, initial, dmg, DAMAGE_TYPE_MAGICAL)
+    effect('particles/units/heroes/hero_zuus/zuus_arc_lightning.vpcf', initial)
+
+    for i = 1, 12 do
+        local candidates = enemies(c, current:GetAbsOrigin(), 500)
+        local next_target = nil
+        for _, u in ipairs(candidates) do
+            if not hit[u:entindex()] then next_target = u break end
+        end
+        if not next_target then break end
+        hit[next_target:entindex()] = true
+        damage(self, next_target, dmg, DAMAGE_TYPE_MAGICAL)
+        effect('particles/units/heroes/hero_zuus/zuus_arc_lightning.vpcf', next_target)
+        current = next_target
+    end
+end
+
+enfos_zeus_lightning_bolt=class({})
+function enfos_zeus_lightning_bolt:OnSpellStart()
+    local c = self:GetCaster()
+    local t = self:GetCursorTarget()
+    if not t or not t:IsAlive() then return end
+
+    c:EmitSound('Hero_Zuus.LightningBolt')
+    effect('particles/units/heroes/hero_zuus/zuus_lightning_bolt.vpcf', t)
+
+    local base = value(self, 'damage')
+    if base <= 0 then base = 300 end
+    local int = c.GetIntellect and c:GetIntellect() or 0
+    local dmg = base + (int * 1.5)
+
+    damage(self, t, dmg, DAMAGE_TYPE_MAGICAL)
+end
+
+enfos_zeus_static_field=class({})
+function enfos_zeus_static_field:GetIntrinsicModifierName() return 'modifier_enfos_zeus_static_field_passive' end
+
+modifier_enfos_zeus_static_field_passive=class({})
+function modifier_enfos_zeus_static_field_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_ABILITY_FULLY_CAST } end
+function modifier_enfos_zeus_static_field_passive:OnAbilityFullyCast(params)
+    if not IsServer() then return end
+    local c = self:GetParent()
+    if params.unit ~= c or params.ability == self:GetAbility() then return end
+
+    local a = self:GetAbility()
+    local pct = (a and value(a, 'damage_pct')) or 8
+    if pct <= 0 then pct = 8 end
+
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 800)) do
+        local cur_hp = u.GetHealth and u:GetHealth() or 500
+        local dmg = cur_hp * (pct / 100)
+        if is_boss(u) then dmg = math.min(500, dmg) end
+        damage(a, u, dmg, DAMAGE_TYPE_MAGICAL)
+    end
+end
+
+enfos_zeus_thundergods_wrath=class({})
+function enfos_zeus_thundergods_wrath:OnSpellStart()
+    local c = self:GetCaster()
+    c:EmitSound('Hero_Zuus.GodsWrath')
+    effect('particles/units/heroes/hero_zuus/zuus_thundergods_wrath.vpcf', c)
+
+    local base = value(self, 'damage')
+    if base <= 0 then base = 450 end
+    local int = c.GetIntellect and c:GetIntellect() or 0
+    local dmg = base + (int * 2.0)
+
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 99999)) do
+        damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
+        effect('particles/units/heroes/hero_zuus/zuus_lightning_bolt.vpcf', u)
+    end
+end
+
+enfos_zeus_heavenly_jump=class({})
+function enfos_zeus_heavenly_jump:OnSpellStart()
+    local c = self:GetCaster()
+    c:EmitSound('Hero_Zuus.HeavenlyJump')
+    c:AddNewModifier(c, self, 'modifier_enfos_zeus_heavenly_jump_buff', { duration = 3.0 })
+
+    local int = c.GetIntellect and c:GetIntellect() or 0
+    local dmg = 150 + (int * 0.8)
+
+    local count = 0
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 600)) do
+        damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
+        u:AddNewModifier(c, self, 'modifier_enfos_zeus_heavenly_jump_slow', { duration = 2.0 })
+        count = count + 1
+        if count >= 3 then break end
+    end
+end
+
+modifier_enfos_zeus_heavenly_jump_buff=class({})
+function modifier_enfos_zeus_heavenly_jump_buff:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
+function modifier_enfos_zeus_heavenly_jump_buff:GetModifierMoveSpeedBonus_Percentage() return 25 end
+
+modifier_enfos_zeus_heavenly_jump_slow=class({})
+function modifier_enfos_zeus_heavenly_jump_slow:IsDebuff() return true end
+function modifier_enfos_zeus_heavenly_jump_slow:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
+function modifier_enfos_zeus_heavenly_jump_slow:GetModifierMoveSpeedBonus_Percentage() return -80 end
+
+-- ----------------------------------------------------------------------------
+-- WITCH DOCTOR: PARALYZING CASK, VOODOO RESTORATION, MALEDICT, DEATH WARD, VOODOO SWITCHEROO
+-- ----------------------------------------------------------------------------
+
+enfos_wd_paralyzing_cask=class({})
+function enfos_wd_paralyzing_cask:OnSpellStart()
+    local c = self:GetCaster()
+    local initial = self:GetCursorTarget()
+    if not initial or not initial:IsAlive() then return end
+
+    c:EmitSound('Hero_WitchDoctor.Paralyzing_Cask_Cast')
+    local base = value(self, 'damage')
+    if base <= 0 then base = 100 end
+    local int = c.GetIntellect and c:GetIntellect() or 0
+    local dmg = base + (int * 0.4)
+
+    local current = initial
+    local bounces = value(self, 'bounces')
+    if bounces <= 0 then bounces = 10 end
+
+    for i = 1, bounces do
+        if not current or not current:IsAlive() then break end
+        damage(self, current, dmg, DAMAGE_TYPE_MAGICAL)
+        local stun_dur = is_boss(current) and 0.3 or 1.0
+        current:AddNewModifier(c, self, 'modifier_enfos_wd_paralyzing_cask_stun', { duration = stun_dur })
+        effect('particles/units/heroes/hero_witchdoctor/witchdoctor_cask.vpcf', current)
+
+        local candidates = enemies(c, current:GetAbsOrigin(), 500)
+        local next_target = nil
+        for _, u in ipairs(candidates) do
+            if u ~= current then next_target = u break end
+        end
+        current = next_target
+    end
+end
+
+modifier_enfos_wd_paralyzing_cask_stun=class({})
+function modifier_enfos_wd_paralyzing_cask_stun:IsDebuff() return true end
+function modifier_enfos_wd_paralyzing_cask_stun:CheckState() return { [MODIFIER_STATE_STUNNED] = true } end
+
+enfos_wd_voodoo_restoration=class({})
+function enfos_wd_voodoo_restoration:OnToggle()
+    local c = self:GetCaster()
+    if self:GetToggleState() then
+        c:AddNewModifier(c, self, 'modifier_enfos_wd_voodoo_restoration_aura', {})
+    else
+        c:RemoveModifierByName('modifier_enfos_wd_voodoo_restoration_aura')
+    end
+end
+
+modifier_enfos_wd_voodoo_restoration_aura=class({})
+function modifier_enfos_wd_voodoo_restoration_aura:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(1.0)
+end
+function modifier_enfos_wd_voodoo_restoration_aura:OnIntervalThink()
+    local c = self:GetParent()
+    local a = self:GetAbility()
+    local int = c.GetIntellect and c:GetIntellect() or 0
+    local val = (a and value(a, 'heal_per_second')) or 50
+    local amount = val + (int * 0.3)
+
+    for _, u in ipairs(allies(c, c:GetAbsOrigin(), 500)) do
+        u:Heal(amount, a)
+    end
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 500)) do
+        damage(a, u, amount, DAMAGE_TYPE_MAGICAL)
+    end
+end
+
+enfos_wd_maledict=class({})
+function enfos_wd_maledict:OnSpellStart()
+    local c = self:GetCaster()
+    local pos = self:GetCursorPosition()
+    c:EmitSound('Hero_WitchDoctor.Maledict_Cast')
+    local r = value(self, 'radius')
+    if r <= 0 then r = 200 end
+
+    for _, u in ipairs(enemies(c, pos, r)) do
+        u:AddNewModifier(c, self, 'modifier_enfos_wd_maledict_debuff', { duration = 12.0 })
+        effect('particles/units/heroes/hero_witchdoctor/witchdoctor_maledict.vpcf', u)
+    end
+end
+
+modifier_enfos_wd_maledict_debuff=class({})
+function modifier_enfos_wd_maledict_debuff:IsDebuff() return true end
+function modifier_enfos_wd_maledict_debuff:OnCreated()
+    if not IsServer() then return end
+    local p = self:GetParent()
+    self.start_hp = p.GetHealth and p:GetHealth() or 1000
+    self.elapsed = 0
+    self:StartIntervalThink(1.0)
+end
+function modifier_enfos_wd_maledict_debuff:OnIntervalThink()
+    local p = self:GetParent()
+    local a = self:GetAbility()
+    local dps = (a and value(a, 'base_dps')) or 50
+    damage(a, p, dps, DAMAGE_TYPE_MAGICAL)
+
+    self.elapsed = (self.elapsed or 0) + 1
+    if self.elapsed % 4 == 0 then
+        local current_hp = p.GetHealth and p:GetHealth() or 0
+        local lost_hp = math.max(0, self.start_hp - current_hp)
+        local burst = lost_hp * 0.25
+        damage(a, p, burst, DAMAGE_TYPE_MAGICAL)
+    end
+end
+
+enfos_wd_death_ward=class({})
+function enfos_wd_death_ward:OnSpellStart()
+    local c = self:GetCaster()
+    local pos = self:GetCursorPosition()
+    c:EmitSound('Hero_WitchDoctor.Death_Ward')
+    c:AddNewModifier(c, self, 'modifier_enfos_wd_death_ward_channel', { duration = 8.0, x = pos.x, y = pos.y, z = pos.z })
+end
+function enfos_wd_death_ward:OnChannelFinish(interrupted)
+    local c = self:GetCaster()
+    c:RemoveModifierByName('modifier_enfos_wd_death_ward_channel')
+    c:StopSound('Hero_WitchDoctor.Death_Ward')
+end
+
+modifier_enfos_wd_death_ward_channel=class({})
+function modifier_enfos_wd_death_ward_channel:OnCreated(kv)
+    if not IsServer() then return end
+    self.pos = Vector(kv.x or 0, kv.y or 0, kv.z or 0)
+    self:StartIntervalThink(0.22)
+end
+function modifier_enfos_wd_death_ward_channel:OnIntervalThink()
+    local c = self:GetCaster()
+    local a = self:GetAbility()
+    local int = (c and c.GetIntellect and c:GetIntellect()) or 0
+    local base = (a and value(a, 'damage')) or 150
+    local dmg = base + (int * 0.75)
+
+    local targets = enemies(c, self.pos, 700)
+    if #targets > 0 then
+        local t = targets[RandomInt(1, #targets)]
+        damage(a, t, dmg, DAMAGE_TYPE_PHYSICAL)
+        effect('particles/units/heroes/hero_witchdoctor/witchdoctor_ward_attack.vpcf', t)
+    end
+end
+
+enfos_wd_voodoo_switcheroo=class({})
+function enfos_wd_voodoo_switcheroo:OnSpellStart()
+    local c = self:GetCaster()
+    c:EmitSound('Hero_WitchDoctor.Death_Ward')
+    c:AddNewModifier(c, self, 'modifier_enfos_wd_voodoo_switcheroo_buff', { duration = 3.0 })
+end
+
+modifier_enfos_wd_voodoo_switcheroo_buff=class({})
+function modifier_enfos_wd_voodoo_switcheroo_buff:CheckState()
+    return { [MODIFIER_STATE_INVULNERABLE] = true, [MODIFIER_STATE_DISARMED] = true }
+end
+function modifier_enfos_wd_voodoo_switcheroo_buff:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(0.25)
+end
+function modifier_enfos_wd_voodoo_switcheroo_buff:OnIntervalThink()
+    local c = self:GetParent()
+    local a = self:GetAbility()
+    local int = c.GetIntellect and c:GetIntellect() or 0
+    local dmg = 120 + (int * 0.8)
+
+    local targets = enemies(c, c:GetAbsOrigin(), 600)
+    if #targets > 0 then
+        local t = targets[RandomInt(1, #targets)]
+        damage(a, t, dmg, DAMAGE_TYPE_PHYSICAL)
+        effect('particles/units/heroes/hero_witchdoctor/witchdoctor_ward_attack.vpcf', t)
+    end
+end

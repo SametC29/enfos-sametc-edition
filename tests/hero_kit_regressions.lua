@@ -127,8 +127,18 @@ local function create_mock_unit(name, team, origin, hp)
         TriggerSpellAbsorb = function() return false end,
         GetAverageTrueAttackDamage = function(self) return 100 end,
         AddNewModifier = function(self, caster, ability, mod_name, params)
-            self.modifiers[mod_name] = { caster = caster, ability = ability, params = params }
-            return self.modifiers[mod_name]
+            local mod = {
+                caster = caster,
+                ability = ability,
+                params = params,
+                stacks = 0,
+                GetStackCount = function(m) return m.stacks or 0 end,
+                SetStackCount = function(m, count) m.stacks = count end,
+                SetDuration = function(m, dur, refresh) end,
+                Destroy = function(m) self.modifiers[mod_name] = nil end
+            }
+            self.modifiers[mod_name] = mod
+            return mod
         end,
         FindModifierByName = function(self, mod_name) return self.modifiers[mod_name] end,
         HasModifier = function(self, mod_name) return self.modifiers[mod_name] ~= nil end,
@@ -793,6 +803,152 @@ test('Dazzle Shadow Wave heals jumping allies and deals pure physical damage aro
     assert(#applied_damages == 2, 'Both swarming creeps around frontline must take 250 physical damage')
     assert(applied_damages[1].damage == 250 and applied_damages[1].damage_type == DAMAGE_TYPE_PHYSICAL)
     assert(applied_damages[2].damage == 250 and applied_damages[2].damage_type == DAMAGE_TYPE_PHYSICAL)
+end)
+
+test('Bristleback Quill Spray stacks damage and triggers Warpath stacks', function()
+    applied_damages = {}
+    local bb = create_mock_unit('npc_dota_hero_bristleback', 2, Vector(0, 0, 0))
+    bb.strength = 100
+    local dummy = create_mock_unit('creep_1', 3, Vector(100, 0, 0))
+    mock_world_units = { bb, dummy }
+
+    local ab = enfos_bb_quill_spray()
+    ab.GetCaster = function() return bb end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'base_damage' then return 80 end
+        if k == 'stack_damage' then return 40 end
+        return 0
+    end
+
+    -- First spray: base 80 + str*0.4 (40) = 120
+    ab:OnSpellStart()
+    assert(#applied_damages == 1)
+    assert(applied_damages[1].damage == 120 and applied_damages[1].damage_type == DAMAGE_TYPE_PHYSICAL)
+
+    -- Mock second spray with existing stack modifier (1 stack)
+    -- total_dmg = 80 + 40 + (1 * (40 + 15)) = 175
+    local debuff = dummy:FindModifierByName('modifier_enfos_bb_quill_spray_debuff')
+    assert(debuff ~= nil)
+    ab:OnSpellStart()
+    assert(#applied_damages == 2)
+    assert(applied_damages[2].damage == 175)
+end)
+
+test('Tidehunter Anchor Smash deals attack damage plus strength scaling and applies damage reduction debuff', function()
+    applied_damages = {}
+    local tide = create_mock_unit('npc_dota_hero_tidehunter', 2, Vector(0, 0, 0))
+    tide.strength = 80
+    local target = create_mock_unit('creep_tide', 3, Vector(150, 0, 0))
+    mock_world_units = { tide, target }
+
+    local ab = enfos_tide_anchor_smash()
+    ab.GetCaster = function() return tide end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'attack_damage_bonus' or k == 'bonus_damage' then return 160 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+    -- dmg = attack (100) + bonus (160) + (80 * 0.75 = 60) = 320
+    assert(#applied_damages == 1)
+    assert(applied_damages[1].damage == 320 and applied_damages[1].damage_type == DAMAGE_TYPE_PHYSICAL)
+    local debuff = target:FindModifierByName('modifier_enfos_tide_anchor_smash_debuff')
+    assert(debuff ~= nil, 'Anchor smash must apply debuff')
+end)
+
+test('Wraith King Mortal Strike procs cleave damage around target', function()
+    applied_damages = {}
+    local wk = create_mock_unit('npc_dota_hero_skeleton_king', 2, Vector(0, 0, 0))
+    local primary = create_mock_unit('primary_target', 3, Vector(100, 0, 0))
+    local secondary = create_mock_unit('secondary_target', 3, Vector(150, 0, 0))
+    mock_world_units = { wk, primary, secondary }
+
+    local ab = enfos_wk_mortal_strike()
+    local mod = modifier_enfos_wk_mortal_strike_passive()
+    mod.GetParent = function() return wk end
+    mod.GetAbility = function() return ab end
+
+    local crit = mod:GetModifierPreAttack_CriticalStrike()
+    assert(crit == 260, 'Mortal Strike crit must be 260%')
+    mod:OnAttackLanded({ attacker = wk, target = primary, damage = 300 })
+
+    -- Cleave damage to secondary: 300 * 0.5 = 150
+    assert(#applied_damages == 1)
+    assert(applied_damages[1].victim == secondary and applied_damages[1].damage == 150)
+end)
+
+test('Phantom Assassin Coup de Grace crits and splashes 50% damage in AoE', function()
+    applied_damages = {}
+    local pa = create_mock_unit('npc_dota_hero_phantom_assassin', 2, Vector(0, 0, 0))
+    local primary = create_mock_unit('pa_target', 3, Vector(100, 0, 0))
+    local swarm = create_mock_unit('pa_swarm', 3, Vector(130, 0, 0))
+    mock_world_units = { pa, primary, swarm }
+
+    local ab = enfos_pa_coup_de_grace()
+    local mod = modifier_enfos_pa_coup_de_grace_passive()
+    mod.GetParent = function() return pa end
+    mod.GetAbility = function() return ab end
+
+    local crit = mod:GetModifierPreAttack_CriticalStrike()
+    assert(crit == 425, 'Coup de Grace crit must be 425%')
+    mod:OnAttackLanded({ attacker = pa, target = primary, damage = 500 })
+
+    -- Splash to swarm: 500 * 0.5 = 250
+    assert(#applied_damages == 1)
+    assert(applied_damages[1].victim == swarm and applied_damages[1].damage == 250)
+end)
+
+test('Zeus Static Field deals current HP percent damage with boss cap', function()
+    applied_damages = {}
+    local zeus = create_mock_unit('npc_dota_hero_zuus', 2, Vector(0, 0, 0))
+    local creep = create_mock_unit('creep_zeus', 3, Vector(100, 0, 0), 1000)
+    local boss = create_mock_unit('enfos_boss_titan', 3, Vector(200, 0, 0), 30000)
+    mock_world_units = { zeus, creep, boss }
+
+    local ab = enfos_zeus_static_field()
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'damage_pct' then return 8 end
+        return 0
+    end
+    local mod = modifier_enfos_zeus_static_field_passive()
+    mod.GetParent = function() return zeus end
+    mod.GetAbility = function() return ab end
+
+    mod:OnAbilityFullyCast({ unit = zeus, ability = {} })
+
+    -- Creep: 1000 * 0.08 = 80 magical dmg
+    -- Boss: 30000 * 0.08 = 2400 -> capped at 500
+    assert(#applied_damages == 2)
+    assert(applied_damages[1].victim == creep and applied_damages[1].damage == 80)
+    assert(applied_damages[2].victim == boss and applied_damages[2].damage == 500)
+end)
+
+test('Witch Doctor Paralyzing Cask bounces and reduces boss stun duration', function()
+    applied_damages = {}
+    local wd = create_mock_unit('npc_dota_hero_witch_doctor', 2, Vector(0, 0, 0))
+    wd.intellect = 50
+    local boss = create_mock_unit('enfos_boss_wd', 3, Vector(100, 0, 0), 10000)
+    local creep = create_mock_unit('creep_wd', 3, Vector(150, 0, 0), 500)
+    mock_world_units = { wd, boss, creep }
+
+    local ab = enfos_wd_paralyzing_cask()
+    ab.GetCaster = function() return wd end
+    ab.GetCursorTarget = function() return boss end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'damage' then return 100 end
+        if k == 'bounces' then return 3 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+
+    -- Damage per bounce: 100 + (50 * 0.4) = 120
+    assert(#applied_damages >= 2, 'Cask must bounce between boss and creep')
+    assert(applied_damages[1].damage == 120 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
+    local boss_stun = boss:FindModifierByName('modifier_enfos_wd_paralyzing_cask_stun')
+    assert(boss_stun ~= nil and boss_stun.params.duration == 0.3, 'Boss stun duration must be reduced to 0.3s')
+    local creep_stun = creep:FindModifierByName('modifier_enfos_wd_paralyzing_cask_stun')
+    assert(creep_stun ~= nil and creep_stun.params.duration == 1.0, 'Creep stun duration must be 1.0s')
 end)
 
 print(passed .. ' hero kit regression tests passed (mock engine).')

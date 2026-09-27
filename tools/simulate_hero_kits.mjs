@@ -24,6 +24,12 @@ const heroes = [
   { name: 'Crystal Maiden', role: 'Mage', baseDps: 85, aoeDps: 450, burstDps: 820, manaCostPerSec: 25, hp: 750, armor: 5, sustainPerSec: 22 },
   { name: 'Omniknight', role: 'Support', baseDps: 70, aoeDps: 260, burstDps: 390, manaCostPerSec: 18, hp: 1100, armor: 14, sustainPerSec: 65 },
   { name: 'Dazzle', role: 'Support', baseDps: 75, aoeDps: 280, burstDps: 420, manaCostPerSec: 16, hp: 980, armor: 11, sustainPerSec: 60 },
+  { name: 'Bristleback', role: 'Tank', baseDps: 95, aoeDps: 310, burstDps: 520, manaCostPerSec: 12, hp: 1350, armor: 19, sustainPerSec: 42 },
+  { name: 'Tidehunter', role: 'Tank', baseDps: 85, aoeDps: 270, burstDps: 510, manaCostPerSec: 11, hp: 1400, armor: 22, sustainPerSec: 48 },
+  { name: 'Wraith King', role: 'Fighter', baseDps: 135, aoeDps: 320, burstDps: 710, manaCostPerSec: 12, hp: 1150, armor: 15, sustainPerSec: 55 },
+  { name: 'Phantom Assassin', role: 'Carry', baseDps: 170, aoeDps: 390, burstDps: 890, manaCostPerSec: 14, hp: 840, armor: 9, sustainPerSec: 25 },
+  { name: 'Zeus', role: 'Mage', baseDps: 80, aoeDps: 480, burstDps: 880, manaCostPerSec: 30, hp: 760, armor: 5, sustainPerSec: 16 },
+  { name: 'Witch Doctor', role: 'Support', baseDps: 80, aoeDps: 310, burstDps: 580, manaCostPerSec: 22, hp: 920, armor: 8, sustainPerSec: 58 },
 ];
 
 const waveArchetypes = [
