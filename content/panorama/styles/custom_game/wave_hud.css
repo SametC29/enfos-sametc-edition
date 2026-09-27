@@ -1,4 +1,5 @@
-.WaveHud { horizontal-align: center; vertical-align: top; margin-top: 64px; flow-children: down; padding: 8px 20px; background-color: #172027ed; border: 1px solid #9c7948; }
+.WaveHudContainer { horizontal-align: center; vertical-align: top; margin-top: 64px; flow-children: down; }
+.WaveHud { horizontal-align: center; flow-children: down; padding: 8px 20px; background-color: #172027ed; border: 1px solid #9c7948; }
 .WaveHud Label { color: #eee4ce; font-size: 18px; horizontal-align: center; }
 .WaveHudHeaderRow { flow-children: right; horizontal-align: center; }
 #GuideBtn { width: 22px; height: 22px; background-color: rgba(212, 160, 23, 0.25); border: 1px solid #d4a017; border-radius: 50%; margin-left: 10px; vertical-align: center; }
@@ -7,3 +8,6 @@
 #NextWave { horizontal-align: center; margin-top: 6px; padding: 7px 20px; background-color: #53734b; }
 #NextWave:hover { brightness: 1.4; }
 #NextWave:disabled { saturation: 0; opacity: 0.35; }
+.BossAlertPanel { horizontal-align: center; margin-top: 8px; padding: 8px 24px; background-color: gradient(linear, 0% 0%, 100% 0%, from(#4a0c0cfa), color-stop(0.5, #7a1515fa), to(#4a0c0cfa)); border: 2px solid #e5a93b; border-radius: 6px; box-shadow: 0 0 16px #ff3333aa; }
+.BossAlertPanel.Hidden { visibility: collapse; }
+#BossAlertText { color: #fff2c4; font-size: 18px; font-weight: bold; text-shadow: 0 0 6px #ff2222; }

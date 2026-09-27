@@ -25,6 +25,35 @@ local function is_boss(target)
     return name:find("enfos_boss_", 1, true) ~= nil
 end
 
+local function get_int(c)
+    if not c or (c.IsNull and c:IsNull()) then return 0 end
+    if c.GetIntellect then
+        local ok, val = pcall(c.GetIntellect, c, false)
+        if ok and type(val) == "number" then return val end
+        ok, val = pcall(c.GetIntellect, c)
+        if ok and type(val) == "number" then return val end
+    end
+    return 0
+end
+
+local function get_agi(c)
+    if not c or (c.IsNull and c:IsNull()) then return 0 end
+    if c.GetAgility then
+        local ok, val = pcall(c.GetAgility, c)
+        if ok and type(val) == "number" then return val end
+    end
+    return 0
+end
+
+local function get_str(c)
+    if not c or (c.IsNull and c:IsNull()) then return 0 end
+    if c.GetStrength then
+        local ok, val = pcall(c.GetStrength, c)
+        if ok and type(val) == "number" then return val end
+    end
+    return 0
+end
+
 local function damage(a, target, amount, kind)
     if target and not (target.IsNull and target:IsNull()) and (target.IsAlive and target:IsAlive()) and amount and amount > 0 then
         local caster = (a and not (a.IsNull and a:IsNull()) and a.GetCaster) and a:GetCaster() or nil
@@ -269,7 +298,7 @@ function bulwark_shield_slam:OnSpellStart()
     local origin = c:GetAbsOrigin()
     local radius = value(self, 'radius')
     if radius <= 0 then radius = 400 end
-    local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
     local armor = c.GetPhysicalArmorValue and c:GetPhysicalArmorValue(false) or 0
     local total_damage = value(self, 'damage') + (str * 2.0) + (armor * 8.0)
 
@@ -371,7 +400,7 @@ end
 function modifier_bulwark_fortress:OnIntervalThink()
     local c = self:GetParent()
     local a = self:GetAbility()
-    local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
     local dmg = value(a, 'shockwave_damage') + (str * 1.0)
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), value(a, 'radius'))) do
         damage(a, u, dmg, DAMAGE_TYPE_PHYSICAL)
@@ -427,7 +456,7 @@ end
 function modifier_enfos_pve_fury:OnIntervalThink()
     local a = self:GetAbility()
     local c = self:GetParent()
-    local agi = c.GetAgility and c:GetAgility() or 0
+    local agi = get_agi(c)
     local dps = value(a, 'damage_per_sec') + (agi * 1.5)
     local tick = value(a, 'tick_interval')
     if tick <= 0 then tick = 0.2 end
@@ -571,7 +600,7 @@ function modifier_enfos_pve_frost:OnAttackLanded(e)
     local c = self:GetParent()
     local a = self:GetAbility()
     if not IsServer() or e.attacker ~= c or c:PassivesDisabled() or c:IsIllusion() or e.target:GetTeamNumber() == c:GetTeamNumber() then return end
-    local agi = c.GetAgility and c:GetAgility() or 0
+    local agi = get_agi(c)
     damage(a, e.target, value(a, 'bonus_damage') + (agi * value(a, 'agility_factor')), DAMAGE_TYPE_PHYSICAL)
     local status_res = e.target.GetStatusResistance and e.target:GetStatusResistance() or 0
     e.target:AddNewModifier(c, a, 'modifier_enfos_pve_slow', { duration = value(a, 'duration') * (1 - status_res) })
@@ -583,7 +612,7 @@ function modifier_enfos_pve_frost:OnDeath(e)
     if e.unit:HasModifier('modifier_enfos_pve_slow') then
         local c = self:GetParent()
         local a = self:GetAbility()
-        local agi = c.GetAgility and c:GetAgility() or 0
+    local agi = get_agi(c)
         local shatter_dmg = 80 + (agi * 0.4)
         for _, u in ipairs(enemies(c, e.unit:GetAbsOrigin(), 325)) do
             if u ~= e.unit then
@@ -710,7 +739,7 @@ function modifier_enfos_pve_marksmanship:OnAttackLanded(e)
     local c = self:GetParent()
     if not IsServer() or e.attacker ~= c or c:PassivesDisabled() or c:IsIllusion() or e.target:GetTeamNumber() == c:GetTeamNumber() then return end
     if RollPercentage(value(self:GetAbility(), 'proc_chance')) then
-        local agi = c.GetAgility and c:GetAgility() or 0
+    local agi = get_agi(c)
         local bonus_dmg = value(self:GetAbility(), 'bonus_damage') + (agi * 0.5)
         damage(self:GetAbility(), e.target, bonus_dmg, DAMAGE_TYPE_PHYSICAL)
         effect('particles/units/heroes/hero_drow/drow_marksmanship_frost_arrow.vpcf', e.target)
@@ -781,7 +810,7 @@ end
 function enfos_lina_dragon_slave:OnProjectileHit(t)
     if t and not (t.IsNull and t:IsNull()) and (t.IsAlive and t:IsAlive()) then
         local c = self:GetCaster()
-        local int = c.GetIntellect and c:GetIntellect() or 0
+    local int = get_int(c)
         local dmg = value(self, 'damage') + (int * 1.2)
         damage(self, t, dmg, DAMAGE_TYPE_MAGICAL)
         local comb = c:FindAbilityByName('enfos_lina_combustion')
@@ -798,7 +827,7 @@ function enfos_lina_light_strike_array:OnSpellStart()
     local point = self:GetCursorPosition()
     local radius = value(self, 'radius')
     local stun_dur = value(self, 'stun_duration')
-    local int = c.GetIntellect and c:GetIntellect() or 0
+    local int = get_int(c)
     local dmg = value(self, 'damage') + (int * 1.0)
 
     c:EmitSound('Ability.LightStrikeArray')
@@ -853,8 +882,7 @@ function enfos_lina_laguna_blade:OnSpellStart()
     ParticleManager:SetParticleControlEnt(p, 0, c, PATTACH_POINT_FOLLOW, 'attach_attack1', c:GetAbsOrigin(), true)
     ParticleManager:SetParticleControlEnt(p, 1, t, PATTACH_POINT_FOLLOW, 'attach_hitloc', pos, true)
     ParticleManager:ReleaseParticleIndex(p)
-
-    local int = c.GetIntellect and c:GetIntellect() or 0
+    local int = get_int(c)
     local dmg = value(self, 'damage') + (int * 2.0)
     damage(self, t, dmg, DAMAGE_TYPE_MAGICAL)
 
@@ -897,7 +925,7 @@ function modifier_enfos_pve_burn:IsDebuff() return true end
 function modifier_enfos_pve_burn:OnCreated() if IsServer() then self:StartIntervalThink(0.5) end end
 function modifier_enfos_pve_burn:OnIntervalThink()
     local c = self:GetCaster()
-    local int = (c and not (c.IsNull and c:IsNull()) and c.GetIntellect) and c:GetIntellect() or 0
+    local int = get_int(c)
     local dps = value(self:GetAbility(), 'burn_dps') + (int * 0.3)
     damage(self:GetAbility(), self:GetParent(), dps * 0.5, DAMAGE_TYPE_MAGICAL)
 end
@@ -910,7 +938,7 @@ enfos_omni_purification=class({})
 function enfos_omni_purification:OnSpellStart()
     local target = self:GetCursorTarget() or self:GetCaster()
     local c = self:GetCaster()
-    local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
     local amount = value(self, 'heal_amount') + (str * 2.0)
     local radius = value(self, 'radius')
 
@@ -961,7 +989,7 @@ function modifier_enfos_pve_degen_debuff:GetModifierAttackSpeedBonus_Constant() 
 function modifier_enfos_pve_degen_debuff:OnCreated() if IsServer() then self:StartIntervalThink(1.0) end end
 function modifier_enfos_pve_degen_debuff:OnIntervalThink()
     local c = self:GetCaster()
-    local str = (c and not (c.IsNull and c:IsNull()) and c.GetStrength) and c:GetStrength() or 0
+    local str = get_str(c)
     damage(self:GetAbility(), self:GetParent(), 40 + (str * 0.5), DAMAGE_TYPE_PURE)
 end
 
@@ -991,7 +1019,7 @@ function modifier_enfos_pve_hammer:OnAttackLanded(e)
     local c = self:GetParent()
     local a = self:GetAbility()
     if not IsServer() or e.attacker ~= c or c:PassivesDisabled() or e.target:GetTeamNumber() == c:GetTeamNumber() then return end
-    local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
     local dmg = value(a, 'bonus_pure_damage') + (str * 1.2)
     damage(a, e.target, dmg, DAMAGE_TYPE_PURE)
     if c.Heal then c:Heal(dmg * 0.5, a) end
@@ -1012,8 +1040,7 @@ function enfos_luna_lucent_beam:OnSpellStart()
     local c = self:GetCaster()
     c:EmitSound('Hero_Luna.LucentBeam.Cast')
     target:EmitSound('Hero_Luna.LucentBeam.Target')
-
-    local agi = c.GetAgility and c:GetAgility() or 0
+    local agi = get_agi(c)
     local dmg = value(self, 'beam_damage') + (agi * 1.5)
     damage(self, target, dmg, DAMAGE_TYPE_MAGICAL)
     target:AddNewModifier(c, self, 'modifier_stunned', { duration = value(self, 'stun_duration') })
@@ -1055,8 +1082,19 @@ function modifier_enfos_luna_moon_glaives_passive:OnAttackLanded(e)
         end
         if not next_target then break end
         visited[next_target:entindex()] = true
+        if ProjectileManager and ProjectileManager.CreateTrackingProjectile then
+            ProjectileManager:CreateTrackingProjectile({
+                Target = next_target,
+                Source = cur_target,
+                Ability = a,
+                EffectName = "particles/units/heroes/hero_luna/luna_base_attack.vpcf",
+                iMoveSpeed = 900,
+                bDodgeable = false,
+                bVisibleToEnemies = true,
+                bProvidesVision = false
+            })
+        end
         damage(a, next_target, cur_dmg, DAMAGE_TYPE_PHYSICAL)
-        effect('particles/units/heroes/hero_luna/luna_moon_glaive_bounce.vpcf', next_target)
         cur_dmg = cur_dmg * 0.85
         cur_target = next_target
     end
@@ -1107,7 +1145,7 @@ function modifier_enfos_luna_eclipse_thinker:OnIntervalThink()
     self.hit_counts[target:entindex()] = (self.hit_counts[target:entindex()] or 0) + 1
 
     local beam = c:FindAbilityByName('enfos_luna_lucent_beam')
-    local agi = c.GetAgility and c:GetAgility() or 0
+    local agi = get_agi(c)
     local dmg = (beam and value(beam, 'beam_damage') or 200) + (agi * 1.5)
     damage(a, target, dmg, DAMAGE_TYPE_MAGICAL)
     target:EmitSound('Hero_Luna.LucentBeam.Target')
@@ -1126,16 +1164,36 @@ function modifier_enfos_luna_lunar_orbit_buff:DeclareFunctions() return { MODIFI
 function modifier_enfos_luna_lunar_orbit_buff:GetModifierIncomingDamage_Percentage() return -25 end
 function modifier_enfos_luna_lunar_orbit_buff:OnCreated()
     if not IsServer() then return end
-    self:StartIntervalThink(0.5)
+    local c = self:GetParent()
+    if ParticleManager then
+        self.pfx = ParticleManager:CreateParticle('particles/units/heroes/hero_luna/luna_ambient_lunar_blessing.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    end
+    if self.StartIntervalThink then self:StartIntervalThink(0.5) end
+end
+function modifier_enfos_luna_lunar_orbit_buff:OnDestroy()
+    if not IsServer() then return end
+    if self.pfx and ParticleManager then
+        if ParticleManager.DestroyParticle then ParticleManager:DestroyParticle(self.pfx, false) end
+        if ParticleManager.ReleaseParticleIndex then ParticleManager:ReleaseParticleIndex(self.pfx) end
+        self.pfx = nil
+    end
 end
 function modifier_enfos_luna_lunar_orbit_buff:OnIntervalThink()
     local c = self:GetParent()
-    local agi = c.GetAgility and c:GetAgility() or 0
+    local agi = get_agi(c)
     local dmg = 50 + (agi * 0.4)
+    local hit_any = false
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 320)) do
         damage(self:GetAbility(), u, dmg, DAMAGE_TYPE_PHYSICAL)
+        if ParticleManager then
+            local hit_pfx = ParticleManager:CreateParticle('particles/units/heroes/hero_luna/luna_base_attack_impact.vpcf', PATTACH_ABSORIGIN_FOLLOW, u)
+            ParticleManager:ReleaseParticleIndex(hit_pfx)
+        end
+        hit_any = true
     end
-    effect('particles/units/heroes/hero_luna/luna_moon_glaive_bounce.vpcf', c)
+    if hit_any then
+        c:EmitSound('Hero_Luna.MoonGlaive.Impact')
+    end
 end
 
 
@@ -1214,7 +1272,7 @@ function modifier_enfos_axe_battle_hunger_debuff:OnIntervalThink()
     local a = self:GetAbility()
     local c = (a and a.GetCaster) and a:GetCaster() or nil
     local base = (a and value(a, 'damage_per_second')) or 50
-    local str = (c and c.GetStrength and c:GetStrength()) or 0
+    local str = get_str(c)
     local dmg = base + (str * 0.25)
     damage(a, p, dmg, DAMAGE_TYPE_PHYSICAL)
     effect('particles/units/heroes/hero_axe/axe_battle_hunger.vpcf', p)
@@ -1274,7 +1332,7 @@ function modifier_enfos_axe_counter_helix_passive:OnAttacked(params)
 
     local base_dmg = value(a, 'helix_damage')
     if base_dmg <= 0 then base_dmg = 150 end
-    local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
     local dmg = base_dmg + (str * 1.0)
     local r = value(a, 'radius')
     if r <= 0 then r = 300 end
@@ -1312,7 +1370,7 @@ function enfos_axe_culling_blade:OnSpellStart()
         t:EmitSound('Hero_Axe.Culling_Blade_Fail')
         local base_dmg = value(self, 'damage')
         if base_dmg <= 0 then base_dmg = 350 end
-        local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
         local dmg = base_dmg + (str * 2.5)
         damage(self, t, dmg, DAMAGE_TYPE_PURE)
     end
@@ -1400,7 +1458,7 @@ function enfos_centaur_hoof_stomp:OnSpellStart()
     if dur <= 0 then dur = 2.0 end
     local base_dmg = value(self, 'damage')
     if base_dmg <= 0 then base_dmg = 200 end
-    local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
     local dmg = base_dmg + (str * 1.5)
 
     c:EmitSound('Hero_Centaur.HoofStomp')
@@ -1426,7 +1484,7 @@ function enfos_centaur_double_edge:OnSpellStart()
 
     local base_dmg = value(self, 'edge_damage')
     if base_dmg <= 0 then base_dmg = 250 end
-    local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
     local hp = c.GetMaxHealth and c:GetMaxHealth() or 1000
     local dmg = base_dmg + (str * 0.6) + (hp * 0.15)
 
@@ -1463,7 +1521,7 @@ function modifier_enfos_centaur_return_passive:OnTakeDamage(params)
 
     local a = self:GetAbility()
     local flat = (a and value(a, 'return_damage')) or 40
-    local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
     local refl = flat + (str * 0.5)
 
     ApplyDamage({
@@ -1512,7 +1570,7 @@ function modifier_enfos_centaur_stampede_buff:OnIntervalThink()
     local c = self:GetCaster()
     local p = self:GetParent()
     local a = self:GetAbility()
-    local str = (c and c.GetStrength and c:GetStrength()) or 0
+    local str = get_str(c)
     local dmg = 200 + (str * 2.0)
 
     for _, u in ipairs(enemies(c, p:GetAbsOrigin(), 150)) do
@@ -1539,7 +1597,7 @@ function modifier_enfos_centaur_colossal_hide_passive:DeclareFunctions()
 end
 function modifier_enfos_centaur_colossal_hide_passive:GetModifierPhysical_ConstantBlock()
     local c = self:GetParent()
-    local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
     local base = (self.GetAbility and value(self:GetAbility(), 'damage_block')) or 40
     return base + (str * 0.05)
 end
@@ -1611,7 +1669,7 @@ function modifier_enfos_legion_press_the_attack_buff:DeclareFunctions()
 end
 function modifier_enfos_legion_press_the_attack_buff:GetModifierConstantHealthRegen()
     local c = self:GetCaster()
-    local str = (c and c.GetStrength and c:GetStrength()) or 0
+    local str = get_str(c)
     local base = (self.GetAbility and value(self:GetAbility(), 'hp_regen')) or 60
     return base + (str * 0.5)
 end
@@ -1764,7 +1822,7 @@ function modifier_enfos_sniper_shrapnel_thinker:OnIntervalThink()
     local c = self:GetCaster()
     local a = self:GetAbility()
     local p = self:GetParent()
-    local agi = (c and c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
     local base = (a and value(a, 'shrapnel_damage')) or 75
     local dmg = base + (agi * 0.35)
 
@@ -1798,7 +1856,7 @@ function modifier_enfos_sniper_headshot_passive:OnAttackLanded(params)
     c:EmitSound('Hero_Sniper.Headshot')
     local a = self:GetAbility()
     local base = (a and value(a, 'headshot_damage')) or 120
-    local agi = c.GetAgility and c:GetAgility() or 0
+    local agi = get_agi(c)
     local dmg = base + (agi * 0.75)
     damage(a, t, dmg, DAMAGE_TYPE_PHYSICAL)
 
@@ -1841,7 +1899,7 @@ function enfos_sniper_assassinate:OnSpellStart()
 
     local base = value(self, 'damage')
     if base <= 0 then base = 650 end
-    local agi = c.GetAgility and c:GetAgility() or 0
+    local agi = get_agi(c)
     local dmg = base + (agi * 3.0)
 
     damage(self, t, dmg, DAMAGE_TYPE_PHYSICAL)
@@ -1889,7 +1947,7 @@ function enfos_cm_crystal_nova:OnSpellStart()
     if r <= 0 then r = 425 end
     local base = value(self, 'damage')
     if base <= 0 then base = 250 end
-    local int = c.GetIntellect and c:GetIntellect() or 0
+    local int = get_int(c)
     local dmg = base + (int * 1.2)
 
     c:EmitSound('Hero_Crystal.CrystalNova')
@@ -1937,7 +1995,7 @@ function modifier_enfos_cm_frostbite_debuff:OnIntervalThink()
     local p = self:GetParent()
     local a = self:GetAbility()
     local c = self:GetCaster()
-    local int = (c and c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local base = (a and value(a, 'damage_per_second')) or 120
     local dmg = (base + (int * 0.5)) * 0.5
     if not is_boss(p) and not p:IsHero() then
@@ -1997,7 +2055,7 @@ end
 function modifier_enfos_cm_freezing_field_channel:OnIntervalThink()
     local c = self:GetParent()
     local a = self:GetAbility()
-    local int = c.GetIntellect and c:GetIntellect() or 0
+    local int = get_int(c)
     local base = (a and value(a, 'explosion_damage')) or 180
     local dmg = base + (int * 0.6)
 
@@ -2095,7 +2153,7 @@ function modifier_enfos_dazzle_poison_touch_debuff:OnIntervalThink()
     local p = self:GetParent()
     local a = self:GetAbility()
     local c = self:GetCaster()
-    local int = (c and c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local base = (a and value(a, 'damage_per_second')) or 60
     local dmg = base + (int * 0.35)
     damage(a, p, dmg, DAMAGE_TYPE_PHYSICAL)
@@ -2129,8 +2187,7 @@ function enfos_dazzle_shadow_wave:OnSpellStart()
     local c = self:GetCaster()
     local initial = self:GetCursorTarget() or c
     c:EmitSound('Hero_Dazzle.Shadow_Wave')
-
-    local int = c.GetIntellect and c:GetIntellect() or 0
+    local int = get_int(c)
     local base_heal = value(self, 'heal_amount')
     if base_heal <= 0 then base_heal = 170 end
     local heal = base_heal + (int * 1.0)
@@ -2298,7 +2355,7 @@ function enfos_bb_quill_spray:OnSpellStart()
     if base_dmg <= 0 then base_dmg = 80 end
     local stack_dmg = value(self, 'stack_damage')
     if stack_dmg <= 0 then stack_dmg = 40 end
-    local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 700)) do
         local mod = u:FindModifierByName('modifier_enfos_bb_quill_spray_debuff')
@@ -2416,7 +2473,7 @@ function enfos_tide_gush:OnSpellStart()
 
     local base = value(self, 'damage')
     if base <= 0 then base = 220 end
-    local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
     local dmg = base + (str * 1.0)
 
     damage(self, t, dmg, DAMAGE_TYPE_MAGICAL)
@@ -2445,7 +2502,7 @@ function modifier_enfos_tide_kraken_shell_passive:OnCreated()
 end
 function modifier_enfos_tide_kraken_shell_passive:GetModifierPhysical_ConstantBlock()
     local c = self:GetParent()
-    local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
     local base = (self.GetAbility and value(self:GetAbility(), 'damage_block')) or 50
     return base + (str * 0.05)
 end
@@ -2467,7 +2524,7 @@ function enfos_tide_anchor_smash:OnSpellStart()
 
     local base = value(self, 'bonus_damage')
     if base <= 0 then base = 160 end
-    local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
     local dmg = (c.GetAverageTrueAttackDamage and c:GetAverageTrueAttackDamage() or 100) + base + (str * 0.75)
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 400)) do
@@ -2493,7 +2550,7 @@ function enfos_tide_ravage:OnSpellStart()
 
     local base = value(self, 'damage')
     if base <= 0 then base = 325 end
-    local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
     local dmg = base + (str * 2.0)
     local dur = value(self, 'stun_duration')
     if dur <= 0 then dur = 2.8 end
@@ -2545,7 +2602,7 @@ function enfos_wk_wraithfire_blast:OnSpellStart()
 
     local base = value(self, 'damage')
     if base <= 0 then base = 200 end
-    local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
     local dmg = base + (str * 1.2)
 
     damage(self, t, dmg, DAMAGE_TYPE_MAGICAL)
@@ -2569,7 +2626,7 @@ end
 function modifier_enfos_wk_wraithfire_blast_dot:OnIntervalThink()
     local c = self:GetCaster()
     local p = self:GetParent()
-    local str = (c and c.GetStrength and c:GetStrength()) or 0
+    local str = get_str(c)
     local base = (self.GetAbility and value(self:GetAbility(), 'dot_damage')) or 80
     damage(self:GetAbility(), p, base + (str * 0.3), DAMAGE_TYPE_MAGICAL)
 end
@@ -2640,8 +2697,7 @@ function modifier_enfos_wk_reincarnation_passive:OnDeath(params)
 
     a:StartCooldown(60.0)
     c:EmitSound('Hero_SkeletonKing.Reincarnate')
-
-    local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
     local dmg = 500 + (str * 2.5)
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 900)) do
@@ -2659,7 +2715,7 @@ function enfos_wk_skeleton_army:OnSpellStart()
     if mod then mod:SetStackCount(0) end
 
     c:EmitSound('Hero_SkeletonKing.Hellfire_Blast')
-    local str = c.GetStrength and c:GetStrength() or 0
+    local str = get_str(c)
     local dmg = 120 + (str * 0.8)
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 600)) do
@@ -2690,7 +2746,7 @@ function enfos_pa_stifling_dagger:OnSpellStart()
     c:EmitSound('Hero_PhantomAssassin.Dagger.Cast')
     local base = value(self, 'base_damage')
     if base <= 0 then base = 120 end
-    local agi = c.GetAgility and c:GetAgility() or 0
+    local agi = get_agi(c)
     local atk = c.GetAverageTrueAttackDamage and c:GetAverageTrueAttackDamage() or 100
     local dmg = base + (atk * 0.7) + (agi * 0.5)
 
@@ -2812,25 +2868,42 @@ function enfos_zeus_arc_lightning:OnSpellStart()
 
     c:EmitSound('Hero_Zuus.ArcLightning.Cast')
     local base = value(self, 'damage')
-    if base <= 0 then base = 150 end
-    local int = c.GetIntellect and c:GetIntellect() or 0
+    if base <= 0 then base = 90 end
+    local int = get_int(c)
     local dmg = base + (int * 0.6)
 
     local hit = { [initial:entindex()] = true }
     local current = initial
-    damage(self, initial, dmg, DAMAGE_TYPE_MAGICAL)
-    effect('particles/units/heroes/hero_zuus/zuus_arc_lightning.vpcf', initial)
 
-    for i = 1, 12 do
+    if ParticleManager then
+        local p = ParticleManager:CreateParticle('particles/units/heroes/hero_zuus/zuus_arc_lightning.vpcf', PATTACH_CUSTOMORIGIN, c)
+        ParticleManager:SetParticleControlEnt(p, 0, c, PATTACH_POINT_FOLLOW, "attach_attack1", c:GetAbsOrigin(), true)
+        ParticleManager:SetParticleControlEnt(p, 1, initial, PATTACH_POINT_FOLLOW, "attach_hitloc", initial:GetAbsOrigin(), true)
+        ParticleManager:ReleaseParticleIndex(p)
+    end
+    initial:EmitSound('Hero_Zuus.ArcLightning.Target')
+    damage(self, initial, dmg, DAMAGE_TYPE_MAGICAL)
+
+    local jumps = value(self, 'jump_count')
+    if jumps <= 0 then jumps = 9 end
+
+    for i = 1, jumps do
         local candidates = enemies(c, current:GetAbsOrigin(), 500)
         local next_target = nil
         for _, u in ipairs(candidates) do
-            if not hit[u:entindex()] then next_target = u break end
+            if not hit[u:entindex()] and u:IsAlive() then next_target = u break end
         end
         if not next_target then break end
         hit[next_target:entindex()] = true
+
+        if ParticleManager then
+            local p = ParticleManager:CreateParticle('particles/units/heroes/hero_zuus/zuus_arc_lightning.vpcf', PATTACH_CUSTOMORIGIN, current)
+            ParticleManager:SetParticleControlEnt(p, 0, current, PATTACH_POINT_FOLLOW, "attach_hitloc", current:GetAbsOrigin(), true)
+            ParticleManager:SetParticleControlEnt(p, 1, next_target, PATTACH_POINT_FOLLOW, "attach_hitloc", next_target:GetAbsOrigin(), true)
+            ParticleManager:ReleaseParticleIndex(p)
+        end
+        next_target:EmitSound('Hero_Zuus.ArcLightning.Target')
         damage(self, next_target, dmg, DAMAGE_TYPE_MAGICAL)
-        effect('particles/units/heroes/hero_zuus/zuus_arc_lightning.vpcf', next_target)
         current = next_target
     end
 end
@@ -2846,7 +2919,7 @@ function enfos_zeus_lightning_bolt:OnSpellStart()
 
     local base = value(self, 'damage')
     if base <= 0 then base = 300 end
-    local int = c.GetIntellect and c:GetIntellect() or 0
+    local int = get_int(c)
     local dmg = base + (int * 1.5)
 
     damage(self, t, dmg, DAMAGE_TYPE_MAGICAL)
@@ -2882,7 +2955,7 @@ function enfos_zeus_thundergods_wrath:OnSpellStart()
 
     local base = value(self, 'damage')
     if base <= 0 then base = 450 end
-    local int = c.GetIntellect and c:GetIntellect() or 0
+    local int = get_int(c)
     local dmg = base + (int * 2.0)
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 99999)) do
@@ -2897,7 +2970,7 @@ function enfos_zeus_heavenly_jump:OnSpellStart()
     c:EmitSound('Hero_Zuus.HeavenlyJump')
     c:AddNewModifier(c, self, 'modifier_enfos_zeus_heavenly_jump_buff', { duration = 3.0 })
 
-    local int = c.GetIntellect and c:GetIntellect() or 0
+    local int = get_int(c)
     local dmg = 150 + (int * 0.8)
 
     local count = 0
@@ -2931,7 +3004,7 @@ function enfos_wd_paralyzing_cask:OnSpellStart()
     c:EmitSound('Hero_WitchDoctor.Paralyzing_Cask_Cast')
     local base = value(self, 'damage')
     if base <= 0 then base = 100 end
-    local int = c.GetIntellect and c:GetIntellect() or 0
+    local int = get_int(c)
     local dmg = base + (int * 0.4)
 
     local current = initial
@@ -2976,7 +3049,7 @@ end
 function modifier_enfos_wd_voodoo_restoration_aura:OnIntervalThink()
     local c = self:GetParent()
     local a = self:GetAbility()
-    local int = c.GetIntellect and c:GetIntellect() or 0
+    local int = get_int(c)
     local val = (a and value(a, 'heal_per_second')) or 50
     local amount = val + (int * 0.3)
 
@@ -3048,7 +3121,7 @@ end
 function modifier_enfos_wd_death_ward_channel:OnIntervalThink()
     local c = self:GetCaster()
     local a = self:GetAbility()
-    local int = (c and c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local base = (a and value(a, 'damage')) or 150
     local dmg = base + (int * 0.75)
 
@@ -3078,7 +3151,7 @@ end
 function modifier_enfos_wd_voodoo_switcheroo_buff:OnIntervalThink()
     local c = self:GetParent()
     local a = self:GetAbility()
-    local int = c.GetIntellect and c:GetIntellect() or 0
+    local int = get_int(c)
     local dmg = 120 + (int * 0.8)
 
     local targets = enemies(c, c:GetAbsOrigin(), 600)
@@ -3106,7 +3179,7 @@ function enfos_dk_breathe_fire:OnSpellStart()
 
     local base = value(self, 'damage')
     if base <= 0 then base = 240 end
-    local str = (c.GetStrength and c:GetStrength()) or 0
+    local str = get_str(c)
     local dmg = base + (str * 1.2)
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 375), 450)) do
@@ -3134,7 +3207,7 @@ function enfos_dk_dragon_tail:OnSpellStart()
 
     local base = value(self, 'damage')
     if base <= 0 then base = 250 end
-    local str = (c.GetStrength and c:GetStrength()) or 0
+    local str = get_str(c)
     local dmg = base + (str * 1.0)
 
     damage(self, t, dmg, DAMAGE_TYPE_PHYSICAL)
@@ -3158,7 +3231,7 @@ function modifier_enfos_dk_dragon_blood_passive:GetModifierPhysicalArmorBonus()
 end
 function modifier_enfos_dk_dragon_blood_passive:GetModifierConstantHealthRegen()
     local c = self:GetParent()
-    local str = (c and c.GetStrength and c:GetStrength()) or 0
+    local str = get_str(c)
     local base = (self.GetAbility and value(self:GetAbility(), 'bonus_hp_regen')) or 25
     return base + (str * 0.05)
 end
@@ -3223,7 +3296,7 @@ function enfos_pudge_meat_hook:OnSpellStart()
 
     local base = value(self, 'hook_damage')
     if base <= 0 then base = 350 end
-    local str = (c.GetStrength and c:GetStrength()) or 0
+    local str = get_str(c)
     local dmg = base + (str * 1.8)
 
     local primary_hit = nil
@@ -3256,7 +3329,7 @@ function modifier_enfos_pudge_rot_aura:OnIntervalThink()
     local c = self:GetParent()
     local a = self:GetAbility()
     local base = (a and value(a, 'rot_damage')) or 80
-    local str = (c and c.GetStrength and c:GetStrength()) or 0
+    local str = get_str(c)
     local dmg = (base + (str * 0.4)) * 0.5
 
     -- Self damage (non-lethal)
@@ -3284,7 +3357,7 @@ function modifier_enfos_pudge_flesh_heap_passive:DeclareFunctions()
 end
 function modifier_enfos_pudge_flesh_heap_passive:GetModifierPhysical_ConstantBlock()
     local c = self:GetParent()
-    local str = (c and c.GetStrength and c:GetStrength()) or 0
+    local str = get_str(c)
     local base = (self.GetAbility and value(self:GetAbility(), 'damage_block')) or 25
     return base + (str * 0.05)
 end
@@ -3333,7 +3406,7 @@ function modifier_enfos_pudge_dismember_channel:OnIntervalThink()
     end
 
     local base = (a and value(a, 'dps')) or 180
-    local str = (c and c.GetStrength and c:GetStrength()) or 0
+    local str = get_str(c)
     local tick_dmg = (base + (str * 1.0)) * 0.5
 
     damage(a, t, tick_dmg, DAMAGE_TYPE_MAGICAL)
@@ -3391,7 +3464,7 @@ function modifier_enfos_slark_dark_pact_buff:OnIntervalThink()
 
     self.ticks = (self.ticks or 0) + 1
     local base = (a and value(a, 'damage')) or 200
-    local agi = (c and c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
     local tick_dmg = (base + (agi * 1.0)) * 0.1
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 350)) do
@@ -3409,7 +3482,7 @@ function enfos_slark_pounce:OnSpellStart()
 
     local base = value(self, 'damage')
     if base <= 0 then base = 180 end
-    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
     local dmg = base + (agi * 0.8)
 
     local hit = false
@@ -3502,7 +3575,7 @@ function enfos_ursa_earthshock:OnSpellStart()
 
     local base = value(self, 'damage')
     if base <= 0 then base = 220 end
-    local str = (c.GetStrength and c:GetStrength()) or 0
+    local str = get_str(c)
     local dmg = base + (str * 1.5)
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 385)) do
@@ -3561,7 +3634,7 @@ function modifier_enfos_ursa_fury_swipes_passive:OnAttackLanded(params)
         mod:SetDuration(6.0, true)
 
         local base = (self.GetAbility and value(self:GetAbility(), 'bonus_damage')) or 35
-        local agi = (c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
         local extra_dmg = (cur + 1) * (base + (agi * 0.15))
         damage(self:GetAbility(), t, extra_dmg, DAMAGE_TYPE_PHYSICAL)
 
@@ -3630,7 +3703,7 @@ function enfos_mk_primal_spring:OnSpellStart()
 
     local base = value(self, 'spring_damage')
     if base <= 0 then base = 280 end
-    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
     local dmg = base + (agi * 1.2)
 
     for _, u in ipairs(enemies(c, pos, 450)) do
@@ -3669,7 +3742,7 @@ function modifier_enfos_mk_jingu_mastery_buff:DeclareFunctions()
 end
 function modifier_enfos_mk_jingu_mastery_buff:GetModifierPreAttack_BonusDamage()
     local c = self:GetParent()
-    local agi = (c and c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
     local base = (self.GetAbility and value(self:GetAbility(), 'bonus_damage')) or 140
     return base + (agi * 1.0)
 end
@@ -3735,7 +3808,7 @@ function modifier_enfos_am_mana_break_passive:OnAttackLanded(params)
     if not t or not t:IsAlive() then return end
 
     local base = (self.GetAbility and value(self:GetAbility(), 'bonus_damage')) or 70
-    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
     local dmg = base + (agi * 0.6)
 
     damage(self:GetAbility(), t, dmg, DAMAGE_TYPE_PHYSICAL)
@@ -3785,7 +3858,7 @@ function enfos_am_mana_void:OnSpellStart()
 
     local base = value(self, 'base_damage')
     if base <= 0 then base = 500 end
-    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
     local dmg = base + (agi * 1.5)
 
     for _, u in ipairs(enemies(c, t:GetAbsOrigin(), 500)) do
@@ -3851,7 +3924,7 @@ function modifier_enfos_void_time_lock_passive:OnAttackLanded(params)
     if RollPercentage(24) then
         c:EmitSound('Hero_FacelessVoid.TimeLock.Impact')
         local base = (self.GetAbility and value(self:GetAbility(), 'bonus_damage')) or 100
-        local agi = (c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
         local dmg = base + (agi * 0.8)
         damage(self:GetAbility(), t, dmg, DAMAGE_TYPE_MAGICAL)
         local dur = is_boss(t) and 0.2 or 0.5
@@ -3917,7 +3990,7 @@ function enfos_sf_shadowraze:OnSpellStart()
 
     local base = value(self, 'damage')
     if base <= 0 then base = 200 end
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local dmg = base + (int * 1.0)
 
     -- Triple raze in front
@@ -3975,8 +4048,7 @@ function enfos_sf_requiem_of_souls:OnSpellStart()
     local c = self:GetCaster()
     c:EmitSound('Hero_Nevermore.RequiemOfSouls')
     effect('particles/units/heroes/hero_nevermore/nevermore_requiemofsouls.vpcf', c)
-
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local dmg = 450 + (int * 1.8)
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 1000)) do
@@ -4031,7 +4103,7 @@ function modifier_enfos_storm_static_remnant_thinker:OnIntervalThink()
     if #targets > 0 then
         t:EmitSound('Hero_StormSpirit.StaticRemnantExplode')
         local base = (a and value(a, 'damage')) or 240
-        local int = (c and c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
         local dmg = base + (int * 1.2)
         for _, u in ipairs(targets) do
             damage(a, u, dmg, DAMAGE_TYPE_MAGICAL)
@@ -4081,7 +4153,7 @@ function modifier_enfos_storm_overload_passive:OnAttackLanded(params)
 
         c:EmitSound('Hero_StormSpirit.Overload')
         local base = (self.GetAbility and value(self:GetAbility(), 'bonus_damage')) or 100
-        local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
         local dmg = base + (int * 0.6)
 
         for _, u in ipairs(enemies(c, t:GetAbsOrigin(), 300)) do
@@ -4104,8 +4176,7 @@ function enfos_storm_ball_lightning:OnSpellStart()
     local origin = c:GetAbsOrigin()
     local dist = (target_pos - origin):Length2D()
     FindClearSpaceForUnit(c, target_pos, true)
-
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local dmg = (dist / 100) * (30 + (int * 0.1))
 
     for _, u in ipairs(enemies(c, target_pos, 300)) do
@@ -4136,7 +4207,7 @@ function enfos_ss_ether_shock:OnSpellStart()
     c:EmitSound('Hero_ShadowShaman.EtherShock')
     local base = value(self, 'damage')
     if base <= 0 then base = 250 end
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local dmg = base + (int * 1.0)
 
     local count = 0
@@ -4196,7 +4267,7 @@ function modifier_enfos_ss_shackles_channel:OnIntervalThink()
     if not t or not t:IsAlive() then self:Destroy() return end
 
     local base = (a and value(a, 'dps')) or 140
-    local int = (c and c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local dmg = (base + (int * 0.6)) * 0.5
     damage(a, t, dmg, DAMAGE_TYPE_MAGICAL)
     c:Heal(dmg, a)
@@ -4211,8 +4282,7 @@ function enfos_ss_mass_serpent_ward:OnSpellStart()
     local c = self:GetCaster()
     local pos = self:GetCursorPosition()
     c:EmitSound('Hero_ShadowShaman.SerpentWard')
-
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local dmg = 85 + (int * 0.4)
 
     -- Burst pulse simulating serpent ward fire across 30 seconds
@@ -4253,7 +4323,7 @@ function enfos_lion_earth_spike:OnSpellStart()
 
     local base = value(self, 'damage')
     if base <= 0 then base = 240 end
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local dmg = base + (int * 1.1)
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 450), 500)) do
@@ -4315,7 +4385,7 @@ function modifier_enfos_lion_mana_drain_channel:OnIntervalThink()
     if not t or not t:IsAlive() then self:Destroy() return end
 
     local base = (a and value(a, 'mana_per_second')) or 120
-    local int = (c and c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local tick_dmg = (base + (int * 0.8)) * 0.5
 
     damage(a, t, tick_dmg, DAMAGE_TYPE_MAGICAL)
@@ -4339,7 +4409,7 @@ function enfos_lion_finger_of_death:OnSpellStart()
 
     local base = value(self, 'damage')
     if base <= 0 then base = 850 end
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local mod = c:FindModifierByName('modifier_enfos_lion_finger_counter')
     local stacks = mod and mod:GetStackCount() or 0
     local total_dmg = base + (int * 2.5) + (stacks * 40)
@@ -4383,7 +4453,7 @@ function enfos_underlord_firestorm:OnSpellStart()
     local p = self:GetCursorPosition()
     local r = value(self, 'radius') or 425
     local dmg = value(self, 'wave_damage')
-    local str = (c.GetStrength and c:GetStrength()) or 0
+    local str = get_str(c)
     local total_dmg = dmg + (str * 0.3)
 
     for _, u in ipairs(enemies(c, p, r)) do
@@ -4416,7 +4486,7 @@ function enfos_underlord_pit_of_malice:OnSpellStart()
     local r = value(self, 'radius') or 400
     local dur = value(self, 'ensnare_duration') or 2.0
     local dmg = value(self, 'damage')
-    local str = (c.GetStrength and c:GetStrength()) or 0
+    local str = get_str(c)
     local total_dmg = dmg + (str * 0.5)
 
     for _, u in ipairs(enemies(c, p, r)) do
@@ -4476,7 +4546,7 @@ function enfos_underlord_dark_rift:OnSpellStart()
     local p = c:GetAbsOrigin()
     local r = value(self, 'radius') or 750
     local dmg = value(self, 'burst_damage')
-    local str = (c.GetStrength and c:GetStrength()) or 0
+    local str = get_str(c)
     local total_dmg = dmg + (str * 1.5)
 
     for _, u in ipairs(enemies(c, p, r)) do
@@ -4531,7 +4601,7 @@ function modifier_enfos_troll_berserkers_rage:OnAttackLanded(params)
     if params.attacker == self:GetParent() and RollPercentage(20) then
         local t = params.target
         local c = self:GetParent()
-        local agi = (c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
         local stun_dur = is_boss(t) and 0.3 or 0.8
         t:AddNewModifier(c, self:GetAbility(), 'modifier_generic_stunned_lua', { duration = stun_dur })
         damage(self:GetAbility(), t, 75 + (agi * 0.5), DAMAGE_TYPE_PHYSICAL)
@@ -4544,7 +4614,7 @@ function enfos_troll_whirling_axes:OnSpellStart()
     local p = c:GetAbsOrigin()
     local r = value(self, 'radius') or 450
     local dmg = value(self, 'damage')
-    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
     local total_dmg = dmg + (agi * 0.8)
     local dur = value(self, 'duration') or 4.0
 
@@ -4617,7 +4687,7 @@ function enfos_ck_chaos_bolt:OnSpellStart()
     local t = self:GetCursorTarget()
     if not t then return end
     local dmg = value(self, 'damage')
-    local str = (c.GetStrength and c:GetStrength()) or 0
+    local str = get_str(c)
     local total_dmg = dmg + (str * 0.9)
     local min_s = value(self, 'stun_min') or 1.25
     local max_s = value(self, 'stun_max') or 2.5
@@ -4730,7 +4800,7 @@ function modifier_enfos_medusa_split_shot:OnAttack(params)
         local c = self:GetParent()
         local ab = self:GetAbility()
         local count = ab and value(ab, 'arrow_count') or 5
-        local agi = (c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
         local base_dmg = (c.GetAverageTrueAttackDamage and c:GetAverageTrueAttackDamage(c)) or 100
         local arrow_dmg = (base_dmg * 0.75) + (agi * 0.5)
         local targets = enemies(c, c:GetAbsOrigin(), 700)
@@ -4751,7 +4821,7 @@ function enfos_medusa_mystic_snake:OnSpellStart()
     if not t then return end
     local jumps = value(self, 'jump_count') or 5
     local base_dmg = value(self, 'base_damage')
-    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
     local dmg = base_dmg + (agi * 0.8)
     local current = t
     local hit_count = 0
@@ -4849,7 +4919,7 @@ end
 function modifier_enfos_tb_reflection:OnIntervalThink()
     local p = self:GetParent()
     local c = self:GetCaster()
-    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
     damage(self:GetAbility(), p, 70 + (agi * 0.4), DAMAGE_TYPE_PHYSICAL)
 end
 function modifier_enfos_tb_reflection:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
@@ -4894,7 +4964,7 @@ function modifier_enfos_tb_metamorphosis:GetModifierPreAttack_BonusDamage()
     local ab = self:GetAbility()
     local base = ab and value(ab, 'bonus_damage') or 50
     local c = self:GetParent()
-    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
     return base + (agi * 0.4)
 end
 
@@ -4904,7 +4974,7 @@ function enfos_tb_sunder:OnSpellStart()
     local t = self:GetCursorTarget()
     if not t then return end
     local heal = value(self, 'heal_amount') or 700
-    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
     local total_heal = heal + (agi * 1.5)
     c:Heal(total_heal, self)
     local dmg = total_heal
@@ -4932,7 +5002,7 @@ function enfos_leshrac_split_earth:OnSpellStart()
     local p = self:GetCursorPosition()
     local r = value(self, 'radius') or 250
     local dmg = value(self, 'damage')
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local total_dmg = dmg + (int * 0.9)
     local stun_dur = value(self, 'stun_duration') or 1.7
 
@@ -4963,7 +5033,7 @@ function modifier_enfos_leshrac_diabolic_edict:OnIntervalThink()
     if #targets > 0 then
         local t = targets[RandomInt(1, #targets)]
         local base_d = ab and value(ab, 'damage_per_explosion') or 25
-        local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
         damage(ab, t, base_d + (int * 0.15), DAMAGE_TYPE_PURE)
     end
 end
@@ -4975,7 +5045,7 @@ function enfos_leshrac_lightning_storm:OnSpellStart()
     if not t then return end
     local jumps = value(self, 'jump_count') or 7
     local dmg = value(self, 'damage')
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local total_dmg = dmg + (int * 0.8)
     local current = t
     local hit_count = 0
@@ -5023,7 +5093,7 @@ function modifier_enfos_leshrac_pulse_nova:OnIntervalThink()
     if c.SpendMana then c:SpendMana(cost, ab) end
     local r = ab and value(ab, 'radius') or 450
     local dmg = ab and value(ab, 'damage') or 160
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local total_dmg = dmg + (int * 0.75)
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), r)) do
         damage(ab, u, total_dmg, DAMAGE_TYPE_MAGICAL)
@@ -5050,7 +5120,7 @@ function enfos_invoker_chaos_meteor:OnSpellStart()
     local p = self:GetCursorPosition()
     local r = value(self, 'radius') or 275
     local dmg = value(self, 'impact_damage')
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local total_dmg = dmg + (int * 1.2)
     for _, u in ipairs(enemies(c, p, r)) do
         damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
@@ -5069,7 +5139,7 @@ function modifier_enfos_invoker_meteor_burn:OnIntervalThink()
     local c = self:GetCaster()
     local ab = self:GetAbility()
     local dps = ab and value(ab, 'burn_dps') or 65
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     damage(ab, p, (dps * 0.5) + (int * 0.1), DAMAGE_TYPE_MAGICAL)
 end
 
@@ -5079,7 +5149,7 @@ function enfos_invoker_sun_strike:OnSpellStart()
     local p = self:GetCursorPosition()
     local r = value(self, 'radius') or 200
     local dmg = value(self, 'damage')
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local total_dmg = dmg + (int * 1.8)
     for _, u in ipairs(enemies(c, p, r)) do
         damage(self, u, total_dmg, DAMAGE_TYPE_PURE)
@@ -5093,7 +5163,7 @@ function enfos_invoker_deafening_blast:OnSpellStart()
     local dir = (p - c:GetAbsOrigin()):Normalized()
     local r = value(self, 'radius') or 250
     local dmg = value(self, 'damage')
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local total_dmg = dmg + (int * 0.8)
     local disarm_dur = value(self, 'disarm_duration') or 3.0
 
@@ -5115,7 +5185,7 @@ function enfos_invoker_emp:OnSpellStart()
     local p = self:GetCursorPosition()
     local r = value(self, 'radius') or 675
     local dmg = value(self, 'damage')
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local total_dmg = dmg + (int * 1.5)
     for _, u in ipairs(enemies(c, p, r)) do
         damage(self, u, total_dmg, DAMAGE_TYPE_PURE)
@@ -5143,7 +5213,7 @@ function enfos_puck_illusory_orb:OnSpellStart()
     local p = self:GetCursorPosition()
     local dir = (p - c:GetAbsOrigin()):Normalized()
     local dmg = value(self, 'damage')
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local total_dmg = dmg + (int * 0.85)
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 700), 750)) do
@@ -5158,7 +5228,7 @@ function enfos_puck_waning_rift:OnSpellStart()
     c:SetAbsOrigin(p)
     local r = value(self, 'radius') or 400
     local dmg = value(self, 'damage')
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local total_dmg = dmg + (int * 0.75)
     local sil_dur = value(self, 'silence_duration') or 2.5
 
@@ -5192,7 +5262,7 @@ function enfos_puck_dream_coil:OnSpellStart()
     local p = self:GetCursorPosition()
     local r = value(self, 'radius') or 375
     local dmg = value(self, 'break_damage')
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local total_dmg = dmg + (int * 1.5)
     local stun_dur = value(self, 'stun_duration') or 2.5
 
@@ -5224,7 +5294,7 @@ function enfos_jakiro_dual_breath:OnSpellStart()
     local p = self:GetCursorPosition()
     local dir = (p - c:GetAbsOrigin()):Normalized()
     local dmg = value(self, 'damage')
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local total_dmg = dmg + (int * 0.8)
     local dur = value(self, 'duration') or 5.0
 
@@ -5248,7 +5318,7 @@ function enfos_jakiro_ice_path:OnSpellStart()
     local p = self:GetCursorPosition()
     local dir = (p - c:GetAbsOrigin()):Normalized()
     local dmg = value(self, 'damage')
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local total_dmg = dmg + (int * 0.6)
     local stun_dur = value(self, 'stun_duration') or 2.0
 
@@ -5272,7 +5342,7 @@ function modifier_enfos_jakiro_liquid_fire_passive:OnAttackLanded(params)
         local ab = self:GetAbility()
         local r = ab and value(ab, 'radius') or 300
         local base_d = ab and value(ab, 'bonus_damage') or 50
-        local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
         local total_d = base_d + (int * 0.3)
         for _, u in ipairs(enemies(c, params.target:GetAbsOrigin(), r)) do
             damage(ab, u, total_d, DAMAGE_TYPE_MAGICAL)
@@ -5286,7 +5356,7 @@ function enfos_jakiro_macropyre:OnSpellStart()
     local p = self:GetCursorPosition()
     local dir = (p - c:GetAbsOrigin()):Normalized()
     local dmg = value(self, 'damage_per_sec')
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local total_dmg = (dmg + (int * 0.7)) * 2.0 -- 2 second immediate burst + burn
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 700), 800)) do
@@ -5314,7 +5384,7 @@ function enfos_vs_magic_missile:OnSpellStart()
     local t = self:GetCursorTarget()
     if not t then return end
     local dmg = value(self, 'damage')
-    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
     local total_dmg = dmg + (agi * 0.9)
     local stun_dur = value(self, 'stun_duration') or 1.6
     if is_boss(t) then stun_dur = stun_dur * 0.4 end
@@ -5328,7 +5398,7 @@ function enfos_vs_wave_of_terror:OnSpellStart()
     local p = self:GetCursorPosition()
     local dir = (p - c:GetAbsOrigin()):Normalized()
     local dmg = value(self, 'damage')
-    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
     local total_dmg = dmg + (agi * 0.6)
     local dur = value(self, 'duration') or 8.0
 
@@ -5370,7 +5440,7 @@ function enfos_vs_nether_swap:OnSpellStart()
     local t = self:GetCursorTarget()
     if not t then return end
     local dmg = value(self, 'damage')
-    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local agi = get_agi(c)
     local total_dmg = dmg + (agi * 1.2)
     local p_target = t:GetAbsOrigin()
     local p_caster = c:GetAbsOrigin()
@@ -5405,7 +5475,7 @@ function enfos_lich_frost_blast:OnSpellStart()
     if not t then return end
     local tdmg = value(self, 'target_damage')
     local rdmg = value(self, 'radius_damage')
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     damage(self, t, tdmg + (int * 0.8), DAMAGE_TYPE_MAGICAL)
     for _, u in ipairs(enemies(c, t:GetAbsOrigin(), 250)) do
         damage(self, u, rdmg + (int * 0.5), DAMAGE_TYPE_MAGICAL)
@@ -5439,7 +5509,7 @@ function modifier_enfos_lich_frost_shield:OnIntervalThink()
     local c = self:GetCaster()
     local ab = self:GetAbility()
     local dps = ab and value(ab, 'dps') or 50
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local total_dps = dps + (int * 0.25)
     for _, u in ipairs(enemies(c, p:GetAbsOrigin(), 600)) do
         damage(ab, u, total_dps, DAMAGE_TYPE_MAGICAL)
@@ -5483,7 +5553,7 @@ function enfos_lich_chain_frost:OnSpellStart()
     if not t or not t:IsAlive() then return end
     local jumps = value(self, 'jump_count') or 10
     local dmg = value(self, 'damage')
-    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local int = get_int(c)
     local total_dmg = dmg + (int * 1.0)
     local current = t
 

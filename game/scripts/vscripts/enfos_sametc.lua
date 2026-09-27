@@ -59,6 +59,22 @@ function EnfosSametC:InitGameMode()
 	gameMode:SetUseTurboCouriers(true)
 	gameMode:SetCanSellAnywhere(true)
 	GameRules:SetUseUniversalShopMode(true)
+	gameMode:SetStashPurchasingDisabled(false)
+	if gameMode.SetSendToStashEnabled then
+		gameMode:SetSendToStashEnabled(true)
+	end
+
+	-- Spawn Authoritative Shop Triggers
+	-- Guarantees hero and courier are always in range of standard and secret shops
+	-- to allow purchasing recipes and combining items seamlessly from anywhere.
+	if SpawnDOTAShopTriggerRadiusApproximate then
+		local shopHomeType = _G.DOTA_SHOP_HOME or 0
+		local shopSecretType = _G.DOTA_SHOP_SECRET or 2
+		local mapHomeShop = SpawnDOTAShopTriggerRadiusApproximate(Vector(0, 0, 0), 40000)
+		if mapHomeShop and mapHomeShop.SetShopType then mapHomeShop:SetShopType(shopHomeType) end
+		local mapSecretShop = SpawnDOTAShopTriggerRadiusApproximate(Vector(0, 0, 0), 40000)
+		if mapSecretShop and mapSecretShop.SetShopType then mapSecretShop:SetShopType(shopSecretType) end
+	end
 
 	-- Order Filter to intercept and assist courier deliveries
 	gameMode:SetExecuteOrderFilter(Dynamic_Wrap(EnfosSametC, "OrderFilter"), self)

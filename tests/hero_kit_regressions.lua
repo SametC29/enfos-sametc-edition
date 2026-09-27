@@ -61,6 +61,7 @@ DOTA_DAMAGE_FLAG_REFLECTION = 16
 
 ParticleManager = {
     CreateParticle = function() return 1 end,
+    DestroyParticle = function() end,
     ReleaseParticleIndex = function() end,
     SetParticleControl = function() end,
     SetParticleControlEnt = function() end,
@@ -337,6 +338,31 @@ test('Luna Lucent Beam applies Agility scaling and triggers Lunar Resonance on n
     assert(#applied_damages == 2, 'Should hit target and resonance neighbor')
     assert(applied_damages[1].victim == target and applied_damages[1].damage == 550)
     assert(applied_damages[2].victim == neighbor and applied_damages[2].damage == 330)
+end)
+
+test('Luna Lunar Orbit pulses physical damage scaling with Agility and cleans up particle', function()
+    applied_damages = {}
+    local luna = create_mock_unit('npc_dota_hero_luna', 2, Vector(0, 0, 0))
+    luna.agility = 100
+    local c1 = create_mock_unit('creep1', 3, Vector(100, 0, 0))
+    local c2 = create_mock_unit('creep2', 3, Vector(200, 0, 0))
+    mock_world_units = { luna, c1, c2 }
+
+    local ab = enfos_luna_lunar_orbit()
+    local mod = modifier_enfos_luna_lunar_orbit_buff()
+    mod.GetParent = function() return luna end
+    mod.GetAbility = function() return ab end
+
+    mod:OnCreated()
+    assert(mod.pfx ~= nil, 'Ambient particle must be created')
+
+    -- 50 + (100 * 0.4) = 90 physical damage
+    mod:OnIntervalThink()
+    assert(#applied_damages == 2, 'Both creeps within 320 radius should take pulse damage')
+    assert(applied_damages[1].damage == 90 and applied_damages[1].damage_type == DAMAGE_TYPE_PHYSICAL)
+
+    mod:OnDestroy()
+    assert(mod.pfx == nil, 'Ambient particle must be destroyed on buff expiration')
 end)
 
 test('Drow Frost Arrows scales with Agility and shatters on creep death', function()
@@ -905,6 +931,32 @@ test('Phantom Assassin Coup de Grace crits and splashes 50% damage in AoE', func
     -- Splash to swarm: 500 * 0.5 = 250
     assert(#applied_damages == 1)
     assert(applied_damages[1].victim == swarm and applied_damages[1].damage == 250)
+end)
+
+test('Zeus Arc Lightning damages initial target and jumps with Intellect scaling', function()
+    applied_damages = {}
+    local zeus = create_mock_unit('npc_dota_hero_zuus', 2, Vector(0, 0, 0))
+    zeus.intellect = 50
+    local creep1 = create_mock_unit('creep1', 3, Vector(100, 0, 0), 1000)
+    local creep2 = create_mock_unit('creep2', 3, Vector(200, 0, 0), 1000)
+    mock_world_units = { zeus, creep1, creep2 }
+
+    local ab = enfos_zeus_arc_lightning()
+    ab.GetCaster = function() return zeus end
+    ab.GetCursorTarget = function() return creep1 end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'damage' then return 90 end
+        if k == 'jump_count' then return 5 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+
+    -- 90 base + 50 * 0.6 = 120 magical damage to both creep1 and creep2
+    assert(#applied_damages == 2, 'expected 2 hits for arc lightning, got ' .. #applied_damages)
+    assert(applied_damages[1].victim == creep1 and applied_damages[1].damage == 120)
+    assert(applied_damages[2].victim == creep2 and applied_damages[2].damage == 120)
+    assert(applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
 end)
 
 test('Zeus Static Field deals current HP percent damage with boss cap', function()

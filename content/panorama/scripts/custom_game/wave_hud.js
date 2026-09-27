@@ -22,15 +22,26 @@ function ToggleGuide() {
         if (life) $("#WaveLife").text = $.Localize("#enfos_sametc_team_life") + "  " + life.goodguys + " / " + life.badguys;
     }
     CustomNetTables.SubscribeNetTableListener("wave_info", update);
+    var bossTimer = null;
     GameEvents.Subscribe("enfos_boss_incoming", function(data) {
         if (!data) return;
-        var bossName = data.boss_name || "Boss";
+        var rawName = data.boss_name || "Boss";
+        var bossName = $.Localize("#" + rawName);
+        if (bossName === "#" + rawName) bossName = $.Localize(rawName);
         var wave = data.wave || "";
-        GameEvents.SendEventClientSide("dota_hud_error_message", {
-            splitscreenplayer: 0,
-            reason: 80,
-            message: "⚠️ " + $.Localize("#enfos_sametc_boss_incoming") + " (Wave " + wave + ": " + bossName + ")!"
-        });
+        var panel = $("#BossAlertPanel");
+        var text = $("#BossAlertText");
+        if (panel && text) {
+            text.text = "⚠️ " + $.Localize("#enfos_sametc_boss_incoming") + ": " + bossName + " (Wave " + wave + ")!";
+            panel.RemoveClass("Hidden");
+            if (bossTimer) {
+                $.CancelScheduled(bossTimer);
+            }
+            bossTimer = $.Schedule(6.0, function() {
+                panel.AddClass("Hidden");
+                bossTimer = null;
+            });
+        }
     });
     update();
 })();

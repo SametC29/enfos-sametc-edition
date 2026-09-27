@@ -1,15 +1,20 @@
 <root>
     <styles><include src="file://{resources}/styles/custom_game/wave_hud.css" /></styles>
     <scripts><include src="file://{resources}/scripts/custom_game/wave_hud.js" /></scripts>
-    <Panel class="WaveHud" hittest="false">
-        <Panel class="WaveHudHeaderRow">
-            <Label id="WaveStatus" />
-            <Button id="GuideBtn" onactivate="ToggleGuide()"><Label text="?" /></Button>
+    <Panel class="WaveHudContainer" hittest="false">
+        <Panel class="WaveHud" hittest="false">
+            <Panel class="WaveHudHeaderRow">
+                <Label id="WaveStatus" />
+                <Button id="GuideBtn" onactivate="ToggleGuide()"><Label text="?" /></Button>
+            </Panel>
+            <Label id="WaveLife" />
+            <Label id="WaveBudget" />
+            <Label id="WaveGold" />
+            <Label id="SoloSupport" />
+            <Button id="NextWave" onactivate="SendNextWave()"><Label text="#enfos_next_wave" /></Button>
         </Panel>
-        <Label id="WaveLife" />
-        <Label id="WaveBudget" />
-        <Label id="WaveGold" />
-        <Label id="SoloSupport" />
-        <Button id="NextWave" onactivate="SendNextWave()"><Label text="#enfos_next_wave" /></Button>
+        <Panel id="BossAlertPanel" class="BossAlertPanel Hidden" hittest="false">
+            <Label id="BossAlertText" text="" />
+        </Panel>
     </Panel>
 </root>

@@ -30,16 +30,16 @@ function Transfer.Move(source, destination, sourceSlot, destinationFirst, destin
     if ok and valid(accepted) and find(destination, accepted, destinationFirst, destinationLast) ~= nil then
         return true
     end
-    -- If AddItem put the original handle outside the permitted slots, take it back.
-    if valid(item) then
-        if find(destination, item, 0, 14) ~= nil then destination:TakeItem(item) end
-        local restored = source:AddItem(item)
-        local slot = find(source, restored, 0, 14)
-        if slot == nil then error("inventory_transfer_restore_failed") end
-        if slot ~= sourceSlot then source:SwapItems(slot, sourceSlot) end
-    else
-        error("inventory_transfer_unverified_consumption")
+    -- In Dota 2, AddItem can consume recipe components to form a combined item.
+    -- If the original item was consumed by destination, this is a successful transfer.
+    if not valid(item) then
+        return true
     end
+    -- If AddItem put the original handle outside the permitted slots, take it back.
+    if find(destination, item, 0, 14) ~= nil then destination:TakeItem(item) end
+    local restored = source:AddItem(item)
+    local slot = find(source, restored, 0, 14)
+    if slot ~= nil and slot ~= sourceSlot then source:SwapItems(slot, sourceSlot) end
     return false
 end
 
