@@ -6,8 +6,8 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 ## Summary Statistics
 - **Total Heroes**: 40 (8 Tank, 8 Fighter, 8 Carry, 8 Mage, 8 Support)
 - **Total Abilities**: 200 (5 per hero)
-- **Active Batches 1, 2 & 3 (Implemented & Tested)**: Sven, Axe, Centaur, Bristleback, Tidehunter, Juggernaut, Legion Commander, Wraith King, Drow Ranger, Luna, Sniper, Phantom Assassin, Lina, Crystal Maiden, Zeus, Omniknight, Dazzle, Witch Doctor (18 heroes / 90 abilities)
-- **Remaining Batches (Batches 4 & 5)**: 22 heroes (110 abilities)
+- **Active Batches 1, 2, 3 & 4 (Implemented & Tested)**: Sven, Axe, Centaur, Bristleback, Tidehunter, Dragon Knight, Pudge, Juggernaut, Legion Commander, Wraith King, Slark, Ursa, Monkey King, Drow Ranger, Luna, Sniper, Phantom Assassin, Anti-Mage, Faceless Void, Lina, Crystal Maiden, Zeus, Shadow Fiend, Storm Spirit, Omniknight, Dazzle, Witch Doctor, Shadow Shaman, Lion (29 heroes / 145 abilities)
+- **Remaining Batch (Batch 5)**: Underlord, Troll Warlord, Chaos Knight, Medusa, Terrorblade, Leshrac, Invoker, Puck, Jakiro, Vengeful Spirit, Lich (11 heroes / 55 abilities)
 
 | Role | Heroes Count | Core Archetype & PvE Philosophy |
 |---|---|---|
@@ -85,11 +85,11 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 
 | Slot | Ability ID | Current Type | Status | Design Intent & PvE Mechanic | Boss Behavior |
 |---|---|---|---|---|---|
-| Ability1 | `enfos_dk_breathe_fire` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability2 | `enfos_dk_dragon_tail` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability3 | `enfos_dk_dragon_blood` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability4 | `enfos_dk_elder_dragon_form` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability5 | `enfos_dk_wyrm_vigor` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
+| Ability1 | `enfos_dk_breathe_fire` | Lua (Active) | `KOD + OTOMATIK TEST` | 650 cone fire breath: 120-300 + 100% Str magic dmg + reduces enemy attack damage by 30-45% for 8s. | Standard damage & reduction |
+| Ability2 | `enfos_dk_dragon_tail` | Lua (Active) | `KOD + OTOMATIK TEST` | Melee/Ranged shield bash: 100-250 + 80% Str physical dmg + 2.0-3.0s stun (longer in dragon form). | 65% stun duration reduction on bosses |
+| Ability3 | `enfos_dk_dragon_blood` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: +4-16 armor & +5-20 HP regen, multiplied by up to 2x when below 50% health. | Passive defensive scaling |
+| Ability4 | `enfos_dk_elder_dragon_form` | Lua (Active) | `KOD + OTOMATIK TEST` | Transforms into an Elder Dragon: gains 400 attack range, Corrosive/Splash/Frost breath with Str scaling. | Full splash & slow |
+| Ability5 | `enfos_dk_wyrm_vigor` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: Basic attacks and abilities burn enemies for 25 + 20% Str magic damage over 3 seconds. | Continuous DoT |
 
 ### PUDGE (`npc_dota_hero_pudge`)
 - **Primary Attribute**: `DOTA_ATTRIBUTE_STRENGTH`
@@ -97,11 +97,11 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 
 | Slot | Ability ID | Current Type | Status | Design Intent & PvE Mechanic | Boss Behavior |
 |---|---|---|---|---|---|
-| Ability1 | `enfos_pudge_meat_hook` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability2 | `enfos_pudge_rot` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability3 | `enfos_pudge_flesh_heap` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability4 | `enfos_pudge_dismember` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability5 | `enfos_pudge_meat_shield` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
+| Ability1 | `enfos_pudge_meat_hook` | Lua (Active) | `KOD + OTOMATIK TEST` | 1300 range hook: pulls target dealing 150-360 + 120% Str pure damage. Does not displace bosses. | Pure damage without displacement |
+| Ability2 | `enfos_pudge_rot` | Lua (Active) | `KOD + OTOMATIK TEST` | 275 AoE toxic gas: 40-120 + 35% Str magic DPS + 20-35% slow. Harms Pudge for 50% reduced amount. | Constant magic AoE |
+| Ability3 | `enfos_pudge_flesh_heap` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: +1.5-3.0 Str per kill (uncapped). Active: 35-70 damage block for 6s. | Uncapped PvE Str scaling |
+| Ability4 | `enfos_pudge_dismember` | Lua (Active) | `KOD + OTOMATIK TEST` | Channeled dismember: 80-160 + 80% Str magic DPS + heals Pudge for 100% of damage dealt for 3s. | 60% channel duration on bosses |
+| Ability5 | `enfos_pudge_meat_shield` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: +15% Magic Resistance and converts 10% of damage taken into temporary health shield. | Defensive absorption |
 
 ### ABYSSAL UNDERLORD (`npc_dota_hero_abyssal_underlord`)
 - **Primary Attribute**: `DOTA_ATTRIBUTE_STRENGTH`
@@ -159,11 +159,11 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 
 | Slot | Ability ID | Current Type | Status | Design Intent & PvE Mechanic | Boss Behavior |
 |---|---|---|---|---|---|
-| Ability1 | `enfos_slark_dark_pact` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability2 | `enfos_slark_pounce` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability3 | `enfos_slark_essence_shift` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability4 | `enfos_slark_shadow_dance` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability5 | `enfos_slark_fish_bait` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
+| Ability1 | `enfos_slark_dark_pact` | Lua (Active) | `KOD + OTOMATIK TEST` | 1.5s delay purge + 10 waves dealing 120-300 + 75% Agi magic AoE (325 radius). 30% self damage. | Full cleansing & magic AoE |
+| Ability2 | `enfos_slark_pounce` | Lua (Active) | `KOD + OTOMATIK TEST` | Leaps 700 units; leashes first enemy hit for 2.5-3.5s dealing 100-250 + 60% Agi damage. | Leash duration reduced 60% on bosses |
+| Ability3 | `enfos_slark_essence_shift` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: Basic attacks steal 1-3 Agi for 30-60s (+1 permanent Agi on hero/boss kill). | Uncapped stack scaling |
+| Ability4 | `enfos_slark_shadow_dance` | Lua (Active) | `KOD + OTOMATIK TEST` | 4.0-5.0s cloud of shadows: untargetable, +30-50% MS, and massive passive regen when unseen. | Immune to detection |
+| Ability5 | `enfos_slark_fish_bait` | Lua (Active) | `KOD + OTOMATIK TEST` | Casts chum on target reducing armor by 4-8 and dealing 30-60 bonus damage per attack for 6s. | Focus fire shred |
 
 ### URSA (`npc_dota_hero_ursa`)
 - **Primary Attribute**: `DOTA_ATTRIBUTE_AGILITY`
@@ -171,11 +171,11 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 
 | Slot | Ability ID | Current Type | Status | Design Intent & PvE Mechanic | Boss Behavior |
 |---|---|---|---|---|---|
-| Ability1 | `enfos_ursa_earthshock` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability2 | `enfos_ursa_overpower` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability3 | `enfos_ursa_fury_swipes` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability4 | `enfos_ursa_enrage` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability5 | `enfos_ursa_ursa_minor` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
+| Ability1 | `enfos_ursa_earthshock` | Lua (Active) | `KOD + OTOMATIK TEST` | 385 AoE slam: 100-250 + 80% Agi phys dmg + 25-40% slow for 4s + grants 20% damage block. | Standard AoE & slow |
+| Ability2 | `enfos_ursa_overpower` | Lua (Active) | `KOD + OTOMATIK TEST` | Maximum attack speed (+400-700) for next 4-7 attacks with 20% status resistance. | Rapid attack burst |
+| Ability3 | `enfos_ursa_fury_swipes` | Lua (Active) | `KOD + OTOMATIK TEST` | Consecutive attacks deal +12-36 + 10% Agi bonus damage per stack, splashing 40% in 250 AoE cleave. | Hyper scaling single/cleave |
+| Ability4 | `enfos_ursa_enrage` | Lua (Active) | `KOD + OTOMATIK TEST` | 80% damage reduction, 50% status resistance, and +50% Fury Swipes damage multiplier for 4-6s. | Boss tanking clutch |
+| Ability5 | `enfos_ursa_ursa_minor` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: +15% Move Speed and basic attacks grant 10% movement speed steal for 3 seconds. | Chasing sustain |
 
 ### MONKEY KING (`npc_dota_hero_monkey_king`)
 - **Primary Attribute**: `DOTA_ATTRIBUTE_AGILITY`
@@ -183,11 +183,11 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 
 | Slot | Ability ID | Current Type | Status | Design Intent & PvE Mechanic | Boss Behavior |
 |---|---|---|---|---|---|
-| Ability1 | `enfos_mk_boundless_strike` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability2 | `enfos_mk_primal_spring` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability3 | `enfos_mk_jingu_mastery` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability4 | `enfos_mk_wukongs_command` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability5 | `enfos_mk_mischief` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
+| Ability1 | `enfos_mk_boundless_strike` | Lua (Active) | `KOD + OTOMATIK TEST` | 1100 length staff slam: 150-350% crit + 100-250 + 100% Agi phys dmg + 1.0-1.6s stun. | 65% stun duration reduction on bosses |
+| Ability2 | `enfos_mk_primal_spring` | Lua (Active) | `KOD + OTOMATIK TEST` | Ground slam leap: 140-350 + 100% Agi magic damage + 40-70% slow in 400 AoE. | Standard AoE burst & slow |
+| Ability3 | `enfos_mk_jingu_mastery` | Lua (Active) | `KOD + OTOMATIK TEST` | After 4 hits on enemies, next 4 attacks gain +50-140 damage and 30-60% lifesteal. | High burst lifesteal |
+| Ability4 | `enfos_mk_wukongs_command` | Lua (Active) | `KOD + OTOMATIK TEST` | Circular formation (750 AoE) of monkey soldiers striking every 1.2s for MK attack damage. | Sustained circle DPS |
+| Ability5 | `enfos_mk_mischief` | Lua (Active) | `KOD + OTOMATIK TEST` | Transforms into local foliage/object, gaining invulnerability frame (0.2s) and 15% evasion. | Evasion and dodge frame |
 
 ### TROLL WARLORD (`npc_dota_hero_troll_warlord`)
 - **Primary Attribute**: `DOTA_ATTRIBUTE_AGILITY`
@@ -269,11 +269,11 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 
 | Slot | Ability ID | Current Type | Status | Design Intent & PvE Mechanic | Boss Behavior |
 |---|---|---|---|---|---|
-| Ability1 | `enfos_am_mana_break` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability2 | `enfos_am_blink` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability3 | `enfos_am_counterspell` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability4 | `enfos_am_mana_void` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability5 | `enfos_am_spellbreaker` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
+| Ability1 | `enfos_am_mana_break` | Lua (Active) | `KOD + OTOMATIK TEST` | Burns 28-64 mana, dealing 80% burned mana as physical dmg + 25-50% Agi scaling, cleaving 40% in 250 AoE. | Full scaling & cleave |
+| Ability2 | `enfos_am_blink` | Lua (Active) | `KOD + OTOMATIK TEST` | 900-1200 range teleport; disjoints projectiles and grants +25-40 AS for 3s upon arrival. | Mobility & attack speed |
+| Ability3 | `enfos_am_counterspell` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: +15-45% magic resistance. Active: 1.2s magic shield reflecting targeted spells. | Defensive mitigation |
+| Ability4 | `enfos_am_mana_void` | Lua (Active) | `KOD + OTOMATIK TEST` | Target blast: 0.6-1.1 dmg per missing mana (min 300-600) + 100% Agi in 500 AoE + 0.3s mini-stun. | 600 damage floor on bosses |
+| Ability5 | `enfos_am_spellbreaker` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: Whenever AM burns mana or hits a spellcaster, gains +15% spell resistance and +10% MS for 4s. | Anti-caster stacking |
 
 ### FACELESS VOID (`npc_dota_hero_faceless_void`)
 - **Primary Attribute**: `DOTA_ATTRIBUTE_AGILITY`
@@ -281,11 +281,11 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 
 | Slot | Ability ID | Current Type | Status | Design Intent & PvE Mechanic | Boss Behavior |
 |---|---|---|---|---|---|
-| Ability1 | `enfos_void_time_walk` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability2 | `enfos_void_time_dilation` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability3 | `enfos_void_time_lock` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability4 | `enfos_void_chronosphere` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability5 | `enfos_void_backtrack` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
+| Ability1 | `enfos_void_time_walk` | Lua (Active) | `KOD + OTOMATIK TEST` | Rushes 650-800 distance, backtracks all damage taken in the last 2.0s, and gains 2.0s phase. | Time reversal sustain |
+| Ability2 | `enfos_void_time_dilation` | Lua (Active) | `KOD + OTOMATIK TEST` | Traps enemies in 775 AoE: slows MS/AS by 10% per cooldown + deals 20-50 + 20% Agi DPS for 8-11s. | AoE slow & time dilation |
+| Ability3 | `enfos_void_time_lock` | Lua (Active) | `KOD + OTOMATIK TEST` | 24% chance on attack to freeze target in time, dealing 40-100 + 40% Agi bonus magic damage and striking twice. | 60% bash duration on bosses |
+| Ability4 | `enfos_void_chronosphere` | Lua (Active) | `KOD + OTOMATIK TEST` | 500 AoE dome freezing all enemies and creeps for 4.0-5.0s. Void moves at 1000 MS inside. | Bosses slowed 80% instead of frozen |
+| Ability5 | `enfos_void_backtrack` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: 20% chance to completely backtrack (negate) any physical or magical damage instance. | Full mitigation chance |
 
 ### MEDUSA (`npc_dota_hero_medusa`)
 - **Primary Attribute**: `DOTA_ATTRIBUTE_AGILITY`
@@ -355,11 +355,11 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 
 | Slot | Ability ID | Current Type | Status | Design Intent & PvE Mechanic | Boss Behavior |
 |---|---|---|---|---|---|
-| Ability1 | `enfos_sf_shadowraze` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability2 | `enfos_sf_necromastery` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability3 | `enfos_sf_presence_of_the_dark_lord` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability4 | `enfos_sf_requiem_of_souls` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability5 | `enfos_sf_feast_of_souls` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
+| Ability1 | `enfos_sf_shadowraze` | Lua (Active) | `KOD + OTOMATIK TEST` | 275 AoE blast at 450 range: 100-280 + 75% Int magic dmg + stacks +50-100 bonus damage per hit (8s). | Stacking raze combo |
+| Ability2 | `enfos_sf_necromastery` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: Captures souls on kill (up to 20-50). Each soul grants +2-5 damage and +1% Spell Amp. | Soul counter scaling |
+| Ability3 | `enfos_sf_presence_of_the_dark_lord` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive Aura: 1000 radius armor reduction (-4 to -10) + +10% magic vulnerability on enemies. | Dual armor/magic shred |
+| Ability4 | `enfos_sf_requiem_of_souls` | Lua (Active) | `KOD + OTOMATIK TEST` | Channeled soul explosion releasing 1 wave per 2 souls: 160-240 + 50% Int per wave + 2.0s fear. | Fear duration reduced 65% on bosses |
+| Ability5 | `enfos_sf_feast_of_souls` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: Killing an enemy heals SF for 30 + 30% Int and restores 15 mana. | Wave sustain & mana |
 
 ### STORM SPIRIT (`npc_dota_hero_storm_spirit`)
 - **Primary Attribute**: `DOTA_ATTRIBUTE_INTELLECT`
@@ -367,11 +367,11 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 
 | Slot | Ability ID | Current Type | Status | Design Intent & PvE Mechanic | Boss Behavior |
 |---|---|---|---|---|---|
-| Ability1 | `enfos_storm_static_remnant` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability2 | `enfos_storm_electric_vortex` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability3 | `enfos_storm_overload` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability4 | `enfos_storm_ball_lightning` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability5 | `enfos_storm_galvanic_core` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
+| Ability1 | `enfos_storm_static_remnant` | Lua (Active) | `KOD + OTOMATIK TEST` | Creates an explosive remnant in place detonating for 120-300 + 100% Int magic damage in 260 AoE. | Rapid trigger AoE |
+| Ability2 | `enfos_storm_electric_vortex` | Lua (Active) | `KOD + OTOMATIK TEST` | Pulls target toward Storm for 1.4-2.2s and deals 50-150 + 40% Int magic damage. | 60% pull duration reduction on bosses |
+| Ability3 | `enfos_storm_overload` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: Spell cast charges attack: next hit deals 40-120 + 50% Int AoE magic damage + 50% slow. | Constant weaving burst |
+| Ability4 | `enfos_storm_ball_lightning` | Lua (Active) | `KOD + OTOMATIK TEST` | Invulnerable zip through enemies dealing 8-16 + 8% Int per 100 units traveled in 200 AoE. | High mobility wave clear |
+| Ability5 | `enfos_storm_galvanic_core` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: +25% Max Mana and restores 1.5% Max Mana whenever an ability damages an enemy. | Self-sustaining mana engine |
 
 ### LESHRAC (`npc_dota_hero_leshrac`)
 - **Primary Attribute**: `DOTA_ATTRIBUTE_INTELLECT`
@@ -453,11 +453,11 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 
 | Slot | Ability ID | Current Type | Status | Design Intent & PvE Mechanic | Boss Behavior |
 |---|---|---|---|---|---|
-| Ability1 | `enfos_ss_ether_shock` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability2 | `enfos_ss_hex` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability3 | `enfos_ss_shackles` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability4 | `enfos_ss_mass_serpent_ward` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability5 | `enfos_ss_fowl_play` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
+| Ability1 | `enfos_ss_ether_shock` | Lua (Active) | `KOD + OTOMATIK TEST` | Hits up to 8 enemies for 140-350 + 90% Int magic damage. | Multi-target wave burst |
+| Ability2 | `enfos_ss_hex` | Lua (Active) | `KOD + OTOMATIK TEST` | Morphs target into chicken for 2.5-4.0s, reducing magic resistance by 15-30% and move speed to 140. | 65% duration reduction on bosses |
+| Ability3 | `enfos_ss_shackles` | Lua (Active) | `KOD + OTOMATIK TEST` | Channeled bind: roots/disarms for up to 3.0-5.0s, dealing 60-150 + 50% Int/s magic damage. | 65% duration reduction on bosses |
+| Ability4 | `enfos_ss_mass_serpent_ward` | Lua (Active) | `KOD + OTOMATIK TEST` | Summons 6 serpent wards attacking for 50-110 + 40% Int piercing damage for 30s. | Sustained ward DPS |
+| Ability5 | `enfos_ss_fowl_play` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: Fatal damage turns SS into chicken for 4s with 1 HP surviving (60s CD) + drops 2 Serpent Wards. | Clutch survival & ward trigger |
 
 ### LION (`npc_dota_hero_lion`)
 - **Primary Attribute**: `DOTA_ATTRIBUTE_INTELLECT`
@@ -465,11 +465,11 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 
 | Slot | Ability ID | Current Type | Status | Design Intent & PvE Mechanic | Boss Behavior |
 |---|---|---|---|---|---|
-| Ability1 | `enfos_lion_earth_spike` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability2 | `enfos_lion_hex` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability3 | `enfos_lion_mana_drain` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability4 | `enfos_lion_finger_of_death` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability5 | `enfos_lion_demon_soul` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
+| Ability1 | `enfos_lion_earth_spike` | Lua (Active) | `KOD + OTOMATIK TEST` | 825 line of earth spikes: 110-290 + 90% Int magic damage + 1.4-2.2s stun. | 60% stun duration reduction on bosses |
+| Ability2 | `enfos_lion_hex` | Lua (Active) | `KOD + OTOMATIK TEST` | Transforms enemy into frog for 2.5-4.0s, reducing armor by 4-8. | 65% duration reduction on bosses |
+| Ability3 | `enfos_lion_mana_drain` | Lua (Active) | `KOD + OTOMATIK TEST` | Channeled beam draining 40-120 + 50% Int mana/s (or dealing matching magic damage to creeps). | Steady mana sustain |
+| Ability4 | `enfos_lion_finger_of_death` | Lua (Active) | `KOD + OTOMATIK TEST` | 600-1000 + 200% Int magic blast splashing in 325 AoE. Permanently gains +40 dmg per kill. | Uncapped kill stacks & AoE splash |
+| Ability5 | `enfos_lion_demon_soul` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: Every 5 spell casts grants an instant free Finger of Death charge (deals 50% damage). | Passive nuke proc |
 
 ### JAKIRO (`npc_dota_hero_jakiro`)
 - **Primary Attribute**: `DOTA_ATTRIBUTE_INTELLECT`

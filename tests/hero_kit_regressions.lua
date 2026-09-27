@@ -127,16 +127,19 @@ local function create_mock_unit(name, team, origin, hp)
         TriggerSpellAbsorb = function() return false end,
         GetAverageTrueAttackDamage = function(self) return 100 end,
         AddNewModifier = function(self, caster, ability, mod_name, params)
-            local mod = {
-                caster = caster,
-                ability = ability,
-                params = params,
-                stacks = 0,
-                GetStackCount = function(m) return m.stacks or 0 end,
-                SetStackCount = function(m, count) m.stacks = count end,
-                SetDuration = function(m, dur, refresh) end,
-                Destroy = function(m) self.modifiers[mod_name] = nil end
-            }
+            local cls = _G[mod_name]
+            local mod = cls and cls() or {}
+            mod.caster = caster
+            mod.ability = ability
+            mod.params = params
+            mod.stacks = mod.stacks or 0
+            mod.GetParent = function() return self end
+            mod.GetCaster = function() return caster end
+            mod.GetAbility = function() return ability end
+            mod.GetStackCount = function(m) return m.stacks or 0 end
+            mod.SetStackCount = function(m, count) m.stacks = count end
+            mod.SetDuration = function(m, dur, refresh) end
+            mod.Destroy = function(m) self.modifiers[mod_name] = nil end
             self.modifiers[mod_name] = mod
             return mod
         end,
@@ -949,6 +952,150 @@ test('Witch Doctor Paralyzing Cask bounces and reduces boss stun duration', func
     assert(boss_stun ~= nil and boss_stun.params.duration == 0.3, 'Boss stun duration must be reduced to 0.3s')
     local creep_stun = creep:FindModifierByName('modifier_enfos_wd_paralyzing_cask_stun')
     assert(creep_stun ~= nil and creep_stun.params.duration == 1.0, 'Creep stun duration must be 1.0s')
+end)
+
+test('Dragon Knight Breathe Fire deals magic damage and reduces enemy attack damage', function()
+    applied_damages = {}
+    local dk = create_mock_unit('npc_dota_hero_dragon_knight', 2, Vector(0, 0, 0))
+    dk.strength = 80
+    local dummy = create_mock_unit('creep_dk', 3, Vector(200, 0, 0))
+    mock_world_units = { dk, dummy }
+
+    local ab = enfos_dk_breathe_fire()
+    ab.GetCaster = function() return dk end
+    ab.GetCursorPosition = function() return Vector(300, 0, 0) end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'damage' then return 240 end
+        if k == 'reduction_pct' then return 40 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+    -- dmg = 240 + (80 * 1.2 = 96) = 336
+    assert(#applied_damages == 1)
+    assert(applied_damages[1].damage == 336 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
+    local debuff = dummy:FindModifierByName('modifier_enfos_dk_breathe_fire_debuff')
+    assert(debuff ~= nil)
+end)
+
+test('Pudge Meat Hook deals pure damage scaling with Strength', function()
+    applied_damages = {}
+    local pudge = create_mock_unit('npc_dota_hero_pudge', 2, Vector(0, 0, 0))
+    pudge.strength = 100
+    local target = create_mock_unit('hook_target', 3, Vector(400, 0, 0))
+    mock_world_units = { pudge, target }
+
+    local ab = enfos_pudge_meat_hook()
+    ab.GetCaster = function() return pudge end
+    ab.GetCursorPosition = function() return Vector(500, 0, 0) end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'hook_damage' then return 350 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+    -- dmg = 350 + (100 * 1.8 = 180) = 530 Pure
+    assert(#applied_damages == 1)
+    assert(applied_damages[1].damage == 530 and applied_damages[1].damage_type == DAMAGE_TYPE_PURE)
+end)
+
+test('Slark Essence Shift stacks Agility on attack landed', function()
+    local slark = create_mock_unit('npc_dota_hero_slark', 2, Vector(0, 0, 0))
+    local creep = create_mock_unit('creep_slark', 3, Vector(100, 0, 0))
+    mock_world_units = { slark, creep }
+
+    local ab = enfos_slark_essence_shift()
+    local mod = modifier_enfos_slark_essence_shift_passive()
+    mod.GetParent = function() return slark end
+    mod.GetAbility = function() return ab end
+
+    mod:OnAttackLanded({ attacker = slark, target = creep })
+    mod:OnAttackLanded({ attacker = slark, target = creep })
+
+    local buff = slark:FindModifierByName('modifier_enfos_slark_essence_shift_buff')
+    assert(buff ~= nil)
+    assert(buff:GetStackCount() == 2)
+    assert(buff:GetModifierBonusStats_Agility() == 6)
+end)
+
+test('Ursa Fury Swipes compounds damage on consecutive attacks and cleaves', function()
+    applied_damages = {}
+    local ursa = create_mock_unit('npc_dota_hero_ursa', 2, Vector(0, 0, 0))
+    ursa.agility = 60
+    local boss = create_mock_unit('boss_ursa', 3, Vector(100, 0, 0), 20000)
+    local minion = create_mock_unit('minion_ursa', 3, Vector(150, 0, 0), 500)
+    mock_world_units = { ursa, boss, minion }
+
+    local ab = enfos_ursa_fury_swipes()
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'bonus_damage' then return 40 end
+        return 0
+    end
+    local mod = modifier_enfos_ursa_fury_swipes_passive()
+    mod.GetParent = function() return ursa end
+    mod.GetAbility = function() return ab end
+
+    -- Hit 1: stack = 1. dmg = 1 * (40 + 9) = 49. Cleave to minion = 49 * 0.35 = 17.15
+    mod:OnAttackLanded({ attacker = ursa, target = boss })
+    assert(#applied_damages == 2)
+    assert(applied_damages[1].victim == boss and applied_damages[1].damage == 49)
+    assert(applied_damages[2].victim == minion)
+
+    -- Hit 2: stack = 2. dmg = 2 * 49 = 98
+    mod:OnAttackLanded({ attacker = ursa, target = boss })
+    assert(#applied_damages == 4)
+    assert(applied_damages[3].victim == boss and applied_damages[3].damage == 98)
+end)
+
+test('Anti-Mage Mana Break deals physical damage scaling with Agility and cleaves', function()
+    applied_damages = {}
+    local am = create_mock_unit('npc_dota_hero_antimage', 2, Vector(0, 0, 0))
+    am.agility = 100
+    local primary = create_mock_unit('creep_am', 3, Vector(100, 0, 0))
+    local secondary = create_mock_unit('creep_am_2', 3, Vector(150, 0, 0))
+    mock_world_units = { am, primary, secondary }
+
+    local ab = enfos_am_mana_break()
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'bonus_damage' then return 80 end
+        return 0
+    end
+    local mod = modifier_enfos_am_mana_break_passive()
+    mod.GetParent = function() return am end
+    mod.GetAbility = function() return ab end
+
+    mod:OnAttackLanded({ attacker = am, target = primary })
+    -- primary dmg = 80 + (100 * 0.6 = 60) = 140
+    -- secondary cleave = 140 * 0.35 = 49
+    assert(#applied_damages == 2)
+    assert(applied_damages[1].victim == primary and applied_damages[1].damage == 140)
+    assert(applied_damages[2].victim == secondary and applied_damages[2].damage == 49)
+end)
+
+test('Lion Finger of Death splashes damage in AoE and increments stack on kill', function()
+    applied_damages = {}
+    local lion = create_mock_unit('npc_dota_hero_lion', 2, Vector(0, 0, 0))
+    lion.intellect = 80
+    local target = create_mock_unit('target_lion', 3, Vector(100, 0, 0), 100)
+    local splash_creep = create_mock_unit('splash_lion', 3, Vector(120, 0, 0), 500)
+    mock_world_units = { lion, target, splash_creep }
+
+    local ab = enfos_lion_finger_of_death()
+    ab.GetCaster = function() return lion end
+    ab.GetCursorTarget = function() return target end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'damage' then return 850 end
+        return 0
+    end
+
+    -- Add finger counter modifier
+    lion:AddNewModifier(lion, ab, 'modifier_enfos_lion_finger_counter', {})
+
+    ab:OnSpellStart()
+    -- dmg = 850 + (80 * 2.5 = 200) = 1050
+    assert(#applied_damages == 2)
+    assert(applied_damages[1].damage == 1050 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
+    assert(applied_damages[2].damage == 1050 and applied_damages[2].damage_type == DAMAGE_TYPE_MAGICAL)
 end)
 
 print(passed .. ' hero kit regression tests passed (mock engine).')

@@ -30,6 +30,17 @@ const heroes = [
   { name: 'Phantom Assassin', role: 'Carry', baseDps: 170, aoeDps: 390, burstDps: 890, manaCostPerSec: 14, hp: 840, armor: 9, sustainPerSec: 25 },
   { name: 'Zeus', role: 'Mage', baseDps: 80, aoeDps: 480, burstDps: 880, manaCostPerSec: 30, hp: 760, armor: 5, sustainPerSec: 16 },
   { name: 'Witch Doctor', role: 'Support', baseDps: 80, aoeDps: 310, burstDps: 580, manaCostPerSec: 22, hp: 920, armor: 8, sustainPerSec: 58 },
+  { name: 'Dragon Knight', role: 'Tank', baseDps: 90, aoeDps: 300, burstDps: 550, manaCostPerSec: 12, hp: 1300, armor: 24, sustainPerSec: 45 },
+  { name: 'Pudge', role: 'Tank', baseDps: 80, aoeDps: 320, burstDps: 600, manaCostPerSec: 15, hp: 1500, armor: 14, sustainPerSec: 50 },
+  { name: 'Slark', role: 'Fighter', baseDps: 130, aoeDps: 350, burstDps: 700, manaCostPerSec: 14, hp: 920, armor: 13, sustainPerSec: 48 },
+  { name: 'Ursa', role: 'Fighter', baseDps: 150, aoeDps: 320, burstDps: 850, manaCostPerSec: 12, hp: 1100, armor: 16, sustainPerSec: 40 },
+  { name: 'Monkey King', role: 'Fighter', baseDps: 135, aoeDps: 380, burstDps: 780, manaCostPerSec: 15, hp: 1000, armor: 14, sustainPerSec: 42 },
+  { name: 'Anti-Mage', role: 'Carry', baseDps: 165, aoeDps: 360, burstDps: 720, manaCostPerSec: 10, hp: 860, armor: 11, sustainPerSec: 22 },
+  { name: 'Faceless Void', role: 'Carry', baseDps: 155, aoeDps: 340, burstDps: 800, manaCostPerSec: 12, hp: 880, armor: 12, sustainPerSec: 30 },
+  { name: 'Shadow Fiend', role: 'Mage', baseDps: 110, aoeDps: 500, burstDps: 920, manaCostPerSec: 25, hp: 740, armor: 6, sustainPerSec: 20 },
+  { name: 'Storm Spirit', role: 'Mage', baseDps: 85, aoeDps: 470, burstDps: 840, manaCostPerSec: 32, hp: 750, armor: 7, sustainPerSec: 18 },
+  { name: 'Shadow Shaman', role: 'Support', baseDps: 75, aoeDps: 330, burstDps: 520, manaCostPerSec: 24, hp: 890, armor: 8, sustainPerSec: 35 },
+  { name: 'Lion', role: 'Support', baseDps: 70, aoeDps: 310, burstDps: 680, manaCostPerSec: 22, hp: 880, armor: 7, sustainPerSec: 40 },
 ];
 
 const waveArchetypes = [
