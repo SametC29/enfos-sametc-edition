@@ -2,6 +2,8 @@
 
 **Release status: prototype; gameplay acceptance incomplete.** See [Codex audit](audit/CODEX_AUDIT_2026-09-27.md) for corrected defects, verified evidence, production economy arithmetic, and remaining release blockers. The desktop Antigravity report is not acceptance evidence.
 
+For the next development pass, follow [Antigravity continuation plan (TR)](ANTIGRAVITY_DEVAM_PLANI.md): prove startup and the first five waves, then close one behavior-tested system at a time. Current user instruction: local commits only; no push.
+
 ---
 
 # Verified project status — 2026-09-26
