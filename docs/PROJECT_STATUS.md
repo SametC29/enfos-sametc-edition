@@ -1,9 +1,11 @@
 # Current audit — 2026-09-27
 
-Local candidate after V1.0.0: removed the unsupported shop-trigger `SetSize` call
+V1.0.1 startup fix: removed the unsupported shop-trigger `SetSize` call
 that can abort activation before team/hero setup. Corrected the mock API regression.
 Only the canonical `enfos` map remains; the identical `enfos_sametc` map alias was
-removed. User local acceptance is pending; **do not upload this candidate yet**.
+removed. The user accepted the local fix and authorized publication. SteamCMD
+accepted the update; public metadata shows V1.0.1. Download verification is pending:
+SteamCMD currently still returns the V1.0.0 archive, including with the author login.
 See [startup fix and local test](audit/SETUP_STARTUP_2026-09-27.md).
 
 **Prototype; engine gameplay acceptance is incomplete.** Current findings and player test sequence:
@@ -28,10 +30,11 @@ See [startup fix and local test](audit/SETUP_STARTUP_2026-09-27.md).
 
 User instruction: local commits only; no push. Live testing belongs to the user.
 Steam Workshop item **3809160125** is **public**, titled
-**Enfos Team Survival - SametC Edition V1.0.0**, with the **Custom Game** tag.
-On 2026-09-27 the user accepted the Workshop agreement, anonymous Steam API metadata
-confirmed public visibility, and an anonymous SteamCMD download matched the uploaded
-VPK's SHA-256. Gameplay code was unchanged by publication.
+**Enfos Team Survival - SametC Edition V1.0.1**, with the **Custom Game** tag.
+On 2026-09-27 Steam accepted the V1.0.1 upload and anonymous metadata confirmed its
+title, public visibility, new manifest and size. Download delivery is not yet verified;
+do not mistake the successful V1.0.0 download check for a V1.0.1 check. Gameplay code
+was unchanged after the user's local acceptance.
 See [Workshop release record](WORKSHOP_YAYINLAMA.md); Arcade search and remote live
 gameplay acceptance remain separate user tests.
 

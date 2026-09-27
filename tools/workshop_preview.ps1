@@ -2,6 +2,7 @@
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing
 $taskOutput = Join-Path $PSScriptRoot '../release/workshop/preview.png'
+$taskRelease = Get-Content (Join-Path $PSScriptRoot '../workshop/release.json') -Raw | ConvertFrom-Json
 $taskBitmap = [System.Drawing.Bitmap]::new(1024, 576)
 $taskGraphics = [System.Drawing.Graphics]::FromImage($taskBitmap)
 $taskGraphics.SmoothingMode = 'AntiAlias'
@@ -31,7 +32,7 @@ $taskGraphics.DrawString('ENFOS', $taskFont, $taskGold, [System.Drawing.Rectangl
 $taskGraphics.DrawString('TEAM SURVIVAL', $taskSubFont, $taskLight, [System.Drawing.RectangleF]::new(30,276,964,52), $taskFormat)
 $taskGraphics.DrawLine($taskBorder, 335, 348, 689, 348)
 $taskGraphics.DrawString('SametC Edition', $taskEditionFont, $taskGold, [System.Drawing.RectangleF]::new(30,367,964,50), $taskFormat)
-$taskGraphics.DrawString('V1.0.0  /  DOTA 2 CUSTOM GAME', $taskSmallFont, $taskMuted, [System.Drawing.RectangleF]::new(30,453,964,36), $taskFormat)
+$taskGraphics.DrawString(('V' + $taskRelease.version + '  /  DOTA 2 CUSTOM GAME'), $taskSmallFont, $taskMuted, [System.Drawing.RectangleF]::new(30,453,964,36), $taskFormat)
 $taskBitmap.Save($taskOutput, [System.Drawing.Imaging.ImageFormat]::Png)
 foreach ($taskResource in @($taskGraphics,$taskBitmap,$taskBackground,$taskGold,$taskLight,$taskMuted,$taskForest,$taskBorder,$taskFormat,$taskFont,$taskSubFont,$taskEditionFont,$taskSmallFont)) { $taskResource.Dispose() }
 Write-Output $taskOutput

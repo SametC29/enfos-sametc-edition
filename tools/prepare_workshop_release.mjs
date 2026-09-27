@@ -120,7 +120,16 @@ if (!oldVdf) {
   const description = 'Protect your Life Core against enemy waves in this Dota 2 custom survival game. Choose your hero, build items and support your team with Spellbringer abilities. First public test version; gameplay and balance testing are ongoing. / TR: Takiminin Yasam Cekirdegini dusman dalgalarina karsi koru. Kahramanini ve esyalarini gelistir, Spellbringer buyulerini kullan. Ilk herkese acik test surumu; gelistirme ve denge testleri suruyor.';
   fs.writeFileSync(vdf, '"workshopitem"\n{\n' + Object.entries({ appid: '570', publishedfileid: id,
     contentfolder: content, previewfile: path.join(release, 'preview.png'), visibility: config.visibility,
-    title, description, changenote: 'V1.0.0 - Initial public test release.'
+    title, description, changenote: config.changenote || ('V' + config.version)
   }).map(([key, value]) => `\t"${key}" ${quote(value)}`).join('\n') + '\n}\n');
+} else {
+  // Keep the saved identity and visibility; refresh only versioned publication text.
+  let updated = oldVdf;
+  for (const [key, value] of Object.entries({ title, changenote: config.changenote || ('V' + config.version) })) {
+    const field = new RegExp('"' + key + '"\\s+"[^"\\r\\n]*"');
+    if (!field.test(updated)) throw new Error('Missing VDF field: ' + key);
+    updated = updated.replace(field, () => '"' + key + '"\t\t' + quote(value));
+  }
+  fs.writeFileSync(vdf, updated);
 }
-console.log(JSON.stringify({ files: files.length, bytes: archive.length, archive: path.join(content, archiveName), id, visibility: 'Existing VDF preserved; new VDF uses the saved release configuration' }));
+console.log(JSON.stringify({ files: files.length, bytes: archive.length, archive: path.join(content, archiveName), id, visibility: 'Existing VDF identity and visibility preserved; publication text refreshed' }));

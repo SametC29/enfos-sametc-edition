@@ -1,10 +1,11 @@
 # Steam Workshop — ilk yayın ve güncellemeler
 
-Durum (2026-09-27): **Steam Workshop'ta herkese açık yayımlandı.**
-Workshop ID: **3809160125**. Custom Game etiketi ve Public görünürlüğü anonim Steam
-API'sinden doğrulandı. Kullanıcı Workshop sözleşmesini onayladı. Anonim SteamCMD
-indirmesindeki VPK, doğrulanmış yükleme paketiyle aynı SHA-256 değerine sahip.
-Oyun kodu temel sürümü: `5cb265b`. Oyun içi geliştirme sürümü bu hazırlıkta değiştirilmedi.
+Durum (2026-09-27): **V1.0.1 yüklemesi kabul edildi; indirme doğrulaması bekliyor.**
+Workshop ID: **3809160125**. Custom Game etiketi, Public görünürlüğü, yeni başlık,
+manifest ve boyut anonim Steam API'sinden doğrulandı. SteamCMD indirmesi hâlâ önceki
+V1.0.0 paketini döndürüyor; yeni dosyaların dağıtımı henüz doğrulanmış sayılmıyor.
+Oyun kodu temel sürümü: `6eec7db`. Kullanıcı yerel düzeltmeyi kabul etti ve yayını istedi.
+Yayın hazırlığı oyun kodunu değiştirmedi. Aşağıdaki V1.0.0 kayıtları tarihsel kanıttır.
 
 Kullanıcı Steam Workshop'ta herkese açık yayını ve sonraki güncellemeleri istedi.
 GitHub'a gönderim için önceki yalnızca yerel commit tercihi devam ediyor.
@@ -18,7 +19,8 @@ Computer Use kullanılmayacak. Kullanıcının son tercihi SteamCMD ile yükleme
 - `tools/workshop_preview.ps1`: projeye özgü, yazı ve basit şekillerden oluşan PNG
   kapak üretir; başka oyunun görselini içermez.
 - `release/workshop/workshop.vdf`: başlık, açıklama, önizleme ve yayın ID'sini taşır.
-  Mevcut VDF korunur. VDF kaybolursa `workshop/release.json` içindeki yayın ID'si
+  Mevcut VDF'nin kimliği ve görünürlüğü korunur; başlık/değişiklik notu release.json
+  üzerinden yenilenir. Kapak sürümü de aynı dosyadan okunur. VDF kaybolursa yayın ID'si
   ve Public görünürlüğü kullanılır; yanlışlıkla yeni kayıt oluşturulmaz. Farklı ID
   içeren yerel VDF reddedilir. Sürüm değişiminde başlık/değişiklik notunu da güncelle.
 - İlk yayında önce gizli kayıt oluşturuldu, ardından VPK dosyası alınan ID'yle
@@ -131,7 +133,7 @@ yerel harita çalışmasına izni, referans harita yazarından alınmış bir ye
 lisansı belgesi değildir. Yayıncı hak sahipliği beyanı isterse bunu otomatik onaylamayın;
 mevcut izin/lisans kaydına göre değerlendirin.
 
-## Yayın kaydı
+## V1.0.0 yayın kaydı
 
 - İstenen başlık: Enfos Team Survival - SametC Edition V1.0.0
 - Workshop ID: 3809160125
@@ -143,3 +145,23 @@ mevcut izin/lisans kaydına göre değerlendirin.
 - Anonim indirme: başarılı; 37.055.723 bayt toplam içerik.
 - VPK SHA-256: `726113e6e559770d3ad11e5e8702f058343fb324502c2d5f8476e086881ec259`
 - Arcade arama sırası ve başka bilgisayarda canlı maç: henüz test edilmedi.
+
+## V1.0.1 yayın kaydı — 2026-09-27
+
+- Kullanıcı yerel test sonrası düzeltmenin çalıştığını bildirdi ve canlı yayını onayladı.
+- İçerik commit'i: `6eec7db`; takım/kahraman kurulumunu kesen shop API çağrısı kaldırıldı.
+- Tek harita: `enfos`; aynı içeriğin `enfos_sametc` harita kopyası kaldırıldı.
+  Addon klasör adı hâlâ `enfos_sametc`. Kalan 10 harita/tema dosyası değişmedi.
+- `node tools/checks.mjs`: 0 hata. Bağımsız paket kontrolü: 104 dosya, 10 korunan harita
+  dosyası, PNG kapak; VPK boyutu 21.779.569 bayt. publish_data ile toplam 21.779.756 bayt.
+- VPK SHA-256: `c1703e0e12a455a1b6fefdab72af002173bb303054ddffa609f890bb0f245322`.
+- SteamCMD yüklemesi 18:58:52'de Success döndürdü. İçerik manifesti:
+  `2361195417708818491`. Anonim metadata yeni başlığı, boyutu ve manifesti doğruladı;
+  visibility=0, banned=0, tag=Custom Game.
+- İndirme kontrolü henüz geçmedi: anonim ve yayıncı hesabıyla SteamCMD, eski manifest
+  `1427547748857073514` ve V1.0.0 hash'ini döndürdü. Yalnız bu kaydı içeren SteamCMD
+  manifest önbelleği yedeklenip yenilendiğinde de sunucu eski manifesti verdi.
+  Nedeni kesinleştirilmedi; yeni sürümün oyunculara ulaştığı henüz iddia edilmemeli.
+- Mevcut Public/Custom Game alanlarını resmi masaüstü API ile yeniden kaydetme girişimi
+  Steam masaüstü çevrimdışı olduğundan değişiklik yapmadan durdu.
+- Geri dönüş paketi: `release/rollback/V1.0.0/`; yalnız Git commit'i binary yedek değildir.

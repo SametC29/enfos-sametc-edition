@@ -1,7 +1,9 @@
 # Takım / kahraman seçimi başlangıç düzeltmesi
 
-Durum: yerel test adayı; canlıya yüklenmedi. Kullanıcı hem Workshop sürümünde hem
-yerel testte takım değiştirememe ve boş kahraman seçimi bildirdi.
+Durum: kullanıcı yerel düzeltmenin çalıştığını bildirdi ve yayını onayladı.
+V1.0.1 aynı Workshop kaydına yüklendi; indirme doğrulamasının durumu
+`docs/WORKSHOP_YAYINLAMA.md` içinde kayıtlı. İlk bildirim hem Workshop sürümünde hem
+yerel testte takım değiştirememe ve boş kahraman seçimiydi.
 
 ## Bulgu ve değişiklik
 
@@ -28,8 +30,10 @@ Kalan 10 harita/tema dosyasının hash'i değişmedi; harita yeniden derlenmedi.
 - `node tools/check_map.mjs`: kalan 10 dosya aynı.
 - Canlı VConsole bağlantısı yoktu; mevcut console.log değişikliklerden önceki
   oturuma ait. Son ekranın çalışma zamanı stack trace'i alınamadı. API hatası kodda
-  doğrulandı; kullanıcı testi düzeltilmiş başlangıcın motor içi kabulünü sağlayacak.
-- Yayınlanan V1.0.0 değişmedi. Yeni aday için kullanıcı onayı beklenir.
+  doğrulandı; kullanıcı daha sonra "düzelmiş, canlıya alabilirsin" diyerek yerel
+  düzeltmeyi kabul etti. Bu onay bütün kahramanların/oynanışın test edildiği anlamına gelmez.
+- V1.0.1 yüklemesi SteamCMD tarafından kabul edildi; yayın paketinde oyun kodu
+  commit `6eec7db` ile aynı. Korunan 10 harita dosyası yeniden derlenmedi.
 
 ## Kullanıcının yerel testi
 

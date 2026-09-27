@@ -1,8 +1,9 @@
 {
   "appid": "570",
   "publishedfileid": "3809160125",
-  "version": "1.0.0",
-  "title": "Enfos Team Survival - SametC Edition V1.0.0",
+  "version": "1.0.1",
+  "title": "Enfos Team Survival - SametC Edition V1.0.1",
+  "changenote": "V1.0.1 - Fixed startup failure preventing team switching and hero selection. Removed the duplicate map; enfos is the only playable map. Local gameplay test passed by the author.",
   "visibility": "0",
   "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3809160125"
 }
