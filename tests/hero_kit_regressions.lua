@@ -117,6 +117,12 @@ local function create_mock_unit(name, team, origin, hp)
         GetStrength = function(self) return self.strength end,
         GetAgility = function(self) return self.agility end,
         GetIntellect = function(self) return self.intellect end,
+        mana = 500,
+        max_mana = 1000,
+        GetMana = function(self) return self.mana end,
+        GetMaxMana = function(self) return self.max_mana end,
+        GiveMana = function(self, amount) self.mana = math.min(self.max_mana, self.mana + amount) end,
+        SpendMana = function(self, amount, ability) self.mana = math.max(0, self.mana - amount) end,
         GetPhysicalArmorValue = function(self) return self.armor end,
         GetStatusResistance = function(self) return self.status_res end,
         PassivesDisabled = function() return false end,
@@ -1096,6 +1102,286 @@ test('Lion Finger of Death splashes damage in AoE and increments stack on kill',
     assert(#applied_damages == 2)
     assert(applied_damages[1].damage == 1050 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
     assert(applied_damages[2].damage == 1050 and applied_damages[2].damage_type == DAMAGE_TYPE_MAGICAL)
+end)
+
+
+test('Underlord Firestorm damages enemies in radius with Str scaling and applies burn', function()
+    applied_damages = {}
+    local underlord = create_mock_unit('npc_dota_hero_abyssal_underlord', 2, Vector(0, 0, 0))
+    underlord.strength = 100
+    local creep1 = create_mock_unit('creep_ul1', 3, Vector(100, 0, 0), 1000)
+    local creep2 = create_mock_unit('creep_ul2', 3, Vector(200, 0, 0), 1000)
+    mock_world_units = { underlord, creep1, creep2 }
+
+    local ab = enfos_underlord_firestorm()
+    ab.GetCaster = function() return underlord end
+    ab.GetCursorPosition = function() return Vector(100, 0, 0) end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'radius' then return 425 end
+        if k == 'wave_damage' then return 95 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+    -- dmg = 95 + (100 * 0.3 = 30) = 125
+    assert(#applied_damages == 2, 'Firestorm hits both creeps in radius')
+    assert(applied_damages[1].damage == 125 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
+    assert(applied_damages[2].damage == 125 and applied_damages[2].damage_type == DAMAGE_TYPE_MAGICAL)
+end)
+
+test('Troll Warlord Whirling Axes deals magic damage with Agility scaling and blinds', function()
+    applied_damages = {}
+    local troll = create_mock_unit('npc_dota_hero_troll_warlord', 2, Vector(0, 0, 0))
+    troll.agility = 120
+    local creep = create_mock_unit('creep_troll', 3, Vector(150, 0, 0), 1000)
+    mock_world_units = { troll, creep }
+
+    local ab = enfos_troll_whirling_axes()
+    ab.GetCaster = function() return troll end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'radius' then return 450 end
+        if k == 'damage' then return 270 end
+        if k == 'duration' then return 4.0 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+    -- dmg = 270 + (120 * 0.8 = 96) = 366
+    assert(#applied_damages == 1)
+    assert(applied_damages[1].damage == 366 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
+    assert(creep:FindModifierByName('modifier_enfos_troll_whirling_axes_blind') ~= nil)
+end)
+
+test('Chaos Knight Chaos Strike procs crit, lifesteal and AoE cleave', function()
+    applied_damages = {}
+    local ck = create_mock_unit('npc_dota_hero_chaos_knight', 2, Vector(0, 0, 0), 2000)
+    ck.hp = 500
+    local target = create_mock_unit('target_ck', 3, Vector(50, 0, 0), 1000)
+    local splash = create_mock_unit('splash_ck', 3, Vector(100, 0, 0), 1000)
+    mock_world_units = { ck, target, splash }
+
+    local ab = enfos_ck_chaos_strike()
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'bonus_damage' then return 50 end
+        if k == 'crit_chance' then return 100 end
+        if k == 'crit_mult' then return 200 end
+        return 0
+    end
+
+    local mod = ck:AddNewModifier(ck, ab, 'modifier_enfos_ck_chaos_strike', {})
+    assert(mod:GetModifierPreAttack_CriticalStrike() == 200)
+
+    mod:OnTakeDamage({
+        attacker = ck,
+        unit = target,
+        damage = 300,
+        damage_category = DOTA_DAMAGE_CATEGORY_ATTACK
+    })
+
+    assert(ck.hp == 650, 'Lifesteals 50% of 300 damage = +150 HP')
+    assert(#applied_damages == 1, 'Cleaves to nearby splash target')
+    assert(applied_damages[1].victim == splash and applied_damages[1].damage == 120)
+end)
+
+test('Medusa Mystic Snake bounces across targets with Agility scaling and restores mana', function()
+    applied_damages = {}
+    local medusa = create_mock_unit('npc_dota_hero_medusa', 2, Vector(0, 0, 0))
+    medusa.agility = 100
+    medusa.mana = 100
+    local creep1 = create_mock_unit('creep_m1', 3, Vector(100, 0, 0), 1000)
+    local creep2 = create_mock_unit('creep_m2', 3, Vector(200, 0, 0), 1000)
+    mock_world_units = { medusa, creep1, creep2 }
+
+    local ab = enfos_medusa_mystic_snake()
+    ab.GetCaster = function() return medusa end
+    ab.GetCursorTarget = function() return creep1 end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'jump_count' then return 5 end
+        if k == 'base_damage' then return 300 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+    -- jump 1: 300 + (100 * 0.8 = 80) = 380
+    -- jump 2: 380 * 1.2 = 456
+    assert(#applied_damages == 2, 'Snake bounces to second creep')
+    assert(applied_damages[1].damage == 380)
+    assert(applied_damages[2].damage == 456)
+    assert(medusa.mana == 160, 'Restores mana on hits')
+end)
+
+test('Terrorblade Sunder heals caster and deals pure damage with boss cap', function()
+    applied_damages = {}
+    local tb = create_mock_unit('npc_dota_hero_terrorblade', 2, Vector(0, 0, 0), 2000)
+    tb.hp = 200
+    tb.agility = 100
+    local boss = create_mock_unit('enfos_boss_tb', 3, Vector(100, 0, 0), 10000)
+    boss.is_boss = true
+    mock_world_units = { tb, boss }
+
+    local ab = enfos_tb_sunder()
+    ab.GetCaster = function() return tb end
+    ab.GetCursorTarget = function() return boss end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'heal_amount' then return 1000 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+    -- heal = 1000 + (100 * 1.5 = 150) = 1150
+    assert(tb.hp == 1350, 'TB healed for 1150')
+    assert(#applied_damages == 1)
+    assert(applied_damages[1].damage == 1000, 'Boss damage capped at 1000')
+    assert(applied_damages[1].damage_type == DAMAGE_TYPE_PURE)
+end)
+
+test('Leshrac Pulse Nova pulses magic AoE scaling with Int and spends mana', function()
+    applied_damages = {}
+    local leshrac = create_mock_unit('npc_dota_hero_leshrac', 2, Vector(0, 0, 0))
+    leshrac.intellect = 100
+    leshrac.mana = 200
+    local creep = create_mock_unit('creep_lesh', 3, Vector(100, 0, 0), 1000)
+    mock_world_units = { leshrac, creep }
+
+    local ab = enfos_leshrac_pulse_nova()
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'damage' then return 220 end
+        if k == 'radius' then return 450 end
+        if k == 'mana_cost_per_second' then return 40 end
+        return 0
+    end
+
+    local mod = leshrac:AddNewModifier(leshrac, ab, 'modifier_enfos_leshrac_pulse_nova', {})
+    mod:OnIntervalThink()
+
+    assert(leshrac.mana == 160, 'Spends 40 mana per pulse')
+    -- dmg = 220 + (100 * 0.75 = 75) = 295
+    assert(#applied_damages == 1)
+    assert(applied_damages[1].damage == 295 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
+end)
+
+test('Invoker Sun Strike deals pure AoE damage scaling with Intellect', function()
+    applied_damages = {}
+    local invoker = create_mock_unit('npc_dota_hero_invoker', 2, Vector(0, 0, 0))
+    invoker.intellect = 120
+    local creep = create_mock_unit('creep_invo', 3, Vector(100, 0, 0), 1000)
+    mock_world_units = { invoker, creep }
+
+    local ab = enfos_invoker_sun_strike()
+    ab.GetCaster = function() return invoker end
+    ab.GetCursorPosition = function() return Vector(100, 0, 0) end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'radius' then return 200 end
+        if k == 'damage' then return 500 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+    -- dmg = 500 + (120 * 1.8 = 216) = 716 pure
+    assert(#applied_damages == 1)
+    assert(applied_damages[1].damage == 716 and applied_damages[1].damage_type == DAMAGE_TYPE_PURE)
+end)
+
+test('Puck Dream Coil stuns and damages with boss duration reduction', function()
+    applied_damages = {}
+    local puck = create_mock_unit('npc_dota_hero_puck', 2, Vector(0, 0, 0))
+    puck.intellect = 100
+    local creep = create_mock_unit('creep_puck', 3, Vector(50, 0, 0), 1000)
+    local boss = create_mock_unit('enfos_boss_puck', 3, Vector(100, 0, 0), 5000)
+    boss.is_boss = true
+    mock_world_units = { puck, creep, boss }
+
+    local ab = enfos_puck_dream_coil()
+    ab.GetCaster = function() return puck end
+    ab.GetCursorPosition = function() return Vector(75, 0, 0) end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'radius' then return 375 end
+        if k == 'break_damage' then return 600 end
+        if k == 'stun_duration' then return 3.0 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+    -- dmg = 600 + (100 * 1.5 = 150) = 750
+    assert(#applied_damages == 2)
+    assert(applied_damages[1].damage == 750)
+    assert(applied_damages[2].damage == 750)
+
+    local mod_creep = creep:FindModifierByName('modifier_generic_stunned_lua')
+    local mod_boss = boss:FindModifierByName('modifier_generic_stunned_lua')
+    assert(mod_creep.params.duration == 3.0, 'Creep takes full 3.0s stun')
+    assert(math.abs(mod_boss.params.duration - 1.05) < 0.01, 'Boss stun reduced by 65%')
+end)
+
+test('Jakiro Dual Breath damages in cone with Int scaling and applies slow', function()
+    applied_damages = {}
+    local jakiro = create_mock_unit('npc_dota_hero_jakiro', 2, Vector(0, 0, 0))
+    jakiro.intellect = 90
+    local creep = create_mock_unit('creep_jak', 3, Vector(200, 0, 0), 1000)
+    mock_world_units = { jakiro, creep }
+
+    local ab = enfos_jakiro_dual_breath()
+    ab.GetCaster = function() return jakiro end
+    ab.GetCursorPosition = function() return Vector(200, 0, 0) end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'damage' then return 340 end
+        if k == 'duration' then return 5.0 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+    -- dmg = 340 + (90 * 0.8 = 72) = 412
+    assert(#applied_damages == 1)
+    assert(applied_damages[1].damage == 412 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
+    assert(creep:FindModifierByName('modifier_enfos_jakiro_dual_breath_slow') ~= nil)
+end)
+
+test('Vengeful Spirit Nether Swap damages target with Agi scaling and buffs defense', function()
+    applied_damages = {}
+    local vs = create_mock_unit('npc_dota_hero_vengefulspirit', 2, Vector(0, 0, 0))
+    vs.agility = 110
+    local creep = create_mock_unit('creep_vs', 3, Vector(500, 0, 0), 1000)
+    mock_world_units = { vs, creep }
+
+    local ab = enfos_vs_nether_swap()
+    ab.GetCaster = function() return vs end
+    ab.GetCursorTarget = function() return creep end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'damage' then return 400 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+    -- dmg = 400 + (110 * 1.2 = 132) = 532
+    assert(#applied_damages == 1)
+    assert(applied_damages[1].damage == 532 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
+    assert(vs:FindModifierByName('modifier_enfos_vs_nether_swap_buff') ~= nil)
+end)
+
+test('Lich Chain Frost bounces across enemies with Intellect scaling', function()
+    applied_damages = {}
+    local lich = create_mock_unit('npc_dota_hero_lich', 2, Vector(0, 0, 0))
+    lich.intellect = 100
+    local creep1 = create_mock_unit('creep_lich1', 3, Vector(100, 0, 0), 2000)
+    local creep2 = create_mock_unit('creep_lich2', 3, Vector(200, 0, 0), 2000)
+    mock_world_units = { lich, creep1, creep2 }
+
+    local ab = enfos_lich_chain_frost()
+    ab.GetCaster = function() return lich end
+    ab.GetCursorTarget = function() return creep1 end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'jump_count' then return 4 end
+        if k == 'damage' then return 400 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+    -- dmg per hit = 400 + (100 * 1.0 = 100) = 500
+    assert(#applied_damages == 4, 'Chain frost completes 4 jumps')
+    assert(applied_damages[1].damage == 500)
+    assert(applied_damages[2].damage == 500)
+    assert(applied_damages[3].damage == 500)
+    assert(applied_damages[4].damage == 500)
 end)
 
 print(passed .. ' hero kit regression tests passed (mock engine).')

@@ -1,17 +1,18 @@
 # Current audit — 2026-09-27
 
 Latest changes: [hero power instead of solo enemy reductions](audit/HERO_POWER_2026-09-27.md),
-[native team spawn markers](RUNTIME_FIXES.md), and [Batches 1, 2, 3 & 4 Hero PvE Kits Rework](HERO_PVE_REWORK_MATRIX.md).
-Batches 1, 2, 3 & 4 provide authoritative PvE kits for 29 heroes across all 5 roles:
-- Tank: Sven, Axe, Centaur Warrunner, Bristleback, Tidehunter, Dragon Knight, Pudge
-- Fighter: Juggernaut, Legion Commander, Wraith King, Slark, Ursa, Monkey King
-- Carry: Drow Ranger, Luna, Sniper, Phantom Assassin, Anti-Mage, Faceless Void
-- Mage: Lina, Crystal Maiden, Zeus, Shadow Fiend, Storm Spirit
-- Support: Omniknight, Dazzle, Witch Doctor, Shadow Shaman, Lion
-covering 145 complete abilities with attribute scaling, boss diminish/caps, and crowd clearing.
-All 130 automated behavior tests and repository checks pass (32 dedicated hero kit regressions,
+[native team spawn markers](RUNTIME_FIXES.md), and [Complete 40-Hero PvE Kit Overhaul (Batches 1-5)](HERO_PVE_REWORK_MATRIX.md).
+All 40 launch heroes across all 5 roles now feature complete, authoritative PvE kits (200 abilities):
+- Tank (8): Sven, Axe, Centaur Warrunner, Bristleback, Tidehunter, Dragon Knight, Pudge, Underlord
+- Fighter (8): Juggernaut, Legion Commander, Wraith King, Slark, Ursa, Monkey King, Troll Warlord, Chaos Knight
+- Carry (8): Drow Ranger, Luna, Sniper, Phantom Assassin, Anti-Mage, Faceless Void, Medusa, Terrorblade
+- Mage (8): Lina, Crystal Maiden, Zeus, Shadow Fiend, Storm Spirit, Leshrac, Invoker, Puck
+- Support (8): Omniknight, Dazzle, Witch Doctor, Shadow Shaman, Lion, Jakiro, Vengeful Spirit, Lich
+covering 200 complete abilities with attribute scaling, boss diminish/caps, crowd clearing, and no hard-coded strings.
+All 141 automated behavior tests and repository checks pass (43 dedicated hero kit regressions,
 14 audit regressions, 9 hero power regressions, 6 spawn regressions, 6 runtime wave regressions,
 49 core behavior tests, 11 JavaScript/validator tests, 3 tool validation checks).
+Full 40-hero combat wave simulations verify solo waves 1-15 viability and late-game gear reliance.
 29 unfinished Ascended upgrades remain purchase-gated; launch target stays 30.
 Live testing belongs to the user; offline validation and simulation complete.
 

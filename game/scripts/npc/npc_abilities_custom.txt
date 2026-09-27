@@ -3209,12 +3209,13 @@
 		}
 		"ScriptFile"				"abilities/pve_kits"
 	}
-// UNDERLORD ABILITIES (TANK)
+// UNDERLORD ABILITIES (Batch 5 PvE Kit)
 	// =========================================================================
 
 	"enfos_underlord_firestorm"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"abyssal_underlord_firestorm"
@@ -3241,94 +3242,51 @@
 				"var_type"			"FIELD_INTEGER"
 				"wave_count"		"6"
 			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
+			"04"
 			{
-				"EffectName"		"Hero_AbyssalUnderlord.Firestorm.Cast"
-				"Target"			"CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"		"TARGET"
-					"Radius"		"%radius"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target"	"TARGET"
-						"Type"		"DAMAGE_TYPE_MAGICAL"
-						"Damage"	"%wave_damage"
-					}
-				}
+				"var_type"			"FIELD_INTEGER"
+				"burn_pct"			"2"
 			}
 		}
 	}
 
 	"enfos_underlord_pit_of_malice"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"abyssal_underlord_pit_of_malice"
-		"AbilityCastRange"			"700"
-		"AbilityCastPoint"			"0.3"
+		"AbilityCastRange"			"750"
+		"AbilityCastPoint"			"0.4"
 		"AbilityCooldown"			"18.0 16.0 14.0 12.0"
-		"AbilityManaCost"			"80 100 120 140"
+		"AbilityManaCost"			"100 115 130 145"
 		"MaxLevel"					"4"
 
 		"AbilitySpecial"
 		{
 			"01"
 			{
-				"var_type"			"FIELD_INTEGER"
-				"radius"			"400"
-			}
-			"02"
-			{
 				"var_type"			"FIELD_FLOAT"
 				"ensnare_duration"	"1.4 1.8 2.2 2.6"
 			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
+			"02"
 			{
-				"EffectName"		"Hero_AbyssalUnderlord.PitOfMalice"
-				"Target"			"CASTER"
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"400"
 			}
-			"ActOnTargets"
+			"03"
 			{
-				"Target"
-				{
-					"Center"		"TARGET"
-					"Radius"		"%radius"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"ApplyModifier"
-					{
-						"ModifierName" "modifier_rooted"
-						"Target"	"TARGET"
-						"Duration"	"%ensnare_duration"
-					}
-				}
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"80 130 180 230"
 			}
 		}
 	}
 
 	"enfos_underlord_atrophy_aura"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"abyssal_underlord_atrophy_aura"
 		"MaxLevel"					"4"
@@ -3338,85 +3296,53 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"damage_reduction_pct" "-12 -18 -24 -30"
+				"bonus_damage"		"20 35 50 65"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_damage"		"20 35 50 65"
+				"reduction"			"15 25 35 45"
 			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_atrophy_aura"
+			"03"
 			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-				}
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"900"
 			}
 		}
 	}
 
 	"enfos_underlord_dark_rift"
 	{
-		"BaseClass" "ability_datadriven"
-		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
-		"AbilityTextureName" "abyssal_underlord_dark_rift"
-		"AbilityCastPoint" "0.3"
-		"AbilityCooldown" "60.0 50.0 40.0"
-		"AbilityManaCost" "150 200 250"
-		"MaxLevel" "3"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
+		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
+		"AbilityTextureName"		"abyssal_underlord_dark_rift"
+		"AbilityCastPoint"			"0.4"
+		"AbilityCooldown"			"60.0 50.0 40.0"
+		"AbilityManaCost"			"150 225 300"
+		"MaxLevel"					"3"
+
 		"AbilitySpecial"
 		{
 			"01"
 			{
-				"var_type" "FIELD_INTEGER"
-				"burst_damage" "350 550 750"
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"750"
 			}
 			"02"
 			{
-				"var_type" "FIELD_INTEGER"
-				"radius" "750"
+				"var_type"			"FIELD_INTEGER"
+				"burst_damage"		"350 550 750"
 			}
 		}
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName" "Hero_AbyssalUnderlord.DarkRift.Cast"
-				"Target" "CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center" "CASTER"
-					"Radius" "%radius"
-					"Teams" "DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target" "TARGET"
-						"Type" "DAMAGE_TYPE_MAGICAL"
-						"Damage" "%burst_damage"
-					}
-				}
-			}
-		}
-		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 	}
 
 	"enfos_underlord_abyssal_carapace"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"abyssal_underlord_atrophy_aura"
 		"MaxLevel"					"1"
@@ -3434,24 +3360,8 @@
 				"bonus_hp"			"500"
 			}
 		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_underlord_carapace"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
-					"MODIFIER_PROPERTY_HEALTH_BONUS" "%bonus_hp"
-				}
-			}
-		}
 	}
 
-	// =========================================================================
-		// =========================================================================
 	// URSA ABILITIES (Batch 4 PvE Kit)
 	// =========================================================================
 
@@ -3622,12 +3532,13 @@
 		}
 		"ScriptFile"				"abilities/pve_kits"
 	}
-// TROLL WARLORD ABILITIES (FIGHTER)
+// TROLL WARLORD ABILITIES (Batch 5 PvE Kit)
 	// =========================================================================
 
 	"enfos_troll_berserkers_rage"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE"
 		"AbilityTextureName"		"troll_warlord_berserkers_rage"
 		"MaxLevel"					"4"
@@ -3645,49 +3556,18 @@
 				"bonus_ms"			"15 25 35 45"
 			}
 		}
-
-		"OnToggleOn"
-		{
-			"ApplyModifier"
-			{
-				"ModifierName"		"modifier_enfos_berserkers_rage"
-				"Target"			"CASTER"
-			}
-		}
-
-		"OnToggleOff"
-		{
-			"RemoveModifier"
-			{
-				"ModifierName"		"modifier_enfos_berserkers_rage"
-				"Target"			"CASTER"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_berserkers_rage"
-			{
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT" "%bonus_ms"
-				}
-			}
-		}
 	}
 
 	"enfos_troll_whirling_axes"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"troll_warlord_whirling_axes_melee"
-		"AbilityCastRange"			"450"
 		"AbilityCastPoint"			"0.2"
 		"AbilityCooldown"			"9.0"
-		"AbilityManaCost"			"50"
+		"AbilityManaCost"			"60 70 80 90"
 		"MaxLevel"					"4"
 
 		"AbilitySpecial"
@@ -3695,57 +3575,25 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"damage"			"90 150 210 270"
+				"radius"			"450"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"radius"			"450"
+				"damage"			"90 150 210 270"
 			}
 			"03"
 			{
 				"var_type"			"FIELD_FLOAT"
-				"blind_duration"	"5.0"
-			}
-			"04"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"blind_pct"			"60"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName"		"Hero_TrollWarlord.WhirlingAxes.Melee"
-				"Target"			"CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"		"CASTER"
-					"Radius"		"%radius"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target"	"TARGET"
-						"Type"		"DAMAGE_TYPE_MAGICAL"
-						"Damage"	"%damage"
-					}
-				}
+				"duration"			"4.0"
 			}
 		}
 	}
 
 	"enfos_troll_fervor"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"troll_warlord_fervor"
 		"MaxLevel"					"4"
@@ -3757,81 +3605,45 @@
 				"var_type"			"FIELD_INTEGER"
 				"attack_speed"		"40 70 100 130"
 			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_fervor"
+			"02"
 			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%attack_speed"
-				}
+				"var_type"			"FIELD_INTEGER"
+				"max_stacks"		"12"
 			}
 		}
 	}
 
 	"enfos_troll_battle_trance"
 	{
-		"BaseClass" "ability_datadriven"
-		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
-		"AbilityTextureName" "troll_warlord_battle_trance"
-		"AbilityCastPoint" "0.0"
-		"AbilityCooldown" "60.0 50.0 40.0"
-		"AbilityManaCost" "100"
-		"MaxLevel" "3"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
+		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"		"troll_warlord_battle_trance"
+		"AbilityCastPoint"			"0.0"
+		"AbilityCooldown"			"50.0 45.0 40.0"
+		"AbilityManaCost"			"100 125 150"
+		"MaxLevel"					"3"
+
 		"AbilitySpecial"
 		{
 			"01"
 			{
-				"var_type" "FIELD_FLOAT"
-				"duration" "6.5"
+				"var_type"			"FIELD_INTEGER"
+				"bonus_as"			"140 180 220"
 			}
 			"02"
 			{
-				"var_type" "FIELD_INTEGER"
-				"bonus_as" "140 180 220"
-			}
-			"03"
-			{
-				"var_type" "FIELD_INTEGER"
-				"bonus_ms_pct" "30"
+				"var_type"			"FIELD_FLOAT"
+				"duration"			"4.5 5.5 6.5"
 			}
 		}
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName" "Hero_TrollWarlord.BattleTrance.Cast"
-				"Target" "CASTER"
-			}
-			"ApplyModifier"
-			{
-				"ModifierName" "modifier_enfos_battle_trance"
-				"Target" "CASTER"
-				"Duration" "%duration"
-			}
-		}
-		"Modifiers"
-		{
-			"modifier_enfos_battle_trance"
-			{
-				"IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_as"
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%bonus_ms_pct"
-				}
-			}
-		}
-		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 	}
 
 	"enfos_troll_rampage"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"troll_warlord_rampage"
 		"MaxLevel"					"1"
@@ -3846,39 +3658,26 @@
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_status_res"	"15"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_troll_rampage"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-				}
+				"status_resistance"	"20"
 			}
 		}
 	}
 
-	// =========================================================================
-	// CHAOS KNIGHT ABILITIES (FIGHTER)
+	// CHAOS KNIGHT ABILITIES (Batch 5 PvE Kit)
 	// =========================================================================
 
 	"enfos_ck_chaos_bolt"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"chaos_knight_chaos_bolt"
 		"AbilityCastRange"			"600"
-		"AbilityCastPoint"			"0.3"
-		"AbilityCooldown"			"12.0 11.0 10.0 9.0"
+		"AbilityCastPoint"			"0.4"
+		"AbilityCooldown"			"11.0 10.0 9.0 8.0"
 		"AbilityManaCost"			"90 100 110 120"
 		"MaxLevel"					"4"
 
@@ -3887,47 +3686,32 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"damage"			"140 210 280 350"
+				"damage"			"120 180 240 300"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_FLOAT"
-				"stun_duration"		"1.5 2.0 2.5 3.0"
+				"stun_min"			"1.25"
 			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
+			"03"
 			{
-				"EffectName"		"Hero_ChaosKnight.ChaosBolt"
-				"Target"			"CASTER"
-			}
-			"Damage"
-			{
-				"Target"			"TARGET"
-				"Type"				"DAMAGE_TYPE_MAGICAL"
-				"Damage"			"%damage"
-			}
-			"ApplyModifier"
-			{
-				"ModifierName"		"modifier_stunned"
-				"Target"			"TARGET"
-				"Duration"			"%stun_duration"
+				"var_type"			"FIELD_FLOAT"
+				"stun_max"			"2.2 2.6 3.0 3.4"
 			}
 		}
 	}
 
 	"enfos_ck_reality_rift"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityTextureName"		"chaos_knight_reality_rift"
-		"AbilityCastRange"			"700"
+		"AbilityCastRange"			"600"
 		"AbilityCastPoint"			"0.3"
-		"AbilityCooldown"			"14.0 12.0 10.0 8.0"
+		"AbilityCooldown"			"12.0 10.0 8.0 6.0"
 		"AbilityManaCost"			"50"
 		"MaxLevel"					"4"
 
@@ -3936,46 +3720,25 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"armor_reduction"	"-3 -4 -5 -6"
+				"armor_reduction"	"4 6 8 10"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_FLOAT"
 				"duration"			"6.0"
 			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
+			"03"
 			{
-				"EffectName"		"Hero_ChaosKnight.RealityRift"
-				"Target"			"CASTER"
-			}
-			"ApplyModifier"
-			{
-				"ModifierName"		"modifier_enfos_reality_rift_debuff"
-				"Target"			"TARGET"
-				"Duration"			"%duration"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_reality_rift_debuff"
-			{
-				"IsDebuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%armor_reduction"
-				}
+				"var_type"			"FIELD_INTEGER"
+				"range"				"600"
 			}
 		}
 	}
 
 	"enfos_ck_chaos_strike"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"chaos_knight_chaos_strike"
 		"MaxLevel"					"4"
@@ -3985,82 +3748,62 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"crit_mult"			"160 190 220 250"
+				"bonus_damage"		"20 35 50 65"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_damage"		"20 35 50 65"
+				"crit_chance"		"33"
 			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_chaos_strike"
+			"03"
 			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-				}
+				"var_type"			"FIELD_INTEGER"
+				"crit_mult"			"140 175 210 245"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"lifesteal"			"40 55 70 85"
 			}
 		}
 	}
 
 	"enfos_ck_phantasm"
 	{
-		"BaseClass" "ability_datadriven"
-		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName" "chaos_knight_phantasm"
-		"AbilityCastPoint" "0.4"
-		"AbilityCooldown" "60.0 50.0 40.0"
-		"AbilityManaCost" "125 175 225"
-		"MaxLevel" "3"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
+		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"		"chaos_knight_phantasm"
+		"AbilityCastPoint"			"0.4"
+		"AbilityCooldown"			"75.0 65.0 55.0"
+		"AbilityManaCost"			"125 175 225"
+		"MaxLevel"					"3"
+
 		"AbilitySpecial"
 		{
 			"01"
 			{
-				"var_type" "FIELD_INTEGER"
-				"bonus_damage" "50 80 110"
+				"var_type"			"FIELD_INTEGER"
+				"bonus_damage"		"40 70 100"
 			}
 			"02"
 			{
-				"var_type" "FIELD_FLOAT"
-				"duration" "30.0"
+				"var_type"			"FIELD_INTEGER"
+				"illusion_count"	"2 3 4"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"duration"			"30.0"
 			}
 		}
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName" "Hero_ChaosKnight.Phantasm"
-				"Target" "CASTER"
-			}
-			"ApplyModifier"
-			{
-				"ModifierName" "modifier_enfos_phantasm_buff"
-				"Target" "CASTER"
-				"Duration" "%duration"
-			}
-		}
-		"Modifiers"
-		{
-			"modifier_enfos_phantasm_buff"
-			{
-				"IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-				}
-			}
-		}
-		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 	}
 
 	"enfos_ck_entropy"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"chaos_knight_chaos_strike"
 		"MaxLevel"					"1"
@@ -4070,32 +3813,16 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_strength"	"15"
+				"bonus_strength"	"20"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_speed"		"20"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_ck_entropy"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_strength"
-					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_speed"
-				}
+				"bonus_speed"		"25"
 			}
 		}
 	}
 
-	// =========================================================================
-		// =========================================================================
 	// ANTI-MAGE ABILITIES (Batch 4 PvE Kit)
 	// =========================================================================
 
@@ -4260,12 +3987,13 @@
 		}
 		"ScriptFile"				"abilities/pve_kits"
 	}
-// MEDUSA ABILITIES (CARRY)
+// MEDUSA ABILITIES (Batch 5 PvE Kit)
 	// =========================================================================
 
 	"enfos_medusa_split_shot"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE"
 		"AbilityTextureName"		"medusa_split_shot"
 		"MaxLevel"					"4"
@@ -4280,51 +4008,22 @@
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"damage_pct"		"-45 -35 -25 -15"
-			}
-		}
-
-		"OnToggleOn"
-		{
-			"ApplyModifier"
-			{
-				"ModifierName"		"modifier_enfos_medusa_split_shot"
-				"Target"			"CASTER"
-			}
-		}
-
-		"OnToggleOff"
-		{
-			"RemoveModifier"
-			{
-				"ModifierName"		"modifier_enfos_medusa_split_shot"
-				"Target"			"CASTER"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_medusa_split_shot"
-			{
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE" "%damage_pct"
-				}
+				"damage_modifier"	"60 70 80 90"
 			}
 		}
 	}
 
 	"enfos_medusa_mystic_snake"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"medusa_mystic_snake"
 		"AbilityCastRange"			"700"
-		"AbilityCastPoint"			"0.3"
+		"AbilityCastPoint"			"0.4"
 		"AbilityCooldown"			"11.0"
 		"AbilityManaCost"			"120 130 140 150"
 		"MaxLevel"					"4"
@@ -4334,34 +4033,25 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"base_damage"		"120 180 240 300"
+				"jump_count"		"4 5 6 7"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"jump_count"		"4 5 6 7"
+				"base_damage"		"120 180 240 300"
 			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
+			"03"
 			{
-				"EffectName"		"Hero_Medusa.MysticSnake.Cast"
-				"Target"			"CASTER"
-			}
-			"Damage"
-			{
-				"Target"			"TARGET"
-				"Type"				"DAMAGE_TYPE_MAGICAL"
-				"Damage"			"%base_damage"
+				"var_type"			"FIELD_INTEGER"
+				"mana_steal"		"15 20 25 30"
 			}
 		}
 	}
 
 	"enfos_medusa_mana_shield"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"medusa_mana_shield"
 		"MaxLevel"					"4"
@@ -4370,101 +4060,58 @@
 		{
 			"01"
 			{
-				"var_type"			"FIELD_FLOAT"
-				"damage_per_mana"	"1.8 2.2 2.6 3.0"
+				"var_type"			"FIELD_INTEGER"
+				"bonus_mana"		"150 250 350 450"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_mana"		"150 250 350 450"
+				"absorption_pct"	"70 75 80 85"
 			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_mana_shield"
+			"03"
 			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MANA_BONUS" "%bonus_mana"
-				}
+				"var_type"			"FIELD_FLOAT"
+				"damage_per_mana"	"2.0 2.4 2.8 3.2"
 			}
 		}
 	}
 
 	"enfos_medusa_stone_gaze"
 	{
-		"BaseClass" "ability_datadriven"
-		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName" "medusa_stone_gaze"
-		"AbilityCastPoint" "0.3"
-		"AbilityCooldown" "60.0 50.0 40.0"
-		"AbilityManaCost" "150"
-		"MaxLevel" "3"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
+		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"		"medusa_stone_gaze"
+		"AbilityCastPoint"			"0.4"
+		"AbilityCooldown"			"60.0 50.0 40.0"
+		"AbilityManaCost"			"150"
+		"MaxLevel"					"3"
+
 		"AbilitySpecial"
 		{
 			"01"
 			{
-				"var_type" "FIELD_FLOAT"
-				"duration" "5.0 6.0 7.0"
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"900"
 			}
 			"02"
 			{
-				"var_type" "FIELD_INTEGER"
-				"slow_pct" "-35"
+				"var_type"			"FIELD_FLOAT"
+				"duration"			"5.0 6.0 7.0"
 			}
 			"03"
 			{
-				"var_type" "FIELD_INTEGER"
-				"radius" "900"
+				"var_type"			"FIELD_INTEGER"
+				"damage_amp"		"35 45 55"
 			}
 		}
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName" "Hero_Medusa.StoneGaze.Cast"
-				"Target" "CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center" "CASTER"
-					"Radius" "%radius"
-					"Teams" "DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"ApplyModifier"
-					{
-						"ModifierName" "modifier_enfos_stone_gaze_debuff"
-						"Target" "TARGET"
-						"Duration" "%duration"
-					}
-				}
-			}
-		}
-		"Modifiers"
-		{
-			"modifier_enfos_stone_gaze_debuff"
-			{
-				"IsDebuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%slow_pct"
-				}
-			}
-		}
-		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 	}
 
 	"enfos_medusa_gorgon_gaze"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"medusa_cold_blooded"
 		"MaxLevel"					"1"
@@ -4482,35 +4129,22 @@
 				"bonus_range"		"75"
 			}
 		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_gorgon_gaze"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-					"MODIFIER_PROPERTY_ATTACK_RANGE_BONUS" "%bonus_range"
-				}
-			}
-		}
 	}
 
-	// =========================================================================
-	// TERRORBLADE ABILITIES (CARRY)
+	// TERRORBLADE ABILITIES (Batch 5 PvE Kit)
 	// =========================================================================
 
 	"enfos_tb_reflection"
 	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitDamageType"		"DAMAGE_TYPE_PHYSICAL"
 		"AbilityTextureName"		"terrorblade_reflection"
 		"AbilityCastRange"			"700"
 		"AbilityCastPoint"			"0.3"
 		"AbilityCooldown"			"16.0 14.0 12.0 10.0"
-		"AbilityManaCost"			"50"
+		"AbilityManaCost"			"50 60 70 80"
 		"MaxLevel"					"4"
 
 		"AbilitySpecial"
@@ -4518,12 +4152,12 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"radius"			"700"
+				"radius"			"500"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"slow_pct"			"-25 -30 -35 -40"
+				"slow_pct"			"20 25 30 35"
 			}
 			"03"
 			{
@@ -4531,51 +4165,12 @@
 				"duration"			"5.0"
 			}
 		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName"		"Hero_Terrorblade.Reflection"
-				"Target"			"CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"		"CASTER"
-					"Radius"		"%radius"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"ApplyModifier"
-					{
-						"ModifierName" "modifier_enfos_reflection_debuff"
-						"Target"	"TARGET"
-						"Duration"	"%duration"
-					}
-				}
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_reflection_debuff"
-			{
-				"IsDebuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%slow_pct"
-				}
-			}
-		}
 	}
 
 	"enfos_tb_conjure_image"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"		"terrorblade_conjure_image"
 		"AbilityCastPoint"			"0.15"
@@ -4593,45 +4188,24 @@
 			"02"
 			{
 				"var_type"			"FIELD_FLOAT"
-				"duration"			"25.0"
+				"duration"			"30.0"
 			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
+			"03"
 			{
-				"EffectName"		"Hero_Terrorblade.ConjureImage"
-				"Target"			"CASTER"
-			}
-			"ApplyModifier"
-			{
-				"ModifierName"		"modifier_enfos_conjure_image_buff"
-				"Target"			"CASTER"
-				"Duration"			"%duration"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_conjure_image_buff"
-			{
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-				}
+				"var_type"			"FIELD_INTEGER"
+				"illusion_damage"	"40 50 60 70"
 			}
 		}
 	}
 
 	"enfos_tb_metamorphosis"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"		"terrorblade_metamorphosis"
-		"AbilityCastPoint"			"0.3"
-		"AbilityCooldown"			"60.0 50.0 40.0"
+		"AbilityCastPoint"			"0.35"
+		"AbilityCooldown"			"70.0 60.0 50.0 40.0"
 		"AbilityManaCost"			"100"
 		"MaxLevel"					"4"
 
@@ -4639,89 +4213,57 @@
 		{
 			"01"
 			{
-				"var_type"			"FIELD_INTEGER"
-				"bonus_damage"		"35 60 85 110"
+				"var_type"			"FIELD_FLOAT"
+				"duration"			"35.0 40.0 45.0 50.0"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_range"		"400"
+				"bonus_damage"		"30 50 70 90"
 			}
 			"03"
 			{
-				"var_type"			"FIELD_FLOAT"
-				"duration"			"35.0"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName"		"Hero_Terrorblade.Metamorphosis"
-				"Target"			"CASTER"
-			}
-			"ApplyModifier"
-			{
-				"ModifierName"		"modifier_enfos_metamorphosis"
-				"Target"			"CASTER"
-				"Duration"			"%duration"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_metamorphosis"
-			{
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-					"MODIFIER_PROPERTY_ATTACK_RANGE_BONUS" "%bonus_range"
-				}
+				"var_type"			"FIELD_INTEGER"
+				"bonus_range"		"400"
 			}
 		}
 	}
 
 	"enfos_tb_sunder"
 	{
-		"BaseClass" "ability_datadriven"
-		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_BOTH"
-		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityTextureName" "terrorblade_sunder"
-		"AbilityCastRange" "475"
-		"AbilityCastPoint" "0.3"
-		"AbilityCooldown" "45.0 35.0 25.0"
-		"AbilityManaCost" "100 75 50"
-		"MaxLevel" "3"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
+		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"		"DAMAGE_TYPE_PURE"
+		"AbilityTextureName"		"terrorblade_sunder"
+		"AbilityCastRange"			"475"
+		"AbilityCastPoint"			"0.35"
+		"AbilityCooldown"			"60.0 45.0 30.0"
+		"AbilityManaCost"			"100"
+		"MaxLevel"					"3"
+
 		"AbilitySpecial"
 		{
 			"01"
 			{
-				"var_type" "FIELD_INTEGER"
-				"heal_amount" "400 700 1000"
+				"var_type"			"FIELD_INTEGER"
+				"heal_amount"		"400 700 1000"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"cast_range"		"475"
 			}
 		}
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName" "Hero_Terrorblade.Sunder.Cast"
-				"Target" "CASTER"
-			}
-			"Heal"
-			{
-				"Target" "CASTER"
-				"HealAmount" "%heal_amount"
-			}
-		}
-		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 	}
 
 	"enfos_tb_demon_zeal"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"terrorblade_terror_wave"
 		"MaxLevel"					"1"
@@ -4739,24 +4281,8 @@
 				"bonus_ms"			"20"
 			}
 		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_demon_zeal"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_as"
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT" "%bonus_ms"
-				}
-			}
-		}
 	}
 
-	// =========================================================================
-		// =========================================================================
 	// STORM SPIRIT ABILITIES (Batch 4 PvE Kit)
 	// =========================================================================
 
@@ -4843,19 +4369,20 @@
 		}
 		"ScriptFile"				"abilities/pve_kits"
 	}
-// LESHRAC ABILITIES (MAGE)
+// LESHRAC ABILITIES (Batch 5 PvE Kit)
 	// =========================================================================
 
 	"enfos_leshrac_split_earth"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"leshrac_split_earth"
 		"AbilityCastRange"			"750"
 		"AbilityCastPoint"			"0.35"
 		"AbilityCooldown"			"9.0"
-		"AbilityManaCost"			"80 100 120 140"
+		"AbilityManaCost"			"100 115 130 145"
 		"MaxLevel"					"4"
 
 		"AbilitySpecial"
@@ -4863,12 +4390,12 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"damage"			"120 180 240 300"
+				"radius"			"250"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"radius"			"350"
+				"damage"			"120 180 240 300"
 			}
 			"03"
 			{
@@ -4876,51 +4403,18 @@
 				"stun_duration"		"1.4 1.7 2.0 2.3"
 			}
 		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName"		"Hero_Leshrac.Split_Earth"
-				"Target"			"CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"		"TARGET"
-					"Radius"		"%radius"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target"	"TARGET"
-						"Type"		"DAMAGE_TYPE_MAGICAL"
-						"Damage"	"%damage"
-					}
-					"ApplyModifier"
-					{
-						"ModifierName" "modifier_stunned"
-						"Target"	"TARGET"
-						"Duration"	"%stun_duration"
-					}
-				}
-			}
-		}
 	}
 
 	"enfos_leshrac_diabolic_edict"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_PURE"
 		"AbilityTextureName"		"leshrac_diabolic_edict"
-		"AbilityCastPoint"			"0.2"
+		"AbilityCastPoint"			"0.05"
 		"AbilityCooldown"			"22.0 19.0 16.0 13.0"
-		"AbilityManaCost"			"90 110 130 150"
+		"AbilityManaCost"			"95 110 125 140"
 		"MaxLevel"					"4"
 
 		"AbilitySpecial"
@@ -4928,78 +4422,34 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"damage_per_explosion" "24 38 52 66"
+				"damage_per_explosion" "15 25 35 45"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"radius"			"500"
+				"num_explosions"	"40"
 			}
 			"03"
 			{
-				"var_type"			"FIELD_FLOAT"
-				"duration"			"10.0"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName"		"Hero_Leshrac.Diabolic_Edict"
-				"Target"			"CASTER"
-			}
-			"ApplyModifier"
-			{
-				"ModifierName"		"modifier_enfos_diabolic_edict"
-				"Target"			"CASTER"
-				"Duration"			"%duration"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_diabolic_edict"
-			{
-				"ThinkInterval"		"0.5"
-				"OnIntervalThink"
-				{
-					"ActOnTargets"
-					{
-						"Target"
-						{
-							"Center"	"CASTER"
-							"Radius"	"%radius"
-							"Teams"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
-							"Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-						}
-						"Action"
-						{
-							"Damage"
-							{
-								"Target" "TARGET"
-								"Type"	"DAMAGE_TYPE_PURE"
-								"Damage" "%damage_per_explosion"
-							}
-						}
-					}
-				}
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"500"
 			}
 		}
 	}
 
 	"enfos_leshrac_lightning_storm"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"leshrac_lightning_storm"
-		"AbilityCastRange"			"750"
+		"AbilityCastRange"			"650"
 		"AbilityCastPoint"			"0.3"
-		"AbilityCooldown"			"6.0 5.0 4.0 3.0"
-		"AbilityManaCost"			"70 80 90 100"
+		"AbilityCooldown"			"7.0 6.0 5.0 4.0"
+		"AbilityManaCost"			"80 90 100 110"
 		"MaxLevel"					"4"
 
 		"AbilitySpecial"
@@ -5007,107 +4457,58 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"damage"			"90 150 210 270"
+				"jump_count"		"5 7 9 11"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"jump_count"		"5 7 9 11"
+				"damage"			"100 160 220 280"
 			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
+			"03"
 			{
-				"EffectName"		"Hero_Leshrac.Lightning_Storm"
-				"Target"			"CASTER"
-			}
-			"Damage"
-			{
-				"Target"			"TARGET"
-				"Type"				"DAMAGE_TYPE_MAGICAL"
-				"Damage"			"%damage"
+				"var_type"			"FIELD_INTEGER"
+				"slow_pct"			"40 50 60 70"
 			}
 		}
 	}
 
 	"enfos_leshrac_pulse_nova"
 	{
-		"BaseClass" "ability_datadriven"
-		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE"
-		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
-		"AbilityTextureName" "leshrac_pulse_nova"
-		"MaxLevel" "3"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
+		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE"
+		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
+		"AbilityTextureName"		"leshrac_pulse_nova"
+		"AbilityCastPoint"			"0.0"
+		"AbilityCooldown"			"1.0"
+		"AbilityManaCost"			"50"
+		"MaxLevel"					"3"
+
 		"AbilitySpecial"
 		{
 			"01"
 			{
-				"var_type" "FIELD_INTEGER"
-				"damage" "100 160 220"
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"100 160 220"
 			}
 			"02"
 			{
-				"var_type" "FIELD_INTEGER"
-				"radius" "525"
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"450"
 			}
 			"03"
 			{
-				"var_type" "FIELD_INTEGER"
-				"mana_cost_per_sec" "40 60 80"
+				"var_type"			"FIELD_INTEGER"
+				"mana_cost_per_second" "25 40 55"
 			}
 		}
-		"OnToggleOn"
-		{
-			"ApplyModifier"
-			{
-				"ModifierName" "modifier_enfos_pulse_nova"
-				"Target" "CASTER"
-			}
-		}
-		"OnToggleOff"
-		{
-			"RemoveModifier"
-			{
-				"ModifierName" "modifier_enfos_pulse_nova"
-				"Target" "CASTER"
-			}
-		}
-		"Modifiers"
-		{
-			"modifier_enfos_pulse_nova"
-			{
-				"ThinkInterval" "1.0"
-				"OnIntervalThink"
-				{
-					"ActOnTargets"
-					{
-						"Target"
-						{
-							"Center" "CASTER"
-							"Radius" "%radius"
-							"Teams" "DOTA_UNIT_TARGET_TEAM_ENEMY"
-							"Types" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-						}
-						"Action"
-						{
-							"Damage"
-							{
-								"Target" "TARGET"
-								"Type" "DAMAGE_TYPE_MAGICAL"
-								"Damage" "%damage"
-							}
-						}
-					}
-				}
-			}
-		}
-		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 	}
 
 	"enfos_leshrac_defilement"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"leshrac_pulse_nova"
 		"MaxLevel"					"1"
@@ -5117,42 +4518,29 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"spell_lifesteal"	"15"
+				"bonus_int"			"20"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_int"			"15"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_defilement"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_int"
-				}
+				"spell_lifesteal"	"20"
 			}
 		}
 	}
 
-	// =========================================================================
-	// INVOKER ABILITIES (MAGE)
+	// INVOKER ABILITIES (Batch 5 PvE Kit)
 	// =========================================================================
 
 	"enfos_invoker_chaos_meteor"
 	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"invoker_chaos_meteor"
-		"AbilityCastRange"			"800"
-		"AbilityCastPoint"			"0.3"
-		"AbilityCooldown"			"24.0 20.0 16.0 12.0"
+		"AbilityCastRange"			"700"
+		"AbilityCastPoint"			"0.4"
+		"AbilityCooldown"			"18.0 16.0 14.0 12.0"
 		"AbilityManaCost"			"120 140 160 180"
 		"MaxLevel"					"4"
 
@@ -5161,54 +4549,32 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"impact_damage"		"200 320 440 560"
+				"impact_damage"		"150 240 330 420"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"radius"			"375"
+				"burn_dps"			"40 65 90 115"
 			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
+			"03"
 			{
-				"EffectName"		"Hero_Invoker.ChaosMeteor.Cast"
-				"Target"			"CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"		"TARGET"
-					"Radius"		"%radius"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target"	"TARGET"
-						"Type"		"DAMAGE_TYPE_MAGICAL"
-						"Damage"	"%impact_damage"
-					}
-				}
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"275"
 			}
 		}
 	}
 
 	"enfos_invoker_sun_strike"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_PURE"
 		"AbilityTextureName"		"invoker_sun_strike"
 		"AbilityCastRange"			"9999"
-		"AbilityCastPoint"			"0.3"
-		"AbilityCooldown"			"20.0 18.0 16.0 14.0"
-		"AbilityManaCost"			"120 140 160 180"
+		"AbilityCastPoint"			"0.4"
+		"AbilityCooldown"			"15.0 13.0 11.0 9.0"
+		"AbilityManaCost"			"100 115 130 145"
 		"MaxLevel"					"4"
 
 		"AbilitySpecial"
@@ -5221,49 +4587,27 @@
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"radius"			"300"
+				"radius"			"200"
 			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
+			"03"
 			{
-				"EffectName"		"Hero_Invoker.SunStrike.Cast"
-				"Target"			"CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"		"TARGET"
-					"Radius"		"%radius"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target"	"TARGET"
-						"Type"		"DAMAGE_TYPE_PURE"
-						"Damage"	"%damage"
-					}
-				}
+				"var_type"			"FIELD_FLOAT"
+				"delay"				"1.5"
 			}
 		}
 	}
 
 	"enfos_invoker_deafening_blast"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"invoker_deafening_blast"
 		"AbilityCastRange"			"800"
-		"AbilityCastPoint"			"0.2"
-		"AbilityCooldown"			"18.0 16.0 14.0 12.0"
-		"AbilityManaCost"			"100 120 140 160"
+		"AbilityCastPoint"			"0.3"
+		"AbilityCooldown"			"14.0 12.0 10.0 8.0"
+		"AbilityManaCost"			"100 110 120 130"
 		"MaxLevel"					"4"
 
 		"AbilitySpecial"
@@ -5271,106 +4615,64 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"damage"			"120 200 280 360"
+				"damage"			"120 190 260 330"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_FLOAT"
-				"disarm_duration"	"2.0 2.5 3.0 3.5"
+				"disarm_duration"	"2.5 3.0 3.5 4.0"
 			}
 			"03"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"range"				"800"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName"		"Hero_Invoker.DeafeningBlast"
-				"Target"			"CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"		"CASTER"
-					"Radius"		"%range"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target"	"TARGET"
-						"Type"		"DAMAGE_TYPE_MAGICAL"
-						"Damage"	"%damage"
-					}
-				}
+				"radius"			"250"
 			}
 		}
 	}
 
 	"enfos_invoker_emp"
 	{
-		"BaseClass" "ability_datadriven"
-		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
-		"AbilityUnitDamageType" "DAMAGE_TYPE_PURE"
-		"AbilityTextureName" "invoker_emp"
-		"AbilityCastRange" "900"
-		"AbilityCastPoint" "0.3"
-		"AbilityCooldown" "30.0 25.0 20.0"
-		"AbilityManaCost" "125 150 175"
-		"MaxLevel" "3"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
+		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitDamageType"		"DAMAGE_TYPE_PURE"
+		"AbilityTextureName"		"invoker_emp"
+		"AbilityCastRange"			"800"
+		"AbilityCastPoint"			"0.4"
+		"AbilityCooldown"			"45.0 38.0 30.0"
+		"AbilityManaCost"			"150 200 250"
+		"MaxLevel"					"3"
+
 		"AbilitySpecial"
 		{
 			"01"
 			{
-				"var_type" "FIELD_INTEGER"
-				"damage" "300 450 600"
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"300 450 600"
 			}
 			"02"
 			{
-				"var_type" "FIELD_INTEGER"
-				"radius" "675"
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"675"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"delay"				"2.5"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"mana_burn"			"150 250 350"
 			}
 		}
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName" "Hero_Invoker.EMP.Cast"
-				"Target" "CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center" "TARGET"
-					"Radius" "%radius"
-					"Teams" "DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target" "TARGET"
-						"Type" "DAMAGE_TYPE_PURE"
-						"Damage" "%damage"
-					}
-				}
-			}
-		}
-		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 	}
 
 	"enfos_invoker_alacrity"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"invoker_alacrity"
 		"MaxLevel"					"1"
@@ -5380,44 +4682,30 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_as"			"30"
+				"bonus_as"			"40"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_damage"		"25"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_alacrity"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_as"
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-				}
+				"bonus_damage"		"35"
 			}
 		}
 	}
 
-	// =========================================================================
-	// PUCK ABILITIES (MAGE)
+	// PUCK ABILITIES (Batch 5 PvE Kit)
 	// =========================================================================
 
 	"enfos_puck_illusory_orb"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"puck_illusory_orb"
-		"AbilityCastRange"			"1100"
+		"AbilityCastRange"			"1500"
 		"AbilityCastPoint"			"0.1"
-		"AbilityCooldown"			"11.0 10.0 9.0 8.0"
-		"AbilityManaCost"			"80 95 110 125"
+		"AbilityCooldown"			"10.0 9.0 8.0 7.0"
+		"AbilityManaCost"			"80 100 120 140"
 		"MaxLevel"					"4"
 
 		"AbilitySpecial"
@@ -5430,49 +4718,27 @@
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"range"				"1100"
+				"radius"			"225"
 			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
+			"03"
 			{
-				"EffectName"		"Hero_Puck.Illusory_Orb"
-				"Target"			"CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"		"CASTER"
-					"Radius"		"%range"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target"	"TARGET"
-						"Type"		"DAMAGE_TYPE_MAGICAL"
-						"Damage"	"%damage"
-					}
-				}
+				"var_type"			"FIELD_INTEGER"
+				"speed"				"651"
 			}
 		}
 	}
 
 	"enfos_puck_waning_rift"
 	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"puck_waning_rift"
-		"AbilityCastRange"			"400"
+		"AbilityCastRange"			"350"
 		"AbilityCastPoint"			"0.1"
-		"AbilityCooldown"			"13.0 12.0 11.0 10.0"
-		"AbilityManaCost"			"100"
+		"AbilityCooldown"			"12.0 10.0 8.0 6.0"
+		"AbilityManaCost"			"80 95 110 125"
 		"MaxLevel"					"4"
 
 		"AbilitySpecial"
@@ -5480,12 +4746,12 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"damage"			"100 160 220 280"
+				"radius"			"400"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"radius"			"400"
+				"damage"			"100 160 220 280"
 			}
 			"03"
 			{
@@ -5493,51 +4759,17 @@
 				"silence_duration"	"2.0 2.5 3.0 3.5"
 			}
 		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName"		"Hero_Puck.Waning_Rift"
-				"Target"			"CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"		"CASTER"
-					"Radius"		"%radius"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target"	"TARGET"
-						"Type"		"DAMAGE_TYPE_MAGICAL"
-						"Damage"	"%damage"
-					}
-					"ApplyModifier"
-					{
-						"ModifierName" "modifier_silence"
-						"Target"	"TARGET"
-						"Duration"	"%silence_duration"
-					}
-				}
-			}
-		}
 	}
 
 	"enfos_puck_phase_shift"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
 		"AbilityTextureName"		"puck_phase_shift"
 		"AbilityCastPoint"			"0.0"
-		"AbilityChannelTime"		"3.25"
-		"AbilityCooldown"			"8.0 7.0 6.0 5.0"
-		"AbilityManaCost"			"0"
+		"AbilityChannelTime"		"1.5 2.25 3.0 3.25"
+		"AbilityCooldown"			"14.0 12.0 10.0 8.0"
 		"MaxLevel"					"4"
 
 		"AbilitySpecial"
@@ -5545,99 +4777,49 @@
 			"01"
 			{
 				"var_type"			"FIELD_FLOAT"
-				"duration"			"3.25"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName"		"Hero_Puck.Phase_Shift"
-				"Target"			"CASTER"
-			}
-			"ApplyModifier"
-			{
-				"ModifierName"		"modifier_invulnerable"
-				"Target"			"CASTER"
-				"Duration"			"%duration"
+				"duration"			"1.5 2.25 3.0 3.25"
 			}
 		}
 	}
 
 	"enfos_puck_dream_coil"
 	{
-		"BaseClass" "ability_datadriven"
-		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
-		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
-		"AbilityTextureName" "puck_dream_coil"
-		"AbilityCastRange" "750"
-		"AbilityCastPoint" "0.1"
-		"AbilityCooldown" "60.0 50.0 40.0"
-		"AbilityManaCost" "100 150 200"
-		"MaxLevel" "3"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
+		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
+		"AbilityTextureName"		"puck_dream_coil"
+		"AbilityCastRange"			"750"
+		"AbilityCastPoint"			"0.2"
+		"AbilityCooldown"			"50.0 42.0 35.0"
+		"AbilityManaCost"			"100 150 200"
+		"MaxLevel"					"3"
+
 		"AbilitySpecial"
 		{
 			"01"
 			{
-				"var_type" "FIELD_INTEGER"
-				"initial_damage" "150 250 350"
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"375"
 			}
 			"02"
 			{
-				"var_type" "FIELD_INTEGER"
-				"snap_damage" "300 450 600"
+				"var_type"			"FIELD_INTEGER"
+				"break_damage"		"300 450 600"
 			}
 			"03"
 			{
-				"var_type" "FIELD_INTEGER"
-				"radius" "400"
-			}
-			"04"
-			{
-				"var_type" "FIELD_FLOAT"
-				"coil_duration" "6.0"
+				"var_type"			"FIELD_FLOAT"
+				"stun_duration"		"2.0 2.5 3.0"
 			}
 		}
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName" "Hero_Puck.Dream_Coil"
-				"Target" "CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center" "TARGET"
-					"Radius" "%radius"
-					"Teams" "DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target" "TARGET"
-						"Type" "DAMAGE_TYPE_MAGICAL"
-						"Damage" "%initial_damage"
-					}
-					"ApplyModifier"
-					{
-						"ModifierName" "modifier_rooted"
-						"Target" "TARGET"
-						"Duration" "%coil_duration"
-					}
-				}
-			}
-		}
-		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 	}
 
 	"enfos_puck_faerie_magic"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"puck_phase_shift"
 		"MaxLevel"					"1"
@@ -5652,26 +4834,11 @@
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_spell_amp"	"10"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_faerie_magic"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT" "%bonus_ms"
-				}
+				"spell_amp"			"15"
 			}
 		}
 	}
 
-	// =========================================================================
-		// =========================================================================
 	// LION ABILITIES (Batch 4 PvE Kit)
 	// =========================================================================
 
@@ -5771,17 +4938,18 @@
 		}
 		"ScriptFile"				"abilities/pve_kits"
 	}
-// JAKIRO ABILITIES (SUPPORT)
+// JAKIRO ABILITIES (Batch 5 PvE Kit)
 	// =========================================================================
 
 	"enfos_jakiro_dual_breath"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"jakiro_dual_breath"
 		"AbilityCastRange"			"750"
-		"AbilityCastPoint"			"0.3"
+		"AbilityCastPoint"			"0.35"
 		"AbilityCooldown"			"10.0"
 		"AbilityManaCost"			"100 115 130 145"
 		"MaxLevel"					"4"
@@ -5791,143 +4959,65 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"damage"			"100 170 240 310"
+				"damage"			"100 180 260 340"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"slow_pct"			"-28 -32 -36 -40"
+				"slow_pct"			"30 35 40 45"
 			}
 			"03"
 			{
 				"var_type"			"FIELD_FLOAT"
 				"duration"			"5.0"
 			}
-			"04"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"range"				"750"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName"		"Hero_Jakiro.DualBreath.Cast"
-				"Target"			"CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"		"CASTER"
-					"Radius"		"%range"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target"	"TARGET"
-						"Type"		"DAMAGE_TYPE_MAGICAL"
-						"Damage"	"%damage"
-					}
-					"ApplyModifier"
-					{
-						"ModifierName" "modifier_enfos_dual_breath_slow"
-						"Target"	"TARGET"
-						"Duration"	"%duration"
-					}
-				}
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_dual_breath_slow"
-			{
-				"IsDebuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%slow_pct"
-				}
-			}
 		}
 	}
 
 	"enfos_jakiro_ice_path"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"jakiro_ice_path"
-		"AbilityCastRange"			"1100"
-		"AbilityCastPoint"			"0.3"
-		"AbilityCooldown"			"18.0 15.0 12.0 9.0"
-		"AbilityManaCost"			"90"
+		"AbilityCastRange"			"1200"
+		"AbilityCastPoint"			"0.35"
+		"AbilityCooldown"			"14.0 12.0 10.0 8.0"
+		"AbilityManaCost"			"90 100 110 120"
 		"MaxLevel"					"4"
 
 		"AbilitySpecial"
 		{
 			"01"
 			{
-				"var_type"			"FIELD_INTEGER"
-				"damage"			"80 140 200 260"
-			}
-			"02"
-			{
 				"var_type"			"FIELD_FLOAT"
 				"stun_duration"		"1.5 2.0 2.5 3.0"
 			}
-			"03"
+			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"range"				"1100"
+				"damage"			"80 140 200 260"
 			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
+			"03"
 			{
-				"EffectName"		"Hero_Jakiro.IcePath.Cast"
-				"Target"			"CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"		"CASTER"
-					"Radius"		"%range"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target"	"TARGET"
-						"Type"		"DAMAGE_TYPE_MAGICAL"
-						"Damage"	"%damage"
-					}
-					"ApplyModifier"
-					{
-						"ModifierName" "modifier_stunned"
-						"Target"	"TARGET"
-						"Duration"	"%stun_duration"
-					}
-				}
+				"var_type"			"FIELD_FLOAT"
+				"path_delay"		"0.5"
 			}
 		}
 	}
 
 	"enfos_jakiro_liquid_fire"
 	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AUTOCAST"
+		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"jakiro_liquid_fire"
+		"AbilityCastRange"			"600"
+		"AbilityCooldown"			"12.0 9.0 6.0 4.0"
 		"MaxLevel"					"4"
 
 		"AbilitySpecial"
@@ -5935,88 +5025,61 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_damage"		"25 45 65 85"
+				"bonus_damage"		"30 50 70 90"
 			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_liquid_fire"
+			"02"
 			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-				}
+				"var_type"			"FIELD_INTEGER"
+				"slow_as"			"30 40 50 60"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"300"
 			}
 		}
 	}
 
 	"enfos_jakiro_macropyre"
 	{
-		"BaseClass" "ability_datadriven"
-		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
-		"AbilityTextureName" "jakiro_macropyre"
-		"AbilityCastRange" "1400"
-		"AbilityCastPoint" "0.3"
-		"AbilityCooldown" "60.0 50.0 40.0"
-		"AbilityManaCost" "150 200 250"
-		"MaxLevel" "3"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
+		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
+		"AbilityTextureName"		"jakiro_macropyre"
+		"AbilityCastRange"			"1400"
+		"AbilityCastPoint"			"0.35"
+		"AbilityCooldown"			"50.0 40.0 30.0"
+		"AbilityManaCost"			"150 200 250"
+		"MaxLevel"					"3"
+
 		"AbilitySpecial"
 		{
 			"01"
 			{
-				"var_type" "FIELD_INTEGER"
-				"damage_per_sec" "120 180 240"
+				"var_type"			"FIELD_INTEGER"
+				"length"			"1400"
 			}
 			"02"
 			{
-				"var_type" "FIELD_FLOAT"
-				"duration" "10.0"
+				"var_type"			"FIELD_INTEGER"
+				"damage_per_sec"	"120 190 260"
 			}
 			"03"
 			{
-				"var_type" "FIELD_INTEGER"
-				"length" "1400"
+				"var_type"			"FIELD_FLOAT"
+				"duration"			"10.0 15.0 20.0"
 			}
 		}
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName" "Hero_Jakiro.Macropyre.Cast"
-				"Target" "CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center" "CASTER"
-					"Radius" "%length"
-					"Teams" "DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target" "TARGET"
-						"Type" "DAMAGE_TYPE_MAGICAL"
-						"Damage" "%damage_per_sec"
-					}
-				}
-			}
-		}
-		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 	}
 
 	"enfos_jakiro_double_trouble"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"jakiro_dual_breath"
+		"AbilityTextureName"		"jakiro_double_trouble"
 		"MaxLevel"					"1"
 
 		"AbilitySpecial"
@@ -6024,37 +5087,23 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_int"			"15"
+				"bonus_int"			"20"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_as"			"20"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_double_trouble"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_int"
-					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_as"
-				}
+				"bonus_as"			"30"
 			}
 		}
 	}
 
-	// =========================================================================
-	// VENGEFUL SPIRIT ABILITIES (SUPPORT)
+	// VENGEFUL SPIRIT ABILITIES (Batch 5 PvE Kit)
 	// =========================================================================
 
 	"enfos_vs_magic_missile"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
@@ -6071,46 +5120,26 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"damage"			"120 190 260 330"
+				"damage"			"120 200 280 360"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_FLOAT"
-				"stun_duration"		"1.5 1.7 1.9 2.1"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName"		"Hero_VengefulSpirit.MagicMissile"
-				"Target"			"CASTER"
-			}
-			"Damage"
-			{
-				"Target"			"TARGET"
-				"Type"				"DAMAGE_TYPE_MAGICAL"
-				"Damage"			"%damage"
-			}
-			"ApplyModifier"
-			{
-				"ModifierName"		"modifier_stunned"
-				"Target"			"TARGET"
-				"Duration"			"%stun_duration"
+				"stun_duration"		"1.4 1.6 1.8 2.0"
 			}
 		}
 	}
 
 	"enfos_vs_wave_of_terror"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"vengefulspirit_wave_of_terror"
 		"AbilityCastRange"			"1400"
-		"AbilityCastPoint"			"0.2"
-		"AbilityCooldown"			"12.0 11.0 10.0 9.0"
+		"AbilityCastPoint"			"0.25"
+		"AbilityCooldown"			"12.0 10.0 8.0 6.0"
 		"AbilityManaCost"			"40"
 		"MaxLevel"					"4"
 
@@ -6119,75 +5148,25 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"damage"			"80 130 180 230"
+				"damage"			"90 150 210 270"
 			}
 			"02"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"armor_reduction"	"-3 -4 -5 -6"
-			}
-			"03"
 			{
 				"var_type"			"FIELD_FLOAT"
 				"duration"			"8.0"
 			}
-			"04"
+			"03"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"range"				"1400"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName"		"Hero_VengefulSpirit.WaveOfTerror"
-				"Target"			"CASTER"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"		"CASTER"
-					"Radius"		"%range"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target"	"TARGET"
-						"Type"		"DAMAGE_TYPE_MAGICAL"
-						"Damage"	"%damage"
-					}
-					"ApplyModifier"
-					{
-						"ModifierName" "modifier_enfos_wave_of_terror_debuff"
-						"Target"	"TARGET"
-						"Duration"	"%duration"
-					}
-				}
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_wave_of_terror_debuff"
-			{
-				"IsDebuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%armor_reduction"
-				}
+				"armor_reduction"	"3 4 5 6"
 			}
 		}
 	}
 
 	"enfos_vs_vengeance_aura"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"vengefulspirit_command_aura"
 		"MaxLevel"					"4"
@@ -6197,65 +5176,51 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_damage_pct"	"12 18 24 30"
+				"bonus_damage_pct"	"15 20 25 30"
 			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_vengeance_aura"
+			"02"
 			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE" "%bonus_damage_pct"
-				}
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"900"
 			}
 		}
 	}
 
 	"enfos_vs_nether_swap"
 	{
-		"BaseClass" "ability_datadriven"
-		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_BOTH"
-		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
-		"AbilityTextureName" "vengefulspirit_nether_swap"
-		"AbilityCastRange" "700 850 1000"
-		"AbilityCastPoint" "0.3"
-		"AbilityCooldown" "40.0 30.0 20.0"
-		"AbilityManaCost" "100 150 200"
-		"MaxLevel" "3"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
+		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_BOTH"
+		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
+		"AbilityTextureName"		"vengefulspirit_nether_swap"
+		"AbilityCastRange"			"700 850 1000"
+		"AbilityCastPoint"			"0.3"
+		"AbilityCooldown"			"45.0 35.0 25.0"
+		"AbilityManaCost"			"100 125 150"
+		"MaxLevel"					"3"
+
 		"AbilitySpecial"
 		{
 			"01"
 			{
-				"var_type" "FIELD_INTEGER"
-				"damage" "250 400 550"
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"250 400 550"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"cast_range"		"700 850 1000"
 			}
 		}
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName" "Hero_VengefulSpirit.NetherSwap"
-				"Target" "CASTER"
-			}
-			"Damage"
-			{
-				"Target" "TARGET"
-				"Type" "DAMAGE_TYPE_MAGICAL"
-				"Damage" "%damage"
-			}
-		}
-		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 	}
 
 	"enfos_vs_retribution"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"vengefulspirit_command_aura"
 		"MaxLevel"					"1"
@@ -6265,46 +5230,33 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_agi"			"15"
+				"bonus_agi"			"20"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_as"			"20"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_vs_retribution"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS" "%bonus_agi"
-					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_as"
-				}
+				"bonus_as"			"25"
 			}
 		}
 	}
 
-	// =========================================================================
-	// LICH ABILITIES (SUPPORT)
+
+	// LICH ABILITIES (Batch 5 PvE Kit)
 	// =========================================================================
 
 	"enfos_lich_frost_blast"
 	{
-		"BaseClass"					"ability_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"lich_frost_nova"
-		"AbilityCastRange"			"600"
-		"AbilityCastPoint"			"0.3"
-		"AbilityCooldown"			"7.0"
-		"AbilityManaCost"			"105 120 135 150"
+		"AbilityCastRange"			"650"
+		"AbilityCastPoint"			"0.35"
+		"AbilityCooldown"			"8.0 7.0 6.0 5.0"
+		"AbilityManaCost"			"90 105 120 135"
 		"MaxLevel"					"4"
 
 		"AbilitySpecial"
@@ -6317,78 +5269,29 @@
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"radius"			"300"
+				"radius_damage"		"80 130 180 230"
 			}
 			"03"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"slow_pct"			"-30"
-			}
-			"04"
-			{
-				"var_type"			"FIELD_FLOAT"
-				"duration"			"4.0"
-			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName"		"Hero_Lich.FrostNova"
-				"Target"			"TARGET"
-			}
-			"ActOnTargets"
-			{
-				"Target"
-				{
-					"Center"		"TARGET"
-					"Radius"		"%radius"
-					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				}
-				"Action"
-				{
-					"Damage"
-					{
-						"Target"	"TARGET"
-						"Type"		"DAMAGE_TYPE_MAGICAL"
-						"Damage"	"%target_damage"
-					}
-					"ApplyModifier"
-					{
-						"ModifierName" "modifier_enfos_frost_blast_slow"
-						"Target"	"TARGET"
-						"Duration"	"%duration"
-					}
-				}
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_frost_blast_slow"
-			{
-				"IsDebuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%slow_pct"
-				}
+				"slow_pct"			"30 35 40 45"
 			}
 		}
 	}
 
 	"enfos_lich_frost_shield"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"lich_frost_shield"
 		"AbilityCastRange"			"750"
 		"AbilityCastPoint"			"0.2"
 		"AbilityCooldown"			"20.0 17.0 14.0 11.0"
-		"AbilityManaCost"			"90 100 110 120"
+		"AbilityManaCost"			"80 90 100 110"
 		"MaxLevel"					"4"
 
 		"AbilitySpecial"
@@ -6396,55 +5299,34 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"damage_reduction"	"-30 -40 -50 -60"
+				"damage_reduction"	"30 40 50 60"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_FLOAT"
 				"duration"			"6.0"
 			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
+			"03"
 			{
-				"EffectName"		"Hero_Lich.FrostShield"
-				"Target"			"TARGET"
-			}
-			"ApplyModifier"
-			{
-				"ModifierName"		"modifier_enfos_frost_shield"
-				"Target"			"TARGET"
-				"Duration"			"%duration"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_frost_shield"
-			{
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE" "%damage_reduction"
-				}
+				"var_type"			"FIELD_INTEGER"
+				"dps"				"30 50 70 90"
 			}
 		}
 	}
 
 	"enfos_lich_sinister_gaze"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityTextureName"		"lich_sinister_gaze"
 		"AbilityCastRange"			"600"
 		"AbilityCastPoint"			"0.3"
-		"AbilityChannelTime"		"2.5"
-		"AbilityCooldown"			"24.0 21.0 18.0 15.0"
-		"AbilityManaCost"			"80"
+		"AbilityChannelTime"		"1.4 1.8 2.2 2.6"
+		"AbilityCooldown"			"18.0 16.0 14.0 12.0"
+		"AbilityManaCost"			"70 80 90 100"
 		"MaxLevel"					"4"
 
 		"AbilitySpecial"
@@ -6452,74 +5334,58 @@
 			"01"
 			{
 				"var_type"			"FIELD_FLOAT"
-				"duration"			"1.6 1.9 2.2 2.5"
+				"duration"			"1.4 1.8 2.2 2.6"
 			}
-		}
-
-		"OnSpellStart"
-		{
-			"FireSound"
+			"02"
 			{
-				"EffectName"		"Hero_Lich.SinisterGaze.Cast"
-				"Target"			"CASTER"
-			}
-			"ApplyModifier"
-			{
-				"ModifierName"		"modifier_stunned"
-				"Target"			"TARGET"
-				"Duration"			"%duration"
+				"var_type"			"FIELD_INTEGER"
+				"mana_drain_pct"	"10 15 20 25"
 			}
 		}
 	}
 
 	"enfos_lich_chain_frost"
 	{
-		"BaseClass" "ability_datadriven"
-		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
-		"AbilityTextureName" "lich_chain_frost"
-		"AbilityCastRange" "850"
-		"AbilityCastPoint" "0.4"
-		"AbilityCooldown" "60.0 50.0 40.0"
-		"AbilityManaCost" "180 240 300"
-		"MaxLevel" "3"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
+		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
+		"AbilityTextureName"		"lich_chain_frost"
+		"AbilityCastRange"			"750"
+		"AbilityCastPoint"			"0.4"
+		"AbilityCooldown"			"60.0 50.0 40.0"
+		"AbilityManaCost"			"150 225 300"
+		"MaxLevel"					"3"
+
 		"AbilitySpecial"
 		{
 			"01"
 			{
-				"var_type" "FIELD_INTEGER"
-				"damage" "300 450 600"
+				"var_type"			"FIELD_INTEGER"
+				"jump_count"		"10 12 15"
 			}
 			"02"
 			{
-				"var_type" "FIELD_INTEGER"
-				"jump_count" "10 15 20"
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"250 400 550"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"slow_pct"			"50"
 			}
 		}
-		"OnSpellStart"
-		{
-			"FireSound"
-			{
-				"EffectName" "Hero_Lich.ChainFrost"
-				"Target" "TARGET"
-			}
-			"Damage"
-			{
-				"Target" "TARGET"
-				"Type" "DAMAGE_TYPE_MAGICAL"
-				"Damage" "%damage"
-			}
-		}
-		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 	}
 
 	"enfos_lich_ice_aura"
 	{
-		"BaseClass"					"ability_datadriven"
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"lich_frost_shield"
+		"AbilityTextureName"		"lich_frost_nova"
 		"MaxLevel"					"1"
 
 		"AbilitySpecial"
@@ -6527,26 +5393,12 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"bonus_armor"		"6"
+				"bonus_armor"		"8"
 			}
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
 				"mana_regen"		"4"
-			}
-		}
-
-		"Modifiers"
-		{
-			"modifier_enfos_ice_aura"
-			{
-				"Passive"			"1"
-				"IsBuff"			"1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
-					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" "%mana_regen"
-				}
 			}
 		}
 	}

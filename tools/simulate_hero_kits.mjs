@@ -41,6 +41,17 @@ const heroes = [
   { name: 'Storm Spirit', role: 'Mage', baseDps: 85, aoeDps: 470, burstDps: 840, manaCostPerSec: 32, hp: 750, armor: 7, sustainPerSec: 18 },
   { name: 'Shadow Shaman', role: 'Support', baseDps: 75, aoeDps: 330, burstDps: 520, manaCostPerSec: 24, hp: 890, armor: 8, sustainPerSec: 35 },
   { name: 'Lion', role: 'Support', baseDps: 70, aoeDps: 310, burstDps: 680, manaCostPerSec: 22, hp: 880, armor: 7, sustainPerSec: 40 },
+  { name: 'Underlord', role: 'Tank', baseDps: 85, aoeDps: 310, burstDps: 580, manaCostPerSec: 14, hp: 1400, armor: 20, sustainPerSec: 48 },
+  { name: 'Troll Warlord', role: 'Fighter', baseDps: 145, aoeDps: 360, burstDps: 760, manaCostPerSec: 12, hp: 1050, armor: 15, sustainPerSec: 45 },
+  { name: 'Chaos Knight', role: 'Fighter', baseDps: 140, aoeDps: 330, burstDps: 790, manaCostPerSec: 13, hp: 1200, armor: 16, sustainPerSec: 50 },
+  { name: 'Medusa', role: 'Carry', baseDps: 150, aoeDps: 440, burstDps: 720, manaCostPerSec: 18, hp: 850, armor: 12, sustainPerSec: 35 },
+  { name: 'Terrorblade', role: 'Carry', baseDps: 165, aoeDps: 410, burstDps: 820, manaCostPerSec: 14, hp: 880, armor: 13, sustainPerSec: 30 },
+  { name: 'Leshrac', role: 'Mage', baseDps: 90, aoeDps: 520, burstDps: 880, manaCostPerSec: 35, hp: 780, armor: 7, sustainPerSec: 25 },
+  { name: 'Invoker', role: 'Mage', baseDps: 95, aoeDps: 490, burstDps: 950, manaCostPerSec: 28, hp: 800, armor: 6, sustainPerSec: 20 },
+  { name: 'Puck', role: 'Mage', baseDps: 85, aoeDps: 460, burstDps: 820, manaCostPerSec: 22, hp: 760, armor: 6, sustainPerSec: 22 },
+  { name: 'Jakiro', role: 'Support', baseDps: 80, aoeDps: 380, burstDps: 590, manaCostPerSec: 20, hp: 940, armor: 9, sustainPerSec: 40 },
+  { name: 'Vengeful Spirit', role: 'Support', baseDps: 90, aoeDps: 320, burstDps: 540, manaCostPerSec: 16, hp: 960, armor: 10, sustainPerSec: 35 },
+  { name: 'Lich', role: 'Support', baseDps: 75, aoeDps: 360, burstDps: 620, manaCostPerSec: 18, hp: 900, armor: 12, sustainPerSec: 45 },
 ];
 
 const waveArchetypes = [

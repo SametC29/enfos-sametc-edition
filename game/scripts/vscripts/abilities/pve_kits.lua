@@ -4367,3 +4367,1160 @@ function modifier_enfos_lion_demon_soul_passive:DeclareFunctions()
 end
 function modifier_enfos_lion_demon_soul_passive:GetModifierCastRangeBonusStacking() return 150 end
 function modifier_enfos_lion_demon_soul_passive:GetModifierSpellAmplication_Percentage() return 15 end
+
+
+-- =========================================================================
+-- BATCH 5 HERO KITS (UNDERLORD, TROLL, CK, MEDUSA, TB, LESHRAC, INVOKER, PUCK, JAKIRO, VS, LICH)
+-- =========================================================================
+
+-- -------------------------------------------------------------------------
+-- UNDERLORD (TANK)
+-- -------------------------------------------------------------------------
+
+enfos_underlord_firestorm=class({})
+function enfos_underlord_firestorm:OnSpellStart()
+    local c = self:GetCaster()
+    local p = self:GetCursorPosition()
+    local r = value(self, 'radius') or 425
+    local dmg = value(self, 'wave_damage')
+    local str = (c.GetStrength and c:GetStrength()) or 0
+    local total_dmg = dmg + (str * 0.3)
+
+    for _, u in ipairs(enemies(c, p, r)) do
+        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
+        u:AddNewModifier(c, self, 'modifier_enfos_underlord_firestorm_burn', { duration = 2.0 })
+    end
+end
+
+modifier_enfos_underlord_firestorm_burn=class({})
+function modifier_enfos_underlord_firestorm_burn:IsDebuff() return true end
+function modifier_enfos_underlord_firestorm_burn:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(0.5)
+end
+function modifier_enfos_underlord_firestorm_burn:OnIntervalThink()
+    local p = self:GetParent()
+    local c = self:GetCaster()
+    local ab = self:GetAbility()
+    if not p:IsAlive() then return end
+    local max_hp = p:GetMaxHealth() or 1000
+    local burn = max_hp * 0.01
+    if is_boss(p) and burn > 150 then burn = 150 end
+    damage(ab, p, burn, DAMAGE_TYPE_MAGICAL)
+end
+
+enfos_underlord_pit_of_malice=class({})
+function enfos_underlord_pit_of_malice:OnSpellStart()
+    local c = self:GetCaster()
+    local p = self:GetCursorPosition()
+    local r = value(self, 'radius') or 400
+    local dur = value(self, 'ensnare_duration') or 2.0
+    local dmg = value(self, 'damage')
+    local str = (c.GetStrength and c:GetStrength()) or 0
+    local total_dmg = dmg + (str * 0.5)
+
+    for _, u in ipairs(enemies(c, p, r)) do
+        local d = dur
+        if is_boss(u) then d = d * 0.35 end
+        u:AddNewModifier(c, self, 'modifier_enfos_underlord_pit_root', { duration = d })
+        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
+    end
+end
+
+modifier_enfos_underlord_pit_root=class({})
+function modifier_enfos_underlord_pit_root:IsDebuff() return true end
+function modifier_enfos_underlord_pit_root:CheckState()
+    return { [MODIFIER_STATE_ROOTED] = true }
+end
+
+enfos_underlord_atrophy_aura=class({})
+function enfos_underlord_atrophy_aura:GetIntrinsicModifierName() return 'modifier_enfos_underlord_atrophy_aura' end
+
+modifier_enfos_underlord_atrophy_aura=class({})
+function modifier_enfos_underlord_atrophy_aura:IsAura() return true end
+function modifier_enfos_underlord_atrophy_aura:GetAuraRadius() return 900 end
+function modifier_enfos_underlord_atrophy_aura:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_ENEMY end
+function modifier_enfos_underlord_atrophy_aura:GetAuraSearchType() return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end
+function modifier_enfos_underlord_atrophy_aura:GetModifierAura() return 'modifier_enfos_underlord_atrophy_debuff' end
+function modifier_enfos_underlord_atrophy_aura:DeclareFunctions()
+    return { MODIFIER_EVENT_ON_DEATH, MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE }
+end
+function modifier_enfos_underlord_atrophy_aura:OnDeath(params)
+    if not IsServer() then return end
+    local dead = params.unit
+    local c = self:GetParent()
+    if dead and dead:GetTeamNumber() ~= c:GetTeamNumber() then
+        local dist = (dead:GetAbsOrigin() - c:GetAbsOrigin()):Length2D()
+        if dist <= 900 then
+            local gain = is_boss(dead) and 5 or 1
+            self:SetStackCount((self:GetStackCount() or 0) + gain)
+        end
+    end
+end
+function modifier_enfos_underlord_atrophy_aura:GetModifierPreAttack_BonusDamage()
+    return (self:GetStackCount() or 0) * 3
+end
+
+modifier_enfos_underlord_atrophy_debuff=class({})
+function modifier_enfos_underlord_atrophy_debuff:IsDebuff() return true end
+function modifier_enfos_underlord_atrophy_debuff:DeclareFunctions() return { MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE } end
+function modifier_enfos_underlord_atrophy_debuff:GetModifierBaseDamageOutgoing_Percentage()
+    local ab = self:GetAbility()
+    local red = ab and value(ab, 'reduction') or 25
+    return -red
+end
+
+enfos_underlord_dark_rift=class({})
+function enfos_underlord_dark_rift:OnSpellStart()
+    local c = self:GetCaster()
+    local p = c:GetAbsOrigin()
+    local r = value(self, 'radius') or 750
+    local dmg = value(self, 'burst_damage')
+    local str = (c.GetStrength and c:GetStrength()) or 0
+    local total_dmg = dmg + (str * 1.5)
+
+    for _, u in ipairs(enemies(c, p, r)) do
+        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
+    end
+end
+
+enfos_underlord_abyssal_carapace=class({})
+function enfos_underlord_abyssal_carapace:GetIntrinsicModifierName() return 'modifier_enfos_underlord_carapace' end
+
+modifier_enfos_underlord_carapace=class({})
+function modifier_enfos_underlord_carapace:DeclareFunctions()
+    return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS, MODIFIER_PROPERTY_HEALTH_BONUS }
+end
+function modifier_enfos_underlord_carapace:GetModifierPhysicalArmorBonus()
+    local ab = self:GetAbility()
+    return ab and value(ab, 'bonus_armor') or 8
+end
+function modifier_enfos_underlord_carapace:GetModifierHealthBonus()
+    local ab = self:GetAbility()
+    return ab and value(ab, 'bonus_hp') or 500
+end
+
+-- -------------------------------------------------------------------------
+-- TROLL WARLORD (FIGHTER)
+-- -------------------------------------------------------------------------
+
+enfos_troll_berserkers_rage=class({})
+function enfos_troll_berserkers_rage:OnToggle()
+    local c = self:GetCaster()
+    if self:GetToggleState() then
+        c:AddNewModifier(c, self, 'modifier_enfos_troll_berserkers_rage', {})
+    else
+        c:RemoveModifierByName('modifier_enfos_troll_berserkers_rage')
+    end
+end
+
+modifier_enfos_troll_berserkers_rage=class({})
+function modifier_enfos_troll_berserkers_rage:DeclareFunctions()
+    return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS, MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT, MODIFIER_EVENT_ON_ATTACK_LANDED }
+end
+function modifier_enfos_troll_berserkers_rage:GetModifierPhysicalArmorBonus()
+    local ab = self:GetAbility()
+    return ab and value(ab, 'bonus_armor') or 5
+end
+function modifier_enfos_troll_berserkers_rage:GetModifierMoveSpeedBonus_Constant()
+    local ab = self:GetAbility()
+    return ab and value(ab, 'bonus_ms') or 25
+end
+function modifier_enfos_troll_berserkers_rage:OnAttackLanded(params)
+    if not IsServer() then return end
+    if params.attacker == self:GetParent() and RollPercentage(20) then
+        local t = params.target
+        local c = self:GetParent()
+        local agi = (c.GetAgility and c:GetAgility()) or 0
+        local stun_dur = is_boss(t) and 0.3 or 0.8
+        t:AddNewModifier(c, self:GetAbility(), 'modifier_generic_stunned_lua', { duration = stun_dur })
+        damage(self:GetAbility(), t, 75 + (agi * 0.5), DAMAGE_TYPE_PHYSICAL)
+    end
+end
+
+enfos_troll_whirling_axes=class({})
+function enfos_troll_whirling_axes:OnSpellStart()
+    local c = self:GetCaster()
+    local p = c:GetAbsOrigin()
+    local r = value(self, 'radius') or 450
+    local dmg = value(self, 'damage')
+    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local total_dmg = dmg + (agi * 0.8)
+    local dur = value(self, 'duration') or 4.0
+
+    for _, u in ipairs(enemies(c, p, r)) do
+        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
+        u:AddNewModifier(c, self, 'modifier_enfos_troll_whirling_axes_blind', { duration = dur })
+    end
+end
+
+modifier_enfos_troll_whirling_axes_blind=class({})
+function modifier_enfos_troll_whirling_axes_blind:IsDebuff() return true end
+function modifier_enfos_troll_whirling_axes_blind:DeclareFunctions() return { MODIFIER_PROPERTY_MISS_PERCENTAGE } end
+function modifier_enfos_troll_whirling_axes_blind:GetModifierMiss_Percentage() return 60 end
+
+enfos_troll_fervor=class({})
+function enfos_troll_fervor:GetIntrinsicModifierName() return 'modifier_enfos_troll_fervor' end
+
+modifier_enfos_troll_fervor=class({})
+function modifier_enfos_troll_fervor:DeclareFunctions()
+    return { MODIFIER_EVENT_ON_ATTACK_LANDED, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
+end
+function modifier_enfos_troll_fervor:OnAttackLanded(params)
+    if not IsServer() then return end
+    if params.attacker == self:GetParent() then
+        local max_s = value(self:GetAbility(), 'max_stacks') or 12
+        local cur = self:GetStackCount() or 0
+        if cur < max_s then self:SetStackCount(cur + 1) end
+    end
+end
+function modifier_enfos_troll_fervor:GetModifierAttackSpeedBonus_Constant()
+    local ab = self:GetAbility()
+    local per_stack = ab and value(ab, 'attack_speed') or 15
+    return (self:GetStackCount() or 0) * (per_stack / 4)
+end
+
+enfos_troll_battle_trance=class({})
+function enfos_troll_battle_trance:OnSpellStart()
+    local c = self:GetCaster()
+    local dur = value(self, 'duration') or 5.0
+    c:AddNewModifier(c, self, 'modifier_enfos_troll_battle_trance', { duration = dur })
+end
+
+modifier_enfos_troll_battle_trance=class({})
+function modifier_enfos_troll_battle_trance:DeclareFunctions()
+    return { MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_PROPERTY_MIN_HEALTH }
+end
+function modifier_enfos_troll_battle_trance:GetModifierAttackSpeedBonus_Constant()
+    local ab = self:GetAbility()
+    return ab and value(ab, 'bonus_as') or 180
+end
+function modifier_enfos_troll_battle_trance:GetMinHealth() return 1 end
+
+enfos_troll_rampage=class({})
+function enfos_troll_rampage:GetIntrinsicModifierName() return 'modifier_enfos_troll_rampage' end
+
+modifier_enfos_troll_rampage=class({})
+function modifier_enfos_troll_rampage:DeclareFunctions()
+    return { MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE, MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING }
+end
+function modifier_enfos_troll_rampage:GetModifierPreAttack_BonusDamage() return 25 end
+function modifier_enfos_troll_rampage:GetModifierStatusResistanceStacking() return 20 end
+
+-- -------------------------------------------------------------------------
+-- CHAOS KNIGHT (FIGHTER)
+-- -------------------------------------------------------------------------
+
+enfos_ck_chaos_bolt=class({})
+function enfos_ck_chaos_bolt:OnSpellStart()
+    local c = self:GetCaster()
+    local t = self:GetCursorTarget()
+    if not t then return end
+    local dmg = value(self, 'damage')
+    local str = (c.GetStrength and c:GetStrength()) or 0
+    local total_dmg = dmg + (str * 0.9)
+    local min_s = value(self, 'stun_min') or 1.25
+    local max_s = value(self, 'stun_max') or 2.5
+    local stun_dur = RandomFloat(min_s, max_s)
+    if is_boss(t) then stun_dur = stun_dur * 0.4 end
+    t:AddNewModifier(c, self, 'modifier_generic_stunned_lua', { duration = stun_dur })
+    damage(self, t, total_dmg, DAMAGE_TYPE_MAGICAL)
+end
+
+enfos_ck_reality_rift=class({})
+function enfos_ck_reality_rift:OnSpellStart()
+    local c = self:GetCaster()
+    local t = self:GetCursorTarget()
+    if not t then return end
+    local dur = value(self, 'duration') or 6.0
+    t:AddNewModifier(c, self, 'modifier_enfos_ck_reality_rift_debuff', { duration = dur })
+    local p_mid = (c:GetAbsOrigin() + t:GetAbsOrigin()) * 0.5
+    c:SetAbsOrigin(p_mid)
+    if not is_boss(t) then t:SetAbsOrigin(p_mid) end
+    c:MoveToTargetToAttack(t)
+end
+
+modifier_enfos_ck_reality_rift_debuff=class({})
+function modifier_enfos_ck_reality_rift_debuff:IsDebuff() return true end
+function modifier_enfos_ck_reality_rift_debuff:DeclareFunctions() return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS } end
+function modifier_enfos_ck_reality_rift_debuff:GetModifierPhysicalArmorBonus()
+    local ab = self:GetAbility()
+    local red = ab and value(ab, 'armor_reduction') or 6
+    return -red
+end
+
+enfos_ck_chaos_strike=class({})
+function enfos_ck_chaos_strike:GetIntrinsicModifierName() return 'modifier_enfos_ck_chaos_strike' end
+
+modifier_enfos_ck_chaos_strike=class({})
+function modifier_enfos_ck_chaos_strike:DeclareFunctions()
+    return { MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE, MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE, MODIFIER_EVENT_ON_TAKEDAMAGE }
+end
+function modifier_enfos_ck_chaos_strike:GetModifierPreAttack_BonusDamage()
+    local ab = self:GetAbility()
+    return ab and value(ab, 'bonus_damage') or 20
+end
+function modifier_enfos_ck_chaos_strike:GetModifierPreAttack_CriticalStrike()
+    local ab = self:GetAbility()
+    local chance = ab and value(ab, 'crit_chance') or 33
+    if RollPercentage(chance) then
+        return ab and value(ab, 'crit_mult') or 180
+    end
+end
+function modifier_enfos_ck_chaos_strike:OnTakeDamage(params)
+    if not IsServer() then return end
+    if params.attacker == self:GetParent() and params.damage_category == DOTA_DAMAGE_CATEGORY_ATTACK then
+        local c = self:GetParent()
+        local heal = params.damage * 0.5
+        c:Heal(heal, self:GetAbility())
+        -- Cleave in 250 radius
+        for _, u in ipairs(enemies(c, params.unit:GetAbsOrigin(), 250)) do
+            if u ~= params.unit then
+                damage(self:GetAbility(), u, params.damage * 0.4, DAMAGE_TYPE_PHYSICAL)
+            end
+        end
+    end
+end
+
+enfos_ck_phantasm=class({})
+function enfos_ck_phantasm:OnSpellStart()
+    local c = self:GetCaster()
+    local dur = value(self, 'duration') or 30.0
+    c:AddNewModifier(c, self, 'modifier_enfos_ck_phantasm_buff', { duration = dur })
+end
+
+modifier_enfos_ck_phantasm_buff=class({})
+function modifier_enfos_ck_phantasm_buff:DeclareFunctions()
+    return { MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE, MODIFIER_EVENT_ON_ATTACK_LANDED }
+end
+function modifier_enfos_ck_phantasm_buff:GetModifierPreAttack_BonusDamage()
+    local ab = self:GetAbility()
+    return ab and value(ab, 'bonus_damage') or 60
+end
+function modifier_enfos_ck_phantasm_buff:OnAttackLanded(params)
+    if not IsServer() then return end
+    if params.attacker == self:GetParent() then
+        -- Phantasm echo hit
+        damage(self:GetAbility(), params.target, params.damage * 0.6, DAMAGE_TYPE_PHYSICAL)
+    end
+end
+
+enfos_ck_entropy=class({})
+function enfos_ck_entropy:GetIntrinsicModifierName() return 'modifier_enfos_ck_entropy' end
+
+modifier_enfos_ck_entropy=class({})
+function modifier_enfos_ck_entropy:DeclareFunctions()
+    return { MODIFIER_PROPERTY_STATS_STRENGTH_BONUS, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
+end
+function modifier_enfos_ck_entropy:GetModifierBonusStats_Strength() return 20 end
+function modifier_enfos_ck_entropy:GetModifierAttackSpeedBonus_Constant() return 25 end
+
+-- -------------------------------------------------------------------------
+-- MEDUSA (CARRY)
+-- -------------------------------------------------------------------------
+
+enfos_medusa_split_shot=class({})
+function enfos_medusa_split_shot:GetIntrinsicModifierName() return 'modifier_enfos_medusa_split_shot' end
+
+modifier_enfos_medusa_split_shot=class({})
+function modifier_enfos_medusa_split_shot:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACK } end
+function modifier_enfos_medusa_split_shot:OnAttack(params)
+    if not IsServer() then return end
+    if params.attacker == self:GetParent() then
+        local c = self:GetParent()
+        local ab = self:GetAbility()
+        local count = ab and value(ab, 'arrow_count') or 5
+        local agi = (c.GetAgility and c:GetAgility()) or 0
+        local base_dmg = (c.GetAverageTrueAttackDamage and c:GetAverageTrueAttackDamage(c)) or 100
+        local arrow_dmg = (base_dmg * 0.75) + (agi * 0.5)
+        local targets = enemies(c, c:GetAbsOrigin(), 700)
+        local hits = 0
+        for _, u in ipairs(targets) do
+            if u ~= params.target and hits < count then
+                damage(ab, u, arrow_dmg, DAMAGE_TYPE_PHYSICAL)
+                hits = hits + 1
+            end
+        end
+    end
+end
+
+enfos_medusa_mystic_snake=class({})
+function enfos_medusa_mystic_snake:OnSpellStart()
+    local c = self:GetCaster()
+    local t = self:GetCursorTarget()
+    if not t then return end
+    local jumps = value(self, 'jump_count') or 5
+    local base_dmg = value(self, 'base_damage')
+    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local dmg = base_dmg + (agi * 0.8)
+    local current = t
+    local hit_count = 0
+    local visited = {}
+
+    while current and hit_count < jumps do
+        visited[current] = true
+        damage(self, current, dmg, DAMAGE_TYPE_MAGICAL)
+        hit_count = hit_count + 1
+        dmg = dmg * 1.2
+        if c.GiveMana then c:GiveMana(30) end
+        local next_t = nil
+        for _, u in ipairs(enemies(c, current:GetAbsOrigin(), 500)) do
+            if not visited[u] then
+                next_t = u
+                break
+            end
+        end
+        current = next_t
+    end
+end
+
+enfos_medusa_mana_shield=class({})
+function enfos_medusa_mana_shield:GetIntrinsicModifierName() return 'modifier_enfos_medusa_mana_shield' end
+
+modifier_enfos_medusa_mana_shield=class({})
+function modifier_enfos_medusa_mana_shield:DeclareFunctions()
+    return { MODIFIER_PROPERTY_MANA_BONUS, MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE }
+end
+function modifier_enfos_medusa_mana_shield:GetModifierManaBonus()
+    local ab = self:GetAbility()
+    return ab and value(ab, 'bonus_mana') or 250
+end
+function modifier_enfos_medusa_mana_shield:GetModifierIncomingDamage_Percentage(params)
+    if not IsServer() then return 0 end
+    local c = self:GetParent()
+    local mana = (c.GetMana and c:GetMana()) or 0
+    if mana > 10 then
+        if c.SpendMana then c:SpendMana(10, self:GetAbility()) end
+        return -75
+    end
+    return 0
+end
+
+enfos_medusa_stone_gaze=class({})
+function enfos_medusa_stone_gaze:OnSpellStart()
+    local c = self:GetCaster()
+    local r = value(self, 'radius') or 900
+    local dur = value(self, 'duration') or 6.0
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), r)) do
+        local petrify_dur = is_boss(u) and 0.8 or 2.5
+        u:AddNewModifier(c, self, 'modifier_enfos_medusa_petrified', { duration = petrify_dur })
+    end
+end
+
+modifier_enfos_medusa_petrified=class({})
+function modifier_enfos_medusa_petrified:IsDebuff() return true end
+function modifier_enfos_medusa_petrified:CheckState()
+    return { [MODIFIER_STATE_STUNNED] = true, [MODIFIER_STATE_FROZEN] = true }
+end
+function modifier_enfos_medusa_petrified:DeclareFunctions() return { MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE } end
+function modifier_enfos_medusa_petrified:GetModifierIncomingPhysicalDamage_Percentage() return 45 end
+
+enfos_medusa_gorgon_gaze=class({})
+function enfos_medusa_gorgon_gaze:GetIntrinsicModifierName() return 'modifier_enfos_medusa_gorgon_gaze' end
+
+modifier_enfos_medusa_gorgon_gaze=class({})
+function modifier_enfos_medusa_gorgon_gaze:DeclareFunctions()
+    return { MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE, MODIFIER_PROPERTY_ATTACK_RANGE_BONUS }
+end
+function modifier_enfos_medusa_gorgon_gaze:GetModifierPreAttack_BonusDamage() return 25 end
+function modifier_enfos_medusa_gorgon_gaze:GetModifierAttackRangeBonus() return 75 end
+
+-- -------------------------------------------------------------------------
+-- TERRORBLADE (CARRY)
+-- -------------------------------------------------------------------------
+
+enfos_tb_reflection=class({})
+function enfos_tb_reflection:OnSpellStart()
+    local c = self:GetCaster()
+    local p = self:GetCursorPosition()
+    local r = value(self, 'radius') or 500
+    local dur = value(self, 'duration') or 5.0
+    for _, u in ipairs(enemies(c, p, r)) do
+        u:AddNewModifier(c, self, 'modifier_enfos_tb_reflection', { duration = dur })
+    end
+end
+
+modifier_enfos_tb_reflection=class({})
+function modifier_enfos_tb_reflection:IsDebuff() return true end
+function modifier_enfos_tb_reflection:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(1.0)
+end
+function modifier_enfos_tb_reflection:OnIntervalThink()
+    local p = self:GetParent()
+    local c = self:GetCaster()
+    local agi = (c.GetAgility and c:GetAgility()) or 0
+    damage(self:GetAbility(), p, 70 + (agi * 0.4), DAMAGE_TYPE_PHYSICAL)
+end
+function modifier_enfos_tb_reflection:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
+function modifier_enfos_tb_reflection:GetModifierMoveSpeedBonus_Percentage() return -25 end
+
+enfos_tb_conjure_image=class({})
+function enfos_tb_conjure_image:OnSpellStart()
+    local c = self:GetCaster()
+    local dur = value(self, 'duration') or 30.0
+    c:AddNewModifier(c, self, 'modifier_enfos_tb_conjure_image_buff', { duration = dur })
+end
+
+modifier_enfos_tb_conjure_image_buff=class({})
+function modifier_enfos_tb_conjure_image_buff:DeclareFunctions()
+    return { MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE, MODIFIER_EVENT_ON_ATTACK_LANDED }
+end
+function modifier_enfos_tb_conjure_image_buff:GetModifierPreAttack_BonusDamage()
+    local ab = self:GetAbility()
+    return ab and value(ab, 'bonus_damage') or 35
+end
+function modifier_enfos_tb_conjure_image_buff:OnAttackLanded(params)
+    if not IsServer() then return end
+    if params.attacker == self:GetParent() then
+        -- Conjured image echo
+        damage(self:GetAbility(), params.target, params.damage * 0.5, DAMAGE_TYPE_PHYSICAL)
+    end
+end
+
+enfos_tb_metamorphosis=class({})
+function enfos_tb_metamorphosis:OnSpellStart()
+    local c = self:GetCaster()
+    local dur = value(self, 'duration') or 40.0
+    c:AddNewModifier(c, self, 'modifier_enfos_tb_metamorphosis', { duration = dur })
+end
+
+modifier_enfos_tb_metamorphosis=class({})
+function modifier_enfos_tb_metamorphosis:DeclareFunctions()
+    return { MODIFIER_PROPERTY_ATTACK_RANGE_BONUS, MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE }
+end
+function modifier_enfos_tb_metamorphosis:GetModifierAttackRangeBonus() return 400 end
+function modifier_enfos_tb_metamorphosis:GetModifierPreAttack_BonusDamage()
+    local ab = self:GetAbility()
+    local base = ab and value(ab, 'bonus_damage') or 50
+    local c = self:GetParent()
+    local agi = (c.GetAgility and c:GetAgility()) or 0
+    return base + (agi * 0.4)
+end
+
+enfos_tb_sunder=class({})
+function enfos_tb_sunder:OnSpellStart()
+    local c = self:GetCaster()
+    local t = self:GetCursorTarget()
+    if not t then return end
+    local heal = value(self, 'heal_amount') or 700
+    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local total_heal = heal + (agi * 1.5)
+    c:Heal(total_heal, self)
+    local dmg = total_heal
+    if is_boss(t) and dmg > 1000 then dmg = 1000 end
+    damage(self, t, dmg, DAMAGE_TYPE_PURE)
+end
+
+enfos_tb_demon_zeal=class({})
+function enfos_tb_demon_zeal:GetIntrinsicModifierName() return 'modifier_enfos_tb_demon_zeal' end
+
+modifier_enfos_tb_demon_zeal=class({})
+function modifier_enfos_tb_demon_zeal:DeclareFunctions()
+    return { MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT }
+end
+function modifier_enfos_tb_demon_zeal:GetModifierAttackSpeedBonus_Constant() return 25 end
+function modifier_enfos_tb_demon_zeal:GetModifierMoveSpeedBonus_Constant() return 20 end
+
+-- -------------------------------------------------------------------------
+-- LESHRAC (MAGE)
+-- -------------------------------------------------------------------------
+
+enfos_leshrac_split_earth=class({})
+function enfos_leshrac_split_earth:OnSpellStart()
+    local c = self:GetCaster()
+    local p = self:GetCursorPosition()
+    local r = value(self, 'radius') or 250
+    local dmg = value(self, 'damage')
+    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local total_dmg = dmg + (int * 0.9)
+    local stun_dur = value(self, 'stun_duration') or 1.7
+
+    for _, u in ipairs(enemies(c, p, r)) do
+        local d = stun_dur
+        if is_boss(u) then d = d * 0.4 end
+        u:AddNewModifier(c, self, 'modifier_generic_stunned_lua', { duration = d })
+        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
+    end
+end
+
+enfos_leshrac_diabolic_edict=class({})
+function enfos_leshrac_diabolic_edict:OnSpellStart()
+    local c = self:GetCaster()
+    c:AddNewModifier(c, self, 'modifier_enfos_leshrac_diabolic_edict', { duration = 10.0 })
+end
+
+modifier_enfos_leshrac_diabolic_edict=class({})
+function modifier_enfos_leshrac_diabolic_edict:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(0.25)
+end
+function modifier_enfos_leshrac_diabolic_edict:OnIntervalThink()
+    local c = self:GetParent()
+    local ab = self:GetAbility()
+    local r = ab and value(ab, 'radius') or 500
+    local targets = enemies(c, c:GetAbsOrigin(), r)
+    if #targets > 0 then
+        local t = targets[RandomInt(1, #targets)]
+        local base_d = ab and value(ab, 'damage_per_explosion') or 25
+        local int = (c.GetIntellect and c:GetIntellect()) or 0
+        damage(ab, t, base_d + (int * 0.15), DAMAGE_TYPE_PURE)
+    end
+end
+
+enfos_leshrac_lightning_storm=class({})
+function enfos_leshrac_lightning_storm:OnSpellStart()
+    local c = self:GetCaster()
+    local t = self:GetCursorTarget()
+    if not t then return end
+    local jumps = value(self, 'jump_count') or 7
+    local dmg = value(self, 'damage')
+    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local total_dmg = dmg + (int * 0.8)
+    local current = t
+    local hit_count = 0
+    local visited = {}
+
+    while current and hit_count < jumps do
+        visited[current] = true
+        damage(self, current, total_dmg, DAMAGE_TYPE_MAGICAL)
+        hit_count = hit_count + 1
+        local next_t = nil
+        for _, u in ipairs(enemies(c, current:GetAbsOrigin(), 650)) do
+            if not visited[u] then
+                next_t = u
+                break
+            end
+        end
+        current = next_t
+    end
+end
+
+enfos_leshrac_pulse_nova=class({})
+function enfos_leshrac_pulse_nova:OnToggle()
+    local c = self:GetCaster()
+    if self:GetToggleState() then
+        c:AddNewModifier(c, self, 'modifier_enfos_leshrac_pulse_nova', {})
+    else
+        c:RemoveModifierByName('modifier_enfos_leshrac_pulse_nova')
+    end
+end
+
+modifier_enfos_leshrac_pulse_nova=class({})
+function modifier_enfos_leshrac_pulse_nova:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(1.0)
+end
+function modifier_enfos_leshrac_pulse_nova:OnIntervalThink()
+    local c = self:GetParent()
+    local ab = self:GetAbility()
+    local cost = ab and value(ab, 'mana_cost_per_second') or 40
+    local mana = (c.GetMana and c:GetMana()) or 0
+    if mana < cost then
+        ab:ToggleAbility()
+        return
+    end
+    if c.SpendMana then c:SpendMana(cost, ab) end
+    local r = ab and value(ab, 'radius') or 450
+    local dmg = ab and value(ab, 'damage') or 160
+    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local total_dmg = dmg + (int * 0.75)
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), r)) do
+        damage(ab, u, total_dmg, DAMAGE_TYPE_MAGICAL)
+    end
+end
+
+enfos_leshrac_defilement=class({})
+function enfos_leshrac_defilement:GetIntrinsicModifierName() return 'modifier_enfos_leshrac_defilement' end
+
+modifier_enfos_leshrac_defilement=class({})
+function modifier_enfos_leshrac_defilement:DeclareFunctions()
+    return { MODIFIER_PROPERTY_STATS_INTELLECT_BONUS, MODIFIER_PROPERTY_SPELL_LIFESTEAL_PERCENTAGE }
+end
+function modifier_enfos_leshrac_defilement:GetModifierBonusStats_Intellect() return 20 end
+function modifier_enfos_leshrac_defilement:GetModifierSpellLifestealPercentage() return 20 end
+
+-- -------------------------------------------------------------------------
+-- INVOKER (MAGE)
+-- -------------------------------------------------------------------------
+
+enfos_invoker_chaos_meteor=class({})
+function enfos_invoker_chaos_meteor:OnSpellStart()
+    local c = self:GetCaster()
+    local p = self:GetCursorPosition()
+    local r = value(self, 'radius') or 275
+    local dmg = value(self, 'impact_damage')
+    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local total_dmg = dmg + (int * 1.2)
+    for _, u in ipairs(enemies(c, p, r)) do
+        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
+        u:AddNewModifier(c, self, 'modifier_enfos_invoker_meteor_burn', { duration = 3.0 })
+    end
+end
+
+modifier_enfos_invoker_meteor_burn=class({})
+function modifier_enfos_invoker_meteor_burn:IsDebuff() return true end
+function modifier_enfos_invoker_meteor_burn:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(0.5)
+end
+function modifier_enfos_invoker_meteor_burn:OnIntervalThink()
+    local p = self:GetParent()
+    local c = self:GetCaster()
+    local ab = self:GetAbility()
+    local dps = ab and value(ab, 'burn_dps') or 65
+    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    damage(ab, p, (dps * 0.5) + (int * 0.1), DAMAGE_TYPE_MAGICAL)
+end
+
+enfos_invoker_sun_strike=class({})
+function enfos_invoker_sun_strike:OnSpellStart()
+    local c = self:GetCaster()
+    local p = self:GetCursorPosition()
+    local r = value(self, 'radius') or 200
+    local dmg = value(self, 'damage')
+    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local total_dmg = dmg + (int * 1.8)
+    for _, u in ipairs(enemies(c, p, r)) do
+        damage(self, u, total_dmg, DAMAGE_TYPE_PURE)
+    end
+end
+
+enfos_invoker_deafening_blast=class({})
+function enfos_invoker_deafening_blast:OnSpellStart()
+    local c = self:GetCaster()
+    local p = self:GetCursorPosition()
+    local dir = (p - c:GetAbsOrigin()):Normalized()
+    local r = value(self, 'radius') or 250
+    local dmg = value(self, 'damage')
+    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local total_dmg = dmg + (int * 0.8)
+    local disarm_dur = value(self, 'disarm_duration') or 3.0
+
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 400), 500)) do
+        local d = disarm_dur
+        if is_boss(u) then d = d * 0.4 end
+        u:AddNewModifier(c, self, 'modifier_enfos_invoker_disarm', { duration = d })
+        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
+    end
+end
+
+modifier_enfos_invoker_disarm=class({})
+function modifier_enfos_invoker_disarm:IsDebuff() return true end
+function modifier_enfos_invoker_disarm:CheckState() return { [MODIFIER_STATE_DISARMED] = true } end
+
+enfos_invoker_emp=class({})
+function enfos_invoker_emp:OnSpellStart()
+    local c = self:GetCaster()
+    local p = self:GetCursorPosition()
+    local r = value(self, 'radius') or 675
+    local dmg = value(self, 'damage')
+    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local total_dmg = dmg + (int * 1.5)
+    for _, u in ipairs(enemies(c, p, r)) do
+        damage(self, u, total_dmg, DAMAGE_TYPE_PURE)
+    end
+    if c.GiveMana then c:GiveMana(150) end
+end
+
+enfos_invoker_alacrity=class({})
+function enfos_invoker_alacrity:GetIntrinsicModifierName() return 'modifier_enfos_invoker_alacrity' end
+
+modifier_enfos_invoker_alacrity=class({})
+function modifier_enfos_invoker_alacrity:DeclareFunctions()
+    return { MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE }
+end
+function modifier_enfos_invoker_alacrity:GetModifierAttackSpeedBonus_Constant() return 40 end
+function modifier_enfos_invoker_alacrity:GetModifierPreAttack_BonusDamage() return 35 end
+
+-- -------------------------------------------------------------------------
+-- PUCK (MAGE)
+-- -------------------------------------------------------------------------
+
+enfos_puck_illusory_orb=class({})
+function enfos_puck_illusory_orb:OnSpellStart()
+    local c = self:GetCaster()
+    local p = self:GetCursorPosition()
+    local dir = (p - c:GetAbsOrigin()):Normalized()
+    local dmg = value(self, 'damage')
+    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local total_dmg = dmg + (int * 0.85)
+
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 700), 750)) do
+        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
+    end
+end
+
+enfos_puck_waning_rift=class({})
+function enfos_puck_waning_rift:OnSpellStart()
+    local c = self:GetCaster()
+    local p = self:GetCursorPosition()
+    c:SetAbsOrigin(p)
+    local r = value(self, 'radius') or 400
+    local dmg = value(self, 'damage')
+    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local total_dmg = dmg + (int * 0.75)
+    local sil_dur = value(self, 'silence_duration') or 2.5
+
+    for _, u in ipairs(enemies(c, p, r)) do
+        local d = sil_dur
+        if is_boss(u) then d = d * 0.4 end
+        u:AddNewModifier(c, self, 'modifier_enfos_puck_silence', { duration = d })
+        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
+    end
+end
+
+modifier_enfos_puck_silence=class({})
+function modifier_enfos_puck_silence:IsDebuff() return true end
+function modifier_enfos_puck_silence:CheckState() return { [MODIFIER_STATE_SILENCED] = true } end
+
+enfos_puck_phase_shift=class({})
+function enfos_puck_phase_shift:OnSpellStart()
+    local c = self:GetCaster()
+    local dur = value(self, 'duration') or 2.25
+    c:AddNewModifier(c, self, 'modifier_enfos_puck_phase_shift', { duration = dur })
+end
+
+modifier_enfos_puck_phase_shift=class({})
+function modifier_enfos_puck_phase_shift:CheckState()
+    return { [MODIFIER_STATE_INVULNERABLE] = true, [MODIFIER_STATE_OUT_OF_GAME] = true }
+end
+
+enfos_puck_dream_coil=class({})
+function enfos_puck_dream_coil:OnSpellStart()
+    local c = self:GetCaster()
+    local p = self:GetCursorPosition()
+    local r = value(self, 'radius') or 375
+    local dmg = value(self, 'break_damage')
+    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local total_dmg = dmg + (int * 1.5)
+    local stun_dur = value(self, 'stun_duration') or 2.5
+
+    for _, u in ipairs(enemies(c, p, r)) do
+        local d = stun_dur
+        if is_boss(u) then d = d * 0.35 end
+        u:AddNewModifier(c, self, 'modifier_generic_stunned_lua', { duration = d })
+        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
+    end
+end
+
+enfos_puck_faerie_magic=class({})
+function enfos_puck_faerie_magic:GetIntrinsicModifierName() return 'modifier_enfos_puck_faerie_magic' end
+
+modifier_enfos_puck_faerie_magic=class({})
+function modifier_enfos_puck_faerie_magic:DeclareFunctions()
+    return { MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT, MODIFIER_PROPERTY_SPELL_AMPLIFICATION_PERCENTAGE }
+end
+function modifier_enfos_puck_faerie_magic:GetModifierMoveSpeedBonus_Constant() return 25 end
+function modifier_enfos_puck_faerie_magic:GetModifierSpellAmplication_Percentage() return 15 end
+
+-- -------------------------------------------------------------------------
+-- JAKIRO (SUPPORT)
+-- -------------------------------------------------------------------------
+
+enfos_jakiro_dual_breath=class({})
+function enfos_jakiro_dual_breath:OnSpellStart()
+    local c = self:GetCaster()
+    local p = self:GetCursorPosition()
+    local dir = (p - c:GetAbsOrigin()):Normalized()
+    local dmg = value(self, 'damage')
+    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local total_dmg = dmg + (int * 0.8)
+    local dur = value(self, 'duration') or 5.0
+
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 400), 500)) do
+        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
+        u:AddNewModifier(c, self, 'modifier_enfos_jakiro_dual_breath_slow', { duration = dur })
+    end
+end
+
+modifier_enfos_jakiro_dual_breath_slow=class({})
+function modifier_enfos_jakiro_dual_breath_slow:IsDebuff() return true end
+function modifier_enfos_jakiro_dual_breath_slow:DeclareFunctions()
+    return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
+end
+function modifier_enfos_jakiro_dual_breath_slow:GetModifierMoveSpeedBonus_Percentage() return -35 end
+function modifier_enfos_jakiro_dual_breath_slow:GetModifierAttackSpeedBonus_Constant() return -40 end
+
+enfos_jakiro_ice_path=class({})
+function enfos_jakiro_ice_path:OnSpellStart()
+    local c = self:GetCaster()
+    local p = self:GetCursorPosition()
+    local dir = (p - c:GetAbsOrigin()):Normalized()
+    local dmg = value(self, 'damage')
+    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local total_dmg = dmg + (int * 0.6)
+    local stun_dur = value(self, 'stun_duration') or 2.0
+
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 600), 700)) do
+        local d = stun_dur
+        if is_boss(u) then d = d * 0.35 end
+        u:AddNewModifier(c, self, 'modifier_generic_stunned_lua', { duration = d })
+        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
+    end
+end
+
+enfos_jakiro_liquid_fire=class({})
+function enfos_jakiro_liquid_fire:GetIntrinsicModifierName() return 'modifier_enfos_jakiro_liquid_fire_passive' end
+
+modifier_enfos_jakiro_liquid_fire_passive=class({})
+function modifier_enfos_jakiro_liquid_fire_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACK_LANDED } end
+function modifier_enfos_jakiro_liquid_fire_passive:OnAttackLanded(params)
+    if not IsServer() then return end
+    if params.attacker == self:GetParent() then
+        local c = self:GetParent()
+        local ab = self:GetAbility()
+        local r = ab and value(ab, 'radius') or 300
+        local base_d = ab and value(ab, 'bonus_damage') or 50
+        local int = (c.GetIntellect and c:GetIntellect()) or 0
+        local total_d = base_d + (int * 0.3)
+        for _, u in ipairs(enemies(c, params.target:GetAbsOrigin(), r)) do
+            damage(ab, u, total_d, DAMAGE_TYPE_MAGICAL)
+        end
+    end
+end
+
+enfos_jakiro_macropyre=class({})
+function enfos_jakiro_macropyre:OnSpellStart()
+    local c = self:GetCaster()
+    local p = self:GetCursorPosition()
+    local dir = (p - c:GetAbsOrigin()):Normalized()
+    local dmg = value(self, 'damage_per_sec')
+    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local total_dmg = (dmg + (int * 0.7)) * 2.0 -- 2 second immediate burst + burn
+
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 700), 800)) do
+        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
+    end
+end
+
+enfos_jakiro_double_trouble=class({})
+function enfos_jakiro_double_trouble:GetIntrinsicModifierName() return 'modifier_enfos_jakiro_double_trouble' end
+
+modifier_enfos_jakiro_double_trouble=class({})
+function modifier_enfos_jakiro_double_trouble:DeclareFunctions()
+    return { MODIFIER_PROPERTY_STATS_INTELLECT_BONUS, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
+end
+function modifier_enfos_jakiro_double_trouble:GetModifierBonusStats_Intellect() return 20 end
+function modifier_enfos_jakiro_double_trouble:GetModifierAttackSpeedBonus_Constant() return 30 end
+
+-- -------------------------------------------------------------------------
+-- VENGEFUL SPIRIT (SUPPORT)
+-- -------------------------------------------------------------------------
+
+enfos_vs_magic_missile=class({})
+function enfos_vs_magic_missile:OnSpellStart()
+    local c = self:GetCaster()
+    local t = self:GetCursorTarget()
+    if not t then return end
+    local dmg = value(self, 'damage')
+    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local total_dmg = dmg + (agi * 0.9)
+    local stun_dur = value(self, 'stun_duration') or 1.6
+    if is_boss(t) then stun_dur = stun_dur * 0.4 end
+    t:AddNewModifier(c, self, 'modifier_generic_stunned_lua', { duration = stun_dur })
+    damage(self, t, total_dmg, DAMAGE_TYPE_MAGICAL)
+end
+
+enfos_vs_wave_of_terror=class({})
+function enfos_vs_wave_of_terror:OnSpellStart()
+    local c = self:GetCaster()
+    local p = self:GetCursorPosition()
+    local dir = (p - c:GetAbsOrigin()):Normalized()
+    local dmg = value(self, 'damage')
+    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local total_dmg = dmg + (agi * 0.6)
+    local dur = value(self, 'duration') or 8.0
+
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 700), 800)) do
+        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
+        u:AddNewModifier(c, self, 'modifier_enfos_vs_wave_debuff', { duration = dur })
+    end
+end
+
+modifier_enfos_vs_wave_debuff=class({})
+function modifier_enfos_vs_wave_debuff:IsDebuff() return true end
+function modifier_enfos_vs_wave_debuff:DeclareFunctions() return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS } end
+function modifier_enfos_vs_wave_debuff:GetModifierPhysicalArmorBonus()
+    local ab = self:GetAbility()
+    local red = ab and value(ab, 'armor_reduction') or 4
+    return -red
+end
+
+enfos_vs_vengeance_aura=class({})
+function enfos_vs_vengeance_aura:GetIntrinsicModifierName() return 'modifier_enfos_vs_vengeance_aura' end
+
+modifier_enfos_vs_vengeance_aura=class({})
+function modifier_enfos_vs_vengeance_aura:IsAura() return true end
+function modifier_enfos_vs_vengeance_aura:GetAuraRadius() return 900 end
+function modifier_enfos_vs_vengeance_aura:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_FRIENDLY end
+function modifier_enfos_vs_vengeance_aura:GetAuraSearchType() return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end
+function modifier_enfos_vs_vengeance_aura:GetModifierAura() return 'modifier_enfos_vs_vengeance_aura_buff' end
+
+modifier_enfos_vs_vengeance_aura_buff=class({})
+function modifier_enfos_vs_vengeance_aura_buff:DeclareFunctions() return { MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE } end
+function modifier_enfos_vs_vengeance_aura_buff:GetModifierBaseDamageOutgoing_Percentage()
+    local ab = self:GetAbility()
+    return ab and value(ab, 'bonus_damage_pct') or 20
+end
+
+enfos_vs_nether_swap=class({})
+function enfos_vs_nether_swap:OnSpellStart()
+    local c = self:GetCaster()
+    local t = self:GetCursorTarget()
+    if not t then return end
+    local dmg = value(self, 'damage')
+    local agi = (c.GetAgility and c:GetAgility()) or 0
+    local total_dmg = dmg + (agi * 1.2)
+    local p_target = t:GetAbsOrigin()
+    local p_caster = c:GetAbsOrigin()
+    c:SetAbsOrigin(p_target)
+    if not is_boss(t) then t:SetAbsOrigin(p_caster) end
+    damage(self, t, total_dmg, DAMAGE_TYPE_MAGICAL)
+    c:AddNewModifier(c, self, 'modifier_enfos_vs_nether_swap_buff', { duration = 4.0 })
+end
+
+modifier_enfos_vs_nether_swap_buff=class({})
+function modifier_enfos_vs_nether_swap_buff:DeclareFunctions() return { MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE } end
+function modifier_enfos_vs_nether_swap_buff:GetModifierIncomingDamage_Percentage() return -30 end
+
+enfos_vs_retribution=class({})
+function enfos_vs_retribution:GetIntrinsicModifierName() return 'modifier_enfos_vs_retribution' end
+
+modifier_enfos_vs_retribution=class({})
+function modifier_enfos_vs_retribution:DeclareFunctions()
+    return { MODIFIER_PROPERTY_STATS_AGILITY_BONUS, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
+end
+function modifier_enfos_vs_retribution:GetModifierBonusStats_Agility() return 20 end
+function modifier_enfos_vs_retribution:GetModifierAttackSpeedBonus_Constant() return 25 end
+
+-- -------------------------------------------------------------------------
+-- LICH (SUPPORT)
+-- -------------------------------------------------------------------------
+
+enfos_lich_frost_blast=class({})
+function enfos_lich_frost_blast:OnSpellStart()
+    local c = self:GetCaster()
+    local t = self:GetCursorTarget()
+    if not t then return end
+    local tdmg = value(self, 'target_damage')
+    local rdmg = value(self, 'radius_damage')
+    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    damage(self, t, tdmg + (int * 0.8), DAMAGE_TYPE_MAGICAL)
+    for _, u in ipairs(enemies(c, t:GetAbsOrigin(), 250)) do
+        damage(self, u, rdmg + (int * 0.5), DAMAGE_TYPE_MAGICAL)
+        u:AddNewModifier(c, self, 'modifier_enfos_lich_frost_blast_slow', { duration = 4.0 })
+    end
+end
+
+modifier_enfos_lich_frost_blast_slow=class({})
+function modifier_enfos_lich_frost_blast_slow:IsDebuff() return true end
+function modifier_enfos_lich_frost_blast_slow:DeclareFunctions()
+    return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
+end
+function modifier_enfos_lich_frost_blast_slow:GetModifierMoveSpeedBonus_Percentage() return -35 end
+function modifier_enfos_lich_frost_blast_slow:GetModifierAttackSpeedBonus_Constant() return -40 end
+
+enfos_lich_frost_shield=class({})
+function enfos_lich_frost_shield:OnSpellStart()
+    local c = self:GetCaster()
+    local t = self:GetCursorTarget() or c
+    local dur = value(self, 'duration') or 6.0
+    t:AddNewModifier(c, self, 'modifier_enfos_lich_frost_shield', { duration = dur })
+end
+
+modifier_enfos_lich_frost_shield=class({})
+function modifier_enfos_lich_frost_shield:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(1.0)
+end
+function modifier_enfos_lich_frost_shield:OnIntervalThink()
+    local p = self:GetParent()
+    local c = self:GetCaster()
+    local ab = self:GetAbility()
+    local dps = ab and value(ab, 'dps') or 50
+    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local total_dps = dps + (int * 0.25)
+    for _, u in ipairs(enemies(c, p:GetAbsOrigin(), 600)) do
+        damage(ab, u, total_dps, DAMAGE_TYPE_MAGICAL)
+    end
+end
+function modifier_enfos_lich_frost_shield:DeclareFunctions() return { MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE } end
+function modifier_enfos_lich_frost_shield:GetModifierIncomingPhysicalDamage_Percentage()
+    local ab = self:GetAbility()
+    local red = ab and value(ab, 'damage_reduction') or 40
+    return -red
+end
+
+enfos_lich_sinister_gaze=class({})
+function enfos_lich_sinister_gaze:OnSpellStart()
+    local c = self:GetCaster()
+    local t = self:GetCursorTarget()
+    if not t then return end
+    local dur = value(self, 'duration') or 2.0
+    if is_boss(t) then dur = dur * 0.35 end
+    t:AddNewModifier(c, self, 'modifier_enfos_lich_sinister_gaze_debuff', { duration = dur })
+end
+
+modifier_enfos_lich_sinister_gaze_debuff=class({})
+function modifier_enfos_lich_sinister_gaze_debuff:IsDebuff() return true end
+function modifier_enfos_lich_sinister_gaze_debuff:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(0.5)
+end
+function modifier_enfos_lich_sinister_gaze_debuff:OnIntervalThink()
+    local p = self:GetParent()
+    local c = self:GetCaster()
+    local dir = (c:GetAbsOrigin() - p:GetAbsOrigin()):Normalized()
+    if not is_boss(p) then p:SetAbsOrigin(p:GetAbsOrigin() + (dir * 40)) end
+    if c.GiveMana then c:GiveMana(40) end
+end
+
+enfos_lich_chain_frost=class({})
+function enfos_lich_chain_frost:OnSpellStart()
+    local c = self:GetCaster()
+    local t = self:GetCursorTarget()
+    if not t or not t:IsAlive() then return end
+    local jumps = value(self, 'jump_count') or 10
+    local dmg = value(self, 'damage')
+    local int = (c.GetIntellect and c:GetIntellect()) or 0
+    local total_dmg = dmg + (int * 1.0)
+    local current = t
+
+    for i = 1, jumps do
+        if not current or not current:IsAlive() then break end
+        damage(self, current, total_dmg, DAMAGE_TYPE_MAGICAL)
+        local candidates = enemies(c, current:GetAbsOrigin(), 600)
+        local next_target = nil
+        for _, u in ipairs(candidates) do
+            if u ~= current and u:IsAlive() then
+                next_target = u
+                break
+            end
+        end
+        current = next_target
+    end
+end
+
+enfos_lich_ice_aura=class({})
+function enfos_lich_ice_aura:GetIntrinsicModifierName() return 'modifier_enfos_lich_ice_aura' end
+
+modifier_enfos_lich_ice_aura=class({})
+function modifier_enfos_lich_ice_aura:IsAura() return true end
+function modifier_enfos_lich_ice_aura:GetAuraRadius() return 900 end
+function modifier_enfos_lich_ice_aura:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_FRIENDLY end
+function modifier_enfos_lich_ice_aura:GetAuraSearchType() return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end
+function modifier_enfos_lich_ice_aura:GetModifierAura() return 'modifier_enfos_lich_ice_aura_buff' end
+
+modifier_enfos_lich_ice_aura_buff=class({})
+function modifier_enfos_lich_ice_aura_buff:DeclareFunctions()
+    return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS, MODIFIER_PROPERTY_MANA_REGEN_CONSTANT }
+end
+function modifier_enfos_lich_ice_aura_buff:GetModifierPhysicalArmorBonus()
+    local ab = self:GetAbility()
+    return ab and value(ab, 'bonus_armor') or 8
+end
+function modifier_enfos_lich_ice_aura_buff:GetModifierConstantManaRegen()
+    local ab = self:GetAbility()
+    return ab and value(ab, 'mana_regen') or 4
+end
