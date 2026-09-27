@@ -58,3 +58,6 @@ references/epic_boss_fight/
 dota2_pvevp_codex_master_pack.zip
 CODEX_MASTER_ALL_IN_ONE.txt
 enfos_sametc_reference_analysis_plan.txt
+
+# Local Workshop payload, generated IDs, manifests and upload logs
+/release/

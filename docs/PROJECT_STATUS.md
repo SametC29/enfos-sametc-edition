@@ -21,7 +21,9 @@
   Antigravity report and zero-warning MCP structural audit are not gameplay acceptance.
 
 User instruction: local commits only; no push. Live testing belongs to the user.
-Steam Workshop publication has not happened.
+SteamCMD uploaded the current game to Workshop item **3809160125** on 2026-09-27.
+It remains **private** pending Custom Game tagging and public visibility verification.
+See [Workshop release record](WORKSHOP_YAYINLAMA.md); this is not yet an Arcade acceptance result.
 
 ---
 
