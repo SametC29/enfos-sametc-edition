@@ -293,6 +293,7 @@ test('Luna Moon Glaives bounces across consecutive targets with 15% falloff', fu
 
     local ab = enfos_luna_moon_glaives()
     ab.GetLevel = function() return 4 end
+    ab.GetSpecialValueFor=function(_,key) return key=='bounce_count' and 6 or 0 end
 
     local mod = setmetatable({
         GetParent = function() return luna end,
@@ -880,6 +881,8 @@ test('Tidehunter Anchor Smash deals attack damage plus strength scaling and appl
     ab.GetCaster = function() return tide end
     ab.GetSpecialValueFor = function(_, k)
         if k == 'attack_damage_bonus' or k == 'bonus_damage' then return 160 end
+        if k == 'radius' then return 450 end
+        if k == 'duration' then return 6 end
         return 0
     end
 
@@ -899,6 +902,7 @@ test('Wraith King Mortal Strike procs cleave damage around target', function()
     mock_world_units = { wk, primary, secondary }
 
     local ab = enfos_wk_mortal_strike()
+    ab.GetSpecialValueFor=function(_,key) return ({crit_chance=20,crit_mult=260})[key] or 0 end
     local mod = modifier_enfos_wk_mortal_strike_passive()
     mod.GetParent = function() return wk end
     mod.GetAbility = function() return ab end
@@ -920,6 +924,7 @@ test('Phantom Assassin Coup de Grace crits and splashes 50% damage in AoE', func
     mock_world_units = { pa, primary, swarm }
 
     local ab = enfos_pa_coup_de_grace()
+    ab.GetSpecialValueFor=function(_,key) return ({crit_chance=15,crit_mult=425})[key] or 0 end
     local mod = modifier_enfos_pa_coup_de_grace_passive()
     mod.GetParent = function() return pa end
     mod.GetAbility = function() return ab end
@@ -1217,6 +1222,7 @@ test('Chaos Knight Chaos Strike procs crit, lifesteal and AoE cleave', function(
         if k == 'bonus_damage' then return 50 end
         if k == 'crit_chance' then return 100 end
         if k == 'crit_mult' then return 200 end
+        if k == 'lifesteal' then return 50 end
         return 0
     end
 

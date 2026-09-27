@@ -14,10 +14,13 @@ function class(t)
     return t
 end
 
+
 function LinkLuaModifier() end
+function UTIL_Remove(entity) entity.removed=true end
 local function special(name,key)
     local data=assert(ENFOS_REAL_SPECIALS,'Run through tools/test_real_abilities.mjs')
-    return data[name] and data[name][key] or 0
+    assert(data[name] and data[name][key] ~= nil, 'Unknown special: '..name..'.'..key)
+    return data[name][key]
 end
 DOTA_UNIT_CAP_MELEE_ATTACK=1
 DOTA_UNIT_CAP_RANGED_ATTACK=2
@@ -230,6 +233,8 @@ function create_mock_unit(name, team, origin, hp)
         IsInvulnerable = function() return false end,
         MoveToTargetToAttack = function(self, target) end,
         GetAttackRange = function() return 500 end,
+        GetAbilityByIndex = function(self, index) return (self.abilities or {})[index] end,
+        IsReincarnating = function(self) return self.reincarnating or false end,
         HasItemInInventory = function() return false end,
         Kill = function() end,
         SetForceAttackTarget = function(self, target) end,
@@ -266,6 +271,10 @@ function create_mock_unit(name, team, origin, hp)
             if mod and mod.OnDestroy then mod:OnDestroy() end
             self.modifiers[mod_name] = nil
         end,
+        RemoveModifierByNameAndCaster = function(self,name,caster)
+            local mod=self.modifiers[name]
+            if mod and mod:GetCaster()==caster then self:RemoveModifierByName(name) end
+        end,
         Heal = function(self, amount, source) self.hp = math.min(self.max_hp, self.hp + amount) end,
         Purge = function() end,
         FindAbilityByName = function(self, ab_name)
@@ -275,6 +284,7 @@ function create_mock_unit(name, team, origin, hp)
                 a.GetCaster = function() return self end
                 a.GetSpecialValueFor = function(_, k) return special(ab_name,k) end
                 a.IsItem = function() return false end
+                a.GetLevel = function() return ENFOS_REAL_LEVELS[ab_name] end
                 a.EndCooldown = function() end
                 a.StartCooldown = function() end
                 return a
@@ -314,10 +324,13 @@ for _, hero_info in ipairs(roster) do
             ab.GetCaster = function() return hero end
             ab.GetCursorTarget = function() return enemy end
             ab.GetCursorPosition = function() return enemy:GetAbsOrigin() end
-            ab.GetLevel = function() return 4 end
+            ab.GetLevel = function() return ENFOS_REAL_LEVELS[ab_name] end
             ab.GetSpecialValueFor = function(s, k) return special(ab_name,k) end
             ab.GetAbilityDamageType = function() return DAMAGE_TYPE_MAGICAL end
             ab.GetToggleState = function() return true end
+            ab.GetAutoCastState = function() return true end
+            ab.IsCooldownReady = function() return true end
+            ab.UseResources = function() end
             ab.ToggleAbility = function() end
             ab.IsItem = function() return false end
             ab.EndCooldown = function() end
@@ -332,6 +345,12 @@ for _, hero_info in ipairs(roster) do
                 -- 2. Test OnToggle
                 if ab.OnToggle then
                     ab:OnToggle()
+                end
+
+                -- Projectile creation alone never proves the hit callback works.
+                if ab.OnProjectileHit then ab:OnProjectileHit(enemy, enemy:GetAbsOrigin()) end
+                if ab.OnProjectileHit_ExtraData then
+                    ab:OnProjectileHit_ExtraData(enemy, enemy:GetAbsOrigin(), {damage=123})
                 end
 
                 -- 3. Test OnChannelFinish
@@ -358,6 +377,7 @@ for _, hero_info in ipairs(roster) do
                         mod:OnAttackLanded({ attacker = hero, target = enemy, damage = 150 })
                         mod:OnAttackLanded({ attacker = enemy, target = hero, damage = 100 })
                     end
+                    if mod.OnAttack then mod:OnAttack({attacker=hero,target=enemy,damage=150}) end
                     if mod.OnIntervalThink then mod:OnIntervalThink() end
                     if mod.OnTakeDamage then mod:OnTakeDamage({ attacker = enemy, unit = hero, damage = 100 }) end
                     if mod.OnAbilityFullyCast then mod:OnAbilityFullyCast({ unit = hero, ability = ab }) end
@@ -404,6 +424,10 @@ local dummy_ability = {
     GetLevel = function() return 4 end,
     IsNull = function() return false end,
     IsItem = function() return false end,
+    GetToggleState=function() return true end,
+    GetAutoCastState=function() return true end,
+    IsCooldownReady=function() return true end,
+    UseResources=function() end,
 }
 
 for _, mod_name in ipairs(modifier_list) do
@@ -416,7 +440,12 @@ for _, mod_name in ipairs(modifier_list) do
             local mod = mod_cls()
             mod.GetParent = function() return hero end
             mod.GetCaster = function() return hero end
-            mod.GetAbility = function() return dummy_ability end
+            local owner = assert(ENFOS_MODIFIER_OWNERS[mod_name], 'Missing owner for '..mod_name)
+            local realAbility = setmetatable({
+                GetLevel=function() return ENFOS_REAL_LEVELS[owner] end,
+                GetSpecialValueFor=function(_,key) return special(owner,key) end
+            }, {__index=function(_,key) return _G[owner][key] or dummy_ability[key] end})
+            mod.GetAbility = function() return realAbility end
             mod.GetStackCount = function() return 3 end
             mod.SetStackCount = function() end
             mod.StartIntervalThink = function() end
@@ -440,6 +469,7 @@ for _, mod_name in ipairs(modifier_list) do
                 mod:OnAttackLanded({ attacker = hero, target = enemy, damage = 150 })
                 mod:OnAttackLanded({ attacker = enemy, target = hero, damage = 100 })
             end
+            if mod.OnAttack then mod:OnAttack({attacker=hero,target=enemy,damage=150}) end
 
             if mod.OnTakeDamage then
                 mod:OnTakeDamage({ attacker = enemy, unit = hero, damage = 100, damage_category = 1 })
@@ -519,6 +549,7 @@ end
 
 
 -- Player-reported behavior: assert effects instead of only accepting no exception.
+if not ENFOS_MAX_RANK_PASS then return end
 do
     local hero=create_mock_unit('npc_dota_hero_troll_warlord',2,Vector(0,0,0),1000)
     local enemy=create_mock_unit('enfos_creep_soldier',4,Vector(150,0,0),1000)
@@ -546,4 +577,141 @@ do
     assert(hits[#hits].damage==321 and enemy:HasModifier('modifier_enfos_pa_stifling_dagger_slow'))
     ApplyDamage=oldDamage
     print('PASS Troll stance, axes damage/blind, trance buff and PA projectile impact')
+end
+
+-- Regression scenarios for rank scaling, finite shielding and death eligibility.
+do
+    local hero=create_mock_unit('npc_dota_hero_medusa',2,Vector(0,0,0),2000)
+    local enemy=create_mock_unit('enfos_creep_soldier',4,Vector(100,0,0),1000)
+    local function ability(id)
+        local a=_G[id]()
+        a.GetCaster=function() return hero end
+        a.GetSpecialValueFor=function(_,key) return special(id,key) end
+        a.GetLevel=function() return 3 end
+        a.IsNull=function() return false end
+        return a
+    end
+    local shield=hero:AddNewModifier(hero,ability('enfos_medusa_mana_shield'),'modifier_enfos_medusa_mana_shield',{})
+    hero.mana=100
+    assert(shield:GetModifierIncomingDamageConstant({damage=1000})==-320,'Shield cannot absorb more than available mana funds')
+    assert(hero.mana==0)
+    assert(shield:GetModifierIncomingDamageConstant({damage=1000})==0,'No mana means no absorption')
+    hero.mana=100
+    assert(shield:GetModifierIncomingDamageConstant({damage=100})==-85)
+    assert(math.abs(hero.mana-73.4375)<0.001,'Mana cost must scale with actual absorbed damage')
+    assert(shield:GetModifierIncomingDamageConstant({damage=0})==0)
+
+    local pa=ability('enfos_pa_coup_de_grace')
+    local crit=hero:AddNewModifier(hero,pa,'modifier_enfos_pa_coup_de_grace_passive',{})
+    assert(crit:GetModifierPreAttack_CriticalStrike()==550,'Max ultimate rank must use max crit multiplier')
+    pa.GetSpecialValueFor=function(_,key) return ({crit_chance=15,crit_mult=300})[key] end
+    assert(crit:GetModifierPreAttack_CriticalStrike()==300,'Rank one cannot receive rank two crit')
+
+    local wk=ability('enfos_wk_reincarnation')
+    wk.ready=true;wk.IsCooldownReady=function(a) return a.ready end
+    wk.UseResources=function(a,mana,gold,charges,cooldown) assert(cooldown);a.ready=false end
+    local rebirth=hero:AddNewModifier(hero,wk,'modifier_enfos_wk_reincarnation_passive',{})
+    assert(rebirth:ReincarnateTime()==3)
+    rebirth:OnDeath({unit=enemy});assert(wk.ready,'Other deaths cannot spend reincarnation')
+    rebirth:OnDeath({unit=hero});assert(wk.ready,'Ordinary deaths cannot spend reincarnation')
+    hero.reincarnating=true;mock_world_units={hero,enemy}
+    rebirth:OnDeath({unit=hero});assert(not wk.ready)
+    assert(rebirth:ReincarnateTime()==nil,'Cooldown must not supply a reincarnation override')
+    assert(enemy:HasModifier('modifier_enfos_wk_rebirth_slow'))
+
+    local leech=hero:AddNewModifier(hero,ability('enfos_leshrac_defilement'),'modifier_enfos_leshrac_defilement',{})
+    hero.hp=500
+    leech:OnTakeDamage({attacker=hero,unit=enemy,damage=100,inflictor=wk,damage_flags=16})
+    assert(hero.hp==500,'Reflected damage cannot heal again')
+    leech:OnTakeDamage({attacker=hero,unit=enemy,damage=100,inflictor=wk})
+    assert(hero.hp==520,'Actual spell lifesteal must heal')
+    leech:OnTakeDamage({attacker=hero,unit=hero,damage=100,inflictor=wk})
+    assert(hero.hp==520,'Self damage cannot heal')
+    print('PASS finite mana shield, rank-sensitive crit, native reincarnation eligibility and spell lifesteal')
+end
+
+do
+    local hero=create_mock_unit('npc_dota_hero_pudge',2,Vector(0,0,0),2000)
+    local enemy=create_mock_unit('enfos_creep_soldier',4,Vector(100,0,0),1000)
+    mock_world_units={hero,enemy}
+    for _,row in ipairs({
+        {'enfos_pudge_dismember','modifier_enfos_pudge_dismember_target'},
+        {'enfos_ss_shackles','modifier_enfos_ss_shackles_debuff'},
+        {'enfos_lion_mana_drain','modifier_enfos_lion_mana_drain_debuff'},
+    }) do
+        local a=_G[row[1]]()
+        a.GetCaster=function() return hero end
+        a.GetCursorTarget=function() return enemy end
+        a:OnSpellStart()
+        assert(enemy:HasModifier(row[2]))
+        a:OnChannelFinish(true)
+        assert(not enemy:HasModifier(row[2]),row[1]..' must release its target on interruption')
+    end
+    local factory=CreateModifierThinker
+    local created={}
+    CreateModifierThinker=function()
+        local entity={IsNull=function(e) return e.removed or false end}
+        created[#created+1]=entity
+        return entity
+    end
+    local a=enfos_juggernaut_healing_ward()
+    a.GetCaster=function() return hero end
+    a.GetCursorPosition=function() return Vector(10,0,0) end
+    a.GetSpecialValueFor=function() return 10 end
+    for i=1,8 do a:OnSpellStart() end
+    assert(#a.enfosGroundEffects==3)
+    local live=0
+    for _,entity in ipairs(created) do if not entity:IsNull() then live=live+1 end end
+    assert(live==3,'Repeated refreshers must respect the ground-effect cap')
+    local cleanup=modifier_enfos_juggernaut_healing_ward_thinker()
+    cleanup.GetParent=function() return created[8] end
+    cleanup:OnDestroy()
+    assert(created[8]:IsNull(),'Expired ground effects must remove their thinker entity')
+    CreateModifierThinker=factory
+    print('PASS interrupted channels release targets and ground entities are bounded/removed')
+end
+
+do
+    local hero=create_mock_unit('npc_dota_hero_medusa',2,Vector(0,0,0),2000)
+    local enemy=create_mock_unit('enfos_creep_soldier',4,Vector(100,0,0),1000)
+    local other=create_mock_unit('enfos_creep_soldier',4,Vector(200,0,0),1000)
+    mock_world_units={hero,enemy,other}
+    local oldDamage=ApplyDamage;local hits=0
+    ApplyDamage=function(e) hits=hits+1;return e.damage end
+    local split=enfos_medusa_split_shot();local enabled=false
+    split.GetCaster=function() return hero end
+    split.GetToggleState=function() return enabled end
+    split.GetSpecialValueFor=function(_,key) return special('enfos_medusa_split_shot',key) end
+    local arrows=hero:AddNewModifier(hero,split,'modifier_enfos_medusa_split_shot',{})
+    arrows:OnAttack({attacker=hero,target=enemy});assert(hits==0)
+    enabled=true;arrows:OnAttack({attacker=hero,target=enemy});assert(hits==1)
+    enabled=false;arrows:OnAttack({attacker=hero,target=enemy});assert(hits==1)
+
+    local fire=enfos_jakiro_liquid_fire();local automatic,ready=false,true
+    fire.GetCaster=function() return hero end
+    fire.GetCursorTarget=function() return enemy end
+    fire.GetLevel=function() return 4 end
+    fire.GetSpecialValueFor=function(_,key) return special('enfos_jakiro_liquid_fire',key) end
+    fire.GetAutoCastState=function() return automatic end
+    fire.IsCooldownReady=function() return ready end
+    fire.UseResources=function() ready=false end
+    local passive=hero:AddNewModifier(hero,fire,'modifier_enfos_jakiro_liquid_fire_passive',{})
+    hits=0;passive:OnAttackLanded({attacker=hero,target=enemy});assert(hits==0)
+    automatic=true;passive:OnAttackLanded({attacker=hero,target=enemy});assert(hits==2 and not ready)
+    passive:OnAttackLanded({attacker=hero,target=enemy});assert(hits==2,'Cooldown must prevent another proc')
+    automatic=false;fire:OnSpellStart();assert(hits==4,'Manual cast works with autocast disabled')
+    assert(enemy:FindModifierByName('modifier_enfos_jakiro_liquid_fire_slow'):GetModifierAttackSpeedBonus_Constant()==-60)
+    ApplyDamage=oldDamage
+
+    local boss=create_mock_unit('enfos_boss_test',4,Vector(100,0,0),10000)
+    local applications=0;boss.AddNewModifier=function() applications=applications+1 end
+    mock_world_units={hero,boss}
+    local chrono=modifier_enfos_void_chronosphere_thinker()
+    chrono.GetParent=function() return hero end;chrono.GetCaster=function() return hero end
+    chrono.GetAbility=function() return {GetSpecialValueFor=function() return 500 end} end
+    chrono.StartIntervalThink=function() end
+    chrono:OnCreated()
+    for i=1,40 do chrono:OnIntervalThink() end
+    assert(applications==1,'Boss control cannot be refreshed indefinitely by the same sphere')
+    print('PASS Medusa toggle, Jakiro manual/autocast/cooldown and bounded Chronosphere boss control')
 end

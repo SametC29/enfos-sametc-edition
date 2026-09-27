@@ -170,3 +170,15 @@ Prove early:
 - Recipe fix hypothesis: overlapping HOME/SECRET triggers and insufficient height.
   A universal HOME volume replaces them; user's actual purchase result is required.
 - See audit/PLAYER_FEEDBACK_2026-09-27.md for evidence and remaining release gates.
+
+## 2026-09-27 all-hero follow-up
+
+- Authored KV values now take precedence over fixed values in 74 repaired ability
+  sections. This changes some rank curves; engine/balance acceptance remains open.
+- Ground-effect thinkers are limited to three live entities per ability, oldest
+  replaced first, with explicit expiry cleanup. Summoned illusions have a four-unit
+  cap to permit Chaos Knight's authored maximum. These are local candidate rules.
+- All hero entrypoints were inventoried and mocked across ranks; semantic review
+  of 63 remaining unreferenced-special candidates is still required. See
+  audit/HERO_REVIEW_2026-09-27.md. Hero-specific trees, Shard/Scepter and distinct
+  Ascended extensions remain unresolved implementation work, not completed content.

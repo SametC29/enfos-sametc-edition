@@ -906,6 +906,16 @@
     "DOTA_Tooltip_Ability_enfos_tb_conjure_image_Description": "Creates 2 controllable illusions for 30s. They deal 50% damage and take 300% damage, replacing the previous group.",
     "enfos_spell_on_cooldown": "Ability is on cooldown.",
     "enfos_error_generic": "The action could not be completed.",
-    "enfos_boss_phase": "Phase"
+    "enfos_boss_phase": "Phase",
+    "DOTA_Tooltip_Ability_enfos_wk_reincarnation_Description": "If ready, death triggers reincarnation after 3 seconds. The death burst deals {{damage}} + 2.5 × Strength magical damage in {{slow_radius}} radius and slows movement by 40% for 3 seconds (1 second against bosses). Uses the current rank cooldown.",
+    "DOTA_Tooltip_Ability_enfos_medusa_mana_shield_Description": "Grants {{bonus_mana}} mana. Absorbs {{absorption_pct}}% of incoming damage, spending one mana per {{damage_per_mana}} absorbed damage. Absorption is limited by remaining mana.",
+    "DOTA_Tooltip_Ability_enfos_leshrac_defilement_Description": "Grants {{bonus_int}} Intelligence. Heals for {{spell_lifesteal}}% of actual spell damage dealt to enemies; reflected and self damage do not heal.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_Description": "Can be cast manually or automatically on attacks while autocast is enabled and the ability is ready. Deals {{bonus_damage}} + 0.3 × Intelligence magical damage in {{radius}} radius and reduces attack speed by {{slow_as}} for 4 seconds. Autocast spends the ability cooldown.",
+    "DOTA_Tooltip_Ability_enfos_medusa_split_shot_Description": "Toggle to enable or disable additional arrows. While enabled, attacks hit up to {{arrow_count}} additional enemies for {{damage_modifier}}% attack damage + 0.5 × Agility.",
+    "DOTA_Tooltip_Ability_enfos_juggernaut_healing_ward_Description": "Creates a healing area for {{duration}} seconds. Allies within {{radius}} regenerate {{heal_pct}}% maximum health per second. At most 3 areas from this ability can be active; a new area replaces the oldest.",
+    "DOTA_Tooltip_Ability_enfos_sniper_shrapnel_Description": "For {{duration}} seconds, enemies within {{radius}} take {{shrapnel_damage}} + 0.35 × Agility physical damage each second and are slowed by {{slow_pct}}%. At most 3 areas from this ability can be active; a new area replaces the oldest.",
+    "DOTA_Tooltip_Ability_enfos_mk_wukongs_command_Description": "Creates a ring for 15 seconds. Every 1.1 seconds, enemies within {{ring_radius}} take {{soldier_damage}}% of your attack damage as physical damage. At most 3 areas from this ability can be active; a new area replaces the oldest.",
+    "DOTA_Tooltip_Ability_enfos_void_chronosphere_Description": "Creates a {{radius}} radius sphere for {{duration}} seconds, freezing enemies. Allies remain free. Each boss is frozen once per cast for 0.6 seconds. At most 3 areas from this ability can be active; a new area replaces the oldest.",
+    "DOTA_Tooltip_Ability_enfos_storm_static_remnant_Description": "Places a remnant lasting up to 12 seconds. When an enemy approaches within 300 range, it explodes for {{damage}} + 1.2 × Intelligence magical damage in that area. At most 3 areas from this ability can be active; a new area replaces the oldest."
   }
 }

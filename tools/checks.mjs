@@ -55,6 +55,11 @@ check('hero / ability / localization references', () => {
     }
   }
 });
+check('all-hero structural inventory is current', () => {
+  const result=spawnSync(process.execPath,['tools/audit_heroes_deep.mjs'],{encoding:'utf8'});
+  if(result.status!==0) throw new Error(result.stderr || result.stdout);
+  console.log(result.stdout.trim());
+});
 check('production map allowlist', () => {
   const maps = kv('game/addoninfo.txt').AddonInfo.maps.split(/\s+/);
   if (maps.join(' ') !== 'enfos') throw new Error('Only the canonical enfos map may be published');

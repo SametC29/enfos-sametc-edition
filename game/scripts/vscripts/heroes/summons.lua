@@ -37,7 +37,7 @@ function Summons:Illusions(ability,count,duration,outgoing)
     if hero:IsIllusion() then return end
     self:Clear(ability)
     local copies=CreateIllusions(hero,hero,{duration=duration,outgoing_damage=outgoing-100,incoming_damage=200,
-        bounty_base=0,bounty_growth=0},math.min(3,count),80,false,true)
+        bounty_base=0,bounty_growth=0},math.min(4,math.max(0,count)),80,false,true)
     for _,unit in ipairs(copies or {}) do self:Own(ability,unit) end
 end
 return Summons

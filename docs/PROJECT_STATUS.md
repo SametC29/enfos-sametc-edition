@@ -1,5 +1,11 @@
 # Current audit — 2026-09-27
 
+**Latest local hero repair candidate:** [all-hero review](audit/HERO_REVIEW_2026-09-27.md).
+40/200 inventoried and rank-matrix checked; 74 ability sections across 32 heroes
+changed. Reincarnation, mana shielding, toggle/autocast, channel interruption and
+thinker lifecycle repaired. New content trees/upgrades remain open; 63 ability
+sections retain unreferenced-field review candidates. No new upload or engine playtest.
+
 **New local candidate after the user's 40-wave test:**
 [changes, checks, remaining content and local acceptance](audit/PLAYTEST_40_WAVES_2026-09-27.md).
 Not uploaded. Exact increasing unit counts, wave deadlines, true lane-head spawns,

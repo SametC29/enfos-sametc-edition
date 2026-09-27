@@ -862,6 +862,16 @@
     "DOTA_Tooltip_Ability_enfos_tb_conjure_image_Description": "制造2个可操控幻象，持续30秒。造成50%伤害，承受300%伤害，并替换上一组。",
     "enfos_spell_on_cooldown": "技能尚未冷却。",
     "enfos_error_generic": "操作未能完成。",
-    "enfos_boss_phase": "阶段"
+    "enfos_boss_phase": "阶段",
+    "DOTA_Tooltip_Ability_enfos_wk_reincarnation_Description": "技能就绪时，死亡后3秒重生。死亡爆发在{{slow_radius}}范围内造成{{damage}} + 2.5 × 力量的魔法伤害，并使敌人减速40%，持续3秒（首领为1秒）。冷却时间取决于技能等级。",
+    "DOTA_Tooltip_Ability_enfos_medusa_mana_shield_Description": "提供{{bonus_mana}}魔法值。吸收{{absorption_pct}}%的所受伤害，每吸收{{damage_per_mana}}伤害消耗1点魔法。吸收量受剩余魔法值限制。",
+    "DOTA_Tooltip_Ability_enfos_leshrac_defilement_Description": "提供{{bonus_int}}智力。根据对敌人造成的实际技能伤害恢复{{spell_lifesteal}}%生命；反射伤害和自身伤害不提供治疗。",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_Description": "可手动施放；开启自动施法且技能就绪时，攻击也会触发。在{{radius}}范围内造成{{bonus_damage}} + 0.3 × 智力的魔法伤害，并降低{{slow_as}}攻击速度，持续4秒。自动施法会触发冷却。",
+    "DOTA_Tooltip_Ability_enfos_medusa_split_shot_Description": "切换额外箭矢。开启时，攻击最多命中{{arrow_count}}个额外敌人，造成{{damage_modifier}}%攻击伤害 + 0.5 × 敏捷伤害。",
+    "DOTA_Tooltip_Ability_enfos_juggernaut_healing_ward_Description": "创建持续{{duration}}秒的治疗区域。{{radius}}范围内的友军每秒恢复{{heal_pct}}%最大生命值。 最多同时存在3个区域，新区域替换最早的区域。",
+    "DOTA_Tooltip_Ability_enfos_sniper_shrapnel_Description": "持续{{duration}}秒，每秒对{{radius}}范围内的敌人造成{{shrapnel_damage}} + 0.35 × 敏捷的物理伤害，并减速{{slow_pct}}%。 最多同时存在3个区域，新区域替换最早的区域。",
+    "DOTA_Tooltip_Ability_enfos_mk_wukongs_command_Description": "创建持续15秒的圆环。每1.1秒对{{ring_radius}}范围内的敌人造成相当于{{soldier_damage}}%攻击伤害的物理伤害。 最多同时存在3个区域，新区域替换最早的区域。",
+    "DOTA_Tooltip_Ability_enfos_void_chronosphere_Description": "创建半径{{radius}}、持续{{duration}}秒的时间球，冻结敌人。友军可自由行动。每次施法对每个首领仅冻结一次，持续0.6秒。 最多同时存在3个区域，新区域替换最早的区域。",
+    "DOTA_Tooltip_Ability_enfos_storm_static_remnant_Description": "放置最多持续12秒的残影。当敌人进入300范围时爆炸，对范围内敌人造成{{damage}} + 1.2 × 智力的魔法伤害。 最多同时存在3个区域，新区域替换最早的区域。"
   }
 }
