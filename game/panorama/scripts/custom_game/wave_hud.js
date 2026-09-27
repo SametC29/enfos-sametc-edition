@@ -18,5 +18,15 @@ function SendNextWave() {
         if (life) $("#WaveLife").text = $.Localize("#enfos_sametc_team_life") + "  " + life.goodguys + " / " + life.badguys;
     }
     CustomNetTables.SubscribeNetTableListener("wave_info", update);
+    GameEvents.Subscribe("enfos_boss_incoming", function(data) {
+        if (!data) return;
+        var bossName = data.boss_name || "Boss";
+        var wave = data.wave || "";
+        GameEvents.SendEventClientSide("dota_hud_error_message", {
+            splitscreenplayer: 0,
+            reason: 80,
+            message: "⚠️ " + $.Localize("#enfos_sametc_boss_incoming") + " (Wave " + wave + ": " + bossName + ")!"
+        });
+    });
     update();
 })();

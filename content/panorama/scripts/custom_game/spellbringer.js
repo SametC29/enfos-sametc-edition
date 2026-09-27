@@ -119,5 +119,14 @@ function HideTooltip() {
     }
 
     CustomNetTables.SubscribeNetTableListener("spellbringer_state", updateSpellbringerUI);
+    GameEvents.Subscribe("enfos_spellbringer_error", function(data) {
+        if (!data) return;
+        var msg = data.reason || data.message || "#enfos_error_generic";
+        GameEvents.SendEventClientSide("dota_hud_error_message", {
+            splitscreenplayer: 0,
+            reason: 80,
+            message: $.Localize(msg)
+        });
+    });
     updateSpellbringerUI();
 })();
