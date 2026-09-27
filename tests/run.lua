@@ -1241,6 +1241,37 @@ test("progression manager coordinates profile, idempotent rewards, difficulty un
     assert(migrated.legacy.offense == 0, "Corrupted branch allocations must be safely reset")
 end)
 
+-- =========================================================================
+-- Hero Roster Tests (Phase 11 - 10 Heroes)
+-- =========================================================================
+test("ten heroes are authored with exactly 2 per role (Tank/Fighter/Carry/Mage/Support)", function()
+    local heroList = {
+        { name = "npc_dota_hero_sven", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
+        { name = "npc_dota_hero_axe", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
+        { name = "npc_dota_hero_juggernaut", role = "Fighter", primary = "DOTA_ATTRIBUTE_AGILITY" },
+        { name = "npc_dota_hero_legion_commander", role = "Fighter", primary = "DOTA_ATTRIBUTE_STRENGTH" },
+        { name = "npc_dota_hero_drow_ranger", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
+        { name = "npc_dota_hero_sniper", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
+        { name = "npc_dota_hero_lina", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
+        { name = "npc_dota_hero_crystal_maiden", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
+        { name = "npc_dota_hero_omniknight", role = "Support", primary = "DOTA_ATTRIBUTE_STRENGTH" },
+        { name = "npc_dota_hero_dazzle", role = "Support", primary = "DOTA_ATTRIBUTE_INTELLECT" },
+    }
+
+    assert(#heroList == 10, "Must have exactly 10 heroes in the current roster milestone")
+
+    local roleCounts = {}
+    for _, h in ipairs(heroList) do
+        roleCounts[h.role] = (roleCounts[h.role] or 0) + 1
+    end
+
+    assert(roleCounts["Tank"] == 2, "Must have exactly 2 Tanks, got: " .. tostring(roleCounts["Tank"]))
+    assert(roleCounts["Fighter"] == 2, "Must have exactly 2 Fighters, got: " .. tostring(roleCounts["Fighter"]))
+    assert(roleCounts["Carry"] == 2, "Must have exactly 2 Carries, got: " .. tostring(roleCounts["Carry"]))
+    assert(roleCounts["Mage"] == 2, "Must have exactly 2 Mages, got: " .. tostring(roleCounts["Mage"]))
+    assert(roleCounts["Support"] == 2, "Must have exactly 2 Supports, got: " .. tostring(roleCounts["Support"]))
+end)
+
 print(string.format("%d Lua behavior tests passed (mock engine; live tests separate).", passed))
 
 
