@@ -1,11 +1,15 @@
 # Current audit — 2026-09-27
 
 Latest changes: [hero power instead of solo enemy reductions](audit/HERO_POWER_2026-09-27.md),
-[native team spawn markers](RUNTIME_FIXES.md), and [Batch 1 Hero PvE Kits Rework](HERO_PVE_REWORK_MATRIX.md).
-Batch 1 provides authoritative PvE kits for 6 representative heroes across all 5 roles:
-Sven (Tank), Juggernaut (Fighter), Drow Ranger (Carry), Lina (Mage), Omniknight (Support), and Luna (Carry)
-covering 30 complete abilities with attribute scaling, boss diminish/caps, and crowd clearing.
-All 109 automated behavior tests and repository checks pass (11 dedicated hero kit regressions,
+[native team spawn markers](RUNTIME_FIXES.md), and [Batch 1 & 2 Hero PvE Kits Rework](HERO_PVE_REWORK_MATRIX.md).
+Batch 1 & 2 provide authoritative PvE kits for 12 heroes across all 5 roles:
+- Tank: Sven, Axe, Centaur Warrunner
+- Fighter: Juggernaut, Legion Commander
+- Carry: Drow Ranger, Luna, Sniper
+- Mage: Lina, Crystal Maiden
+- Support: Omniknight, Dazzle
+covering 60 complete abilities with attribute scaling, boss diminish/caps, and crowd clearing.
+All 118 automated behavior tests and repository checks pass (20 dedicated hero kit regressions,
 14 audit regressions, 9 hero power regressions, 6 spawn regressions, 6 runtime wave regressions,
 49 core behavior tests, 11 JavaScript/validator tests, 3 tool validation checks).
 29 unfinished Ascended upgrades remain purchase-gated; launch target stays 30.

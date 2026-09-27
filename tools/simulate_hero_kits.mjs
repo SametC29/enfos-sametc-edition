@@ -13,11 +13,17 @@ const balanceConfig = {
 
 const heroes = [
   { name: 'Sven', role: 'Tank', baseDps: 85, aoeDps: 220, burstDps: 450, manaCostPerSec: 12, hp: 1250, armor: 18, sustainPerSec: 35 },
+  { name: 'Axe', role: 'Tank', baseDps: 90, aoeDps: 260, burstDps: 500, manaCostPerSec: 10, hp: 1300, armor: 20, sustainPerSec: 40 },
+  { name: 'Centaur', role: 'Tank', baseDps: 80, aoeDps: 240, burstDps: 480, manaCostPerSec: 8, hp: 1450, armor: 16, sustainPerSec: 45 },
   { name: 'Juggernaut', role: 'Fighter', baseDps: 130, aoeDps: 340, burstDps: 680, manaCostPerSec: 15, hp: 950, armor: 12, sustainPerSec: 45 },
+  { name: 'Legion Commander', role: 'Fighter', baseDps: 125, aoeDps: 360, burstDps: 650, manaCostPerSec: 14, hp: 1050, armor: 14, sustainPerSec: 50 },
   { name: 'Drow Ranger', role: 'Carry', baseDps: 160, aoeDps: 380, burstDps: 620, manaCostPerSec: 14, hp: 820, armor: 8, sustainPerSec: 15 },
-  { name: 'Lina', role: 'Mage', baseDps: 90, aoeDps: 460, burstDps: 850, manaCostPerSec: 28, hp: 780, armor: 6, sustainPerSec: 18 },
-  { name: 'Omniknight', role: 'Support', baseDps: 70, aoeDps: 260, burstDps: 390, manaCostPerSec: 18, hp: 1100, armor: 14, sustainPerSec: 65 },
   { name: 'Luna', role: 'Carry', baseDps: 140, aoeDps: 420, burstDps: 750, manaCostPerSec: 16, hp: 860, armor: 10, sustainPerSec: 20 },
+  { name: 'Sniper', role: 'Carry', baseDps: 155, aoeDps: 370, burstDps: 640, manaCostPerSec: 12, hp: 790, armor: 7, sustainPerSec: 12 },
+  { name: 'Lina', role: 'Mage', baseDps: 90, aoeDps: 460, burstDps: 850, manaCostPerSec: 28, hp: 780, armor: 6, sustainPerSec: 18 },
+  { name: 'Crystal Maiden', role: 'Mage', baseDps: 85, aoeDps: 450, burstDps: 820, manaCostPerSec: 25, hp: 750, armor: 5, sustainPerSec: 22 },
+  { name: 'Omniknight', role: 'Support', baseDps: 70, aoeDps: 260, burstDps: 390, manaCostPerSec: 18, hp: 1100, armor: 14, sustainPerSec: 65 },
+  { name: 'Dazzle', role: 'Support', baseDps: 75, aoeDps: 280, burstDps: 420, manaCostPerSec: 16, hp: 980, armor: 11, sustainPerSec: 60 },
 ];
 
 const waveArchetypes = [

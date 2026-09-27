@@ -6,8 +6,8 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 ## Summary Statistics
 - **Total Heroes**: 40 (8 Tank, 8 Fighter, 8 Carry, 8 Mage, 8 Support)
 - **Total Abilities**: 200 (5 per hero)
-- **Active Batch 1 (Core Foundations)**: Drow Ranger, Luna, Juggernaut, Lina, Sven, Omniknight (30 abilities)
-- **Remaining Batches**: 34 heroes (170 abilities)
+- **Active Batch 1 & 2 (Implemented & Tested)**: Sven, Axe, Centaur, Juggernaut, Legion Commander, Drow Ranger, Luna, Sniper, Lina, Crystal Maiden, Omniknight, Dazzle (12 heroes / 60 abilities)
+- **Remaining Batches (Batches 3-5)**: 28 heroes (140 abilities)
 
 | Role | Heroes Count | Core Archetype & PvE Philosophy |
 |---|---|---|
@@ -37,11 +37,11 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 
 | Slot | Ability ID | Current Type | Status | Design Intent & PvE Mechanic | Boss Behavior |
 |---|---|---|---|---|---|
-| Ability1 | `enfos_axe_berserkers_call` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability2 | `enfos_axe_battle_hunger` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability3 | `enfos_axe_counter_helix` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability4 | `enfos_axe_culling_blade` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability5 | `enfos_axe_blood_armor` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
+| Ability1 | `enfos_axe_berserkers_call` | Lua (Active) | `KOD + OTOMATIK TEST` | 400 AoE taunt + 30-60 armor. Creeps forced to attack Axe. | 75% duration reduction on bosses |
+| Ability2 | `enfos_axe_battle_hunger` | Lua (Active) | `KOD + OTOMATIK TEST` | DoT scaling with 25% Str + 25% slow. Spreads to 2 foes on death. | Normal damage & slow |
+| Ability3 | `enfos_axe_counter_helix` | Lua (Active) | `KOD + OTOMATIK TEST` | 20% spin on hit dealing 100-250 + 100% Str Pure AoE. Uncapped on creeps. | 0.2s cooldown on bosses |
+| Ability4 | `enfos_axe_culling_blade` | Lua (Active) | `KOD + OTOMATIK TEST` | True execute <35% HP (creeps) / <15% (boss). Resets CD and buffs team AS/MS. | 15% execute threshold on bosses |
+| Ability5 | `enfos_axe_blood_armor` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: +1 Armor/Regen per 10 creeps / 1 boss (up to 50). Reflects 15% phys dmg. | Standard reflect |
 
 ### CENTAUR (`npc_dota_hero_centaur`)
 - **Primary Attribute**: `DOTA_ATTRIBUTE_STRENGTH`
@@ -49,11 +49,11 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 
 | Slot | Ability ID | Current Type | Status | Design Intent & PvE Mechanic | Boss Behavior |
 |---|---|---|---|---|---|
-| Ability1 | `enfos_centaur_hoof_stomp` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability2 | `enfos_centaur_double_edge` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability3 | `enfos_centaur_return` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability4 | `enfos_centaur_stampede` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability5 | `enfos_centaur_colossal_hide` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
+| Ability1 | `enfos_centaur_hoof_stomp` | Lua (Active) | `KOD + OTOMATIK TEST` | 350 AoE stomp stun (2.0s) + 120-300 + 150% Str physical damage. | 0.8s stun duration on bosses |
+| Ability2 | `enfos_centaur_double_edge` | Lua (Active) | `KOD + OTOMATIK TEST` | 250 AoE Pure burst: 150-375 + 60% Str + 15% Max HP. 30% non-lethal self damage. | Normal pure damage |
+| Ability3 | `enfos_centaur_return` | Lua (Active) | `KOD + OTOMATIK TEST` | Reflects 20-65 + 50% Str physical to attackers. Pulses in 250 AoE per 300 damage. | Standard reflect |
+| Ability4 | `enfos_centaur_stampede` | Lua (Active) | `KOD + OTOMATIK TEST` | Team 550 MS, phased, 40% dmg reduction. Trampled enemies take 200 + 200% Str & 100% slow. | Standard trample |
+| Ability5 | `enfos_centaur_colossal_hide` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: Flat 40 + 5% Str damage block + +20% Max Health. | Standard block |
 
 ### BRISTLEBACK (`npc_dota_hero_bristleback`)
 - **Primary Attribute**: `DOTA_ATTRIBUTE_STRENGTH`
@@ -135,11 +135,11 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 
 | Slot | Ability ID | Current Type | Status | Design Intent & PvE Mechanic | Boss Behavior |
 |---|---|---|---|---|---|
-| Ability1 | `enfos_legion_overwhelming_odds` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability2 | `enfos_legion_press_the_attack` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability3 | `enfos_legion_moment_of_courage` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability4 | `enfos_legion_duel` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability5 | `enfos_legion_commanders_banner` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
+| Ability1 | `enfos_legion_overwhelming_odds` | Lua (Active) | `KOD + OTOMATIK TEST` | 600 AoE burst: 120-300 + 25-55 per creep + 100 per boss. Grants AS/MS buff. | 100 bonus dmg per boss |
+| Ability2 | `enfos_legion_press_the_attack` | Lua (Active) | `KOD + OTOMATIK TEST` | Strong dispel + 40-100 + 50% Str HP regen/s + 60-120 AS for 5s. | Normal target buff |
+| Ability3 | `enfos_legion_moment_of_courage` | Lua (Active) | `KOD + OTOMATIK TEST` | 25% counter-attack with +1000 AS and 75% lifesteal. No CD on creeps. | 0.4s cooldown on bosses |
+| Ability4 | `enfos_legion_duel` | Lua (Active) | `KOD + OTOMATIK TEST` | 4.0-5.5s duel. LC takes 40% less external dmg. Winner gains permanent bonus damage. | +30 bonus damage on boss kill |
+| Ability5 | `enfos_legion_commanders_banner` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive Aura: 900 radius +20% phys damage & 12% lifesteal (+40% dmg & 24% steal for LC). | Standard aura |
 
 ### SKELETON KING (`npc_dota_hero_skeleton_king`)
 - **Primary Attribute**: `DOTA_ATTRIBUTE_STRENGTH`
@@ -233,11 +233,11 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 
 | Slot | Ability ID | Current Type | Status | Design Intent & PvE Mechanic | Boss Behavior |
 |---|---|---|---|---|---|
-| Ability1 | `enfos_sniper_shrapnel` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability2 | `enfos_sniper_headshot` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability3 | `enfos_sniper_take_aim` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability4 | `enfos_sniper_assassinate` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability5 | `enfos_sniper_keen_eye` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
+| Ability1 | `enfos_sniper_shrapnel` | Lua (Active) | `KOD + OTOMATIK TEST` | 450 AoE shrapnel: 40-115 + 35% Agi physical DPS + 30% slow for 8s. | Standard DPS & slow |
+| Ability2 | `enfos_sniper_headshot` | Lua (Active) | `KOD + OTOMATIK TEST` | 40% proc: 60-180 + 75% Agi bonus physical damage + 60 unit knockback. | Bosses immune to knockback |
+| Ability3 | `enfos_sniper_take_aim` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: +150-450 attack range. Active: 100% True Strike, 80% Headshot chance, +15% MS. | Standard active |
+| Ability4 | `enfos_sniper_assassinate` | Lua (Active) | `KOD + OTOMATIK TEST` | 2500 range sniper: 400-900 + 300% Agi physical damage. On kill: resets CD & 50% mana. | Standard single target |
+| Ability5 | `enfos_sniper_keen_eye` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: Basic attacks pierce 500 line behind target for 60% attack damage. | Standard piercing |
 
 ### PHANTOM ASSASSIN (`npc_dota_hero_phantom_assassin`)
 - **Primary Attribute**: `DOTA_ATTRIBUTE_AGILITY`
@@ -331,11 +331,11 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 
 | Slot | Ability ID | Current Type | Status | Design Intent & PvE Mechanic | Boss Behavior |
 |---|---|---|---|---|---|
-| Ability1 | `enfos_cm_crystal_nova` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability2 | `enfos_cm_frostbite` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability3 | `enfos_cm_arcane_aura` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability4 | `enfos_cm_freezing_field` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability5 | `enfos_cm_glacial_mastery` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
+| Ability1 | `enfos_cm_crystal_nova` | Lua (Active) | `KOD + OTOMATIK TEST` | 425 AoE frost burst: 130-340 + 120% Int magic damage + 40% MS / 50 AS slow for 4.5s. | Standard damage & slow |
+| Ability2 | `enfos_cm_frostbite` | Lua (Active) | `KOD + OTOMATIK TEST` | Roots & disarms 3.0s. Deals 80-260 + 50% Int/s. Deals 300% damage to creeps. | Normal 100% damage on bosses |
+| Ability3 | `enfos_cm_arcane_aura` | Lua (Active) | `KOD + OTOMATIK TEST` | Global Aura: +2-5 mana regen (+6-15 for CM) + +15% Spell Amplification for allies. | Global team aura |
+| Ability4 | `enfos_cm_freezing_field` | Lua (Active) | `KOD + OTOMATIK TEST` | Channeled 800 AoE blizzard: 120-240 + 60% Int explosions every 0.2s. +20 armor, +50% magic resist. | Standard channel |
+| Ability5 | `enfos_cm_glacial_mastery` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: Cold damage applies Frost. At 5 stacks: 1.5s Freeze + 150 + 10% Max HP AoE shatter. | 600 HP dmg cap on bosses |
 
 ### ZUUS (`npc_dota_hero_zuus`)
 - **Primary Attribute**: `DOTA_ATTRIBUTE_INTELLECT`
@@ -429,11 +429,11 @@ Complies with clean-room reference policy (clean design concepts from Enfo / Wat
 
 | Slot | Ability ID | Current Type | Status | Design Intent & PvE Mechanic | Boss Behavior |
 |---|---|---|---|---|---|
-| Ability1 | `enfos_dazzle_poison_touch` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability2 | `enfos_dazzle_shallow_grave` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability3 | `enfos_dazzle_shadow_wave` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability4 | `enfos_dazzle_bad_juju` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
-| Ability5 | `enfos_dazzle_nothl_weave` | Datadriven (Mock) | `EKSİK` | Custom PvE wave clear adaptation with scaling | Standard damage |
+| Ability1 | `enfos_dazzle_poison_touch` | Lua (Active) | `KOD + OTOMATIK TEST` | Cone hits up to 8 foes: 30-90 + 35% Int phys DPS + 25% slow. Attacks refresh & add 2% slow. | Normal physical DoT |
+| Ability2 | `enfos_dazzle_shallow_grave` | Lua (Active) | `KOD + OTOMATIK TEST` | Target health cannot fall below 1 HP for 4.5-6.0s + 40% heal amp. | Life-saving clutch |
+| Ability3 | `enfos_dazzle_shadow_wave` | Lua (Active) | `KOD + OTOMATIK TEST` | Jumps 7 allies: heals 90-210 + 100% Int. Deals matching physical damage around EACH ally (200 AoE). | Overlapping swarm clear |
+| Ability4 | `enfos_dazzle_bad_juju` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive: -1.5s cooldown on all spells when casting. Active: -5 enemy armor / +5 ally armor for 8s. | Standard CDR & armor |
+| Ability5 | `enfos_dazzle_nothl_weave` | Lua (Active) | `KOD + OTOMATIK TEST` | Passive Aura: Every 3s, enemies lose 2 armor (up to -10), allies gain 2 armor (up to +10). | Stacking armor shred |
 
 ### WITCH DOCTOR (`npc_dota_hero_witch_doctor`)
 - **Primary Attribute**: `DOTA_ATTRIBUTE_INTELLECT`

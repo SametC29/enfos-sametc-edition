@@ -76,6 +76,20 @@ ApplyDamage = function(info)
     table.insert(applied_damages, info)
 end
 
+CreateModifierThinker = function(caster, ability, mod_name, params, origin, team, is_phantom)
+    local t = create_mock_unit('thinker', team, origin)
+    local cls = _G[mod_name]
+    if cls then
+        local m = cls()
+        m.GetParent = function() return t end
+        m.GetCaster = function() return caster end
+        m.GetAbility = function() return ability end
+        if m.OnCreated then m:OnCreated(params) end
+        if m.OnIntervalThink then m:OnIntervalThink() end
+    end
+    return t
+end
+
 local function create_mock_unit(name, team, origin, hp)
     hp = hp or 500
     local unit = {
@@ -120,6 +134,14 @@ local function create_mock_unit(name, team, origin, hp)
         HasModifier = function(self, mod_name) return self.modifiers[mod_name] ~= nil end,
         Heal = function(self, amount, ability) self.hp = math.min(self.max_hp, self.hp + amount) end,
         FindAbilityByName = function(self, ab_name) return nil end,
+        IsHero = function(self) return self.name:find("hero", 1, true) ~= nil end,
+        Kill = function(self, ability, killer) self.alive = false self.hp = 0 end,
+        Purge = function(self) end,
+        ModifyStrength = function(self, delta) self.strength = self.strength + delta end,
+        SetHealth = function(self, hp) self.hp = hp end,
+        PerformAttack = function(self, target, a, b, c, d, e, f, g)
+            ApplyDamage({ victim = target, attacker = self, damage = self:GetAverageTrueAttackDamage(), damage_type = DAMAGE_TYPE_PHYSICAL })
+        end,
     }
     return unit
 end
@@ -522,6 +544,255 @@ test('Omniknight Hammer of Purity deals Pure damage with splash and heals caster
     assert(applied_damages[1].victim == target and applied_damages[1].damage == 296)
     assert(applied_damages[2].victim == splash and applied_damages[2].damage == 148)
     assert(omni.hp == 448, 'Omniknight should be healed for 148 HP')
+end)
+
+
+-- =========================================================================
+-- BATCH 2 TESTS: Axe, Centaur, Legion Commander, Sniper, Crystal Maiden, Dazzle
+-- =========================================================================
+
+test('Axe Berserkers Call taunts and applies 75% duration reduction on bosses', function()
+    local axe = create_mock_unit('npc_dota_hero_axe', 2, Vector(0, 0, 0))
+    local creep = create_mock_unit('creep_1', 3, Vector(100, 0, 0))
+    local boss = create_mock_unit('enfos_boss_warlord', 3, Vector(150, 0, 0))
+    mock_world_units = { axe, creep, boss }
+
+    local ab = enfos_axe_berserkers_call()
+    ab.GetCaster = function() return axe end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'radius' then return 400 end
+        if k == 'duration' then return 4.0 end
+        if k == 'bonus_armor' then return 30 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+
+    assert(axe:HasModifier('modifier_enfos_axe_call_buff'), 'Axe must receive armor buff')
+    assert(creep:HasModifier('modifier_enfos_axe_call_taunt'), 'Creep must receive taunt')
+    assert(boss:HasModifier('modifier_enfos_axe_call_taunt'), 'Boss must receive taunt')
+    local creep_dur = creep.modifiers['modifier_enfos_axe_call_taunt'].params.duration
+    local boss_dur = boss.modifiers['modifier_enfos_axe_call_taunt'].params.duration
+    assert(creep_dur == 4.0, 'Creep taunt must last 4.0s')
+    assert(boss_dur == 1.0, 'Boss taunt must be reduced by 75% (1.0s)')
+end)
+
+test('Axe Counter Helix procs pure damage scaling with Strength on attacked', function()
+    applied_damages = {}
+    local axe = create_mock_unit('npc_dota_hero_axe', 2, Vector(0, 0, 0))
+    axe.strength = 80
+    local creep1 = create_mock_unit('creep_1', 3, Vector(100, 0, 0))
+    local creep2 = create_mock_unit('creep_2', 3, Vector(150, 0, 0))
+    mock_world_units = { axe, creep1, creep2 }
+
+    local ab = enfos_axe_counter_helix()
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'trigger_chance' then return 100 end
+        if k == 'helix_damage' then return 200 end
+        if k == 'radius' then return 300 end
+        return 0
+    end
+
+    local mod = setmetatable({
+        GetParent = function() return axe end,
+        GetAbility = function() return ab end
+    }, modifier_enfos_axe_counter_helix_passive)
+    mod:OnCreated()
+
+    mod:OnAttacked({
+        attacker = creep1,
+        target = axe
+    })
+
+    -- Damage: 200 + (80 * 1.0) = 280 pure
+    assert(#applied_damages == 2, 'Helix should hit both creeps in 300 radius')
+    assert(applied_damages[1].damage == 280 and applied_damages[1].damage_type == DAMAGE_TYPE_PURE)
+    assert(applied_damages[2].damage == 280 and applied_damages[2].damage_type == DAMAGE_TYPE_PURE)
+end)
+
+test('Axe Culling Blade executes target below threshold and buffs allies', function()
+    applied_damages = {}
+    local axe = create_mock_unit('npc_dota_hero_axe', 2, Vector(0, 0, 0))
+    local low_creep = create_mock_unit('creep_low', 3, Vector(100, 0, 0), 1000)
+    low_creep.hp = 250 -- 25% health (below 35% threshold)
+    local ally = create_mock_unit('npc_dota_hero_sven', 2, Vector(200, 0, 0))
+    mock_world_units = { axe, low_creep, ally }
+
+    local ab = enfos_axe_culling_blade()
+    ab.GetCaster = function() return axe end
+    ab.GetCursorTarget = function() return low_creep end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'kill_threshold_pct' then return 35 end
+        return 0
+    end
+    ab.EndCooldown = function() end
+
+    ab:OnSpellStart()
+
+    assert(low_creep:IsAlive() == false, 'Target below 35% HP must be executed')
+    assert(axe:HasModifier('modifier_enfos_axe_culling_blade_buff'), 'Axe must get buff on kill')
+    assert(ally:HasModifier('modifier_enfos_axe_culling_blade_buff'), 'Allies must get buff on kill')
+end)
+
+test('Centaur Hoof Stomp stuns and scales with Strength', function()
+    applied_damages = {}
+    local centaur = create_mock_unit('npc_dota_hero_centaur', 2, Vector(0, 0, 0))
+    centaur.strength = 100
+    local creep = create_mock_unit('creep_1', 3, Vector(100, 0, 0))
+    local boss = create_mock_unit('enfos_boss_titan', 3, Vector(150, 0, 0))
+    mock_world_units = { centaur, creep, boss }
+
+    local ab = enfos_centaur_hoof_stomp()
+    ab.GetCaster = function() return centaur end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'damage' then return 250 end
+        if k == 'radius' then return 350 end
+        if k == 'stun_duration' then return 2.0 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+
+    -- Damage: 250 + (100 * 1.5) = 400 physical
+    assert(#applied_damages == 2)
+    assert(applied_damages[1].damage == 400 and applied_damages[1].damage_type == DAMAGE_TYPE_PHYSICAL)
+    assert(applied_damages[2].damage == 400 and applied_damages[2].damage_type == DAMAGE_TYPE_PHYSICAL)
+    assert(creep.modifiers['modifier_enfos_centaur_hoof_stomp_stun'].params.duration == 2.0)
+    assert(boss.modifiers['modifier_enfos_centaur_hoof_stomp_stun'].params.duration == 0.8, 'Boss stun reduced')
+end)
+
+test('Centaur Double Edge damages target and self, scaling with Strength and Max HP', function()
+    applied_damages = {}
+    local centaur = create_mock_unit('npc_dota_hero_centaur', 2, Vector(0, 0, 0), 2000)
+    centaur.strength = 120
+    local target = create_mock_unit('target', 3, Vector(100, 0, 0))
+    local neighbor = create_mock_unit('neighbor', 3, Vector(150, 0, 0))
+    mock_world_units = { centaur, target, neighbor }
+
+    local ab = enfos_centaur_double_edge()
+    ab.GetCaster = function() return centaur end
+    ab.GetCursorTarget = function() return target end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'edge_damage' then return 300 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+
+    -- Damage: 300 + (120 * 0.6) + (2000 * 0.15) = 300 + 72 + 300 = 672 pure
+    assert(#applied_damages == 2, 'Cleaves to target and neighbor')
+    assert(applied_damages[1].damage == 672 and applied_damages[1].damage_type == DAMAGE_TYPE_PURE)
+    -- Self damage: 672 * 0.3 = 201.6 -> Centaur HP becomes 2000 - 201.6 = 1798.4
+    assert(centaur.hp < 2000 and centaur.hp > 1750, 'Centaur takes 30% self damage')
+end)
+
+test('Legion Commander Overwhelming Odds scales with enemy count in AoE', function()
+    applied_damages = {}
+    local lc = create_mock_unit('npc_dota_hero_legion_commander', 2, Vector(0, 0, 0))
+    local c1 = create_mock_unit('creep_1', 3, Vector(100, 0, 0))
+    local c2 = create_mock_unit('creep_2', 3, Vector(150, 0, 0))
+    local c3 = create_mock_unit('creep_3', 3, Vector(200, 0, 0))
+    local boss = create_mock_unit('enfos_boss_warlord', 3, Vector(250, 0, 0))
+    mock_world_units = { lc, c1, c2, c3, boss }
+
+    local ab = enfos_legion_overwhelming_odds()
+    ab.GetCaster = function() return lc end
+    ab.GetCursorPosition = function() return Vector(150, 0, 0) end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'damage' then return 150 end
+        if k == 'damage_per_unit' then return 40 end
+        if k == 'radius' then return 600 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+
+    -- Total damage: 150 + (3 creeps * 40) + (1 boss * 100) = 150 + 120 + 100 = 370 magic
+    assert(#applied_damages == 4, 'Hits all 4 units in radius')
+    assert(applied_damages[1].damage == 370 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
+    assert(lc:HasModifier('modifier_enfos_legion_overwhelming_odds_buff'))
+    local buff = lc.modifiers['modifier_enfos_legion_overwhelming_odds_buff'].params
+    -- bonus AS: 3*5 + 1*30 = 45 AS
+    assert(buff.bonus_as == 45, 'Bonus attack speed must match creep and boss counts')
+end)
+
+test('Sniper Keen Eye pierces line behind primary target for secondary damage', function()
+    applied_damages = {}
+    local sniper = create_mock_unit('npc_dota_hero_sniper', 2, Vector(0, 0, 0))
+    local primary = create_mock_unit('primary', 3, Vector(200, 0, 0))
+    local behind = create_mock_unit('behind', 3, Vector(350, 0, 0))
+    mock_world_units = { sniper, primary, behind }
+
+    local ab = enfos_sniper_keen_eye()
+    local mod = setmetatable({
+        GetParent = function() return sniper end,
+        GetAbility = function() return ab end
+    }, modifier_enfos_sniper_keen_eye_passive)
+
+    mod:OnAttackLanded({
+        attacker = sniper,
+        target = primary,
+        damage = 300
+    })
+
+    -- 60% of 300 = 180 physical to behind unit
+    assert(#applied_damages == 1, 'Secondary enemy behind must be pierced')
+    assert(applied_damages[1].victim == behind and applied_damages[1].damage == 180)
+end)
+
+test('Crystal Maiden Glacial Mastery triggers 5-stack Glacial Shatter with boss cap', function()
+    applied_damages = {}
+    local cm = create_mock_unit('npc_dota_hero_crystal_maiden', 2, Vector(0, 0, 0))
+    local boss = create_mock_unit('enfos_boss_hydra', 3, Vector(100, 0, 0), 20000)
+    local neighbor = create_mock_unit('neighbor', 3, Vector(150, 0, 0))
+    mock_world_units = { cm, boss, neighbor }
+
+    local ab = enfos_cm_glacial_mastery()
+    local stack_mod = setmetatable({
+        GetParent = function() return boss end,
+        GetCaster = function() return cm end,
+        GetAbility = function() return ab end,
+        count = 4,
+        GetStackCount = function(self) return self.count end,
+        SetStackCount = function(self, c) self.count = c end,
+        Destroy = function(self) end
+    }, modifier_enfos_cm_frost_stack)
+
+    -- 5th stack triggers shatter
+    stack_mod:OnRefresh()
+
+    -- Max HP damage: 20000 * 0.10 = 2000, capped at 600 for bosses. Total damage: 150 + 600 = 750
+    assert(#applied_damages == 2, 'Shatter hits boss and neighbor in 300 radius')
+    assert(applied_damages[1].damage == 750 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
+    assert(applied_damages[2].damage == 750 and applied_damages[2].damage_type == DAMAGE_TYPE_MAGICAL)
+end)
+
+test('Dazzle Shadow Wave heals jumping allies and deals pure physical damage around each', function()
+    applied_damages = {}
+    local dazzle = create_mock_unit('npc_dota_hero_dazzle', 2, Vector(0, 0, 0))
+    dazzle.intellect = 80
+    local frontline = create_mock_unit('ally_tank', 2, Vector(200, 0, 0), 1000)
+    frontline.hp = 500
+    local e1 = create_mock_unit('swarm_1', 3, Vector(220, 0, 0))
+    local e2 = create_mock_unit('swarm_2', 3, Vector(250, 0, 0))
+    mock_world_units = { dazzle, frontline, e1, e2 }
+
+    local ab = enfos_dazzle_shadow_wave()
+    ab.GetCaster = function() return dazzle end
+    ab.GetCursorTarget = function() return frontline end
+    ab.GetSpecialValueFor = function(_, k)
+        if k == 'heal_amount' then return 170 end
+        return 0
+    end
+
+    ab:OnSpellStart()
+
+    -- Heal: 170 + (80 * 1.0) = 250
+    assert(frontline.hp == 750, 'Frontline ally must be healed for 250')
+    -- Damage: around frontline, both swarm_1 (dist 20) and swarm_2 (dist 50) are within 200 radius
+    assert(#applied_damages == 2, 'Both swarming creeps around frontline must take 250 physical damage')
+    assert(applied_damages[1].damage == 250 and applied_damages[1].damage_type == DAMAGE_TYPE_PHYSICAL)
+    assert(applied_damages[2].damage == 250 and applied_damages[2].damage_type == DAMAGE_TYPE_PHYSICAL)
 end)
 
 print(passed .. ' hero kit regression tests passed (mock engine).')
