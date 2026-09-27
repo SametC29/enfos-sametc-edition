@@ -4,17 +4,17 @@
     <Panel class="WaveHudContainer" hittest="false">
         <Panel class="WaveHud" hittest="false">
             <Panel class="WaveHudHeaderRow">
-                <Label id="WaveStatus" />
+                <Panel class="WaveHeading"><Label id="WaveNumber" /><Label id="WaveStatus" /></Panel>
+                <Button id="NextWave" onactivate="SendNextWave()"><Label text="#enfos_next_wave" /></Button>
                 <Button id="GuideBtn" onactivate="ToggleGuide()"><Label text="?" /></Button>
             </Panel>
-            <Label id="WaveLife" />
-            <Label id="WaveBudget" />
-            <Label id="WaveGold" />
+            <Panel class="TeamLifeRow">
+                <Panel class="TeamLifeCard RadiantCard"><Panel class="LifeTitle"><Label text="#DOTA_GoodGuys" /><Label id="RadiantLife" /></Panel><Panel class="LifeTrack"><Panel id="RadiantLifeFill" /></Panel></Panel>
+                <Panel class="TeamLifeCard DireCard"><Panel class="LifeTitle"><Label text="#DOTA_BadGuys" /><Label id="DireLife" /></Panel><Panel class="LifeTrack"><Panel id="DireLifeFill" /></Panel></Panel>
+            </Panel>
+            <Panel class="WaveEconomyRow"><Label id="WaveBudget" /><Label id="WaveGold" /></Panel>
             <Label id="SoloSupport" />
-            <Button id="NextWave" onactivate="SendNextWave()"><Label text="#enfos_next_wave" /></Button>
         </Panel>
-        <Panel id="BossAlertPanel" class="BossAlertPanel Hidden" hittest="false">
-            <Label id="BossAlertText" text="" />
-        </Panel>
+        <Panel id="BossAlertPanel" class="BossAlertPanel Hidden" hittest="false"><Label id="BossAlertText" /></Panel>
     </Panel>
 </root>

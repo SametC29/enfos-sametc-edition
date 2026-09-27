@@ -1081,7 +1081,7 @@ function modifier_enfos_pve_hammer:OnAttackLanded(e)
     for _, u in ipairs(enemies(c, e.target:GetAbsOrigin(), 275)) do
         if u ~= e.target then damage(a, u, dmg * 0.5, DAMAGE_TYPE_PURE) end
     end
-    effect('particles/units/heroes/hero_omniknight/omniknight_hammer_of_purity.vpcf', e.target)
+    effect('particles/units/heroes/hero_omniknight/omniknight_hammer_of_purity_detonation.vpcf', e.target)
 end
 
 -- =========================================================================
@@ -2763,19 +2763,12 @@ end
 enfos_wk_skeleton_army=class({})
 function enfos_wk_skeleton_army:GetIntrinsicModifierName() return 'modifier_enfos_wk_skeleton_army_passive' end
 function enfos_wk_skeleton_army:OnSpellStart()
-    local c = self:GetCaster()
-    local mod = c:FindModifierByName('modifier_enfos_wk_skeleton_army_passive')
-    local count = mod and mod:GetStackCount() or 0
-    if count <= 0 then count = 4 end
+    local c=self:GetCaster()
+    local mod=c:FindModifierByName('modifier_enfos_wk_skeleton_army_passive')
+    local count=math.max(4,math.min(8,mod and mod:GetStackCount() or 0))
     if mod then mod:SetStackCount(0) end
-
+    require('heroes/summons'):Units(self,'enfos_creep_skeleton',c:GetAbsOrigin(),count,30,35+get_str(c)*0.8,350+get_str(c)*5)
     c:EmitSound('Hero_SkeletonKing.Hellfire_Blast')
-    local str = get_str(c)
-    local dmg = 120 + (str * 0.8)
-
-    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 600)) do
-        damage(self, u, dmg, DAMAGE_TYPE_PHYSICAL)
-    end
 end
 
 modifier_enfos_wk_skeleton_army_passive=class({})
@@ -3258,7 +3251,7 @@ function enfos_dk_dragon_tail:OnSpellStart()
     if not t or not t:IsAlive() then return end
 
     c:EmitSound('Hero_DragonKnight.DragonTail.Target')
-    effect('particles/units/heroes/hero_dragon_knight/dragon_knight_dragontail_target.vpcf', t)
+    effect('particles/units/heroes/hero_dragon_knight/dragon_knight_dragon_tail_impact.vpcf', t)
 
     local base = value(self, 'damage')
     if base <= 0 then base = 250 end
@@ -3867,7 +3860,7 @@ function modifier_enfos_am_mana_break_passive:OnAttackLanded(params)
     local dmg = base + (agi * 0.6)
 
     damage(self:GetAbility(), t, dmg, DAMAGE_TYPE_PHYSICAL)
-    effect('particles/units/heroes/hero_antimage/antimage_manabreak.vpcf', t)
+    effect('particles/units/heroes/hero_antimage/antimage_manabreak_enemy_debuff.vpcf', t)
 
     -- Cleave to surrounding creeps
     for _, u in ipairs(enemies(c, t:GetAbsOrigin(), 250)) do
@@ -3909,7 +3902,7 @@ function enfos_am_mana_void:OnSpellStart()
     if not t or not t:IsAlive() then return end
 
     c:EmitSound('Hero_Antimage.ManaVoid')
-    effect('particles/units/heroes/hero_antimage/antimage_mana_void.vpcf', t)
+    effect('particles/units/heroes/hero_antimage/antimage_manavoid.vpcf', t)
 
     local base = value(self, 'base_damage')
     if base <= 0 then base = 500 end
@@ -4334,16 +4327,9 @@ function modifier_enfos_ss_shackles_debuff:CheckState() return { [MODIFIER_STATE
 
 enfos_ss_mass_serpent_ward=class({})
 function enfos_ss_mass_serpent_ward:OnSpellStart()
-    local c = self:GetCaster()
-    local pos = self:GetCursorPosition()
+    local c=self:GetCaster()
+    require('heroes/summons'):Units(self,'npc_dota_shadow_shaman_ward_1',self:GetCursorPosition(),8,30,85+get_int(c)*0.4,450)
     c:EmitSound('Hero_ShadowShaman.SerpentWard')
-    local int = get_int(c)
-    local dmg = 85 + (int * 0.4)
-
-    -- Burst pulse simulating serpent ward fire across 30 seconds
-    for _, u in ipairs(enemies(c, pos, 600)) do
-        damage(self, u, dmg * 4, DAMAGE_TYPE_PHYSICAL)
-    end
 end
 
 enfos_ss_fowl_play=class({})
@@ -4809,9 +4795,7 @@ end
 
 enfos_ck_phantasm=class({})
 function enfos_ck_phantasm:OnSpellStart()
-    local c = self:GetCaster()
-    local dur = value(self, 'duration') or 30.0
-    c:AddNewModifier(c, self, 'modifier_enfos_ck_phantasm_buff', { duration = dur })
+    require('heroes/summons'):Illusions(self,3,30,60)
 end
 
 modifier_enfos_ck_phantasm_buff=class({})
@@ -4982,9 +4966,7 @@ function modifier_enfos_tb_reflection:GetModifierMoveSpeedBonus_Percentage() ret
 
 enfos_tb_conjure_image=class({})
 function enfos_tb_conjure_image:OnSpellStart()
-    local c = self:GetCaster()
-    local dur = value(self, 'duration') or 30.0
-    c:AddNewModifier(c, self, 'modifier_enfos_tb_conjure_image_buff', { duration = dur })
+    require('heroes/summons'):Illusions(self,2,30,50)
 end
 
 modifier_enfos_tb_conjure_image_buff=class({})

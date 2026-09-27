@@ -1,0 +1,484 @@
+{
+  "schema": 1,
+  "source": "Installed Valve scripts/npc/items.txt",
+  "items": [
+    {
+      "id": "item_ascended_thornplate",
+      "base": "item_blade_mail",
+      "nativeCost": 2400,
+      "changes": {
+        "bonus_damage": {
+          "base": 15,
+          "ascended": 18
+        },
+        "bonus_armor": {
+          "base": 7,
+          "ascended": 8.4
+        }
+      }
+    },
+    {
+      "id": "item_ascended_sacred_reliquary",
+      "base": "item_holy_locket",
+      "nativeCost": 2250,
+      "changes": {
+        "bonus_all_stats": {
+          "base": 7,
+          "ascended": 8.4
+        }
+      }
+    },
+    {
+      "id": "item_ascended_sunward_crest",
+      "base": "item_solar_crest",
+      "nativeCost": 2575,
+      "changes": {
+        "bonus_armor": {
+          "base": 7,
+          "ascended": 8.4
+        },
+        "bonus_mana": {
+          "base": 200,
+          "ascended": 240
+        },
+        "bonus_health": {
+          "base": 200,
+          "ascended": 240
+        }
+      }
+    },
+    {
+      "id": "item_ascended_bastion_guard",
+      "base": "item_crimson_guard",
+      "nativeCost": 3725,
+      "changes": {
+        "bonus_health": {
+          "base": 250,
+          "ascended": 300
+        },
+        "bonus_health_regen": {
+          "base": 12,
+          "ascended": 14.4
+        },
+        "bonus_armor": {
+          "base": 6,
+          "ascended": 7.2
+        }
+      }
+    },
+    {
+      "id": "item_ascended_aegis_of_insight",
+      "base": "item_pipe",
+      "nativeCost": 3725,
+      "changes": {
+        "health_regen": {
+          "base": 14,
+          "ascended": 16.8
+        }
+      }
+    },
+    {
+      "id": "item_ascended_leviathan_harpoon",
+      "base": "item_harpoon",
+      "nativeCost": 4700,
+      "changes": {
+        "bonus_damage": {
+          "base": 25,
+          "ascended": 30
+        },
+        "bonus_strength": {
+          "base": 25,
+          "ascended": 30
+        },
+        "bonus_agility": {
+          "base": 10,
+          "ascended": 12
+        },
+        "bonus_intellect": {
+          "base": 10,
+          "ascended": 12
+        },
+        "bonus_mana_regen": {
+          "base": 2,
+          "ascended": 2.4
+        }
+      }
+    },
+    {
+      "id": "item_ascended_warstride",
+      "base": "item_sange_and_yasha",
+      "nativeCost": 4200,
+      "changes": {
+        "bonus_strength": {
+          "base": 16,
+          "ascended": 19.2
+        },
+        "bonus_agility": {
+          "base": 16,
+          "ascended": 19.2
+        },
+        "bonus_attack_speed": {
+          "base": 20,
+          "ascended": 24
+        }
+      }
+    },
+    {
+      "id": "item_ascended_seraphic_greaves",
+      "base": "item_guardian_greaves",
+      "nativeCost": 4450,
+      "changes": {
+        "bonus_armor": {
+          "base": 5,
+          "ascended": 6
+        },
+        "bonus_mana": {
+          "base": 150,
+          "ascended": 180
+        },
+        "mana_regen": {
+          "base": 1,
+          "ascended": 1.2
+        }
+      }
+    },
+    {
+      "id": "item_ascended_mirror_lotus",
+      "base": "item_lotus_orb",
+      "nativeCost": 3850,
+      "changes": {
+        "bonus_armor": {
+          "base": 10,
+          "ascended": 12
+        },
+        "bonus_health_regen": {
+          "base": 6.5,
+          "ascended": 7.8
+        },
+        "bonus_mana_regen": {
+          "base": 4,
+          "ascended": 4.8
+        },
+        "bonus_mana": {
+          "base": 250,
+          "ascended": 300
+        }
+      }
+    },
+    {
+      "id": "item_ascended_war_drums",
+      "base": "item_boots_of_bearing",
+      "nativeCost": 4225,
+      "changes": {
+        "bonus_health_regen": {
+          "base": 18,
+          "ascended": 21.6
+        }
+      }
+    },
+    {
+      "id": "item_ascended_sovereign_bkb",
+      "base": "item_black_king_bar",
+      "nativeCost": 4050,
+      "changes": {
+        "bonus_strength": {
+          "base": 10,
+          "ascended": 12
+        },
+        "bonus_damage": {
+          "base": 24,
+          "ascended": 28.8
+        }
+      }
+    },
+    {
+      "id": "item_ascended_chrono_disk",
+      "base": "item_aeon_disk",
+      "nativeCost": 3000,
+      "changes": {
+        "bonus_health": {
+          "base": 250,
+          "ascended": 300
+        },
+        "bonus_mana": {
+          "base": 300,
+          "ascended": 360
+        }
+      }
+    },
+    {
+      "id": "item_ascended_astral_sphere",
+      "base": "item_sphere",
+      "nativeCost": 4800,
+      "changes": {
+        "bonus_all_stats": {
+          "base": 16,
+          "ascended": 19.2
+        },
+        "bonus_health_regen": {
+          "base": 6.5,
+          "ascended": 7.8
+        },
+        "bonus_mana_regen": {
+          "base": 4.25,
+          "ascended": 5.1
+        }
+      }
+    },
+    {
+      "id": "item_ascended_worldheart",
+      "base": "item_heart",
+      "nativeCost": 5300,
+      "changes": {
+        "bonus_strength": {
+          "base": 40,
+          "ascended": 48
+        }
+      }
+    },
+    {
+      "id": "item_ascended_abyssal_dominion",
+      "base": "item_abyssal_blade",
+      "nativeCost": 6250,
+      "changes": {
+        "bonus_damage": {
+          "base": 35,
+          "ascended": 42
+        },
+        "bonus_strength": {
+          "base": 30,
+          "ascended": 36
+        }
+      }
+    },
+    {
+      "id": "item_ascended_blood_oath",
+      "base": "item_satanic",
+      "nativeCost": 5050,
+      "changes": {
+        "bonus_strength": {
+          "base": 25,
+          "ascended": 30
+        },
+        "bonus_damage": {
+          "base": 25,
+          "ascended": 30
+        }
+      }
+    },
+    {
+      "id": "item_ascended_starforged_daedalus",
+      "base": "item_greater_crit",
+      "nativeCost": 5200,
+      "changes": {
+        "bonus_damage": {
+          "base": 88,
+          "ascended": 105.6
+        }
+      }
+    },
+    {
+      "id": "item_ascended_phantomwing",
+      "base": "item_butterfly",
+      "nativeCost": 5450,
+      "changes": {
+        "bonus_agility": {
+          "base": 30,
+          "ascended": 36
+        },
+        "bonus_damage": {
+          "base": 30,
+          "ascended": 36
+        }
+      }
+    },
+    {
+      "id": "item_ascended_heavenpiercer",
+      "base": "item_monkey_king_bar",
+      "nativeCost": 5000,
+      "changes": {
+        "bonus_damage": {
+          "base": 50,
+          "ascended": 60
+        },
+        "bonus_attack_speed": {
+          "base": 50,
+          "ascended": 60
+        }
+      }
+    },
+    {
+      "id": "item_ascended_stormfather",
+      "base": "item_mjollnir",
+      "nativeCost": 5500,
+      "changes": {
+        "bonus_damage": {
+          "base": 25,
+          "ascended": 30
+        },
+        "bonus_attack_speed": {
+          "base": 90,
+          "ascended": 108
+        }
+      }
+    },
+    {
+      "id": "item_ascended_chronocore",
+      "base": "item_octarine_core",
+      "nativeCost": 5100,
+      "changes": {
+        "bonus_health": {
+          "base": 450,
+          "ascended": 540
+        },
+        "bonus_mana": {
+          "base": 450,
+          "ascended": 540
+        },
+        "bonus_mana_regen": {
+          "base": 6,
+          "ascended": 7.2
+        }
+      }
+    },
+    {
+      "id": "item_ascended_arc_bloodstone",
+      "base": "item_bloodstone",
+      "nativeCost": 4700,
+      "changes": {
+        "bonus_health": {
+          "base": 625,
+          "ascended": 750
+        },
+        "bonus_mana": {
+          "base": 450,
+          "ascended": 540
+        },
+        "bonus_intellect": {
+          "base": 15,
+          "ascended": 18
+        }
+      }
+    },
+    {
+      "id": "item_ascended_eternity_orb",
+      "base": "item_refresher",
+      "nativeCost": 5000,
+      "changes": {
+        "bonus_health_regen": {
+          "base": 14,
+          "ascended": 16.8
+        },
+        "bonus_mana_regen": {
+          "base": 7,
+          "ascended": 8.4
+        }
+      }
+    },
+    {
+      "id": "item_ascended_grand_vyse",
+      "base": "item_sheepstick",
+      "nativeCost": 5200,
+      "changes": {
+        "bonus_intellect": {
+          "base": 30,
+          "ascended": 36
+        },
+        "bonus_mana_regen": {
+          "base": 8.5,
+          "ascended": 10.2
+        }
+      }
+    },
+    {
+      "id": "item_ascended_legion_cuirass",
+      "base": "item_assault",
+      "nativeCost": 5125,
+      "changes": {
+        "bonus_attack_speed": {
+          "base": 30,
+          "ascended": 36
+        },
+        "bonus_armor": {
+          "base": 10,
+          "ascended": 12
+        }
+      }
+    },
+    {
+      "id": "item_ascended_absolute_zero",
+      "base": "item_shivas_guard",
+      "nativeCost": 4500,
+      "changes": {
+        "bonus_armor": {
+          "base": 17,
+          "ascended": 20.4
+        }
+      }
+    },
+    {
+      "id": "item_ascended_eye_of_deep_winter",
+      "base": "item_skadi",
+      "nativeCost": 5900,
+      "changes": {
+        "bonus_all_stats": {
+          "base": 35,
+          "ascended": 42
+        }
+      }
+    },
+    {
+      "id": "item_ascended_world_chain",
+      "base": "item_gungir",
+      "nativeCost": 4650,
+      "changes": {
+        "bonus_mana": {
+          "base": 200,
+          "ascended": 240
+        },
+        "bonus_intellect": {
+          "base": 12,
+          "ascended": 14.4
+        }
+      }
+    },
+    {
+      "id": "item_ascended_tempest_waker",
+      "base": "item_wind_waker",
+      "nativeCost": 6800,
+      "changes": {
+        "bonus_mana_regen": {
+          "base": 3,
+          "ascended": 3.6
+        },
+        "bonus_intellect": {
+          "base": 35,
+          "ascended": 42
+        }
+      }
+    },
+    {
+      "id": "item_ascended_soulpiercer",
+      "base": "item_bloodthorn",
+      "nativeCost": 6400,
+      "changes": {
+        "bonus_intellect": {
+          "base": 25,
+          "ascended": 30
+        },
+        "bonus_attack_speed": {
+          "base": 70,
+          "ascended": 84
+        },
+        "bonus_mana_regen": {
+          "base": 4,
+          "ascended": 4.8
+        },
+        "bonus_damage": {
+          "base": 20,
+          "ascended": 24
+        }
+      }
+    }
+  ]
+}

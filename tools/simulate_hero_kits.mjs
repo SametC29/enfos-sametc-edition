@@ -1,5 +1,6 @@
 // Enfos Team Survival — SametC Edition: Hero Kit Wave Combat Simulation
-// Simulates wave clearing dynamics, mana sustainability, and survivability across 1P, 2P, and 5P teams.
+// Estimate only: hard-coded DPS/HP assumptions, not production ability execution.
+console.warn("ESTIMATE ONLY: hand-entered combat assumptions; not gameplay acceptance or proof of balance.");
 
 import fs from 'node:fs';
 import { parseKV } from './lib/kv.mjs';

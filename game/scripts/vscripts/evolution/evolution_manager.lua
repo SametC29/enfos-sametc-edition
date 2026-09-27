@@ -10,141 +10,8 @@ local EvolutionManager = {
 	initialized = false,
 }
 
-EvolutionManager.MILESTONE_CHOICES = {
-	[4] = {
-		{
-			id = "evo_wave_clear",
-			title = "Dalga Biçici",
-			title_en = "Wave Sweeper",
-			desc = "+%25 AoE Yetenek Hasarı ve Normal Saldırılarda %40 Alan Yarma (Cleave).",
-			desc_en = "+25% AoE Spell Damage and 40% Cleave on basic attacks.",
-			icon = "axe_counter_helix",
-			bonus_damage_pct = 25,
-			cleave_pct = 40,
-		},
-		{
-			id = "evo_boss_slayer",
-			title = "Dev Katili",
-			title_en = "Giant Slayer",
-			desc = "Boss ve Seçkin yaratıklara karşı +%35 hasar ve 5 Zırh Delme.",
-			desc_en = "+35% Damage vs Bosses & Elites, and 5 Armor Penetration.",
-			icon = "sniper_assassinate",
-			boss_damage_pct = 35,
-			armor_pierce = 5,
-		},
-	},
-	[7] = {
-		{
-			id = "evo_spell_surge",
-			title = "Büyü Taşkını",
-			title_en = "Spell Surge",
-			desc = "+%20 Büyü Can Çalması ve Yetenek Bekleme Sürelerinde -%15 İndirim.",
-			desc_en = "+20% Spell Lifesteal and -15% Cooldown Reduction.",
-			icon = "lina_fiery_soul",
-			spell_lifesteal = 20,
-			cdr_pct = 15,
-		},
-		{
-			id = "evo_battle_fury",
-			title = "Savaş Gazabı",
-			title_en = "Battle Ferocity",
-			desc = "+45 Saldırı Hızı, +20 Hareket Hızı ve %15 Şansla 2x Kritik Darbe.",
-			desc_en = "+45 Attack Speed, +20 Movement Speed, and 15% chance for 2x Critical Strike.",
-			icon = "juggernaut_blade_dance",
-			bonus_as = 45,
-			bonus_ms = 20,
-			crit_chance = 15,
-		},
-	},
-	[10] = {
-		{
-			id = "evo_iron_bulwark",
-			title = "Demir Muhafız",
-			title_en = "Iron Bulwark",
-			desc = "+750 Azami Can, +10 Zırh ve saniyede +20 Can Yenilenmesi.",
-			desc_en = "+750 Max HP, +10 Armor, and +20 HP Regen per second.",
-			icon = "sven_warcry",
-			bonus_hp = 750,
-			bonus_armor = 10,
-			bonus_hp_regen = 20,
-		},
-		{
-			id = "evo_arcane_flow",
-			title = "Ark Akışı",
-			title_en = "Arcane Conduit",
-			desc = "+500 Azami Mana, +8 Mana Yenilenmesi ve +%15 Büyü Gücü Artışı.",
-			desc_en = "+500 Max Mana, +8 Mana Regen, and +15% Spell Amplification.",
-			icon = "crystal_maiden_brilliance_aura",
-			bonus_mana = 500,
-			bonus_mana_regen = 8,
-			spell_amp = 15,
-		},
-	},
-	[13] = {
-		{
-			id = "evo_destructive_force",
-			title = "Yıkıcı Güç",
-			title_en = "Ruinous Might",
-			desc = "Saldırılar ve büyüler %25 şansla etrafındaki yaratıklara 400 hasarlık elemental şok yayar.",
-			desc_en = "Attacks and spells have 25% chance to release a 400 damage elemental shockwave.",
-			icon = "zuus_lightning_bolt",
-			proc_chance = 25,
-			proc_damage = 400,
-		},
-		{
-			id = "evo_titan_carapace",
-			title = "Titan Zırhı",
-			title_en = "Colossus Shell",
-			desc = "Gelen tüm hasarları %20 azaltır ve +%25 Statü Direnci sağlar.",
-			desc_en = "Reduces all incoming damage by 20% and grants +25% Status Resistance.",
-			icon = "centaur_return",
-			damage_reduction = 20,
-			status_res = 25,
-		},
-	},
-	[16] = {
-		{
-			id = "evo_immortal_will",
-			title = "Ölümsüz İrade",
-			title_en = "Immortal Aegis",
-			desc = "Can %25'in altına düştüğünde anında 4 saniye %80 hasar koruması ve hız kazanır (60s CD).",
-			desc_en = "When HP drops below 25%, gain 80% damage protection and speed for 4s (60s CD).",
-			icon = "omniknight_guardian_angel",
-			threshold = 25,
-			shield_duration = 4.0,
-		},
-		{
-			id = "evo_overwhelming_burst",
-			title = "Ezici Baskın",
-			title_en = "Overwhelming Burst",
-			desc = "Her 5 yetenek veya saldırıda 3 saniye boyunca tüm yetenek bekleme süreleri yarıya iner.",
-			desc_en = "Every 5 casts or attacks, halve all ability cooldowns for 3 seconds.",
-			icon = "storm_spirit_ball_lightning",
-			trigger_count = 5,
-		},
-	},
-	[19] = {
-		{
-			id = "evo_transcendence",
-			title = "Aşkın Zirve",
-			title_en = "Transcendent Avatar",
-			desc = "Tüm temel özellikler +35 artar ve nihai yeteneğin bekleme süresi -%30 kısalır.",
-			desc_en = "+35 All Attributes and -30% Ultimate Cooldown.",
-			icon = "invoker_invoke",
-			all_stats = 35,
-			ult_cdr = 30,
-		},
-		{
-			id = "evo_cataclysm_echo",
-			title = "Kıyamet Yankısı",
-			title_en = "Doom Cataclysm",
-			desc = "Öldürülen her düşman yaratık, azami canının %25'i kadar çevresine alan hasarı patlatır.",
-			desc_en = "Slain creeps explode dealing 25% of their max HP to nearby enemies.",
-			icon = "nevermore_requiem",
-			explosion_pct = 25,
-		},
-	},
-}
+EvolutionManager.MILESTONE_CHOICES = require("evolution/choices")
+require("evolution/modifiers")
 
 function EvolutionManager:Init()
 	if self.initialized then return end
@@ -175,6 +42,7 @@ function EvolutionManager:GetOrCreatePlayerState(playerId)
 			pendingQueue = {},      -- list of milestone levels [4, 7, ...]
 			chosenHistory = {},     -- map: milestoneLevel -> choiceId
 			isModalOpen = false,
+            deferred = false,
 		}
 	end
 	return self.playerStates[playerId]
@@ -206,6 +74,7 @@ function EvolutionManager:CheckHeroMilestones(playerId, hero, newLevel)
 
 			if not alreadyChosen and not alreadyQueued then
 				table.insert(state.pendingQueue, mLevel)
+                state.deferred = false
 				Log:Info("evolution_manager", "Queued milestone level %d for player %s (Queue size: %d)",
 					mLevel, tostring(playerId), #state.pendingQueue)
 			end
@@ -232,6 +101,7 @@ function EvolutionManager:OnClientDeferEvolution(event)
 	if playerId ~= nil then
 		local state = self:GetOrCreatePlayerState(playerId)
 		state.isModalOpen = false
+        state.deferred = true
 		self:SyncNetTable(playerId)
 	end
 end
@@ -271,13 +141,15 @@ function EvolutionManager:SelectChoice(playerId, milestoneLevel, choiceId)
 		return false
 	end
 
+	-- Apply first: failed modifier creation must not consume a choice.
+	local hero = PlayerResource and PlayerResource:GetSelectedHeroEntity(playerId)
+	if not self:ApplyChoiceBonus(hero, validChoice) then return false end
+
 	-- Dequeue and record
 	table.remove(state.pendingQueue, foundIndex)
 	state.chosenHistory[milestoneLevel] = choiceId
+    state.deferred = false
 
-	-- Apply bonus to hero entity
-	local hero = PlayerResource and PlayerResource:GetSelectedHeroEntity(playerId)
-	self:ApplyChoiceBonus(hero, validChoice)
 
 	Log:Info("evolution_manager", "Player %s selected %s for milestone %d (Remaining queue: %d)",
 		tostring(playerId), choiceId, milestoneLevel, #state.pendingQueue)
@@ -287,28 +159,21 @@ function EvolutionManager:SelectChoice(playerId, milestoneLevel, choiceId)
 end
 
 function EvolutionManager:ApplyChoiceBonus(hero, choice)
-	if not hero or (hero.IsNull and hero:IsNull()) then return end
+    if not hero or (hero.IsNull and hero:IsNull()) then return false end
+    local name="modifier_enfos_evolution_"..choice.id
+    if hero.HasModifier and hero:HasModifier(name) then return true end
+    return hero:AddNewModifier(hero,nil,name,{}) ~= nil
+end
 
-	-- Authoritative stat buffs
-	if choice.bonus_hp and hero.SetMaxHealth and hero.GetMaxHealth then
-		hero:SetMaxHealth(hero:GetMaxHealth() + choice.bonus_hp)
-		hero:SetHealth(hero:GetHealth() + choice.bonus_hp)
-	end
-	if choice.bonus_mana and hero.SetMaxMana and hero.GetMaxMana then
-		hero:SetMaxMana(hero:GetMaxMana() + choice.bonus_mana)
-	end
-	if choice.all_stats and hero.ModifyStrength and hero.ModifyAgility and hero.ModifyIntellect then
-		hero:ModifyStrength(choice.all_stats)
-		hero:ModifyAgility(choice.all_stats)
-		hero:ModifyIntellect(choice.all_stats)
-	end
-
-	-- Apply custom modifier tag so hero reflects build evolution
-	if hero.AddNewModifier then
-		pcall(function()
-			hero:AddNewModifier(hero, nil, "modifier_enfos_evolution_" .. choice.id, {})
-		end)
-	end
+function EvolutionManager:RestoreHero(playerId, hero)
+    local state=self.playerStates[playerId]
+    if not state then return end
+    for level,id in pairs(state.chosenHistory) do
+        for _,choice in ipairs(self.MILESTONE_CHOICES[tonumber(level)] or {}) do
+            if choice.id==id then self:ApplyChoiceBonus(hero,choice) end
+        end
+    end
+    self:SyncNetTable(playerId)
 end
 
 function EvolutionManager:SyncNetTable(playerId)
@@ -320,6 +185,7 @@ function EvolutionManager:SyncNetTable(playerId)
 
 	local payload = {
 		pending_count = #state.pendingQueue,
+        deferred = state.deferred and 1 or 0,
 		next_milestone = nextMilestone or 0,
 		active_choices = activeChoices or {},
 		chosen_history = state.chosenHistory,

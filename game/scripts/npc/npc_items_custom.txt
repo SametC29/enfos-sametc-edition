@@ -1,1086 +1,978 @@
-// Enfos Team Survival — SametC Edition
-// Custom item definitions: 30 Launch Ascended Items + 3 Consumable Tomes
-// Reference: docs/GAME_DESIGN_MASTER.md § 22, 23
-// Normal Dota shop items remain vanilla — do not clone them here.
-
+// Generated Ascended derivatives: tools/generate_ascended_native.mjs. Normal Dota items are untouched.
 "DOTAItems"
 {
-	// =========================================================================
-	// TIER 1 ASCENDED ITEMS (55 Lumber)
-	// =========================================================================
-
-	// 1. Blade Mail -> Thornplate
 	"item_ascended_thornplate"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
+		"AbilityCooldown" "25.0"
+		"AbilityManaCost" "25"
+		"ItemCost" "2400"
+		"ItemShopTags" "damage;armor;int;hard_to_tag;tank"
+		"ItemQuality" "epic"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_damage" "18"
+			"bonus_armor" "8.4"
+			"bonus_intellect" "0"
+			"duration" "5.5"
+			"passive_reflection_constant" "10"
+			"passive_reflection_pct" "15"
+			"active_reflection_pct" "85"
+		}
+		"BaseClass" "item_blade_mail"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"		"item_blade_mail"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"20.0"
-		"AbilityManaCost"			"50"
-		"ItemCost"					"2100"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_armor" "8" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_damage" "30" }
-			"03" { "var_type" "FIELD_FLOAT" "duration" "5.5" }
-			"04" { "var_type" "FIELD_INTEGER" "damage_reduction_pct" "-25" }
-		}
-		"OnSpellStart"
-		{
-			"FireSound" { "EffectName" "DOTA_Item.BladeMail.Activate" "Target" "CASTER" }
-			"ApplyModifier" { "ModifierName" "modifier_item_ascended_thornplate_active" "Target" "CASTER" "Duration" "%duration" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_thornplate_passive"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-				}
-			}
-			"modifier_item_ascended_thornplate_active"
-			{
-				"IsBuff" "1"
-				"EffectName" "particles/items_fx/blademail.vpcf"
-				"EffectAttachType" "follow_origin"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE" "%damage_reduction_pct"
-				}
-			}
-		}
+		"AbilityTextureName" "item_blade_mail"
 	}
-
-	// 2. Holy Locket -> Sacred Reliquary
 	"item_ascended_sacred_reliquary"
 	{
-		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO"
-		"AbilityTextureName"		"item_holy_locket"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"13.0"
-		"ItemCost"					"2400"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO"
+		"AbilityCastRange" "600"
+		"AbilityCastPoint" "0.0"
+		"ItemCost" "2250"
+		"ItemShopTags" "teamfight;save"
+		"ItemQuality" "rare"
+		"SuggestLategame" "1"
+		"AbilityCooldown" "0.0"
+		"AbilitySharedCooldown" "magicwand"
+		"AbilityCharges" "25"
+		"AbilityChargeRestoreTime" "10"
+		"ItemInitialCharges" "1"
+		"ItemRequiresCharges" "1"
+		"ItemDisplayCharges" "1"
+		"ItemStackable" "0"
+		"ItemPermanent" "1"
+		"UIPickupSound" "Item.PickUpRingShop"
+		"UIDropSound" "Item.DropRingShop"
+		"WorldDropSound" "Item.DropRingWorld"
+		"AbilityValues"
 		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_health" "300" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_mana" "300" }
-			"03" { "var_type" "FIELD_INTEGER" "heal_amount" "450" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_sacred_reliquary"
+			"bonus_health" "0"
+			"bonus_mana" "0"
+			"heal_increase_passive" "10"
+			"max_charges" "25"
+			"charge_radius"
 			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_HEALTH_BONUS" "%bonus_health"
-					"MODIFIER_PROPERTY_MANA_BONUS" "%bonus_mana"
-				}
+				"value" "1200"
+				"affected_by_aoe_increase" "1"
 			}
+			"bonus_all_stats" "8.4"
+			"health_restore_per_charge" "17"
+			"mana_restore_per_charge" "15"
+			"incoming_heal_increase_active" "15"
+			"active_buff_duration" "4.0"
+			"charge_gain_timer" "10"
+			"use_cooldown" "13"
 		}
+		"BaseClass" "item_holy_locket"
+		"ItemPurchasable" "0"
+		"AbilityTextureName" "item_holy_locket"
 	}
-
-	// 3. Solar Crest -> Sunward Crest
 	"item_ascended_sunward_crest"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"FightRecapLevel" "1"
+		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES"
+		"AbilityCastRange" "1000"
+		"AbilityCooldown" "16.0"
+		"AbilitySharedCooldown" "pavise"
+		"AbilityManaCost" "100"
+		"ItemCost" "2575"
+		"ItemShopTags" "armor;regen_mana;hard_to_tag;teamfight;save;tank"
+		"ItemQuality" "rare"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_armor" "8.4"
+			"bonus_all_stats" "0"
+			"self_movement_speed" "25"
+			"bonus_mana" "240"
+			"bonus_health" "240"
+			"target_movement_speed" "15"
+			"target_attack_speed" "60"
+			"target_armor" "5"
+			"duration" "7"
+			"absorb_amount" "350"
+		}
+		"BaseClass" "item_solar_crest"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_BOTH"
-		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityTextureName"		"item_solar_crest"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"12.0"
-		"ItemCost"					"2400"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_armor" "7" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_all_stats" "6" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_sunward_crest"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
-					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_all_stats"
-					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS" "%bonus_all_stats"
-					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_all_stats"
-				}
-			}
-		}
+		"AbilityTextureName" "item_solar_crest"
 	}
-
-	// =========================================================================
-	// TIER 2 ASCENDED ITEMS (70 Lumber)
-	// =========================================================================
-
-	// 4. Crimson Guard -> Bastion Guard
 	"item_ascended_bastion_guard"
 	{
-		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
-		"AbilityTextureName"		"item_crimson_guard"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"35.0"
-		"ItemCost"					"3725"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
+		"AbilityCooldown" "40.0"
+		"AbilityCastRange" "1200"
+		"AbilityManaCost" "75"
+		"ItemCost" "3725"
+		"ItemShopTags" "armor;boost_armor;regen_health;block;health_pool;teamfight;tank"
+		"ItemQuality" "epic"
+		"ItemAlertable" "1"
+		"SuggestLategame" "1"
+		"AbilityValues"
 		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_armor" "12" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_health" "450" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_bastion_guard"
+			"bonus_health" "300"
+			"bonus_health_regen" "14.4"
+			"bonus_armor" "7.2"
+			"block_damage_melee" "75"
+			"block_damage_ranged" "50"
+			"block_chance" "60"
+			"duration" "7"
+			"bonus_aoe_radius"
 			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
-					"MODIFIER_PROPERTY_HEALTH_BONUS" "%bonus_health"
-				}
+				"value" "1200"
+				"affected_by_aoe_increase" "1"
 			}
+			"block_damage_active" "70"
+			"block_chance_active" "100"
+			"block_penalty_ranged" "25"
+			"max_hp_pct" "2.0"
 		}
+		"BaseClass" "item_crimson_guard"
+		"ItemPurchasable" "0"
+		"AbilityTextureName" "item_crimson_guard"
 	}
-
-	// 5. Pipe of Insight -> Aegis of Insight
 	"item_ascended_aegis_of_insight"
 	{
-		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"		"item_pipe"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"60.0"
-		"ItemCost"					"3475"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"FightRecapLevel" "2"
+		"AbilityCooldown" "60.0"
+		"AbilityManaCost" "150"
+		"AbilityCastRange" "1200"
+		"ItemCost" "3725"
+		"ItemShopTags" "regen_health;boost_magic_resist;teamfight;tank;magic_resist"
+		"ItemQuality" "rare"
+		"ItemAlertable" "1"
+		"SuggestLategame" "1"
+		"AbilityValues"
 		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_health_regen" "12" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_magic_resist" "30" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_aegis_of_insight"
+			"health_regen" "16.8"
+			"magic_resistance" "20"
+			"add_nostack_debuff" "1"
+			"aura_health_regen" "0"
+			"magic_resistance_aura" "8"
+			"aura_radius"
 			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_health_regen"
-					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS" "%bonus_magic_resist"
-				}
+				"value" "1200"
+				"affected_by_aoe_increase" "1"
 			}
+			"barrier_block" "425"
+			"barrier_duration" "8.0"
+			"barrier_radius"
+			{
+				"value" "1200"
+				"affected_by_aoe_increase" "1"
+			}
+			"bonus_all_stats" "0"
+			"barrier_block_creep" "425"
 		}
+		"BaseClass" "item_pipe"
+		"ItemPurchasable" "0"
+		"AbilityTextureName" "item_pipe"
 	}
-
-	// 6. Harpoon -> Leviathan Harpoon
 	"item_ascended_leviathan_harpoon"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY | DOTA_UNIT_TARGET_TEAM_CUSTOM"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_CUSTOM | DOTA_UNIT_TARGET_TREE"
+		"FightRecapLevel" "1"
+		"AbilityCastRange" "700"
+		"AbilityCastPoint" "0.0"
+		"AbilityCooldown" "19.0"
+		"AbilityManaCost" "50"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityTextureName"		"item_harpoon"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"19.0"
-		"ItemCost"					"4500"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
+		"ItemCost" "4700"
+		"Model" "models/props_gameplay/neutral_box.vmdl"
+		"SuggestLategame" "1"
+		"AbilityValues"
 		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_strength" "20" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_agility" "16" }
-			"03" { "var_type" "FIELD_INTEGER" "bonus_damage" "35" }
+			"bonus_damage" "30"
+			"bonus_strength" "30"
+			"bonus_agility" "12"
+			"bonus_intellect" "12"
+			"bonus_mana_regen" "2.4"
+			"passive_cooldown" "5"
+			"movement_slow" "100"
+			"slow_duration" "1.0"
+			"pull_duration" "0.3"
+			"pull_distance_pct" "35"
+			"min_distance" "100"
+			"max_distance" "1000"
+			"cast_range_enemy" "700"
+			"push_length" "600"
+			"projectile_speed" "2000"
 		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_leviathan_harpoon"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_strength"
-					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS" "%bonus_agility"
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-				}
-			}
-		}
+		"BaseClass" "item_harpoon"
+		"AbilityTextureName" "item_harpoon"
 	}
-
-	// 7. Sange and Yasha -> Warstride
 	"item_ascended_warstride"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"ItemCost" "4200"
+		"ItemShopTags" "damage;str;agi;attack_speed;unique;dps"
+		"ItemQuality" "artifact"
+		"ItemDisassembleRule" "DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_strength" "19.2"
+			"bonus_agility" "19.2"
+			"status_resistance" "16"
+			"bonus_attack_speed" "24"
+			"movement_speed_percent_bonus_melee" "12"
+			"movement_speed_percent_bonus" "12"
+			"hp_regen_amp" "16"
+			"slow_resistance" "30"
+		}
+		"BaseClass" "item_sange_and_yasha"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"item_sange_and_yasha"
-		"ItemCost"					"4100"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_strength" "20" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_agility" "20" }
-			"03" { "var_type" "FIELD_INTEGER" "bonus_status_resistance" "25" }
-			"04" { "var_type" "FIELD_INTEGER" "movement_speed_percent_bonus" "14" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_warstride"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_strength"
-					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS" "%bonus_agility"
-					"MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING" "%bonus_status_resistance"
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%movement_speed_percent_bonus"
-				}
-			}
-		}
+		"AbilityTextureName" "item_sange_and_yasha"
 	}
-
-	// 8. Guardian Greaves -> Seraphic Greaves
 	"item_ascended_seraphic_greaves"
 	{
-		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
-		"AbilityTextureName"		"item_guardian_greaves"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"38.0"
-		"ItemCost"					"4950"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"FightRecapLevel" "1"
+		"AbilityCooldown" "45"
+		"AbilityManaCost" "0"
+		"ItemCost" "4450"
+		"ItemShopTags" "int;armor;regen_health;hard_to_tag;teamfight;save;tank;regen_mana"
+		"ItemQuality" "rare"
+		"ItemAlertable" "1"
+		"SuggestLategame" "1"
+		"SpeciallyBannedFromNeutralSlot" "1"
+		"AbilityValues"
 		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_armor" "8" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_movement_speed" "55" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_seraphic_greaves"
+			"bonus_movement" "50"
+			"bonus_armor" "6"
+			"bonus_mana" "180"
+			"mana_regen" "1.2"
+			"aura_health_regen" "2.5"
+			"aura_mana_regen" "1.5"
+			"aura_radius"
 			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE" "%bonus_movement_speed"
-				}
+				"value" "1200"
+				"affected_by_aoe_increase" "1"
 			}
+			"aura_health_regen_bonus" "14.5"
+			"aura_bonus_threshold" "25"
+			"replenish_health" "325"
+			"replenish_mana" "200"
+			"replenish_radius"
+			{
+				"value" "1200"
+				"affected_by_aoe_increase" "1"
+			}
+			"max_health_pct_heal_amount" "0"
 		}
+		"BaseClass" "item_guardian_greaves"
+		"ItemPurchasable" "0"
+		"AbilityTextureName" "item_guardian_greaves"
 	}
-
-	// 9. Lotus Orb -> Mirror Lotus
 	"item_ascended_mirror_lotus"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO"
+		"FightRecapLevel" "1"
+		"AbilityCooldown" "15.0"
+		"AbilityCastRange" "900"
+		"AbilityManaCost" "175"
+		"ItemCost" "3850"
+		"ItemShopTags" "regen_health;regen_mana;str;agi;int;hard_to_tag;teamfight;save"
+		"ItemQuality" "epic"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_armor" "12"
+			"bonus_health_regen" "7.8"
+			"bonus_mana_regen" "4.8"
+			"bonus_mana" "300"
+			"active_duration" "5"
+		}
+		"BaseClass" "item_lotus_orb"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO"
-		"AbilityTextureName"		"item_lotus_orb"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"15.0"
-		"ItemCost"					"3850"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_armor" "10" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_mana" "250" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_mirror_lotus"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
-					"MODIFIER_PROPERTY_MANA_BONUS" "%bonus_mana"
-				}
-			}
-		}
+		"AbilityTextureName" "item_lotus_orb"
 	}
-
-	// 10. Boots of Bearing -> War Drums of Ascension
 	"item_ascended_war_drums"
 	{
-		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
-		"AbilityTextureName"		"item_boots_of_bearing"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"30.0"
-		"ItemCost"					"4175"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
+		"ItemPermanent" "1"
+		"FightRecapLevel" "1"
+		"AbilityCooldown" "30.0"
+		"AbilitySharedCooldown" "janggo"
+		"ItemCost" "4225"
+		"ItemShopTags" "str;int;damage;move_speed;attack_speed;hard_to_tag;mobility;teamfight"
+		"ItemQuality" "rare"
+		"SuggestLategame" "1"
+		"SpeciallyBannedFromNeutralSlot" "1"
+		"AbilityValues"
 		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_movement_speed" "65" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_all_stats" "8" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_war_drums"
+			"aura_movement_speed" "15"
+			"aura_health_regen" "2.5"
+			"bonus_str" "8"
+			"bonus_int" "0"
+			"bonus_attack_speed_pct" "50"
+			"bonus_movement_speed_pct" "15"
+			"duration" "6"
+			"radius"
 			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE" "%bonus_movement_speed"
-					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_all_stats"
-					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS" "%bonus_all_stats"
-					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_all_stats"
-				}
+				"value" "1200"
+				"affected_by_aoe_increase" "1"
 			}
+			"bonus_movement_speed" "65"
+			"bonus_health_regen" "21.6"
+			"bonus_ms_duration" "1.5"
 		}
+		"BaseClass" "item_boots_of_bearing"
+		"ItemPurchasable" "0"
+		"AbilityTextureName" "item_boots_of_bearing"
 	}
-
-	// 11. Black King Bar -> Sovereign King Bar
 	"item_ascended_sovereign_bkb"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"FightRecapLevel" "2"
+		"AbilityCooldown" "95"
+		"AbilityManaCost" "50"
+		"ItemCost" "4050"
+		"ItemShopTags" "str;damage;hard_to_tag;teamfight;escape;tank"
+		"ItemQuality" "epic"
+		"ItemSellable" "1"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_strength" "12"
+			"bonus_damage" "28.8"
+			"duration" "9 8 7"
+			"max_level" "3"
+			"model_scale" "30"
+			"spell_reduce" "60"
+		}
+		"BaseClass" "item_black_king_bar"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
-		"AbilityTextureName"		"item_black_king_bar"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"80.0"
-		"ItemCost"					"4050"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_strength" "15" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_damage" "30" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_sovereign_bkb"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_strength"
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-				}
-			}
-		}
+		"AbilityTextureName" "item_black_king_bar"
 	}
-
-	// 12. Aeon Disk -> Chrono Disk
 	"item_ascended_chrono_disk"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityCooldown" "105.0 125.0 145.0 165.0"
+		"ItemCost" "3000"
+		"ItemShopTags" "str;regen_health;health_pool;escape;tank"
+		"ItemQuality" "epic"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_health" "300"
+			"bonus_mana" "360"
+			"health_threshold_pct" "70"
+			"status_resistance" "75"
+			"buff_duration" "2.5"
+			"max_level" "4"
+			"cooldown_duration" "105.0 125.0 145.0 165.0"
+			"initial_cooldown" "6"
+		}
+		"BaseClass" "item_aeon_disk"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"item_aeon_disk"
-		"ItemCost"					"3000"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_health" "350" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_mana" "350" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_chrono_disk"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_HEALTH_BONUS" "%bonus_health"
-					"MODIFIER_PROPERTY_MANA_BONUS" "%bonus_mana"
-				}
-			}
-		}
+		"AbilityTextureName" "item_aeon_disk"
 	}
-
-	// 13. Linken's Sphere -> Astral Sphere
 	"item_ascended_astral_sphere"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO"
+		"FightRecapLevel" "1"
+		"AbilityCastRange" "700"
+		"AbilityCooldown" "14.0"
+		"ItemCost" "4800"
+		"ItemShopTags" "regen_health;regen_mana;str;agi;int;hard_to_tag;teamfight;save"
+		"ItemQuality" "epic"
+		"ActiveDescriptionLine" "2"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_all_stats" "19.2"
+			"bonus_health_regen" "7.8"
+			"bonus_mana_regen" "5.1"
+			"block_cooldown" "14.0"
+			"upgrade_absorb_duration" "10.0"
+			"damage_absorb" "300"
+		}
+		"BaseClass" "item_sphere"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO"
-		"AbilityTextureName"		"item_sphere"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"12.0"
-		"ItemCost"					"4400"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_all_stats" "16" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_health_regen" "7" }
-			"03" { "var_type" "FIELD_FLOAT" "bonus_mana_regen" "5.0" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_astral_sphere"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_all_stats"
-					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS" "%bonus_all_stats"
-					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_all_stats"
-					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_health_regen"
-					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" "%bonus_mana_regen"
-				}
-			}
-		}
+		"AbilityTextureName" "item_sphere"
 	}
-
-	// =========================================================================
-	// TIER 3 ASCENDED ITEMS (85 Lumber)
-	// =========================================================================
-
-	// 14. Heart of Tarrasque -> Worldheart
 	"item_ascended_worldheart"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"ItemCost" "5300"
+		"ItemShopTags" "str;regen_health;health_pool;tank"
+		"ItemQuality" "epic"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_strength" "48"
+			"hp_regen" "1"
+			"missing_health_regen" "1.5"
+		}
+		"BaseClass" "item_heart"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"item_heart"
-		"ItemCost"					"5000"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_strength" "55" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_health" "650" }
-			"03" { "var_type" "FIELD_FLOAT" "health_regen_pct" "2.8" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_worldheart"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_strength"
-					"MODIFIER_PROPERTY_HEALTH_BONUS" "%bonus_health"
-					"MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE" "%health_regen_pct"
-				}
-			}
-		}
+		"AbilityTextureName" "item_heart"
 	}
-
-	// 15. Abyssal Blade -> Abyssal Dominion
 	"item_ascended_abyssal_dominion"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetFlags" "DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		"FightRecapLevel" "1"
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES_STRONG"
+		"AbilityCooldown" "35"
+		"AbilityCastRange" "150"
+		"AbilityCastPoint" "0.0"
+		"AbilityManaCost" "75"
+		"ItemCost" "6250"
+		"ItemShopTags" "damage;str;hard_to_tag;disable"
+		"ItemQuality" "epic"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_damage" "42"
+			"bonus_strength" "36"
+			"slow_resistance" "30"
+			"hp_regen_amp" "16"
+			"bash_chance_melee" "25"
+			"bash_chance_ranged" "10"
+			"bash_duration" "1.2"
+			"bash_cooldown" "2.3"
+			"bonus_chance_damage" "120"
+			"stun_duration" "1.6"
+		}
+		"BaseClass" "item_abyssal_blade"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityTextureName"		"item_abyssal_blade"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"30.0"
-		"ItemCost"					"6250"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_strength" "15" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_damage" "35" }
-			"03" { "var_type" "FIELD_INTEGER" "bonus_health" "300" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_abyssal_dominion"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_strength"
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-					"MODIFIER_PROPERTY_HEALTH_BONUS" "%bonus_health"
-				}
-			}
-		}
+		"AbilityTextureName" "item_abyssal_blade"
 	}
-
-	// 16. Satanic -> Blood Oath
 	"item_ascended_blood_oath"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"FightRecapLevel" "2"
+		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
+		"AbilityCooldown" "40.0"
+		"ItemCost" "5050"
+		"ItemShopTags" "damage;str;armor;unique;hard_to_tag;dps"
+		"ItemQuality" "artifact"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_strength" "30"
+			"bonus_damage" "30"
+			"lifesteal_percent" "25"
+			"unholy_lifesteal_percent" "145"
+			"unholy_lifesteal_total_tooltip" "175"
+			"unholy_duration" "6.0"
+		}
+		"BaseClass" "item_satanic"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
-		"AbilityTextureName"		"item_satanic"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"30.0"
-		"ItemCost"					"5050"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_strength" "25" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_damage" "45" }
-			"03" { "var_type" "FIELD_INTEGER" "lifesteal_percent" "30" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_blood_oath"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_strength"
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-				}
-			}
-		}
+		"AbilityTextureName" "item_satanic"
 	}
-
-	// 17. Daedalus -> Starforged Daedalus
 	"item_ascended_starforged_daedalus"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"ItemCost" "5200"
+		"ItemShopTags" "damage;crit;dps"
+		"ItemQuality" "epic"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_damage" "105.6"
+			"crit_chance" "30"
+			"crit_multiplier" "225"
+		}
+		"BaseClass" "item_greater_crit"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"item_greater_crit"
-		"ItemCost"					"5100"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_damage" "95" }
-			"02" { "var_type" "FIELD_INTEGER" "crit_chance" "35" }
-			"03" { "var_type" "FIELD_INTEGER" "crit_multiplier" "235" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_starforged_daedalus"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-				}
-			}
-		}
+		"AbilityTextureName" "item_greater_crit"
 	}
-
-	// 18. Butterfly -> Phantomwing
 	"item_ascended_phantomwing"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"ItemCost" "5450"
+		"ItemShopTags" "agi;damage;evasion;attack_speed;dps;tank"
+		"ItemQuality" "epic"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_agility" "36"
+			"bonus_evasion" "35"
+			"bonus_attack_speed_pct" "20"
+			"bonus_damage" "36"
+		}
+		"BaseClass" "item_butterfly"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"		"item_butterfly"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"25.0"
-		"ItemCost"					"4975"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_agility" "40" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_evasion" "40" }
-			"03" { "var_type" "FIELD_INTEGER" "bonus_attack_speed" "35" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_phantomwing"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS" "%bonus_agility"
-					"MODIFIER_PROPERTY_EVASION_CONSTANT" "%bonus_evasion"
-					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
-				}
-			}
-		}
+		"AbilityTextureName" "item_butterfly"
 	}
-
-	// 19. Monkey King Bar -> Heavenpiercer
 	"item_ascended_heavenpiercer"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"ItemCost" "5000"
+		"ItemShopTags" "damage;attack_speed;hard_to_tag;dps"
+		"ItemQuality" "epic"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_damage" "60"
+			"bonus_attack_speed" "60"
+			"bonus_chance" "80"
+			"bonus_chance_damage" "70"
+			"melee_attack_range" "50"
+		}
+		"BaseClass" "item_monkey_king_bar"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"item_monkey_king_bar"
-		"ItemCost"					"4900"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_damage" "55" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_attack_speed" "50" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_heavenpiercer"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
-				}
-			}
-		}
+		"AbilityTextureName" "item_monkey_king_bar"
 	}
-
-	// 20. Mjollnir -> Stormfather
 	"item_ascended_stormfather"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES"
+		"AbilityCastRange" "800"
+		"AbilityCastPoint" "0.0"
+		"AbilityCooldown" "35.0"
+		"AbilityManaCost" "50"
+		"ItemCost" "5500"
+		"ItemShopTags" "damage;attack_speed;unique;farming;dps"
+		"ItemQuality" "artifact"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_damage" "30"
+			"bonus_attack_speed" "108"
+			"static_duration" "12.0"
+			"static_chance" "20"
+			"static_strikes" "4"
+			"static_damage" "225"
+			"static_primary_radius" "600"
+			"static_seconary_radius" "900"
+			"static_radius" "900"
+			"static_cooldown" "1.0"
+			"chain_chance" "25"
+			"chain_damage" "180"
+			"chain_strikes" "12"
+			"chain_radius" "650"
+			"chain_delay" "0.25"
+			"chain_cooldown" "0.2"
+			"max_charges" "0"
+			"illusion_multiplier_pct" "100"
+		}
+		"BaseClass" "item_mjollnir"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO"
-		"AbilityTextureName"		"item_mjollnir"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"35.0"
-		"ItemCost"					"5500"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_damage" "35" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_attack_speed" "80" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_stormfather"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
-				}
-			}
-		}
+		"AbilityTextureName" "item_mjollnir"
 	}
-
-	// 21. Octarine Core -> Chronocore
 	"item_ascended_chronocore"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"ItemCost" "5100"
+		"ItemShopTags" "move_speed;boost_mana;mana_pool;mana"
+		"ItemQuality" "rare"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_cooldown" "25"
+			"bonus_health" "540"
+			"bonus_mana" "540"
+			"bonus_health_regen" "0"
+			"bonus_mana_regen" "7.2"
+		}
+		"BaseClass" "item_octarine_core"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"item_octarine_core"
-		"ItemCost"					"5200"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_health" "500" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_mana" "600" }
-			"03" { "var_type" "FIELD_INTEGER" "bonus_cooldown_reduction" "30" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_chronocore"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_HEALTH_BONUS" "%bonus_health"
-					"MODIFIER_PROPERTY_MANA_BONUS" "%bonus_mana"
-					"MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE" "%bonus_cooldown_reduction"
-				}
-			}
-		}
+		"AbilityTextureName" "item_octarine_core"
 	}
-
-	// 22. Bloodstone -> Arc Bloodstone
 	"item_ascended_arc_bloodstone"
 	{
-		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
-		"AbilityTextureName"		"item_bloodstone"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"30.0"
-		"ItemCost"					"4400"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"FightRecapLevel" "2"
+		"AbilityCastPoint" "0.0"
+		"AbilityCooldown" "35.0"
+		"AbilityManaCost" "0"
+		"ItemCost" "4700"
+		"ItemShopTags" "int;regen_health;mana_pool;health_pool;tank"
+		"ItemQuality" "epic"
+		"AllowedInBackpack" "1"
+		"SuggestLategame" "1"
+		"AbilityValues"
 		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_health" "600" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_mana" "600" }
-			"03" { "var_type" "FIELD_INTEGER" "bonus_spell_amp" "15" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_arc_bloodstone"
+			"bonus_health" "750"
+			"bonus_mana" "540"
+			"bonus_mp_regen" "0"
+			"bonus_hp_regen" "0"
+			"bonus_intellect" "18"
+			"spell_lifesteal" "20"
+			"buff_duration" "5"
+			"spell_lifesteal_while_active" "60"
+			"hp_cost" "0"
+			"aura_spell_vulnerability" "10"
+			"aura_radius"
 			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_HEALTH_BONUS" "%bonus_health"
-					"MODIFIER_PROPERTY_MANA_BONUS" "%bonus_mana"
-					"MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE" "%bonus_spell_amp"
-				}
+				"value" "1200"
+				"affected_by_aoe_increase" "1"
 			}
 		}
+		"BaseClass" "item_bloodstone"
+		"ItemPurchasable" "0"
+		"AbilityTextureName" "item_bloodstone"
 	}
-
-	// 23. Refresher Orb -> Eternity Orb
 	"item_ascended_eternity_orb"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
+		"AbilityCastPoint" "0.0"
+		"AbilityCooldown" "180"
+		"AbilityManaCost" "325"
+		"ItemCost" "5000"
+		"ItemShopTags" "regen_health;regen_mana;hard_to_tag;teamfight"
+		"ItemQuality" "rare"
+		"SuggestLategame" "1"
+		"CooldownPausedOutOfInventory" "1"
+		"AbilityValues"
+		{
+			"bonus_health_regen" "16.8"
+			"bonus_mana_regen" "8.4"
+			"bonus_damage" "0"
+			"max_level" "1"
+			"cooldown_duration" "180"
+			"refresh_items" "0"
+		}
+		"BaseClass" "item_refresher"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
-		"AbilityTextureName"		"item_refresher"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"160.0"
-		"AbilityManaCost"			"300"
-		"ItemCost"					"5000"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_health_regen" "16" }
-			"02" { "var_type" "FIELD_FLOAT" "bonus_mana_regen" "14.0" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_eternity_orb"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_health_regen"
-					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" "%bonus_mana_regen"
-				}
-			}
-		}
+		"AbilityTextureName" "item_refresher"
 	}
-
-	// 24. Scythe of Vyse -> Grand Vyse
 	"item_ascended_grand_vyse"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"FightRecapLevel" "2"
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES_STRONG"
+		"AbilityCastRange" "800"
+		"AbilityCastPoint" "0.0"
+		"AbilityCooldown" "20.0"
+		"AbilityManaCost" "250"
+		"ItemCost" "5200"
+		"ItemShopTags" "int;regen_mana;agi;hard_to_tag;disable"
+		"ItemQuality" "rare"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_intellect" "36"
+			"bonus_mana_regen" "10.2"
+			"sheep_duration" "2.8"
+			"sheep_movement_speed" "140"
+			"upgrade_radius" "200"
+		}
+		"BaseClass" "item_sheepstick"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityTextureName"		"item_sheepstick"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"20.0"
-		"AbilityManaCost"			"200"
-		"ItemCost"					"5550"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_strength" "12" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_agility" "12" }
-			"03" { "var_type" "FIELD_INTEGER" "bonus_intellect" "38" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_grand_vyse"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_strength"
-					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS" "%bonus_agility"
-					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_intellect"
-				}
-			}
-		}
+		"AbilityTextureName" "item_sheepstick"
 	}
-
-	// 25. Assault Cuirass -> Legion Cuirass
 	"item_ascended_legion_cuirass"
 	{
-		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"item_assault"
-		"ItemCost"					"5125"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityCastRange" "1200"
+		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_YES"
+		"ItemCost" "5125"
+		"ItemShopTags" "attack_speed;armor;hard_to_tag;teamfight;tank"
+		"ItemQuality" "epic"
+		"SuggestLategame" "1"
+		"AbilityValues"
 		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_armor" "18" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_attack_speed" "40" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_legion_cuirass"
+			"bonus_attack_speed" "36"
+			"bonus_armor" "12"
+			"aura_radius"
 			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
-					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
-				}
+				"value" "1200"
+				"affected_by_aoe_increase" "1"
 			}
+			"aura_attack_speed" "30"
+			"aura_positive_armor" "5"
+			"aura_negative_armor" "-5"
 		}
+		"BaseClass" "item_assault"
+		"ItemPurchasable" "0"
+		"AbilityTextureName" "item_assault"
 	}
-
-	// 26. Shiva's Guard -> Absolute Zero
 	"item_ascended_absolute_zero"
 	{
-		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
-		"AbilityTextureName"		"item_shivas_guard"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"25.0"
-		"AbilityManaCost"			"100"
-		"ItemCost"					"4825"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
+		"FightRecapLevel" "1"
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES"
+		"AbilityCooldown" "27"
+		"AbilityManaCost" "75"
+		"ItemCost" "4500"
+		"ItemShopTags" "armor;hard_to_tag;teamfight;tank;magic_dmg"
+		"ItemQuality" "epic"
+		"SuggestLategame" "1"
+		"AbilityValues"
 		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_armor" "18" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_intellect" "35" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_absolute_zero"
+			"bonus_hp_regen" "0"
+			"bonus_armor" "20.4"
+			"bonus_aoe" "75"
+			"aura_radius"
 			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
-					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_intellect"
-				}
+				"value" "1200"
+				"affected_by_aoe_increase" "1"
 			}
+			"aura_attack_speed" "-40"
+			"blast_damage" "225"
+			"blast_movement_speed" "-40"
+			"blast_debuff_duration" "4.0"
+			"blast_radius"
+			{
+				"value" "825"
+				"affected_by_aoe_increase" "1"
+			}
+			"blast_speed" "400"
 		}
+		"BaseClass" "item_shivas_guard"
+		"ItemPurchasable" "0"
+		"AbilityTextureName" "item_shivas_guard"
 	}
-
-	// 27. Eye of Skadi -> Eye of Deep Winter
 	"item_ascended_eye_of_deep_winter"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"ItemCost" "5900"
+		"ItemShopTags" "agi;str;int;hard_to_tag;mana_pool;health_pool;unique;tank"
+		"ItemQuality" "artifact"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_all_stats" "42"
+			"bonus_health" "0"
+			"bonus_mana" "0"
+			"cold_slow_melee" "-25"
+			"cold_attack_slow_melee" "-25"
+			"cold_slow_ranged" "-50"
+			"cold_attack_slow_ranged" "-25"
+			"cold_duration" "3.0"
+			"restoration_reduction" "50"
+		}
+		"BaseClass" "item_skadi"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"item_skadi"
-		"ItemCost"					"5300"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_all_stats" "25" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_health" "300" }
-			"03" { "var_type" "FIELD_INTEGER" "bonus_mana" "300" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_eye_of_deep_winter"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_all_stats"
-					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS" "%bonus_all_stats"
-					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_all_stats"
-					"MODIFIER_PROPERTY_HEALTH_BONUS" "%bonus_health"
-					"MODIFIER_PROPERTY_MANA_BONUS" "%bonus_mana"
-				}
-			}
-		}
+		"AbilityTextureName" "item_skadi"
 	}
-
-	// 28. Gleipnir -> World Chain
 	"item_ascended_world_chain"
 	{
-		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
-		"AbilityTextureName"		"item_gungir"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"16.0"
-		"AbilityManaCost"			"150"
-		"ItemCost"					"6150"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"FightRecapLevel" "1"
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES"
+		"AbilitySharedCooldown" "atos"
+		"AbilityCooldown" "18"
+		"AbilityCastRange" "1100"
+		"AbilityCastPoint" "0.0"
+		"AbilityManaCost" "150"
+		"ItemCost" "4650"
+		"ItemShopTags" "damage;attack_speed;unique;magic_dmg;disable"
+		"ItemQuality" "artifact"
+		"SuggestLategame" "1"
+		"AbilityValues"
 		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_damage" "40" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_all_stats" "16" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_world_chain"
+			"bonus_hp" "450"
+			"bonus_mana" "240"
+			"bonus_intellect" "14.4"
+			"bonus_aoe" "75"
+			"radius"
 			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_all_stats"
-					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS" "%bonus_all_stats"
-					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_all_stats"
-				}
+				"value" "325"
+				"affected_by_aoe_increase" "1"
 			}
+			"radius_tooltip"
+			{
+				"value" "400"
+				"affected_by_aoe_increase" "1"
+			}
+			"duration" "2.0"
 		}
+		"BaseClass" "item_gungir"
+		"ItemPurchasable" "0"
+		"AbilityTextureName" "item_gungir"
 	}
-
-	// 29. Wind Waker -> Tempest Waker
 	"item_ascended_tempest_waker"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_CUSTOM"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_CUSTOM"
+		"FightRecapLevel" "1"
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES"
+		"AbilityCastRange" "550"
+		"AbilityCastPoint" "0.0"
+		"AbilityCooldown" "19.0"
+		"AbilitySharedCooldown" "cyclone"
+		"AbilityManaCost" "175"
+		"ItemCost" "6800"
+		"ItemShopTags" "int;regen_mana;move_speed;hard_to_tag;escape;save;disable"
+		"ItemQuality" "rare"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_movement_speed" "30"
+			"bonus_mana_regen" "3.6"
+			"bonus_intellect" "42"
+			"cyclone_duration" "2.5"
+			"tooltip_drop_damage" "50"
+			"tornado_speed" "300"
+		}
+		"BaseClass" "item_wind_waker"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_BOTH"
-		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityTextureName"		"item_wind_waker"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"16.0"
-		"AbilityManaCost"			"175"
-		"ItemCost"					"6825"
-		"ItemQuality"				"artifact"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_movement_speed" "60" }
-			"02" { "var_type" "FIELD_FLOAT" "bonus_mana_regen" "6.0" }
-			"03" { "var_type" "FIELD_INTEGER" "bonus_intellect" "40" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_tempest_waker"
-			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE" "%bonus_movement_speed"
-					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" "%bonus_mana_regen"
-					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_intellect"
-				}
-			}
-		}
+		"AbilityTextureName" "item_wind_waker"
 	}
-
-	// 30. Bloodthorn -> Soulpiercer
 	"item_ascended_soulpiercer"
 	{
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"FightRecapLevel" "1"
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES"
+		"AbilityCastRange" "900"
+		"AbilityCastPoint" "0.0"
+		"AbilityCooldown" "15.0"
+		"AbilitySharedCooldown" "orchid"
+		"AbilityManaCost" "150"
+		"ItemCost" "6400"
+		"ItemShopTags" "int;attack_speed;damage;regen_mana;damage;hard_to_tag;dps;disable"
+		"ItemQuality" "epic"
+		"SuggestLategame" "1"
+		"AbilityValues"
+		{
+			"bonus_intellect" "30"
+			"bonus_attack_speed" "84"
+			"bonus_mana_regen" "4.8"
+			"bonus_health_regen" "0"
+			"silence_duration" "5"
+			"silence_damage_percent" "60"
+			"bonus_damage" "24"
+			"duration" "6"
+			"spell_amp_debuff" "35"
+			"proc_damage_heroes" "50"
+			"proc_damage_creeps" "25"
+			"passive_proc_damage" "60"
+			"proc_chance" "40"
+		}
+		"BaseClass" "item_bloodthorn"
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_datadriven"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityTextureName"		"item_bloodthorn"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"15.0"
-		"AbilityManaCost"			"100"
-		"ItemCost"					"6800"
-		"ItemQuality"				"artifact"
+		"AbilityTextureName" "item_bloodthorn"
+	}
+	"item_enfos_tome_str"
+	{
+		"BaseClass" "item_lua"
+		"ScriptFile" "items/tomes"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName" "item_tome_of_knowledge"
+		"Model" "models/props_gameplay/red_box.vmdl"
+		"ItemCost" "500"
+		"ItemShopTags" "consumables"
+		"ItemQuality" "consumable"
+		"ItemPermanent" "0"
+		"ItemPurchasable" "1"
+		"ItemKillable" "0"
+		"ItemDroppable" "1"
+		"ItemInitialCharges" "1"
+		"ItemStackable" "1"
+		"AbilityCooldown" "0.0"
+		"AbilityManaCost" "0"
 		"AbilitySpecial"
 		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_intellect" "35" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_attack_speed" "70" }
-			"03" { "var_type" "FIELD_INTEGER" "bonus_damage" "65" }
-		}
-		"Modifiers"
-		{
-			"modifier_item_ascended_soulpiercer"
+			"01"
 			{
-				"Passive" "1" "IsBuff" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_intellect"
-					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-				}
+				"var_type" "FIELD_INTEGER"
+				"stat_bonus" "2"
 			}
 		}
 	}
-
-	// =========================================================================
-	// CONSUMABLE STAT TOMES
-	// =========================================================================
-
-	// TOME 1: Strength Tome
-	"item_enfos_tome_str"
-	{
-		"BaseClass"					"item_lua"
-		"ScriptFile"				"items/tomes"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"		"item_tome_of_knowledge"
-		"Model"						"models/props_gameplay/red_box.vmdl"
-		"ItemCost"					"500"
-		"ItemShopTags"				"consumables"
-		"ItemQuality"				"consumable"
-		"ItemPermanent"				"0"
-		"ItemPurchasable"			"1"
-		"ItemKillable"				"0"
-		"ItemDroppable"				"1"
-		"ItemInitialCharges"		"1"
-		"ItemStackable"				"1"
-		"AbilityCooldown"			"0.0"
-		"AbilityManaCost"			"0"
-		"AbilitySpecial"
-		{
-			"01" { "var_type" "FIELD_INTEGER" "stat_bonus" "2" }
-		}
-	}
-
-	// TOME 2: Agility Tome
 	"item_enfos_tome_agi"
 	{
-		"BaseClass"					"item_lua"
-		"ScriptFile"				"items/tomes"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"		"item_tome_of_knowledge"
-		"Model"						"models/props_gameplay/red_box.vmdl"
-		"ItemCost"					"500"
-		"ItemShopTags"				"consumables"
-		"ItemQuality"				"consumable"
-		"ItemPermanent"				"0"
-		"ItemPurchasable"			"1"
-		"ItemKillable"				"0"
-		"ItemDroppable"				"1"
-		"ItemInitialCharges"		"1"
-		"ItemStackable"				"1"
-		"AbilityCooldown"			"0.0"
-		"AbilityManaCost"			"0"
+		"BaseClass" "item_lua"
+		"ScriptFile" "items/tomes"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName" "item_tome_of_knowledge"
+		"Model" "models/props_gameplay/red_box.vmdl"
+		"ItemCost" "500"
+		"ItemShopTags" "consumables"
+		"ItemQuality" "consumable"
+		"ItemPermanent" "0"
+		"ItemPurchasable" "1"
+		"ItemKillable" "0"
+		"ItemDroppable" "1"
+		"ItemInitialCharges" "1"
+		"ItemStackable" "1"
+		"AbilityCooldown" "0.0"
+		"AbilityManaCost" "0"
 		"AbilitySpecial"
 		{
-			"01" { "var_type" "FIELD_INTEGER" "stat_bonus" "2" }
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"stat_bonus" "2"
+			}
 		}
 	}
-
-	// TOME 3: Intelligence Tome
 	"item_enfos_tome_int"
 	{
-		"BaseClass"					"item_lua"
-		"ScriptFile"				"items/tomes"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"		"item_tome_of_knowledge"
-		"Model"						"models/props_gameplay/red_box.vmdl"
-		"ItemCost"					"500"
-		"ItemShopTags"				"consumables"
-		"ItemQuality"				"consumable"
-		"ItemPermanent"				"0"
-		"ItemPurchasable"			"1"
-		"ItemKillable"				"0"
-		"ItemDroppable"				"1"
-		"ItemInitialCharges"		"1"
-		"ItemStackable"				"1"
-		"AbilityCooldown"			"0.0"
-		"AbilityManaCost"			"0"
+		"BaseClass" "item_lua"
+		"ScriptFile" "items/tomes"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName" "item_tome_of_knowledge"
+		"Model" "models/props_gameplay/red_box.vmdl"
+		"ItemCost" "500"
+		"ItemShopTags" "consumables"
+		"ItemQuality" "consumable"
+		"ItemPermanent" "0"
+		"ItemPurchasable" "1"
+		"ItemKillable" "0"
+		"ItemDroppable" "1"
+		"ItemInitialCharges" "1"
+		"ItemStackable" "1"
+		"AbilityCooldown" "0.0"
+		"AbilityManaCost" "0"
 		"AbilitySpecial"
 		{
-			"01" { "var_type" "FIELD_INTEGER" "stat_bonus" "2" }
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"stat_bonus" "2"
+			}
 		}
 	}
-
-	// =========================================================================
-	// ASCENDED AGHANIM'S BLESSING (Special Ascended Surface)
-	// Consumes Scepter + 40 Lumber -> frees inventory slot, retains Scepter
-	// =========================================================================
 	"item_ascended_aghanims_blessing"
 	{
 		"ItemPurchasable" "0"
-		"BaseClass"					"item_lua"
-		"ScriptFile"				"items/aghanims_blessing"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"		"item_ultimate_scepter_2"
-		"ItemCost"					"4200"
-		"ItemQuality"				"artifact"
-		"ItemPermanent"				"0"
+		"BaseClass" "item_lua"
+		"ScriptFile" "items/aghanims_blessing"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName" "item_ultimate_scepter_2"
+		"ItemCost" "4200"
+		"ItemQuality" "artifact"
+		"ItemPermanent" "0"
 		"AbilitySpecial"
 		{
-			"01" { "var_type" "FIELD_INTEGER" "bonus_all_stats" "10" }
-			"02" { "var_type" "FIELD_INTEGER" "bonus_health" "175" }
-			"03" { "var_type" "FIELD_INTEGER" "bonus_mana" "175" }
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_all_stats" "10"
+			}
+			"02"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_health" "175"
+			}
+			"03"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_mana" "175"
+			}
 		}
 	}
 }

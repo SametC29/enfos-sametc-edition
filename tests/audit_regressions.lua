@@ -148,7 +148,7 @@ test('Fiery Soul stack cap and Guardian Angel physical immunity are real propert
  assert(m.stack==4 and m:GetModifierAttackSpeedBonus_Constant()==120)
  assert(modifier_enfos_pve_angel:GetAbsoluteNoDamagePhysical()==1)
 end)
-test('unfinished Ascended upgrades cannot consume inventory or lumber',function()
+test('all native-derived Ascended upgrades are exposed',function()
  local shop=require('economy/ascended_shop');local available=0
  for _,entry in ipairs(shop.ITEMS) do
   if entry.available then available=available+1 else
@@ -156,6 +156,6 @@ test('unfinished Ascended upgrades cannot consume inventory or lumber',function(
    assert(not ok and reason=='not_available')
   end
  end
- assert(available==2)
+ assert(available==31)
 end)
 print(passed..' audit regression tests passed (mock engine).')

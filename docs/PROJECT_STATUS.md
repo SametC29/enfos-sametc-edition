@@ -1,24 +1,27 @@
 # Current audit — 2026-09-27
 
-Latest changes: [hero power instead of solo enemy reductions](audit/HERO_POWER_2026-09-27.md),
-[native team spawn markers](RUNTIME_FIXES.md), and [Complete 40-Hero PvE Kit Overhaul (Batches 1-5)](HERO_PVE_REWORK_MATRIX.md).
-All 40 launch heroes across all 5 roles now feature complete, authoritative PvE kits (200 abilities):
-- Tank (8): Sven, Axe, Centaur Warrunner, Bristleback, Tidehunter, Dragon Knight, Pudge, Underlord
-- Fighter (8): Juggernaut, Legion Commander, Wraith King, Slark, Ursa, Monkey King, Troll Warlord, Chaos Knight
-- Carry (8): Drow Ranger, Luna, Sniper, Phantom Assassin, Anti-Mage, Faceless Void, Medusa, Terrorblade
-- Mage (8): Lina, Crystal Maiden, Zeus, Shadow Fiend, Storm Spirit, Leshrac, Invoker, Puck
-- Support (8): Omniknight, Dazzle, Witch Doctor, Shadow Shaman, Lion, Jakiro, Vengeful Spirit, Lich
-covering 200 complete abilities with attribute scaling, boss diminish/caps, crowd clearing, and no hard-coded strings.
-All 141 automated behavior tests and repository checks pass (43 dedicated hero kit regressions,
-14 audit regressions, 9 hero power regressions, 6 spawn regressions, 6 runtime wave regressions,
-49 core behavior tests, 11 JavaScript/validator tests, 3 tool validation checks).
-Full 40-hero combat wave simulations verify solo waves 1-15 viability and late-game gear reliance.
-29 unfinished Ascended upgrades remain purchase-gated; launch target stays 30.
-Live testing belongs to the user; offline validation and simulation complete.
+**Prototype; engine gameplay acceptance is incomplete.** Current findings and player test sequence:
+[Player feedback audit](audit/PLAYER_FEEDBACK_2026-09-27.md).
 
-**Release status: prototype; gameplay acceptance incomplete.** See [Codex audit](audit/CODEX_AUDIT_2026-09-27.md) for corrected defects, verified evidence, production economy arithmetic, and remaining release blockers. The desktop Antigravity report is not acceptance evidence.
+- 40 heroes / 200 authored abilities exist. Mock execution does not prove all gameplay behavior.
+- Fixed player-name fallback, point-targeted Spellbringer, controllable bounded summons,
+  boss resource paths/precache, four particle paths and seven missing ability icons.
+- Replaced overlapping shops with a universal HOME volume spanning elevated platforms;
+  actual recipe purchase still needs the user's engine test.
+- All 40 fifth skills are tagged as innates and get an initial free rank. 23 missing
+  ultimate types were corrected; Scepter/Shard metadata now describes existing effects.
+- Twelve shared Evolution choices now have real modifiers and reliable deferral/reapplication.
+  A hero-specific Watcher-inspired tree and unique Shard/Scepter mechanics are not complete.
+- 30 Ascended definitions now derive from current native item classes with starred names,
+  selected flat bonuses +20%, charge/cooldown preservation and current sale costs.
+  Native behavior requires engine acceptance; 30 unique designed PvE extensions remain open.
+- Top Wave/Life and Spellbringer UI updated; only changed Panorama resources compiled.
+  The 11 protected map/theme files remain unchanged.
+- Hand-entered DPS simulations cannot establish solo or 60-wave balance. The desktop
+  Antigravity report and zero-warning MCP structural audit are not gameplay acceptance.
 
-For the next development pass, follow [Antigravity continuation plan (TR)](ANTIGRAVITY_DEVAM_PLANI.md) and [Antigravity Hero Overhaul (TR)](ANTIGRAVITY_KAHRAMAN_YENILEME_PROMPTU.md). Current user instruction: local commits only; no push. Live testing performed by user.
+User instruction: local commits only; no push. Live testing belongs to the user.
+Steam Workshop publication has not happened.
 
 ---
 

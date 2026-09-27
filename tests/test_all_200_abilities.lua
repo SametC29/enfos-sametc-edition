@@ -147,6 +147,11 @@ function CreateUnitByName(name, origin, find_clear, owner, owner2, team)
     return create_mock_unit(name, team, origin, 1000)
 end
 
+function CreateIllusions(owner,hero,params,count)
+    local result={}
+    for i=1,count do result[i]=create_mock_unit(hero:GetUnitName(),hero:GetTeamNumber(),hero:GetAbsOrigin(),1000) end
+    return result
+end
 function FindClearSpaceForUnit(unit, pos, cache)
     if unit and pos then unit:SetAbsOrigin(pos) end
 end
@@ -174,6 +179,13 @@ function create_mock_unit(name, team, origin, hp)
         origin = origin or Vector(0, 0, 0),
         hp = hp,
         max_hp = hp,
+        SetOwner=function(self,v) self.owner=v end,
+        GetPlayerOwnerID=function() return 0 end,
+        SetControllableByPlayer=function(self,id,enabled) self.controller=id end,
+        SetBaseDamageMin=function() end, SetBaseDamageMax=function() end,
+        SetBaseMaxHealth=function(self,v) self.max_hp=v end, SetMaxHealth=function(self,v) self.max_hp=v end,
+        SetIdleAcquire=function() end, SetAcquisitionRange=function() end,
+        ForceKill=function(self) self.alive=false end,
         modifiers = {},
         alive = true,
         strength = 75,
@@ -194,7 +206,7 @@ function create_mock_unit(name, team, origin, hp)
         SetHealth = function(self, h) self.hp = h end,
         GetStrength = function(self) return self.strength end,
         GetAgility = function(self) return self.agility end,
-        GetIntellect = function(self, skipNoConsume) return self.intellect end,
+        GetIntellect = function(self, skipNoConsume) assert(type(skipNoConsume)=="boolean", "GetIntellect requires skipNoConsume"); return self.intellect end,
         mana = 1000,
         max_mana = 1000,
         GetMana = function(self) return self.mana end,
@@ -270,7 +282,7 @@ require('abilities/pve_kits')
 local roster = require('heroes/roster')
 
 print('======================================================================')
-print('LIVE RUNTIME EXECUTION TEST FOR ALL 40 HEROES / 200 ABILITIES')
+print('MOCK LUA EXECUTION TEST (NOT AN ENGINE PLAYTEST) FOR ALL 40 HEROES / 200 ABILITIES')
 print('======================================================================\n')
 
 local tested_abilities = 0

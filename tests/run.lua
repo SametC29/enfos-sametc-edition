@@ -534,6 +534,12 @@ test("future reinforcements summons exactly 5 allied fighters with wave scaling 
     CreateUnitByName = function(unitName, pos, bFindClearSpace, npcOwner, entityOwner, team)
         local u = {
             name = unitName,
+            position = pos,
+            owner = npcOwner,
+            SetOwner = function(self, v) self.owner = v end,
+            SetControllableByPlayer = function(self, id, enabled) self.controller = id; self.controlled = enabled end,
+            SetBaseMaxHealth = function(self, v) self.maxHp = v end,
+            GetBaseMaxHealth = function(self) return self.maxHp end,
             team = team,
             maxHp = 550,
             baseDmg = 35,
@@ -559,6 +565,7 @@ test("future reinforcements summons exactly 5 allied fighters with wave scaling 
 
     for _, unit in ipairs(spawnedUnits) do
         assert(unit.name == "enfos_spellbringer_reinforcement")
+        assert(unit.controller == 0 and unit.controlled == true, "Summons must be controlled by the casting player")
         assert(unit.is_allied_reinforcement == true)
         assert(unit.enfosNoReward == true)
         assert(unit.timedLife == 30.0, "Must have 30s timed life")
@@ -963,9 +970,9 @@ test("ascended sellback refunds 90% underlying gold and 90% lumber", function()
     -- 90% Gold = 4500, 90% Lumber = 76
     local okSell, goldRefund, lumberRefund = AscendedShop:Sellback(0, worldheart)
     assert(okSell == true, "Sellback must succeed")
-    assert(goldRefund == 4500, "Must refund 4500 gold (90% of 5000), got: " .. goldRefund)
+    assert(goldRefund == math.floor(AscendedShop.LOOKUP["item_ascended_worldheart"].gold * 0.9), "Must refund 90% of current native base cost")
     assert(lumberRefund == 76, "Must refund 76 lumber (90% of 85), got: " .. lumberRefund)
-    assert(PlayerResource:GetGold(0) == 5000, "Gold balance must be 500 + 4500 = 5000")
+    assert(PlayerResource:GetGold(0) == 500 + goldRefund, "Gold balance must include exactly the refund")
     assert(EconomyManager:GetLumber(0) == 76, "Lumber balance must be 76")
     assert(hero.items[0] == nil, "Item must be removed from hero inventory")
 end)
@@ -1352,7 +1359,7 @@ test("evolution manager queues milestones at 4/7/10/13/16/19, supports deferral,
         ModifyStrength = function(self, val) self.str = self.str + val end,
         ModifyAgility = function(self, val) self.agi = self.agi + val end,
         ModifyIntellect = function(self, val) self.int = self.int + val end,
-        AddNewModifier = function(self, caster, ability, name, params) self.modifier = name end,
+        AddNewModifier = function(self, caster, ability, name, params) self.modifier = name; return {} end,
         IsNull = function() return false end,
     }
     PlayerResource.heroes[0] = dummyHero

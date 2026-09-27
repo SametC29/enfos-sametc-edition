@@ -805,7 +805,7 @@
 	"enfos_boss_stonebreaker"
 	{
 		"BaseClass"					"npc_dota_creature"
-		"Model"						"models/heroes/tiny_01/tiny_01.vmdl"
+		"Model"						"models/heroes/tiny/tiny_01/tiny_01.vmdl"
 		"ModelScale"				"1.3"
 		"Level"						"5"
 		"HealthBarOffset"			"280"
@@ -1290,7 +1290,7 @@
 	"enfos_spellbringer_void_stalker"
 	{
 		"BaseClass"					"npc_dota_creature"
-		"Model"						"models/heroes/enigma/eidolons.vmdl"
+		"Model"						"models/heroes/enigma/eidelon.vmdl"
 		"ModelScale"				"1.1"
 		"Level"						"1"
 		"HealthBarOffset"			"130"

@@ -137,6 +137,8 @@
 }
 
 .PlayerName {
+	width: fill-parent-flow(1);
+	text-overflow: ellipsis;
 	color: #ececec;
 	font-size: 15px;
 	font-weight: bold;

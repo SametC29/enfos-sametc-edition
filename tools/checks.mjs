@@ -67,13 +67,18 @@ check('installed map/theme matches recorded playable version', () => {
   if (result.status !== 0) throw new Error(result.stderr || result.stdout);
 });
 check('validator regression tests', () => {
-  const result = spawnSync(process.execPath, ['--test', 'tools/tests/kv.test.mjs', 'tools/tests/hero_selection.test.mjs', 'tools/tests/ascended_shop.test.mjs'], { stdio: 'inherit' });
+  const result = spawnSync(process.execPath, ['--test', 'tools/tests/kv.test.mjs', 'tools/tests/hero_selection.test.mjs', 'tools/tests/ascended_shop.test.mjs', 'tools/tests/spellbringer.test.mjs', 'tools/tests/content_contracts.test.mjs'], { stdio: 'inherit' });
   if (result.status !== 0) throw new Error('Validator tests failed');
 });
 if (fs.existsSync('tests/run.lua')) check('Lua behavior tests', () => {
   const result = spawnSync(process.execPath, ['node_modules/fengari-node-cli/src/lua-cli.js', 'tests/run.lua'], { encoding: 'utf8' });
   console.log(result.stdout);
   if (result.status !== 0 || result.stderr || !result.stdout.includes('Lua behavior tests passed')) throw new Error('Lua behavior tests failed: ' + result.stderr);
+});
+check('player feedback regressions', () => {
+  const result=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','tests/player_feedback_regressions.lua'],{encoding:'utf8'});
+  console.log(result.stdout);
+  if(result.status!==0 || result.stderr || !result.stdout.includes('Player feedback regression tests passed')) throw new Error(result.stderr || result.stdout);
 });
 check('wave and portal runtime regressions', () => {
   const result = spawnSync(process.execPath, ['node_modules/fengari-node-cli/src/lua-cli.js', 'tests/runtime_regressions.lua'], { encoding: 'utf8' });

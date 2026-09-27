@@ -28,6 +28,17 @@
 		"Ability4"				"bulwark_fortress"
 		"Ability5"				"bulwark_unbreakable"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -52,6 +63,17 @@
 		"Ability4"				"enfos_juggernaut_omni_slash"
 		"Ability5"				"enfos_juggernaut_duelist"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -76,6 +98,17 @@
 		"Ability4"				"enfos_drow_marksmanship"
 		"Ability5"				"enfos_drow_precision_aura"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -100,6 +133,17 @@
 		"Ability4"				"enfos_lina_laguna_blade"
 		"Ability5"				"enfos_lina_combustion"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -124,6 +168,17 @@
 		"Ability4"				"enfos_omni_guardian_angel"
 		"Ability5"				"enfos_omni_hammer_of_purity"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -148,6 +203,17 @@
 		"Ability4"				"enfos_axe_culling_blade"
 		"Ability5"				"enfos_axe_blood_armor"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -172,6 +238,17 @@
 		"Ability4"				"enfos_legion_duel"
 		"Ability5"				"enfos_legion_commanders_banner"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -196,6 +273,17 @@
 		"Ability4"				"enfos_sniper_assassinate"
 		"Ability5"				"enfos_sniper_keen_eye"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -220,6 +308,17 @@
 		"Ability4"				"enfos_cm_freezing_field"
 		"Ability5"				"enfos_cm_glacial_mastery"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -244,6 +343,17 @@
 		"Ability4"				"enfos_dazzle_bad_juju"
 		"Ability5"				"enfos_dazzle_nothl_weave"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -268,6 +378,17 @@
 		"Ability4"				"enfos_centaur_stampede"
 		"Ability5"				"enfos_centaur_colossal_hide"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -292,6 +413,17 @@
 		"Ability4"				"enfos_wk_reincarnation"
 		"Ability5"				"enfos_wk_skeleton_army"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -316,6 +448,17 @@
 		"Ability4"				"enfos_pa_coup_de_grace"
 		"Ability5"				"enfos_pa_fan_of_knives"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -340,6 +483,17 @@
 		"Ability4"				"enfos_zeus_thundergods_wrath"
 		"Ability5"				"enfos_zeus_heavenly_jump"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -364,6 +518,17 @@
 		"Ability4"				"enfos_wd_death_ward"
 		"Ability5"				"enfos_wd_voodoo_switcheroo"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -388,6 +553,17 @@
 		"Ability4"				"enfos_bb_warpath"
 		"Ability5"				"enfos_bb_hairball"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -412,6 +588,17 @@
 		"Ability4"				"enfos_slark_shadow_dance"
 		"Ability5"				"enfos_slark_fish_bait"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -436,6 +623,17 @@
 		"Ability4"				"enfos_luna_eclipse"
 		"Ability5"				"enfos_luna_lunar_orbit"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -460,6 +658,17 @@
 		"Ability4"				"enfos_sf_requiem_of_souls"
 		"Ability5"				"enfos_sf_feast_of_souls"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -484,6 +693,17 @@
 		"Ability4"				"enfos_ss_mass_serpent_ward"
 		"Ability5"				"enfos_ss_fowl_play"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -507,6 +727,17 @@
 		"Ability4"				"enfos_tide_ravage"
 		"Ability5"				"enfos_tide_colossal_presence"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -530,6 +761,17 @@
 		"Ability4"				"enfos_dk_elder_dragon_form"
 		"Ability5"				"enfos_dk_wyrm_vigor"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -553,6 +795,17 @@
 		"Ability4"				"enfos_pudge_dismember"
 		"Ability5"				"enfos_pudge_meat_shield"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -576,6 +829,17 @@
 		"Ability4"				"enfos_underlord_dark_rift"
 		"Ability5"				"enfos_underlord_abyssal_carapace"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -599,6 +863,17 @@
 		"Ability4"				"enfos_ursa_enrage"
 		"Ability5"				"enfos_ursa_ursa_minor"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -622,6 +897,17 @@
 		"Ability4"				"enfos_mk_wukongs_command"
 		"Ability5"				"enfos_mk_mischief"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -645,6 +931,17 @@
 		"Ability4"				"enfos_troll_battle_trance"
 		"Ability5"				"enfos_troll_rampage"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -668,6 +965,17 @@
 		"Ability4"				"enfos_ck_phantasm"
 		"Ability5"				"enfos_ck_entropy"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -691,6 +999,17 @@
 		"Ability4"				"enfos_am_mana_void"
 		"Ability5"				"enfos_am_spellbreaker"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -714,6 +1033,17 @@
 		"Ability4"				"enfos_void_chronosphere"
 		"Ability5"				"enfos_void_backtrack"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -737,6 +1067,17 @@
 		"Ability4"				"enfos_medusa_stone_gaze"
 		"Ability5"				"enfos_medusa_gorgon_gaze"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -760,6 +1101,17 @@
 		"Ability4"				"enfos_tb_sunder"
 		"Ability5"				"enfos_tb_demon_zeal"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -783,6 +1135,17 @@
 		"Ability4"				"enfos_storm_ball_lightning"
 		"Ability5"				"enfos_storm_galvanic_core"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -806,6 +1169,17 @@
 		"Ability4"				"enfos_leshrac_pulse_nova"
 		"Ability5"				"enfos_leshrac_defilement"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -829,6 +1203,17 @@
 		"Ability4"				"enfos_invoker_emp"
 		"Ability5"				"enfos_invoker_alacrity"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -852,6 +1237,17 @@
 		"Ability4"				"enfos_puck_dream_coil"
 		"Ability5"				"enfos_puck_faerie_magic"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -875,6 +1271,17 @@
 		"Ability4"				"enfos_lion_finger_of_death"
 		"Ability5"				"enfos_lion_demon_soul"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -898,6 +1305,17 @@
 		"Ability4"				"enfos_jakiro_macropyre"
 		"Ability5"				"enfos_jakiro_double_trouble"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -921,6 +1339,17 @@
 		"Ability4"				"enfos_vs_nether_swap"
 		"Ability5"				"enfos_vs_retribution"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 	// =========================================================================
@@ -944,6 +1373,17 @@
 		"Ability4"				"enfos_lich_chain_frost"
 		"Ability5"				"enfos_lich_ice_aura"
 		"Ability6"				"generic_hidden"
+		"Ability7" "generic_hidden"
+		"Ability8" "generic_hidden"
+		"Ability9" "generic_hidden"
+		"Ability10" "generic_hidden"
+		"Ability11" "generic_hidden"
+		"Ability12" "generic_hidden"
+		"Ability13" "generic_hidden"
+		"Ability14" "generic_hidden"
+		"Ability15" "generic_hidden"
+		"Ability16" "generic_hidden"
+		"Ability17" "generic_hidden"
 	}
 
 }

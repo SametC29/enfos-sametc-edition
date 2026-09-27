@@ -1,8 +1,8 @@
 .SpellbringerHud {
     horizontal-align: left;
-    vertical-align: bottom;
+    vertical-align: center;
     margin-left: 16px;
-    margin-bottom: 230px;
+    width: 236px;
     flow-children: down;
     padding: 6px 10px;
     background-color: #12151deb;
@@ -12,7 +12,7 @@
 }
 
 .SpellbringerHeader {
-    flow-children: right;
+    flow-children: down;
     width: 100%;
     margin-bottom: 4px;
 }
@@ -84,6 +84,9 @@
     transition-property: brightness, opacity;
     transition-duration: 0.1s;
 }
+.SpellIcon { width: 100%; height: 100%; }
+.SpellBtn.Targeting { border: 2px solid #f1d38b; brightness: 1.5; }
+#SpellTargetHint { width: 100%; color: #f1d38b; font-size: 13px; margin-top: 4px; }
 
 .SpellBtn.Offensive {
     background-color: gradient(linear, 0% 0%, 0% 100%, from(#4a1e28), to(#240d14));

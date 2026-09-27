@@ -20,25 +20,25 @@
             <!-- Row 1: Offensive -->
             <Panel class="AbilitiesRow OffensiveRow">
                 <Button id="btn_spellbringer_arcane_barrier" class="SpellBtn Offensive" onactivate="CastSpell('spellbringer_arcane_barrier')" onmouseover="ShowTooltip('spellbringer_arcane_barrier')" onmouseout="HideTooltip()">
-                    <Label class="SpellShort" text="AB" />
+                    <DOTAAbilityImage id="icon_spellbringer_arcane_barrier" class="SpellIcon" hittest="false" />
                     <Label class="ManaBadge" text="45" />
                     <Panel class="CooldownSweep" id="cd_spellbringer_arcane_barrier" />
                     <Label class="CooldownLabel" id="lbl_spellbringer_arcane_barrier" text="" />
                 </Button>
                 <Button id="btn_spellbringer_war_standard" class="SpellBtn Offensive" onactivate="CastSpell('spellbringer_war_standard')" onmouseover="ShowTooltip('spellbringer_war_standard')" onmouseout="HideTooltip()">
-                    <Label class="SpellShort" text="WS" />
+                    <DOTAAbilityImage id="icon_spellbringer_war_standard" class="SpellIcon" hittest="false" />
                     <Label class="ManaBadge" text="60" />
                     <Panel class="CooldownSweep" id="cd_spellbringer_war_standard" />
                     <Label class="CooldownLabel" id="lbl_spellbringer_war_standard" text="" />
                 </Button>
                 <Button id="btn_spellbringer_thorn_idol" class="SpellBtn Offensive" onactivate="CastSpell('spellbringer_thorn_idol')" onmouseover="ShowTooltip('spellbringer_thorn_idol')" onmouseout="HideTooltip()">
-                    <Label class="SpellShort" text="TI" />
+                    <DOTAAbilityImage id="icon_spellbringer_thorn_idol" class="SpellIcon" hittest="false" />
                     <Label class="ManaBadge" text="65" />
                     <Panel class="CooldownSweep" id="cd_spellbringer_thorn_idol" />
                     <Label class="CooldownLabel" id="lbl_spellbringer_thorn_idol" text="" />
                 </Button>
                 <Button id="btn_spellbringer_rift_surge" class="SpellBtn Offensive" onactivate="CastSpell('spellbringer_rift_surge')" onmouseover="ShowTooltip('spellbringer_rift_surge')" onmouseout="HideTooltip()">
-                    <Label class="SpellShort" text="RS" />
+                    <DOTAAbilityImage id="icon_spellbringer_rift_surge" class="SpellIcon" hittest="false" />
                     <Label class="ManaBadge" text="75" />
                     <Panel class="CooldownSweep" id="cd_spellbringer_rift_surge" />
                     <Label class="CooldownLabel" id="lbl_spellbringer_rift_surge" text="" />
@@ -47,30 +47,31 @@
             <!-- Row 2: Defensive -->
             <Panel class="AbilitiesRow DefensiveRow">
                 <Button id="btn_spellbringer_whole_displacement" class="SpellBtn Defensive" onactivate="CastSpell('spellbringer_whole_displacement')" onmouseover="ShowTooltip('spellbringer_whole_displacement')" onmouseout="HideTooltip()">
-                    <Label class="SpellShort" text="WD" />
+                    <DOTAAbilityImage id="icon_spellbringer_whole_displacement" class="SpellIcon" hittest="false" />
                     <Label class="ManaBadge" text="80" />
                     <Panel class="CooldownSweep" id="cd_spellbringer_whole_displacement" />
                     <Label class="CooldownLabel" id="lbl_spellbringer_whole_displacement" text="" />
                 </Button>
                 <Button id="btn_spellbringer_reveal" class="SpellBtn Defensive" onactivate="CastSpell('spellbringer_reveal')" onmouseover="ShowTooltip('spellbringer_reveal')" onmouseout="HideTooltip()">
-                    <Label class="SpellShort" text="RV" />
+                    <DOTAAbilityImage id="icon_spellbringer_reveal" class="SpellIcon" hittest="false" />
                     <Label class="ManaBadge" text="30" />
                     <Panel class="CooldownSweep" id="cd_spellbringer_reveal" />
                     <Label class="CooldownLabel" id="lbl_spellbringer_reveal" text="" />
                 </Button>
                 <Button id="btn_spellbringer_purification" class="SpellBtn Defensive" onactivate="CastSpell('spellbringer_purification')" onmouseover="ShowTooltip('spellbringer_purification')" onmouseout="HideTooltip()">
-                    <Label class="SpellShort" text="PF" />
+                    <DOTAAbilityImage id="icon_spellbringer_purification" class="SpellIcon" hittest="false" />
                     <Label class="ManaBadge" text="50" />
                     <Panel class="CooldownSweep" id="cd_spellbringer_purification" />
                     <Label class="CooldownLabel" id="lbl_spellbringer_purification" text="" />
                 </Button>
                 <Button id="btn_spellbringer_future_reinforcements" class="SpellBtn Defensive" onactivate="CastSpell('spellbringer_future_reinforcements')" onmouseover="ShowTooltip('spellbringer_future_reinforcements')" onmouseout="HideTooltip()">
-                    <Label class="SpellShort" text="FR" />
+                    <DOTAAbilityImage id="icon_spellbringer_future_reinforcements" class="SpellIcon" hittest="false" />
                     <Label class="ManaBadge" text="100" />
                     <Panel class="CooldownSweep" id="cd_spellbringer_future_reinforcements" />
                     <Label class="CooldownLabel" id="lbl_spellbringer_future_reinforcements" text="" />
                 </Button>
             </Panel>
         </Panel>
+        <Label id="SpellTargetHint" text="" />
     </Panel>
 </root>

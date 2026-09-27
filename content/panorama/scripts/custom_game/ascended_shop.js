@@ -72,6 +72,10 @@ function RenderCatalog() {
 			[base,asc].forEach(function(p) { p.SetPanelEvent("onmouseout", function() { $.DispatchEvent("DOTAHideAbilityTooltip",p); }); });
 		})(baseIcon,ascIcon,item);
 		ascIcon.AddClass("ItemIcon Ascended");
+        var star = $.CreatePanel("Label", ascIcon, "");
+        star.AddClass("AscendedStar");
+        star.text = "★";
+        star.hittest = false;
 
 		// Info Block
 		var infoBlock = $.CreatePanel("Panel", card, "");
@@ -83,7 +87,7 @@ function RenderCatalog() {
 
 		var descLabel = $.CreatePanel("Label", infoBlock, "");
 		descLabel.AddClass("CardDesc");
-		descLabel.text = $.Localize("#DOTA_Tooltip_Ability_" + item.id + "_Description");
+		descLabel.text = $.Localize("#enfos_ascended_card_" + item.id);
 
 		// Bottom row: Badges and Upgrade Button
 		var bottomRow = $.CreatePanel("Panel", card, "");

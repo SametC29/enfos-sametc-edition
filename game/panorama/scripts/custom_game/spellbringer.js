@@ -17,11 +17,37 @@ var OFFENSIVE_SPELLS = {
     spellbringer_thorn_idol: true,
     spellbringer_rift_surge: true
 };
+var targetingSpell = null;
+var pointerOverSpell = false;
+function SpellDefinition(name) {
+    var metadata = CustomNetTables.GetTableValue("spellbringer_meta", "abilities") || {};
+    return metadata[name] || { cost: SPELL_COSTS[name] || 0 };
+}
+function CancelSpellTarget() {
+    targetingSpell = null;
+    $("#SpellTargetHint").text = "";
+    for (var name in SPELL_COSTS) $("#btn_" + name).SetHasClass("Targeting", false);
+}
+// Consume only the click used to cast/cancel. Normal hero and summon orders pass through.
+GameUI.SetMouseCallback(function (event, button) {
+    if (!targetingSpell || pointerOverSpell) return false;
+    if (event !== "pressed") return false;
+    if (button === 1) { CancelSpellTarget(); return true; }
+    if (button !== 0) return false;
+    var position = GameUI.GetScreenWorldPosition(GameUI.GetCursorPosition());
+    if (!position) return true;
+    var ability = targetingSpell;
+    CancelSpellTarget();
+    GameEvents.SendCustomGameEventToServer("enfos_spellbringer_cast", {
+        ability_name: ability, target_x: position[0], target_y: position[1], target_z: position[2]
+    });
+    return true;
+});
 
 function CastSpell(abilityName) {
     var localPlayer = Players.GetLocalPlayer();
     var state = CustomNetTables.GetTableValue("spellbringer_state", String(localPlayer));
-    var cost = SPELL_COSTS[abilityName] || 0;
+    var cost = Number(SpellDefinition(abilityName).cost);
 
     if (!state || (state.mana || 0) < cost) {
         GameEvents.SendEventClientSide("dota_hud_error_message", {
@@ -41,23 +67,31 @@ function CastSpell(abilityName) {
         return;
     }
 
-    GameEvents.SendCustomGameEventToServer("enfos_spellbringer_cast", {
-        player_id: localPlayer,
-        ability_name: abilityName
-    });
+    var same = targetingSpell === abilityName;
+    CancelSpellTarget();
+    if (same) return;
+    targetingSpell = abilityName;
+    $("#btn_" + abilityName).SetHasClass("Targeting", true);
+    $("#SpellTargetHint").text = $.Localize(OFFENSIVE_SPELLS[abilityName] ? "#enfos_spell_target_enemy" : "#enfos_spell_target_ally");
 }
 
 function ShowTooltip(abilityName) {
+    pointerOverSpell = true;
     var btn = $("#btn_" + abilityName);
     if (!btn) return;
     var title = $.Localize("#DOTA_Tooltip_" + abilityName);
     var desc = $.Localize("#DOTA_Tooltip_" + abilityName + "_Description");
-    var cost = SPELL_COSTS[abilityName] || 0;
-    var text = "<b>" + title + "</b><br>" + desc + "<br><font color='#82c0ff'>" + $.Localize("#enfos_spellbringer_mana") + ": " + cost + "</font>";
+    var def = SpellDefinition(abilityName);
+    var text = "<b>" + title + "</b><br>" + desc + "<br><font color='#82c0ff'>" + $.Localize("#enfos_spellbringer_mana") + ": " + def.cost + "</font>";
+    text += "<br>" + $.Localize("#enfos_cooldown") + ": " + (def.cooldown || 0) + "s";
+    if (def.radius) text += " · " + $.Localize("#enfos_radius") + ": " + def.radius;
+    if (def.duration) text += " · " + $.Localize("#enfos_duration") + ": " + def.duration + "s";
+    text += "<br>" + $.Localize(OFFENSIVE_SPELLS[abilityName] ? "#enfos_spell_target_enemy" : "#enfos_spell_target_ally");
     $.DispatchEvent("DOTAShowTextTooltip", btn, text);
 }
 
 function HideTooltip() {
+    pointerOverSpell = false;
     $.DispatchEvent("DOTAHideTextTooltip");
 }
 
@@ -70,7 +104,7 @@ function HideTooltip() {
         var mana = state.mana || 0;
         var maxMana = state.max_mana || 200;
         var regen = state.regen || 2.5;
-        var isCoop = !!state.is_coop;
+        var isCoop = state.is_coop === true || Number(state.is_coop) === 1;
         var cooldowns = state.cooldowns || {};
 
         // Update Mana bar
@@ -97,7 +131,10 @@ function HideTooltip() {
             var label = $("#lbl_" + name);
             if (!btn) continue;
 
-            var cost = SPELL_COSTS[name];
+            var def = SpellDefinition(name);
+            var cost = Number(def.cost);
+            var icon = $("#icon_" + name);
+            if (icon && def.icon) icon.abilityname = def.icon;
             var cd = cooldowns[name] || 0;
             var isOffensive = !!OFFENSIVE_SPELLS[name];
 

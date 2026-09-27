@@ -14,6 +14,10 @@ for (const language of ['turkish','english','russian','schinese']) {
   const file='localization/'+language+'.json', data=JSON.parse(fs.readFileSync(file,'utf8')), t=data.Tokens;
   for (const [id,item] of Object.entries(items)) {
     if (!id.startsWith('item_ascended_') || id==='item_ascended_aghanims_blessing') continue;
+    if (item.BaseClass !== 'item_datadriven') {
+      if (!t['DOTA_Tooltip_Ability_'+id].startsWith('★ ') || !t['DOTA_Tooltip_Ability_'+id+'_Description']) throw new Error('Missing native Ascended tooltip '+id);
+      continue;
+    }
     const special=Object.assign({},...Object.values(item.AbilitySpecial||{}));
     const stats=[];
     for (const modifier of Object.values(item.Modifiers||{})) if (modifier.Passive==='1') {

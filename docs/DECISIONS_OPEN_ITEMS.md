@@ -147,3 +147,21 @@ Prove early:
 2. best integration of normal Dota Shop + six-slot/no-backpack intent + flying courier/minimal delivery buffer.
 3. production persistence backend availability/reliability.
 4. current Workshop APIs assumed by UI/shop/selection.
+
+## 2026-09-27 player feedback audit — provisional implementation
+
+- Fifth authored ability is the innate for each hero, starting with one free rank;
+  native legacy talent/extra ability slots 7–17 are suppressed. Final eight-rank
+  curves and level-30 point allocation remain unresolved; do not label them complete.
+- Shared Evolution has functioning modifiers as an interim repair. It does not
+  fulfill the locked hero-specific choice requirement or establish Watcher parity.
+- Ascended interim implementation uses current native base item classes and +20%
+  selected flat bonuses, starred native names/icons and current base costs. Snapshot:
+  audit/ASCENDED_NATIVE_SNAPSHOT.json. This does not replace the target unique PvE
+  mechanics in GAME_DESIGN_MASTER §23. Engine acceptance of all 30 derivatives is open.
+- Existing role-based Shard and generic ultimate Scepter bonuses are now exposed in
+  tooltips, not represented as completed hero-specific evolutions. Passive/buff-only
+  ultimate coverage still needs individual design work.
+- Recipe fix hypothesis: overlapping HOME/SECRET triggers and insufficient height.
+  A universal HOME volume replaces them; user's actual purchase result is required.
+- See audit/PLAYER_FEEDBACK_2026-09-27.md for evidence and remaining release gates.

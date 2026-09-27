@@ -110,6 +110,7 @@
 
 	"bulwark_fortress"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass" "ability_lua"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
@@ -156,10 +157,11 @@
 
 	"bulwark_unbreakable"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass" "ability_lua"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName" "sven_warcry"
-		"Innate" "1"
 		"MaxLevel" "8"
 		"AbilitySpecial"
 		{
@@ -287,6 +289,7 @@
 
 	"enfos_juggernaut_omni_slash"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass" "ability_lua"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -328,6 +331,8 @@
 
 	"enfos_juggernaut_duelist"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass" "ability_lua"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName" "juggernaut_swift_slash"
@@ -472,6 +477,7 @@
 
 	"enfos_drow_marksmanship"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass" "ability_lua"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName" "drow_ranger_marksmanship"
@@ -500,6 +506,8 @@
 
 	"enfos_drow_precision_aura"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass" "ability_lua"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName" "drow_ranger_trueshot"
@@ -634,6 +642,7 @@
 
 	"enfos_lina_laguna_blade"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass" "ability_lua"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -670,6 +679,8 @@
 
 	"enfos_lina_combustion"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass" "ability_lua"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName" "lina_flame_cloak"
@@ -802,6 +813,7 @@
 
 	"enfos_omni_guardian_angel"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass" "ability_lua"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"SpellImmunityType" "SPELL_IMMUNITY_ALLIES_YES"
@@ -834,6 +846,8 @@
 
 	"enfos_omni_hammer_of_purity"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass" "ability_lua"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName" "omniknight_hammer_of_purity"
@@ -1582,6 +1596,8 @@
 
 	"enfos_axe_culling_blade"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -1605,6 +1621,8 @@
 
 	"enfos_axe_blood_armor"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"axe_berserkers_call"
@@ -1677,6 +1695,8 @@
 
 	"enfos_legion_duel"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -1697,6 +1717,8 @@
 
 	"enfos_legion_commanders_banner"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"legion_commander_press_the_attack"
@@ -1767,6 +1789,8 @@
 
 	"enfos_sniper_assassinate"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -1788,6 +1812,8 @@
 
 	"enfos_sniper_keen_eye"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"sniper_take_aim"
@@ -1860,6 +1886,8 @@
 
 	"enfos_cm_freezing_field"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
@@ -1880,6 +1908,8 @@
 
 	"enfos_cm_glacial_mastery"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"crystal_maiden_freezing_field"
@@ -1956,6 +1986,8 @@
 
 	"enfos_dazzle_bad_juju"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"		"dazzle_bad_juju"
@@ -1972,6 +2004,8 @@
 
 	"enfos_dazzle_nothl_weave"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"dazzle_weave"
@@ -2045,6 +2079,8 @@
 
 	"enfos_centaur_stampede"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"		"centaur_stampede"
@@ -2061,6 +2097,8 @@
 
 	"enfos_centaur_colossal_hide"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"centaur_mount"
@@ -2102,7 +2140,7 @@
 	{
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"skeleton_king_vampiric_aura"
+		"AbilityTextureName"		"skeleton_king_bone_guard"
 		"MaxLevel"					"4"
 		"AbilitySpecial"
 		{
@@ -2127,6 +2165,8 @@
 
 	"enfos_wk_reincarnation"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"skeleton_king_reincarnation"
@@ -2142,9 +2182,11 @@
 
 	"enfos_wk_skeleton_army"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"		"skeleton_king_vampiric_aura"
+		"AbilityTextureName"		"skeleton_king_bone_guard"
 		"AbilityCastPoint"			"0.1"
 		"AbilityCooldown"			"30.0"
 		"AbilityManaCost"			"75"
@@ -2218,6 +2260,8 @@
 
 	"enfos_pa_coup_de_grace"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"phantom_assassin_coup_de_grace"
@@ -2232,6 +2276,8 @@
 
 	"enfos_pa_fan_of_knives"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_PURE"
@@ -2313,6 +2359,8 @@
 
 	"enfos_zeus_thundergods_wrath"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
@@ -2331,6 +2379,8 @@
 
 	"enfos_zeus_heavenly_jump"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
@@ -2410,6 +2460,8 @@
 
 	"enfos_wd_death_ward"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_PHYSICAL"
@@ -2430,6 +2482,8 @@
 
 	"enfos_wd_voodoo_switcheroo"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"		"witch_doctor_voodoo_switcheroo"
@@ -2498,6 +2552,8 @@
 
 	"enfos_bb_warpath"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"bristleback_warpath"
@@ -2512,6 +2568,8 @@
 
 	"enfos_bb_hairball"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityTextureName"		"bristleback_hairball"
@@ -2586,6 +2644,8 @@
 
 	"enfos_slark_shadow_dance"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"		"slark_shadow_dance"
@@ -2603,6 +2663,8 @@
 
 	"enfos_slark_fish_bait"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"slark_fish_bait"
@@ -2689,6 +2751,7 @@
 
 	"enfos_luna_eclipse"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass" "ability_lua"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
@@ -2720,6 +2783,8 @@
 
 	"enfos_luna_lunar_orbit"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass" "ability_lua"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityTextureName" "luna_lunar_orbit"
@@ -2799,6 +2864,8 @@
 
 	"enfos_sf_requiem_of_souls"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
@@ -2819,6 +2886,8 @@
 
 	"enfos_sf_feast_of_souls"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"nevermore_frenzy"
@@ -2900,6 +2969,8 @@
 
 	"enfos_ss_mass_serpent_ward"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_PHYSICAL"
@@ -2920,6 +2991,8 @@
 
 	"enfos_ss_fowl_play"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"shadow_shaman_fowl_play"
@@ -2996,6 +3069,8 @@
 
 	"enfos_tide_ravage"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
@@ -3016,6 +3091,8 @@
 
 	"enfos_tide_colossal_presence"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"tidehunter_kraken_shell"
@@ -3093,6 +3170,8 @@
 
 	"enfos_dk_elder_dragon_form"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"		"dragon_knight_elder_dragon_form"
@@ -3110,9 +3189,11 @@
 
 	"enfos_dk_wyrm_vigor"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"dragon_knight_inherited_vigor"
+		"AbilityTextureName"		"dragon_knight_dragon_blood"
 		"MaxLevel"					"1"
 		"AbilitySpecial"
 		{
@@ -3176,6 +3257,8 @@
 
 	"enfos_pudge_dismember"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -3198,6 +3281,8 @@
 
 	"enfos_pudge_meat_shield"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"pudge_eject"
@@ -3313,6 +3398,7 @@
 
 	"enfos_underlord_dark_rift"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
@@ -3341,6 +3427,8 @@
 
 	"enfos_underlord_abyssal_carapace"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
@@ -3416,6 +3504,8 @@
 
 	"enfos_ursa_enrage"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"		"ursa_enrage"
@@ -3433,9 +3523,11 @@
 
 	"enfos_ursa_ursa_minor"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"ursa_ursa_minor"
+		"AbilityTextureName"		"ursa_fury_swipes"
 		"MaxLevel"					"1"
 		"AbilitySpecial"
 		{
@@ -3501,6 +3593,8 @@
 
 	"enfos_mk_wukongs_command"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_PHYSICAL"
@@ -3521,6 +3615,8 @@
 
 	"enfos_mk_mischief"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"monkey_king_mischief"
@@ -3615,6 +3711,7 @@
 
 	"enfos_troll_battle_trance"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
@@ -3642,6 +3739,8 @@
 
 	"enfos_troll_rampage"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
@@ -3770,6 +3869,7 @@
 
 	"enfos_ck_phantasm"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
@@ -3802,6 +3902,8 @@
 
 	"enfos_ck_entropy"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
@@ -3873,6 +3975,8 @@
 
 	"enfos_am_mana_void"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -3895,6 +3999,8 @@
 
 	"enfos_am_spellbreaker"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"antimage_mana_overload"
@@ -3959,6 +4065,8 @@
 
 	"enfos_void_chronosphere"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityTextureName"		"faceless_void_chronosphere"
@@ -3977,6 +4085,8 @@
 
 	"enfos_void_backtrack"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"faceless_void_backtrack"
@@ -4078,6 +4188,7 @@
 
 	"enfos_medusa_stone_gaze"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
@@ -4110,6 +4221,8 @@
 
 	"enfos_medusa_gorgon_gaze"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
@@ -4231,6 +4344,7 @@
 
 	"enfos_tb_sunder"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
@@ -4262,6 +4376,8 @@
 
 	"enfos_tb_demon_zeal"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
@@ -4340,6 +4456,8 @@
 
 	"enfos_storm_ball_lightning"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
@@ -4358,9 +4476,11 @@
 
 	"enfos_storm_galvanic_core"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"storm_spirit_galvanic_overload"
+		"AbilityTextureName"		"storm_spirit_overload"
 		"MaxLevel"					"1"
 		"AbilitySpecial"
 		{
@@ -4474,6 +4594,7 @@
 
 	"enfos_leshrac_pulse_nova"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
@@ -4507,6 +4628,8 @@
 
 	"enfos_leshrac_defilement"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
@@ -4632,6 +4755,7 @@
 
 	"enfos_invoker_emp"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
@@ -4671,6 +4795,8 @@
 
 	"enfos_invoker_alacrity"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
@@ -4784,6 +4910,7 @@
 
 	"enfos_puck_dream_coil"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
@@ -4818,6 +4945,8 @@
 
 	"enfos_puck_faerie_magic"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
@@ -4906,6 +5035,8 @@
 
 	"enfos_lion_finger_of_death"
 	{
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -4928,9 +5059,11 @@
 
 	"enfos_lion_demon_soul"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"lion_demon_drain"
+		"AbilityTextureName"		"lion_mana_drain"
 		"MaxLevel"					"1"
 		"AbilitySpecial"
 		{
@@ -5042,6 +5175,7 @@
 
 	"enfos_jakiro_macropyre"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
@@ -5076,10 +5210,12 @@
 
 	"enfos_jakiro_double_trouble"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"jakiro_double_trouble"
+		"AbilityTextureName"		"jakiro_liquid_fire"
 		"MaxLevel"					"1"
 
 		"AbilitySpecial"
@@ -5188,6 +5324,7 @@
 
 	"enfos_vs_nether_swap"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
@@ -5219,6 +5356,8 @@
 
 	"enfos_vs_retribution"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
@@ -5346,6 +5485,7 @@
 
 	"enfos_lich_chain_frost"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
@@ -5382,6 +5522,8 @@
 
 	"enfos_lich_ice_aura"
 	{
+		"Innate" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/pve_kits"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"

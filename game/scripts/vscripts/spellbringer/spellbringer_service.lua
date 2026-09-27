@@ -13,6 +13,12 @@ local RandomFloat = _G.RandomFloat or function(a, b) return a + math.random() * 
 
 local SpellbringerService = {}
 SpellbringerService.__index = SpellbringerService
+local ICONS = {
+	spellbringer_arcane_barrier="abaddon_aphotic_shield", spellbringer_war_standard="legion_commander_press_the_attack",
+	spellbringer_thorn_idol="bristleback_bristleback", spellbringer_rift_surge="enigma_demonic_conversion",
+	spellbringer_whole_displacement="chen_test_of_faith", spellbringer_reveal="slardar_amplify_damage",
+	spellbringer_purification="omniknight_purification", spellbringer_future_reinforcements="furion_force_of_nature",
+}
 
 -- Base balance constants (docs/GAME_DESIGN_MASTER.md § 12)
 SpellbringerService.DEFAULT_START_MANA = 100
@@ -169,6 +175,7 @@ function SpellbringerService:PublishMetadata()
 	for _, id in ipairs(self.ORDERED_ABILITIES) do
 		local def = self.ABILITY_DEFS[id]
 		meta[id] = {
+			icon = ICONS[id],
 			name = def.name,
 			is_offensive = def.is_offensive,
 			cost = def.cost,
@@ -334,6 +341,7 @@ function SpellbringerService:CanCast(playerID, abilityName, targetPos)
 		local targetTeam=def.is_offensive and (team==2 and 3 or 2) or team
 		if math.abs(targetPos.x)<3000 or math.abs(targetPos.x)>12000 or targetPos.y < -12000 or targetPos.y>4500
 			or (targetTeam==2 and targetPos.x<0) or (targetTeam==3 and targetPos.x>0) then return false,"INVALID_TARGET" end
+		if GridNav and (not GridNav:IsTraversable(targetPos) or GridNav:IsBlocked(targetPos)) then return false,"INVALID_TARGET" end
 	end
 	local state = self:EnsurePlayer(playerID)
 
@@ -369,7 +377,15 @@ function SpellbringerService:OnCastRequest(userIdx, args)
 		local finite=require("lib/validation").Finite
 		local x,y,z=finite(args.target_x),finite(args.target_y),finite(args.target_z or 136)
 		if not x or not y or not z then return end
-		targetPos = GetGroundPosition(Vector(x,y,0),nil)
+		-- Reject pathological coordinates before passing them into an engine query.
+		if math.abs(x)>12000 or y< -12000 or y>4500 or z< -2048 or z>4096 then return end
+		targetPos = GetGroundPosition(Vector(x,y,z),nil)
+	end
+	-- UI casts always require an explicit ground target; never silently use Core.
+	if not targetPos then
+		local player=PlayerResource:GetPlayer(playerID)
+		if player then CustomGameEventManager:Send_ServerToPlayer(player,"enfos_spellbringer_error",{reason="#enfos_spell_target_invalid"}) end
+		return
 	end
 
 	local success, reason = self:CastSpell(playerID, abilityName, targetPos, nil)
@@ -378,7 +394,8 @@ function SpellbringerService:OnCastRequest(userIdx, args)
 		if CustomGameEventManager and PlayerResource then
 			local player = PlayerResource:GetPlayer(playerID)
 			if player then
-				CustomGameEventManager:Send_ServerToPlayer(player, "enfos_spellbringer_error", { error = reason })
+				local reasons={INVALID_TARGET="#enfos_spell_target_invalid",INSUFFICIENT_MANA="#enfos_error_insufficient_spellbringer_mana",ON_COOLDOWN="#enfos_spell_on_cooldown",COOP_OFFENSIVE_DISABLED="#enfos_spellbringer_coop_notice"}
+				CustomGameEventManager:Send_ServerToPlayer(player, "enfos_spellbringer_error", { reason = reasons[reason] or "#enfos_error_generic" })
 			end
 		end
 	end
@@ -404,13 +421,13 @@ function SpellbringerService:CastSpell(playerID, abilityName, targetPos, targetE
 	-- Execute specific ability logic
 	local ok = false
 	if abilityName == "spellbringer_arcane_barrier" then
-		ok = self:CastArcaneBarrier(casterTeam, opponentTeam, def)
+		ok = self:CastArcaneBarrier(casterTeam, opponentTeam, def, targetPos)
 	elseif abilityName == "spellbringer_war_standard" then
 		ok = self:CastWarStandard(casterTeam, opponentTeam, def, targetPos)
 	elseif abilityName == "spellbringer_thorn_idol" then
 		ok = self:CastThornIdol(casterTeam, opponentTeam, def, targetPos)
 	elseif abilityName == "spellbringer_rift_surge" then
-		ok = self:CastRiftSurge(casterTeam, opponentTeam, def)
+		ok = self:CastRiftSurge(casterTeam, opponentTeam, def, targetPos)
 	elseif abilityName == "spellbringer_whole_displacement" then
 		ok = self:CastWholeDisplacement(casterTeam, def, targetPos)
 	elseif abilityName == "spellbringer_reveal" then
@@ -418,7 +435,7 @@ function SpellbringerService:CastSpell(playerID, abilityName, targetPos, targetE
 	elseif abilityName == "spellbringer_purification" then
 		ok = self:CastPurification(casterTeam, def, targetPos)
 	elseif abilityName == "spellbringer_future_reinforcements" then
-		ok = self:CastFutureReinforcements(casterTeam, def, targetPos)
+		ok = self:CastFutureReinforcements(casterTeam, def, targetPos, playerID)
 	end
 
 	if not ok then
@@ -435,10 +452,10 @@ end
 -- Ability 1: Arcane Barrier (Offensive)
 -- Grants active opponent creeps temporary magic resistance and magic shield
 --------------------------------------------------------------------------------
-function SpellbringerService:CastArcaneBarrier(casterTeam, opponentTeam, def)
+function SpellbringerService:CastArcaneBarrier(casterTeam, opponentTeam, def, targetPos)
 	local creeps = self:GetActiveHostiles(opponentTeam)
 	for _, creep in pairs(creeps) do
-		if creep and not creep:IsNull() and creep:IsAlive() then
+		if creep and not creep:IsNull() and creep:IsAlive() and (not targetPos or (creep:GetAbsOrigin()-targetPos):Length2D()<=def.radius) then
 			creep:AddNewModifier(creep, nil, "modifier_spellbringer_arcane_barrier", { duration = def.duration })
 		end
 	end
@@ -486,13 +503,15 @@ end
 -- Ability 4: Rift Surge (Offensive)
 -- Adds 2 Void Stalkers to opponent lane; no reward farming, cannot cause cap-leak damage
 --------------------------------------------------------------------------------
-function SpellbringerService:CastRiftSurge(casterTeam, opponentTeam, def)
-	local spawnPos = self:GetSpawnPos(opponentTeam)
+function SpellbringerService:CastRiftSurge(casterTeam, opponentTeam, def, targetPos)
+	local spawnPos = targetPos or self:GetSpawnPos(opponentTeam)
 	local CreepAI = require("waves/creep_ai")
+	local created=0
 
 	for i = 1, def.count do
 		local unit = CreateUnitByName(def.unit_name, spawnPos + Vector(RandomFloat(-50, 50), RandomFloat(-50, 50), 0), true, nil, nil, DOTA_TEAM_NEUTRALS or 4)
 		if unit then
+			created=created+1
 			unit.is_spellbringer_summon = true
 			unit.enfosNoReward = true
 			unit.defendingTeam = opponentTeam
@@ -503,7 +522,7 @@ function SpellbringerService:CastRiftSurge(casterTeam, opponentTeam, def)
 		end
 	end
 	EmitGlobalSound("Hero_Enigma.DemonicConversion")
-	return true
+	return created>0
 end
 
 --------------------------------------------------------------------------------
@@ -601,21 +620,26 @@ end
 -- Ability 8: Future Reinforcements (Defensive)
 -- Summons exactly 5 allied fighters scaled to wave+4 power. Never leak, no bounty.
 --------------------------------------------------------------------------------
-function SpellbringerService:CastFutureReinforcements(casterTeam, def, targetPos)
+function SpellbringerService:CastFutureReinforcements(casterTeam, def, targetPos, playerID)
 	local currentWave = (self.waveManager and self.waveManager.currentWave) or 1
 	local targetWave = currentWave + 4
 	local spawnPos = targetPos or self:GetReinforcementSpawnPos(casterTeam)
+	local owner=playerID and PlayerResource:GetSelectedHeroEntity(playerID) or nil
+	local created=0
 
 	for i = 1, def.count do
-		local unit = CreateUnitByName(def.unit_name, spawnPos + Vector(RandomFloat(-60, 60), RandomFloat(-60, 60), 0), true, nil, nil, casterTeam)
+		local unit = CreateUnitByName(def.unit_name, spawnPos + Vector(RandomFloat(-60, 60), RandomFloat(-60, 60), 0), true, owner, owner, casterTeam)
 		if unit then
+			created=created+1
+			if owner then unit:SetOwner(owner);unit:SetControllableByPlayer(playerID,true) end
 			unit.is_allied_reinforcement = true
 			unit.enfosNoReward = true
 
 			-- Wave-scaling stats: +25 HP and +3 DMG per wave level
 			local extraHp = targetWave * 25
 			local extraDmg = targetWave * 3
-			unit:SetMaxHealth(unit:GetMaxHealth() + extraHp)
+			unit:SetBaseMaxHealth(unit:GetMaxHealth() + extraHp)
+			unit:SetMaxHealth(unit:GetBaseMaxHealth())
 			unit:SetHealth(unit:GetMaxHealth())
 			unit:SetBaseDamageMin(unit:GetBaseDamageMin() + extraDmg)
 			unit:SetBaseDamageMax(unit:GetBaseDamageMax() + extraDmg)
@@ -627,7 +651,7 @@ function SpellbringerService:CastFutureReinforcements(casterTeam, def, targetPos
 	end
 
 	EmitGlobalSound("Hero_Silencer.GlobalSilence.Effect")
-	return true
+	return created>0
 end
 
 --------------------------------------------------------------------------------

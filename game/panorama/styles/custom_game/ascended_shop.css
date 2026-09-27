@@ -231,3 +231,5 @@
 	font-weight: bold;
 	color: #ffffff;
 }
+
+.AscendedStar { color: #ffdc74; font-size: 24px; horizontal-align: right; vertical-align: top; text-shadow: 1px 1px 3px 3 #000000; }

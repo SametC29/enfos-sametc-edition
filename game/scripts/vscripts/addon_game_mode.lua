@@ -8,6 +8,17 @@ require("enfos_sametc")
 local WaveManager = require("waves/wave_manager")
 
 function Precache(context)
+    PrecacheUnitByNameSync("npc_dota_shadow_shaman_ward_1",context)
+	-- Custom creatures (including all twelve bosses) are not covered by hero precache.
+	local units=LoadKeyValues("scripts/npc/npc_units_custom.txt") or {}
+	units=units.DOTAUnits or units
+	for name,definition in pairs(units) do
+		if type(definition)=="table" and definition.BaseClass then
+			if definition.Model then PrecacheResource("model",definition.Model,context) end
+			if definition.ProjectileModel then PrecacheResource("particle",definition.ProjectileModel,context) end
+			PrecacheUnitByNameSync(name,context)
+		end
+	end
 	for _,hero in ipairs(require("heroes/roster")) do PrecacheUnitByNameSync(hero.id,context) end
 	for _,name in ipairs({"sven","juggernaut","drowranger","lina","omniknight"}) do
 		PrecacheResource("soundfile","soundevents/game_sounds_heroes/game_sounds_"..name..".vsndevts",context)

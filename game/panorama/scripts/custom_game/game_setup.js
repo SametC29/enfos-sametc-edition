@@ -82,9 +82,13 @@ var EnfosSetup = (function () {
 
 		for (var pid in players) {
 			var p = players[pid];
-			if (p.team === 2) {
+			var playerId = Number(p.player_id === undefined ? pid : p.player_id);
+			var info = Game.GetPlayerInfo(playerId);
+			p.player_id = playerId;
+			p.name = (info && info.player_name) || Players.GetPlayerName(playerId) || p.name || ($.Localize("#enfos_player") + " " + (playerId + 1));
+			if (Number(p.team) === 2) {
 				radiantPlayers.push(p);
-			} else if (p.team === 3) {
+			} else if (Number(p.team) === 3) {
 				direPlayers.push(p);
 			}
 		}

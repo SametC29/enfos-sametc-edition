@@ -226,3 +226,13 @@ A gameplay feature is done when it is:
 - performance-safe,
 - documented,
 - committed atomically and pushed.
+
+## Player feedback acceptance — 2026-09-27
+
+See [audit and live sequence](audit/PLAYER_FEEDBACK_2026-09-27.md).
+Run node tools/checks.mjs and node tools/verify_models.mjs before handing over.
+Compile only the changed Panorama layouts; never compile archived placeholder maps.
+The native-derived Ascended catalog needs engine checks for every item's active,
+passive, charges, shared cooldown, backpack/stash behavior, upgrade and sellback.
+The hand-authored DPS estimator and mock Lua entrypoint execution are not a combat
+simulation of the production skills and cannot close balance or engine release gates.

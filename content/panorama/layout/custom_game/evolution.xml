@@ -11,7 +11,7 @@
 		<!-- Compact Floating HUD Badge (Always visible during game when choices are pending) -->
 		<Button id="EvoBadgeButton" class="EvoBadge EvoBadgeHidden" onactivate="EnfosEvolution.ToggleModal()">
 			<Label class="EvoBadgeIcon" text="⚡" />
-			<Label id="EvoBadgeText" class="EvoBadgeText" text="1 Gelişim Seçimi!" />
+			<Label id="EvoBadgeText" class="EvoBadgeText" text="#enfos_evolution_pending" />
 		</Button>
 
 		<!-- Modal Dialog (Opens when milestone reached or badge clicked) -->
@@ -20,8 +20,8 @@
 			<Panel class="EvoDialog">
 				<!-- Header -->
 				<Panel class="EvoHeader">
-					<Label id="EvoMilestoneTitle" class="EvoTitle" text="KAHRAMAN GELİŞİMİ — SEVİYE 4" />
-					<Label class="EvoSubtitle" text="Aşağıdaki 2 gelişim yolundan birini seçerek kahramanını uzmanlaştır." />
+					<Label id="EvoMilestoneTitle" class="EvoTitle" text="#enfos_evolution_level" />
+					<Label class="EvoSubtitle" text="#enfos_evolution_subtitle" />
 				</Panel>
 
 				<!-- Cards Row -->
@@ -29,20 +29,20 @@
 					<!-- Card 1 -->
 					<Panel id="EvoCard1" class="EvoCard">
 						<DOTAAbilityImage id="EvoCardIcon1" class="EvoCardIcon" abilityname="" />
-						<Label id="EvoCardTitle1" class="EvoCardTitle" text="Dalga Biçici" />
-						<Label id="EvoCardDesc1" class="EvoCardDesc" text="+%25 AoE Yetenek Hasarı ve %40 Alan Yarma." />
+						<Label id="EvoCardTitle1" class="EvoCardTitle" text="" />
+						<Label id="EvoCardDesc1" class="EvoCardDesc" text="" />
 						<Button id="EvoCardBtn1" class="EvoSelectBtn" onactivate="EnfosEvolution.SelectChoice(1)">
-							<Label text="SEÇ / CHOOSE" />
+							<Label text="#enfos_evolution_choose" />
 						</Button>
 					</Panel>
 
 					<!-- Card 2 -->
 					<Panel id="EvoCard2" class="EvoCard">
 						<DOTAAbilityImage id="EvoCardIcon2" class="EvoCardIcon" abilityname="" />
-						<Label id="EvoCardTitle2" class="EvoCardTitle" text="Dev Katili" />
-						<Label id="EvoCardDesc2" class="EvoCardDesc" text="Boss ve Seçkin yaratıklara karşı +%35 hasar." />
+						<Label id="EvoCardTitle2" class="EvoCardTitle" text="" />
+						<Label id="EvoCardDesc2" class="EvoCardDesc" text="" />
 						<Button id="EvoCardBtn2" class="EvoSelectBtn" onactivate="EnfosEvolution.SelectChoice(2)">
-							<Label text="SEÇ / CHOOSE" />
+							<Label text="#enfos_evolution_choose" />
 						</Button>
 					</Panel>
 				</Panel>
@@ -50,7 +50,7 @@
 				<!-- Footer: Defer Button (Match never pauses, player can defer anytime) -->
 				<Panel class="EvoFooter">
 					<Button class="EvoDeferBtn" onactivate="EnfosEvolution.Defer()">
-						<Label text="DAHA SONRA SEÇ (SIRAYA AL)" />
+						<Label text="#enfos_evolution_defer" />
 					</Button>
 				</Panel>
 			</Panel>

@@ -44,10 +44,10 @@ var EnfosEvolution = (function () {
 
 		if (pendingCount > 0) {
 			badge.RemoveClass("EvoBadgeHidden");
-			badgeText.text = pendingCount + (pendingCount > 1 ? " Gelişim Seçimi Bekliyor!" : " Gelişim Seçimi!");
+			badgeText.text = pendingCount + " " + $.Localize("#enfos_evolution_pending");
 
 			// If modal was not manually deferred, automatically show it for the first milestone
-			if (!isModalVisible && currentChoices.length > 0) {
+			if (!isModalVisible && Number(data.deferred) !== 1 && currentChoices.length > 0) {
 				ShowModal();
 			}
 		} else {
@@ -64,7 +64,7 @@ var EnfosEvolution = (function () {
 
 		var titleLabel = $("#EvoMilestoneTitle");
 		if (titleLabel) {
-			titleLabel.text = "KAHRAMAN GELİŞİMİ — SEVİYE " + currentMilestone;
+			titleLabel.text = $.Localize("#enfos_evolution_level") + " " + currentMilestone;
 		}
 
 		var c1 = currentChoices[0];
@@ -72,14 +72,14 @@ var EnfosEvolution = (function () {
 
 		if (c1) {
 			$("#EvoCardIcon1").abilityname = c1.icon || "";
-			$("#EvoCardTitle1").text = c1.title || "";
-			$("#EvoCardDesc1").text = c1.desc || "";
+			$("#EvoCardTitle1").text = $.Localize("#" + c1.id);
+			$("#EvoCardDesc1").text = $.Localize("#" + c1.id + "_desc");
 		}
 
 		if (c2) {
 			$("#EvoCardIcon2").abilityname = c2.icon || "";
-			$("#EvoCardTitle2").text = c2.title || "";
-			$("#EvoCardDesc2").text = c2.desc || "";
+			$("#EvoCardTitle2").text = $.Localize("#" + c2.id);
+			$("#EvoCardDesc2").text = $.Localize("#" + c2.id + "_desc");
 		}
 	}
 
@@ -97,8 +97,7 @@ var EnfosEvolution = (function () {
 		if (!modal) return;
 
 		if (isModalVisible) {
-			modal.AddClass("EvoModalHidden");
-			isModalVisible = false;
+            Defer();
 		} else if (pendingCount > 0) {
 			ShowModal();
 		}
