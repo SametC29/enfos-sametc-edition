@@ -862,12 +862,13 @@ end)
 -- =========================================================================
 local AscendedShop = require("economy/ascended_shop")
 
-test("ascended shop initializes with exactly 30 authored launch items", function()
+test("ascended shop initializes with catalog items including ascended blessing", function()
     AscendedShop:Init(EconomyManager)
-    assert(#AscendedShop.ITEMS == 30, "Ascended shop must contain exactly 30 items, got: " .. #AscendedShop.ITEMS)
+    assert(#AscendedShop.ITEMS == 31, "Ascended shop must contain 31 items (30 launch items + 1 Blessing), got: " .. #AscendedShop.ITEMS)
     assert(AscendedShop.LOOKUP["item_ascended_worldheart"] ~= nil, "Worldheart must exist")
     assert(AscendedShop.LOOKUP["item_ascended_thornplate"] ~= nil, "Thornplate must exist")
     assert(AscendedShop.LOOKUP["item_ascended_soulpiercer"] ~= nil, "Soulpiercer must exist")
+    assert(AscendedShop.LOOKUP["item_ascended_aghanims_blessing"] ~= nil, "Aghanim's Blessing must exist")
 end)
 
 test("ascended upgrade requires base item and sufficient lumber", function()
@@ -1423,6 +1424,117 @@ test("evolution manager queues milestones at 4/7/10/13/16/19, supports deferral,
     -- 8. Level up to 19 directly (milestones 10, 13, 16, 19 queued)
     EvolutionManager:CheckHeroMilestones(0, dummyHero, 19)
     assert(EvolutionManager:GetPendingCount(0) == 4, "Milestones 10, 13, 16, 19 must all be queued")
+end)
+
+-- =========================================================================
+-- Aghanim's Shard, Scepter & Blessing Tests
+-- =========================================================================
+local AghanimManager = require("heroes/aghanim_manager")
+
+test("aghanim manager tracks shard, scepter, and blessing states accurately", function()
+    AghanimManager:Init()
+
+    local dummyHero = {
+        IsNull = function() return false end,
+        modifiers = {},
+        inventory = {},
+        GetEntityIndex = function() return 101 end,
+        GetUnitName = function() return "npc_dota_hero_sven" end,
+        HasScepter = function(self) return self.hasScepterBool == true end,
+        HasModifier = function(self, mod) return self.modifiers[mod] == true end,
+        AddNewModifier = function(self, caster, ability, modName, data) self.modifiers[modName] = true end,
+        RemoveModifierByName = function(self, modName) self.modifiers[modName] = nil end,
+        HasItemInInventory = function(self, itemName) return self.inventory[itemName] == true end,
+    }
+
+    -- 1. Initially no scepter or shard
+    assert(AghanimManager:HasScepter(dummyHero) == false)
+    assert(AghanimManager:HasShard(dummyHero) == false)
+
+    -- 2. Add Shard via inventory item
+    dummyHero.inventory["item_aghanims_shard"] = true
+    assert(AghanimManager:HasShard(dummyHero) == true)
+
+    AghanimManager:UpdateHeroAghanimState(dummyHero, "Tank")
+    assert(dummyHero:HasModifier("modifier_enfos_shard_upgrade") == true)
+
+    -- 3. Remove Shard
+    dummyHero.inventory["item_aghanims_shard"] = nil
+    AghanimManager:UpdateHeroAghanimState(dummyHero, "Tank")
+    assert(dummyHero:HasModifier("modifier_enfos_shard_upgrade") == false)
+
+    -- 4. Test Scepter via HasScepter
+    dummyHero.hasScepterBool = true
+    assert(AghanimManager:HasScepter(dummyHero) == true)
+
+    AghanimManager:UpdateHeroAghanimState(dummyHero, "Mage")
+    assert(dummyHero:HasModifier("modifier_enfos_scepter_upgrade") == true)
+
+    -- 5. Test Aghanim's Blessing modifier grants Scepter
+    dummyHero.hasScepterBool = false
+    dummyHero.modifiers["modifier_item_ascended_aghanims_blessing_consumed"] = true
+    assert(AghanimManager:HasScepter(dummyHero) == true, "Blessing modifier must count as HasScepter")
+
+    -- 6. Role detection fallback
+    assert(AghanimManager:DetectHeroRole("npc_dota_hero_sven") == "Tank")
+    assert(AghanimManager:DetectHeroRole("npc_dota_hero_juggernaut") == "Fighter")
+    assert(AghanimManager:DetectHeroRole("npc_dota_hero_drow_ranger") == "Carry")
+    assert(AghanimManager:DetectHeroRole("npc_dota_hero_lina") == "Mage")
+    assert(AghanimManager:DetectHeroRole("npc_dota_hero_dazzle") == "Support")
+end)
+
+test("ascended shop converts scepter to aghanims blessing and frees slot", function()
+    AscendedShop:Init(EconomyManager)
+    EconomyManager:Init()
+
+    local hero = {
+        IsNull = function() return false end,
+        IsAlive = function() return true end,
+        items = {},
+        modifiers = {},
+        GetUnitName = function() return "npc_dota_hero_sven" end,
+        GetItemInSlot = function(self, slot) return self.items[slot] end,
+        RemoveItem = function(self, item)
+            for s, it in pairs(self.items) do
+                if it == item then self.items[s] = nil break end
+            end
+        end,
+        AddItemByName = function(self, name)
+            local it = {
+                IsNull = function() return false end,
+                GetAbilityName = function() return name end,
+            }
+            self.items[0] = it
+            return it
+        end,
+        HasModifier = function(self, mod) return self.modifiers[mod] == true end,
+        AddNewModifier = function(self, caster, ability, modName, data) self.modifiers[modName] = true end,
+        EmitSound = function() end,
+    }
+    PlayerResource.heroes[0] = hero
+
+    -- 1. Give hero item_ultimate_scepter and 40 Lumber
+    local scepterItem = { IsNull = function() return false end, GetAbilityName = function() return "item_ultimate_scepter" end }
+    hero.items[0] = scepterItem
+    EconomyManager:ModifyLumber(0, 40, "test")
+
+    local canBlessing = AscendedShop:CanUpgrade(0, "item_ascended_aghanims_blessing")
+    assert(canBlessing == true, "Hero with scepter and 40 lumber can upgrade to blessing")
+
+    local ok, reason, newItem = AscendedShop:PurchaseUpgrade(0, "item_ascended_aghanims_blessing")
+    assert(ok == true, "PurchaseUpgrade for blessing must succeed")
+    assert(newItem == nil, "No item added to inventory (slot is freed)")
+    assert(hero.items[0] == nil, "Scepter was consumed from slot 0")
+    assert(hero:HasModifier("modifier_item_ascended_aghanims_blessing_consumed") == true)
+    assert(hero:HasModifier("modifier_item_ultimate_scepter_consumed") == true)
+    assert(EconomyManager:GetLumber(0) == 0, "40 Lumber consumed")
+
+    -- 2. Already owned check prevents buying second blessing
+    hero.items[0] = scepterItem
+    EconomyManager:ModifyLumber(0, 40, "test")
+    local canSecond, reasonSecond = AscendedShop:CanUpgrade(0, "item_ascended_aghanims_blessing")
+    assert(canSecond == false, "Cannot purchase duplicate Aghanim's Blessing")
+    assert(reasonSecond == "already_owned")
 end)
 
 print(string.format("%d Lua behavior tests passed (mock engine; live tests separate).", passed))

@@ -58,6 +58,9 @@ AscendedShop.ITEMS = {
 	{ id = "item_ascended_world_chain", baseItem = "item_gungir", tier = 3, lumber = 85, gold = 6150, role = "Carry" },
 	{ id = "item_ascended_tempest_waker", baseItem = "item_wind_waker", tier = 3, lumber = 85, gold = 6825, role = "Mage" },
 	{ id = "item_ascended_soulpiercer", baseItem = "item_bloodthorn", tier = 3, lumber = 85, gold = 6800, role = "Carry" },
+
+	-- Special Ascended Blessing (Consumes Scepter + 40 Lumber -> frees slot)
+	{ id = "item_ascended_aghanims_blessing", baseItem = "item_ultimate_scepter", tier = 1, lumber = 40, gold = 4200, role = "All" },
 }
 
 -- Fast lookup map
@@ -115,6 +118,12 @@ end
 
 function AscendedShop:HasAscendedCopy(hero, ascendedId)
 	if not hero or hero:IsNull() then return false end
+	if ascendedId == "item_ascended_aghanims_blessing" and hero.HasModifier then
+		if hero:HasModifier("modifier_item_ascended_aghanims_blessing_consumed") or
+		   hero:HasModifier("modifier_item_ultimate_scepter_consumed") then
+			return true
+		end
+	end
 	local item = self:FindItemInHero(hero, ascendedId)
 	return item ~= nil
 end
@@ -173,6 +182,28 @@ function AscendedShop:PurchaseUpgrade(playerId, ascendedId)
 
 	-- 2. Consume Base Item
 	hero:RemoveItem(baseItem)
+
+	-- Special handling for Aghanim's Blessing: immediately consume to free slot
+	if ascendedId == "item_ascended_aghanims_blessing" then
+		if hero.AddNewModifier then
+			hero:AddNewModifier(hero, nil, "modifier_item_ascended_aghanims_blessing_consumed", {})
+			hero:AddNewModifier(hero, nil, "modifier_item_ultimate_scepter_consumed", {})
+		end
+		local AghanimManager = require("heroes/aghanim_manager")
+		local heroName = hero.GetUnitName and hero:GetUnitName() or ""
+		local role = hero.heroRole or AghanimManager:DetectHeroRole(heroName)
+		AghanimManager:UpdateHeroAghanimState(hero, role)
+
+		if hero.EmitSound then
+			hero:EmitSound("DOTA_Item.Refresher.Activate")
+		end
+		if ParticleManager then
+			local fx = ParticleManager:CreateParticle("particles/items_fx/aegis_respawn_spotlight.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
+			ParticleManager:ReleaseParticleIndex(fx)
+		end
+		Log:Info("ascended_shop", "Player %d upgraded Scepter -> Aghanim's Blessing (slot freed).", playerId)
+		return true, "ok", nil
+	end
 
 	-- 3. Add Ascended Item
 	local newItem = hero:AddItemByName(ascendedId)

@@ -152,4 +152,6 @@ function Activate()
 	setupManager:Init(WaveManager, progressionManager)
 	local evolutionManager = require("evolution/evolution_manager")
 	evolutionManager:Init()
+	local aghanimManager = require("heroes/aghanim_manager")
+	aghanimManager:Init()
 end

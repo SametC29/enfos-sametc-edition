@@ -1031,4 +1031,26 @@
 			"01" { "var_type" "FIELD_INTEGER" "stat_bonus" "2" }
 		}
 	}
+
+	// =========================================================================
+	// ASCENDED AGHANIM'S BLESSING (Special Ascended Surface)
+	// Consumes Scepter + 40 Lumber -> frees inventory slot, retains Scepter
+	// =========================================================================
+	"item_ascended_aghanims_blessing"
+	{
+		"BaseClass"					"item_lua"
+		"ScriptFile"				"items/aghanims_blessing"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"		"item_ultimate_scepter_2"
+		"ItemCost"					"4200"
+		"ItemQuality"				"artifact"
+		"ItemPermanent"				"0"
+		"ItemPurchasable"			"1"
+		"AbilitySpecial"
+		{
+			"01" { "var_type" "FIELD_INTEGER" "bonus_all_stats" "10" }
+			"02" { "var_type" "FIELD_INTEGER" "bonus_health" "175" }
+			"03" { "var_type" "FIELD_INTEGER" "bonus_mana" "175" }
+		}
+	}
 }
