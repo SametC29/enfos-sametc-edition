@@ -163,5 +163,9 @@ mevcut izin/lisans kaydına göre değerlendirin.
   manifest önbelleği yedeklenip yenilendiğinde de sunucu eski manifesti verdi.
   Nedeni kesinleştirilmedi; yeni sürümün oyunculara ulaştığı henüz iddia edilmemeli.
 - Mevcut Public/Custom Game alanlarını resmi masaüstü API ile yeniden kaydetme girişimi
-  Steam masaüstü çevrimdışı olduğundan değişiklik yapmadan durdu.
+  önce Steam masaüstü çevrimdışı olduğundan durdu. Kullanıcı Steam'i çevrimiçi yaptıktan
+  sonra 19:07:39'da başarılı oldu (legal agreement action=False); yeni içerik manifesti
+  korundu. Ardından anonim indirme yine V1.0.0 paketini döndürdü. Görünür Workshop
+  sayfasında açıklayıcı bir inceleme/bekleme bildirimi bulunamadı. Yeni paket indirilip
+  hash'i eşleşmeden teslim doğrulaması tamamlanmış sayılmamalı.
 - Geri dönüş paketi: `release/rollback/V1.0.0/`; yalnız Git commit'i binary yedek değildir.
