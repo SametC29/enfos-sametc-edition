@@ -245,4 +245,244 @@
 		"Ability5"				"enfos_dazzle_nothl_weave"
 		"Ability6"				"generic_hidden"
 	}
+
+	// =========================================================================
+	// TANK: Centaur Warrunner
+	// Base: npc_dota_hero_centaur
+	// =========================================================================
+	"npc_dota_hero_centaur"
+	{
+		"override_hero"			"npc_dota_hero_centaur"
+		"HeroID"				"96"
+		"Role"					"Tank"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"	"27"
+		"AttributeBaseAgility"	"15"
+		"AttributeBaseIntelligence" "15"
+		"MovementSpeed"			"300"
+		"ArmorPhysical"			"2.0"
+
+		"Ability1"				"enfos_centaur_hoof_stomp"
+		"Ability2"				"enfos_centaur_double_edge"
+		"Ability3"				"enfos_centaur_return"
+		"Ability4"				"enfos_centaur_stampede"
+		"Ability5"				"enfos_centaur_colossal_hide"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// FIGHTER: Wraith King
+	// Base: npc_dota_hero_skeleton_king
+	// =========================================================================
+	"npc_dota_hero_skeleton_king"
+	{
+		"override_hero"			"npc_dota_hero_skeleton_king"
+		"HeroID"				"42"
+		"Role"					"Fighter"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"	"24"
+		"AttributeBaseAgility"	"18"
+		"AttributeBaseIntelligence" "18"
+		"MovementSpeed"			"310"
+		"ArmorPhysical"			"3.0"
+
+		"Ability1"				"enfos_wk_wraithfire_blast"
+		"Ability2"				"enfos_wk_vampiric_aura"
+		"Ability3"				"enfos_wk_mortal_strike"
+		"Ability4"				"enfos_wk_reincarnation"
+		"Ability5"				"enfos_wk_skeleton_army"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// CARRY: Phantom Assassin
+	// Base: npc_dota_hero_phantom_assassin
+	// =========================================================================
+	"npc_dota_hero_phantom_assassin"
+	{
+		"override_hero"			"npc_dota_hero_phantom_assassin"
+		"HeroID"				"44"
+		"Role"					"Carry"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"	"19"
+		"AttributeBaseAgility"	"25"
+		"AttributeBaseIntelligence" "15"
+		"MovementSpeed"			"305"
+		"ArmorPhysical"			"4.0"
+
+		"Ability1"				"enfos_pa_stifling_dagger"
+		"Ability2"				"enfos_pa_phantom_strike"
+		"Ability3"				"enfos_pa_blur"
+		"Ability4"				"enfos_pa_coup_de_grace"
+		"Ability5"				"enfos_pa_fan_of_knives"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// MAGE: Zeus
+	// Base: npc_dota_hero_zuus
+	// =========================================================================
+	"npc_dota_hero_zuus"
+	{
+		"override_hero"			"npc_dota_hero_zuus"
+		"HeroID"				"22"
+		"Role"					"Mage"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"	"19"
+		"AttributeBaseAgility"	"11"
+		"AttributeBaseIntelligence" "30"
+		"MovementSpeed"			"315"
+		"ArmorPhysical"			"2.5"
+
+		"Ability1"				"enfos_zeus_arc_lightning"
+		"Ability2"				"enfos_zeus_lightning_bolt"
+		"Ability3"				"enfos_zeus_static_field"
+		"Ability4"				"enfos_zeus_thundergods_wrath"
+		"Ability5"				"enfos_zeus_heavenly_jump"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// SUPPORT: Witch Doctor
+	// Base: npc_dota_hero_witch_doctor
+	// =========================================================================
+	"npc_dota_hero_witch_doctor"
+	{
+		"override_hero"			"npc_dota_hero_witch_doctor"
+		"HeroID"				"30"
+		"Role"					"Support"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"	"20"
+		"AttributeBaseAgility"	"13"
+		"AttributeBaseIntelligence" "26"
+		"MovementSpeed"			"300"
+		"ArmorPhysical"			"2.0"
+
+		"Ability1"				"enfos_wd_paralyzing_cask"
+		"Ability2"				"enfos_wd_voodoo_restoration"
+		"Ability3"				"enfos_wd_maledict"
+		"Ability4"				"enfos_wd_death_ward"
+		"Ability5"				"enfos_wd_voodoo_switcheroo"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// TANK: Bristleback
+	// Base: npc_dota_hero_bristleback
+	// =========================================================================
+	"npc_dota_hero_bristleback"
+	{
+		"override_hero"			"npc_dota_hero_bristleback"
+		"HeroID"				"99"
+		"Role"					"Tank"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"	"22"
+		"AttributeBaseAgility"	"17"
+		"AttributeBaseIntelligence" "14"
+		"MovementSpeed"			"300"
+		"ArmorPhysical"			"3.0"
+
+		"Ability1"				"enfos_bb_viscous_nasal_goo"
+		"Ability2"				"enfos_bb_quill_spray"
+		"Ability3"				"enfos_bb_bristleback"
+		"Ability4"				"enfos_bb_warpath"
+		"Ability5"				"enfos_bb_hairball"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// FIGHTER: Slark
+	// Base: npc_dota_hero_slark
+	// =========================================================================
+	"npc_dota_hero_slark"
+	{
+		"override_hero"			"npc_dota_hero_slark"
+		"HeroID"				"93"
+		"Role"					"Fighter"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"	"20"
+		"AttributeBaseAgility"	"21"
+		"AttributeBaseIntelligence" "16"
+		"MovementSpeed"			"300"
+		"ArmorPhysical"			"2.5"
+
+		"Ability1"				"enfos_slark_dark_pact"
+		"Ability2"				"enfos_slark_pounce"
+		"Ability3"				"enfos_slark_essence_shift"
+		"Ability4"				"enfos_slark_shadow_dance"
+		"Ability5"				"enfos_slark_fish_bait"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// CARRY: Luna
+	// Base: npc_dota_hero_luna
+	// =========================================================================
+	"npc_dota_hero_luna"
+	{
+		"override_hero"			"npc_dota_hero_luna"
+		"HeroID"				"48"
+		"Role"					"Carry"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"	"21"
+		"AttributeBaseAgility"	"24"
+		"AttributeBaseIntelligence" "16"
+		"MovementSpeed"			"325"
+		"ArmorPhysical"			"3.5"
+
+		"Ability1"				"enfos_luna_lucent_beam"
+		"Ability2"				"enfos_luna_moon_glaives"
+		"Ability3"				"enfos_luna_lunar_blessing"
+		"Ability4"				"enfos_luna_eclipse"
+		"Ability5"				"enfos_luna_lunar_orbit"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// MAGE: Shadow Fiend
+	// Base: npc_dota_hero_nevermore
+	// =========================================================================
+	"npc_dota_hero_nevermore"
+	{
+		"override_hero"			"npc_dota_hero_nevermore"
+		"HeroID"				"11"
+		"Role"					"Mage"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"	"19"
+		"AttributeBaseAgility"	"20"
+		"AttributeBaseIntelligence" "24"
+		"MovementSpeed"			"305"
+		"ArmorPhysical"			"2.0"
+
+		"Ability1"				"enfos_sf_shadowraze"
+		"Ability2"				"enfos_sf_necromastery"
+		"Ability3"				"enfos_sf_presence_of_the_dark_lord"
+		"Ability4"				"enfos_sf_requiem_of_souls"
+		"Ability5"				"enfos_sf_feast_of_souls"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// SUPPORT: Shadow Shaman
+	// Base: npc_dota_hero_shadow_shaman
+	// =========================================================================
+	"npc_dota_hero_shadow_shaman"
+	{
+		"override_hero"			"npc_dota_hero_shadow_shaman"
+		"HeroID"				"27"
+		"Role"					"Support"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"	"23"
+		"AttributeBaseAgility"	"16"
+		"AttributeBaseIntelligence" "25"
+		"MovementSpeed"			"285"
+		"ArmorPhysical"			"3.0"
+
+		"Ability1"				"enfos_ss_ether_shock"
+		"Ability2"				"enfos_ss_hex"
+		"Ability3"				"enfos_ss_shackles"
+		"Ability4"				"enfos_ss_mass_serpent_ward"
+		"Ability5"				"enfos_ss_fowl_play"
+		"Ability6"				"generic_hidden"
+	}
 }
