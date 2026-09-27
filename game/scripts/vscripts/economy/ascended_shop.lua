@@ -135,7 +135,7 @@ function AscendedShop:CanUpgrade(playerId, ascendedId)
 	local entry = self.LOOKUP[ascendedId]
 	if not entry then return false, "unknown_item" end
 
-	if not PlayerResource:IsValidPlayerID(playerId) then
+	if type(playerId)~="number" or not PlayerResource:IsValidPlayerID(playerId) then
 		return false, "invalid_player"
 	end
 
@@ -170,18 +170,14 @@ end
 function AscendedShop:PurchaseUpgrade(playerId, ascendedId)
 	local canUpgrade, reason, baseItem, slot = self:CanUpgrade(playerId, ascendedId)
 	if not canUpgrade then
-		Log:Warn("ascended_shop", "Player %d cannot upgrade to %s: %s", playerId, ascendedId, reason)
+		Log:Warn("ascended_shop", "Player %s cannot upgrade to %s: %s", tostring(playerId), tostring(ascendedId), reason)
 		return false, reason
 	end
 
 	local entry = self.LOOKUP[ascendedId]
 	local hero = PlayerResource:GetSelectedHeroEntity(playerId)
 
-	-- 1. Deduct Lumber
-	self.economyManager:ModifyLumber(playerId, -entry.lumber, "ascended_upgrade_" .. ascendedId)
-
-	-- 2. Consume Base Item
-	hero:RemoveItem(baseItem)
+	-- Preserve the original handle until the replacement is confirmed in inventory.
 
 	-- Special handling for Aghanim's Blessing: immediately consume to free slot
 	if ascendedId == "item_ascended_aghanims_blessing" then
@@ -189,6 +185,8 @@ function AscendedShop:PurchaseUpgrade(playerId, ascendedId)
 			hero:AddNewModifier(hero, nil, "modifier_item_ascended_aghanims_blessing_consumed", {})
 			hero:AddNewModifier(hero, nil, "modifier_item_ultimate_scepter_consumed", {})
 		end
+		hero:RemoveItem(baseItem)
+		self.economyManager:ModifyLumber(playerId,-entry.lumber,"ascended_upgrade_"..ascendedId)
 		local AghanimManager = require("heroes/aghanim_manager")
 		local heroName = hero.GetUnitName and hero:GetUnitName() or ""
 		local role = hero.heroRole or AghanimManager:DetectHeroRole(heroName)
@@ -205,15 +203,22 @@ function AscendedShop:PurchaseUpgrade(playerId, ascendedId)
 		return true, "ok", nil
 	end
 
-	-- 3. Add Ascended Item
-	local newItem = hero:AddItemByName(ascendedId)
-	if not newItem then
-		-- Rollback lumber if add item failed
-		self.economyManager:ModifyLumber(playerId, entry.lumber, "ascended_upgrade_rollback")
-		hero:AddItemByName(entry.baseItem)
-		Log:Error("ascended_shop", "Failed to add Ascended item %s for Player %d, rolled back.", ascendedId, playerId)
-		return false, "item_creation_failed"
+	local newItem=CreateItem(ascendedId,hero,hero)
+	if not newItem then return false,"item_creation_failed" end
+	hero:TakeItem(baseItem)
+	local ok=pcall(function() hero:AddItem(newItem) end)
+	local actualSlot=-1
+	for i=0,14 do if hero:GetItemInSlot(i)==newItem then actualSlot=i end end
+	if not ok or actualSlot<0 then
+		UTIL_Remove(newItem)
+		hero:AddItem(baseItem)
+		for i=0,14 do if hero:GetItemInSlot(i)==baseItem and i~=slot then hero:SwapItems(i,slot);break end end
+		return false,"item_creation_failed"
 	end
+	if actualSlot~=slot then hero:SwapItems(actualSlot,slot) end
+	if baseItem.GetCooldownTimeRemaining then newItem:StartCooldown(baseItem:GetCooldownTimeRemaining()) end
+	UTIL_Remove(baseItem)
+	self.economyManager:ModifyLumber(playerId,-entry.lumber,"ascended_upgrade_"..ascendedId)
 
 	-- Audio & Visual feedback
 	if hero.EmitSound then
@@ -242,6 +247,9 @@ function AscendedShop:Sellback(playerId, item)
 	local hero = PlayerResource:GetSelectedHeroEntity(playerId)
 	if not hero or hero:IsNull() then return false, 0, 0 end
 
+	local owned=false
+	for slot=0,14 do if hero:GetItemInSlot(slot)==item then owned=true;break end end
+	if not owned then return false,0,0 end
 	-- 90% Refund calculation
 	local goldRefund = math.floor(entry.gold * self.SELLBACK_REFUND_PERCENT)
 	local lumberRefund = math.floor(entry.lumber * self.SELLBACK_REFUND_PERCENT)
@@ -273,7 +281,8 @@ function AscendedShop:RegisterEventHandlers()
 
 	CustomGameEventManager:RegisterListener("enfos_sell_ascended_item", function(_, event)
 		local playerId = event.PlayerID
-		local slot = event.slot
+		local slot = tonumber(event.slot)
+		if not slot or slot~=math.floor(slot) or slot<0 or slot>14 then return end
 		local hero = PlayerResource:GetSelectedHeroEntity(playerId)
 		if hero and not hero:IsNull() and slot then
 			local item = hero:GetItemInSlot(slot)

@@ -107,7 +107,7 @@ function WaveManager:GetActivePlayerCount(team)
 			if (not team or playerTeam == team) then
 				local connState = PlayerResource:GetConnectionState(playerId)
 				local hasHero = PlayerResource.GetSelectedHeroEntity and (PlayerResource:GetSelectedHeroEntity(playerId) ~= nil)
-				if connState == (DOTA_CONNECTION_STATE_CONNECTED or 2) or hasHero then
+				if connState ~= (DOTA_CONNECTION_STATE_ABANDONED or 4) and (connState == (DOTA_CONNECTION_STATE_CONNECTED or 2) or hasHero) then
 					count = count + 1
 				end
 			end
@@ -410,6 +410,9 @@ function WaveManager:SpawnCreepEntity(unitName, defendingTeam, lane, isBoss, act
 		Log:Info("wave_manager", "Scaled Boss HP for %d players: %d -> %d", activePlayers, baseHealth, scaledHealth)
 	end
 
+	local multipliers={casual=0.85,normal=1,hard=1.25,nightmare=1.5,hell=2}
+	local hp=math.floor(creep:GetMaxHealth()*(multipliers[self:GetDifficulty()] or 1))
+	creep:SetBaseMaxHealth(hp);creep:SetMaxHealth(hp);creep:SetHealth(hp)
 	-- Register active creep
 	self.activeCreeps[defendingTeam][creep:entindex()] = creep
 
@@ -450,7 +453,7 @@ function WaveManager:OnEntityKilled(event)
 	if defendingTeam and self.activeCreeps[defendingTeam] then
 		if self.activeCreeps[defendingTeam][killedUnit:entindex()] then
 			Rewards:OnKill(killedUnit, killerUnit)
-			if killedUnit.isBoss then
+			if killedUnit.isBoss and not killedUnit.enfosLeaked then
 				if EconomyManager then
 					EconomyManager:AwardBossLumber(defendingTeam, self.currentWave)
 				end

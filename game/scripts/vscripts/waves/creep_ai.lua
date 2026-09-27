@@ -141,6 +141,7 @@ function CreepAI:Attach(unit, defendingTeam, laneName, onLeakCallback)
 		unit:AddNewModifier(unit, nil, "modifier_phased", {})
 	end
 
+	unit.creepState = state
 	-- Initial order towards first waypoint
 	CreepAI:OrderMoveToWaypoint(state)
 
@@ -194,7 +195,7 @@ function CreepAI:OnThink(state)
 
 	local currentPos = unit:GetAbsOrigin()
 	local currentWaypoint = state.route[state.waypointIndex]
-	if unit:IsStunned() or unit:IsRooted() or unit:IsChanneling() then
+	if unit:IsStunned() or unit:IsRooted() or unit:IsChanneling() or unit:HasModifier("modifier_enfos_pve_taunt") then
 		state.stuckTimer = 0
 		return THINK_INTERVAL
 	end

@@ -144,6 +144,13 @@ function EnfosSametC:OrderFilter(filterTable)
 	if not filterTable then return true end
 	local playerID = filterTable.issuer_player_id_const
 	if playerID == nil or not PlayerResource:IsValidPlayerID(playerID) then return true end
+	if filterTable.order_type==DOTA_UNIT_ORDER_SELL_ITEM then
+		local it=filterTable.entindex_ability and EntIndexToHScript(filterTable.entindex_ability)
+		if it and not it:IsNull() and require("economy/ascended_shop").LOOKUP[it:GetAbilityName()] then
+			require("economy/ascended_shop"):Sellback(playerID,it)
+			return false
+		end
+	end
 	local courier = self.playerCouriers[playerID]
 	if not courier or courier:IsNull() then return true end
 	local abilityIndex = filterTable.entindex_ability
@@ -238,6 +245,10 @@ function EnfosSametC:OnNPCSpawned(event)
 		local playerId = spawnedUnit:GetPlayerID()
 		if playerId and playerId >= 0 then
 			self.playerHeroes[playerId] = spawnedUnit
+			local progression=require("progression/progression_manager")
+			if progression.initialized and not progression:GetProfile(playerId) then
+				progression:LoadPlayer(playerId,PlayerResource:GetSteamAccountID(playerId))
+			end
 		end
 	end
 

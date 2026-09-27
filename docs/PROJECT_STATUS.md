@@ -1,3 +1,9 @@
+# Current audit — 2026-09-27
+
+**Release status: prototype; gameplay acceptance incomplete.** See [Codex audit](audit/CODEX_AUDIT_2026-09-27.md) for corrected defects, verified evidence, production economy arithmetic, and remaining release blockers. The desktop Antigravity report is not acceptance evidence.
+
+---
+
 # Verified project status — 2026-09-26
 
 The desktop handoff report is historical context, not acceptance evidence or a

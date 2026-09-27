@@ -1,3 +1,5 @@
+// LEGACY EXPLORATORY MODEL ONLY: estimated counts and difficulty rewards differ from runtime.
+// Production arithmetic: tools/wave_economy.mjs and docs/audit/wave-economy.csv.
 // tools/economy_simulator.mjs
 // Economy simulator for Enfos Team Survival — SametC Edition
 // Validates Gold, Lumber, Tomes, Conversions, and Ascended item timing targets across 60 waves.

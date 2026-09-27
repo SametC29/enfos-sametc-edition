@@ -25,6 +25,7 @@ function OnProgressionStateChanged(table_name, key, data) {
 
 	if (key !== expectedKey || !data) return;
 
+	$("#StorageStatus").visible = data.storage_durable !== 1;
 	// Level & XP
 	var lvl = data.account_level || 1;
 	var xp = data.account_xp || 0;

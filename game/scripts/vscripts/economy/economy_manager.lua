@@ -8,6 +8,7 @@
 --------------------------------------------------------------------------------
 
 require("lib/log")
+local Validation = require("lib/validation")
 
 local EconomyManager = {}
 EconomyManager.__index = EconomyManager
@@ -77,7 +78,9 @@ end
 
 function EconomyManager:ModifyLumber(playerId, amount, reason)
 	if playerId == nil or amount == nil then return 0 end
-	amount = math.floor(tonumber(amount) or 0)
+	amount = Validation.Finite(amount)
+	if not amount or math.abs(amount)>100000000 then return self:GetLumber(playerId) end
+	amount = math.floor(amount)
 	if amount == 0 then return self:GetLumber(playerId) end
 
 	local current = self.playerLumber[playerId] or 0
@@ -96,7 +99,8 @@ end
 --------------------------------------------------------------------------------
 function EconomyManager:ConvertGoldToLumber(playerId, goldAmount)
 	if playerId == nil or not PlayerResource:IsValidPlayerID(playerId) then return false, 0, 0 end
-	goldAmount = math.floor(tonumber(goldAmount) or 0)
+	goldAmount = Validation.Amount(goldAmount)
+	if not goldAmount then return false, 0 end
 	if goldAmount < self.GOLD_TO_LUMBER_RATE then
 		Log:Warn("economy", "Player %d attempted conversion below minimum 100 gold: %d", playerId, goldAmount)
 		return false, 0, 0
@@ -112,7 +116,7 @@ function EconomyManager:ConvertGoldToLumber(playerId, goldAmount)
 	local actualGoldSpent = lumberGained * self.GOLD_TO_LUMBER_RATE
 
 	-- Deduct Gold and grant Lumber
-	PlayerResource:ModifyGold(playerId, -actualGoldSpent, true, DOTA_ModifyGold_PurchaseConsumable)
+	PlayerResource:SpendGold(playerId, actualGoldSpent, DOTA_ModifyGold_PurchaseConsumable)
 	self:ModifyLumber(playerId, lumberGained, "gold_to_lumber_conversion")
 
 	Log:Info("economy", "CONVERSION: Player %d converted %d Gold -> %d Lumber", playerId, actualGoldSpent, lumberGained)
@@ -121,7 +125,8 @@ end
 
 function EconomyManager:ConvertLumberToGold(playerId, lumberAmount)
 	if playerId == nil or not PlayerResource:IsValidPlayerID(playerId) then return false, 0 end
-	lumberAmount = math.floor(tonumber(lumberAmount) or 0)
+	lumberAmount = Validation.Amount(lumberAmount)
+	if not lumberAmount then return false, 0 end
 	if lumberAmount < 1 then return false, 0 end
 
 	local currentLumber = self:GetLumber(playerId)
@@ -158,7 +163,8 @@ function EconomyManager:TransferGold(senderId, recipientId, amount)
 		return false
 	end
 
-	amount = math.floor(tonumber(amount) or 0)
+	amount = Validation.Amount(amount)
+	if not amount then return false end
 	if amount <= 0 then return false end
 
 	local senderGold = PlayerResource:GetGold(senderId)
@@ -168,7 +174,7 @@ function EconomyManager:TransferGold(senderId, recipientId, amount)
 	end
 
 	-- Execute transfer
-	PlayerResource:ModifyGold(senderId, -amount, true, DOTA_ModifyGold_AbilityCost)
+	PlayerResource:SpendGold(senderId, amount, DOTA_ModifyGold_AbilityCost)
 	PlayerResource:ModifyGold(recipientId, amount, true, DOTA_ModifyGold_SharedGold)
 
 	Log:Info("economy", "TRANSFER: Player %d sent %d Gold to teammate Player %d", senderId, amount, recipientId)
@@ -190,7 +196,8 @@ function EconomyManager:TransferLumber(senderId, recipientId, amount)
 		return false
 	end
 
-	amount = math.floor(tonumber(amount) or 0)
+	amount = Validation.Amount(amount)
+	if not amount then return false end
 	if amount <= 0 then return false end
 
 	local senderLumber = self:GetLumber(senderId)
@@ -263,7 +270,7 @@ function EconomyManager:PurchaseTome(playerId, tomeType)
 	end
 
 	-- Deduct Gold
-	PlayerResource:ModifyGold(playerId, -cost, true, DOTA_ModifyGold_PurchaseConsumable)
+	PlayerResource:SpendGold(playerId, cost, DOTA_ModifyGold_PurchaseConsumable)
 
 	-- Apply permanent stat to hero
 	if tomeType == "str" then

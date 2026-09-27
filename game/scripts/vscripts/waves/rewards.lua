@@ -6,7 +6,7 @@ function Rewards:Players(team)
         if PlayerResource:IsValidPlayerID(id) and PlayerResource:GetTeam(id)==team then
             local connState = PlayerResource:GetConnectionState(id)
             local hasHero = PlayerResource.GetSelectedHeroEntity and (PlayerResource:GetSelectedHeroEntity(id) ~= nil)
-            if connState == (DOTA_CONNECTION_STATE_CONNECTED or 2) or hasHero then
+            if connState ~= (DOTA_CONNECTION_STATE_ABANDONED or 4) and (connState == (DOTA_CONNECTION_STATE_CONNECTED or 2) or hasHero) then
                 result[#result+1] = id
             end
         end

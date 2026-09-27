@@ -21,6 +21,7 @@ function ProgressionManager:Init(storageAdapter, waveManager, lifeCore)
 	self.storageAdapter = storageAdapter or StorageAdapter.LocalStorageAdapter.New()
 	self.waveManager = waveManager
 	self.lifeCore = lifeCore
+	self.initialized = true
 	self.profiles = {} -- [playerId] = profile
 	self.playerSteamIds = {} -- [playerId] = steamIdStr
 
@@ -167,6 +168,7 @@ function ProgressionManager:SyncNetTable(playerId)
 	local reqXP = ProgressionCurves.GetAccountLevelXPRequired(profile.accountLevel) or 0
 
 	CustomNetTables:SetTableValue("progression_state", "player_" .. tostring(playerId), {
+		storage_durable = self.storageAdapter.durable == true and 1 or 0,
 		account_level = profile.accountLevel or 1,
 		account_xp = profile.accountXp or 0,
 		account_xp_required = reqXP,

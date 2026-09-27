@@ -32,7 +32,7 @@ function CastSpell(abilityName) {
         return;
     }
 
-    if (state.is_coop && OFFENSIVE_SPELLS[abilityName]) {
+    if ((state.is_coop === 1 || state.is_coop === true) && OFFENSIVE_SPELLS[abilityName]) {
         return;
     }
 

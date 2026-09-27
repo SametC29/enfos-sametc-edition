@@ -12,6 +12,7 @@
 	// 1. Blade Mail -> Thornplate
 	"item_ascended_thornplate"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"		"item_blade_mail"
@@ -46,7 +47,7 @@
 			"modifier_item_ascended_thornplate_active"
 			{
 				"IsBuff" "1"
-				"EffectName" "particles/items_fx/blade_mail.vpcf"
+				"EffectName" "particles/items_fx/blademail.vpcf"
 				"EffectAttachType" "follow_origin"
 				"Properties"
 				{
@@ -59,6 +60,7 @@
 	// 2. Holy Locket -> Sacred Reliquary
 	"item_ascended_sacred_reliquary"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
@@ -91,6 +93,7 @@
 	// 3. Solar Crest -> Sunward Crest
 	"item_ascended_sunward_crest"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_BOTH"
@@ -128,6 +131,7 @@
 	// 4. Crimson Guard -> Bastion Guard
 	"item_ascended_bastion_guard"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityTextureName"		"item_crimson_guard"
@@ -157,6 +161,7 @@
 	// 5. Pipe of Insight -> Aegis of Insight
 	"item_ascended_aegis_of_insight"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"		"item_pipe"
@@ -186,6 +191,7 @@
 	// 6. Harpoon -> Leviathan Harpoon
 	"item_ascended_leviathan_harpoon"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -219,6 +225,7 @@
 	// 7. Sange and Yasha -> Warstride
 	"item_ascended_warstride"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"item_sange_and_yasha"
@@ -250,6 +257,7 @@
 	// 8. Guardian Greaves -> Seraphic Greaves
 	"item_ascended_seraphic_greaves"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityTextureName"		"item_guardian_greaves"
@@ -279,6 +287,7 @@
 	// 9. Lotus Orb -> Mirror Lotus
 	"item_ascended_mirror_lotus"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
@@ -310,6 +319,7 @@
 	// 10. Boots of Bearing -> War Drums of Ascension
 	"item_ascended_war_drums"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityTextureName"		"item_boots_of_bearing"
@@ -341,6 +351,7 @@
 	// 11. Black King Bar -> Sovereign King Bar
 	"item_ascended_sovereign_bkb"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityTextureName"		"item_black_king_bar"
@@ -370,6 +381,7 @@
 	// 12. Aeon Disk -> Chrono Disk
 	"item_ascended_chrono_disk"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"item_aeon_disk"
@@ -397,6 +409,7 @@
 	// 13. Linken's Sphere -> Astral Sphere
 	"item_ascended_astral_sphere"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
@@ -436,6 +449,7 @@
 	// 14. Heart of Tarrasque -> Worldheart
 	"item_ascended_worldheart"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"item_heart"
@@ -465,6 +479,7 @@
 	// 15. Abyssal Blade -> Abyssal Dominion
 	"item_ascended_abyssal_dominion"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -498,6 +513,7 @@
 	// 16. Satanic -> Blood Oath
 	"item_ascended_blood_oath"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityTextureName"		"item_satanic"
@@ -528,6 +544,7 @@
 	// 17. Daedalus -> Starforged Daedalus
 	"item_ascended_starforged_daedalus"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"item_greater_crit"
@@ -555,6 +572,7 @@
 	// 18. Butterfly -> Phantomwing
 	"item_ascended_phantomwing"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"		"item_butterfly"
@@ -586,6 +604,7 @@
 	// 19. Monkey King Bar -> Heavenpiercer
 	"item_ascended_heavenpiercer"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"item_monkey_king_bar"
@@ -613,6 +632,7 @@
 	// 20. Mjollnir -> Stormfather
 	"item_ascended_stormfather"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
@@ -644,6 +664,7 @@
 	// 21. Octarine Core -> Chronocore
 	"item_ascended_chronocore"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"item_octarine_core"
@@ -673,6 +694,7 @@
 	// 22. Bloodstone -> Arc Bloodstone
 	"item_ascended_arc_bloodstone"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityTextureName"		"item_bloodstone"
@@ -704,6 +726,7 @@
 	// 23. Refresher Orb -> Eternity Orb
 	"item_ascended_eternity_orb"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityTextureName"		"item_refresher"
@@ -734,6 +757,7 @@
 	// 24. Scythe of Vyse -> Grand Vyse
 	"item_ascended_grand_vyse"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -768,6 +792,7 @@
 	// 25. Assault Cuirass -> Legion Cuirass
 	"item_ascended_legion_cuirass"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"item_assault"
@@ -795,6 +820,7 @@
 	// 26. Shiva's Guard -> Absolute Zero
 	"item_ascended_absolute_zero"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityTextureName"		"item_shivas_guard"
@@ -825,6 +851,7 @@
 	// 27. Eye of Skadi -> Eye of Deep Winter
 	"item_ascended_eye_of_deep_winter"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"item_skadi"
@@ -856,6 +883,7 @@
 	// 28. Gleipnir -> World Chain
 	"item_ascended_world_chain"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityTextureName"		"item_gungir"
@@ -888,6 +916,7 @@
 	// 29. Wind Waker -> Tempest Waker
 	"item_ascended_tempest_waker"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_BOTH"
@@ -922,6 +951,7 @@
 	// 30. Bloodthorn -> Soulpiercer
 	"item_ascended_soulpiercer"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -1038,6 +1068,7 @@
 	// =========================================================================
 	"item_ascended_aghanims_blessing"
 	{
+		"ItemPurchasable" "0"
 		"BaseClass"					"item_lua"
 		"ScriptFile"				"items/aghanims_blessing"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
@@ -1045,7 +1076,6 @@
 		"ItemCost"					"4200"
 		"ItemQuality"				"artifact"
 		"ItemPermanent"				"0"
-		"ItemPurchasable"			"1"
 		"AbilitySpecial"
 		{
 			"01" { "var_type" "FIELD_INTEGER" "bonus_all_stats" "10" }

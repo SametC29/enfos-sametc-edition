@@ -42,44 +42,29 @@ end
 -- Schema Migration
 --------------------------------------------------------------------------------
 function StorageAdapter.MigrateProfile(profile)
-	if not profile then
-		return StorageAdapter.CreateDefaultProfile()
+	if type(profile)~="table" then return StorageAdapter.CreateDefaultProfile() end
+	local defaults=StorageAdapter.CreateDefaultProfile(profile.steamId)
+	for key,value in pairs(defaults) do
+		if type(profile[key])~=type(value) then profile[key]=value end
 	end
-
-	local version = profile.schemaVersion or 0
-
-	if version < 1 then
-		profile.schemaVersion = 1
-		profile.legacy = profile.legacy or {
-			offense = 0,
-			defense = 0,
-			economy = 0,
-			spellbringer = 0,
-		}
-		profile.unspentLegacyPoints = profile.unspentLegacyPoints or 0
-		profile.highestDifficultyUnlocked = profile.highestDifficultyUnlocked or "normal"
-		profile.heroUnlockTokens = profile.heroUnlockTokens or 0
-		profile.unlockedHeroes = profile.unlockedHeroes or {}
-		profile.heroMastery = profile.heroMastery or {}
-		profile.processedMatchIds = profile.processedMatchIds or {}
-
-		-- Validate total legacy points earned vs spent
-		local maxEarned = math.min(24, math.floor(profile.accountLevel / 2))
-		local totalSpent = (profile.legacy.offense or 0) + (profile.legacy.defense or 0) +
-			(profile.legacy.economy or 0) + (profile.legacy.spellbringer or 0)
-		if totalSpent > maxEarned then
-			-- Reset spent points to prevent corrupted state
-			profile.legacy.offense = 0
-			profile.legacy.defense = 0
-			profile.legacy.economy = 0
-			profile.legacy.spellbringer = 0
-			profile.unspentLegacyPoints = maxEarned
-		else
-			profile.unspentLegacyPoints = maxEarned - totalSpent
-		end
-		Log:Info("storage_adapter", "Migrated profile for %s to schema v1", tostring(profile.steamId))
+	local function integer(value,low,high)
+		local n=require("lib/validation").Finite(value) or low
+		return math.max(low,math.min(high,math.floor(n)))
 	end
-
+	profile.accountLevel=integer(profile.accountLevel,1,100)
+	profile.accountXp=integer(profile.accountXp,0,100000000)
+	local earned=math.min(24,math.floor(profile.accountLevel/2))
+	local spent=0
+	for _,branch in ipairs({"offense","defense","economy","spellbringer"}) do
+		profile.legacy[branch]=integer(profile.legacy[branch],0,12)
+		spent=spent+profile.legacy[branch]
+	end
+	if spent>earned then
+		for branch in pairs(profile.legacy) do profile.legacy[branch]=0 end
+		spent=0
+	end
+	profile.unspentLegacyPoints=earned-spent
+	profile.schemaVersion=StorageAdapter.CURRENT_SCHEMA_VERSION
 	return profile
 end
 
@@ -92,6 +77,7 @@ LocalStorageAdapter.__index = LocalStorageAdapter
 function LocalStorageAdapter.New()
 	local self = setmetatable({}, LocalStorageAdapter)
 	self.profiles = {}
+	self.durable = false
 	return self
 end
 
@@ -133,6 +119,7 @@ HttpStorageAdapter.__index = HttpStorageAdapter
 
 function HttpStorageAdapter.New(backendEndpoint, fallbackLocal)
 	local self = setmetatable({}, HttpStorageAdapter)
+	self.durable = false
 	self.backendEndpoint = backendEndpoint or "http://127.0.0.1:8080/api/enfos"
 	self.localFallback = fallbackLocal or LocalStorageAdapter.New()
 	return self

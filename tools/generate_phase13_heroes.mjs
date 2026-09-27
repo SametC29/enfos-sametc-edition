@@ -477,7 +477,7 @@ function generateAbilitiesKV() {
 	{
 		"BaseClass"					"ability_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"tidehunter_blubber"
+		"AbilityTextureName"		"tidehunter_kraken_shell"
 		"MaxLevel"					"1"
 
 		"AbilitySpecial"
@@ -1250,7 +1250,7 @@ function generateAbilitiesKV() {
 	{
 		"BaseClass"					"ability_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"abyssal_underlord_portal_warp"
+		"AbilityTextureName"		"abyssal_underlord_atrophy_aura"
 		"MaxLevel"					"1"
 
 		"AbilitySpecial"
@@ -1511,7 +1511,7 @@ function generateAbilitiesKV() {
 	{
 		"BaseClass"					"ability_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"ursa_bear_down"
+		"AbilityTextureName"		"ursa_enrage"
 		"MaxLevel"					"1"
 
 		"AbilitySpecial"
@@ -2253,7 +2253,7 @@ function generateAbilitiesKV() {
 	{
 		"BaseClass"					"ability_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"chaos_knight_armlet"
+		"AbilityTextureName"		"chaos_knight_chaos_strike"
 		"MaxLevel"					"1"
 
 		"AbilitySpecial"
@@ -2459,7 +2459,7 @@ function generateAbilitiesKV() {
 	{
 		"BaseClass"					"ability_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"antimage_perfervid_crux"
+		"AbilityTextureName"		"antimage_spell_shield"
 		"MaxLevel"					"1"
 
 		"AbilitySpecial"
@@ -3707,7 +3707,7 @@ function generateAbilitiesKV() {
 	{
 		"BaseClass"					"ability_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"leshrac_chronoptic_nourishment"
+		"AbilityTextureName"		"leshrac_pulse_nova"
 		"MaxLevel"					"1"
 
 		"AbilitySpecial"
@@ -4239,7 +4239,7 @@ function generateAbilitiesKV() {
 	{
 		"BaseClass"					"ability_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"puck_puckish"
+		"AbilityTextureName"		"puck_phase_shift"
 		"MaxLevel"					"1"
 
 		"AbilitySpecial"
@@ -4481,7 +4481,7 @@ function generateAbilitiesKV() {
 	{
 		"BaseClass"					"ability_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"lion_to_hell_and_back"
+		"AbilityTextureName"		"lion_finger_of_death"
 		"MaxLevel"					"1"
 
 		"AbilitySpecial"
@@ -4760,7 +4760,7 @@ function generateAbilitiesKV() {
 	{
 		"BaseClass"					"ability_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"jakiro_double_trouble"
+		"AbilityTextureName"		"jakiro_dual_breath"
 		"MaxLevel"					"1"
 
 		"AbilitySpecial"
@@ -5002,7 +5002,7 @@ function generateAbilitiesKV() {
 	{
 		"BaseClass"					"ability_datadriven"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"vengefulspirit_soul_strike"
+		"AbilityTextureName"		"vengefulspirit_command_aura"
 		"MaxLevel"					"1"
 
 		"AbilitySpecial"

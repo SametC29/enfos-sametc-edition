@@ -4,7 +4,6 @@ import { spawnSync } from 'node:child_process';
 import luaparse from 'luaparse';
 import { parseKV } from './lib/kv.mjs';
 import { generateLocalization, root, languages } from './localization.mjs';
-import { runFullSimulation } from './economy_simulator.mjs';
 
 process.chdir(root);
 let failures = 0;
@@ -58,12 +57,14 @@ check('validator regression tests', () => {
   if (result.status !== 0) throw new Error('Validator tests failed');
 });
 if (fs.existsSync('tests/run.lua')) check('Lua behavior tests', () => {
-  const result = spawnSync(process.execPath, ['node_modules/fengari-node-cli/src/lua-cli.js', 'tests/run.lua'], { stdio: 'inherit' });
-  if (result.status !== 0) throw new Error('Lua behavior tests failed');
+  const result = spawnSync(process.execPath, ['node_modules/fengari-node-cli/src/lua-cli.js', 'tests/run.lua'], { encoding: 'utf8' });
+  console.log(result.stdout);
+  if (result.status !== 0 || result.stderr || !result.stdout.includes('Lua behavior tests passed')) throw new Error('Lua behavior tests failed: ' + result.stderr);
 });
 check('wave and portal runtime regressions', () => {
-  const result = spawnSync(process.execPath, ['node_modules/fengari-node-cli/src/lua-cli.js', 'tests/runtime_regressions.lua'], { stdio: 'inherit' });
-  if (result.status !== 0) throw new Error('Runtime regression tests failed');
+  const result = spawnSync(process.execPath, ['node_modules/fengari-node-cli/src/lua-cli.js', 'tests/runtime_regressions.lua'], { encoding: 'utf8' });
+  console.log(result.stdout);
+  if (result.status !== 0 || result.stderr || !result.stdout.includes('runtime regression tests passed')) throw new Error('Runtime regression tests failed: ' + result.stderr);
 });
 check('native tooltip name, description and compact tooltip aliases', () => {
   const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
@@ -87,8 +88,27 @@ check('Panorama source mirrors and overview mapping', () => {
     if (Number(overview.pos_x) !== -12864 || Number(overview.pos_y) !== 12864 || Number(overview.scale) !== 25.125) throw new Error('Overview does not match Survival map');
   }
 });
-check('economy simulator balance and reconciliation gates', () => {
-  if (!runFullSimulation()) throw new Error('Economy simulator failed verification gates');
+check('production roster and wave economy are current', () => {
+  for (const file of ['tools/roster.mjs', 'tools/wave_economy.mjs']) {
+    const result = spawnSync(process.execPath, [file, '--check'], { encoding: 'utf8' });
+    if (result.status !== 0 || result.stderr) throw new Error(result.stderr || file);
+  }
+});
+check('audit behavior regressions', () => {
+  const result = spawnSync(process.execPath, ['node_modules/fengari-node-cli/src/lua-cli.js', 'tests/audit_regressions.lua'], {encoding:'utf8'});
+  console.log(result.stdout);
+  if (result.status !== 0 || result.stderr || !result.stdout.includes('audit regression tests passed')) throw new Error(result.stderr || 'Audit regressions did not finish');
+});
+check('Lua ability entrypoints and authoritative hero references', () => {
+  const abilities=kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
+  const roster=kv('game/scripts/npc/npc_heroes_custom.txt').DOTAHeroes;
+  const counts={};
+  for (const h of Object.values(roster)) counts[h.Role]=(counts[h.Role]||0)+1;
+  if (Object.keys(roster).length!==40 || Object.values(counts).some(n=>n!==8)) throw new Error('Expected 8 heroes per role');
+  for (const [id,a] of Object.entries(abilities)) if (a.BaseClass==='ability_lua') {
+    const source=fs.readFileSync('game/scripts/vscripts/'+a.ScriptFile+'.lua','utf8');
+    if (!source.includes(id+'=class({})')) throw new Error('Missing Lua entrypoint '+id);
+  }
 });
 console.log(`${failures} failed check(s). Engine playtests remain separate.`);
 process.exitCode = failures ? 1 : 0;

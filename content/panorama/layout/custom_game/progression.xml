@@ -22,6 +22,7 @@
 				</Button>
 			</Panel>
 
+			<Label id="StorageStatus" text="#enfos_storage_session_only" />
 			<!-- Account Level & XP Bar -->
 			<Panel class="AccountSection">
 				<Panel class="LevelRow">

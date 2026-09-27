@@ -21,57 +21,8 @@ local AghanimManager = {
 }
 
 -- 40-Hero Role Mapping
-AghanimManager.HERO_ROLES = {
-	-- Tank
-	npc_dota_hero_sven = "Tank",
-	npc_dota_hero_axe = "Tank",
-	npc_dota_hero_centaur = "Tank",
-	npc_dota_hero_bristleback = "Tank",
-	npc_dota_hero_tidehunter = "Tank",
-	npc_dota_hero_dragon_knight = "Tank",
-	npc_dota_hero_pudge = "Tank",
-	npc_dota_hero_abyssal_underlord = "Tank",
-
-	-- Fighter
-	npc_dota_hero_juggernaut = "Fighter",
-	npc_dota_hero_legion_commander = "Fighter",
-	npc_dota_hero_skeleton_king = "Fighter",
-	npc_dota_hero_slark = "Fighter",
-	npc_dota_hero_ursa = "Fighter",
-	npc_dota_hero_monkey_king = "Fighter",
-	npc_dota_hero_troll_warlord = "Fighter",
-	npc_dota_hero_chaos_knight = "Fighter",
-
-	-- Carry
-	npc_dota_hero_drow_ranger = "Carry",
-	npc_dota_hero_sniper = "Carry",
-	npc_dota_hero_phantom_assassin = "Carry",
-	npc_dota_hero_luna = "Carry",
-	npc_dota_hero_antimage = "Carry",
-	npc_dota_hero_faceless_void = "Carry",
-	npc_dota_hero_medusa = "Carry",
-	npc_dota_hero_terrorblade = "Carry",
-
-	-- Mage
-	npc_dota_hero_lina = "Mage",
-	npc_dota_hero_crystal_maiden = "Mage",
-	npc_dota_hero_zuus = "Mage",
-	npc_dota_hero_nevermore = "Mage",
-	npc_dota_hero_invoker = "Mage",
-	npc_dota_hero_storm_spirit = "Mage",
-	npc_dota_hero_necrolyte = "Mage",
-	npc_dota_hero_leshrac = "Mage",
-
-	-- Support
-	npc_dota_hero_omniknight = "Support",
-	npc_dota_hero_dazzle = "Support",
-	npc_dota_hero_witch_doctor = "Support",
-	npc_dota_hero_shadow_shaman = "Support",
-	npc_dota_hero_lich = "Support",
-	npc_dota_hero_lion = "Support",
-	npc_dota_hero_warlock = "Support",
-	npc_dota_hero_oracle = "Support",
-}
+AghanimManager.HERO_ROLES = {}
+for _, hero in ipairs(require("heroes/roster")) do AghanimManager.HERO_ROLES[hero.id] = hero.role end
 
 -- Role-based Aghanim Shard Configuration
 AghanimManager.SHARD_ROLE_BUFFS = {
@@ -128,7 +79,7 @@ function AghanimManager:Init()
 	if GameRules and GameRules.GetGameModeEntity and GameRules:GetGameModeEntity() then
 		GameRules:GetGameModeEntity():SetContextThink("AghanimManagerPeriodicThink", function()
 			if PlayerResource then
-				for playerId = 0, 9 do
+				for playerId = 0, (DOTA_MAX_TEAM_PLAYERS or 24)-1 do
 					local hero = PlayerResource:GetSelectedHeroEntity(playerId)
 					if hero and not hero:IsNull() and hero:IsAlive() then
 						local heroName = hero.GetUnitName and hero:GetUnitName() or ""
@@ -258,6 +209,7 @@ modifier_enfos_scepter_upgrade = class({})
 function modifier_enfos_scepter_upgrade:IsHidden() return false end
 function modifier_enfos_scepter_upgrade:IsPurgable() return false end
 function modifier_enfos_scepter_upgrade:IsPermanent() return true end
+function modifier_enfos_scepter_upgrade:RemoveOnDeath() return false end
 function modifier_enfos_scepter_upgrade:GetTexture() return "item_ultimate_scepter" end
 
 function modifier_enfos_scepter_upgrade:DeclareFunctions()
@@ -266,21 +218,27 @@ function modifier_enfos_scepter_upgrade:DeclareFunctions()
 		MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE,
 	}
 end
-function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage() return 40 end
-function modifier_enfos_scepter_upgrade:GetModifierPercentageCooldown() return 25 end
+function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event)
+	local a=event and event.inflictor
+	return a and a:GetAbilityType()==DOTA_ABILITY_TYPE_ULTIMATE and 40 or 0
+end
+function modifier_enfos_scepter_upgrade:GetModifierPercentageCooldown(event)
+	local a=event and event.ability
+	return a and a:GetAbilityType()==DOTA_ABILITY_TYPE_ULTIMATE and 25 or 0
+end
 
 -- Shard Role Upgrade Modifier
 modifier_enfos_shard_upgrade = class({})
 function modifier_enfos_shard_upgrade:IsHidden() return false end
 function modifier_enfos_shard_upgrade:IsPurgable() return false end
 function modifier_enfos_shard_upgrade:IsPermanent() return true end
+function modifier_enfos_shard_upgrade:RemoveOnDeath() return false end
 function modifier_enfos_shard_upgrade:GetTexture() return "item_aghanims_shard" end
 
 function modifier_enfos_shard_upgrade:OnCreated(kv)
+	self.role = AghanimManager:DetectHeroRole(self:GetParent():GetUnitName())
 	if kv and kv.role then
 		self.role = kv.role
-	else
-		self.role = "Tank"
 	end
 end
 
@@ -324,6 +282,7 @@ end
 function modifier_enfos_shard_upgrade:OnTakeDamage(keys)
 	if not IsServer or not IsServer() then return end
 	if keys.unit ~= self:GetParent() then return end
+	if bit.band(keys.damage_flags or 0, DOTA_DAMAGE_FLAG_REFLECTION) ~= 0 then return end
 
 	-- Tank: reflect 15% damage
 	if self.role == "Tank" and keys.attacker and not keys.attacker:IsNull() and keys.attacker:IsAlive() and keys.attacker:GetTeamNumber() ~= self:GetParent():GetTeamNumber() then
@@ -344,7 +303,7 @@ function modifier_enfos_shard_upgrade:OnAttackLanded(keys)
 	if not IsServer or not IsServer() then return end
 	if keys.attacker ~= self:GetParent() then return end
 	local target = keys.target
-	if not target or target:IsNull() or not target:IsAlive() then return end
+	if not target or target:IsNull() or not target:IsAlive() or target:GetTeamNumber()==self:GetParent():GetTeamNumber() then return end
 
 	if self.role == "Fighter" then
 		target:AddNewModifier(self:GetParent(), nil, "modifier_enfos_shard_slow", { duration = 3.0 })
@@ -352,7 +311,7 @@ function modifier_enfos_shard_upgrade:OnAttackLanded(keys)
 		ApplyDamage({
 			victim = target,
 			attacker = self:GetParent(),
-			damage = (keys.original_damage or 0) * 0.12,
+			damage = (keys.damage or 0) * 0.12,
 			damage_type = DAMAGE_TYPE_PURE,
 			damage_flags = DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION,
 		})
@@ -378,6 +337,7 @@ modifier_item_ascended_aghanims_blessing_consumed = class({})
 function modifier_item_ascended_aghanims_blessing_consumed:IsHidden() return false end
 function modifier_item_ascended_aghanims_blessing_consumed:IsPurgable() return false end
 function modifier_item_ascended_aghanims_blessing_consumed:IsPermanent() return true end
+function modifier_item_ascended_aghanims_blessing_consumed:RemoveOnDeath() return false end
 function modifier_item_ascended_aghanims_blessing_consumed:GetTexture() return "item_ultimate_scepter_2" end
 
 function modifier_item_ascended_aghanims_blessing_consumed:DeclareFunctions()

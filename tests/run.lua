@@ -383,6 +383,10 @@ FindClearSpaceForUnit = FindClearSpaceForUnit or function() end
 CreateModifierThinker = CreateModifierThinker or function() end
 AddFOWViewer = AddFOWViewer or function() end
 
+GameRules.State_Get=function() return 7 end
+GameRules.IsGamePaused=function() return false end
+DOTA_GAMERULES_STATE_GAME_IN_PROGRESS=7
+DOTA_GAMERULES_STATE_POST_GAME=8
 test("spellbringer initializes with 100 mana and regenerates over time", function()
     SpellbringerService:Init(nil)
     assert(SpellbringerService:GetMana(0) == 100, "Starting mana should be 100")
@@ -507,7 +511,7 @@ test("purification dispels spellbringer buffs and destroys summons", function()
         damagedUnits[#damagedUnits+1] = kv
     end
 
-    local ok = SpellbringerService:CastSpell(0, "spellbringer_purification", Vector(0,0,0), nil)
+    local ok = SpellbringerService:CastSpell(0, "spellbringer_purification", Vector(7504,-1357,136), nil)
     assert(ok == true)
     assert(removedModifiers["modifier_spellbringer_arcane_barrier"] == true, "Should dispel arcane barrier")
     assert(removedModifiers["modifier_spellbringer_war_standard_buff"] == true, "Should dispel war standard buff")
@@ -549,7 +553,7 @@ test("future reinforcements summons exactly 5 allied fighters with wave scaling 
     end
 
     SpellbringerService.waveManager = { currentWave = 10 }
-    local ok = SpellbringerService:CastSpell(0, "spellbringer_future_reinforcements", Vector(0,0,0), nil)
+    local ok = SpellbringerService:CastSpell(0, "spellbringer_future_reinforcements", Vector(7504,-1357,136), nil)
     assert(ok == true)
     assert(#spawnedUnits == 5, "Future reinforcements must summon exactly 5 fighters, got: " .. #spawnedUnits)
 
@@ -707,6 +711,7 @@ end)
 -- Economy Manager Tests (Phase 7)
 -- =========================================================================
 local EconomyManager = require("economy/economy_manager")
+PlayerResource.SpendGold=function(self,id,amount,reason) self:ModifyGold(id,-amount,true,reason) end
 PlayerResource.gold = {}
 PlayerResource.GetGold = function(self, id) return self.gold[id] or 0 end
 PlayerResource.ModifyGold = function(self, id, amt, isReliable, reason)
@@ -914,6 +919,11 @@ test("ascended upgrade requires base item and sufficient lumber", function()
     local can3 = AscendedShop:CanUpgrade(0, "item_ascended_worldheart")
     assert(can3 == true, "Upgrade with base item and sufficient lumber must succeed")
 
+    hero.TakeItem=hero.RemoveItem
+    hero.AddItem=function(self,it) self.items[0]=it;return it end
+    hero.SwapItems=function(self,a,b) self.items[a],self.items[b]=self.items[b],self.items[a] end
+    CreateItem=function(name) return {IsNull=function() return false end,GetAbilityName=function() return name end} end
+    UTIL_Remove=function() end
     local okUpgrade, _, newItem = AscendedShop:PurchaseUpgrade(0, "item_ascended_worldheart")
     assert(okUpgrade == true, "PurchaseUpgrade must succeed")
     assert(EconomyManager:GetLumber(0) == 0, "85 Lumber must be deducted")
@@ -1246,57 +1256,7 @@ end)
 -- Hero Roster Tests (Phase 13 - 40 Heroes Milestone)
 -- =========================================================================
 test("forty heroes are authored with exactly 8 per role (Tank/Fighter/Carry/Mage/Support)", function()
-    local heroList = {
-        -- Tank (8)
-        { name = "npc_dota_hero_sven", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
-        { name = "npc_dota_hero_axe", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
-        { name = "npc_dota_hero_centaur", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
-        { name = "npc_dota_hero_bristleback", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
-        { name = "npc_dota_hero_tidehunter", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
-        { name = "npc_dota_hero_dragon_knight", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
-        { name = "npc_dota_hero_pudge", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
-        { name = "npc_dota_hero_abyssal_underlord", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
-
-        -- Fighter (8)
-        { name = "npc_dota_hero_juggernaut", role = "Fighter", primary = "DOTA_ATTRIBUTE_AGILITY" },
-        { name = "npc_dota_hero_legion_commander", role = "Fighter", primary = "DOTA_ATTRIBUTE_STRENGTH" },
-        { name = "npc_dota_hero_skeleton_king", role = "Fighter", primary = "DOTA_ATTRIBUTE_STRENGTH" },
-        { name = "npc_dota_hero_slark", role = "Fighter", primary = "DOTA_ATTRIBUTE_AGILITY" },
-        { name = "npc_dota_hero_ursa", role = "Fighter", primary = "DOTA_ATTRIBUTE_AGILITY" },
-        { name = "npc_dota_hero_monkey_king", role = "Fighter", primary = "DOTA_ATTRIBUTE_AGILITY" },
-        { name = "npc_dota_hero_troll_warlord", role = "Fighter", primary = "DOTA_ATTRIBUTE_AGILITY" },
-        { name = "npc_dota_hero_chaos_knight", role = "Fighter", primary = "DOTA_ATTRIBUTE_STRENGTH" },
-
-        -- Carry (8)
-        { name = "npc_dota_hero_drow_ranger", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
-        { name = "npc_dota_hero_sniper", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
-        { name = "npc_dota_hero_phantom_assassin", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
-        { name = "npc_dota_hero_luna", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
-        { name = "npc_dota_hero_antimage", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
-        { name = "npc_dota_hero_faceless_void", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
-        { name = "npc_dota_hero_medusa", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
-        { name = "npc_dota_hero_terrorblade", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
-
-        -- Mage (8)
-        { name = "npc_dota_hero_lina", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
-        { name = "npc_dota_hero_crystal_maiden", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
-        { name = "npc_dota_hero_zuus", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
-        { name = "npc_dota_hero_nevermore", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
-        { name = "npc_dota_hero_storm_spirit", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
-        { name = "npc_dota_hero_leshrac", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
-        { name = "npc_dota_hero_invoker", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
-        { name = "npc_dota_hero_puck", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
-
-        -- Support (8)
-        { name = "npc_dota_hero_omniknight", role = "Support", primary = "DOTA_ATTRIBUTE_STRENGTH" },
-        { name = "npc_dota_hero_dazzle", role = "Support", primary = "DOTA_ATTRIBUTE_INTELLECT" },
-        { name = "npc_dota_hero_witch_doctor", role = "Support", primary = "DOTA_ATTRIBUTE_INTELLECT" },
-        { name = "npc_dota_hero_shadow_shaman", role = "Support", primary = "DOTA_ATTRIBUTE_INTELLECT" },
-        { name = "npc_dota_hero_lion", role = "Support", primary = "DOTA_ATTRIBUTE_INTELLECT" },
-        { name = "npc_dota_hero_jakiro", role = "Support", primary = "DOTA_ATTRIBUTE_INTELLECT" },
-        { name = "npc_dota_hero_vengefulspirit", role = "Support", primary = "DOTA_ATTRIBUTE_AGILITY" },
-        { name = "npc_dota_hero_lich", role = "Support", primary = "DOTA_ATTRIBUTE_INTELLECT" },
-    }
+    local heroList = require("heroes/roster")
 
     assert(#heroList == 40, "Must have exactly 40 heroes in the current roster milestone, got: " .. tostring(#heroList))
 
@@ -1324,6 +1284,12 @@ test("setup manager handles difficulty, team assignment, same-team lock preventi
         GetDifficulty = function(self) return self.difficulty end,
     }
 
+    GameRules.GetGameModeEntity=function() return {SetContextThink=function() end} end
+    DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP=2;DOTA_GAMERULES_STATE_HERO_SELECTION=3
+    GameRules.State_Get=function() return 2 end
+    GameRules.PlayerHasCustomGameHostPrivileges=function() return true end
+    PlayerResource.IsValidPlayerID=function(_,id) return id>=0 and id<=2 end
+    PlayerResource.GetPlayer=function() return {SetSelectedHero=function() end} end
     EnfosSetupManager:Init(dummyWaveManager, nil)
     assert(EnfosSetupManager.selectedDifficulty == "normal")
     assert(dummyWaveManager.difficulty == "normal")
@@ -1337,6 +1303,7 @@ test("setup manager handles difficulty, team assignment, same-team lock preventi
     EnfosSetupManager:OnSetDifficulty({ PlayerID = 0, difficulty = "godmode" })
     assert(EnfosSetupManager.selectedDifficulty == "hard", "Invalid difficulty must be ignored")
 
+    GameRules.State_Get=function() return 3 end
     -- 2. Lock in hero & same-team duplicate prevention
     PlayerResource.GetTeam = function(_, pid) return 2 end -- Radiant
     EnfosSetupManager:OnLockInHero({ PlayerID = 0, hero_name = "npc_dota_hero_sven" })
@@ -1352,6 +1319,7 @@ test("setup manager handles difficulty, team assignment, same-team lock preventi
     EnfosSetupManager:OnLockInHero({ PlayerID = 2, hero_name = "npc_dota_hero_sven" })
     assert(EnfosSetupManager.playerPicks[2] == "npc_dota_hero_sven", "Opposing team can pick same hero")
 
+    GameRules.State_Get=function() return 2 end
     -- 3. Start game
     local finishCalled = false
     GameRules.FinishCustomGameSetup = function() finishCalled = true end

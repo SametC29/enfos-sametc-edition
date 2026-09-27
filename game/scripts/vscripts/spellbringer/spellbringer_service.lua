@@ -130,6 +130,7 @@ end
 --------------------------------------------------------------------------------
 function SpellbringerService:Init(waveManager)
 	self.waveManager = waveManager
+	self.modeInitialized = false
 	self.playerState = {} -- [playerID] = { mana, max_mana, regen, cooldowns = {} }
 	self.isCoop = false
 	if GameRules and GameRules.EnfosSametC and GameRules.EnfosSametC.isCoop then
@@ -252,6 +253,16 @@ end
 -- Periodic Thinker (Regen & Cooldown Decay)
 --------------------------------------------------------------------------------
 function SpellbringerService:OnThink(dt)
+	if GameRules:State_Get()>=DOTA_GAMERULES_STATE_POST_GAME then return nil end
+	if GameRules:State_Get()<DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then return self.THINK_INTERVAL end
+	for id=0,(DOTA_MAX_TEAM_PLAYERS or 24)-1 do
+		if PlayerResource:IsValidPlayerID(id) and (PlayerResource:GetTeam(id)==2 or PlayerResource:GetTeam(id)==3) then self:EnsurePlayer(id) end
+	end
+	if not self.modeInitialized and self.waveManager and self.waveManager.GetActivePlayerCount then
+		self.isCoop=self.waveManager:GetActivePlayerCount(2)==0 or self.waveManager:GetActivePlayerCount(3)==0
+		self.modeInitialized=true
+		for id in pairs(self.playerState) do self:SyncNetTable(id) end
+	end
 	if GameRules and GameRules.IsGamePaused and GameRules:IsGamePaused() then
 		return self.THINK_INTERVAL
 	end
@@ -300,7 +311,7 @@ function SpellbringerService:SyncNetTable(playerID)
 		max_mana = math.floor(state.max_mana),
 		regen = math.floor(state.regen * 10) / 10,
 		cooldowns = cdTable,
-		is_coop = self.isCoop,
+		is_coop = self.isCoop and 1 or 0,
 	})
 end
 
@@ -308,11 +319,22 @@ end
 -- Target & Cast Validation
 --------------------------------------------------------------------------------
 function SpellbringerService:CanCast(playerID, abilityName, targetPos)
+	if type(playerID)~="number" or not PlayerResource:IsValidPlayerID(playerID) then return false,"INVALID_PLAYER" end
+	local team=PlayerResource:GetTeam(playerID)
+	if team~=2 and team~=3 then return false,"INVALID_PLAYER" end
+	if GameRules:State_Get()~=DOTA_GAMERULES_STATE_GAME_IN_PROGRESS or GameRules:IsGamePaused() then return false,"INVALID_PHASE" end
 	local def = self.ABILITY_DEFS[abilityName]
 	if not def then
 		return false, "UNKNOWN_ABILITY"
 	end
 
+	if targetPos then
+		local finite=require("lib/validation").Finite
+		if not finite(targetPos.x) or not finite(targetPos.y) or not finite(targetPos.z) then return false,"INVALID_TARGET" end
+		local targetTeam=def.is_offensive and (team==2 and 3 or 2) or team
+		if math.abs(targetPos.x)<3000 or math.abs(targetPos.x)>12000 or targetPos.y < -12000 or targetPos.y>4500
+			or (targetTeam==2 and targetPos.x<0) or (targetTeam==3 and targetPos.x>0) then return false,"INVALID_TARGET" end
+	end
 	local state = self:EnsurePlayer(playerID)
 
 	-- Co-op mode blocks offensive spells
@@ -338,16 +360,16 @@ end
 --------------------------------------------------------------------------------
 function SpellbringerService:OnCastRequest(userIdx, args)
 	if not args then return end
-	local playerID = args.PlayerID or (args.player_id and tonumber(args.player_id))
-	if playerID == nil and userIdx ~= nil then
-		playerID = userIdx
-	end
-	if playerID == nil then return end
+	local playerID = args.PlayerID
+	if type(playerID) ~= "number" then return end
 
 	local abilityName = args.ability_name
 	local targetPos = nil
 	if args.target_x and args.target_y then
-		targetPos = Vector(tonumber(args.target_x), tonumber(args.target_y), tonumber(args.target_z or 136))
+		local finite=require("lib/validation").Finite
+		local x,y,z=finite(args.target_x),finite(args.target_y),finite(args.target_z or 136)
+		if not x or not y or not z then return end
+		targetPos = GetGroundPosition(Vector(x,y,0),nil)
 	end
 
 	local success, reason = self:CastSpell(playerID, abilityName, targetPos, nil)
@@ -399,6 +421,12 @@ function SpellbringerService:CastSpell(playerID, abilityName, targetPos, targetE
 		ok = self:CastFutureReinforcements(casterTeam, def, targetPos)
 	end
 
+	if not ok then
+		state.mana=math.min(state.max_mana,state.mana+def.cost)
+		state.cooldowns[abilityName]=nil
+		self:SyncNetTable(playerID)
+		return false,"CAST_FAILED"
+	end
 	Log:Info("spellbringer", "Player %d (Team %d) successfully cast %s", playerID, casterTeam, abilityName)
 	return true, "OK"
 end
@@ -409,7 +437,7 @@ end
 --------------------------------------------------------------------------------
 function SpellbringerService:CastArcaneBarrier(casterTeam, opponentTeam, def)
 	local creeps = self:GetActiveHostiles(opponentTeam)
-	for _, creep in ipairs(creeps) do
+	for _, creep in pairs(creeps) do
 		if creep and not creep:IsNull() and creep:IsAlive() then
 			creep:AddNewModifier(creep, nil, "modifier_spellbringer_arcane_barrier", { duration = def.duration })
 		end
@@ -424,15 +452,16 @@ end
 --------------------------------------------------------------------------------
 function SpellbringerService:CastWarStandard(casterTeam, opponentTeam, def, targetPos)
 	local pos = targetPos or self:GetDefaultLanePos(opponentTeam)
-	local standard = CreateUnitByName("enfos_spellbringer_war_standard", pos, true, nil, nil, opponentTeam)
+	local standard = CreateUnitByName("enfos_spellbringer_war_standard", pos, true, nil, nil, DOTA_TEAM_NEUTRALS or 4)
 	if standard then
+		standard.defendingTeam = opponentTeam
 		standard.is_spellbringer_summon = true
 		standard.enfosNoReward = true
 		standard:AddNewModifier(standard, nil, "modifier_spellbringer_war_standard_aura", {})
 		standard:AddNewModifier(standard, nil, "modifier_kill", { duration = def.duration })
 		standard:EmitSound("Hero_LegionCommander.Duel.Cast")
 	end
-	return true
+	return standard ~= nil
 end
 
 --------------------------------------------------------------------------------
@@ -441,15 +470,16 @@ end
 --------------------------------------------------------------------------------
 function SpellbringerService:CastThornIdol(casterTeam, opponentTeam, def, targetPos)
 	local pos = targetPos or self:GetDefaultLanePos(opponentTeam)
-	local idol = CreateUnitByName("enfos_spellbringer_thorn_idol", pos, true, nil, nil, opponentTeam)
+	local idol = CreateUnitByName("enfos_spellbringer_thorn_idol", pos, true, nil, nil, DOTA_TEAM_NEUTRALS or 4)
 	if idol then
+		idol.defendingTeam = opponentTeam
 		idol.is_spellbringer_summon = true
 		idol.enfosNoReward = true
 		idol:AddNewModifier(idol, nil, "modifier_spellbringer_thorn_idol_aura", {})
 		idol:AddNewModifier(idol, nil, "modifier_kill", { duration = def.duration })
 		idol:EmitSound("DOTA_Item.BladeMail.Activate")
 	end
-	return true
+	return idol ~= nil
 end
 
 --------------------------------------------------------------------------------
@@ -461,16 +491,15 @@ function SpellbringerService:CastRiftSurge(casterTeam, opponentTeam, def)
 	local CreepAI = require("waves/creep_ai")
 
 	for i = 1, def.count do
-		local unit = CreateUnitByName(def.unit_name, spawnPos + Vector(RandomFloat(-50, 50), RandomFloat(-50, 50), 0), true, nil, nil, opponentTeam)
+		local unit = CreateUnitByName(def.unit_name, spawnPos + Vector(RandomFloat(-50, 50), RandomFloat(-50, 50), 0), true, nil, nil, DOTA_TEAM_NEUTRALS or 4)
 		if unit then
 			unit.is_spellbringer_summon = true
 			unit.enfosNoReward = true
 			unit.defendingTeam = opponentTeam
 			unit:SetIdleAcquire(true)
 			unit:SetAcquisitionRange(650)
-			if CreepAI and CreepAI.RegisterCreep then
-				CreepAI:RegisterCreep(unit, opponentTeam, "center")
-			end
+			unit:AddNewModifier(unit,nil,"modifier_kill",{duration=30})
+			CreepAI:Attach(unit,opponentTeam,"center",function(u) u:ForceKill(false) end)
 		end
 	end
 	EmitGlobalSound("Hero_Enigma.DemonicConversion")
@@ -494,10 +523,13 @@ function SpellbringerService:CastWholeDisplacement(casterTeam, def, targetPos)
 	for _, unit in ipairs(units) do
 		local name = unit:GetUnitName()
 		-- Strictly non-Boss! Elites and regulars can be displaced
-		if not name:find("enfos_boss_", 1, true) then
-			FindClearSpaceForUnit(unit, laneStart, true)
+		if unit.defendingTeam==casterTeam and not name:find("enfos_boss_", 1, true) then
+			local destination=unit.creepState and unit.creepState.route[1] or laneStart
+			FindClearSpaceForUnit(unit, destination, true)
 			if unit.creepState then
-				unit.creepState.currentWaypointIndex = 1
+				unit.creepState.waypointIndex = 1
+				unit.creepState.lastPos = destination
+				CreepAI:OrderMoveToWaypoint(unit.creepState)
 			end
 			unit:EmitSound("Hero_Chen.TeleportOut")
 			displaced = displaced + 1
@@ -590,7 +622,7 @@ function SpellbringerService:CastFutureReinforcements(casterTeam, def, targetPos
 
 			unit:SetIdleAcquire(true)
 			unit:SetAcquisitionRange(700)
-			unit:AddNewModifier(unit, nil, "modifier_spellbringer_reinforcement_timed_life", { duration = def.duration })
+			unit:AddNewModifier(unit, nil, "modifier_kill", { duration = def.duration })
 		end
 	end
 
@@ -703,6 +735,7 @@ end
 function modifier_spellbringer_thorn_idol_buff:OnTakeDamage(params)
 	if not (IsServer and IsServer()) then return end
 	local parent = self:GetParent()
+	if bit.band(params.damage_flags or 0,DOTA_DAMAGE_FLAG_REFLECTION)~=0 then return end
 	if params.unit == parent and params.attacker and not params.attacker:IsNull() and params.attacker ~= parent then
 		local reflect = math.min(params.damage * 0.25, parent:GetMaxHealth() * 0.25)
 		if reflect > 0 then

@@ -1,0 +1,1459 @@
+{
+  "heroCount": 40,
+  "abilities": [
+    {
+      "id": "bulwark_shield_slam",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "bulwark_challenge",
+      "base": "ability_lua",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "bulwark_iron_guard",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "bulwark_fortress",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "bulwark_unbreakable",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_juggernaut_blade_fury",
+      "base": "ability_lua",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_juggernaut_healing_ward",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_juggernaut_blade_dance",
+      "base": "ability_lua",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_juggernaut_omni_slash",
+      "base": "ability_lua",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_juggernaut_duelist",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_drow_frost_arrows",
+      "base": "ability_lua",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_drow_gust",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_drow_multishot",
+      "base": "ability_lua",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_drow_marksmanship",
+      "base": "ability_lua",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_drow_precision_aura",
+      "base": "ability_lua",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_lina_dragon_slave",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_lina_light_strike_array",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_lina_fiery_soul",
+      "base": "ability_lua",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_lina_laguna_blade",
+      "base": "ability_lua",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_lina_combustion",
+      "base": "ability_lua",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_omni_purification",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_omni_repel",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_omni_degen_aura",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_omni_guardian_angel",
+      "base": "ability_lua",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_omni_hammer_of_purity",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_creep_runner_passive",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_creep_frostguard_aura",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_creep_venomous_poison",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_creep_healer_heal",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_creep_shieldbearer_carapace",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_creep_mindstealer_burn",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_creep_conqueror_slam",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_creep_assassin_stealth",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_creep_summoner_raise",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_creep_spellguard_ward",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_creep_reflector_spikes",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": true
+    },
+    {
+      "id": "enfos_creep_exploder_burst",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_creep_bloodbeast_feast",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": true
+    },
+    {
+      "id": "enfos_creep_cursecaster_amplify",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_boss_stonebreaker_slam",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_boss_bloodfang_enrage",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_axe_berserkers_call",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_axe_battle_hunger",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_axe_counter_helix",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_axe_culling_blade",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_axe_blood_armor",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_legion_overwhelming_odds",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_legion_press_the_attack",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_legion_moment_of_courage",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_legion_duel",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_legion_commanders_banner",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_sniper_shrapnel",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_sniper_headshot",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_sniper_take_aim",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_sniper_assassinate",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_sniper_keen_eye",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_cm_crystal_nova",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_cm_frostbite",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_cm_arcane_aura",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_cm_freezing_field",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_cm_glacial_mastery",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_dazzle_poison_touch",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_dazzle_shallow_grave",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_dazzle_shadow_wave",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_dazzle_bad_juju",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_dazzle_nothl_weave",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_centaur_hoof_stomp",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_centaur_double_edge",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_centaur_return",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_centaur_stampede",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_centaur_colossal_hide",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_wk_wraithfire_blast",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_wk_vampiric_aura",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_wk_mortal_strike",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_wk_reincarnation",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": true
+    },
+    {
+      "id": "enfos_wk_skeleton_army",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_pa_stifling_dagger",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_pa_phantom_strike",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_pa_blur",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_pa_coup_de_grace",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_pa_fan_of_knives",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_zeus_arc_lightning",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_zeus_lightning_bolt",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_zeus_static_field",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_zeus_thundergods_wrath",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_zeus_heavenly_jump",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_wd_paralyzing_cask",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_wd_voodoo_restoration",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_wd_maledict",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_wd_death_ward",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_wd_voodoo_switcheroo",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_bb_viscous_nasal_goo",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_bb_quill_spray",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_bb_bristleback",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_bb_warpath",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_bb_hairball",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_slark_dark_pact",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_slark_pounce",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_slark_essence_shift",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_slark_shadow_dance",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_slark_fish_bait",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_luna_lucent_beam",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_luna_moon_glaives",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_luna_lunar_blessing",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_luna_eclipse",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_luna_lunar_orbit",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_sf_shadowraze",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_sf_necromastery",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_sf_presence_of_the_dark_lord",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_sf_requiem_of_souls",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_sf_feast_of_souls",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_ss_ether_shock",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_ss_hex",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_ss_shackles",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_ss_mass_serpent_ward",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_ss_fowl_play",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_tide_gush",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_tide_kraken_shell",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_tide_anchor_smash",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_tide_ravage",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_tide_colossal_presence",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_dk_breathe_fire",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_dk_dragon_tail",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_dk_dragon_blood",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_dk_elder_dragon_form",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_dk_wyrm_vigor",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_pudge_meat_hook",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_pudge_rot",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_pudge_flesh_heap",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_pudge_dismember",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_pudge_meat_shield",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_underlord_firestorm",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_underlord_pit_of_malice",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_underlord_atrophy_aura",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_underlord_dark_rift",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_underlord_abyssal_carapace",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_ursa_earthshock",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_ursa_overpower",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_ursa_fury_swipes",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_ursa_enrage",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_ursa_ursa_minor",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_mk_boundless_strike",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_mk_primal_spring",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_mk_jingu_mastery",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_mk_wukongs_command",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_mk_mischief",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_troll_berserkers_rage",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_troll_whirling_axes",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_troll_fervor",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_troll_battle_trance",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_troll_rampage",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_ck_chaos_bolt",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_ck_reality_rift",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_ck_chaos_strike",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_ck_phantasm",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_ck_entropy",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_am_mana_break",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_am_blink",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": true
+    },
+    {
+      "id": "enfos_am_counterspell",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": true
+    },
+    {
+      "id": "enfos_am_mana_void",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_am_spellbreaker",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_void_time_walk",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": true
+    },
+    {
+      "id": "enfos_void_time_dilation",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_void_time_lock",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_void_chronosphere",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_void_backtrack",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_medusa_split_shot",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_medusa_mystic_snake",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_medusa_mana_shield",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_medusa_stone_gaze",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_medusa_gorgon_gaze",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_tb_reflection",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_tb_conjure_image",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_tb_metamorphosis",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_tb_sunder",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_tb_demon_zeal",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_storm_static_remnant",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_storm_electric_vortex",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_storm_overload",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_storm_ball_lightning",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_storm_galvanic_core",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_leshrac_split_earth",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_leshrac_diabolic_edict",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_leshrac_lightning_storm",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_leshrac_pulse_nova",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_leshrac_defilement",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_invoker_chaos_meteor",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_invoker_sun_strike",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_invoker_deafening_blast",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_invoker_emp",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_invoker_alacrity",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_puck_illusory_orb",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_puck_waning_rift",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_puck_phase_shift",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_puck_dream_coil",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_puck_faerie_magic",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_lion_earth_spike",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_lion_hex",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_lion_mana_drain",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_lion_finger_of_death",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_lion_demon_soul",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_jakiro_dual_breath",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_jakiro_ice_path",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_jakiro_liquid_fire",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_jakiro_macropyre",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_jakiro_double_trouble",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_vs_magic_missile",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_vs_wave_of_terror",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_vs_vengeance_aura",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_vs_nether_swap",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_vs_retribution",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_lich_frost_blast",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_lich_frost_shield",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_lich_sinister_gaze",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_lich_chain_frost",
+      "base": "ability_datadriven",
+      "passive": false,
+      "needsImplementation": false
+    },
+    {
+      "id": "enfos_lich_ice_aura",
+      "base": "ability_datadriven",
+      "passive": true,
+      "needsImplementation": false
+    }
+  ],
+  "items": [
+    {
+      "id": "item_ascended_thornplate",
+      "active": true,
+      "hasCastHandler": true
+    },
+    {
+      "id": "item_ascended_sacred_reliquary",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_sunward_crest",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_bastion_guard",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_aegis_of_insight",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_leviathan_harpoon",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_warstride",
+      "active": false,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_seraphic_greaves",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_mirror_lotus",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_war_drums",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_sovereign_bkb",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_chrono_disk",
+      "active": false,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_astral_sphere",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_worldheart",
+      "active": false,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_abyssal_dominion",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_blood_oath",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_starforged_daedalus",
+      "active": false,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_phantomwing",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_heavenpiercer",
+      "active": false,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_stormfather",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_chronocore",
+      "active": false,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_arc_bloodstone",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_eternity_orb",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_grand_vyse",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_legion_cuirass",
+      "active": false,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_absolute_zero",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_eye_of_deep_winter",
+      "active": false,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_world_chain",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_tempest_waker",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_soulpiercer",
+      "active": true,
+      "hasCastHandler": false
+    },
+    {
+      "id": "item_ascended_aghanims_blessing",
+      "active": true,
+      "hasCastHandler": true
+    }
+  ],
+  "missingAssets": []
+}
