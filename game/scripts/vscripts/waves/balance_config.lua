@@ -1,6 +1,6 @@
 -- Versioned onboarding seed; snapshot once before the first wave.
 local Power = require("heroes/power_config")
-local Config = {VERSION="2026-09-27-timed-waves-2"}
+local Config = {VERSION="2026-09-28-uncapped-hostiles-1"}
 local DIFFICULTY = {
     casual={hp=0.75,damage=0.80}, normal={hp=1,damage=1},
     hard={hp=1.25,damage=1.10}, nightmare={hp=1.5,damage=1.20}, hell={hp=2,damage=1.35},
@@ -10,7 +10,7 @@ function Config.Snapshot(difficulty, radiant, dire)
     local solo=radiant+dire==1 and (radiant==1 or dire==1)
     return {version=Config.VERSION,difficulty=difficulty,hp=d.hp,damage=d.damage,
         solo=solo,heroPower=Power.Values(solo),heroPowerVersion=Power.VERSION,
-        fullSupportThrough=10,boonEvery=10,
+        fullSupportThrough=10,boonEvery=10,hostileCapEnabled=false,
         firstPreparation=45,soloPreparation=20,normalPreparation=15,soloBatchInterval=5}
 end
 function Config.Multipliers(snapshot,wave)

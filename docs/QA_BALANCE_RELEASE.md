@@ -137,7 +137,7 @@ Stress with:
 
 Watch:
 - max active units,
-- overflow count,
+- active hostile population,
 - stale units/thinkers after many waves,
 - server/frame hitch indicators.
 

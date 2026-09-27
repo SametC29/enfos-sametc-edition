@@ -7,7 +7,6 @@
 local WaveDefinitions = {}
 
 WaveDefinitions.TOTAL_WAVES = 60
-WaveDefinitions.BASE_UNIT_CAP_PER_PLAYER = 30
 WaveDefinitions.STARTING_LIFE = 100
 
 -- Creep leak penalties
@@ -976,10 +975,6 @@ function WaveDefinitions:IsEliteWave(waveNumber)
 	return (waveNumber > 0) and (waveNumber % 6 == 0) and not WaveDefinitions:IsBossWave(waveNumber)
 end
 
-function WaveDefinitions:GetUnitCap(activePlayers)
-	local count = math.max(1, activePlayers or 1)
-	return count * WaveDefinitions.BASE_UNIT_CAP_PER_PLAYER
-end
 
 function WaveDefinitions:GetUnitLeakType(unitName)
 	return UNIT_LEAK_TYPES[unitName] or "normal"

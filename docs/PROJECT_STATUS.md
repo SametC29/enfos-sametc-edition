@@ -117,7 +117,7 @@ prohibition. Other reference gameplay code/custom assets remain excluded.
 4. First playable five-wave slice, then accelerated 30+ wave stability tests.
 5. Follow the repository roadmap for heroes, Spellbringer, economy and full content.
 
-Do not replace the documented cap seed (30 × active players), Boss exemption,
-temporary-summon rules or eight named Spellbringer abilities with handoff examples.
+The 2026-09-28 user revision removes the scheduled-hostile population cap and
+its Life penalty. Preserve temporary-summon rules and eight named Spellbringer abilities.
 Reference analysis reports exist, but blocked decisions are not automatically
 unblocked by their existence; a concrete decision/proof is still required.

@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------
 -- wave_manager.lua
 -- Central server-authoritative wave manager
--- Orchestrates 60 authored waves, batch spawning, unit-cap overflow leaks,
+-- Orchestrates 60 authored waves, batch spawning without a population cap,
 -- Boss-only transitions, and HUD NetTable synchronization.
 -- Reference: docs/GAME_DESIGN_MASTER.md §§ 3, 5, 8, 9, 10
 --------------------------------------------------------------------------------
@@ -119,10 +119,6 @@ function WaveManager:GetActivePlayerCount(team)
 	return count
 end
 
-function WaveManager:GetUnitCap(team)
-	local players = self:GetActivePlayerCount(team)
-	return WaveDefinitions:GetUnitCap(players)
-end
 
 --------------------------------------------------------------------------------
 -- Think Loop
@@ -310,7 +306,7 @@ function WaveManager:StartWave(waveNumber)
 end
 
 --------------------------------------------------------------------------------
--- Spawn Batch (with Active Hostile Unit-Cap and Overflow Leak)
+-- Spawn Batch (all scheduled units spawn regardless of active population)
 -- Reference: docs/GAME_DESIGN_MASTER.md § 5
 --------------------------------------------------------------------------------
 function WaveManager:SpawnNextBatch()
@@ -329,7 +325,6 @@ function WaveManager:SpawnNextBatch()
 
 	for _, team in ipairs(teams) do
 		local activePlayers = self.wavePlayers[team] or self:GetActivePlayerCount(team)
-		local unitCap = self:GetUnitCap(team)
 
 		if activePlayers > 0 then
 			for _, creepEntry in ipairs(self.spawnPlans[team] or {}) do
@@ -357,21 +352,7 @@ function WaveManager:SpawnNextBatch()
 
 				for i = 1, unitsThisBatch do
 					local lane = lanes[((previous + i - 1) % #lanes) + 1]
-					local currentActive = self:GetActiveCreepCount(team)
-
-					-- OVERFLOW LEAK CHECK:
-					-- If current active hostiles >= unitCap:
-					-- Do NOT spawn entity. Immediately apply leak Life penalty!
-					-- Boss is exempt: Boss ALWAYS spawns.
-					if not isBoss and currentActive >= unitCap then
-						local leakCost = WaveDefinitions:GetLeakPenalty(unitName)
-						LifeCore:ApplyDamage(team, leakCost, "unit_cap_overflow", unitName)
-						Log:Warn("wave_manager", "CAP OVERFLOW! Team %d at unit cap (%d/%d). Creep %s suppressed. -%d Life.",
-							team, currentActive, unitCap, unitName, leakCost)
-					else
-						-- Spawn the creep entity
-						self:SpawnCreepEntity(unitName, team, lane, isBoss, activePlayers)
-					end
+					self:SpawnCreepEntity(unitName, team, lane, isBoss, activePlayers)
 				end
 			end
 		end
@@ -574,8 +555,7 @@ function WaveManager:SyncNetTable()
 		title = displayDef and displayDef.title or "",
 		active_goodguys = self:GetActiveCreepCount(DOTA_TEAM_GOODGUYS or 2),
 		active_badguys = self:GetActiveCreepCount(DOTA_TEAM_BADGUYS or 3),
-		cap_goodguys = self:GetUnitCap(DOTA_TEAM_GOODGUYS or 2),
-		cap_badguys = self:GetUnitCap(DOTA_TEAM_BADGUYS or 3),
+		hostile_cap_enabled = 0,
 	})
 end
 

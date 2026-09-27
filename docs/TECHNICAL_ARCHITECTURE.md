@@ -28,7 +28,7 @@ Adapt concrete paths/API calls to the actual repository and current Workshop Too
 `UnitCapService`
 - counts active hostiles,
 - cap formula,
-- overflow decisions,
+- complete scheduled spawn delivery,
 - exemptions,
 - metrics.
 
@@ -230,32 +230,19 @@ Rules:
 - deterministically expire temporary units.
 
 Developer diagnostic overlay/command should expose:
-- current cap,
+- scheduled-hostile cap disabled,
 - active entities by category,
 - pending spawn queue,
-- overflow leaks,
+- crowded-lane spawn completion,
 - current wave,
 - optional performance indicators available to the environment.
 
-## 8. Overflow algorithm
-
-For a scheduled leakable unit:
-1. WaveDirector asks UnitCapService for capacity.
-2. Capacity available → spawn normally.
-3. Capacity full → no entity is created.
-4. LifeService applies the definition's leak amount once.
-5. Emit telemetry/log.
-
-Boss bypasses ordinary cap block.
-
-Temporary ability summons do not turn into Life damage.
-
-Spellbringer offensive extra units:
-- either wait in a short bounded queue,
-- or cast fails/refunds as specified,
-- never become automatic leak damage.
-
-Prevent double resolution: a unit cannot both overflow-leak and later leak physically.
+## 8. Uncapped scheduled hostiles (2026-09-28)
+WaveDirector creates every scheduled hostile in timed batches, independent of
+current live population. No capacity check suppresses scheduled spawns or
+converts them to Life damage. Temporary summon limits remain independent.
+Physical leaks are resolved exactly once. Boss-only transitions remain below.
+Profile crowded lanes in the engine before release.
 
 ## 9. Boss transition
 
@@ -360,7 +347,7 @@ Examples:
 - match_started/completed
 - wave_started/completed
 - unit_leaked
-- overflow_leak
+- scheduled_spawn
 - boss_started/completed
 - hero_death
 - spellbringer_cast

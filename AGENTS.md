@@ -19,7 +19,7 @@ Do not load every doc for trivial work.
 - Elite every 6th wave except Boss overlaps.
 - Two normal lanes per team plus one shorter central Boss lane.
 - Team Life starts at 100.
-- Unit-cap overflow for scheduled hostile wave units converts to Life loss.
+- Scheduled hostile waves have no population cap; population alone never costs Life.
 - Spellbringer remains core: separate mana, 8 initial abilities.
 - Full normal Dota shop remains; custom Ascended Shop adds 30 launch Ascended items.
 - Tomes remain available from match start.

@@ -178,13 +178,6 @@ test("elite waves are every 6th wave except boss overlaps", function()
     assert(not WaveDefs:IsEliteWave(30))
 end)
 
-test("unit cap scales accurately with player count", function()
-    assert(WaveDefs:GetUnitCap(1) == 30)
-    assert(WaveDefs:GetUnitCap(2) == 60)
-    assert(WaveDefs:GetUnitCap(3) == 90)
-    assert(WaveDefs:GetUnitCap(4) == 120)
-    assert(WaveDefs:GetUnitCap(5) == 150)
-end)
 
 test("leak penalties strictly follow game design specification", function()
     assert(WaveDefs:GetLeakPenalty("enfos_creep_soldier") == 1)

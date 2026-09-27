@@ -46,8 +46,8 @@ This file exists so Codex does not "helpfully" redesign locked decisions.
 - Boss every 5 waves.
 - Boss wave = Boss only.
 - Elite every 6 waves excluding Boss overlap.
-- scheduled hostile overflow at cap directly costs Life.
-- initial cap seed = 30 × active players, configurable.
+- 2026-09-28: scheduled hostiles are uncapped; population never directly costs Life.
+- Timed batches and temporary summon bounds remain; crowding requires engine performance testing.
 - Boss not suppressed by ordinary cap.
 - ability summons cannot cause free cap-based Life damage.
 

@@ -7,7 +7,7 @@ Status: product source of truth.
 The user's 40-wave feedback supersedes earlier courier, fixed-count and unlimited
 wave-wait assumptions: no courier (direct inventory delivery); ordinary waves have
 `(20 + 2*(wave-1))*players` scheduled units, and advance on a deadline even if uncleared.
-Boss-only transition/overflow Life rules remain. Gold/XP payouts are on kills;
+Boss-only transition Life rules remain; population overflow Life loss was removed on 2026-09-28. Gold/XP payouts are on kills;
 the extra wave-completion award is removed. Systems stay, but baseline offensive
 bonuses and Boon/Pact frequency are reduced (vote every second Boss).
 Hero-specific trees must replace shared Evolution choices rather than stack on top.
@@ -140,28 +140,16 @@ This controls entity count while preserving difficulty.
 
 Spawn normal/Elite waves in multiple batches over roughly 12–15 seconds.
 
-### Active hostile cap
-Initial tuning seed:
-`30 × active players`
+### Scheduled hostile population (2026-09-28 user revision)
+Scheduled wave units have no simultaneous population cap. Every scheduled unit
+spawns in its normal timed batch even when earlier waves remain alive. Population
+alone never suppresses a spawn or deducts Team Life. This supersedes the old
+30-per-player cap and overflow rule.
 
-Examples:
-1→30, 2→60, 3→90, 4→120, 5→150.
-
-This is configuration, not a permanent truth; profile actual games.
-
-### Overflow leak
-If a scheduled leakable hostile is due to spawn while cap is full:
-- do not spawn it,
-- immediately apply its normal leak Life cost,
-- log telemetry.
-
-This turns failure into game pressure rather than server collapse.
-
-Exceptions:
-- Boss always spawns.
-- Ability-generated temporary minions suppressed by cap never deal Life damage.
-- Spellbringer-created hostile units must not convert directly into guaranteed Life damage because the target is capped; briefly queue them or fail/refund according to ability rules.
-- Existing units are never retroactively converted to Life because a player disconnected and cap fell.
+Temporary summons retain their separate lifespan/count limits. Physical Core
+leaks and the existing Boss-only transition/deadline rules remain separate.
+Crowded-lane engine performance must be measured in local gameplay; uncapped
+population is not a guarantee of unlimited engine capacity.
 
 ## 6. Creep AI
 
@@ -837,10 +825,10 @@ Disconnect:
 
 Confirmed abandon:
 - remove/disable hero appropriately,
-- future wave budget/cap recalculates for active players,
+- future wave budget recalculates for active players,
 - Spellbringer unequal-team normalization may update,
 - no resource redistribution,
-- do not retroactively delete existing units merely because cap changes.
+- do not delete existing units merely because player count changes.
 
 Reconnect restores:
 - hero,
@@ -1027,7 +1015,7 @@ Aggregate privacy-conscious metrics:
 - hero pick,
 - win/loss/clear/surrender/abandon,
 - wave failures and leaks,
-- overflow leaks,
+- crowded-lane spawn completion without population Life loss,
 - Boss kill time,
 - deaths,
 - damage/heal/tanking aggregates,

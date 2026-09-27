@@ -66,6 +66,25 @@ test('multiplayer boss spawns once with player scaling input', function()
  W.spawnPlans[2]={{unit_name='enfos_boss_stonebreaker',count=1,lane='center'}}
  W:SpawnNextBatch(); W.SpawnCreepEntity=original;W.GetActivePlayerCount=players;assert(count==1)
 end)
+test('crowded lanes spawn every scheduled unit without population Life damage', function()
+ local originalSpawn=W.SpawnCreepEntity
+ local originalDamage=L.ApplyDamage
+ local originalPlayers=W.GetActivePlayerCount
+ L.ApplyDamage=function() error('Population must never cost Life') end
+ for _,players in ipairs({1,5}) do
+  W.GetActivePlayerCount=function(_,team) return team==2 and players or 0 end
+  W:Init();W:StartWave(59)
+  for i=1,1000 do W.activeCreeps[2][i]={IsNull=function() return false end,IsAlive=function() return true end} end
+  local count=0
+  W.SpawnCreepEntity=function(_,_,team,lane,boss)
+   assert(team==2 and not boss and (lane=='left' or lane=='right'));count=count+1
+  end
+  while #W.pendingBatches>0 do W:SpawnNextBatch() end
+  assert(count==(20+2*58)*players)
+  assert(W:GetActiveCreepCount(2)==1000)
+ end
+ W.SpawnCreepEntity=originalSpawn;L.ApplyDamage=originalDamage;W.GetActivePlayerCount=originalPlayers
+end)
 local P=require('map/portals')
 function EmitSoundOn() end
 function FindClearSpaceForUnit(hero,pos) hero.pos=pos end

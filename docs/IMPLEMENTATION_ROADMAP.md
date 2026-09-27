@@ -56,15 +56,15 @@ Gate:
 Implement:
 - threat budgets,
 - batching,
-- unit cap,
-- overflow leak,
+- uncapped scheduled hostile spawning,
+- no population-based Life loss,
 - Normal/Elite/Boss scheduler,
 - Boss transition cleanup,
 - Endless skeleton.
 
 Tests:
 - cap 1–5 players,
-- overflow no double-count,
+- crowded-lane spawn delivery,
 - summons no Life,
 - Boss exemption,
 - disconnect cap recalculation,
