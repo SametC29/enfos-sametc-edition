@@ -21,9 +21,10 @@ export function generateLocalization(check = false) {
 
   const escape = value => value.replaceAll('"', '\\"');
 
-  const resolveSpecials = (key, rawValue) => {
-    const id = key.match(/^DOTA_Tooltip_[Aa]bility_(.+)_(?:Description|SummaryDescription|DesignDescription)$/)?.[1];
+  const resolveSpecials = (key, rawValue, abilityIdOverride = null) => {
+    const id = abilityIdOverride ?? key.match(/^DOTA_Tooltip_[Aa]bility_(.+)_(?:Description|SummaryDescription|DesignDescription)$/)?.[1];
     const definition = abilities[id] ?? items[id];
+    if (!definition) return rawValue;
     const specials = Object.assign({}, ...Object.values(definition?.AbilitySpecial ?? {}));
     return rawValue.replace(/\{\{(\w+)(?:\|(\w+))?\}\}/g, (_, name, format) => {
       if (specials[name] === undefined) throw new Error(`${key}: unknown special ${name}`);
@@ -59,6 +60,47 @@ export function generateLocalization(check = false) {
     }
     for (const [key, value] of Object.entries(data.Tokens)) {
       if (key.startsWith('DOTA_Tooltip_Ability_')) data.Tokens[key.replace('DOTA_Tooltip_Ability_', 'DOTA_Tooltip_ability_')] = value;
+    }
+
+    // Alias modifier tooltips suffixed with _passive or _active
+    for (const [key, value] of Object.entries(data.Tokens)) {
+      if (key.startsWith('DOTA_Tooltip_modifier_')) {
+        if (key.endsWith('_passive')) {
+          const direct = key.replace(/_passive$/, '');
+          if (!data.Tokens[direct]) data.Tokens[direct] = value;
+        } else if (key.endsWith('_passive_Description')) {
+          const direct = key.replace(/_passive_Description$/, '_Description');
+          if (!data.Tokens[direct]) data.Tokens[direct] = value;
+        } else if (key.endsWith('_active')) {
+          const direct = key.replace(/_active$/, '');
+          if (!data.Tokens[direct]) data.Tokens[direct] = value;
+        } else if (key.endsWith('_active_Description')) {
+          const direct = key.replace(/_active_Description$/, '_Description');
+          if (!data.Tokens[direct]) data.Tokens[direct] = value;
+        }
+      }
+    }
+
+    // Auto-generate tooltips for intrinsic modifiers in pve_kits.lua
+    const pveKitsPath = path.join(root, 'game/scripts/vscripts/abilities/pve_kits.lua');
+    const pveKitsContent = fs.readFileSync(pveKitsPath, 'utf8');
+    const abRegex = /function\s+([a-zA-Z0-9_]+):GetIntrinsicModifierName\(\)\s*return\s*['"]([^'"]+)['"]/g;
+    let abM;
+    while ((abM = abRegex.exec(pveKitsContent)) !== null) {
+      const abName = abM[1];
+      const modName = abM[2];
+      const modKey = `DOTA_Tooltip_${modName}`;
+      const modDescKey = `${modKey}_Description`;
+      if (!data.Tokens[modKey]) {
+        const abTitle = data.Tokens[`DOTA_Tooltip_Ability_${abName}`] ?? data.Tokens[`DOTA_Tooltip_ability_${abName}`];
+        if (abTitle) data.Tokens[modKey] = abTitle;
+      }
+      if (!data.Tokens[modDescKey]) {
+        const rawDesc = data.Tokens[`DOTA_Tooltip_Ability_${abName}_Description`] ?? data.Tokens[`DOTA_Tooltip_ability_${abName}_Description`];
+        if (rawDesc) {
+          data.Tokens[modDescKey] = resolveSpecials(`DOTA_Tooltip_Ability_${abName}_Description`, rawDesc, abName);
+        }
+      }
     }
     const keys = Object.keys(data.Tokens).sort();
     const lines = keys.map(key => {

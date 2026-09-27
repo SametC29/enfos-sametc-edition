@@ -1,20 +1,10 @@
-var currentHeroInnate = "";
-
 function ToggleGuide() {
     GameEvents.SendEventClientSide("enfos_toggle_welcome_guide", {});
 }
 
-function OnPassiveMouseOver() {
-    if (!currentHeroInnate || currentHeroInnate === "") return;
-    var panel = $("#EnfosPassiveHud");
-    if (panel && typeof $.DispatchEvent === "function") {
-        $.DispatchEvent("DOTAShowAbilityTooltip", panel, currentHeroInnate);
-    }
-}
-
-function OnPassiveMouseOut() {
-    if (typeof $.DispatchEvent === "function") {
-        $.DispatchEvent("DOTAHideAbilityTooltip");
+function ToggleEnfosScoreboard() {
+    if (typeof GameUI !== "undefined" && GameUI.CustomUIConfig && GameUI.CustomUIConfig().toggle_custom_scoreboard) {
+        GameUI.CustomUIConfig().toggle_custom_scoreboard();
     }
 }
 
@@ -183,6 +173,14 @@ function OnPassiveMouseOut() {
         if (hudRoot) {
             var quickstats = hudRoot.FindChildTraverse("quickstats");
             if (quickstats) {
+                if (quickstats.GetChildCount) {
+                    for (var c = 0; c < quickstats.GetChildCount(); c++) {
+                        var ch = quickstats.GetChild(c);
+                        if (ch && ch.id !== "EnfosQuickStats") {
+                            ch.style.visibility = "collapse";
+                        }
+                    }
+                }
                 var kda = quickstats.FindChildTraverse("KDAContainer");
                 if (kda) kda.style.visibility = "collapse";
                 var lasthit = quickstats.FindChildTraverse("LastHitContainer");
@@ -232,15 +230,12 @@ function OnPassiveMouseOut() {
                     if (vSV) vSV.text = String(level);
                     var vRET = enfosStats.FindChildTraverse("EnfosValRET");
                     if (vRET) vRET.text = String(retKills);
-
-                    var fallback = $("#EnfosQuickStatsPanel");
-                    if (fallback) fallback.style.visibility = "collapse";
                 }
             }
         }
     }
 
-    // Update Hero Passive / Innate Skill UI
+    // Update Hero Passive / Innate Skill UI in native #InnateDisplay
     function UpdateInnatePassiveDisplay() {
         var localPlayerId = (typeof Players !== "undefined" && Players.GetLocalPlayer) ? Players.GetLocalPlayer() : 0;
         var heroIdx = (typeof Players !== "undefined" && Players.GetPlayerHeroEntityIndex) ? Players.GetPlayerHeroEntityIndex(localPlayerId) : null;
@@ -252,20 +247,8 @@ function OnPassiveMouseOut() {
         }
 
         var innate = HERO_INNATES[heroName] || "";
-        currentHeroInnate = innate;
 
-        var passivePanel = $("#EnfosPassiveHud");
-        var passiveImg = $("#EnfosPassiveAbilityImage");
-        if (passivePanel && passiveImg) {
-            if (innate && innate !== "") {
-                passiveImg.abilityname = innate;
-                passivePanel.style.visibility = "visible";
-            } else {
-                passivePanel.style.visibility = "collapse";
-            }
-        }
-
-        // Also check native Dota #InnateDisplay
+        // Hook native Dota #InnateDisplay
         var hudRoot = ($.GetContextPanel && typeof $.GetContextPanel === "function") ? $.GetContextPanel().GetParent() : null;
         while (hudRoot && hudRoot.GetParent()) {
             hudRoot = hudRoot.GetParent();
@@ -275,9 +258,17 @@ function OnPassiveMouseOut() {
             if (innateDisplay) {
                 innateDisplay.RemoveClass("HasNothing");
                 innateDisplay.style.visibility = "visible";
+
+                // Hide generic droplet facet icon
+                var facetIcon = innateDisplay.FindChildTraverse("FacetIcon");
+                if (facetIcon) {
+                    facetIcon.style.visibility = "collapse";
+                }
+
                 var icon = innateDisplay.FindChildTraverse("InnateIcon");
                 if (icon) {
                     icon.abilityname = innate;
+                    icon.style.visibility = "visible";
                     (function (ic, inName) {
                         ic.SetPanelEvent("onmouseover", function () {
                             if (typeof $.DispatchEvent === "function") $.DispatchEvent("DOTAShowAbilityTooltip", ic, inName);

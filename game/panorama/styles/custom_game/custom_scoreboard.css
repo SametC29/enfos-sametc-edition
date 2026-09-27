@@ -1,30 +1,31 @@
-.FlyoutScoreboardRoot {
+.EnfosScoreboardRoot {
     width: 100%;
     height: 100%;
     horizontal-align: center;
     vertical-align: center;
-    visibility: collapse;
-    opacity: 0.0;
-    transition-property: opacity;
-    transition-duration: 0.15s;
-}
-
-.flyout_scoreboard_visible .FlyoutScoreboardRoot,
-.FlyoutScoreboardRoot.ForcedVisible {
-    visibility: visible;
-    opacity: 1.0;
 }
 
 .ScoreboardContainer {
     horizontal-align: center;
     vertical-align: center;
-    width: 980px;
+    width: 1060px;
     flow-children: down;
-    background-color: gradient(linear, 0% 0%, 0% 100%, from(#141822f6), to(#0a0d14fa));
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#141822fa), to(#090c14fc));
     border: 1px solid #4a3e28;
     border-radius: 6px;
-    box-shadow: #000000dd 0px 8px 24px 0px;
-    padding: 16px 20px 20px 20px;
+    box-shadow: #000000ee 0px 10px 36px 0px;
+    padding: 16px 22px 20px 22px;
+    visibility: collapse;
+    opacity: 0.0;
+    transform: translateY(-16px);
+    transition-property: opacity, transform;
+    transition-duration: 0.18s;
+}
+
+.ScoreboardContainer.Visible {
+    visibility: visible;
+    opacity: 1.0;
+    transform: translateY(0px);
 }
 
 /* Header */
@@ -33,7 +34,7 @@
     flow-children: right;
     margin-bottom: 12px;
     border-bottom: 1px solid #332b1d;
-    padding-bottom: 8px;
+    padding-bottom: 10px;
 }
 
 .ScoreboardTitleGroup {
@@ -50,26 +51,60 @@
 }
 
 .ScoreboardSubtitle {
-    color: #a09075;
+    color: #ff9800;
     font-size: 15px;
     font-weight: bold;
-    margin-left: 10px;
+    margin-left: 12px;
+    vertical-align: center;
+    letter-spacing: 0.5px;
+}
+
+.ScoreboardControls {
+    horizontal-align: right;
+    flow-children: right;
     vertical-align: center;
 }
 
 .ScoreboardTip {
-    horizontal-align: right;
-    vertical-align: center;
-    color: #707888;
+    color: #8c92a4;
     font-size: 12px;
+    vertical-align: center;
+    margin-right: 12px;
+}
+
+.ScoreboardCloseBtn {
+    width: 26px;
+    height: 26px;
+    background-color: #2b1f1f;
+    border: 1px solid #6b2a2a;
+    border-radius: 3px;
+    vertical-align: center;
+}
+
+.ScoreboardCloseBtn Label {
+    horizontal-align: center;
+    vertical-align: center;
+    color: #e57373;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.ScoreboardCloseBtn:hover {
+    background-color: #c62828;
+    border: 1px solid #ef5350;
+}
+
+.ScoreboardCloseBtn:hover Label {
+    color: #ffffff;
 }
 
 /* Legend */
 .ScoreboardLegend {
     width: 100%;
     flow-children: right;
-    padding: 6px 10px;
-    background-color: #0d1017;
+    padding: 6px 12px;
+    background-color: #0b0e14;
+    border: 1px solid #1a202c;
     border-radius: 3px;
     margin-bottom: 8px;
 }
@@ -82,52 +117,107 @@
     letter-spacing: 0.5px;
 }
 
-/* Column Widths & Alignments */
-.ScoreCol_Hero {
-    width: 52px;
-    height: 30px;
+/* Column Dimensions & Alignments */
+.Col_Hero {
+    width: 58px;
+    height: 34px;
     vertical-align: center;
-    margin-right: 10px;
+    margin-right: 12px;
 }
 
-.ScoreCol_Player {
-    width: 170px;
+.HeroPortraitImg {
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+    border: 1px solid #333d4d;
+}
+
+.Col_Player {
+    width: 165px;
+    flow-children: down;
     vertical-align: center;
-    color: #e2e8f0;
+}
+
+.PlayerNameText {
+    color: #f0f4f8;
     font-size: 13px;
-    font-weight: semi-bold;
+    font-weight: bold;
     text-overflow: ellipsis;
 }
 
-.ScoreCol_Level {
+.HeroSubText {
+    color: #718096;
+    font-size: 10px;
+    font-weight: semi-bold;
+    text-transform: uppercase;
+}
+
+.Col_Level {
     width: 44px;
     text-align: center;
     vertical-align: center;
     color: #64b5f6;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
 }
 
-.ScoreCol_Damage {
-    width: 150px;
-    text-align: right;
+.Col_Damage {
+    width: 180px;
+    flow-children: down;
     vertical-align: center;
-    color: #e06c75;
-    font-size: 13px;
-    font-weight: bold;
-    padding-right: 12px;
+    padding-right: 14px;
 }
 
-.ScoreCol_Kills {
+.DamageNumberText {
+    color: #ff6b4a;
+    font-size: 14px;
+    font-weight: bold;
+    horizontal-align: right;
+    text-shadow: 0px 0px 4px #000000;
+}
+
+.DamageBarTrack {
+    width: 100%;
+    height: 10px;
+    background-color: #0a0d14;
+    border: 1px solid #2d1810;
+    border-radius: 2px;
+    margin-top: 2px;
+    flow-children: none;
+}
+
+.DamageBarFill {
+    height: 100%;
+    background-color: gradient(linear, 0% 0%, 100% 0%, from(#c0392b), to(#ff7043));
+    border-radius: 1px;
+    transition-property: width;
+    transition-duration: 0.2s;
+}
+
+.DamagePctText {
+    horizontal-align: center;
+    vertical-align: center;
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px #000000;
+}
+
+.Col_Kills {
     width: 130px;
     text-align: center;
     vertical-align: center;
     color: #f6c177;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
 }
 
-.ScoreCol_Gold {
+.KillsNumberText {
+    horizontal-align: center;
+    vertical-align: center;
+}
+
+.Col_Gold {
     width: 130px;
     text-align: right;
     vertical-align: center;
@@ -137,8 +227,13 @@
     padding-right: 12px;
 }
 
-.ScoreCol_Lumber {
-    width: 80px;
+.GoldNumberText {
+    horizontal-align: right;
+    vertical-align: center;
+}
+
+.Col_Lumber {
+    width: 75px;
     text-align: center;
     vertical-align: center;
     color: #73d216;
@@ -146,8 +241,13 @@
     font-weight: bold;
 }
 
-.ScoreCol_Items {
-    width: 190px;
+.LumberNumberText {
+    horizontal-align: center;
+    vertical-align: center;
+}
+
+.Col_Items {
+    width: 195px;
     flow-children: right;
     vertical-align: center;
 }
@@ -162,24 +262,24 @@
     width: 100%;
     flow-children: down;
     margin-bottom: 12px;
-    background-color: #0b0e1480;
-    border: 1px solid #1f2533;
+    background-color: #080b10a0;
+    border: 1px solid #1a2233;
     border-radius: 4px;
 }
 
 .TeamHeaderRow {
     width: 100%;
     flow-children: right;
-    padding: 6px 10px;
-    border-bottom: 1px solid #1a1e28;
+    padding: 7px 12px;
+    border-bottom: 1px solid #151b27;
 }
 
 .RadiantHeader {
-    background-color: gradient(linear, 0% 0%, 100% 0%, from(#17362088), to(#0d1219));
+    background-color: gradient(linear, 0% 0%, 100% 0%, from(#14361e99), to(#080c12));
 }
 
 .DireHeader {
-    background-color: gradient(linear, 0% 0%, 100% 0%, from(#3e1c1c88), to(#0d1219));
+    background-color: gradient(linear, 0% 0%, 100% 0%, from(#3e171799), to(#080c12));
 }
 
 .TeamNameRow {
@@ -189,7 +289,7 @@
 
 .TeamColorBar {
     width: 4px;
-    height: 14px;
+    height: 16px;
     border-radius: 2px;
     margin-right: 8px;
     vertical-align: center;
@@ -204,14 +304,27 @@
 }
 
 .TeamName {
-    color: #d8dee9;
+    color: #f0f4f8;
     font-size: 13px;
     font-weight: bold;
     letter-spacing: 0.5px;
 }
 
-.TeamScoreBadge {
+.TeamSummaryRow {
     horizontal-align: right;
+    flow-children: right;
+    vertical-align: center;
+}
+
+.TeamSummaryText {
+    color: #a0aec0;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 18px;
+    vertical-align: center;
+}
+
+.TeamScoreBadge {
     flow-children: right;
     vertical-align: center;
 }
@@ -238,28 +351,28 @@
 .PlayerRow {
     width: 100%;
     flow-children: right;
-    padding: 4px 10px;
-    min-height: 38px;
-    border-bottom: 1px solid #12151d;
+    padding: 5px 12px;
+    min-height: 42px;
+    border-bottom: 1px solid #10141d;
     transition-property: background-color;
     transition-duration: 0.1s;
 }
 
 .PlayerRow:hover {
-    background-color: #1a2233;
+    background-color: #161e2c;
 }
 
 .PlayerRow.IsLocalPlayer {
-    background-color: #242c38;
+    background-color: #1e2838;
     border-left: 3px solid #e5c07b;
 }
 
 /* Items */
 .ScoreboardItemSlot {
-    width: 29px;
-    height: 20px;
+    width: 30px;
+    height: 22px;
     margin-right: 2px;
-    background-color: #080a0f;
+    background-color: #07090e;
     border: 1px solid #282f3d;
     border-radius: 2px;
 }

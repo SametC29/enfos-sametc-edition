@@ -1,5 +1,28 @@
 "use strict";
 
+var isManuallyOpen = false;
+
+function ToggleScoreboard() {
+    isManuallyOpen = !isManuallyOpen;
+    var container = $("#ScoreboardContainer");
+    if (container) {
+        container.SetHasClass("Visible", isManuallyOpen);
+    }
+}
+
+function CloseScoreboard() {
+    isManuallyOpen = false;
+    var container = $("#ScoreboardContainer");
+    if (container) {
+        container.SetHasClass("Visible", false);
+    }
+}
+
+// Allow external calls (e.g. from top bar button)
+if (typeof GameUI !== "undefined" && GameUI.CustomUIConfig) {
+    GameUI.CustomUIConfig().toggle_custom_scoreboard = ToggleScoreboard;
+}
+
 (function () {
     var playerRows = {};
 
@@ -14,38 +37,59 @@
         var row = $.CreatePanel("Panel", parent, "PlayerRow_" + playerId);
         row.AddClass("PlayerRow");
 
-        // 1. Hero Icon
-        var heroImg = $.CreatePanel("DOTAHeroImage", row, "HeroImg_" + playerId);
-        heroImg.AddClass("ScoreCol_Hero");
+        // 1. Hero Icon with Level Badge
+        var heroContainer = $.CreatePanel("Panel", row, "HeroContainer_" + playerId);
+        heroContainer.AddClass("Col_Hero");
+        var heroImg = $.CreatePanel("DOTAHeroImage", heroContainer, "HeroImg_" + playerId);
+        heroImg.AddClass("HeroPortraitImg");
         heroImg.heroimagestyle = "landscape";
 
-        // 2. Player Name
-        var nameLabel = $.CreatePanel("Label", row, "PlayerName_" + playerId);
-        nameLabel.AddClass("ScoreCol_Player");
+        // 2. Player Name & Subtitle
+        var playerCol = $.CreatePanel("Panel", row, "PlayerCol_" + playerId);
+        playerCol.AddClass("Col_Player");
+        var nameLabel = $.CreatePanel("Label", playerCol, "PlayerName_" + playerId);
+        nameLabel.AddClass("PlayerNameText");
+        var heroSub = $.CreatePanel("Label", playerCol, "HeroSub_" + playerId);
+        heroSub.AddClass("HeroSubText");
 
         // 3. Level (SV)
         var levelLabel = $.CreatePanel("Label", row, "Level_" + playerId);
-        levelLabel.AddClass("ScoreCol_Level");
+        levelLabel.AddClass("Col_Level");
 
-        // 4. Total Damage Dealt (Verilen Toplam Hasar)
-        var damageLabel = $.CreatePanel("Label", row, "Damage_" + playerId);
-        damageLabel.AddClass("ScoreCol_Damage");
+        // 4. Total Damage Dealt (Verilen Toplam Hasar + Damage Bar)
+        var damageCol = $.CreatePanel("Panel", row, "DamageCol_" + playerId);
+        damageCol.AddClass("Col_Damage");
+        var damageVal = $.CreatePanel("Label", damageCol, "DamageVal_" + playerId);
+        damageVal.AddClass("DamageNumberText");
+
+        var damageBarTrack = $.CreatePanel("Panel", damageCol, "DamageTrack_" + playerId);
+        damageBarTrack.AddClass("DamageBarTrack");
+        var damageBarFill = $.CreatePanel("Panel", damageBarTrack, "DamageFill_" + playerId);
+        damageBarFill.AddClass("DamageBarFill");
+        var damagePctLabel = $.CreatePanel("Label", damageBarTrack, "DamagePct_" + playerId);
+        damagePctLabel.AddClass("DamagePctText");
 
         // 5. Enemies Killed (Öldürülen Düşman / RET)
-        var killsLabel = $.CreatePanel("Label", row, "Kills_" + playerId);
-        killsLabel.AddClass("ScoreCol_Kills");
+        var killsCol = $.CreatePanel("Panel", row, "KillsCol_" + playerId);
+        killsCol.AddClass("Col_Kills");
+        var killsLabel = $.CreatePanel("Label", killsCol, "Kills_" + playerId);
+        killsLabel.AddClass("KillsNumberText");
 
         // 6. Gold Earned (Kazanılan Altın)
-        var goldLabel = $.CreatePanel("Label", row, "Gold_" + playerId);
-        goldLabel.AddClass("ScoreCol_Gold");
+        var goldCol = $.CreatePanel("Panel", row, "GoldCol_" + playerId);
+        goldCol.AddClass("Col_Gold");
+        var goldLabel = $.CreatePanel("Label", goldCol, "Gold_" + playerId);
+        goldLabel.AddClass("GoldNumberText");
 
         // 7. Lumber (Odun)
-        var lumberLabel = $.CreatePanel("Label", row, "Lumber_" + playerId);
-        lumberLabel.AddClass("ScoreCol_Lumber");
+        var lumberCol = $.CreatePanel("Panel", row, "LumberCol_" + playerId);
+        lumberCol.AddClass("Col_Lumber");
+        var lumberLabel = $.CreatePanel("Label", lumberCol, "Lumber_" + playerId);
+        lumberLabel.AddClass("LumberNumberText");
 
         // 8. Items Container (6 Slots)
         var itemsContainer = $.CreatePanel("Panel", row, "Items_" + playerId);
-        itemsContainer.AddClass("ScoreCol_Items");
+        itemsContainer.AddClass("Col_Items");
         var itemPanels = [];
         for (var i = 0; i < 6; i++) {
             var itemImg = $.CreatePanel("DOTAItemImage", itemsContainer, "Item_" + playerId + "_" + i);
@@ -57,14 +101,16 @@
                         var itemEnt = Entities.GetItemInSlot(heroIdx, slotIndex);
                         if (itemEnt && itemEnt !== -1 && Entities.GetAbilityName) {
                             var itemName = Entities.GetAbilityName(itemEnt);
-                            if (itemName) {
+                            if (itemName && typeof $.DispatchEvent === "function") {
                                 $.DispatchEvent("DOTAShowAbilityTooltip", img, itemName);
                             }
                         }
                     }
                 });
                 img.SetPanelEvent("onmouseout", function () {
-                    $.DispatchEvent("DOTAHideAbilityTooltip");
+                    if (typeof $.DispatchEvent === "function") {
+                        $.DispatchEvent("DOTAHideAbilityTooltip");
+                    }
                 });
             })(itemImg, i, playerId);
             itemPanels.push(itemImg);
@@ -74,8 +120,11 @@
             row: row,
             heroImg: heroImg,
             nameLabel: nameLabel,
+            heroSub: heroSub,
             levelLabel: levelLabel,
-            damageLabel: damageLabel,
+            damageVal: damageVal,
+            damageBarFill: damageBarFill,
+            damagePctLabel: damagePctLabel,
             killsLabel: killsLabel,
             goldLabel: goldLabel,
             lumberLabel: lumberLabel,
@@ -103,6 +152,32 @@
             }
         }
 
+        // Calculate team totals first
+        var teamDamage = { 2: 0, 3: 0 };
+        var teamKills = { 2: 0, 3: 0 };
+
+        for (var i = 0; i < allPids.length; i++) {
+            var pId = allPids[i];
+            var tm = Players.GetTeam ? Players.GetTeam(pId) : 2;
+            var st = (typeof CustomNetTables !== "undefined") ? CustomNetTables.GetTableValue("player_stats", String(pId)) : null;
+            var d = (st && st.damage_dealt != null) ? Number(st.damage_dealt) : 0;
+            var k = (st && st.kills != null) ? Number(st.kills) : ((Players.GetLastHits) ? Players.GetLastHits(pId) : 0);
+            if (teamDamage[tm] !== undefined) teamDamage[tm] += d;
+            if (teamKills[tm] !== undefined) teamKills[tm] += k;
+        }
+
+        // Update Team Summary Labels
+        var radDmgLbl = $("#RadiantTotalDamage");
+        if (radDmgLbl) radDmgLbl.text = "Takım Hasarı: " + formatNumber(teamDamage[2]);
+        var radKillsLbl = $("#RadiantTotalKills");
+        if (radKillsLbl) radKillsLbl.text = "Takım Düşman: " + formatNumber(teamKills[2]);
+
+        var direDmgLbl = $("#DireTotalDamage");
+        if (direDmgLbl) direDmgLbl.text = "Takım Hasarı: " + formatNumber(teamDamage[3]);
+        var direKillsLbl = $("#DireTotalKills");
+        if (direKillsLbl) direKillsLbl.text = "Takım Düşman: " + formatNumber(teamKills[3]);
+
+        // Populate Player Rows
         for (var idx = 0; idx < allPids.length; idx++) {
             var pid = allPids[idx];
             var team = Players.GetTeam ? Players.GetTeam(pid) : 2;
@@ -112,10 +187,8 @@
             var r = GetOrCreatePlayerRow(parent, pid);
             if (!r) continue;
 
-            // Highlight local player
             r.row.SetHasClass("IsLocalPlayer", pid === localPid);
 
-            // Hero Name & Icon
             var heroName = Players.GetSelectedHeroName ? Players.GetSelectedHeroName(pid) : "";
             var heroIdx = Players.GetPlayerHeroEntityIndex ? Players.GetPlayerHeroEntityIndex(pid) : null;
             if (heroIdx && (!heroName || heroName === "")) {
@@ -123,33 +196,38 @@
             }
             if (heroName) {
                 r.heroImg.heroname = heroName;
+                var cleanHeroName = heroName.replace("npc_dota_hero_", "");
+                r.heroSub.text = cleanHeroName.toUpperCase();
             }
 
-            // Player Name
             var pName = Players.GetPlayerName ? Players.GetPlayerName(pid) : ("Player " + pid);
             r.nameLabel.text = pName || ("Player " + pid);
 
-            // Fetch authoritative stats
             var stats = (typeof CustomNetTables !== "undefined") ? CustomNetTables.GetTableValue("player_stats", String(pid)) : null;
             var econ = (typeof CustomNetTables !== "undefined") ? CustomNetTables.GetTableValue("economy_state", String(pid)) : null;
 
-            // SV (Level)
+            // Level (SV)
             var level = (heroIdx && typeof Entities !== "undefined" && Entities.GetLevel) ? Entities.GetLevel(heroIdx) : (stats && stats.level ? stats.level : 1);
             r.levelLabel.text = String(level);
 
-            // Verilen Toplam Hasar (Total Damage Dealt)
+            // Damage Dealt & Percentage Bar
             var dmg = (stats && stats.damage_dealt != null) ? stats.damage_dealt : 0;
-            r.damageLabel.text = formatNumber(dmg);
+            r.damageVal.text = formatNumber(dmg);
 
-            // Öldürülen Düşman (Enemies Killed / Retribution)
+            var totalTmDmg = teamDamage[team] || 1;
+            var pct = totalTmDmg > 0 ? Math.min(100, Math.max(0, Math.round((dmg / totalTmDmg) * 100))) : 0;
+            r.damageBarFill.style.width = pct + "%";
+            r.damagePctLabel.text = pct + "%";
+
+            // Kills (RET)
             var kills = (stats && stats.kills != null) ? stats.kills : (Players.GetLastHits ? Players.GetLastHits(pid) : 0);
             r.killsLabel.text = formatNumber(kills);
 
-            // Kazanılan Altın (Gold Earned)
+            // Gold
             var gold = (stats && stats.gold_earned != null) ? stats.gold_earned : (Players.GetTotalEarnedGold ? Players.GetTotalEarnedGold(pid) : 0);
             r.goldLabel.text = formatNumber(gold);
 
-            // Odun (Lumber)
+            // Lumber
             var lumber = (econ && econ.lumber != null) ? econ.lumber : (stats && stats.lumber != null ? stats.lumber : 0);
             r.lumberLabel.text = formatNumber(lumber);
 
@@ -181,16 +259,56 @@
                 if (direLifeLbl) direLifeLbl.text = direLife + " / 100";
             }
         }
+    }
+
+    // Suppress Valve's native flyout scoreboard and sync TAB key
+    function SyncScoreboardState() {
+        var hudRoot = ($.GetContextPanel && typeof $.GetContextPanel === "function") ? $.GetContextPanel().GetParent() : null;
+        while (hudRoot && hudRoot.GetParent()) {
+            hudRoot = hudRoot.GetParent();
+        }
+
+        if (hudRoot) {
+            // Hide Valve's native scoreboard permanently
+            var nativeScoreboard = hudRoot.FindChildTraverse("scoreboard");
+            var isTabHeld = false;
+            if (nativeScoreboard) {
+                isTabHeld = nativeScoreboard.BHasClass("flyout_scoreboard_visible");
+                nativeScoreboard.style.visibility = "collapse";
+                nativeScoreboard.style.opacity = "0";
+            }
+
+            var nativeFlyout = hudRoot.FindChildTraverse("FlyoutScoreboard");
+            if (nativeFlyout) {
+                nativeFlyout.style.visibility = "collapse";
+                nativeFlyout.style.opacity = "0";
+            }
+
+            var container = $("#ScoreboardContainer");
+            if (container) {
+                container.SetHasClass("Visible", isTabHeld || isManuallyOpen);
+            }
+        }
 
         if ($.Schedule) {
-            $.Schedule(0.5, UpdateScoreboard);
+            $.Schedule(0.05, SyncScoreboardState);
+        }
+    }
+
+    function PeriodicDataTick() {
+        UpdateScoreboard();
+        if ($.Schedule) {
+            $.Schedule(0.5, PeriodicDataTick);
         }
     }
 
     if (typeof CustomNetTables !== "undefined") {
         CustomNetTables.SubscribeNetTableListener("player_stats", UpdateScoreboard);
         CustomNetTables.SubscribeNetTableListener("wave_info", UpdateScoreboard);
+        CustomNetTables.SubscribeNetTableListener("economy_state", UpdateScoreboard);
     }
 
     UpdateScoreboard();
+    SyncScoreboardState();
+    PeriodicDataTick();
 })();

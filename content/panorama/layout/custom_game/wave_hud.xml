@@ -24,6 +24,7 @@
                 <Panel class="WaveNumberRow">
                     <Label id="TopWaveTitle" class="TopWaveTitle" text="DALGA 1 / 60" />
                     <Button id="GuideBtn" class="TopGuideBtn" onactivate="ToggleGuide()"><Label text="?" /></Button>
+                    <Button id="ToggleDamageTableBtn" class="TopScoreboardBtn" onactivate="ToggleEnfosScoreboard()"><Label text="SKOR" /></Button>
                 </Panel>
                 <Label id="TopWaveTimer" class="TopWaveTimer" text="00:45" />
             </Panel>
@@ -43,29 +44,6 @@
         <!-- Centered Boss Alert Notification -->
         <Panel id="BossAlertPanel" class="BossAlertPanel Hidden" hittest="false">
             <Label id="BossAlertText" text="! BOSS DALGASI BAŞLADI !" />
-        </Panel>
-
-        <!-- Bottom-Left SV / RET HUD Display -->
-        <Panel id="EnfosQuickStatsPanel" class="EnfosQuickStatsPanel" hittest="false">
-            <Panel class="EnfosStatItem StatSV">
-                <Label class="StatLabel" text="SV" />
-                <Label id="EnfosQuickStatSV" class="StatValue" text="1" />
-            </Panel>
-            <Panel class="EnfosStatDivider" />
-            <Panel class="EnfosStatItem StatRET">
-                <Label class="StatLabel" text="RET" />
-                <Label id="EnfosQuickStatRET" class="StatValue" text="0" />
-            </Panel>
-        </Panel>
-
-        <!-- Dedicated Hero Passive Skill Display -->
-        <Panel id="EnfosPassiveHud" class="EnfosPassiveHud" hittest="true" onmouseover="OnPassiveMouseOver()" onmouseout="OnPassiveMouseOut()">
-            <Panel class="PassiveIconBorder">
-                <DOTAAbilityImage id="EnfosPassiveAbilityImage" class="EnfosPassiveAbilityImage" hittest="false" />
-                <Panel class="PassiveBadge">
-                    <Label text="P" />
-                </Panel>
-            </Panel>
         </Panel>
     </Panel>
 </root>

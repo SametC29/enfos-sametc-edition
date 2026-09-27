@@ -5,27 +5,32 @@
     <scripts>
         <include src="file://{resources}/scripts/custom_game/custom_scoreboard.js" />
     </scripts>
-    <Panel class="FlyoutScoreboardRoot" hittest="false">
+    <Panel class="EnfosScoreboardRoot" hittest="false">
         <Panel id="ScoreboardContainer" class="ScoreboardContainer">
             <!-- Header -->
             <Panel class="ScoreboardHeader">
                 <Panel class="ScoreboardTitleGroup">
                     <Label class="ScoreboardTitle" text="ENFOS TEAM SURVIVAL" />
-                    <Label class="ScoreboardSubtitle" text="SKOR TABLOSU" />
+                    <Label class="ScoreboardSubtitle" text="HASAR VE SAVAŞ TABLOSU" />
                 </Panel>
-                <Label class="ScoreboardTip" text="[TAB] Kapatmak için bırakın veya basın" />
+                <Panel class="ScoreboardControls">
+                    <Label class="ScoreboardTip" text="[TAB] Aç / Kapat" />
+                    <Button id="ScoreboardCloseBtn" class="ScoreboardCloseBtn" onactivate="CloseScoreboard()">
+                        <Label text="✕" />
+                    </Button>
+                </Panel>
             </Panel>
 
             <!-- Column Legend -->
             <Panel class="ScoreboardLegend">
-                <Label class="ScoreCol_Hero" text="KAHRAMAN" />
-                <Label class="ScoreCol_Player" text="OYUNCU" />
-                <Label class="ScoreCol_Level" text="SV" />
-                <Label class="ScoreCol_Damage" text="VERİLEN TOPLAM HASAR" />
-                <Label class="ScoreCol_Kills" text="ÖLDÜRÜLEN DÜŞMAN" />
-                <Label class="ScoreCol_Gold" text="KAZANILAN ALTIN" />
-                <Label class="ScoreCol_Lumber" text="ODUN" />
-                <Label class="ScoreCol_Items" text="EŞYALAR" />
+                <Label class="Col_Hero" text="KAHRAMAN" />
+                <Label class="Col_Player" text="OYUNCU" />
+                <Label class="Col_Level" text="SV" />
+                <Label class="Col_Damage" text="VERİLEN TOPLAM HASAR" />
+                <Label class="Col_Kills" text="ÖLDÜRÜLEN DÜŞMAN" />
+                <Label class="Col_Gold" text="KAZANILAN ALTIN" />
+                <Label class="Col_Lumber" text="ODUN" />
+                <Label class="Col_Items" text="EŞYALAR" />
             </Panel>
 
             <!-- Teams Area -->
@@ -37,9 +42,13 @@
                             <Panel class="TeamColorBar RadiantColorBar" />
                             <Label class="TeamName" text="AYDINLIK (RADİANT)" />
                         </Panel>
-                        <Panel class="TeamScoreBadge">
-                            <Label text="TAKIM CANI: " class="TeamLifeLabel" />
-                            <Label id="RadiantScoreboardLife" class="TeamLifeVal" text="100 / 100" />
+                        <Panel class="TeamSummaryRow">
+                            <Label id="RadiantTotalDamage" class="TeamSummaryText" text="Takım Hasarı: 0" />
+                            <Label id="RadiantTotalKills" class="TeamSummaryText" text="Takım Düşman: 0" />
+                            <Panel class="TeamScoreBadge">
+                                <Label text="CAN: " class="TeamLifeLabel" />
+                                <Label id="RadiantScoreboardLife" class="TeamLifeVal" text="100 / 100" />
+                            </Panel>
                         </Panel>
                     </Panel>
                     <Panel id="RadiantPlayersList" class="PlayersList" />
@@ -52,9 +61,13 @@
                             <Panel class="TeamColorBar DireColorBar" />
                             <Label class="TeamName" text="KARANLIK (DİRE)" />
                         </Panel>
-                        <Panel class="TeamScoreBadge">
-                            <Label text="TAKIM CANI: " class="TeamLifeLabel" />
-                            <Label id="DireScoreboardLife" class="TeamLifeVal" text="100 / 100" />
+                        <Panel class="TeamSummaryRow">
+                            <Label id="DireTotalDamage" class="TeamSummaryText" text="Takım Hasarı: 0" />
+                            <Label id="DireTotalKills" class="TeamSummaryText" text="Takım Düşman: 0" />
+                            <Panel class="TeamScoreBadge">
+                                <Label text="CAN: " class="TeamLifeLabel" />
+                                <Label id="DireScoreboardLife" class="TeamLifeVal" text="100 / 100" />
+                            </Panel>
                         </Panel>
                     </Panel>
                     <Panel id="DirePlayersList" class="PlayersList" />

@@ -457,7 +457,8 @@ bulwark_iron_guard=class({})
 function bulwark_iron_guard:GetIntrinsicModifierName() return 'modifier_bulwark_iron_guard' end
 
 modifier_bulwark_iron_guard=class({})
-function modifier_bulwark_iron_guard:IsHidden() return true end
+function modifier_bulwark_iron_guard:IsHidden() return false end
+function modifier_bulwark_iron_guard:GetTexture() return 'dragon_knight_dragon_blood' end
 function modifier_bulwark_iron_guard:DeclareFunctions()
     return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS, MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK, MODIFIER_EVENT_ON_TAKEDAMAGE }
 end
@@ -508,8 +509,10 @@ function bulwark_unbreakable:OnSpellStart()
 end
 
 modifier_bulwark_unbreakable=class({})
-function modifier_bulwark_unbreakable:IsHidden() return true end
-function modifier_bulwark_unbreakable:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACK_LANDED } end
+function modifier_bulwark_unbreakable:IsHidden() return false end
+function modifier_bulwark_unbreakable:GetTexture() return 'sven_warcry' end
+function modifier_bulwark_unbreakable:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACK_LANDED, MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT } end
+function modifier_bulwark_unbreakable:GetModifierConstantHealthRegen() return value(self:GetAbility(), 'bonus_hp_regen') end
 function modifier_bulwark_unbreakable:OnAttackLanded(e)
     local c = self:GetParent()
     if not IsServer() or e.attacker ~= c or c:PassivesDisabled() or e.target:GetTeamNumber() == c:GetTeamNumber() then return end
@@ -1399,7 +1402,8 @@ enfos_axe_counter_helix=class({})
 function enfos_axe_counter_helix:GetIntrinsicModifierName() return 'modifier_enfos_axe_counter_helix_passive' end
 
 modifier_enfos_axe_counter_helix_passive=class({})
-function modifier_enfos_axe_counter_helix_passive:IsHidden() return true end
+function modifier_enfos_axe_counter_helix_passive:IsHidden() return false end
+function modifier_enfos_axe_counter_helix_passive:GetTexture() return 'axe_counter_helix' end
 function modifier_enfos_axe_counter_helix_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACKED } end
 function modifier_enfos_axe_counter_helix_passive:OnCreated()
     self.last_boss_proc = 0
