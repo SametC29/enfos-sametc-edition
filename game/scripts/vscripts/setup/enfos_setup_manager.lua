@@ -145,7 +145,11 @@ end
 function EnfosSetupManager:OnLockInHero(event)
 	if not event or not event.hero_name then return end
 	local playerId = event.PlayerID
-	if not self:ValidPlayer(playerId) or GameRules:State_Get() ~= DOTA_GAMERULES_STATE_HERO_SELECTION then return false end
+	Log:Info("setup_manager", "Hero request: player=%s phase=%s team=%s hero=%s", tostring(playerId), tostring(GameRules:State_Get()), tostring(self:ValidPlayer(playerId) and PlayerResource:GetTeam(playerId)), tostring(event.hero_name))
+	if not self:ValidPlayer(playerId) or GameRules:State_Get() ~= DOTA_GAMERULES_STATE_HERO_SELECTION then
+		Log:Warn("setup_manager", "Hero request rejected: invalid player or phase")
+		return false
+	end
 	if self.playerPicks[playerId] then return false end
 	local heroName = tostring(event.hero_name)
 
@@ -164,7 +168,7 @@ function EnfosSetupManager:OnLockInHero(event)
 
 	local team = (PlayerResource and PlayerResource.GetTeam) and PlayerResource:GetTeam(playerId) or (DOTA_TEAM_GOODGUYS or 2)
 
-	if team ~= 2 and team ~= 3 then return false end
+	if team ~= 2 and team ~= 3 then Log:Warn("setup_manager", "Hero request rejected: player has no playing team") return false end
 	-- Check same-team duplicate restriction
 	if self.teamPicks[team] and self.teamPicks[team][heroName] then
 		Log:Warn("setup_manager", "Same team duplicate hero rejected: %s for team %d", heroName, team)

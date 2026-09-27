@@ -25,6 +25,16 @@ for (const file of walk('game/scripts/vscripts').filter(f => f.endsWith('.lua'))
   check(`Lua syntax ${file}`, () => luaparse.parse(fs.readFileSync(file, 'utf8'), { luaVersion: '5.1' }));
 }
 check('localization values and mirror files', () => generateLocalization(true));
+check('localization tokens do not conflict after engine case folding', () => {
+  for (const lang of languages) {
+    const seen = new Map();
+    for (const [key, value] of Object.entries(kv(`game/resource/addon_${lang}.txt`).lang.Tokens)) {
+      const folded = key.toLowerCase();
+      if (seen.has(folded) && seen.get(folded) !== value) throw new Error(`${lang}: conflicting token ${key}`);
+      seen.set(folded, value);
+    }
+  }
+});
 check('hero / ability / localization references', () => {
   const heroes = kv('game/scripts/npc/npc_heroes_custom.txt').DOTAHeroes;
   const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
@@ -50,10 +60,14 @@ check('production map allowlist', () => {
   if (maps.join(' ') !== 'enfos enfos_sametc') throw new Error('Unexpected production map');
   const shipped = fs.existsSync('game/maps') ? fs.readdirSync('game/maps').filter(f => f.endsWith('.vpk')) : [];
   for (const file of shipped) if (!maps.includes(path.basename(file, '.vpk'))) throw new Error(`Unapproved map in game/maps: ${file}`);
-  for (const map of maps) if (!fs.existsSync(`content/maps/${map}.vmap`)) throw new Error(`Missing source map ${map}`);
+  for (const map of maps) if (fs.existsSync(`content/maps/${map}.vmap`)) throw new Error(`Unsafe placeholder source in active build tree: ${map}`);
+});
+check('installed map/theme matches recorded playable version', () => {
+  const result = spawnSync(process.execPath, ['tools/check_map.mjs'], {encoding:'utf8'});
+  if (result.status !== 0) throw new Error(result.stderr || result.stdout);
 });
 check('validator regression tests', () => {
-  const result = spawnSync(process.execPath, ['--test', 'tools/tests/kv.test.mjs'], { stdio: 'inherit' });
+  const result = spawnSync(process.execPath, ['--test', 'tools/tests/kv.test.mjs', 'tools/tests/hero_selection.test.mjs'], { stdio: 'inherit' });
   if (result.status !== 0) throw new Error('Validator tests failed');
 });
 if (fs.existsSync('tests/run.lua')) check('Lua behavior tests', () => {
@@ -78,7 +92,15 @@ check('native tooltip name, description and compact tooltip aliases', () => {
 });
 check('Panorama source mirrors and overview mapping', () => {
   const tables = fs.readFileSync('game/scripts/custom_net_tables.txt', 'utf8');
-  if (!tables.startsWith('<!-- kv3 encoding:text:') || !/custom_net_tables\s*=\s*\[\s*"wave_info"\s*\]/.test(tables)) throw new Error('Missing KV3 wave_info registration');
+  const tableList = tables.match(/custom_net_tables\s*=\s*\[([\s\S]*?)\]/)?.[1];
+  if (!tables.startsWith('<!-- kv3 encoding:text:') || !tableList) throw new Error('Missing KV3 table registration');
+  const registered = new Set([...tableList.matchAll(/"([^"]+)"/g)].map(m => m[1]));
+  for (const file of [...walk('game/scripts/vscripts'), ...walk('content/panorama/scripts')]) {
+    const code = fs.readFileSync(file, 'utf8');
+    for (const match of code.matchAll(/CustomNetTables[.:](?:SetTableValue|GetTableValue|SubscribeNetTableListener)\s*\(\s*["']([^"']+)["']/g)) {
+      if (!registered.has(match[1])) throw new Error(`${file}: unregistered nettable ${match[1]}`);
+    }
+  }
   for (const lang of languages) if (!fs.readFileSync(`game/resource/addon_${lang}.txt`, 'utf8').startsWith('\uFEFF')) throw new Error('Localization needs a Unicode BOM for Source 2');
   for (const file of walk('content/panorama')) {
     if (fs.readFileSync(file, 'utf8') !== fs.readFileSync(file.replace(/^content/, 'game'), 'utf8')) throw new Error(`Stale runtime UI: ${file}`);

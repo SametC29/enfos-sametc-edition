@@ -4,6 +4,8 @@
 
 For the next development pass, follow [Antigravity continuation plan (TR)](ANTIGRAVITY_DEVAM_PLANI.md): prove startup and the first five waves, then close one behavior-tested system at a time. Current user instruction: local commits only; no push.
 
+Latest live follow-up: [startup, map recovery and selection repairs, 27 September](audit/LIVE_STARTUP_2026-09-27.md). Launch outside the restricted agent sandbox passed the NVIDIA profile error. Invalid Panorama gradients/animation references, nine missing nettables and a case-folded localization collision were repaired. The accidentally active flat prototype was replaced with the recorded Survival map; obsolete VMAP sources were archived outside the build tree and a manifest integrity gate added. The new 40-hero selection screen was observed live, and the user confirmed manually selecting Luna. Earlier flat-map logs are not map acceptance; full five-wave gameplay acceptance remains open.
+
 ---
 
 # Verified project status — 2026-09-26

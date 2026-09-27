@@ -19,7 +19,7 @@
 	box-shadow: 0 0 16px rgba(212, 160, 23, 0.6);
 	transition-property: transform, box-shadow;
 	transition-duration: 0.2s;
-	animation-name: 'badge-pulse';
+	animation-name: badge-pulse;
 	animation-duration: 2.0s;
 	animation-iteration-count: infinite;
 }

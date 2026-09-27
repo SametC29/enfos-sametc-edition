@@ -1,214 +1,103 @@
-// Enfos Team Survival — SametC Edition: Hero Selection Screen JS
-
+// Selection visuals follow authoritative roster/picks; clicks never lock locally.
 var EnfosHeroSelect = (function () {
-	"use strict";
-
-	var currentSelectedHero = null;
-	var isLockedIn = false;
-	var cardPanels = {};
-
-	function Values(table) {
-		return Object.keys(table || {}).sort(function(a,b) { return Number(a)-Number(b); }).map(function(k) { return table[k]; });
-	}
-	function RefreshRoster() {
-		var roster=[];
-		["Tank","Fighter","Carry","Mage","Support"].forEach(function(role) {
-			var data=CustomNetTables.GetTableValue("hero_selection_state","roster_"+role);
-			Values(data && data.heroes).forEach(function(hero) { hero.abilities=Values(hero.abilities);roster.push(hero); });
-		});
-		if (!roster.length) return;
-		PopulateRoster(roster);
-		var selected=roster.filter(function(h) { return currentSelectedHero && h.id===currentSelectedHero.id; })[0];
-		SelectHero(selected || roster[0]);
-	}
-
-	function Init() {
-		CustomNetTables.SubscribeNetTableListener("hero_selection_state", OnNetTableChanged);
-		GameEvents.Subscribe("game_rules_state_change", OnStateChange);
-
-		RefreshRoster();
-
-		var state = CustomNetTables.GetTableValue("hero_selection_state", "state");
-		if (state) {
-			UpdateUI(state);
-		}
-
-		CheckVisibility();
-	}
-
-	function OnStateChange() {
-		CheckVisibility();
-	}
-
-	function CheckVisibility() {
-		var state = Game.GetState();
-		var root = $.GetContextPanel();
-		// DOTA_GAMERULES_STATE_HERO_SELECTION is 3, STRATEGY_TIME is 4
-		if (state === 3 || state === 4) {
-			root.RemoveClass("HeroSelectionHidden");
-		} else {
-			root.AddClass("HeroSelectionHidden");
-		}
-	}
-
-	function OnNetTableChanged(table, key, data) {
-		if (key.indexOf("roster_")===0) { RefreshRoster();return; }
-		if (key === "state" && data) {
-			UpdateUI(data);
-		}
-	}
-
-	function UpdateUI(data) {
-		if (data.remaining_time !== undefined) {
-			var timer = $("#SelectTimerLabel");
-			if (timer) timer.text = data.remaining_time.toString();
-		}
-
-
-		// Update pick indicators
-		var picks = data.picks || {};
-		var localId = Players.GetLocalPlayer();
-		if (picks[localId]) {
-			isLockedIn = true;
-			var btn = $("#PickHeroBtn");
-			var label = $("#PickHeroBtnLabel");
-			if (btn && label) {
-				btn.AddClass("LockedIn");
-				label.text = "LOCKED IN";
-			}
-		}
-	}
-
-	function PopulateRoster(roster) {
-		var topContainer = $("#TopRoleHeroes");
-		var leftContainer = $("#LeftRoleHeroes");
-		var rightContainer = $("#RightRoleHeroes");
-		var bottomContainer = $("#BottomRoleHeroes");
-		var carryContainer = $("#CarryRoleHeroes");
-
-		if (!topContainer || !leftContainer) return;
-
-		topContainer.RemoveAndDeleteChildren();
-		leftContainer.RemoveAndDeleteChildren();
-		rightContainer.RemoveAndDeleteChildren();
-		bottomContainer.RemoveAndDeleteChildren();
-		carryContainer.RemoveAndDeleteChildren();
-		cardPanels = {};
-
-		for (var i = 0; i < roster.length; i++) {
-			var hero = roster[i];
-			var targetContainer = null;
-
-			if (hero.role === "Tank") targetContainer = topContainer;
-			else if (hero.role === "Fighter") targetContainer = leftContainer;
-			else if (hero.role === "Carry") targetContainer = carryContainer;
-			else if (hero.role === "Mage") targetContainer = bottomContainer;
-			else if (hero.role === "Support") targetContainer = rightContainer;
-
-			if (!targetContainer) targetContainer = topContainer;
-
-			CreateHeroCard(hero, targetContainer);
-		}
-	}
-
-	function CreateHeroCard(hero, container) {
-		var card = $.CreatePanel("Panel", container, "Card_" + hero.id);
-		card.AddClass("HeroCard");
-
-		var img = $.CreatePanel("DOTAHeroImage", card, "");
-		img.AddClass("HeroCardImg");
-		img.heroname = hero.id;
-		img.heroimagestyle = "icon";
-
-		var label = $.CreatePanel("Label", card, "");
-		label.AddClass("HeroCardName");
-		label.text = hero.name;
-
-		card.SetPanelEvent("onactivate", (function (h) {
-			return function () {
-				SelectHero(h);
-			};
-		})(hero));
-
-		cardPanels[hero.id] = card;
-	}
-
-	function SelectHero(hero) {
-		currentSelectedHero = hero;
-
-		// Highlight selected card
-		for (var hid in cardPanels) {
-			cardPanels[hid].RemoveClass("HeroCardSelected");
-		}
-		if (cardPanels[hero.id]) {
-			cardPanels[hero.id].AddClass("HeroCardSelected");
-		}
-
-		// Update Center Showcase
-		var heroImg = $("#ShowcaseHeroImage");
-		if (heroImg) {
-			heroImg.heroname = hero.id;
-		}
-
-		var title = $("#ShowcaseHeroTitle");
-		if (title) {
-			title.text = hero.name.toUpperCase();
-		}
-
-		var attrBadge = $("#AttrBadgeText");
-		if (attrBadge) {
-			if (hero.primary === "DOTA_ATTRIBUTE_STRENGTH") attrBadge.text = "STR";
-			else if (hero.primary === "DOTA_ATTRIBUTE_AGILITY") attrBadge.text = "AGI";
-			else attrBadge.text = "INT";
-		}
-
-		var roleBadge = $("#RoleBadgeText");
-		if (roleBadge) {
-			roleBadge.text = (hero.role || "HERO").toUpperCase();
-		}
-
-		// Render abilities
-		var abilitiesRow = $("#ShowcaseAbilities");
-		if (abilitiesRow) {
-			abilitiesRow.RemoveAndDeleteChildren();
-			for (var a = 0; a < (hero.abilities || []).length; a++) {
-				var abName = hero.abilities[a];
-				var abIcon = $.CreatePanel("DOTAAbilityImage", abilitiesRow, "AbilityIcon_" + a);
-				abIcon.AddClass("ShowcaseAbilityIcon");
-				abIcon.abilityname = abName;
-
-				(function (icon, name) {
-					icon.SetPanelEvent("onmouseover", function () {
-						$.DispatchEvent("DOTAShowAbilityTooltip", icon, name);
-					});
-					icon.SetPanelEvent("onmouseout", function () {
-						$.DispatchEvent("DOTAHideAbilityTooltip", icon);
-					});
-				})(abIcon, abName);
-			}
-		}
-	}
-
-	function PickCurrentHero() {
-		if (!currentSelectedHero || isLockedIn) return;
-
-		GameEvents.SendCustomGameEventToServer("enfos_lock_in_hero", {
-			hero_name: currentSelectedHero.id
-		});
-
-		var btn = $("#PickHeroBtn");
-		var label = $("#PickHeroBtnLabel");
-		if (btn && label) {
-			btn.AddClass("LockedIn");
-			label.text = "LOCKED IN";
-		}
-		isLockedIn = true;
-	}
-
-	Init();
-
-	return {
-		PickCurrentHero: PickCurrentHero,
-		SelectHero: SelectHero
-	};
+    "use strict";
+    var roles = ["Tank", "Fighter", "Carry", "Mage", "Support"];
+    var containers = {Tank: "TopRoleHeroes", Fighter: "LeftRoleHeroes", Carry: "CarryRoleHeroes", Mage: "BottomRoleHeroes", Support: "RightRoleHeroes"};
+    var roster = [], cards = {}, picks = {}, selected = null, pending = false;
+    var localId = Players.GetLocalPlayer();
+    function tr(key) { return $.Localize("#" + key); }
+    function values(table) { return Object.keys(table || {}).sort(function(a,b) { return Number(a)-Number(b); }).map(function(k) { return table[k]; }); }
+    function displayName(hero) { var name = tr(hero.id); return name === "#" + hero.id || name === hero.id ? hero.name : name; }
+    function sameTeamTaken(heroId) {
+        var team = Players.GetTeam(localId);
+        return Object.keys(picks).some(function(id) { return Number(id) !== localId && Players.GetTeam(Number(id)) === team && picks[id] === heroId; });
+    }
+    function updateControls() {
+        localId = Players.GetLocalPlayer();
+        Object.keys(cards).forEach(function(id) { cards[id].SetHasClass("HeroCardTaken", sameTeamTaken(id)); cards[id].SetHasClass("HeroCardSelected", !!selected && selected.id === id); });
+        var locked = !!picks[String(localId)], taken = selected && sameTeamTaken(selected.id);
+        var button = $("#PickHeroBtn");
+        button.enabled = !!selected && !locked && !pending && !taken;
+        button.SetHasClass("LockedIn", locked);
+        $("#PickHeroBtnLabel").text = tr(locked ? "enfos_select_locked" : pending ? "enfos_select_waiting" : "enfos_select_pick");
+        $("#PickStatus").text = tr(locked ? "enfos_select_confirmed" : taken ? "enfos_select_taken" : "enfos_select_hint");
+    }
+    function selectHero(hero) {
+        selected = hero;
+        $("#ShowcaseHeroImage").SetImage("file://{images}/heroes/" + hero.id + ".png");
+        $("#ShowcaseHeroTitle").text = displayName(hero);
+        $("#RoleBadgeText").text = tr("enfos_role_" + hero.role.toLowerCase());
+        var attributes = {DOTA_ATTRIBUTE_STRENGTH:"strength", DOTA_ATTRIBUTE_AGILITY:"agility", DOTA_ATTRIBUTE_INTELLECT:"intellect", DOTA_ATTRIBUTE_ALL:"universal"};
+        $("#AttrBadgeText").text = tr("enfos_attribute_" + (attributes[hero.primary] || "universal"));
+        var row = $("#ShowcaseAbilities"); row.RemoveAndDeleteChildren();
+        hero.abilities.forEach(function(name, i) {
+            var icon = $.CreatePanel("DOTAAbilityImage", row, "SelectedAbility_" + i);
+            icon.AddClass("ShowcaseAbilityIcon"); icon.abilityname = name;
+            icon.SetPanelEvent("onmouseover", function() { $.DispatchEvent("DOTAShowAbilityTooltip", icon, name); });
+            icon.SetPanelEvent("onmouseout", function() { $.DispatchEvent("DOTAHideAbilityTooltip", icon); });
+        });
+        updateControls();
+    }
+    function refreshRoster() {
+        roster = [];
+        roles.forEach(function(role) {
+            var chunk = CustomNetTables.GetTableValue("hero_selection_state", "roster_" + role);
+            values(chunk && chunk.heroes).forEach(function(hero) { hero.abilities = values(hero.abilities); roster.push(hero); });
+            $("#" + containers[role]).RemoveAndDeleteChildren();
+        });
+        cards = {};
+        roster.forEach(function(hero) {
+            var card = $.CreatePanel("Button", $("#" + containers[hero.role]), "Card_" + hero.id);
+            card.AddClass("HeroCard");
+            var portrait = $.CreatePanel("Image", card, ""); portrait.AddClass("HeroCardImg");
+            portrait.SetImage("file://{images}/heroes/" + hero.id + ".png");
+            var label = $.CreatePanel("Label", card, ""); label.AddClass("HeroCardName"); label.text = displayName(hero);
+            card.SetPanelEvent("onactivate", function() { if (!picks[String(localId)] && !pending) selectHero(hero); });
+            cards[hero.id] = card;
+        });
+        var id = picks[String(localId)] || (selected && selected.id);
+        var candidate = roster.filter(function(hero) { return hero.id === id; })[0] || roster[0];
+        if (candidate) selectHero(candidate);
+    }
+    function updateState(data) {
+        localId = Players.GetLocalPlayer();
+        picks = data.picks || {};
+        if (picks[String(localId)]) pending = false;
+        $("#SelectTimerLabel").text = String(data.remaining_time || 0);
+        var own = roster.filter(function(hero) { return hero.id === picks[String(localId)]; })[0];
+        if (own && (!selected || own.id !== selected.id)) selectHero(own);
+        updateControls();
+    }
+    function checkVisibility() {
+        var state = Game.GetState();
+        var visible = state === DOTA_GameState.DOTA_GAMERULES_STATE_HERO_SELECTION || state === DOTA_GameState.DOTA_GAMERULES_STATE_STRATEGY_TIME;
+        $.GetContextPanel().SetHasClass("HeroSelectionHidden", !visible);
+    }
+    function pickCurrentHero() {
+        localId = Players.GetLocalPlayer();
+        if (!selected || pending || picks[String(localId)] || sameTeamTaken(selected.id)) return;
+        pending = true; updateControls();
+        // A rejected or lost request must not strand the screen in a fake locked state.
+        $.Schedule(2, function() {
+            if (!picks[String(localId)]) { pending = false; updateControls(); $("#PickStatus").text = tr("enfos_select_retry"); }
+        });
+        $.Msg("[ENFOS selection] request ", selected.id, " phase=", Game.GetState());
+        try {
+            GameEvents.SendCustomGameEventToServer("enfos_lock_in_hero", {hero_name:selected.id});
+        } catch (error) {
+            pending = false; updateControls();
+            $("#PickStatus").text = tr("enfos_select_retry");
+            $.Msg("[ENFOS selection] send failed: ", String(error));
+        }
+    }
+    CustomNetTables.SubscribeNetTableListener("hero_selection_state", function(table, key, data) {
+        if (key.indexOf("roster_") === 0) refreshRoster();
+        else if (key === "state" && data) updateState(data);
+    });
+    GameEvents.Subscribe("game_rules_state_change", checkVisibility);
+    refreshRoster();
+    var state = CustomNetTables.GetTableValue("hero_selection_state", "state");
+    if (state) updateState(state);
+    checkVisibility();
+    return {PickCurrentHero:pickCurrentHero};
 })();

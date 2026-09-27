@@ -26,6 +26,10 @@ rapor geçmiş çalışmanın iddiasıdır; tasarımın veya doğrulamanın yeri
 
 ## İlk iş: oyunun açıldığını ve ilk beş dalganın oynandığını kanıtla
 
+Güncelleme: [canlı açılış düzeltmeleri](audit/LIVE_STARTUP_2026-09-27.md) NVIDIA
+erişim engelini başlatma ortamında aştı; yeni kayıtta kahraman seçimi ve dalga 1
+başlangıcı görüldü. Bu düzeltmeleri koru; beş dalganın tamamı henüz doğrulanmadı.
+
 Yeni kahraman, eşya veya arayüz ekleyerek başlama. Son MCP başlatma denemesinde
 Dota işlemi kapandı; neden henüz belirlenmedi. Önce güncel hata kaydını ve yeniden
 üretim adımlarını al. Eski console.log dosyasını yeni denemenin sonucu sayma.

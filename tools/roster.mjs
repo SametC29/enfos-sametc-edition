@@ -3,10 +3,12 @@ import { parseKV } from './lib/kv.mjs';
 
 const heroes = parseKV(fs.readFileSync('game/scripts/npc/npc_heroes_custom.txt', 'utf8')).DOTAHeroes;
 const tokens = JSON.parse(fs.readFileSync('localization/english.json', 'utf8')).Tokens;
+const sourceTokens = JSON.parse(fs.readFileSync('localization/turkish.json', 'utf8')).Tokens;
 const rows = Object.entries(heroes).filter(([, v]) => v.Role).map(([id, v]) => ({
-  id, name: tokens[id] || id, role: v.Role, primary: v.AttributePrimary,
+  id, name: tokens[id] || sourceTokens[id], role: v.Role, primary: v.AttributePrimary,
   abilities: [1, 2, 3, 4, 5].map(n => v['Ability' + n]),
 }));
+for (const hero of rows) if (!hero.name || hero.name.startsWith('npc_dota_')) throw new Error('Missing display name: ' + hero.id);
 const output = '-- Generated from npc_heroes_custom.txt by tools/roster.mjs.\nreturn {\n' + rows.map(v =>
   '  { id=' + JSON.stringify(v.id) + ', name=' + JSON.stringify(v.name) + ', role=' + JSON.stringify(v.role) +
   ', primary=' + JSON.stringify(v.primary) + ', abilities={' + v.abilities.map(x => JSON.stringify(x)).join(',') + '} },'

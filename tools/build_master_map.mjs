@@ -16,6 +16,10 @@ import { encodeRgbaPng } from 'file:///C:/Users/samet/.gemini/antigravity/mcp/do
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
+if (!process.argv.includes('--allow-placeholder-map')) {
+    throw new Error('This generator replaces the playable Survival map with an old flat prototype. Use --allow-placeholder-map only for an intentional isolated prototype build.');
+}
+
 async function buildMasterMap() {
     console.log("=== Building Authentic Enfos Master Map (Flat Walkable Arenas + Autumn Theme) ===");
 

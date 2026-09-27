@@ -9,14 +9,13 @@
 #LoadingBackdrop {
 	width: 100%;
 	height: 100%;
-	background-color: #08070a;
-	background-image: linear-gradient(135deg, rgba(212, 160, 23, 0.18) 0%, rgba(30, 22, 12, 0.12) 35%, rgba(6, 5, 8, 0.95) 100%);
+	background-color: gradient(linear, 0% 0%, 100% 100%, from(#302313), color-stop(0.35, #16100e), to(#060508));
 }
 
 .VignetteOverlay {
 	width: 100%;
 	height: 100%;
-	background-image: radial-gradient(rgba(0, 0, 0, 0.0) 45%, rgba(0, 0, 0, 0.85) 100%);
+	background-color: gradient(radial, 50% 50%, 0% 0%, 80% 80%, from(#00000000), color-stop(0.45, #00000000), to(#000000d9));
 }
 
 .LoadingContent {
@@ -201,7 +200,7 @@
 	border-radius: 9px;
 	margin-right: 12px;
 	vertical-align: center;
-	animation-name: 'SpinAnimation';
+	animation-name: SpinAnimation;
 	animation-duration: 0.8s;
 	animation-timing-function: linear;
 	animation-iteration-count: infinite;
@@ -238,7 +237,7 @@
 	background-color: gradient(linear, 0% 0%, 100% 0%, from(#c09228), to(#f5d77f));
 	box-shadow: 0 0 12px rgba(245, 215, 127, 0.75);
 	border-radius: 3px;
-	animation-name: 'LoadingProgressPulse';
+	animation-name: LoadingProgressPulse;
 	animation-duration: 2.5s;
 	animation-timing-function: ease-in-out;
 	animation-iteration-count: infinite;

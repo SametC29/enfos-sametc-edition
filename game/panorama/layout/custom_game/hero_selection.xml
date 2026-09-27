@@ -1,90 +1,43 @@
 <root>
-	<styles>
-		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
-		<include src="file://{resources}/styles/custom_game/hero_selection.css" />
-	</styles>
-	<scripts>
-		<include src="file://{resources}/scripts/custom_game/hero_selection.js" />
-	</scripts>
-
-	<Panel class="HeroSelectionRoot" hittest="false">
-		<Panel id="HeroSelectionBackdrop" hittest="true" />
-
-		<!-- Top Status Bar -->
-		<Panel class="TopStatusBar">
-			<Panel class="TopTeamStatus RadiantStatus">
-				<Label class="StatusTeamName RadiantStatusText" text="RADIANT" />
-				<Panel id="RadiantPicksRow" class="TeamPicksRow" />
-			</Panel>
-
-			<Panel class="TimerContainer">
-				<Label id="SelectTimerLabel" class="TimerNumber" text="86" />
-			</Panel>
-
-			<Panel class="TopTeamStatus DireStatus">
-				<Label class="StatusTeamName DireStatusText" text="DIRE" />
-				<Panel id="DirePicksRow" class="TeamPicksRow" />
-			</Panel>
-		</Panel>
-
-		<!-- Perimeter Role Panels (Surrounding the Center Stage) -->
-		
-		<!-- TOP ROLE: ROUNDED / TANK -->
-		<Panel class="PerimeterPanel TopRolePanel">
-			<Label class="RoleHeader" text="ROUNDED" />
-			<Panel id="TopRoleHeroes" class="RoleHeroesRow" />
-		</Panel>
-
-		<!-- LEFT ROLE: COMBAT / FIGHTER -->
-		<Panel class="PerimeterPanel LeftRolePanel">
-			<Label class="RoleHeader" text="COMBAT" />
-			<Panel id="LeftRoleHeroes" class="RoleHeroesColumn" />
-		</Panel>
-
-		<!-- RIGHT ROLE: SUPPORT -->
-		<Panel class="PerimeterPanel RightRolePanel">
-			<Label class="RoleHeader" text="SUPPORT" />
-			<Panel id="RightRoleHeroes" class="RoleHeroesColumn" />
-		</Panel>
-
-		<!-- BOTTOM ROLE: SPELLCASTER / MAGE -->
-		<Panel class="PerimeterPanel BottomRolePanel">
-			<Label class="RoleHeader" text="SPELLCASTER" />
-			<Panel id="BottomRoleHeroes" class="RoleHeroesRow" />
-		</Panel>
-
-		<!-- TOP RIGHT CORNER: CARRY / MARKSMAN -->
-		<Panel class="PerimeterPanel TopRightRolePanel">
-			<Label class="RoleHeader" text="CARRY" />
-			<Panel id="CarryRoleHeroes" class="RoleHeroesCarryGrid" />
-		</Panel>
-
-		<!-- CENTER SHOWCASE STAGE -->
-		<Panel id="CenterStage" class="CenterStagePanel">
-			<!-- Hero Portrait Frame -->
-			<Panel class="ShowcasePortraitFrame">
-				<DOTAHeroImage id="ShowcaseHeroImage" class="ShowcaseHeroImg" heroimagestyle="portrait" />
-				<Panel class="ShowcaseVignette" />
-			</Panel>
-
-			<!-- Hero Title & Info -->
-			<Label id="ShowcaseHeroTitle" class="HeroTitleText" text="SVEN" />
-
-			<!-- Badges Row -->
-			<Panel class="BadgesRow">
-				<Panel class="InfoBadge"><Label text="HERO" /></Panel>
-				<Panel class="InfoBadge"><Label text="NORMAL" /></Panel>
-				<Panel id="PrimaryAttrBadge" class="InfoBadge AttrBadge"><Label id="AttrBadgeText" text="STR" /></Panel>
-				<Panel id="RoleBadge" class="InfoBadge RoleBadge"><Label id="RoleBadgeText" text="TANK" /></Panel>
-			</Panel>
-
-			<!-- Abilities Row -->
-			<Panel id="ShowcaseAbilities" class="AbilitiesRow" />
-
-			<!-- Pick Hero Action Button -->
-			<Button id="PickHeroBtn" class="PickHeroButton" onactivate="EnfosHeroSelect.PickCurrentHero()">
-				<Label id="PickHeroBtnLabel" text="PICK HERO" />
-			</Button>
-		</Panel>
-	</Panel>
+    <styles>
+        <include src="s2r://panorama/styles/dotastyles.vcss_c" />
+        <include src="file://{resources}/styles/custom_game/hero_selection.css" />
+    </styles>
+    <scripts><include src="file://{resources}/scripts/custom_game/hero_selection.js" /></scripts>
+    <Panel class="HeroSelectionRoot HeroSelectionHidden" hittest="true">
+        <Panel class="SelectionShell">
+            <Panel class="SelectionHeader">
+                <Panel class="HeadingBlock">
+                    <Label class="Eyebrow" text="#enfos_select_eyebrow" />
+                    <Label class="ScreenTitle" text="#enfos_select_title" />
+                    <Label class="ScreenSubtitle" text="#enfos_select_subtitle" />
+                </Panel>
+                <Panel class="TimerContainer">
+                    <Label class="TimerCaption" text="#enfos_select_time" />
+                    <Label id="SelectTimerLabel" class="TimerNumber" text="—" />
+                </Panel>
+            </Panel>
+            <Panel class="SelectionBody">
+                <Panel class="RosterPanel">
+                    <Panel class="RoleSection"><Label class="RoleHeader" text="#enfos_role_tank" /><Panel id="TopRoleHeroes" class="HeroRow" /></Panel>
+                    <Panel class="RoleSection"><Label class="RoleHeader" text="#enfos_role_fighter" /><Panel id="LeftRoleHeroes" class="HeroRow" /></Panel>
+                    <Panel class="RoleSection"><Label class="RoleHeader" text="#enfos_role_carry" /><Panel id="CarryRoleHeroes" class="HeroRow" /></Panel>
+                    <Panel class="RoleSection"><Label class="RoleHeader" text="#enfos_role_mage" /><Panel id="BottomRoleHeroes" class="HeroRow" /></Panel>
+                    <Panel class="RoleSection"><Label class="RoleHeader" text="#enfos_role_support" /><Panel id="RightRoleHeroes" class="HeroRow" /></Panel>
+                </Panel>
+                <Panel class="ShowcasePanel">
+                    <Image id="ShowcaseHeroImage" class="ShowcaseHeroImg" scaling="stretch-to-fit-preserve-aspect" />
+                    <Label id="ShowcaseHeroTitle" class="HeroTitleText" text="#enfos_select_loading" />
+                    <Panel class="BadgesRow"><Label id="RoleBadgeText" class="RoleBadge" /><Label id="AttrBadgeText" class="AttributeBadge" /></Panel>
+                    <Label class="AbilityHeading" text="#enfos_select_abilities" />
+                    <Panel id="ShowcaseAbilities" class="AbilitiesRow" />
+                    <Label class="AbilityHint" text="#enfos_select_ability_hint" />
+                    <Panel class="SelectionFooter">
+                        <Label id="PickStatus" class="PickStatus" text="#enfos_select_hint" />
+                        <Button id="PickHeroBtn" class="PickHeroButton" onactivate="EnfosHeroSelect.PickCurrentHero()" enabled="false"><Label id="PickHeroBtnLabel" text="#enfos_select_pick" /></Button>
+                    </Panel>
+                </Panel>
+            </Panel>
+        </Panel>
+    </Panel>
 </root>
