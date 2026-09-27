@@ -245,6 +245,7 @@ function EnfosSametC:OnNPCSpawned(event)
 	-- Register Hero
 	if spawnedUnit:IsRealHero() then
 		require("map/hero_spawns"):ConfigureHero(spawnedUnit)
+		require("heroes/hero_power"):Apply(spawnedUnit)
 		local playerId = spawnedUnit:GetPlayerID()
 		if playerId and playerId >= 0 then
 			self.playerHeroes[playerId] = spawnedUnit

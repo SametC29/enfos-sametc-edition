@@ -3,9 +3,10 @@
 This file exists so Codex does not "helpfully" redesign locked decisions.
 
 ## 2026-09-27 live-test follow-up (provisional / blocked)
-- Provisional solo onboarding seed and difficulty factors are recorded in
-  [solo/Ascended audit](audit/SOLO_AND_ASCENDED_2026-09-27.md); validate with a new
-  match before claiming solo viability. No change to the 20-enemy wave-1 plan.
+- User-directed balance change: strengthen heroes and skill uptime instead of
+  weakening enemies for solo. [Hero power seed](audit/HERO_POWER_2026-09-27.md)
+  supersedes the prior solo enemy reductions. Values are provisional; individual
+  kit synergies and live solo viability remain unproven. Wave 1 still has 20 enemies.
 - 29 incomplete Ascended upgrades are purchase-gated; complete their promised
   mechanics and test base-item identity before enabling each. Launch target stays 30.
 - Legacy compiled Survival map currently loads, but future compatibility is open.

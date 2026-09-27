@@ -14,6 +14,10 @@ source and a tested rebuild, or an original replacement. This is still open.
 
 ## Solo balance seed
 
+**Superseded later the same day:** user prefers powerful heroes over weakened
+enemies. See [hero power](HERO_POWER_2026-09-27.md). Enemy solo multipliers and their
+fade-out below are historical; preparation timing and difficulty factors remain.
+
 `waves/balance_config.lua`, version `2026-09-27-solo-1`, snapshots difficulty and
 whether exactly one playing-team member exists before the first preparation.
 Spectators are not counted. A disconnect cannot toggle assistance mid-match.

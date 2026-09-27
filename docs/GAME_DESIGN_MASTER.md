@@ -478,6 +478,14 @@ Selection:
 
 Every hero, including Tank and Support, requires at least one viable solo PvE-clear build.
 
+User direction, 2026-09-27: Enfo's appeal includes deliberately powerful heroes.
+Prefer stronger wave-clearing kits, spell uptime and ability synergies over
+reducing enemy stats to solve solo difficulty. Preserve threats and readable Boss
+mechanics. Watcher of Samsara remains a mechanics/feel reference for independently
+authored skills, not imported code or custom assets. The provisional common hero
+power seed is documented in `audit/HERO_POWER_2026-09-27.md`; it is not a substitute
+for individual hero kit acceptance or proof of 60-wave balance.
+
 ## 14. In-match hero progression
 
 Max hero level: 30

@@ -102,6 +102,7 @@ end
 function WaveManager:EnsureMatchConfig()
 	if not self.matchConfig then
 		self.matchConfig=BalanceConfig.Snapshot(self:GetDifficulty(),self:GetActivePlayerCount(2),self:GetActivePlayerCount(3))
+		require("heroes/hero_power"):SetSnapshot(self.matchConfig)
 		Log:Info("wave_manager","Balance snapshot: version=%s difficulty=%s solo=%s",self.matchConfig.version,self.matchConfig.difficulty,tostring(self.matchConfig.solo))
 	end
 	return self.matchConfig
@@ -548,7 +549,7 @@ function WaveManager:SyncNetTable()
 	end
 
 	CustomNetTables:SetTableValue("wave_info", "status", {
-		solo_support = self.matchConfig and self.matchConfig.solo and nextWaveNum<self.matchConfig.fadeEnds and 1 or 0,
+		solo_support = self.matchConfig and self.matchConfig.solo and 1 or 0,
 		current_wave = self.currentWave,
 		next_wave = nextWaveNum,
 		max_waves = WaveDefinitions:GetTotalWaves(),

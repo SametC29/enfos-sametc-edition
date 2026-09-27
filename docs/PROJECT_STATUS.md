@@ -1,8 +1,11 @@
 # Current audit — 2026-09-27
 
-Latest changes: [solo onboarding and Ascended correction](audit/SOLO_AND_ASCENDED_2026-09-27.md).
-Solo early-wave assistance is now snapshotted; 29 unfinished Ascended upgrades are
-visibly unavailable and cannot consume resources. The 30-item release target remains open.
+Latest changes: [hero power instead of solo enemy reductions](audit/HERO_POWER_2026-09-27.md)
+and [native team spawn markers](RUNTIME_FIXES.md). Hero empowerment is permanent
+for the match and snapshotted; first spawn at origin has a runtime marker fix
+awaiting user live testing. All 98 automated behavior tests and repository checks pass.
+29 unfinished Ascended upgrades remain visibly unavailable and cannot consume
+resources. The 30-item release target remains open.
 Legacy compiled map compatibility still requires the correct source/rebuild.
 
 **Release status: prototype; gameplay acceptance incomplete.** See [Codex audit](audit/CODEX_AUDIT_2026-09-27.md) for corrected defects, verified evidence, production economy arithmetic, and remaining release blockers. The desktop Antigravity report is not acceptance evidence.

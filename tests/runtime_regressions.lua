@@ -21,7 +21,7 @@ GameRules={state=7,paused=false,GetGameModeEntity=function() return mode end,
 CustomNetTables={SetTableValue=function() end}
 CustomGameEventManager={RegisterListener=function() end,Send_ServerToAllClients=function() end}
 PlayerResource={IsValidPlayerID=function(_,id) return id==0 end,GetTeam=function() return 2 end,
- GetConnectionState=function() return 2 end}
+ GetConnectionState=function() return 2 end,GetSelectedHeroEntity=function() return nil end}
 local W=require('waves/wave_manager')
 local L=require('waves/life_core')
 test('registered wave thinker starts preparation, pauses, then spawns', function()
@@ -83,7 +83,7 @@ test('all eight portals teleport only their team and suppress bounce',function()
   assert(not P:TryTeleport(hero(p.team==2 and 3 or 2,p.from),20))
  end
 end)
-test('solo balance applies actual health and attack damage, then tapers to baseline',function()
+test('solo empowers heroes without reducing enemies or removing power in later waves',function()
  local B=require('waves/balance_config');local cfg=B.Snapshot('normal',1,0)
  local unit={hp=280,lo=18,hi=24}
  function unit:GetMaxHealth() return self.hp end
@@ -95,10 +95,9 @@ test('solo balance applies actual health and attack damage, then tapers to basel
  function unit:SetBaseDamageMin(v) self.lo=v end
  function unit:SetBaseDamageMax(v) self.hi=v end
  B.Apply(unit,cfg,1)
- assert(unit.hp==182 and unit.currentHP==182 and unit.lo==10 and unit.hi==14)
- local h,d=B.Multipliers(cfg,10);assert(h==0.65 and d==0.60)
- h,d=B.Multipliers(cfg,15);assert(math.abs(h-0.825)<0.0001 and math.abs(d-0.80)<0.0001)
- h,d=B.Multipliers(cfg,20);assert(h==1 and d==1)
+ assert(unit.hp==280 and unit.currentHP==280 and unit.lo==18 and unit.hi==24)
+ for wave=1,60 do local h,d=B.Multipliers(cfg,wave);assert(h==1 and d==1) end
+ assert(cfg.heroPower.health==600 and cfg.heroPower.spellAmp==35 and cfg.heroPower.cooldown==25)
 end)
 test('solo support is symmetric and never applies to two-player coop or PvPvE',function()
  local B=require('waves/balance_config')
