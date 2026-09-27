@@ -15,6 +15,12 @@ function class(t)
 end
 
 function LinkLuaModifier() end
+local function special(name,key)
+    local data=assert(ENFOS_REAL_SPECIALS,'Run through tools/test_real_abilities.mjs')
+    return data[name] and data[name][key] or 0
+end
+DOTA_UNIT_CAP_MELEE_ATTACK=1
+DOTA_UNIT_CAP_RANGED_ATTACK=2
 function IsServer() return true end
 function EmitGlobalSound() end
 function EmitSoundOn() end
@@ -135,7 +141,7 @@ function FindUnitsInRadius(team, pos, cache, radius, target_team, target_type, f
             if target_team == DOTA_UNIT_TARGET_TEAM_ENEMY and u:GetTeamNumber() ~= team then matches_team = true end
             if target_team == DOTA_UNIT_TARGET_TEAM_FRIENDLY and u:GetTeamNumber() == team then matches_team = true end
             if target_team == DOTA_UNIT_TARGET_TEAM_BOTH then matches_team = true end
-            if matches_team then
+            if matches_team and (u:GetAbsOrigin()-pos):Length2D() <= radius then
                 table.insert(res, u)
             end
         end
@@ -180,6 +186,8 @@ function create_mock_unit(name, team, origin, hp)
         hp = hp,
         max_hp = hp,
         SetOwner=function(self,v) self.owner=v end,
+        SetAttackCapability=function(self,v) self.attackCapability=v end,
+        GetAttackCapability=function(self) return self.attackCapability or 2 end,
         GetPlayerOwnerID=function() return 0 end,
         SetControllableByPlayer=function(self,id,enabled) self.controller=id end,
         SetBaseDamageMin=function() end, SetBaseDamageMax=function() end,
@@ -247,7 +255,7 @@ function create_mock_unit(name, team, origin, hp)
             mod.StartIntervalThink = function() end
             self.modifiers[mod_name] = mod
             if mod.OnCreated then
-                pcall(function() mod:OnCreated(params) end)
+                mod:OnCreated(params)
             end
             return mod
         end,
@@ -255,7 +263,7 @@ function create_mock_unit(name, team, origin, hp)
         HasModifier = function(self, mod_name) return self.modifiers[mod_name] ~= nil end,
         RemoveModifierByName = function(self, mod_name)
             local mod = self.modifiers[mod_name]
-            if mod and mod.OnDestroy then pcall(function() mod:OnDestroy() end) end
+            if mod and mod.OnDestroy then mod:OnDestroy() end
             self.modifiers[mod_name] = nil
         end,
         Heal = function(self, amount, source) self.hp = math.min(self.max_hp, self.hp + amount) end,
@@ -265,7 +273,7 @@ function create_mock_unit(name, team, origin, hp)
             if cls then
                 local a = cls()
                 a.GetCaster = function() return self end
-                a.GetSpecialValueFor = function(_, k) return 100 end
+                a.GetSpecialValueFor = function(_, k) return special(ab_name,k) end
                 a.IsItem = function() return false end
                 a.EndCooldown = function() end
                 a.StartCooldown = function() end
@@ -307,7 +315,7 @@ for _, hero_info in ipairs(roster) do
             ab.GetCursorTarget = function() return enemy end
             ab.GetCursorPosition = function() return enemy:GetAbsOrigin() end
             ab.GetLevel = function() return 4 end
-            ab.GetSpecialValueFor = function(s, k) return 100 end
+            ab.GetSpecialValueFor = function(s, k) return special(ab_name,k) end
             ab.GetAbilityDamageType = function() return DAMAGE_TYPE_MAGICAL end
             ab.GetToggleState = function() return true end
             ab.ToggleAbility = function() end
@@ -379,7 +387,7 @@ end
 local modifier_list = _G.ENFOS_PVE_MODIFIER_LIST or {}
 
 print('======================================================================')
-print('LIVE RUNTIME EXECUTION TEST FOR ALL ' .. tostring(#modifier_list) .. ' MODIFIERS')
+print('MOCK SMOKE EXECUTION FOR ALL ' .. tostring(#modifier_list) .. ' MODIFIERS')
 print('======================================================================\n')
 
 local tested_modifiers = 0
@@ -506,6 +514,36 @@ if #failed_modifiers > 0 then
     end
     os.exit(1)
 else
-    print('ALL 200 ABILITIES AND ALL ' .. tostring(#modifier_list) .. ' MODIFIERS EXECUTED FLAWLESSLY! 🚀')
+    print('Ability/modifier smoke checks passed; engine behavior not certified.')
 end
 
+
+-- Player-reported behavior: assert effects instead of only accepting no exception.
+do
+    local hero=create_mock_unit('npc_dota_hero_troll_warlord',2,Vector(0,0,0),1000)
+    local enemy=create_mock_unit('enfos_creep_soldier',4,Vector(150,0,0),1000)
+    mock_world_units={hero,enemy}
+    local function ability(id)
+        local a=_G[id]()
+        a.GetCaster=function() return hero end
+        a.GetSpecialValueFor=function(_,key) return special(id,key) end
+        a.GetCursorTarget=function() return enemy end
+        return a
+    end
+    local q=ability('enfos_troll_berserkers_rage')
+    q.GetToggleState=function() return true end;q:OnToggle();assert(hero.attackCapability==1)
+    q.GetToggleState=function() return false end;q:OnToggle();assert(hero.attackCapability==2)
+    local oldDamage=ApplyDamage;local hits={}
+    ApplyDamage=function(data) hits[#hits+1]=data;return data.damage end
+    ability('enfos_troll_whirling_axes'):OnSpellStart()
+    assert(#hits==1 and hits[1].victim==enemy and hits[1].damage>270)
+    assert(enemy:HasModifier('modifier_enfos_troll_whirling_axes_blind'))
+    ability('enfos_troll_battle_trance'):OnSpellStart()
+    local trance=hero:FindModifierByName('modifier_enfos_troll_battle_trance')
+    assert(trance and trance:GetModifierAttackSpeedBonus_Constant()==220 and trance:GetMinHealth()==1)
+    local dagger=ability('enfos_pa_stifling_dagger')
+    dagger:OnProjectileHit_ExtraData(enemy,nil,{damage=321})
+    assert(hits[#hits].damage==321 and enemy:HasModifier('modifier_enfos_pa_stifling_dagger_slow'))
+    ApplyDamage=oldDamage
+    print('PASS Troll stance, axes damage/blind, trance buff and PA projectile impact')
+end

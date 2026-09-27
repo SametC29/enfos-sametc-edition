@@ -97,7 +97,7 @@ test('solo empowers heroes without reducing enemies or removing power in later w
  B.Apply(unit,cfg,1)
  assert(unit.hp==280 and unit.currentHP==280 and unit.lo==18 and unit.hi==24)
  for wave=1,60 do local h,d=B.Multipliers(cfg,wave);assert(h==1 and d==1) end
- assert(cfg.heroPower.health==600 and cfg.heroPower.spellAmp==35 and cfg.heroPower.cooldown==25)
+ assert(cfg.heroPower.health==600 and cfg.heroPower.spellAmp==15 and cfg.heroPower.cooldown==10)
 end)
 test('solo support is symmetric and never applies to two-player coop or PvPvE',function()
  local B=require('waves/balance_config')
@@ -114,5 +114,43 @@ test('solo match configuration is frozen across disconnects and difficulty reque
  assert(W.matchConfig==cfg and W:GetDifficulty()=='normal' and W.stateTimer==20)
 	W.currentWave=10;W:StartPreparation();assert(W.stateTimer==15)
  W.GetActivePlayerCount=original
+end)
+
+test('all 360 wave/player plans conserve requested counts and bounded batches finish before deadline',function()
+ local D=require('waves/wave_definitions')
+ for players=0,5 do for wave=1,60 do
+  local count=0
+  for _,entry in ipairs(D:GetSpawnPlan(wave,players)) do count=count+entry.count end
+  assert(count==(wave%5==0 and (players>0 and 1 or 0) or (20+2*(wave-1))*players))
+  if wave%5~=0 then
+   local batches=math.ceil(D:GetScheduledCount(wave,1)/6)
+   local interval=math.ceil((D:GetDuration(wave)*0.6/(batches-1))/0.5)*0.5
+   assert((batches-1)*interval<D:GetDuration(wave))
+  end
+ end end
+end)
+test('deadline advances with living enemies but pauses freeze the clock',function()
+ W:Init();W:StartWave(1);W.state=W.STATE_ACTIVE;W.pendingBatches={};W.stateTimer=0.5
+ local enemy={IsNull=function() return false end,IsAlive=function() return true end}
+ W.activeCreeps[2][77]=enemy
+ GameRules.paused=true;W:OnThink();assert(W.currentWave==1 and W.stateTimer==0.5)
+ GameRules.paused=false;W:OnThink();assert(W.currentWave==2 and W.activeCreeps[2][77]==enemy)
+end)
+test('early clear preserves deadline and pays no duplicate completion gold',function()
+ W:Init();W.currentWave=2;W.state=W.STATE_ACTIVE;W.pendingBatches={};W.stateTimer=9
+ local R=require('waves/rewards');local old=R.Credit;R.Credit=function() error('No clear payout') end
+ W:OnWaveCleared();assert(W.state==W.STATE_PREPARATION and W.stateTimer==9)
+ R.Credit=old
+end)
+test('boss phases cannot be skipped by burst damage',function()
+ local B=require('bosses/boss_framework');local guards=0
+ local u={bossState={name='enfos_boss_stonebreaker',wave=5,phase=1,abilityTimer=10},hp=700,
+  GetMaxHealth=function() return 1000 end,GetHealth=function(self) return self.hp end,
+  IsNull=function() return false end,IsAlive=function() return true end,
+  EmitSound=function() end,AddNewModifier=function() guards=guards+1 end}
+ local modifier=setmetatable({GetParent=function() return u end},{__index=modifier_enfos_boss_base})
+ assert(modifier:GetMinHealth()==700);B:OnBossThink(u);assert(u.bossState.phase==2 and guards==1)
+ assert(modifier:GetMinHealth()==350);u.hp=350;B:OnBossThink(u)
+ assert(u.bossState.phase==3 and guards==2 and modifier:GetMinHealth()==0)
 end)
 print(n..' runtime regression tests passed (mock engine).')

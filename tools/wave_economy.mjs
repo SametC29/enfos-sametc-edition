@@ -7,7 +7,7 @@ local W=require('waves/wave_definitions')
 for players=1,5 do for wave=1,60 do
  local def=W:GetWave(wave)
  for _,e in ipairs(W:GetSpawnPlan(wave,players)) do
-  print(table.concat({players,wave,e.unit_name,e.count,def.gold_bounty or 0,def.xp_bounty or 0},','))
+  print(table.concat({players,wave,e.unit_name,e.count,0,0},','))
  end
 end end`;
 const result = spawnSync(process.execPath, ['node_modules/fengari-node-cli/src/lua-cli.js', '-e', lua], { encoding: 'utf8' });

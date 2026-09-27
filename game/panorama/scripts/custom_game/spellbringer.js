@@ -167,3 +167,19 @@ function HideTooltip() {
     });
     updateSpellbringerUI();
 })();
+
+function SendNextWave() {
+    var button = $("#NextWave");
+    if (!button.enabled) return;
+    button.enabled = false;
+    GameEvents.SendCustomGameEventToServer("enfos_next_wave", {});
+}
+(function () {
+    function updateNextWave() {
+        var status = CustomNetTables.GetTableValue("wave_info", "status");
+        var team = Players.GetTeam(Players.GetLocalPlayer());
+        $("#NextWave").enabled = !!status && Number(status.can_send_next) === 1 && (team === 2 || team === 3);
+    }
+    CustomNetTables.SubscribeNetTableListener("wave_info", updateNextWave);
+    updateNextWave();
+})();

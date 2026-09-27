@@ -1,0 +1,1265 @@
+{
+  "source": "Installed Valve scripts/npc/items.txt",
+  "sourceSHA256": "3b0e786b5e3c1dbedf9fc51fd6507937654f8e6f7be9d702c3b7c544804baf33",
+  "limitation": "Ingredient/override audit only; native shop interaction needs engine testing.",
+  "recipes": [
+    {
+      "recipe": "item_recipe_arcane_blink",
+      "result": "item_arcane_blink",
+      "cost": 1750,
+      "requirements": {
+        "01": "item_blink*;item_mystic_staff"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_swift_blink",
+      "result": "item_swift_blink",
+      "cost": 1750,
+      "requirements": {
+        "01": "item_blink*;item_eagle"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_overwhelming_blink",
+      "result": "item_overwhelming_blink",
+      "cost": 1750,
+      "requirements": {
+        "01": "item_blink*;item_reaver"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_moon_shard",
+      "result": "item_moon_shard",
+      "cost": 0,
+      "requirements": {
+        "01": "item_hyperstone;item_hyperstone"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_magic_wand",
+      "result": "item_magic_wand",
+      "cost": 150,
+      "requirements": {
+        "01": "item_magic_stick*;item_branches;item_branches"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_great_famango",
+      "result": "item_great_famango",
+      "cost": 0,
+      "requirements": {
+        "01": "item_famango;item_famango;item_famango"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_greater_famango",
+      "result": "item_greater_famango",
+      "cost": 0,
+      "requirements": {
+        "01": "item_great_famango;item_great_famango"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_ward_dispenser",
+      "result": "item_ward_dispenser",
+      "cost": 0,
+      "requirements": {
+        "01": "item_ward_sentry;item_ward_observer",
+        "02": "item_ward_sentry;item_ward_dispenser",
+        "03": "item_ward_dispenser*;item_ward_observer",
+        "04": "item_ward_dispenser*;item_ward_dispenser"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_travel_boots",
+      "result": "item_travel_boots",
+      "cost": 2000,
+      "requirements": {
+        "01": "item_boots*"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_travel_boots_2",
+      "result": "item_travel_boots_2",
+      "cost": 0,
+      "requirements": {
+        "01": "item_travel_boots*;item_recipe_travel_boots"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_phase_boots",
+      "result": "item_phase_boots",
+      "cost": 0,
+      "requirements": {
+        "01": "item_boots*;item_chainmail;item_blades_of_attack"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_power_treads",
+      "result": "item_power_treads",
+      "cost": 0,
+      "requirements": {
+        "01": "item_boots*;item_gloves;item_belt_of_strength",
+        "04": "item_boots*;item_gloves;item_robe",
+        "06": "item_boots*;item_gloves;item_boots_of_elves"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_phylactery",
+      "result": "item_phylactery",
+      "cost": 200,
+      "requirements": {
+        "01": "item_pers;item_diadem"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_angels_demise",
+      "result": "item_angels_demise",
+      "cost": 0,
+      "requirements": {
+        "01": "item_phylactery;item_soul_booster"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_hand_of_midas",
+      "result": "item_hand_of_midas",
+      "cost": 1750,
+      "requirements": {
+        "01": "item_gloves*"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_oblivion_staff",
+      "result": "item_oblivion_staff",
+      "cost": 0,
+      "requirements": {
+        "01": "item_blitz_knuckles;item_robe;item_sobi_mask"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_witch_blade",
+      "result": "item_witch_blade",
+      "cost": 300,
+      "requirements": {
+        "01": "item_oblivion_staff;item_chainmail;item_orb_of_venom"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_pers",
+      "result": "item_pers",
+      "cost": 0,
+      "requirements": {
+        "01": "item_ring_of_health;item_void_stone"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_bracer",
+      "result": "item_bracer",
+      "cost": 210,
+      "requirements": {
+        "01": "item_circlet;item_gauntlets"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_wraith_band",
+      "result": "item_wraith_band",
+      "cost": 210,
+      "requirements": {
+        "01": "item_circlet;item_slippers"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_null_talisman",
+      "result": "item_null_talisman",
+      "cost": 210,
+      "requirements": {
+        "01": "item_circlet;item_mantle"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_mekansm",
+      "result": "item_mekansm",
+      "cost": 850,
+      "requirements": {
+        "01": "item_headdress;item_chainmail"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_vladmir",
+      "result": "item_vladmir",
+      "cost": 0,
+      "requirements": {
+        "01": "item_buckler;item_ring_of_basilius;item_lifesteal;item_blades_of_attack"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_wraith_pact",
+      "result": "item_wraith_pact",
+      "cost": 400,
+      "requirements": {
+        "01": "item_vladmir;item_point_booster"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_buckler",
+      "result": "item_buckler",
+      "cost": 250,
+      "requirements": {
+        "01": "item_ring_of_protection"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_ring_of_basilius",
+      "result": "item_ring_of_basilius",
+      "cost": 250,
+      "requirements": {
+        "01": "item_sobi_mask"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_holy_locket",
+      "result": "item_holy_locket",
+      "cost": 1340,
+      "requirements": {
+        "01": "item_magic_wand;item_crown"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_pipe",
+      "result": "item_pipe",
+      "cost": 675,
+      "requirements": {
+        "01": "item_ring_of_tarrasque;item_cloak*;item_shawl;"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_urn_of_shadows",
+      "result": "item_urn_of_shadows",
+      "cost": 320,
+      "requirements": {
+        "01": "item_sobi_mask;item_ring_of_protection;item_circlet;"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_headdress",
+      "result": "item_headdress",
+      "cost": 250,
+      "requirements": {
+        "01": "item_ring_of_regen"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_sheepstick",
+      "result": "item_sheepstick",
+      "cost": 700,
+      "requirements": {
+        "01": "item_mystic_staff;item_tiara_of_selemene"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_orchid",
+      "result": "item_orchid",
+      "cost": 300,
+      "requirements": {
+        "01": "item_oblivion_staff;item_claymore"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_bloodthorn",
+      "result": "item_bloodthorn",
+      "cost": 600,
+      "requirements": {
+        "01": "item_orchid*;item_oblivion_staff;item_javelin"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_echo_sabre",
+      "result": "item_echo_sabre",
+      "cost": 0,
+      "requirements": {
+        "01": "item_ogre_axe;item_broadsword;item_void_stone"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_cyclone",
+      "result": "item_cyclone",
+      "cost": 675,
+      "requirements": {
+        "01": "item_staff_of_wizardry;item_void_stone;item_wind_lace"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_wind_waker",
+      "result": "item_wind_waker",
+      "cost": 1400,
+      "requirements": {
+        "01": "item_cyclone*;item_mystic_staff"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_aether_lens",
+      "result": "item_aether_lens",
+      "cost": 775,
+      "requirements": {
+        "01": "item_energy_booster;item_void_stone"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_force_staff",
+      "result": "item_force_staff",
+      "cost": 950,
+      "requirements": {
+        "01": "item_staff_of_wizardry;item_fluffy_hat"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_hurricane_pike",
+      "result": "item_hurricane_pike",
+      "cost": 350,
+      "requirements": {
+        "01": "item_force_staff*;item_dragon_lance"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_dagon",
+      "result": "item_dagon",
+      "cost": 1100,
+      "requirements": {
+        "01": "item_point_booster;item_crown;item_wizard_hat"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_dagon_2",
+      "result": "item_dagon_2",
+      "cost": 0,
+      "requirements": {
+        "02": "item_dagon;item_recipe_dagon"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_dagon_3",
+      "result": "item_dagon_3",
+      "cost": 0,
+      "requirements": {
+        "02": "item_dagon_2;item_recipe_dagon"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_dagon_4",
+      "result": "item_dagon_4",
+      "cost": 0,
+      "requirements": {
+        "02": "item_dagon_3;item_recipe_dagon"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_dagon_5",
+      "result": "item_dagon_5",
+      "cost": 0,
+      "requirements": {
+        "02": "item_dagon_4;item_recipe_dagon"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_necronomicon",
+      "result": "item_necronomicon",
+      "cost": 1250,
+      "requirements": {
+        "01": "item_sobi_mask;item_sobi_mask;item_belt_of_strength"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_necronomicon_2",
+      "result": "item_necronomicon_2",
+      "cost": 0,
+      "requirements": {
+        "01": "item_necronomicon*;item_recipe_necronomicon"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_necronomicon_3",
+      "result": "item_necronomicon_3",
+      "cost": 0,
+      "requirements": {
+        "01": "item_necronomicon_2*;item_recipe_necronomicon"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_ultimate_scepter",
+      "result": "item_ultimate_scepter",
+      "cost": 0,
+      "requirements": {
+        "01": "item_point_booster;item_staff_of_wizardry;item_ogre_axe;item_blade_of_alacrity"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_ultimate_scepter_2",
+      "result": "item_ultimate_scepter_2",
+      "cost": 1600,
+      "requirements": {
+        "01": "item_ultimate_scepter"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_refresher",
+      "result": "item_refresher",
+      "cost": 1600,
+      "requirements": {
+        "01": "item_ring_of_tarrasque;item_tiara_of_selemene"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_assault",
+      "result": "item_assault",
+      "cost": 1300,
+      "requirements": {
+        "01": "item_buckler;item_hyperstone;item_platemail"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_heart",
+      "result": "item_heart",
+      "cost": 800,
+      "requirements": {
+        "01": "item_reaver;item_ring_of_tarrasque"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_black_king_bar",
+      "result": "item_black_king_bar",
+      "cost": 1450,
+      "requirements": {
+        "01": "item_mithril_hammer;item_ogre_axe"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_shivas_guard",
+      "result": "item_shivas_guard",
+      "cost": 1250,
+      "requirements": {
+        "01": "item_platemail;item_splintmail;item_chasm_stone"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_bloodstone",
+      "result": "item_bloodstone",
+      "cost": 0,
+      "requirements": {
+        "01": "item_veil_of_discord;item_soul_booster"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_sphere",
+      "result": "item_sphere",
+      "cost": 600,
+      "requirements": {
+        "01": "item_pers;item_ultimate_orb;"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_lotus_orb",
+      "result": "item_lotus_orb",
+      "cost": 250,
+      "requirements": {
+        "01": "item_pers;item_platemail;item_energy_booster"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_meteor_hammer",
+      "result": "item_meteor_hammer",
+      "cost": 300,
+      "requirements": {
+        "01": "item_kaya;item_crown"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_nullifier",
+      "result": "item_nullifier",
+      "cost": 0,
+      "requirements": {
+        "01": "item_relic;item_splintmail"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_aeon_disk",
+      "result": "item_aeon_disk",
+      "cost": 1200,
+      "requirements": {
+        "01": "item_vitality_booster;item_energy_booster"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_kaya",
+      "result": "item_kaya",
+      "cost": 650,
+      "requirements": {
+        "01": "item_staff_of_wizardry;item_robe"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_spirit_vessel",
+      "result": "item_spirit_vessel",
+      "cost": 900,
+      "requirements": {
+        "01": "item_urn_of_shadows*;item_diadem"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_essence_distiller",
+      "result": "item_essence_distiller",
+      "cost": 200,
+      "requirements": {
+        "01": "item_urn_of_shadows*;item_chainmail;item_wizard_hat"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_vanguard",
+      "result": "item_vanguard",
+      "cost": 0,
+      "requirements": {
+        "01": "item_vitality_booster;item_ring_of_health"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_crimson_guard",
+      "result": "item_crimson_guard",
+      "cost": 1050,
+      "requirements": {
+        "01": "item_vanguard;item_helm_of_iron_will"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_blade_mail",
+      "result": "item_blade_mail",
+      "cost": 450,
+      "requirements": {
+        "01": "item_broadsword;item_splintmail"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_soul_booster",
+      "result": "item_soul_booster",
+      "cost": 0,
+      "requirements": {
+        "01": "item_point_booster;item_vitality_booster;item_energy_booster"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_eternal_shroud",
+      "result": "item_eternal_shroud",
+      "cost": 900,
+      "requirements": {
+        "01": "item_cloak;item_ogre_axe;item_vitality_booster"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_consecrated_wraps",
+      "result": "item_consecrated_wraps",
+      "cost": 700,
+      "requirements": {
+        "01": "item_vitality_booster;item_shawl;item_crown"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_crellas_crozier",
+      "result": "item_crellas_crozier",
+      "cost": 300,
+      "requirements": {
+        "01": "item_ghost*;item_soul_booster"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_rapier",
+      "result": "item_rapier",
+      "cost": 0,
+      "requirements": {
+        "01": "item_relic;item_demon_edge"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_monkey_king_bar",
+      "result": "item_monkey_king_bar",
+      "cost": 900,
+      "requirements": {
+        "01": "item_demon_edge;item_blitz_knuckles;item_javelin"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_radiance",
+      "result": "item_radiance",
+      "cost": 0,
+      "requirements": {
+        "01": "item_relic;item_talisman_of_evasion"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_butterfly",
+      "result": "item_butterfly",
+      "cost": 0,
+      "requirements": {
+        "01": "item_eagle;item_claymore;item_talisman_of_evasion"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_greater_crit",
+      "result": "item_greater_crit",
+      "cost": 1000,
+      "requirements": {
+        "01": "item_lesser_crit;item_demon_edge"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_basher",
+      "result": "item_basher",
+      "cost": 825,
+      "requirements": {
+        "01": "item_mithril_hammer;item_belt_of_strength"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_bfury",
+      "result": "item_bfury",
+      "cost": 400,
+      "requirements": {
+        "01": "item_pers;item_broadsword;item_broadsword;item_quelling_blade"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_manta",
+      "result": "item_manta",
+      "cost": 1550,
+      "requirements": {
+        "01": "item_yasha;item_diadem"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_lesser_crit",
+      "result": "item_lesser_crit",
+      "cost": 200,
+      "requirements": {
+        "01": "item_claymore;item_blades_of_attack"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_dragon_lance",
+      "result": "item_dragon_lance",
+      "cost": 550,
+      "requirements": {
+        "01": "item_blade_of_alacrity;item_belt_of_strength"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_armlet",
+      "result": "item_armlet",
+      "cost": 625,
+      "requirements": {
+        "01": "item_helm_of_iron_will;item_gloves;item_blades_of_attack"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_invis_sword",
+      "result": "item_invis_sword",
+      "cost": 0,
+      "requirements": {
+        "01": "item_claymore;item_blitz_knuckles;item_shadow_amulet*"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_silver_edge",
+      "result": "item_silver_edge",
+      "cost": 250,
+      "requirements": {
+        "01": "item_invis_sword*;item_demon_edge"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_sange_and_yasha",
+      "result": "item_sange_and_yasha",
+      "cost": 0,
+      "requirements": {
+        "01": "item_sange;item_yasha"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_kaya_and_sange",
+      "result": "item_kaya_and_sange",
+      "cost": 0,
+      "requirements": {
+        "01": "item_kaya;item_sange"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_yasha_and_kaya",
+      "result": "item_yasha_and_kaya",
+      "cost": 0,
+      "requirements": {
+        "01": "item_yasha;item_kaya"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_satanic",
+      "result": "item_satanic",
+      "cost": 0,
+      "requirements": {
+        "01": "item_reaver;item_claymore;item_lifesteal"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_mjollnir",
+      "result": "item_mjollnir",
+      "cost": 550,
+      "requirements": {
+        "01": "item_maelstrom*;item_hyperstone"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_skadi",
+      "result": "item_skadi",
+      "cost": 0,
+      "requirements": {
+        "01": "item_ultimate_orb;item_ultimate_orb;item_orb_of_frost"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_sange",
+      "result": "item_sange",
+      "cost": 650,
+      "requirements": {
+        "01": "item_ogre_axe;item_belt_of_strength"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_helm_of_the_dominator",
+      "result": "item_helm_of_the_dominator",
+      "cost": 1125,
+      "requirements": {
+        "01": "item_helm_of_iron_will;item_crown"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_helm_of_the_overlord",
+      "result": "item_helm_of_the_overlord",
+      "cost": 300,
+      "requirements": {
+        "01": "item_helm_of_the_dominator;item_ultimate_orb"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_maelstrom",
+      "result": "item_maelstrom",
+      "cost": 0,
+      "requirements": {
+        "01": "item_mithril_hammer;item_javelin;item_gloves"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_gungir",
+      "result": "item_gungir",
+      "cost": 300,
+      "requirements": {
+        "01": "item_rod_of_atos*;item_point_booster;item_chasm_stone"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_desolator",
+      "result": "item_desolator",
+      "cost": 0,
+      "requirements": {
+        "01": "item_mithril_hammer;item_mithril_hammer;item_blight_stone"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_yasha",
+      "result": "item_yasha",
+      "cost": 650,
+      "requirements": {
+        "01": "item_blade_of_alacrity;item_boots_of_elves"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_mask_of_madness",
+      "result": "item_mask_of_madness",
+      "cost": 0,
+      "requirements": {
+        "01": "item_broadsword;item_lifesteal"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_diffusal_blade",
+      "result": "item_diffusal_blade",
+      "cost": 1050,
+      "requirements": {
+        "01": "item_blade_of_alacrity;item_robe"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_disperser",
+      "result": "item_disperser",
+      "cost": 800,
+      "requirements": {
+        "01": "item_diffusal_blade;item_eagle"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_ethereal_blade",
+      "result": "item_ethereal_blade",
+      "cost": 900,
+      "requirements": {
+        "01": "item_ultimate_orb;item_ghost*"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_soul_ring",
+      "result": "item_soul_ring",
+      "cost": 350,
+      "requirements": {
+        "01": "item_ring_of_protection;item_gauntlets;item_gauntlets"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_arcane_boots",
+      "result": "item_arcane_boots",
+      "cost": 325,
+      "requirements": {
+        "01": "item_boots*;item_ring_of_basilius;item_wizard_hat"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_octarine_core",
+      "result": "item_octarine_core",
+      "cost": 400,
+      "requirements": {
+        "01": "item_soul_booster;item_tiara_of_selemene;"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_orb_of_corrosion",
+      "result": "item_orb_of_corrosion",
+      "cost": 0,
+      "requirements": {
+        "01": "item_boots_of_elves;item_orb_of_frost;item_blight_stone"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_falcon_blade",
+      "result": "item_falcon_blade",
+      "cost": 250,
+      "requirements": {
+        "01": "item_blades_of_attack;item_fluffy_hat;item_sobi_mask"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_mage_slayer",
+      "result": "item_mage_slayer",
+      "cost": 0,
+      "requirements": {
+        "01": "item_pers;item_cloak;item_blades_of_attack;item_orb_of_venom"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_ancient_janggo",
+      "result": "item_ancient_janggo",
+      "cost": 525,
+      "requirements": {
+        "01": "item_headdress;item_belt_of_strength;item_wind_lace"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_boots_of_bearing",
+      "result": "item_boots_of_bearing",
+      "cost": 0,
+      "requirements": {
+        "01": "item_tranquil_boots;item_ancient_janggo;item_ring_of_tarrasque"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_medallion_of_courage",
+      "result": "item_medallion_of_courage",
+      "cost": 0,
+      "requirements": {
+        "01": "item_chainmail;item_sobi_mask;item_blight_stone"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_solar_crest",
+      "result": "item_solar_crest",
+      "cost": 500,
+      "requirements": {
+        "01": "item_pavise*;item_chainmail;item_wind_lace"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_pavise",
+      "result": "item_pavise",
+      "cost": 675,
+      "requirements": {
+        "01": "item_wizard_hat;item_fluffy_hat;item_ring_of_protection"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_veil_of_discord",
+      "result": "item_veil_of_discord",
+      "cost": 350,
+      "requirements": {
+        "01": "item_voodoo_mask;item_robe;item_fluffy_hat"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_revenants_brooch",
+      "result": "item_revenants_brooch",
+      "cost": 650,
+      "requirements": {
+        "01": "item_lesser_crit;item_voodoo_mask"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_devastator",
+      "result": "item_devastator",
+      "cost": 400,
+      "requirements": {
+        "01": "item_witch_blade;item_mystic_staff"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_guardian_greaves",
+      "result": "item_guardian_greaves",
+      "cost": 1175,
+      "requirements": {
+        "01": "item_arcane_boots;item_mekansm"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_rod_of_atos",
+      "result": "item_rod_of_atos",
+      "cost": 250,
+      "requirements": {
+        "01": "item_staff_of_wizardry;item_vitality_booster"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_iron_talon",
+      "result": "item_iron_talon",
+      "cost": 1,
+      "requirements": {
+        "01": "item_quelling_blade*;item_ring_of_protection"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_abyssal_blade",
+      "result": "item_abyssal_blade",
+      "cost": 1275,
+      "requirements": {
+        "01": "item_basher;item_sange"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_heavens_halberd",
+      "result": "item_heavens_halberd",
+      "cost": 350,
+      "requirements": {
+        "01": "item_talisman_of_evasion;item_splintmail;item_ring_of_health"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_tranquil_boots",
+      "result": "item_tranquil_boots",
+      "cost": 0,
+      "requirements": {
+        "01": "item_boots;item_wind_lace;item_ring_of_regen"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_glimmer_cape",
+      "result": "item_glimmer_cape",
+      "cost": 800,
+      "requirements": {
+        "01": "item_shadow_amulet*;item_shawl"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_trident",
+      "result": "item_trident",
+      "cost": 1,
+      "requirements": {
+        "01": "item_kaya;item_sange;item_yasha;",
+        "02": "item_kaya_and_sange;item_yasha;",
+        "03": "item_sange_and_yasha;item_kaya;",
+        "04": "item_yasha_and_kaya;item_sange;"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_harpoon",
+      "result": "item_harpoon",
+      "cost": 1000,
+      "requirements": {
+        "01": "item_echo_sabre;item_diadem"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_specialists_array",
+      "result": "item_specialists_array",
+      "cost": 550,
+      "requirements": {
+        "01": "item_blade_of_alacrity;item_broadsword"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    },
+    {
+      "recipe": "item_recipe_hydras_breath",
+      "result": "item_hydras_breath",
+      "cost": 1000,
+      "requirements": {
+        "01": "item_specialists_array;item_dragon_lance;item_orb_of_venom;"
+      },
+      "locallyOverridden": false,
+      "missingComponents": []
+    }
+  ]
+}

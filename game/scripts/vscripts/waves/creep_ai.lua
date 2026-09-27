@@ -14,6 +14,7 @@ CreepAI.ROUTES = {
 	-- Radiant (DOTA_TEAM_GOODGUYS = 2)
 	[2] = {
 		left = {
+			Vector(4697, 11364, 128),
 			Vector(4658, 2841, 136),
 			Vector(7540, 1580, 136),
 			Vector(7504, -1357, 136),
@@ -25,6 +26,7 @@ CreepAI.ROUTES = {
 			Vector(7656.83, -3451.99, 726.59),
 		},
 		center = {
+			Vector(7559, 11381, 128),
 			Vector(7706, -1452, 136),
 			Vector(10903, -1935, 136),
 			Vector(11009, -9833, 136),
@@ -34,6 +36,7 @@ CreepAI.ROUTES = {
 			Vector(7656.83, -3451.99, 726.59),
 		},
 		right = {
+			Vector(10624, 11418, 128),
 			Vector(10510, 3095, 136),
 			Vector(7870, 1554, 136),
 			Vector(7914, -1382, 136),
@@ -49,6 +52,7 @@ CreepAI.ROUTES = {
 	-- Dire (DOTA_TEAM_BADGUYS = 3)
 	[3] = {
 		left = {
+			Vector(-10629, 11563, 128),
 			Vector(-10590, 2763, 136),
 			Vector(-7887, 1011, 136),
 			Vector(-7936, -1183, 139),
@@ -60,6 +64,7 @@ CreepAI.ROUTES = {
 			Vector(-7809.26, -3683.53, 470.43),
 		},
 		center = {
+			Vector(-7814, 11436, 128),
 			Vector(-7752, -1367, 136),
 			Vector(-4774, -2105, 136),
 			Vector(-4664, -9640, 136),
@@ -69,6 +74,7 @@ CreepAI.ROUTES = {
 			Vector(-7809.26, -3683.53, 470.43),
 		},
 		right = {
+			Vector(-4998, 11506, 128),
 			Vector(-5026, 3509, 143),
 			Vector(-7624, 1013, 136),
 			Vector(-7616, -1186, 136),

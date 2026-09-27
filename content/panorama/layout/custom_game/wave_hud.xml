@@ -5,7 +5,6 @@
         <Panel class="WaveHud" hittest="false">
             <Panel class="WaveHudHeaderRow">
                 <Panel class="WaveHeading"><Label id="WaveNumber" /><Label id="WaveStatus" /></Panel>
-                <Button id="NextWave" onactivate="SendNextWave()"><Label text="#enfos_next_wave" /></Button>
                 <Button id="GuideBtn" onactivate="ToggleGuide()"><Label text="?" /></Button>
             </Panel>
             <Panel class="TeamLifeRow">

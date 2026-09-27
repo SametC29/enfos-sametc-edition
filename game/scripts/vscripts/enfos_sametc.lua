@@ -160,6 +160,7 @@ function EnfosSametC:OnThink()
 	-- Direct-to-inventory purchasing: auto-transfer stash items into inventory/backpack
 	for playerId, hero in pairs(self.playerHeroes) do
 		if hero and not hero:IsNull() and hero:IsAlive() then
+			require("economy/native_shop"):FollowHero(hero)
 			self:TransferStashToInventory(hero)
 		end
 	end

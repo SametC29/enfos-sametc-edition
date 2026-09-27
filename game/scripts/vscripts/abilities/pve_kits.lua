@@ -2592,7 +2592,7 @@ enfos_tide_anchor_smash=class({})
 function enfos_tide_anchor_smash:OnSpellStart()
     local c = self:GetCaster()
     c:EmitSound('Hero_Tidehunter.AnchorSmash')
-    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_tidehunter/tidehunter_anchor_smash.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_tidehunter/tidehunter_anchor_hero.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
     ParticleManager:ReleaseParticleIndex(fx)
 
     local base = value(self, 'bonus_damage')
@@ -3921,7 +3921,7 @@ modifier_enfos_mk_wukongs_command_thinker=class({})
 function modifier_enfos_mk_wukongs_command_thinker:OnCreated()
     if not IsServer() then return end
     local p = self:GetParent():GetAbsOrigin()
-    self.pfx = ParticleManager:CreateParticle('particles/units/heroes/hero_monkey_king/monkey_king_circular_aoe.vpcf', PATTACH_WORLDORIGIN, nil)
+    self.pfx = ParticleManager:CreateParticle('particles/units/heroes/hero_monkey_king/monkey_king_furarmy_aoe.vpcf', PATTACH_WORLDORIGIN, nil)
     ParticleManager:SetParticleControl(self.pfx, 0, p)
     ParticleManager:SetParticleControl(self.pfx, 1, Vector(550, 1, 1))
     self:StartIntervalThink(1.1)
@@ -4660,7 +4660,7 @@ function enfos_underlord_firestorm:OnSpellStart()
     local total_dmg = dmg + (str * 0.3)
 
     c:EmitSound('Hero_AbyssalUnderlord.Firestorm.Cast')
-    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_abyssal_underlord/abyssal_underlord_firestorm_wave.vpcf', PATTACH_WORLDORIGIN, nil)
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/heroes_underlord/abyssal_underlord_firestorm_wave.vpcf', PATTACH_WORLDORIGIN, nil)
     ParticleManager:SetParticleControl(fx, 0, p)
     ParticleManager:ReleaseParticleIndex(fx)
 
@@ -4698,7 +4698,7 @@ function enfos_underlord_pit_of_malice:OnSpellStart()
     local total_dmg = dmg + (str * 0.5)
 
     c:EmitSound('Hero_AbyssalUnderlord.PitOfMalice')
-    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_abyssal_underlord/abyssal_underlord_pitofmalice.vpcf', PATTACH_WORLDORIGIN, nil)
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/heroes_underlord/underlord_pitofmalice.vpcf', PATTACH_WORLDORIGIN, nil)
     ParticleManager:SetParticleControl(fx, 0, p)
     ParticleManager:SetParticleControl(fx, 1, Vector(r, 1, r))
     ParticleManager:ReleaseParticleIndex(fx)
@@ -4764,7 +4764,7 @@ function enfos_underlord_dark_rift:OnSpellStart()
     local total_dmg = dmg + (str * 1.5)
 
     c:EmitSound('Hero_AbyssalUnderlord.DarkRift.Cast')
-    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_abyssal_underlord/abyssal_underlord_darkrift_explode.vpcf', PATTACH_WORLDORIGIN, nil)
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/heroes_underlord/abbysal_underlord_darkrift_ambient_end.vpcf', PATTACH_WORLDORIGIN, nil)
     ParticleManager:SetParticleControl(fx, 0, p)
     ParticleManager:ReleaseParticleIndex(fx)
 
@@ -4795,6 +4795,7 @@ end
 
 enfos_troll_berserkers_rage=class({})
 function enfos_troll_berserkers_rage:OnToggle()
+    if not IsServer() then return end
     local c = self:GetCaster()
     if self:GetToggleState() then
         c:EmitSound('Hero_TrollWarlord.BerserkersRage.Enter')
@@ -4807,12 +4808,14 @@ end
 
 modifier_enfos_troll_berserkers_rage=class({})
 function modifier_enfos_troll_berserkers_rage:OnCreated()
+    if not IsServer() then return end
     local p = self:GetParent()
     if p and p.SetAttackCapability then
         p:SetAttackCapability(DOTA_UNIT_CAP_MELEE_ATTACK)
     end
 end
 function modifier_enfos_troll_berserkers_rage:OnDestroy()
+    if not IsServer() then return end
     local p = self:GetParent()
     if p and p.SetAttackCapability then
         p:SetAttackCapability(DOTA_UNIT_CAP_RANGED_ATTACK)
@@ -4872,7 +4875,7 @@ function enfos_troll_whirling_axes:OnSpellStart()
     if dur <= 0 then dur = 4.0 end
 
     c:EmitSound('Hero_TrollWarlord.WhirlingAxes.Melee')
-    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_troll_warlord/troll_warlord_whirling_axes_melee.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_troll_warlord/troll_warlord_whirling_axe_melee.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
     ParticleManager:ReleaseParticleIndex(fx)
 
     for _, u in ipairs(enemies(c, p, r)) do

@@ -3,6 +3,11 @@
 This file exists so Codex does not "helpfully" redesign locked decisions.
 
 ## 2026-09-27 live-test follow-up (provisional / blocked)
+- Latest 40-wave test supersedes the earlier general-easier request: keep progression
+  systems, reduce bonus magnitude/frequency; bosses must survive bursts and have phases.
+  Exact ordinary count is 20 + 2*(wave-1) per hero; timed overlapping normal waves,
+  on-kill payouts, lane-head spawns and no courier. See
+  [local candidate and unresolved content](audit/PLAYTEST_40_WAVES_2026-09-27.md).
 - Latest clarification: strengthen nearly all hero kits and lower general
   difficulty across solo/co-op/PvEvP, not just solo. Carry/Fighter/Mage emphasize
   wave clearing and synergies; Tank/Support partially preserve utility/defense.
@@ -12,8 +17,8 @@ This file exists so Codex does not "helpfully" redesign locked decisions.
   weakening enemies for solo. [Hero power seed](audit/HERO_POWER_2026-09-27.md)
   supersedes the prior solo enemy reductions. Values are provisional; individual
   kit synergies and live solo viability remain unproven. Wave 1 still has 20 enemies.
-- 29 incomplete Ascended upgrades are purchase-gated; complete their promised
-  mechanics and test base-item identity before enabling each. Launch target stays 30.
+- All 30 native-derived Ascended upgrades are currently exposed, but distinct PvE
+  mechanics remain incomplete. Availability is not completion. Launch target stays 30.
 - Legacy compiled Survival map currently loads, but future compatibility is open.
   Retired flat VMAPs are not the correct rebuild source and must remain archived.
 
@@ -61,14 +66,14 @@ This file exists so Codex does not "helpfully" redesign locked decisions.
 - normal item + Lumber upgrade.
 - Tomes available from match start.
 - six hero combat slots.
-- fast flying courier.
+- direct inventory delivery; no courier (latest user instruction).
 - Gold and Lumber transferable.
 - normal creep bounty shared; killer gets +20% of own equal share.
 - Aghanim Shard/Scepter per hero.
 - Aghanim Blessing frees slot.
 
 ### Boons
-- Boss gives two-card team vote.
+- Every second Boss kill (waves divisible by 10) gives a two-card team vote.
 - Pacts remain.
 - Boons last rest of match.
 - normal Boon generally max 3 stacks; Unique once.

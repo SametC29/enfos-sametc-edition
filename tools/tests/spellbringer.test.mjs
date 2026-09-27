@@ -8,7 +8,7 @@ test('Spellbringer waits for world point, permits normal orders and cancels with
   const $ = id => { if (!panels.has(id)) panels.set(id, {style:{},SetHasClass(){}}); return panels.get(id); };
   $.Localize = x => x; $.DispatchEvent = () => {};
   let mouse;
-  const c = {$, Players:{GetLocalPlayer:()=>0},
+  const c = {$, Players:{GetLocalPlayer:()=>0,GetTeam:()=>2},
     CustomNetTables:{GetTableValue:(t)=>t==='spellbringer_state'?{mana:200,regen:2.5}:null,SubscribeNetTableListener(){}},
     GameEvents:{Subscribe(){},SendEventClientSide(){},SendCustomGameEventToServer:(name,data)=>sent.push({name,data})},
     GameUI:{SetMouseCallback:fn=>mouse=fn,GetCursorPosition:()=>[3,4],GetScreenWorldPosition:()=>[7500,-2000,500]}};

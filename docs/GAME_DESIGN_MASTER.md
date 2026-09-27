@@ -2,6 +2,18 @@
 
 Status: product source of truth.
 
+## Latest playtest revision — 2026-09-27
+
+The user's 40-wave feedback supersedes earlier courier, fixed-count and unlimited
+wave-wait assumptions: no courier (direct inventory delivery); ordinary waves have
+`(20 + 2*(wave-1))*players` scheduled units, and advance on a deadline even if uncleared.
+Boss-only transition/overflow Life rules remain. Gold/XP payouts are on kills;
+the extra wave-completion award is removed. Systems stay, but baseline offensive
+bonuses and Boon/Pact frequency are reduced (vote every second Boss).
+Hero-specific trees must replace shared Evolution choices rather than stack on top.
+Provisional timing, implementation boundaries and engine acceptance:
+[40-wave follow-up](audit/PLAYTEST_40_WAVES_2026-09-27.md).
+
 ## 1. Product vision
 
 Create an original Dota 2 Custom Game centered on authored PvE survival, team composition, itemization, strategic PvEvP interference through Spellbringer, readable Boss/Elite encounters, and long-term account/hero progression.

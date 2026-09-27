@@ -381,9 +381,9 @@
     "enfos_attribute_agility": "Agility",
     "enfos_attribute_intellect": "Intelligence",
     "enfos_attribute_universal": "Universal",
-    "enfos_solo_support": "Solo hero power: +600 health · +45 damage · 35% spell amplification",
+    "enfos_solo_support": "Solo hero power: +600 health · +25 damage · 15% spell amplification",
     "DOTA_Tooltip_modifier_enfos_hero_power": "Enfo Power",
-    "DOTA_Tooltip_modifier_enfos_hero_power_Description": "Lasts the entire match, persists through death and never stacks on respawn.<br>Team play: +250 health, +75 mana, +25 attack damage, +25 attack speed, 20% spell amplification, +4 health/sec, +2 mana/sec and 15% cooldown reduction for hero abilities.<br>Solo TOTAL: +600 health, +225 mana, +45 attack damage, +45 attack speed, 35% spell amplification, +8 health/sec, +4 mana/sec and 25% cooldown reduction for hero abilities.<br>Cooldown bonus excludes items. Does not affect Spellbringer's separate mana.",
+    "DOTA_Tooltip_modifier_enfos_hero_power_Description": "Lasts the entire match, persists through death and never stacks on respawn.<br>Team play: +250 health, +75 mana, +15 attack damage, +15 attack speed, 10% spell amplification, +4 health/sec, +2 mana/sec and 5% cooldown reduction for hero abilities.<br>Solo TOTAL: +600 health, +225 mana, +25 attack damage, +25 attack speed, 15% spell amplification, +8 health/sec, +4 mana/sec and 10% cooldown reduction for hero abilities.<br>Cooldown bonus excludes items. Does not affect Spellbringer's separate mana.",
     "enfos_ascended_unfinished": "Only these stats exist in this build. The special effect is unfinished; upgrade unavailable. Does not inherit the base item effects.",
     "enfos_thornplate_active": "Active: reduces incoming damage by {reduction}% for {duration} seconds. Does not reflect damage.",
     "enfos_lumber": "Lumber",
@@ -905,6 +905,7 @@
     "DOTA_Tooltip_Ability_enfos_ck_phantasm_Description": "Creates 3 controllable illusions for 30s. They deal 60% damage and take 300% damage, replacing the previous group.",
     "DOTA_Tooltip_Ability_enfos_tb_conjure_image_Description": "Creates 2 controllable illusions for 30s. They deal 50% damage and take 300% damage, replacing the previous group.",
     "enfos_spell_on_cooldown": "Ability is on cooldown.",
-    "enfos_error_generic": "The action could not be completed."
+    "enfos_error_generic": "The action could not be completed.",
+    "enfos_boss_phase": "Phase"
   }
 }

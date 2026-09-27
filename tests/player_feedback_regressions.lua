@@ -6,7 +6,7 @@ local vectorMT={__add=function(a,b) return Vector(a.x+b.x,a.y+b.y,a.z+b.z) end}
 function Vector(x,y,z) return setmetatable({x=x,y=y,z=z},vectorMT) end
 local function test(name,fn) fn();print('PASS '..name) end
 
-test('one universal home shop spans both platform elevations and initializes once',function()
+test('universal home shop initializes once without unsupported entity methods',function()
  -- Match CDOTA_ShopTrigger's actual API: no CBaseModelEntity:SetSize method.
  local count=0;local trigger={IsNull=function() return false end,SetShopType=function(s,v) s.shop=v end}
  GameRules={SetUseUniversalShopMode=function(_,v) assert(v) end}
@@ -14,6 +14,24 @@ test('one universal home shop spans both platform elevations and initializes onc
  SpawnDOTAShopTriggerRadiusApproximate=function(p,r) count=count+1;center=p;radius=r;return trigger end
  local s=require('economy/native_shop');assert(s:Init());assert(s:Init());assert(count==1 and trigger.shop==0)
  assert(center.x==0 and center.y==0 and center.z==256 and radius==18000)
+end)
+
+test('personal home trigger follows elevation and is reused across repeated updates',function()
+ local count=0
+ SpawnDOTAShopTriggerRadiusApproximate=function(pos,radius)
+  assert(radius==256);count=count+1
+  return {IsNull=function() return false end,SetShopType=function(_,kind) assert(kind==0) end,
+   SetAbsOrigin=function(self,p) self.position=p end}
+ end
+ PlayerResource={IsValidPlayerID=function(_,id) return id==0 end}
+ local hero={IsNull=function() return false end,IsRealHero=function() return true end,
+  IsIllusion=function() return false end,GetPlayerID=function() return 0 end,
+  position=Vector(7500,-3500,726),GetAbsOrigin=function(self) return self.position end}
+ local shop=require('economy/native_shop')
+ assert(shop:FollowHero(hero));hero.position=Vector(4600,11000,128)
+ for i=1,20 do assert(shop:FollowHero(hero)) end
+ assert(count==1 and shop.playerTriggers[0].position==hero.position)
+ hero.IsIllusion=function() return true end;assert(not shop:FollowHero(hero))
 end)
 
 test('all 40 innates receive only their initial free rank; respawn cannot reset training',function()

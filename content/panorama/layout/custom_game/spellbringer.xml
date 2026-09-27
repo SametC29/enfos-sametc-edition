@@ -6,6 +6,7 @@
         <include src="file://{resources}/scripts/custom_game/spellbringer.js" />
     </scripts>
     <Panel class="SpellbringerHud" hittest="false">
+        <Button id="NextWave" onactivate="SendNextWave()"><Label text="#enfos_next_wave" /></Button>
         <Panel class="SpellbringerHeader">
             <Label id="SpellbringerTitle" text="#enfos_spellbringer_title" />
             <Label id="SpellbringerCoopNotice" text="#enfos_spellbringer_coop_notice" />

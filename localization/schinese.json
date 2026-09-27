@@ -329,9 +329,9 @@
     "enfos_attribute_agility": "敏捷",
     "enfos_attribute_intellect": "智力",
     "enfos_attribute_universal": "全才",
-    "enfos_solo_support": "单人英雄强化：+600生命 · +45攻击力 · 35%技能增强",
+    "enfos_solo_support": "单人英雄强化：+600生命 · +25攻击力 · 15%技能增强",
     "DOTA_Tooltip_modifier_enfos_hero_power": "Enfo之力",
-    "DOTA_Tooltip_modifier_enfos_hero_power_Description": "整场比赛持续生效，死亡后保留，复活不会叠加。<br>组队：+250生命、+75魔法、+25攻击力、+25攻击速度、20%技能增强、每秒+4生命恢复、每秒+2魔法恢复，英雄技能冷却时间减少15%。<br>单人总计：+600生命、+225魔法、+45攻击力、+45攻击速度、35%技能增强、每秒+8生命恢复、每秒+4魔法恢复，英雄技能冷却时间减少25%。<br>冷却缩减不影响物品。不影响Spellbringer的独立魔法值。",
+    "DOTA_Tooltip_modifier_enfos_hero_power_Description": "整场比赛持续生效，死亡后保留，复活不会叠加。<br>组队：+250生命、+75魔法、+15攻击力、+15攻击速度、10%技能增强、每秒+4生命恢复、每秒+2魔法恢复，英雄技能冷却时间减少5%。<br>单人总计：+600生命、+225魔法、+25攻击力、+25攻击速度、15%技能增强、每秒+8生命恢复、每秒+4魔法恢复，英雄技能冷却时间减少10%。<br>冷却缩减不影响物品。不影响Spellbringer的独立魔法值。",
     "enfos_ascended_unfinished": "此版本仅实现上述属性。特殊效果尚未完成，暂不可升级。不会继承基础物品的效果。",
     "enfos_thornplate_active": "主动：在{duration}秒内降低{reduction}%受到的伤害。不反弹伤害。",
     "enfos_lumber": "木材",
@@ -861,6 +861,7 @@
     "DOTA_Tooltip_Ability_enfos_ck_phantasm_Description": "制造3个可操控幻象，持续30秒。造成60%伤害，承受300%伤害，并替换上一组。",
     "DOTA_Tooltip_Ability_enfos_tb_conjure_image_Description": "制造2个可操控幻象，持续30秒。造成50%伤害，承受300%伤害，并替换上一组。",
     "enfos_spell_on_cooldown": "技能尚未冷却。",
-    "enfos_error_generic": "操作未能完成。"
+    "enfos_error_generic": "操作未能完成。",
+    "enfos_boss_phase": "阶段"
   }
 }

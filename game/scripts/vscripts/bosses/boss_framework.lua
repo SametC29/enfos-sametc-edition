@@ -26,7 +26,8 @@ local class = _G.class or function(...)
 	return c
 end
 
-local BossFramework = {}
+local BossFramework = {telegraphSerial=0}
+if LinkLuaModifier then LinkLuaModifier("modifier_enfos_boss_phase_guard", "bosses/boss_framework", LUA_MODIFIER_MOTION_NONE) end
 BossFramework.__index = BossFramework
 
 -- Boss Balance Caps (docs/QA_BALANCE_RELEASE.md § 7)
@@ -87,6 +88,7 @@ end
 --------------------------------------------------------------------------------
 function BossFramework:OnBossThink(unit)
 	if not unit or unit:IsNull() or not unit:IsAlive() then
+        if unit and not unit:IsNull() then self.activeBosses[unit:entindex()]=nil end
 		return nil
 	end
 
@@ -97,7 +99,15 @@ function BossFramework:OnBossThink(unit)
 	local state = unit.bossState
 	if not state then return nil end
 
-	state.abilityTimer = (state.abilityTimer or 0) - 0.5
+	local boundary = state.phase == 1 and 0.70 or (state.phase == 2 and 0.35 or 0)
+    if boundary > 0 and unit:GetHealth() <= math.ceil(unit:GetMaxHealth()*boundary) then
+        state.phase = state.phase + 1
+        state.abilityTimer = 2.5
+        unit:AddNewModifier(unit,nil,"modifier_enfos_boss_phase_guard",{duration=2})
+        unit:EmitSound("Hero_Sven.WarCry")
+        Log:Info("boss_framework","Boss phase: wave=%d phase=%d",state.wave,state.phase)
+    end
+    state.abilityTimer = (state.abilityTimer or 0) - 0.5
 
 	-- Dispatch to specific Boss behavior
 	if state.name == "enfos_boss_stonebreaker" then
@@ -106,6 +116,8 @@ function BossFramework:OnBossThink(unit)
 		self:ThinkBroodMatron(unit, state)
 	elseif state.name == "enfos_boss_bloodfang_alpha" then
 		self:ThinkBloodfangAlpha(unit, state)
+    else
+        self:ThinkPhasedBoss(unit,state)
 	end
 
 	return 0.5
@@ -132,13 +144,15 @@ function BossFramework:CreateTelegraph(centerPos, radius, duration, onCompleteCa
 
 	-- Timer for telegraph windup
 	local elapsed = 0
-	local thinkerName = "Telegraph_" .. tostring(centerPos.x) .. "_" .. tostring(centerPos.y)
+	self.telegraphSerial = self.telegraphSerial + 1
+	local thinkerName = "EnfosTelegraph_" .. self.telegraphSerial
 
 	if GameRules and GameRules.GetGameModeEntity then
 		local mode = GameRules:GetGameModeEntity()
 		if mode and mode.SetContextThink then
 			mode:SetContextThink(thinkerName, function()
-				elapsed = elapsed + 0.1
+				if GameRules.IsGamePaused and GameRules:IsGamePaused() then return 0.1 end
+                elapsed = elapsed + 0.1
 				if elapsed >= duration then
 					if pfx and ParticleManager then
 						ParticleManager:DestroyParticle(pfx, false)
@@ -319,6 +333,43 @@ end
 -- MODIFIERS
 --------------------------------------------------------------------------------
 
+-- All later bosses use a bounded, dodgeable multi-zone phase pattern.
+function BossFramework:ThinkPhasedBoss(unit,state)
+    if state.abilityTimer > 0 then return end
+    state.abilityTimer = 10 - state.phase
+    local heroes = FindUnitsInRadius(unit:GetTeamNumber(),unit:GetAbsOrigin(),nil,1600,
+        DOTA_UNIT_TARGET_TEAM_ENEMY,DOTA_UNIT_TARGET_HERO,DOTA_UNIT_TARGET_FLAG_NONE,FIND_CLOSEST,false)
+    local marked=0
+    for _,hero in ipairs(heroes) do
+        if hero:GetTeamNumber()==unit.defendingTeam and not hero:IsIllusion() then
+            local position=hero:GetAbsOrigin()
+            marked=marked+1
+            self:CreateTelegraph(position,280,1.8,function(pos,radius)
+                if unit:IsNull() or not unit:IsAlive() then return end
+                unit:EmitSound("Hero_Centaur.HoofStomp")
+                local targets=FindUnitsInRadius(unit:GetTeamNumber(),pos,nil,radius,
+                    DOTA_UNIT_TARGET_TEAM_ENEMY,DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_BASIC,
+                    DOTA_UNIT_TARGET_FLAG_NONE,FIND_ANY_ORDER,false)
+                for _,target in ipairs(targets) do
+                    if target:GetTeamNumber()==unit.defendingTeam then
+                        ApplyDamage({victim=target,attacker=unit,damage=unit:GetBaseDamageMax(),damage_type=DAMAGE_TYPE_MAGICAL})
+                        target:AddNewModifier(unit,nil,"modifier_enfos_boss_toxic_slow",{duration=2})
+                    end
+                end
+            end)
+            if marked >= state.phase then break end
+        end
+    end
+end
+
+modifier_enfos_boss_phase_guard=class({})
+function modifier_enfos_boss_phase_guard:IsPurgable() return false end
+function modifier_enfos_boss_phase_guard:CheckState()
+    return {[MODIFIER_STATE_INVULNERABLE]=true,[MODIFIER_STATE_ROOTED]=true,[MODIFIER_STATE_DISARMED]=true}
+end
+function modifier_enfos_boss_phase_guard:GetEffectName() return "particles/items_fx/black_king_bar_avatar.vpcf" end
+function modifier_enfos_boss_phase_guard:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
+
 -- 1. Boss Base Modifier (CC, reflect, and %-HP damage caps)
 modifier_enfos_boss_base = class({})
 function modifier_enfos_boss_base:IsHidden() return true end
@@ -327,9 +378,16 @@ function modifier_enfos_boss_base:DeclareFunctions()
 	return {
 		MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING,
 		MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK,
+        MODIFIER_PROPERTY_MIN_HEALTH,
 	}
 end
 
+function modifier_enfos_boss_base:GetMinHealth()
+    if IsServer and not IsServer() then return 0 end
+    local unit=self:GetParent()
+    local phase=unit.bossState and unit.bossState.phase or 3
+    return math.ceil(unit:GetMaxHealth()*(phase==1 and 0.70 or (phase==2 and 0.35 or 0)))
+end
 function modifier_enfos_boss_base:GetModifierStatusResistanceStacking()
 	return BossFramework.STATUS_RESISTANCE
 end

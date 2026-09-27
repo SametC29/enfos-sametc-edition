@@ -8,6 +8,15 @@ require("enfos_sametc")
 local WaveManager = require("waves/wave_manager")
 
 function Precache(context)
+    -- Validated replacements for resource names introduced in the hero refresh.
+    for _,particle in ipairs({
+        "particles/units/heroes/hero_tidehunter/tidehunter_anchor_hero.vpcf",
+        "particles/units/heroes/hero_monkey_king/monkey_king_furarmy_aoe.vpcf",
+        "particles/units/heroes/heroes_underlord/abyssal_underlord_firestorm_wave.vpcf",
+        "particles/units/heroes/heroes_underlord/underlord_pitofmalice.vpcf",
+        "particles/units/heroes/heroes_underlord/abbysal_underlord_darkrift_ambient_end.vpcf",
+        "particles/items_fx/black_king_bar_avatar.vpcf",
+    }) do PrecacheResource("particle",particle,context) end
     PrecacheUnitByNameSync("npc_dota_shadow_shaman_ward_1",context)
 	-- Custom creatures (including all twelve bosses) are not covered by hero precache.
 	local units=LoadKeyValues("scripts/npc/npc_units_custom.txt") or {}

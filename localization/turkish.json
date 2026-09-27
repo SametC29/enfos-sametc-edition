@@ -1011,9 +1011,9 @@
     "enfos_attribute_agility": "Çeviklik",
     "enfos_attribute_intellect": "Zekâ",
     "enfos_attribute_universal": "Evrensel",
-    "enfos_solo_support": "Solo kahraman gücü: +600 can · +45 hasar · %35 büyü güçlendirmesi",
+    "enfos_solo_support": "Solo kahraman gücü: +600 can · +25 hasar · %15 büyü güçlendirmesi",
     "DOTA_Tooltip_modifier_enfos_hero_power": "Enfo Gücü",
-    "DOTA_Tooltip_modifier_enfos_hero_power_Description": "Maç boyunca kalıcıdır; ölünce kaybolmaz ve tekrar doğunca katlanmaz.<br>Takım oyununda: +250 can, +75 mana, +25 saldırı hasarı, +25 saldırı hızı, %20 büyü güçlendirmesi, +4 can/sn, +2 mana/sn ve kahraman yeteneklerinde %15 bekleme süresi azalması.<br>Solo TOPLAM: +600 can, +225 mana, +45 saldırı hasarı, +45 saldırı hızı, %35 büyü güçlendirmesi, +8 can/sn, +4 mana/sn ve kahraman yeteneklerinde %25 bekleme süresi azalması.<br>Bekleme süresi bonusu eşyalara uygulanmaz. Spellbringer'ın ayrı manasını etkilemez.",
+    "DOTA_Tooltip_modifier_enfos_hero_power_Description": "Maç boyunca kalıcıdır; ölünce kaybolmaz ve tekrar doğunca katlanmaz.<br>Takım oyununda: +250 can, +75 mana, +15 saldırı hasarı, +15 saldırı hızı, %10 büyü güçlendirmesi, +4 can/sn, +2 mana/sn ve kahraman yeteneklerinde %5 bekleme süresi azalması.<br>Solo TOPLAM: +600 can, +225 mana, +25 saldırı hasarı, +25 saldırı hızı, %15 büyü güçlendirmesi, +8 can/sn, +4 mana/sn ve kahraman yeteneklerinde %10 bekleme süresi azalması.<br>Bekleme süresi bonusu eşyalara uygulanmaz. Spellbringer'ın ayrı manasını etkilemez.",
     "enfos_ascended_unfinished": "Bu sürümde yalnızca bu sayısal özellikler mevcut. Özel etki hazır değil; yükseltme kapalı. Temel eşyanın etkilerini devralmaz.",
     "enfos_thornplate_active": "Aktif: {duration} saniye boyunca alınan hasarı %{reduction} azaltır. Hasar yansıtmaz.",
     "enfos_lumber": "Odun",
@@ -1476,6 +1476,7 @@
     "DOTA_Tooltip_modifier_enfos_evolution_evo_cataclysm_echo": "Kıyamet Yankısı",
     "DOTA_Tooltip_modifier_enfos_evolution_evo_cataclysm_echo_Description": "Öldürdüğün dalga yaratıkları 350 alanda azami canlarının %25’i kadar büyü hasarı patlatır. Zincirleme patlama oluşturmaz.",
     "enfos_spell_on_cooldown": "Yetenek henüz hazır değil.",
-    "enfos_error_generic": "İşlem tamamlanamadı."
+    "enfos_error_generic": "İşlem tamamlanamadı.",
+    "enfos_boss_phase": "Faz"
   }
 }

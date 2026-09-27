@@ -1,8 +1,3 @@
-function SendNextWave() {
-    if (!$("#NextWave").enabled) return;
-    $("#NextWave").enabled = false;
-    GameEvents.SendCustomGameEventToServer("enfos_next_wave", {});
-}
 function ToggleGuide() {
     GameEvents.SendEventClientSide("enfos_toggle_welcome_guide", {});
 }
@@ -11,16 +6,16 @@ function ToggleGuide() {
         var s = CustomNetTables.GetTableValue("wave_info", "status");
         var life = CustomNetTables.GetTableValue("wave_info", "team_life");
         var team = Players.GetTeam(Players.GetLocalPlayer());
-        $("#NextWave").enabled = !!s && Number(s.can_send_next) === 1 && (team === 2 || team === 3);
         if (s) {
             $("#WaveNumber").text = $.Localize("#enfos_sametc_wave") + " " + (s.next_wave || s.current_wave) + " / " + s.max_waves;
-            $("#WaveStatus").text = $.Localize("#enfos_wave_state_" + s.state.toLowerCase()) + (s.state_timer > 0 && (s.state === "PREPARATION" || s.state === "BOSS_INCOMING") ? " · " + Math.ceil(s.state_timer) + "s" : "");
+            $("#WaveStatus").text = $.Localize("#enfos_wave_state_" + s.state.toLowerCase()) + (s.state_timer > 0 && s.state !== "VICTORY" ? " · " + Math.ceil(s.state_timer) + "s" : "");
         }
         if (s) {
             $("#SoloSupport").text = Number(s.solo_support) === 1 ? $.Localize('#enfos_solo_support') : '';
             var side = team === 3 ? 'badguys' : 'goodguys';
-            $("#WaveBudget").text = $.Localize('#enfos_wave_planned') + ': ' + s['planned_' + side] + ' · ' + $.Localize('#enfos_wave_alive') + ': ' + s['active_' + side];
-            $("#WaveGold").text = $.Localize('#enfos_wave_team_gold') + ': ' + s['gold_min_' + side] + '–' + s['gold_max_' + side] + ' · ' + $.Localize('#enfos_wave_clear_gold') + ': ' + s.clear_gold;
+            if (Number(s['boss_phase_' + side]) > 0) $('#WaveStatus').text += ' · ' + $.Localize('#enfos_boss_phase') + ' ' + s['boss_phase_' + side] + '/3';
+            $("#WaveBudget").text = $.Localize('#enfos_wave_planned') + ': ' + s['planned_' + side] + ' · ' + $.Localize('#enfos_wave_alive') + ': ' + s['active_' + side] + '/' + s['cap_' + side];
+            $("#WaveGold").text = $.Localize('#enfos_wave_team_gold') + ': ' + s['gold_min_' + side] + '–' + s['gold_max_' + side];
         }
         if (life) {
             [ ["Radiant", life.goodguys], ["Dire", life.badguys] ].forEach(function (entry) {

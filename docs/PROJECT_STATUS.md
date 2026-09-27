@@ -1,5 +1,12 @@
 # Current audit — 2026-09-27
 
+**New local candidate after the user's 40-wave test:**
+[changes, checks, remaining content and local acceptance](audit/PLAYTEST_40_WAVES_2026-09-27.md).
+Not uploaded. Exact increasing unit counts, wave deadlines, true lane-head spawns,
+boss phase gates, reduced baseline power/Boon frequency, on-kill-only payouts,
+elevation-following native HOME access and strengthened hero smoke checks.
+Unique hero trees/Aghanim upgrades and 30 distinct Ascended PvE mechanics remain open.
+
 V1.0.1 startup fix: removed the unsupported shop-trigger `SetSize` call
 that can abort activation before team/hero setup. Corrected the mock API regression.
 Only the canonical `enfos` map remains; the identical `enfos_sametc` map alias was

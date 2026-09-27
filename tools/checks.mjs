@@ -101,9 +101,9 @@ check('hero kit behavior regressions', () => {
   if (result.status !== 0 || result.stderr || !result.stdout.includes('hero kit regression tests passed')) throw new Error('Hero kit regression tests failed: ' + result.stderr);
 });
 check('all 200 abilities and 210 modifiers runtime execution', () => {
-  const result = spawnSync(process.execPath, ['node_modules/fengari-node-cli/src/lua-cli.js', 'tests/test_all_200_abilities.lua'], { encoding: 'utf8' });
+  const result = spawnSync(process.execPath, ['tools/test_real_abilities.mjs'], { encoding: 'utf8' });
   console.log(result.stdout);
-  if (result.status !== 0 || result.stderr || !result.stdout.includes('ALL 200 ABILITIES AND ALL 210 MODIFIERS EXECUTED FLAWLESSLY!')) {
+  if (result.status !== 0 || result.stderr || !result.stdout.includes('Ability/modifier smoke checks passed; engine behavior not certified.')) {
     throw new Error('All abilities runtime test failed: ' + (result.stderr || result.stdout));
   }
 });

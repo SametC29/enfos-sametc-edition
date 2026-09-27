@@ -35,20 +35,11 @@ WaveManager.BOSS_INCOMING_TIME = 5.0
 WaveManager.THINK_INTERVAL = 0.5
 
 -- Spawner positions
-WaveManager.SPAWN_LOCATIONS = {
-	-- Radiant (2)
-	[2] = {
-		left = Vector(4658, 2841, 136),
-		center = Vector(7706, -1452, 136),
-		right = Vector(10510, 3095, 136),
-	},
-	-- Dire (3)
-	[3] = {
-		left = Vector(-10590, 2763, 136),
-		center = Vector(-7752, -1367, 136),
-		right = Vector(-5026, 3509, 143),
-	},
-}
+WaveManager.SPAWN_LOCATIONS = {}
+for team,lanes in pairs(CreepAI.ROUTES) do
+    WaveManager.SPAWN_LOCATIONS[team]={}
+    for lane,route in pairs(lanes) do WaveManager.SPAWN_LOCATIONS[team][lane]=route[1] end
+end
 
 --------------------------------------------------------------------------------
 -- Initialize Wave Manager
@@ -176,6 +167,12 @@ function WaveManager:OnThink()
 		return WaveManager.THINK_INTERVAL
 	end
 
+	-- The deadline runs while spawning and fighting, including uncleared enemies.
+	if self.state == self.STATE_SPAWNING or self.state == self.STATE_ACTIVE then
+		self.stateTimer = self.stateTimer - self.THINK_INTERVAL
+		if self.stateTimer <= 0 then self:AdvanceScheduledWave(); return self.THINK_INTERVAL end
+	end
+
 	-- Handle Batch Spawning
 	if self.state == WaveManager.STATE_SPAWNING then
 		self.batchSpawnTimer = self.batchSpawnTimer - WaveManager.THINK_INTERVAL
@@ -276,6 +273,7 @@ function WaveManager:StartWave(waveNumber)
 	end
 
 	self.currentWave = waveNumber
+	self.stateTimer = WaveDefinitions:GetDuration(waveNumber)
 	self.spawnPlans, self.wavePlayers = {}, {}
 	for _, team in ipairs({2,3}) do
 		self.wavePlayers[team] = self:GetActivePlayerCount(team)
@@ -297,7 +295,8 @@ function WaveManager:StartWave(waveNumber)
 		waveNumber, waveDef.wave_type, waveDef.batches)
 
 	-- Prepare batches
-	local totalBatches = waveDef.batches or 1
+	local totalBatches = isBoss and 1 or math.ceil(WaveDefinitions:GetScheduledCount(waveNumber,1)/6)
+	self.waveBatchInterval = isBoss and 0 or (self.stateTimer * 0.60 / math.max(1,totalBatches-1))
 	for b = 1, totalBatches do
 		table.insert(self.pendingBatches, {
 			batchIndex = b,
@@ -379,10 +378,7 @@ function WaveManager:SpawnNextBatch()
 	end
 
 	-- Set timer for next batch
-	self.batchSpawnTimer = waveDef.batch_interval or 3.5
-	if self.matchConfig and self.matchConfig.solo and self.currentWave<=self.matchConfig.fullSupportThrough and not isBoss then
-		self.batchSpawnTimer=math.max(self.batchSpawnTimer,self.matchConfig.soloBatchInterval)
-	end
+	self.batchSpawnTimer = self.waveBatchInterval or 1
 
 	if #self.pendingBatches == 0 then
 		self.state = WaveManager.STATE_ACTIVE
@@ -473,10 +469,10 @@ function WaveManager:OnEntityKilled(event)
 			Rewards:OnKill(killedUnit, killerUnit)
 			if killedUnit.isBoss and not killedUnit.enfosLeaked then
 				if EconomyManager then
-					EconomyManager:AwardBossLumber(defendingTeam, self.currentWave)
+					EconomyManager:AwardBossLumber(defendingTeam, killedUnit.waveNumber)
 				end
-				if BoonManager then
-					BoonManager:StartVote(defendingTeam, self.currentWave)
+				if BoonManager and killedUnit.waveNumber % self:EnsureMatchConfig().boonEvery == 0 then
+					BoonManager:StartVote(defendingTeam, killedUnit.waveNumber)
 				end
 			end
 		end
@@ -488,26 +484,29 @@ end
 -- Wave Cleared
 --------------------------------------------------------------------------------
 function WaveManager:OnWaveCleared()
-	local waveDef = WaveDefinitions:GetWave(self.currentWave)
-	Log:Info("wave_manager", "Wave %d CLEARED! Distributing completion rewards.", self.currentWave)
+    -- Keep the existing deadline when cleared early; the button can skip it.
+    if self.currentWave == WaveDefinitions:GetTotalWaves() then
+        self.state = self.STATE_VICTORY
+        return
+    end
+    self:StartPreparation(math.max(0,self.stateTimer))
+end
 
-	self.state = WaveManager.STATE_CLEARED
-
-	-- Distribute wave completion bounties to players
-	if waveDef then
-		local goldBounty = waveDef.gold_bounty or 50
-		local xpBounty = waveDef.xp_bounty or 75
-
-		for _, team in ipairs({2,3}) do
-			for _, playerId in ipairs(Rewards:Players(team)) do Rewards:Credit(playerId,goldBounty,xpBounty) end
-		end
-	end
-
-	-- Sound feedback
-	EmitGlobalSound("General.Coins")
-
-	-- Transition to next wave preparation
-	self:StartPreparation()
+function WaveManager:AdvanceScheduledWave()
+    self.pendingBatches = {}
+    -- Bosses never carry over into a normal wave. Unfinished Boss = one leak.
+    if WaveDefinitions:IsBossWave(self.currentWave) then
+        for team, units in pairs(self.activeCreeps) do
+            for _,unit in pairs(units) do
+                if unit and not unit:IsNull() and unit:IsAlive() then
+                    LifeCore:ProcessLeak(unit,team)
+                end
+            end
+        end
+    end
+    if LifeCore.isGameOver then return end
+    if WaveDefinitions:IsBossWave(self.currentWave+1) then self:StartBossIncoming()
+    else self:StartWave(self.currentWave+1) end
 end
 
 --------------------------------------------------------------------------------
@@ -539,7 +538,13 @@ function WaveManager:SyncNetTable()
 		and (self.currentWave + 1) or self.currentWave
 
 	local displayDef = WaveDefinitions:GetWave(nextWaveNum) or waveDef
-	local summaries = {}
+	local summaries, phases = {}, {}
+    for team,units in pairs(self.activeCreeps) do
+        phases[team]=0
+        for _,unit in pairs(units) do
+            if unit and not unit:IsNull() and unit:IsAlive() and unit.bossState then phases[team]=unit.bossState.phase end
+        end
+    end
 	for _, team in ipairs({2,3}) do
 		local plan = self.spawnPlans[team] or {}
 		if self.state == self.STATE_PREPARATION or self.state == self.STATE_IDLE then
@@ -549,6 +554,7 @@ function WaveManager:SyncNetTable()
 	end
 
 	CustomNetTables:SetTableValue("wave_info", "status", {
+		boss_phase_goodguys = phases[2], boss_phase_badguys = phases[3],
 		solo_support = self.matchConfig and self.matchConfig.solo and 1 or 0,
 		current_wave = self.currentWave,
 		next_wave = nextWaveNum,
@@ -561,7 +567,7 @@ function WaveManager:SyncNetTable()
 		gold_max_goodguys = summaries[2].goldMax,
 		gold_min_badguys = summaries[3].goldMin,
 		gold_max_badguys = summaries[3].goldMax,
-		clear_gold = displayDef and displayDef.gold_bounty or 0,
+		clear_gold = 0,
 		state_timer = math.max(0, math.floor(self.stateTimer + 0.5)),
 		is_boss = displayDef and WaveDefinitions:IsBossWave(displayDef.wave_number) or false,
 		is_elite = displayDef and WaveDefinitions:IsEliteWave(displayDef.wave_number) or false,

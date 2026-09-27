@@ -44,7 +44,7 @@ test('all 40 heroes receive baseline power without changing hero identity',funct
     for _,entry in ipairs(roster) do
         local h=hero();h.name=entry.id;assert(P:Apply(h))
         assert(h.name==entry.id and h:GetMaxHealth()==750 and h:GetMaxMana()==325)
-        assert(h.health==750 and h.mana==325 and h.modifier:GetModifierPreAttack_BonusDamage()==25)
+        assert(h.health==750 and h.mana==325 and h.modifier:GetModifierPreAttack_BonusDamage()==15)
     end
 end)
 test('solo snapshot upgrades an already spawned hero once and fills added capacity only',function()
@@ -52,8 +52,8 @@ test('solo snapshot upgrades an already spawned hero once and fills added capaci
     PlayerResource.heroes={[0]=h};P:SetSnapshot(B.Snapshot('normal',1,0))
     assert(h:GetMaxHealth()==1100 and h:GetMaxMana()==475)
     assert(h.health==750 and h.mana==250 and h.added==1)
-    assert(h.modifier:GetModifierAttackSpeedBonus_Constant()==45)
-    assert(h.modifier:GetModifierSpellAmplify_Percentage()==35)
+    assert(h.modifier:GetModifierAttackSpeedBonus_Constant()==25)
+    assert(h.modifier:GetModifierSpellAmplify_Percentage()==15)
     assert(h.modifier:GetModifierConstantHealthRegen()==8 and h.modifier:GetModifierConstantManaRegen()==4)
 end)
 test('reconnect and repeated spawn events cannot stack stats or heal damage',function()
@@ -64,13 +64,13 @@ test('reconnect and repeated spawn events cannot stack stats or heal damage',fun
 end)
 test('heroes created after the match snapshot inherit the same solo strength',function()
     local h=hero(3);P:SetSnapshot(B.Snapshot('hard',0,1));assert(P:Apply(h))
-    assert(h.modifier:GetModifierPreAttack_BonusDamage()==45 and h.health==1100)
+    assert(h.modifier:GetModifierPreAttack_BonusDamage()==25 and h.health==1100)
 end)
 test('multiplayer teams get equal baseline power without solo bonus',function()
     local a,b=hero(2,0),hero(3,1);PlayerResource.heroes={[0]=a,[1]=b}
     P:SetSnapshot(B.Snapshot('normal',1,1))
     assert(a.health==750 and b.health==750)
-    assert(a.modifier:GetModifierSpellAmplify_Percentage()==20 and b.modifier:GetModifierSpellAmplify_Percentage()==20)
+    assert(a.modifier:GetModifierSpellAmplify_Percentage()==10 and b.modifier:GetModifierSpellAmplify_Percentage()==10)
 end)
 test('clones, illusions, spectators and ownerless units cannot gain empowerment',function()
     for _,method in ipairs({'IsIllusion','IsClone','IsTempestDouble'}) do
@@ -82,7 +82,7 @@ end)
 test('cooldown benefit applies to hero skills but excludes items and external casters',function()
     P.snapshot=B.Snapshot('normal',1,0);local h=hero();P:Apply(h)
     local ability={IsItem=function() return false end,GetCaster=function() return h end}
-    assert(h.modifier:GetModifierPercentageCooldown({ability=ability})==25)
+    assert(h.modifier:GetModifierPercentageCooldown({ability=ability})==10)
     ability.IsItem=function() return true end
     assert(h.modifier:GetModifierPercentageCooldown({ability=ability})==0)
     ability.IsItem=function() return false end;ability.GetCaster=function() return {} end
@@ -93,7 +93,7 @@ test('client display receives the authoritative stat values',function()
     local h=hero();P:Apply(h);local client=setmetatable({},{__index=modifier_enfos_hero_power})
     server=false;client:OnCreated({});assert(client:GetModifierHealthBonus()==0)
     client:HandleCustomTransmitterData(h.modifier:AddCustomTransmitterData())
-    assert(client:GetModifierHealthBonus()==600 and client:GetModifierPreAttack_BonusDamage()==45)
+    assert(client:GetModifierHealthBonus()==600 and client:GetModifierPreAttack_BonusDamage()==25)
     server=true
 end)
 test('match power is copied into snapshot and dead heroes cannot be revived by applying it',function()
