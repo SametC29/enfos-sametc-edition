@@ -485,4 +485,465 @@
 		"Ability5"				"enfos_ss_fowl_play"
 		"Ability6"				"generic_hidden"
 	}
+
+	// =========================================================================
+	// TANK: npc_dota_hero_tidehunter
+	// =========================================================================
+	"npc_dota_hero_tidehunter"
+	{
+		"override_hero"			"npc_dota_hero_tidehunter"
+		"HeroID"				"29"
+		"Role"					"Tank"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"	"27"
+		"AttributeBaseAgility"	"15"
+		"AttributeBaseIntelligence" "18"
+		"MovementSpeed"			"300"
+		"ArmorPhysical"			"3.0"
+
+		"Ability1"				"enfos_tide_gush"
+		"Ability2"				"enfos_tide_kraken_shell"
+		"Ability3"				"enfos_tide_anchor_smash"
+		"Ability4"				"enfos_tide_ravage"
+		"Ability5"				"enfos_tide_colossal_presence"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// TANK: npc_dota_hero_dragon_knight
+	// =========================================================================
+	"npc_dota_hero_dragon_knight"
+	{
+		"override_hero"			"npc_dota_hero_dragon_knight"
+		"HeroID"				"49"
+		"Role"					"Tank"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"	"21"
+		"AttributeBaseAgility"	"19"
+		"AttributeBaseIntelligence" "18"
+		"MovementSpeed"			"310"
+		"ArmorPhysical"			"4.0"
+
+		"Ability1"				"enfos_dk_breathe_fire"
+		"Ability2"				"enfos_dk_dragon_tail"
+		"Ability3"				"enfos_dk_dragon_blood"
+		"Ability4"				"enfos_dk_elder_dragon_form"
+		"Ability5"				"enfos_dk_wyrm_vigor"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// TANK: npc_dota_hero_pudge
+	// =========================================================================
+	"npc_dota_hero_pudge"
+	{
+		"override_hero"			"npc_dota_hero_pudge"
+		"HeroID"				"14"
+		"Role"					"Tank"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"	"25"
+		"AttributeBaseAgility"	"14"
+		"AttributeBaseIntelligence" "16"
+		"MovementSpeed"			"280"
+		"ArmorPhysical"			"2.0"
+
+		"Ability1"				"enfos_pudge_meat_hook"
+		"Ability2"				"enfos_pudge_rot"
+		"Ability3"				"enfos_pudge_flesh_heap"
+		"Ability4"				"enfos_pudge_dismember"
+		"Ability5"				"enfos_pudge_meat_shield"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// TANK: npc_dota_hero_abyssal_underlord
+	// =========================================================================
+	"npc_dota_hero_abyssal_underlord"
+	{
+		"override_hero"			"npc_dota_hero_abyssal_underlord"
+		"HeroID"				"108"
+		"Role"					"Tank"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"	"25"
+		"AttributeBaseAgility"	"12"
+		"AttributeBaseIntelligence" "17"
+		"MovementSpeed"			"290"
+		"ArmorPhysical"			"4.0"
+
+		"Ability1"				"enfos_underlord_firestorm"
+		"Ability2"				"enfos_underlord_pit_of_malice"
+		"Ability3"				"enfos_underlord_atrophy_aura"
+		"Ability4"				"enfos_underlord_dark_rift"
+		"Ability5"				"enfos_underlord_abyssal_carapace"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// FIGHTER: npc_dota_hero_ursa
+	// =========================================================================
+	"npc_dota_hero_ursa"
+	{
+		"override_hero"			"npc_dota_hero_ursa"
+		"HeroID"				"70"
+		"Role"					"Fighter"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"	"25"
+		"AttributeBaseAgility"	"18"
+		"AttributeBaseIntelligence" "16"
+		"MovementSpeed"			"310"
+		"ArmorPhysical"			"4.0"
+
+		"Ability1"				"enfos_ursa_earthshock"
+		"Ability2"				"enfos_ursa_overpower"
+		"Ability3"				"enfos_ursa_fury_swipes"
+		"Ability4"				"enfos_ursa_enrage"
+		"Ability5"				"enfos_ursa_ursa_minor"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// FIGHTER: npc_dota_hero_monkey_king
+	// =========================================================================
+	"npc_dota_hero_monkey_king"
+	{
+		"override_hero"			"npc_dota_hero_monkey_king"
+		"HeroID"				"114"
+		"Role"					"Fighter"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"	"18"
+		"AttributeBaseAgility"	"22"
+		"AttributeBaseIntelligence" "20"
+		"MovementSpeed"			"300"
+		"ArmorPhysical"			"4.0"
+
+		"Ability1"				"enfos_mk_boundless_strike"
+		"Ability2"				"enfos_mk_primal_spring"
+		"Ability3"				"enfos_mk_jingu_mastery"
+		"Ability4"				"enfos_mk_wukongs_command"
+		"Ability5"				"enfos_mk_mischief"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// FIGHTER: npc_dota_hero_troll_warlord
+	// =========================================================================
+	"npc_dota_hero_troll_warlord"
+	{
+		"override_hero"			"npc_dota_hero_troll_warlord"
+		"HeroID"				"95"
+		"Role"					"Fighter"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"	"21"
+		"AttributeBaseAgility"	"21"
+		"AttributeBaseIntelligence" "13"
+		"MovementSpeed"			"290"
+		"ArmorPhysical"			"2.5"
+
+		"Ability1"				"enfos_troll_berserkers_rage"
+		"Ability2"				"enfos_troll_whirling_axes"
+		"Ability3"				"enfos_troll_fervor"
+		"Ability4"				"enfos_troll_battle_trance"
+		"Ability5"				"enfos_troll_rampage"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// FIGHTER: npc_dota_hero_chaos_knight
+	// =========================================================================
+	"npc_dota_hero_chaos_knight"
+	{
+		"override_hero"			"npc_dota_hero_chaos_knight"
+		"HeroID"				"81"
+		"Role"					"Fighter"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"	"22"
+		"AttributeBaseAgility"	"18"
+		"AttributeBaseIntelligence" "18"
+		"MovementSpeed"			"320"
+		"ArmorPhysical"			"4.0"
+
+		"Ability1"				"enfos_ck_chaos_bolt"
+		"Ability2"				"enfos_ck_reality_rift"
+		"Ability3"				"enfos_ck_chaos_strike"
+		"Ability4"				"enfos_ck_phantasm"
+		"Ability5"				"enfos_ck_entropy"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// CARRY: npc_dota_hero_antimage
+	// =========================================================================
+	"npc_dota_hero_antimage"
+	{
+		"override_hero"			"npc_dota_hero_antimage"
+		"HeroID"				"1"
+		"Role"					"Carry"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"	"21"
+		"AttributeBaseAgility"	"24"
+		"AttributeBaseIntelligence" "12"
+		"MovementSpeed"			"310"
+		"ArmorPhysical"			"3.0"
+
+		"Ability1"				"enfos_am_mana_break"
+		"Ability2"				"enfos_am_blink"
+		"Ability3"				"enfos_am_counterspell"
+		"Ability4"				"enfos_am_mana_void"
+		"Ability5"				"enfos_am_spellbreaker"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// CARRY: npc_dota_hero_faceless_void
+	// =========================================================================
+	"npc_dota_hero_faceless_void"
+	{
+		"override_hero"			"npc_dota_hero_faceless_void"
+		"HeroID"				"41"
+		"Role"					"Carry"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"	"20"
+		"AttributeBaseAgility"	"23"
+		"AttributeBaseIntelligence" "15"
+		"MovementSpeed"			"300"
+		"ArmorPhysical"			"4.0"
+
+		"Ability1"				"enfos_void_time_walk"
+		"Ability2"				"enfos_void_time_dilation"
+		"Ability3"				"enfos_void_time_lock"
+		"Ability4"				"enfos_void_chronosphere"
+		"Ability5"				"enfos_void_backtrack"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// CARRY: npc_dota_hero_medusa
+	// =========================================================================
+	"npc_dota_hero_medusa"
+	{
+		"override_hero"			"npc_dota_hero_medusa"
+		"HeroID"				"94"
+		"Role"					"Carry"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"	"17"
+		"AttributeBaseAgility"	"22"
+		"AttributeBaseIntelligence" "23"
+		"MovementSpeed"			"280"
+		"ArmorPhysical"			"1.5"
+
+		"Ability1"				"enfos_medusa_split_shot"
+		"Ability2"				"enfos_medusa_mystic_snake"
+		"Ability3"				"enfos_medusa_mana_shield"
+		"Ability4"				"enfos_medusa_stone_gaze"
+		"Ability5"				"enfos_medusa_gorgon_gaze"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// CARRY: npc_dota_hero_terrorblade
+	// =========================================================================
+	"npc_dota_hero_terrorblade"
+	{
+		"override_hero"			"npc_dota_hero_terrorblade"
+		"HeroID"				"109"
+		"Role"					"Carry"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"	"16"
+		"AttributeBaseAgility"	"22"
+		"AttributeBaseIntelligence" "19"
+		"MovementSpeed"			"315"
+		"ArmorPhysical"			"8.0"
+
+		"Ability1"				"enfos_tb_reflection"
+		"Ability2"				"enfos_tb_conjure_image"
+		"Ability3"				"enfos_tb_metamorphosis"
+		"Ability4"				"enfos_tb_sunder"
+		"Ability5"				"enfos_tb_demon_zeal"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// MAGE: npc_dota_hero_storm_spirit
+	// =========================================================================
+	"npc_dota_hero_storm_spirit"
+	{
+		"override_hero"			"npc_dota_hero_storm_spirit"
+		"HeroID"				"17"
+		"Role"					"Mage"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"	"21"
+		"AttributeBaseAgility"	"22"
+		"AttributeBaseIntelligence" "23"
+		"MovementSpeed"			"285"
+		"ArmorPhysical"			"4.0"
+
+		"Ability1"				"enfos_storm_static_remnant"
+		"Ability2"				"enfos_storm_electric_vortex"
+		"Ability3"				"enfos_storm_overload"
+		"Ability4"				"enfos_storm_ball_lightning"
+		"Ability5"				"enfos_storm_galvanic_core"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// MAGE: npc_dota_hero_leshrac
+	// =========================================================================
+	"npc_dota_hero_leshrac"
+	{
+		"override_hero"			"npc_dota_hero_leshrac"
+		"HeroID"				"52"
+		"Role"					"Mage"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"	"20"
+		"AttributeBaseAgility"	"23"
+		"AttributeBaseIntelligence" "22"
+		"MovementSpeed"			"315"
+		"ArmorPhysical"			"3.5"
+
+		"Ability1"				"enfos_leshrac_split_earth"
+		"Ability2"				"enfos_leshrac_diabolic_edict"
+		"Ability3"				"enfos_leshrac_lightning_storm"
+		"Ability4"				"enfos_leshrac_pulse_nova"
+		"Ability5"				"enfos_leshrac_defilement"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// MAGE: npc_dota_hero_invoker
+	// =========================================================================
+	"npc_dota_hero_invoker"
+	{
+		"override_hero"			"npc_dota_hero_invoker"
+		"HeroID"				"74"
+		"Role"					"Mage"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"	"19"
+		"AttributeBaseAgility"	"14"
+		"AttributeBaseIntelligence" "19"
+		"MovementSpeed"			"285"
+		"ArmorPhysical"			"1.5"
+
+		"Ability1"				"enfos_invoker_chaos_meteor"
+		"Ability2"				"enfos_invoker_sun_strike"
+		"Ability3"				"enfos_invoker_deafening_blast"
+		"Ability4"				"enfos_invoker_emp"
+		"Ability5"				"enfos_invoker_alacrity"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// MAGE: npc_dota_hero_puck
+	// =========================================================================
+	"npc_dota_hero_puck"
+	{
+		"override_hero"			"npc_dota_hero_puck"
+		"HeroID"				"13"
+		"Role"					"Mage"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"	"17"
+		"AttributeBaseAgility"	"22"
+		"AttributeBaseIntelligence" "23"
+		"MovementSpeed"			"290"
+		"ArmorPhysical"			"0.0"
+
+		"Ability1"				"enfos_puck_illusory_orb"
+		"Ability2"				"enfos_puck_waning_rift"
+		"Ability3"				"enfos_puck_phase_shift"
+		"Ability4"				"enfos_puck_dream_coil"
+		"Ability5"				"enfos_puck_faerie_magic"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// SUPPORT: npc_dota_hero_lion
+	// =========================================================================
+	"npc_dota_hero_lion"
+	{
+		"override_hero"			"npc_dota_hero_lion"
+		"HeroID"				"26"
+		"Role"					"Support"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"	"18"
+		"AttributeBaseAgility"	"15"
+		"AttributeBaseIntelligence" "20"
+		"MovementSpeed"			"290"
+		"ArmorPhysical"			"2.5"
+
+		"Ability1"				"enfos_lion_earth_spike"
+		"Ability2"				"enfos_lion_hex"
+		"Ability3"				"enfos_lion_mana_drain"
+		"Ability4"				"enfos_lion_finger_of_death"
+		"Ability5"				"enfos_lion_demon_soul"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// SUPPORT: npc_dota_hero_jakiro
+	// =========================================================================
+	"npc_dota_hero_jakiro"
+	{
+		"override_hero"			"npc_dota_hero_jakiro"
+		"HeroID"				"64"
+		"Role"					"Support"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"	"25"
+		"AttributeBaseAgility"	"15"
+		"AttributeBaseIntelligence" "26"
+		"MovementSpeed"			"290"
+		"ArmorPhysical"			"2.5"
+
+		"Ability1"				"enfos_jakiro_dual_breath"
+		"Ability2"				"enfos_jakiro_ice_path"
+		"Ability3"				"enfos_jakiro_liquid_fire"
+		"Ability4"				"enfos_jakiro_macropyre"
+		"Ability5"				"enfos_jakiro_double_trouble"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// SUPPORT: npc_dota_hero_vengefulspirit
+	// =========================================================================
+	"npc_dota_hero_vengefulspirit"
+	{
+		"override_hero"			"npc_dota_hero_vengefulspirit"
+		"HeroID"				"20"
+		"Role"					"Support"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"	"19"
+		"AttributeBaseAgility"	"20"
+		"AttributeBaseIntelligence" "19"
+		"MovementSpeed"			"295"
+		"ArmorPhysical"			"3.0"
+
+		"Ability1"				"enfos_vs_magic_missile"
+		"Ability2"				"enfos_vs_wave_of_terror"
+		"Ability3"				"enfos_vs_vengeance_aura"
+		"Ability4"				"enfos_vs_nether_swap"
+		"Ability5"				"enfos_vs_retribution"
+		"Ability6"				"generic_hidden"
+	}
+
+	// =========================================================================
+	// SUPPORT: npc_dota_hero_lich
+	// =========================================================================
+	"npc_dota_hero_lich"
+	{
+		"override_hero"			"npc_dota_hero_lich"
+		"HeroID"				"31"
+		"Role"					"Support"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"	"20"
+		"AttributeBaseAgility"	"17"
+		"AttributeBaseIntelligence" "24"
+		"MovementSpeed"			"295"
+		"ArmorPhysical"			"1.5"
+
+		"Ability1"				"enfos_lich_frost_blast"
+		"Ability2"				"enfos_lich_frost_shield"
+		"Ability3"				"enfos_lich_sinister_gaze"
+		"Ability4"				"enfos_lich_chain_frost"
+		"Ability5"				"enfos_lich_ice_aura"
+		"Ability6"				"generic_hidden"
+	}
+
 }

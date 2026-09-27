@@ -56,7 +56,7 @@
 		<!-- TOP RIGHT CORNER: CARRY / MARKSMAN -->
 		<Panel class="PerimeterPanel TopRightRolePanel">
 			<Label class="RoleHeader" text="CARRY" />
-			<Panel id="CarryRoleHeroes" class="RoleHeroesRow" />
+			<Panel id="CarryRoleHeroes" class="RoleHeroesCarryGrid" />
 		</Panel>
 
 		<!-- CENTER SHOWCASE STAGE -->

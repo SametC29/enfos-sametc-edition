@@ -1,0 +1,221 @@
+/* Enfos Team Survival — SametC Edition: Evolution Milestone Choice CSS */
+
+.EvolutionRoot {
+	width: 100%;
+	height: 100%;
+}
+
+/* Floating HUD Badge */
+.EvoBadge {
+	horizontal-align: left;
+	vertical-align: top;
+	margin-top: 220px;
+	margin-left: 20px;
+	flow-children: right;
+	padding: 8px 14px;
+	background-color: gradient(linear, 0% 0%, 100% 100%, from(#2c1c08), to(#120c04));
+	border: 1px solid #d4a017;
+	border-radius: 4px;
+	box-shadow: 0 0 16px rgba(212, 160, 23, 0.6);
+	transition-property: transform, box-shadow;
+	transition-duration: 0.2s;
+	animation-name: badge-pulse;
+	animation-duration: 2.0s;
+	animation-iteration-count: infinite;
+}
+
+@keyframes badge-pulse {
+	0% {
+		box-shadow: 0 0 10px rgba(212, 160, 23, 0.4);
+		transform: scale3d(1.0, 1.0, 1.0);
+	}
+	50% {
+		box-shadow: 0 0 22px rgba(241, 196, 15, 0.9);
+		transform: scale3d(1.04, 1.04, 1.0);
+	}
+	100% {
+		box-shadow: 0 0 10px rgba(212, 160, 23, 0.4);
+		transform: scale3d(1.0, 1.0, 1.0);
+	}
+}
+
+.EvoBadge:hover {
+	transform: scale3d(1.08, 1.08, 1.0);
+	box-shadow: 0 0 24px rgba(241, 196, 15, 1.0);
+}
+
+.EvoBadgeHidden {
+	visibility: collapse;
+}
+
+.EvoBadgeIcon {
+	color: #f1c40f;
+	font-size: 20px;
+	font-weight: bold;
+	margin-right: 8px;
+	vertical-align: center;
+	text-shadow: 0 0 8px #f1c40f;
+}
+
+.EvoBadgeText {
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: bold;
+	vertical-align: center;
+	letter-spacing: 1px;
+}
+
+/* Modal Overlay */
+.EvoModalRoot {
+	width: 100%;
+	height: 100%;
+}
+
+.EvoModalHidden {
+	visibility: collapse;
+}
+
+.EvoBackdrop {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(6, 5, 8, 0.75);
+}
+
+.EvoDialog {
+	horizontal-align: center;
+	vertical-align: center;
+	flow-children: down;
+	width: 820px;
+	padding: 24px 30px;
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#1c1612), to(#0d0b09));
+	border: 2px solid #b58900;
+	border-radius: 6px;
+	box-shadow: 0 0 40px rgba(0, 0, 0, 0.95);
+}
+
+.EvoHeader {
+	horizontal-align: center;
+	flow-children: down;
+	margin-bottom: 20px;
+}
+
+.EvoTitle {
+	color: #f1c40f;
+	font-size: 24px;
+	font-weight: bold;
+	font-family: "Radiance", "Arial Black", sans-serif;
+	letter-spacing: 2px;
+	horizontal-align: center;
+	text-shadow: 0 0 16px rgba(241, 196, 15, 0.6);
+}
+
+.EvoSubtitle {
+	color: #9c907e;
+	font-size: 13px;
+	horizontal-align: center;
+	margin-top: 4px;
+}
+
+/* Cards Row */
+.EvoCardsRow {
+	flow-children: right;
+	horizontal-align: center;
+	margin-bottom: 20px;
+}
+
+.EvoCard {
+	width: 360px;
+	height: 340px;
+	margin: 0 10px;
+	flow-children: down;
+	padding: 20px 18px;
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#241e17), to(#14110e));
+	border: 1px solid rgba(181, 137, 0, 0.4);
+	border-radius: 4px;
+	transition-property: border, box-shadow, transform;
+	transition-duration: 0.2s;
+}
+
+.EvoCard:hover {
+	border: 1px solid #f1c40f;
+	box-shadow: 0 0 20px rgba(241, 196, 15, 0.5);
+	transform: translateY(-4px);
+}
+
+.EvoCardIcon {
+	width: 80px;
+	height: 80px;
+	horizontal-align: center;
+	margin-bottom: 14px;
+	border: 1px solid #b58900;
+	border-radius: 3px;
+	box-shadow: 0 0 12px rgba(181, 137, 0, 0.4);
+}
+
+.EvoCardTitle {
+	color: #ffffff;
+	font-size: 18px;
+	font-weight: bold;
+	horizontal-align: center;
+	margin-bottom: 12px;
+	text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+.EvoCardDesc {
+	color: #c9bea8;
+	font-size: 13px;
+	text-align: center;
+	horizontal-align: center;
+	height: 100px;
+	line-height: 20px;
+}
+
+.EvoSelectBtn {
+	horizontal-align: center;
+	vertical-align: bottom;
+	padding: 10px 28px;
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#27ae60), to(#1e8449));
+	border: 1px solid #2ecc71;
+	border-radius: 3px;
+	box-shadow: 0 0 14px rgba(46, 204, 113, 0.5);
+	transition-property: transform, box-shadow;
+	transition-duration: 0.15s;
+}
+
+.EvoSelectBtn:hover {
+	transform: scale3d(1.05, 1.05, 1.0);
+	box-shadow: 0 0 22px rgba(46, 204, 113, 0.85);
+}
+
+.EvoSelectBtn Label {
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+
+/* Footer */
+.EvoFooter {
+	horizontal-align: center;
+}
+
+.EvoDeferBtn {
+	padding: 8px 20px;
+	background-color: rgba(30, 25, 20, 0.8);
+	border: 1px solid #665544;
+	border-radius: 3px;
+	transition-property: border, background-color;
+	transition-duration: 0.15s;
+}
+
+.EvoDeferBtn:hover {
+	border: 1px solid #b58900;
+	background-color: rgba(50, 40, 30, 0.9);
+}
+
+.EvoDeferBtn Label {
+	color: #a89882;
+	font-size: 11px;
+	font-weight: bold;
+	letter-spacing: 1px;
+}

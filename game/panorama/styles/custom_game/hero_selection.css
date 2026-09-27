@@ -160,7 +160,13 @@
 }
 
 .RoleHeroesColumn {
-	flow-children: down;
+	flow-children: right-wrap;
+	width: 148px;
+}
+
+.RoleHeroesCarryGrid {
+	flow-children: right-wrap;
+	width: 296px;
 }
 
 /* Hero Cards */

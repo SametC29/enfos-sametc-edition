@@ -1242,44 +1242,73 @@ test("progression manager coordinates profile, idempotent rewards, difficulty un
 end)
 
 -- =========================================================================
--- Hero Roster Tests (Phase 11 - 20 Heroes Milestone)
+-- Hero Roster Tests (Phase 13 - 40 Heroes Milestone)
 -- =========================================================================
-test("twenty heroes are authored with exactly 4 per role (Tank/Fighter/Carry/Mage/Support)", function()
+test("forty heroes are authored with exactly 8 per role (Tank/Fighter/Carry/Mage/Support)", function()
     local heroList = {
+        -- Tank (8)
         { name = "npc_dota_hero_sven", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
         { name = "npc_dota_hero_axe", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
         { name = "npc_dota_hero_centaur", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
         { name = "npc_dota_hero_bristleback", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
+        { name = "npc_dota_hero_tidehunter", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
+        { name = "npc_dota_hero_dragon_knight", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
+        { name = "npc_dota_hero_pudge", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
+        { name = "npc_dota_hero_abyssal_underlord", role = "Tank", primary = "DOTA_ATTRIBUTE_STRENGTH" },
+
+        -- Fighter (8)
         { name = "npc_dota_hero_juggernaut", role = "Fighter", primary = "DOTA_ATTRIBUTE_AGILITY" },
         { name = "npc_dota_hero_legion_commander", role = "Fighter", primary = "DOTA_ATTRIBUTE_STRENGTH" },
         { name = "npc_dota_hero_skeleton_king", role = "Fighter", primary = "DOTA_ATTRIBUTE_STRENGTH" },
         { name = "npc_dota_hero_slark", role = "Fighter", primary = "DOTA_ATTRIBUTE_AGILITY" },
+        { name = "npc_dota_hero_ursa", role = "Fighter", primary = "DOTA_ATTRIBUTE_AGILITY" },
+        { name = "npc_dota_hero_monkey_king", role = "Fighter", primary = "DOTA_ATTRIBUTE_AGILITY" },
+        { name = "npc_dota_hero_troll_warlord", role = "Fighter", primary = "DOTA_ATTRIBUTE_AGILITY" },
+        { name = "npc_dota_hero_chaos_knight", role = "Fighter", primary = "DOTA_ATTRIBUTE_STRENGTH" },
+
+        -- Carry (8)
         { name = "npc_dota_hero_drow_ranger", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
         { name = "npc_dota_hero_sniper", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
         { name = "npc_dota_hero_phantom_assassin", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
         { name = "npc_dota_hero_luna", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
+        { name = "npc_dota_hero_antimage", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
+        { name = "npc_dota_hero_faceless_void", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
+        { name = "npc_dota_hero_medusa", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
+        { name = "npc_dota_hero_terrorblade", role = "Carry", primary = "DOTA_ATTRIBUTE_AGILITY" },
+
+        -- Mage (8)
         { name = "npc_dota_hero_lina", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
         { name = "npc_dota_hero_crystal_maiden", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
         { name = "npc_dota_hero_zuus", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
         { name = "npc_dota_hero_nevermore", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
+        { name = "npc_dota_hero_storm_spirit", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
+        { name = "npc_dota_hero_leshrac", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
+        { name = "npc_dota_hero_invoker", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
+        { name = "npc_dota_hero_puck", role = "Mage", primary = "DOTA_ATTRIBUTE_INTELLECT" },
+
+        -- Support (8)
         { name = "npc_dota_hero_omniknight", role = "Support", primary = "DOTA_ATTRIBUTE_STRENGTH" },
         { name = "npc_dota_hero_dazzle", role = "Support", primary = "DOTA_ATTRIBUTE_INTELLECT" },
         { name = "npc_dota_hero_witch_doctor", role = "Support", primary = "DOTA_ATTRIBUTE_INTELLECT" },
         { name = "npc_dota_hero_shadow_shaman", role = "Support", primary = "DOTA_ATTRIBUTE_INTELLECT" },
+        { name = "npc_dota_hero_lion", role = "Support", primary = "DOTA_ATTRIBUTE_INTELLECT" },
+        { name = "npc_dota_hero_jakiro", role = "Support", primary = "DOTA_ATTRIBUTE_INTELLECT" },
+        { name = "npc_dota_hero_vengefulspirit", role = "Support", primary = "DOTA_ATTRIBUTE_AGILITY" },
+        { name = "npc_dota_hero_lich", role = "Support", primary = "DOTA_ATTRIBUTE_INTELLECT" },
     }
 
-    assert(#heroList == 20, "Must have exactly 20 heroes in the current roster milestone")
+    assert(#heroList == 40, "Must have exactly 40 heroes in the current roster milestone, got: " .. tostring(#heroList))
 
     local roleCounts = {}
     for _, h in ipairs(heroList) do
         roleCounts[h.role] = (roleCounts[h.role] or 0) + 1
     end
 
-    assert(roleCounts["Tank"] == 4, "Must have exactly 4 Tanks, got: " .. tostring(roleCounts["Tank"]))
-    assert(roleCounts["Fighter"] == 4, "Must have exactly 4 Fighters, got: " .. tostring(roleCounts["Fighter"]))
-    assert(roleCounts["Carry"] == 4, "Must have exactly 4 Carries, got: " .. tostring(roleCounts["Carry"]))
-    assert(roleCounts["Mage"] == 4, "Must have exactly 4 Mages, got: " .. tostring(roleCounts["Mage"]))
-    assert(roleCounts["Support"] == 4, "Must have exactly 4 Supports, got: " .. tostring(roleCounts["Support"]))
+    assert(roleCounts["Tank"] == 8, "Must have exactly 8 Tanks, got: " .. tostring(roleCounts["Tank"]))
+    assert(roleCounts["Fighter"] == 8, "Must have exactly 8 Fighters, got: " .. tostring(roleCounts["Fighter"]))
+    assert(roleCounts["Carry"] == 8, "Must have exactly 8 Carries, got: " .. tostring(roleCounts["Carry"]))
+    assert(roleCounts["Mage"] == 8, "Must have exactly 8 Mages, got: " .. tostring(roleCounts["Mage"]))
+    assert(roleCounts["Support"] == 8, "Must have exactly 8 Supports, got: " .. tostring(roleCounts["Support"]))
 end)
 
 -- =========================================================================
@@ -1328,6 +1357,72 @@ test("setup manager handles difficulty, team assignment, same-team lock preventi
     EnfosSetupManager:OnStartGame({ PlayerID = 0 })
     assert(EnfosSetupManager.isSetupComplete == true)
     assert(finishCalled == true, "Must call FinishCustomGameSetup when host starts game")
+end)
+
+-- =========================================================================
+-- Evolution Milestone Manager Tests
+-- =========================================================================
+local EvolutionManager = require("evolution/evolution_manager")
+
+test("evolution manager queues milestones at 4/7/10/13/16/19, supports deferral, and applies build choices", function()
+    EvolutionManager.initialized = false
+    EvolutionManager:Init()
+
+    local dummyHero = {
+        maxHp = 1000,
+        hp = 1000,
+        maxMana = 500,
+        mana = 500,
+        str = 20, agi = 20, int = 20,
+        GetMaxHealth = function(self) return self.maxHp end,
+        SetMaxHealth = function(self, val) self.maxHp = val end,
+        GetHealth = function(self) return self.hp end,
+        SetHealth = function(self, val) self.hp = val end,
+        GetMaxMana = function(self) return self.maxMana end,
+        SetMaxMana = function(self, val) self.maxMana = val end,
+        ModifyStrength = function(self, val) self.str = self.str + val end,
+        ModifyAgility = function(self, val) self.agi = self.agi + val end,
+        ModifyIntellect = function(self, val) self.int = self.int + val end,
+        AddNewModifier = function(self, caster, ability, name, params) self.modifier = name end,
+        IsNull = function() return false end,
+    }
+    PlayerResource.heroes[0] = dummyHero
+
+    -- 1. Level up to 3 (no milestone)
+    EvolutionManager:CheckHeroMilestones(0, dummyHero, 3)
+    assert(EvolutionManager:GetPendingCount(0) == 0, "Level 3 should not trigger milestone")
+
+    -- 2. Level up to 4 (triggers Milestone 4)
+    EvolutionManager:CheckHeroMilestones(0, dummyHero, 4)
+    assert(EvolutionManager:GetPendingCount(0) == 1, "Level 4 must queue 1 milestone")
+
+    -- 3. Level up to 7 without choosing 4 (should queue 7 behind 4)
+    EvolutionManager:CheckHeroMilestones(0, dummyHero, 7)
+    assert(EvolutionManager:GetPendingCount(0) == 2, "Level 7 must queue behind 4 (total 2)")
+
+    -- 4. Deferral keeps queue intact
+    EvolutionManager:OnClientDeferEvolution({ PlayerID = 0 })
+    assert(EvolutionManager:GetPendingCount(0) == 2, "Deferral must preserve queue")
+
+    -- 5. Reject invalid choice or wrong milestone
+    local failRes = EvolutionManager:SelectChoice(0, 10, "evo_iron_bulwark")
+    assert(failRes == false, "Must reject non-pending milestone 10")
+
+    -- 6. Select choice for Milestone 4 (Wave Sweeper)
+    local succ4 = EvolutionManager:SelectChoice(0, 4, "evo_wave_clear")
+    assert(succ4 == true, "Selecting valid choice for milestone 4 must succeed")
+    assert(EvolutionManager:IsMilestoneChosen(0, 4) == true)
+    assert(EvolutionManager:GetPendingCount(0) == 1, "Remaining queue should now be 1 (Milestone 7)")
+
+    -- 7. Select choice for Milestone 7 (Battle Ferocity)
+    local succ7 = EvolutionManager:SelectChoice(0, 7, "evo_battle_fury")
+    assert(succ7 == true, "Selecting valid choice for milestone 7 must succeed")
+    assert(EvolutionManager:IsMilestoneChosen(0, 7) == true)
+    assert(EvolutionManager:GetPendingCount(0) == 0, "Queue must be empty now")
+
+    -- 8. Level up to 19 directly (milestones 10, 13, 16, 19 queued)
+    EvolutionManager:CheckHeroMilestones(0, dummyHero, 19)
+    assert(EvolutionManager:GetPendingCount(0) == 4, "Milestones 10, 13, 16, 19 must all be queued")
 end)
 
 print(string.format("%d Lua behavior tests passed (mock engine; live tests separate).", passed))
