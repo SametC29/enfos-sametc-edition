@@ -1,0 +1,200 @@
+/* Enfos Team Survival — SametC Edition: Welcome Guide Modal CSS */
+
+.WelcomeGuideRoot {
+	width: 100%;
+	height: 100%;
+	z-index: 1200;
+	transition-property: opacity;
+	transition-duration: 0.25s;
+}
+
+.WelcomeGuideHidden {
+	visibility: collapse;
+	opacity: 0.0;
+}
+
+#WelcomeGuideBackdrop {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(6, 5, 8, 0.85);
+}
+
+.WelcomeGuideDialog {
+	align: center center;
+	horizontal-align: center;
+	vertical-align: middle;
+	width: 980px;
+	background-color: rgba(18, 15, 14, 0.96);
+	border: 2px solid rgba(180, 140, 70, 0.75);
+	border-radius: 6px;
+	box-shadow: 0 0 32px rgba(0, 0, 0, 0.95), 0 0 16px rgba(212, 160, 23, 0.25);
+	flow-children: down;
+	padding: 24px 30px;
+}
+
+/* Header */
+.GuideHeader {
+	flow-children: down;
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.GuideTitleRow {
+	flow-children: right;
+	width: 100%;
+}
+
+.GuideTitle {
+	color: #eed596;
+	font-family: "Radiance", "Cinzel", "Times New Roman", serif;
+	font-size: 28px;
+	font-weight: bold;
+	letter-spacing: 4px;
+	text-shadow: 0 0 16px rgba(230, 180, 50, 0.6);
+	vertical-align: center;
+}
+
+.GuideCloseBtn {
+	horizontal-align: right;
+	vertical-align: center;
+	width: 32px;
+	height: 32px;
+	background-color: rgba(40, 30, 25, 0.6);
+	border: 1px solid rgba(120, 95, 65, 0.5);
+	border-radius: 4px;
+	transition-property: background-color, border;
+	transition-duration: 0.15s;
+}
+
+.GuideCloseBtn:hover {
+	background-color: rgba(192, 57, 43, 0.8);
+	border: 1px solid #e74c3c;
+}
+
+.GuideCloseBtn Label {
+	color: #eed596;
+	font-size: 16px;
+	font-weight: bold;
+	horizontal-align: center;
+	vertical-align: center;
+}
+
+.GuideSubtitle {
+	color: #9f8c6b;
+	font-size: 12px;
+	font-weight: bold;
+	letter-spacing: 3px;
+	margin-top: 4px;
+}
+
+.GuideGoldLine {
+	width: 100%;
+	height: 1px;
+	background-color: gradient(linear, 0% 0%, 100% 0%, from(rgba(212, 160, 23, 0.0)), color-stop(0.5, rgba(212, 160, 23, 0.7)), to(rgba(212, 160, 23, 0.0)));
+	margin-top: 10px;
+}
+
+/* Columns */
+.GuideColumnsContainer {
+	flow-children: right;
+	width: 100%;
+	margin-bottom: 24px;
+}
+
+.GuideColumn {
+	width: 33.33%;
+	flow-children: down;
+	padding: 0 10px;
+}
+
+.ColumnHeader {
+	color: #eed596;
+	font-size: 13px;
+	font-weight: bold;
+	letter-spacing: 2px;
+	margin-bottom: 12px;
+	border-bottom: 1px solid rgba(100, 80, 55, 0.4);
+	padding-bottom: 4px;
+}
+
+.GuideRow {
+	flow-children: right;
+	margin-bottom: 10px;
+}
+
+.RowBullet {
+	color: #d4a017;
+	font-size: 16px;
+	margin-right: 8px;
+	vertical-align: top;
+}
+
+.RowText {
+	color: #c8bead;
+	font-size: 12px;
+	line-height: 18px;
+}
+
+/* Shortcuts */
+.ShortcutRow {
+	flow-children: right;
+	margin-bottom: 8px;
+	vertical-align: center;
+}
+
+.KeyBadge {
+	width: 32px;
+	height: 24px;
+	background-color: rgba(30, 25, 20, 0.9);
+	border: 1px solid #d4a017;
+	border-radius: 3px;
+	margin-right: 10px;
+	vertical-align: center;
+}
+
+.KeyBadge Label {
+	color: #f5d77f;
+	font-size: 11px;
+	font-weight: bold;
+	horizontal-align: center;
+	vertical-align: center;
+}
+
+.ShortcutDesc {
+	color: #c8bead;
+	font-size: 12px;
+	vertical-align: center;
+}
+
+/* Footer */
+.GuideFooter {
+	flow-children: down;
+	horizontal-align: center;
+	margin-top: 6px;
+}
+
+.GuideReadyButton {
+	width: 280px;
+	height: 42px;
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#2ecc71), to(#1b7a3e));
+	border: 1px solid #48e488;
+	border-radius: 4px;
+	box-shadow: 0 0 20px rgba(46, 204, 113, 0.5);
+	horizontal-align: center;
+	transition-property: brightness, box-shadow;
+	transition-duration: 0.2s;
+}
+
+.GuideReadyButton:hover {
+	brightness: 1.25;
+	box-shadow: 0 0 28px rgba(46, 204, 113, 0.8);
+}
+
+.GuideReadyButton Label {
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: bold;
+	letter-spacing: 2px;
+	horizontal-align: center;
+	vertical-align: center;
+}

@@ -220,12 +220,12 @@
 }
 
 .ShowcasePortraitFrame {
-	width: 380px;
-	height: 280px;
+	width: 280px;
+	height: 350px;
 	horizontal-align: center;
 	background-color: rgba(16, 14, 16, 0.95);
-	border: 2px solid rgba(140, 110, 70, 0.7);
-	box-shadow: 0 0 24px rgba(0, 0, 0, 0.9);
+	border: 2px solid rgba(160, 130, 80, 0.75);
+	box-shadow: 0 0 28px rgba(0, 0, 0, 0.95);
 	border-radius: 4px;
 }
 
@@ -241,12 +241,12 @@
 }
 
 .HeroTitleText {
-	color: #eed596;
+	color: #ffcc00;
 	font-family: "Radiance", "Cinzel", "Times New Roman", serif;
-	font-size: 26px;
+	font-size: 28px;
 	font-weight: bold;
-	letter-spacing: 3px;
-	text-shadow: 0 0 16px rgba(230, 180, 50, 0.7);
+	letter-spacing: 4px;
+	text-shadow: 0 0 20px rgba(255, 204, 0, 0.75);
 	horizontal-align: center;
 	margin-top: 14px;
 }

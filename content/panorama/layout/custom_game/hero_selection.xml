@@ -29,15 +29,15 @@
 
 		<!-- Perimeter Role Panels (Surrounding the Center Stage) -->
 		
-		<!-- TOP ROLE: TANK / ROUNDED -->
+		<!-- TOP ROLE: ROUNDED / TANK -->
 		<Panel class="PerimeterPanel TopRolePanel">
-			<Label class="RoleHeader" text="TANK" />
+			<Label class="RoleHeader" text="ROUNDED" />
 			<Panel id="TopRoleHeroes" class="RoleHeroesRow" />
 		</Panel>
 
 		<!-- LEFT ROLE: COMBAT / FIGHTER -->
 		<Panel class="PerimeterPanel LeftRolePanel">
-			<Label class="RoleHeader" text="FIGHTER" />
+			<Label class="RoleHeader" text="COMBAT" />
 			<Panel id="LeftRoleHeroes" class="RoleHeroesColumn" />
 		</Panel>
 
@@ -49,7 +49,7 @@
 
 		<!-- BOTTOM ROLE: SPELLCASTER / MAGE -->
 		<Panel class="PerimeterPanel BottomRolePanel">
-			<Label class="RoleHeader" text="MAGE" />
+			<Label class="RoleHeader" text="SPELLCASTER" />
 			<Panel id="BottomRoleHeroes" class="RoleHeroesRow" />
 		</Panel>
 
@@ -63,7 +63,7 @@
 		<Panel id="CenterStage" class="CenterStagePanel">
 			<!-- Hero Portrait Frame -->
 			<Panel class="ShowcasePortraitFrame">
-				<DOTAHeroImage id="ShowcaseHeroImage" class="ShowcaseHeroImg" heroimagestyle="landscape" />
+				<DOTAHeroImage id="ShowcaseHeroImage" class="ShowcaseHeroImg" heroimagestyle="portrait" />
 				<Panel class="ShowcaseVignette" />
 			</Panel>
 

@@ -1,0 +1,84 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="file://{resources}/styles/custom_game/custom_loading_screen.css" />
+	</styles>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/custom_loading_screen.js" />
+	</scripts>
+
+	<Panel class="LoadingRoot">
+		<!-- Dark Atmospheric Backdrop with Golden Ambient Glow -->
+		<Panel id="LoadingBackdrop" />
+		<Panel class="VignetteOverlay" />
+
+		<!-- Center Loading Container -->
+		<Panel class="LoadingContent">
+			<!-- Title & Branding -->
+			<Panel class="TitleContainer">
+				<Label class="MainTitle" text="ENFOS TEAM SURVIVAL" />
+				<Label class="SubTitle" text="SAMETC EDITION • MODERN PVEVP DEFENSE" />
+				<Panel class="GoldDivider" />
+			</Panel>
+
+			<!-- 4 Pillars of Gameplay Showcase -->
+			<Panel class="PillarsContainer">
+				<!-- Pillar 1: 60 Waves -->
+				<Panel class="PillarCard">
+					<Panel class="PillarHeader">
+						<Panel class="PillarIcon IconWaves" />
+						<Label class="PillarTitle" text="60 Authored Waves" />
+					</Panel>
+					<Label class="PillarDesc" text="Battle through 40 Normal, 8 Elite, and 12 Boss waves. Every 5th wave spawns a solo Boss; every 6th wave unleashes brutal Elites." />
+				</Panel>
+
+				<!-- Pillar 2: 100 Team Life -->
+				<Panel class="PillarCard">
+					<Panel class="PillarHeader">
+						<Panel class="PillarIcon IconLife" />
+						<Label class="PillarTitle" text="100 Team Life" />
+					</Panel>
+					<Label class="PillarDesc" text="Defend your team core. Scheduled hostile units exceeding lane caps convert directly into irrevocable Team Life loss." />
+				</Panel>
+
+				<!-- Pillar 3: Spellbringer -->
+				<Panel class="PillarCard">
+					<Panel class="PillarHeader">
+						<Panel class="PillarIcon IconSpellbringer" />
+						<Label class="PillarTitle" text="Spellbringer Arsenal" />
+					</Panel>
+					<Label class="PillarDesc" text="Command your team's Spellbringer entity with 8 tactical abilities and a separate mana pool to turn the tide of battle." />
+				</Panel>
+
+				<!-- Pillar 4: Ascended Forge -->
+				<Panel class="PillarCard">
+					<Panel class="PillarHeader">
+						<Panel class="PillarIcon IconAscended" />
+						<Label class="PillarTitle" text="Ascended Forge" />
+					</Panel>
+					<Label class="PillarDesc" text="Spend Lumber to ascend 30 Dota items into god-tier artifacts, and consume Aghanim's Blessing to free vital inventory slots." />
+				</Panel>
+			</Panel>
+
+			<!-- Rotating Strategy Tips Box -->
+			<Panel class="TipContainer">
+				<Panel class="TipHeaderRow">
+					<Panel class="TipBadge"><Label text="STRATEGY TIP" /></Panel>
+					<Label id="TipCategory" class="TipCategoryText" text="ECONOMY & UPGRADES" />
+				</Panel>
+				<Label id="StrategyTipText" class="StrategyTipLabel" text="Save Lumber from Boss waves to rush your hero's Ascended item or convert Aghanim's Scepter to free your 6th item slot." />
+			</Panel>
+
+			<!-- Loading Progress Bar & Indicator -->
+			<Panel class="ProgressSection">
+				<Panel class="StatusRow">
+					<Panel class="LoadingSpinner" />
+					<Label id="LoadingStatus" class="StatusText" text="Initializing match environment..." />
+				</Panel>
+				<Panel class="ProgressBarTrack">
+					<Panel id="ProgressBarFill" class="ProgressBarThumb" />
+				</Panel>
+			</Panel>
+		</Panel>
+	</Panel>
+</root>

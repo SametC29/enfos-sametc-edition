@@ -1,0 +1,274 @@
+/* Enfos Team Survival — SametC Edition: Custom Loading Screen */
+
+.LoadingRoot {
+	width: 100%;
+	height: 100%;
+	background-color: #060508;
+}
+
+#LoadingBackdrop {
+	width: 100%;
+	height: 100%;
+	background-color: #08070a;
+	background-image:
+		radial-gradient(ellipse at 15% 15%, rgba(212, 160, 23, 0.22) 0%, rgba(18, 14, 12, 0.08) 45%, rgba(6, 5, 8, 0.98) 75%),
+		repeating-linear-gradient(45deg, rgba(35, 28, 20, 0.25) 0px, rgba(35, 28, 20, 0.25) 2px, transparent 2px, transparent 80px),
+		repeating-linear-gradient(-35deg, rgba(20, 16, 24, 0.2) 0px, rgba(20, 16, 24, 0.2) 2px, transparent 2px, transparent 110px),
+		linear-gradient(135deg, rgba(30, 22, 12, 0.25) 0%, rgba(6, 5, 8, 0.95) 100%);
+}
+
+.VignetteOverlay {
+	width: 100%;
+	height: 100%;
+	background-image: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.0) 45%, rgba(0, 0, 0, 0.85) 100%);
+}
+
+.LoadingContent {
+	align: center center;
+	flow-children: down;
+	horizontal-align: center;
+	vertical-align: middle;
+	width: 1100px;
+	margin-bottom: 20px;
+}
+
+/* Title & Branding */
+.TitleContainer {
+	flow-children: down;
+	horizontal-align: center;
+	margin-bottom: 35px;
+}
+
+.MainTitle {
+	color: #eed596;
+	font-family: "Radiance", "Cinzel", "Times New Roman", serif;
+	font-size: 46px;
+	font-weight: bold;
+	letter-spacing: 6px;
+	text-shadow: 0 0 24px rgba(230, 180, 50, 0.7);
+	horizontal-align: center;
+}
+
+.SubTitle {
+	color: #a4916a;
+	font-size: 14px;
+	font-weight: bold;
+	letter-spacing: 5px;
+	horizontal-align: center;
+	margin-top: 6px;
+}
+
+.GoldDivider {
+	width: 320px;
+	height: 2px;
+	background-color: gradient(linear, 0% 0%, 100% 0%, from(rgba(212, 160, 23, 0.0)), color-stop(0.5, rgba(212, 160, 23, 0.85)), to(rgba(212, 160, 23, 0.0)));
+	horizontal-align: center;
+	margin-top: 14px;
+}
+
+/* 4 Pillars Showcase */
+.PillarsContainer {
+	flow-children: right;
+	horizontal-align: center;
+	width: 100%;
+	margin-bottom: 30px;
+}
+
+.PillarCard {
+	width: 255px;
+	height: 185px;
+	background-color: rgba(18, 15, 14, 0.85);
+	border: 1px solid rgba(85, 68, 50, 0.55);
+	border-radius: 4px;
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+	flow-children: down;
+	margin: 0 10px;
+	padding: 16px 14px;
+	transition-property: border, box-shadow, transform;
+	transition-duration: 0.25s;
+}
+
+.PillarCard:hover {
+	border: 1px solid #d4a017;
+	box-shadow: 0 0 16px rgba(212, 160, 23, 0.35);
+	transform: translateY(-2px);
+}
+
+.PillarHeader {
+	flow-children: right;
+	margin-bottom: 10px;
+	vertical-align: top;
+}
+
+.PillarIcon {
+	width: 26px;
+	height: 26px;
+	margin-right: 10px;
+	background-repeat: no-repeat;
+	background-size: contain;
+	vertical-align: center;
+}
+
+.IconWaves {
+	background-image: url("s2r://panorama/images/hud/reborn/ping_icon_attack_psd.vtex");
+	wash-color: #e67e22;
+}
+
+.IconLife {
+	background-image: url("s2r://panorama/images/hud/reborn/icon_damage_psd.vtex");
+	wash-color: #e74c3c;
+}
+
+.IconSpellbringer {
+	background-image: url("s2r://panorama/images/hud/reborn/icon_mana_psd.vtex");
+	wash-color: #3498db;
+}
+
+.IconAscended {
+	background-image: url("s2r://panorama/images/hud/reborn/ping_icon_omw_psd.vtex");
+	wash-color: #f1c40f;
+}
+
+.PillarTitle {
+	color: #f0dfb8;
+	font-family: "Radiance", serif;
+	font-size: 15px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	vertical-align: center;
+}
+
+.PillarDesc {
+	color: #a09585;
+	font-size: 12px;
+	line-height: 18px;
+}
+
+/* Strategy Tip Box */
+.TipContainer {
+	width: 1060px;
+	height: 84px;
+	background-color: rgba(22, 18, 16, 0.9);
+	border: 1px solid rgba(120, 95, 65, 0.5);
+	border-left: 4px solid #d4a017;
+	border-radius: 3px;
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+	flow-children: down;
+	horizontal-align: center;
+	padding: 10px 18px;
+	margin-bottom: 30px;
+}
+
+.TipHeaderRow {
+	flow-children: right;
+	margin-bottom: 6px;
+}
+
+.TipBadge {
+	background-color: rgba(212, 160, 23, 0.2);
+	border: 1px solid #d4a017;
+	border-radius: 2px;
+	padding: 2px 8px;
+	margin-right: 10px;
+}
+
+.TipBadge Label {
+	color: #eed596;
+	font-size: 10px;
+	font-weight: bold;
+	letter-spacing: 2px;
+}
+
+.TipCategoryText {
+	color: #8a7e6d;
+	font-size: 11px;
+	font-weight: bold;
+	letter-spacing: 2px;
+	vertical-align: center;
+}
+
+.StrategyTipLabel {
+	color: #dcd0be;
+	font-size: 13px;
+	line-height: 19px;
+}
+
+/* Progress Section */
+.ProgressSection {
+	width: 600px;
+	flow-children: down;
+	horizontal-align: center;
+}
+
+.StatusRow {
+	flow-children: right;
+	horizontal-align: center;
+	margin-bottom: 10px;
+}
+
+.LoadingSpinner {
+	width: 18px;
+	height: 18px;
+	border: 2px solid rgba(212, 160, 23, 0.2);
+	border-top: 2px solid #eed596;
+	border-radius: 50%;
+	margin-right: 12px;
+	vertical-align: center;
+	animation-name: SpinAnimation;
+	animation-duration: 0.8s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+@keyframes SpinAnimation {
+	0% {
+		transform: rotateZ(0deg);
+	}
+	100% {
+		transform: rotateZ(360deg);
+	}
+}
+
+.StatusText {
+	color: #c4b69d;
+	font-size: 13px;
+	font-weight: semi-bold;
+	letter-spacing: 1px;
+	vertical-align: center;
+}
+
+.ProgressBarTrack {
+	width: 100%;
+	height: 6px;
+	background-color: rgba(20, 16, 14, 0.9);
+	border: 1px solid rgba(70, 55, 40, 0.6);
+	border-radius: 3px;
+	overflow: noclip;
+}
+
+.ProgressBarThumb {
+	width: 35%;
+	height: 100%;
+	background-color: gradient(linear, 0% 0%, 100% 0%, from(#c09228), to(#f5d77f));
+	box-shadow: 0 0 12px rgba(245, 215, 127, 0.75);
+	border-radius: 3px;
+	animation-name: LoadingProgressPulse;
+	animation-duration: 2.5s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+@keyframes LoadingProgressPulse {
+	0% {
+		width: 25%;
+		opacity: 0.8;
+	}
+	50% {
+		width: 75%;
+		opacity: 1.0;
+	}
+	100% {
+		width: 95%;
+		opacity: 0.9;
+	}
+}

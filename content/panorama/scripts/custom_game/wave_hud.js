@@ -3,6 +3,9 @@ function SendNextWave() {
     $("#NextWave").enabled = false;
     GameEvents.SendCustomGameEventToServer("enfos_next_wave", {});
 }
+function ToggleGuide() {
+    GameEvents.SendEventClientSide("enfos_toggle_welcome_guide", {});
+}
 (function () {
     function update() {
         var s = CustomNetTables.GetTableValue("wave_info", "status");

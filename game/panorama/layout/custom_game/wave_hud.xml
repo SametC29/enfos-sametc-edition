@@ -2,7 +2,10 @@
     <styles><include src="file://{resources}/styles/custom_game/wave_hud.css" /></styles>
     <scripts><include src="file://{resources}/scripts/custom_game/wave_hud.js" /></scripts>
     <Panel class="WaveHud" hittest="false">
-        <Label id="WaveStatus" />
+        <Panel class="WaveHudHeaderRow">
+            <Label id="WaveStatus" />
+            <Button id="GuideBtn" onactivate="ToggleGuide()"><Label text="?" /></Button>
+        </Panel>
         <Label id="WaveLife" />
         <Label id="WaveBudget" />
         <Label id="WaveGold" />
