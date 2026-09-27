@@ -55,6 +55,15 @@ check('hero / ability / localization references', () => {
     }
   }
 });
+check('hero-specific evolution contracts', () => {
+  const localization=spawnSync(process.execPath,['tools/evolution_localization.mjs','--check'],{encoding:'utf8'});
+  if(localization.status!==0) throw new Error(localization.stderr);
+  for (const args of [['tools/hero_evolutions.mjs','--check'],['node_modules/fengari-node-cli/src/lua-cli.js','tests/hero_evolution.lua']]) {
+    const result=spawnSync(process.execPath,args,{encoding:'utf8'});
+    if(result.status!==0 || result.stderr || !result.stdout.includes(args[0].includes('hero_evolutions')?'480':'Hero evolution tests passed')) throw new Error(result.stderr || result.stdout);
+    console.log(result.stdout.trim());
+  }
+});
 check('all-hero structural inventory is current', () => {
   const result=spawnSync(process.execPath,['tools/audit_heroes_deep.mjs'],{encoding:'utf8'});
   if(result.status!==0) throw new Error(result.stderr || result.stdout);

@@ -3,6 +3,7 @@
 -- Server-authoritative build directions per GAME_DESIGN_MASTER.md §15
 
 local Log = require("lib/log")
+local HeroTrees = require("evolution/hero_trees")
 
 local EvolutionManager = {
 	MILESTONE_LEVELS = { 4, 7, 10, 13, 16, 19 },
@@ -10,8 +11,6 @@ local EvolutionManager = {
 	initialized = false,
 }
 
-EvolutionManager.MILESTONE_CHOICES = require("evolution/choices")
-require("evolution/modifiers")
 
 function EvolutionManager:Init()
 	if self.initialized then return end
@@ -125,7 +124,9 @@ function EvolutionManager:SelectChoice(playerId, milestoneLevel, choiceId)
 	end
 
 	-- Verify choice is valid for this milestone
-	local validChoices = self.MILESTONE_CHOICES[milestoneLevel]
+	local hero = PlayerResource and PlayerResource:GetSelectedHeroEntity(playerId)
+    if hero and hero.GetLevel and hero:GetLevel()<milestoneLevel then return false end
+    local validChoices = HeroTrees:GetChoices(hero,milestoneLevel)
 	if not validChoices then return false end
 
 	local validChoice = nil
@@ -142,7 +143,6 @@ function EvolutionManager:SelectChoice(playerId, milestoneLevel, choiceId)
 	end
 
 	-- Apply first: failed modifier creation must not consume a choice.
-	local hero = PlayerResource and PlayerResource:GetSelectedHeroEntity(playerId)
 	if not self:ApplyChoiceBonus(hero, validChoice) then return false end
 
 	-- Dequeue and record
@@ -160,16 +160,14 @@ end
 
 function EvolutionManager:ApplyChoiceBonus(hero, choice)
     if not hero or (hero.IsNull and hero:IsNull()) then return false end
-    local name="modifier_enfos_evolution_"..choice.id
-    if hero.HasModifier and hero:HasModifier(name) then return true end
-    return hero:AddNewModifier(hero,nil,name,{}) ~= nil
+    return HeroTrees:Apply(hero,choice)
 end
 
 function EvolutionManager:RestoreHero(playerId, hero)
     local state=self.playerStates[playerId]
     if not state then return end
     for level,id in pairs(state.chosenHistory) do
-        for _,choice in ipairs(self.MILESTONE_CHOICES[tonumber(level)] or {}) do
+        for _,choice in ipairs(HeroTrees:GetChoices(hero,tonumber(level))) do
             if choice.id==id then self:ApplyChoiceBonus(hero,choice) end
         end
     end
@@ -181,7 +179,8 @@ function EvolutionManager:SyncNetTable(playerId)
 
 	local state = self:GetOrCreatePlayerState(playerId)
 	local nextMilestone = state.pendingQueue[1]
-	local activeChoices = nextMilestone and self.MILESTONE_CHOICES[nextMilestone] or nil
+	local hero=PlayerResource and PlayerResource:GetSelectedHeroEntity(playerId)
+    local activeChoices = nextMilestone and HeroTrees:GetChoices(hero,nextMilestone) or nil
 
 	local payload = {
 		pending_count = #state.pendingQueue,

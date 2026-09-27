@@ -22,6 +22,12 @@ This file exists so Codex does not "helpfully" redesign locked decisions.
 - Legacy compiled Survival map currently loads, but future compatibility is open.
   Retired flat VMAPs are not the correct rebuild source and must remain archived.
 
+## 2026-09-28 hero tree candidate
+- 40 per-hero Evolution profiles replace shared global stat choices. Six distinct
+  focuses per hero recur across six two-choice tiers; 480 offered choices total.
+  Balance is provisional pending local gameplay; Shard/Scepter and distinct Ascended
+  mechanics remain open. See [tree audit](audit/HERO_TREES_2026-09-28.md).
+
 ## LOCKED
 
 ### Core

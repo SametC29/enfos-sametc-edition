@@ -1351,7 +1351,13 @@ test("evolution manager queues milestones at 4/7/10/13/16/19, supports deferral,
         ModifyStrength = function(self, val) self.str = self.str + val end,
         ModifyAgility = function(self, val) self.agi = self.agi + val end,
         ModifyIntellect = function(self, val) self.int = self.int + val end,
-        AddNewModifier = function(self, caster, ability, name, params) self.modifier = name; return {} end,
+        GetUnitName = function() return 'npc_dota_hero_sven' end,
+        GetLevel = function() return 19 end,
+        FindModifierByName = function(self) return self.modifier end,
+        AddNewModifier = function(self)
+            self.modifier={stack=0,GetStackCount=function(m) return m.stack end,SetStackCount=function(m,v) m.stack=v end}
+            return self.modifier
+        end,
         IsNull = function() return false end,
     }
     PlayerResource.heroes[0] = dummyHero
@@ -1377,13 +1383,13 @@ test("evolution manager queues milestones at 4/7/10/13/16/19, supports deferral,
     assert(failRes == false, "Must reject non-pending milestone 10")
 
     -- 6. Select choice for Milestone 4 (Wave Sweeper)
-    local succ4 = EvolutionManager:SelectChoice(0, 4, "evo_wave_clear")
+    local succ4 = EvolutionManager:SelectChoice(0, 4, "evo_sven_4_1")
     assert(succ4 == true, "Selecting valid choice for milestone 4 must succeed")
     assert(EvolutionManager:IsMilestoneChosen(0, 4) == true)
     assert(EvolutionManager:GetPendingCount(0) == 1, "Remaining queue should now be 1 (Milestone 7)")
 
     -- 7. Select choice for Milestone 7 (Battle Ferocity)
-    local succ7 = EvolutionManager:SelectChoice(0, 7, "evo_battle_fury")
+    local succ7 = EvolutionManager:SelectChoice(0, 7, "evo_sven_7_1")
     assert(succ7 == true, "Selecting valid choice for milestone 7 must succeed")
     assert(EvolutionManager:IsMilestoneChosen(0, 7) == true)
     assert(EvolutionManager:GetPendingCount(0) == 0, "Queue must be empty now")

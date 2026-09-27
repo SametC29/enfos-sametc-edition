@@ -1,3 +1,9 @@
+# Local candidate — 2026-09-28
+
+Scheduled hostile population is now uncapped, without overflow Life damage.
+40 skill-specific Evolution trees replace generic global bonuses; see
+[audit and acceptance](audit/HERO_TREES_2026-09-28.md). No engine acceptance or upload.
+
 # Current audit — 2026-09-27
 
 **Latest local hero repair candidate:** [all-hero review](audit/HERO_REVIEW_2026-09-27.md).

@@ -68,19 +68,10 @@ test('controllable summon cap survives repeated casts; illusions cannot recursiv
  for _,u in ipairs(a.enfosSummons) do assert(u.control and u.enfosNoReward) end
 end)
 
-test('all evolution choices have real persistent modifiers and duplicate selections do not stack',function()
- local manager=require('evolution/evolution_manager');local mods={};local h={IsNull=function() return false end,
- HasModifier=function(_,n) return mods[n]~=nil end,AddNewModifier=function(_,_,_,n) assert(_G[n]);mods[n]=(mods[n] or 0)+1;return {} end}
- local count=0
- for _,pair in pairs(manager.MILESTONE_CHOICES) do for _,c in ipairs(pair) do
-  assert(manager:ApplyChoiceBonus(h,c));assert(manager:ApplyChoiceBonus(h,c));assert(mods['modifier_enfos_evolution_'..c.id]==1);count=count+1
- end end
- assert(count==12)
- local hp=modifier_enfos_evolution_evo_iron_bulwark
- assert(hp:GetModifierHealthBonus()==750 and hp:GetModifierPhysicalArmorBonus()==10 and hp:RemoveOnDeath()==false)
- local stats=modifier_enfos_evolution_evo_transcendence
- assert(stats:GetModifierBonusStats_Strength()==35 and stats:GetModifierBonusStats_Agility()==35 and stats:GetModifierBonusStats_Intellect()==35)
- local armor=modifier_enfos_evolution_evo_titan_carapace
- assert(armor:GetModifierIncomingDamage_Percentage()== -20 and armor:GetModifierStatusResistanceStacking()==25)
+test('legacy global evolution choices are no longer exposed',function()
+ local manager=require('evolution/evolution_manager')
+ assert(manager.MILESTONE_CHOICES==nil)
+ local trees=require('evolution/hero_trees')
+ assert(#trees:GetChoices(nil,4)==0)
 end)
 print('Player feedback regression tests passed (mock engine).')

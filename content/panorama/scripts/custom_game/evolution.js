@@ -70,18 +70,25 @@ var EnfosEvolution = (function () {
 		var c1 = currentChoices[0];
 		var c2 = currentChoices[1];
 
-		if (c1) {
-			$("#EvoCardIcon1").abilityname = c1.icon || "";
-			$("#EvoCardTitle1").text = $.Localize("#" + c1.id);
-			$("#EvoCardDesc1").text = $.Localize("#" + c1.id + "_desc");
-		}
-
-		if (c2) {
-			$("#EvoCardIcon2").abilityname = c2.icon || "";
-			$("#EvoCardTitle2").text = $.Localize("#" + c2.id);
-			$("#EvoCardDesc2").text = $.Localize("#" + c2.id + "_desc");
-		}
+        RenderChoice(c1, 1);
+        RenderChoice(c2, 2);
 	}
+
+    function RenderChoice(choice, index) {
+        if (!choice) return;
+        $("#EvoCardIcon" + index).abilityname = choice.icon || "";
+        if (choice.hero) {
+            $("#EvoCardTitle" + index).text = $.Localize("#DOTA_Tooltip_Ability_" + choice.ability);
+            var kind = choice.special === "cooldown" ? "cooldown" : choice.mode === "+" ? "add" : "percent";
+            var message = $.Localize("#enfos_evo_" + kind);
+            if (kind !== "cooldown") message = message.replace("{stat}", $.Localize("#enfos_evo_stat_" + choice.special));
+            message = message.replace("{amount}", String(choice.amount));
+            $("#EvoCardDesc" + index).text = message;
+        } else {
+            $("#EvoCardTitle" + index).text = $.Localize("#" + choice.id);
+            $("#EvoCardDesc" + index).text = $.Localize("#" + choice.id + "_desc");
+        }
+    }
 
 	function ShowModal() {
 		var modal = $("#EvoModal");
