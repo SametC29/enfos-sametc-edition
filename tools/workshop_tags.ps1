@@ -6,6 +6,8 @@ $taskRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $taskVdf = Get-Content (Join-Path $taskRoot 'release/workshop/workshop.vdf') -Raw
 if ($taskVdf -notmatch '"publishedfileid"\s+"(\d+)"') { throw 'Missing publication ID' }
 $taskId = [uint64]$Matches[1]
+$taskConfig = Get-Content (Join-Path $taskRoot 'workshop/release.json') -Raw | ConvertFrom-Json
+if ($taskId -ne [uint64]$taskConfig.publishedfileid -or $taskConfig.appid -ne '570') { throw 'VDF does not match saved project Workshop ID' }
 if ($Apply -and ($taskId -eq 0 -or $taskId -eq 3591082091)) { throw 'Invalid project publication ID' }
 if ($MakePublic -and -not $Apply) { throw 'MakePublic requires Apply' }
 $taskDll = 'C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/bin/win64/steam_api64.dll'

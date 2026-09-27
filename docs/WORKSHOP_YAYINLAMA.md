@@ -1,8 +1,9 @@
 # Steam Workshop — ilk yayın ve güncellemeler
 
-Durum (2026-09-27): **SteamCMD yüklemesi başarılı; kayıt hâlâ gizli.**
-Workshop ID: **3809160125**. Doğru ID adlı VPK da aynı kayda başarıyla yüklendi.
-Custom Game etiketi ve herkese açık erişim masaüstü Steam bağlantısını bekliyor.
+Durum (2026-09-27): **Steam Workshop'ta herkese açık yayımlandı.**
+Workshop ID: **3809160125**. Custom Game etiketi ve Public görünürlüğü anonim Steam
+API'sinden doğrulandı. Kullanıcı Workshop sözleşmesini onayladı. Anonim SteamCMD
+indirmesindeki VPK, doğrulanmış yükleme paketiyle aynı SHA-256 değerine sahip.
 Oyun kodu temel sürümü: `5cb265b`. Oyun içi geliştirme sürümü bu hazırlıkta değiştirilmedi.
 
 Kullanıcı Steam Workshop'ta herkese açık yayını ve sonraki güncellemeleri istedi.
@@ -17,10 +18,11 @@ Computer Use kullanılmayacak. Kullanıcının son tercihi SteamCMD ile yükleme
 - `tools/workshop_preview.ps1`: projeye özgü, yazı ve basit şekillerden oluşan PNG
   kapak üretir; başka oyunun görselini içermez.
 - `release/workshop/workshop.vdf`: başlık, açıklama, önizleme ve yayın ID'sini taşır.
-  İlk hazırlık gizlidir; geçici dosya adı ve kategori tamamlanmadan herkese açılmaz.
-  SteamCMD'nin yazdığı ID sonraki hazırlıklarda korunur.
-- İlk yükleme ID oluşturduktan sonra hazırlık yeniden çalıştırılır; VPK adı aynı ID'ye
-  döner. Aynı Workshop kaydına tam paket yeniden yüklenir.
+  Mevcut VDF korunur. VDF kaybolursa `workshop/release.json` içindeki yayın ID'si
+  ve Public görünürlüğü kullanılır; yanlışlıkla yeni kayıt oluşturulmaz. Farklı ID
+  içeren yerel VDF reddedilir. Sürüm değişiminde başlık/değişiklik notunu da güncelle.
+- İlk yayında önce gizli kayıt oluşturuldu, ardından VPK dosyası alınan ID'yle
+  adlandırılıp aynı kayda yüklendi. Sonraki güncellemeler doğrudan bu ID'yi kullanır.
 - `tools/workshop_tags.ps1 -Apply`: bu projenin VDF'sindeki ID'ye resmi Steamworks
   API üzerinden `Custom Game` etiketi verir. Parametresiz çalışma salt okunur bağlantı
   kontrolüdür. Steam masaüstü oturumu gerekir; şifre veya oturum dosyası okunmaz.
@@ -34,9 +36,10 @@ Computer Use kullanılmayacak. Kullanıcının son tercihi SteamCMD ile yükleme
 Hazırlık doğrulaması: 106 dosya, 37.055.536 bayt VPK; bağımsız MCP VPK okuyucusuyla
 bütün dosyaların SHA-256 ve uzunlukları karşılaştırıldı. 11 harita/tema dosyası
 korundu. `node tools/checks.mjs` sıfır hatayla tamamlandı; canlı oyun testi yapılmadı.
-Steamworks başlangıcı sandbox dışında başarılı. Kategori yazımı EResult=3
-(bağlantı yok) döndürdü; ardından BLoggedOn kontrolü masaüstü Steam oturumunun
-çevrimdışı olduğunu gösterdi. Kullanıcıdan Steam'i çevrimiçi yapması istendi.
+Masaüstü Steam çevrimiçi yapıldıktan sonra kategori/görünürlük güncellemesi başarılı
+oldu. Kullanıcı, Steam'in istediği Workshop sözleşmesini kendi hesabında onayladı.
+Anonim API sonucu: result=1, visibility=0, banned=0, consumer_app_id=570,
+tag=Custom Game. Anonim indirme de Success döndürdü.
 
 ## Kopyalanacak yayın bilgileri
 
@@ -134,6 +137,9 @@ mevcut izin/lisans kaydına göre değerlendirin.
 - Workshop ID: 3809160125
 - Workshop URL: https://steamcommunity.com/sharedfiles/filedetails/?id=3809160125
 - Yükleme: SteamCMD iki gönderimde de Success döndürdü; son içerik `3809160125.vpk` ve `publish_data.txt`.
-- Görünürlük: Private / gizli
-- Custom Game etiketi: henüz doğrulanmadı, bağlantı yok hatası
-- Herkese açık erişim / Arcade doğrulaması: yapılmadı
+- Görünürlük: Public / herkese açık; anonim API ile doğrulandı.
+- Custom Game etiketi: resmi API ile uygulandı, anonim API ile doğrulandı.
+- Workshop sözleşmesi: kullanıcı onayladı.
+- Anonim indirme: başarılı; 37.055.723 bayt toplam içerik.
+- VPK SHA-256: `726113e6e559770d3ad11e5e8702f058343fb324502c2d5f8476e086881ec259`
+- Arcade arama sırası ve başka bilgisayarda canlı maç: henüz test edilmedi.

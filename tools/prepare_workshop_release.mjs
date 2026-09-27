@@ -10,9 +10,13 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const release = path.join(root, 'release', 'workshop');
 const content = path.join(release, 'content');
 const vdf = path.join(release, 'workshop.vdf');
-const title = 'Enfos Team Survival - SametC Edition V1.0.0';
+const config = JSON.parse(fs.readFileSync(path.join(root, 'workshop/release.json'), 'utf8'));
+if (config.appid !== '570' || !/^[1-9][0-9]+$/.test(config.publishedfileid)) throw new Error('Invalid published Workshop configuration');
+if (!['0', '1', '2', '3'].includes(config.visibility)) throw new Error('Invalid visibility');
+const title = config.title;
 const oldVdf = fs.existsSync(vdf) ? fs.readFileSync(vdf, 'utf8') : '';
-const id = oldVdf.match(/"publishedfileid"\s+"(\d+)"/)?.[1] ?? '0';
+const id = oldVdf.match(/"publishedfileid"\s+"(\d+)"/)?.[1] ?? config.publishedfileid;
+if (id !== config.publishedfileid) throw new Error('Local VDF does not match the saved project Workshop ID');
 if (id === '3591082091') throw new Error('Reference Workshop ID is not our publication ID');
 const integrity = spawnSync(process.execPath, ['tools/check_map.mjs'], { cwd: root, encoding: 'utf8' });
 if (integrity.status !== 0) throw new Error(integrity.stderr || integrity.stdout);
@@ -114,9 +118,9 @@ fs.writeFileSync(path.join(release, 'manifest.json'), JSON.stringify({ title, pr
   files: files.map(({ path, data, sha256 }) => ({ path, size: data.length, sha256 })) }, null, 2) + '\n');
 if (!oldVdf) {
   const description = 'Protect your Life Core against enemy waves in this Dota 2 custom survival game. Choose your hero, build items and support your team with Spellbringer abilities. First public test version; gameplay and balance testing are ongoing. / TR: Takiminin Yasam Cekirdegini dusman dalgalarina karsi koru. Kahramanini ve esyalarini gelistir, Spellbringer buyulerini kullan. Ilk herkese acik test surumu; gelistirme ve denge testleri suruyor.';
-  fs.writeFileSync(vdf, '"workshopitem"\n{\n' + Object.entries({ appid: '570', publishedfileid: '0',
-    contentfolder: content, previewfile: path.join(release, 'preview.png'), visibility: '2',
+  fs.writeFileSync(vdf, '"workshopitem"\n{\n' + Object.entries({ appid: '570', publishedfileid: id,
+    contentfolder: content, previewfile: path.join(release, 'preview.png'), visibility: config.visibility,
     title, description, changenote: 'V1.0.0 - Initial public test release.'
   }).map(([key, value]) => `\t"${key}" ${quote(value)}`).join('\n') + '\n}\n');
 }
-console.log(JSON.stringify({ files: files.length, bytes: archive.length, archive: path.join(content, archiveName), id, visibility: 'VDF preserved; initial preparation is private until package and tags are verified' }));
+console.log(JSON.stringify({ files: files.length, bytes: archive.length, archive: path.join(content, archiveName), id, visibility: 'Existing VDF preserved; new VDF uses the saved release configuration' }));
