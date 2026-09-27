@@ -1,6 +1,6 @@
 [CmdletBinding(SupportsShouldProcess)]
 param(
-    [ValidateSet('enfos', 'enfos_sametc')]
+    [ValidateSet('enfos')]
     [string]$Map = 'enfos',
     [string]$DotaRoot = 'C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta'
 )

@@ -57,7 +57,7 @@ check('hero / ability / localization references', () => {
 });
 check('production map allowlist', () => {
   const maps = kv('game/addoninfo.txt').AddonInfo.maps.split(/\s+/);
-  if (maps.join(' ') !== 'enfos enfos_sametc') throw new Error('Unexpected production map');
+  if (maps.join(' ') !== 'enfos') throw new Error('Only the canonical enfos map may be published');
   const shipped = fs.existsSync('game/maps') ? fs.readdirSync('game/maps').filter(f => f.endsWith('.vpk')) : [];
   for (const file of shipped) if (!maps.includes(path.basename(file, '.vpk'))) throw new Error(`Unapproved map in game/maps: ${file}`);
   for (const map of maps) if (fs.existsSync(`content/maps/${map}.vmap`)) throw new Error(`Unsafe placeholder source in active build tree: ${map}`);
@@ -132,7 +132,7 @@ check('Panorama source mirrors and overview mapping', () => {
   for (const file of walk('content/panorama')) {
     if (fs.readFileSync(file, 'utf8') !== fs.readFileSync(file.replace(/^content/, 'game'), 'utf8')) throw new Error(`Stale runtime UI: ${file}`);
   }
-  for (const map of ['enfos', 'enfos_sametc']) {
+  for (const map of ['enfos']) {
     const overview = Object.values(kv(`game/resource/overviews/${map}.txt`))[0];
     if (Number(overview.pos_x) !== -12864 || Number(overview.pos_y) !== 12864 || Number(overview.scale) !== 25.125) throw new Error('Overview does not match Survival map');
   }

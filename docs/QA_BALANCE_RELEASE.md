@@ -229,6 +229,11 @@ A gameplay feature is done when it is:
 
 ## Player feedback acceptance — 2026-09-27
 
+Release workflow agreed with the user: change -> automated checks -> user-run
+local gameplay test -> only after the user reports success, upload to the existing
+Workshop item 3809160125 -> verify public access and downloaded archive. A failed
+local test returns to repair/retest; do not publish the candidate prematurely.
+
 See [audit and live sequence](audit/PLAYER_FEEDBACK_2026-09-27.md).
 Run node tools/checks.mjs and node tools/verify_models.mjs before handing over.
 Compile only the changed Panorama layouts; never compile archived placeholder maps.

@@ -11,11 +11,6 @@
       "sha256": "b1fa84fd3d14becfd0fc29e6fec16e0ca6115837090bc72bf6bca2f06ba4fa51"
     },
     {
-      "path": "maps/enfos_sametc.vpk",
-      "source": "maps/enfos.vpk",
-      "sha256": "b1fa84fd3d14becfd0fc29e6fec16e0ca6115837090bc72bf6bca2f06ba4fa51"
-    },
-    {
       "path": "materials/overviews/enfos.vmat_c",
       "source": "materials/overviews/enfos.vmat_c",
       "sha256": "10a6250a61642b1956e83e0f27024b6d7a5a8cd41334b55cddfa2543795c10a1"

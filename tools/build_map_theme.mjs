@@ -20,7 +20,6 @@ async function add(source, input, output) {
   planned.push({ output, data, source: input });
 }
 await add(reference, 'maps/enfos.vpk', 'maps/enfos.vpk');
-await add(reference, 'maps/enfos.vpk', 'maps/enfos_sametc.vpk');
 for (const name of ['enfos.vmat_c', 'enfos_tga_5c43ce9c.vtex_c']) await add(reference, `materials/overviews/${name}`, `materials/overviews/${name}`);
 for (const [output, input] of Object.entries(config.materials)) await add(valve, input, output);
 const tints = [];

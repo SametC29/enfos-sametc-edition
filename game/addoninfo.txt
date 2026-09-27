@@ -1,13 +1,10 @@
 "AddonInfo"
 {
-	"maps"			"enfos enfos_sametc"
+	"maps"			"enfos"
+	"DefaultMap"	"enfos"
 	"IsPlayable"	"1"
 	"TeamCount"		"2"
 	"enfos"
-	{
-		"MaxPlayers"	"10"
-	}
-	"enfos_sametc"
 	{
 		"MaxPlayers"	"10"
 	}

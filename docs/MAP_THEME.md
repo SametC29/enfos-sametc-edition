@@ -19,7 +19,8 @@ Following user direction, the map layout, navigation hulls, and walkable elevati
    - Modifies the `g_vColorTint` vector directly inside Valve's NTRO material `DATA` block without re-encoding, preserving normal maps, alpha channels, UVs, and wind animation flags.
 3. **Build Tool**: `tools/build_map_theme.mjs`
    - Reads the reference VPK from Steam workshop content.
-   - Extracts base map geometry (`maps/enfos.vpk` and `maps/enfos_sametc.vpk`).
+   - Extracts base map geometry only as `maps/enfos.vpk`. The duplicate
+     `enfos_sametc.vpk` was removed on 2026-09-27; the addon remains `enfos_sametc`.
    - Copies overview assets and applies autumn materials and color tints.
    - Writes atomic manifest to `game/map-theme-build.json`.
 

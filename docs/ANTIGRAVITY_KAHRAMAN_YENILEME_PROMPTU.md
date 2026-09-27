@@ -146,7 +146,8 @@ sınırları koy; her kare tüm haritayı tarama, sonsuz olay zinciri üretme.
 ## 7. Çalışan harita ve çekirdek kuralları koru
 
 - Mevcut Survival yerleşimi ve sonbahar/taş yol yönü korunacak.
-- `game/maps/enfos.vpk`, `game/maps/enfos_sametc.vpk` ve harita manifestini koru.
+- `game/maps/enfos.vpk` ve harita manifestini koru. Tek harita `enfos`;
+  kaldırılan `enfos_sametc.vpk` kopyasını yeniden oluşturma.
   Eski flat VMAP'leri geri getirme, tüm content/maps ağacını derleme; “Legacy
   Compiled Data” uyarısını yanlış kaynakla yeniden derleyerek kapatmaya çalışma.
 - `node tools/check_map.mjs` bütünlüğünü koru. Arayüz gerekiyorsa yalnız değişen

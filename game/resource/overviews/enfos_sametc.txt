@@ -1,7 +1,0 @@
-"enfos_sametc"
-{
-	"material"	"materials/overviews/enfos.vmat"
-	"pos_x"	"-12864"
-	"pos_y"	"12864"
-	"scale"	"25.125"
-}

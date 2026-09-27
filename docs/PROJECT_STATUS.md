@@ -1,5 +1,11 @@
 # Current audit — 2026-09-27
 
+Local candidate after V1.0.0: removed the unsupported shop-trigger `SetSize` call
+that can abort activation before team/hero setup. Corrected the mock API regression.
+Only the canonical `enfos` map remains; the identical `enfos_sametc` map alias was
+removed. User local acceptance is pending; **do not upload this candidate yet**.
+See [startup fix and local test](audit/SETUP_STARTUP_2026-09-27.md).
+
 **Prototype; engine gameplay acceptance is incomplete.** Current findings and player test sequence:
 [Player feedback audit](audit/PLAYER_FEEDBACK_2026-09-27.md).
 

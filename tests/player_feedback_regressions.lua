@@ -7,11 +7,13 @@ function Vector(x,y,z) return setmetatable({x=x,y=y,z=z},vectorMT) end
 local function test(name,fn) fn();print('PASS '..name) end
 
 test('one universal home shop spans both platform elevations and initializes once',function()
- local count=0;local trigger={IsNull=function() return false end,SetShopType=function(s,v) s.shop=v end,SetSize=function(s,a,b) s.lo=a;s.hi=b end}
+ -- Match CDOTA_ShopTrigger's actual API: no CBaseModelEntity:SetSize method.
+ local count=0;local trigger={IsNull=function() return false end,SetShopType=function(s,v) s.shop=v end}
  GameRules={SetUseUniversalShopMode=function(_,v) assert(v) end}
- SpawnDOTAShopTriggerRadiusApproximate=function() count=count+1;return trigger end
+ local center,radius
+ SpawnDOTAShopTriggerRadiusApproximate=function(p,r) count=count+1;center=p;radius=r;return trigger end
  local s=require('economy/native_shop');assert(s:Init());assert(s:Init());assert(count==1 and trigger.shop==0)
- assert(trigger.lo.z<0 and trigger.hi.z>520 and trigger.hi.x>8000 and trigger.lo.x< -8000)
+ assert(center.x==0 and center.y==0 and center.z==256 and radius==18000)
 end)
 
 test('all 40 innates receive only their initial free rank; respawn cannot reset training',function()

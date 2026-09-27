@@ -5,10 +5,12 @@ function Shop:Init()
     if self.trigger and not self.trigger:IsNull() then return true end
     GameRules:SetUseUniversalShopMode(true)
     if not SpawnDOTAShopTriggerRadiusApproximate then return false end
-    self.trigger = SpawnDOTAShopTriggerRadiusApproximate(Vector(0,0,0),18000)
+    -- CDOTA_ShopTrigger inherits CBaseTrigger, not CBaseModelEntity: it has no
+    -- SetSize method. Calling it aborts Activate before setup/roster publication.
+    -- Let the native radius helper create the bounds around both elevated arenas.
+    self.trigger = SpawnDOTAShopTriggerRadiusApproximate(Vector(0,0,256),18000)
     if not self.trigger then return false end
     self.trigger:SetShopType(DOTA_SHOP_HOME or 0)
-    self.trigger:SetSize(Vector(-18000,-18000,-2048),Vector(18000,18000,4096))
     return true
 end
 return Shop
