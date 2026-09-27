@@ -88,7 +88,7 @@
           "slot": 5,
           "id": "bulwark_unbreakable",
           "maxLevel": 8,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName",
             "OnSpellStart"
@@ -185,7 +185,7 @@
           "slot": 5,
           "id": "enfos_juggernaut_duelist",
           "maxLevel": 4,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -292,7 +292,7 @@
           "slot": 5,
           "id": "enfos_drow_precision_aura",
           "maxLevel": 4,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -388,7 +388,7 @@
           "slot": 5,
           "id": "enfos_lina_combustion",
           "maxLevel": 4,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -482,7 +482,7 @@
           "slot": 5,
           "id": "enfos_omni_hammer_of_purity",
           "maxLevel": 4,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -578,7 +578,7 @@
           "slot": 5,
           "id": "enfos_axe_blood_armor",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -664,7 +664,7 @@
           "slot": 5,
           "id": "enfos_legion_commanders_banner",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -752,7 +752,7 @@
           "slot": 5,
           "id": "enfos_sniper_keen_eye",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -846,7 +846,7 @@
           "slot": 5,
           "id": "enfos_cm_glacial_mastery",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -937,7 +937,7 @@
           "slot": 5,
           "id": "enfos_dazzle_nothl_weave",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -1025,7 +1025,7 @@
           "slot": 5,
           "id": "enfos_centaur_colossal_hide",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -1110,7 +1110,7 @@
           "slot": 5,
           "id": "enfos_wk_skeleton_army",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName",
             "OnSpellStart"
@@ -1198,7 +1198,7 @@
           "slot": 5,
           "id": "enfos_pa_fan_of_knives",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "OnSpellStart"
           ],
@@ -1282,7 +1282,7 @@
           "slot": 5,
           "id": "enfos_zeus_heavenly_jump",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "OnSpellStart"
           ],
@@ -1377,7 +1377,7 @@
           "slot": 5,
           "id": "enfos_wd_voodoo_switcheroo",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "OnSpellStart"
           ],
@@ -1468,7 +1468,7 @@
           "slot": 5,
           "id": "enfos_bb_hairball",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "OnSpellStart"
           ],
@@ -1562,7 +1562,7 @@
           "slot": 5,
           "id": "enfos_slark_fish_bait",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -1657,7 +1657,7 @@
           "slot": 5,
           "id": "enfos_luna_lunar_orbit",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "OnSpellStart"
           ],
@@ -1747,7 +1747,7 @@
           "slot": 5,
           "id": "enfos_sf_feast_of_souls",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -1840,7 +1840,7 @@
           "slot": 5,
           "id": "enfos_ss_fowl_play",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -1943,7 +1943,7 @@
           "slot": 5,
           "id": "enfos_tide_colossal_presence",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -2037,7 +2037,7 @@
           "slot": 5,
           "id": "enfos_dk_wyrm_vigor",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -2124,7 +2124,7 @@
           "slot": 5,
           "id": "enfos_pudge_meat_shield",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -2220,7 +2220,7 @@
           "slot": 5,
           "id": "enfos_underlord_abyssal_carapace",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -2309,7 +2309,7 @@
           "slot": 5,
           "id": "enfos_ursa_ursa_minor",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -2395,7 +2395,7 @@
           "slot": 5,
           "id": "enfos_mk_mischief",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -2482,7 +2482,7 @@
           "slot": 5,
           "id": "enfos_troll_rampage",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -2574,7 +2574,7 @@
           "slot": 5,
           "id": "enfos_ck_entropy",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -2659,7 +2659,7 @@
           "slot": 5,
           "id": "enfos_am_spellbreaker",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -2743,7 +2743,7 @@
           "slot": 5,
           "id": "enfos_void_backtrack",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -2835,7 +2835,7 @@
           "slot": 5,
           "id": "enfos_medusa_gorgon_gaze",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -2925,7 +2925,7 @@
           "slot": 5,
           "id": "enfos_tb_demon_zeal",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -3008,7 +3008,7 @@
           "slot": 5,
           "id": "enfos_storm_galvanic_core",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -3102,7 +3102,7 @@
           "slot": 5,
           "id": "enfos_leshrac_defilement",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -3198,7 +3198,7 @@
           "slot": 5,
           "id": "enfos_invoker_alacrity",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -3289,7 +3289,7 @@
           "slot": 5,
           "id": "enfos_puck_faerie_magic",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -3376,7 +3376,7 @@
           "slot": 5,
           "id": "enfos_lion_demon_soul",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -3472,7 +3472,7 @@
           "slot": 5,
           "id": "enfos_jakiro_double_trouble",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -3563,7 +3563,7 @@
           "slot": 5,
           "id": "enfos_vs_retribution",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
@@ -3656,7 +3656,7 @@
           "slot": 5,
           "id": "enfos_lich_ice_aura",
           "maxLevel": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],

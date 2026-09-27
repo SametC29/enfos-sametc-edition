@@ -183,3 +183,41 @@ function SendNextWave() {
     CustomNetTables.SubscribeNetTableListener("wave_info", updateNextWave);
     updateNextWave();
 })();
+
+// Dynamic alignment to minimap (adapts to left or right if HUD is flipped)
+(function () {
+    function UpdateMinimapPosition() {
+        var isFlipped = false;
+        try {
+            if (typeof Game !== "undefined" && Game.IsHUDFlipped) {
+                isFlipped = Game.IsHUDFlipped();
+            }
+        } catch (e) {
+            isFlipped = false;
+        }
+
+        var hud = $("#SpellbringerHud");
+        if (hud) {
+            hud.SetHasClass("MinimapLeft", !isFlipped);
+            hud.SetHasClass("MinimapRight", isFlipped);
+
+            var hudRoot = ($.GetContextPanel && typeof $.GetContextPanel === "function") ? $.GetContextPanel().GetParent() : null;
+            while (hudRoot && hudRoot.GetParent()) {
+                hudRoot = hudRoot.GetParent();
+            }
+
+            var mapBlock = hudRoot ? (hudRoot.FindChildTraverse("minimap_container") || hudRoot.FindChildTraverse("minimap_block") || hudRoot.FindChildTraverse("minimap")) : null;
+            var bottomMargin = 265;
+            if (mapBlock && mapBlock.actuallayoutheight && mapBlock.actuallayoutheight > 100) {
+                bottomMargin = mapBlock.actuallayoutheight + 12;
+            }
+            hud.style.marginBottom = bottomMargin + "px";
+        }
+
+        if ($.Schedule) {
+            $.Schedule(0.5, UpdateMinimapPosition);
+        }
+    }
+
+    UpdateMinimapPosition();
+})();

@@ -71,6 +71,9 @@ function EnfosSametC:InitGameMode()
 	local weatherFx = ParticleManager:CreateParticle("particles/rain_fx/coloseum_terrain_motes.vpcf", PATTACH_WORLDORIGIN, nil)
 	ParticleManager:SetParticleControl(weatherFx, 0, Vector(0, 0, 256))
 
+	-- Authoritative Stats & Scoreboard Manager
+	require("stats/scoreboard_manager"):Init()
+
 	-- Thinking
 	gameMode:SetThink("OnThink", self, "GlobalThink", 0.25)
 

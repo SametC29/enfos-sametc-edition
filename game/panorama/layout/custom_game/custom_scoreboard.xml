@@ -1,0 +1,65 @@
+<root>
+    <styles>
+        <include src="file://{resources}/styles/custom_game/custom_scoreboard.css" />
+    </styles>
+    <scripts>
+        <include src="file://{resources}/scripts/custom_game/custom_scoreboard.js" />
+    </scripts>
+    <Panel class="FlyoutScoreboardRoot" hittest="false">
+        <Panel id="ScoreboardContainer" class="ScoreboardContainer">
+            <!-- Header -->
+            <Panel class="ScoreboardHeader">
+                <Panel class="ScoreboardTitleGroup">
+                    <Label class="ScoreboardTitle" text="ENFOS TEAM SURVIVAL" />
+                    <Label class="ScoreboardSubtitle" text="SKOR TABLOSU" />
+                </Panel>
+                <Label class="ScoreboardTip" text="[TAB] Kapatmak için bırakın veya basın" />
+            </Panel>
+
+            <!-- Column Legend -->
+            <Panel class="ScoreboardLegend">
+                <Label class="ScoreCol_Hero" text="KAHRAMAN" />
+                <Label class="ScoreCol_Player" text="OYUNCU" />
+                <Label class="ScoreCol_Level" text="SV" />
+                <Label class="ScoreCol_Damage" text="VERİLEN TOPLAM HASAR" />
+                <Label class="ScoreCol_Kills" text="ÖLDÜRÜLEN DÜŞMAN" />
+                <Label class="ScoreCol_Gold" text="KAZANILAN ALTIN" />
+                <Label class="ScoreCol_Lumber" text="ODUN" />
+                <Label class="ScoreCol_Items" text="EŞYALAR" />
+            </Panel>
+
+            <!-- Teams Area -->
+            <Panel id="TeamsContainer" class="TeamsContainer">
+                <!-- Radiant Team Block -->
+                <Panel id="RadiantTeamBlock" class="TeamBlock RadiantTeam">
+                    <Panel class="TeamHeaderRow RadiantHeader">
+                        <Panel class="TeamNameRow">
+                            <Panel class="TeamColorBar RadiantColorBar" />
+                            <Label class="TeamName" text="AYDINLIK (RADİANT)" />
+                        </Panel>
+                        <Panel class="TeamScoreBadge">
+                            <Label text="TAKIM CANI: " class="TeamLifeLabel" />
+                            <Label id="RadiantScoreboardLife" class="TeamLifeVal" text="100 / 100" />
+                        </Panel>
+                    </Panel>
+                    <Panel id="RadiantPlayersList" class="PlayersList" />
+                </Panel>
+
+                <!-- Dire Team Block -->
+                <Panel id="DireTeamBlock" class="TeamBlock DireTeam">
+                    <Panel class="TeamHeaderRow DireHeader">
+                        <Panel class="TeamNameRow">
+                            <Panel class="TeamColorBar DireColorBar" />
+                            <Label class="TeamName" text="KARANLIK (DİRE)" />
+                        </Panel>
+                        <Panel class="TeamScoreBadge">
+                            <Label text="TAKIM CANI: " class="TeamLifeLabel" />
+                            <Label id="DireScoreboardLife" class="TeamLifeVal" text="100 / 100" />
+                        </Panel>
+                    </Panel>
+                    <Panel id="DirePlayersList" class="PlayersList" />
+                </Panel>
+            </Panel>
+        </Panel>
+    </Panel>
+</root>

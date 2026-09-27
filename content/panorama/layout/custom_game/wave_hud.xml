@@ -1,19 +1,71 @@
 <root>
-    <styles><include src="file://{resources}/styles/custom_game/wave_hud.css" /></styles>
-    <scripts><include src="file://{resources}/scripts/custom_game/wave_hud.js" /></scripts>
-    <Panel class="WaveHudContainer" hittest="false">
-        <Panel class="WaveHud" hittest="false">
-            <Panel class="WaveHudHeaderRow">
-                <Panel class="WaveHeading"><Label id="WaveNumber" /><Label id="WaveStatus" /></Panel>
-                <Button id="GuideBtn" onactivate="ToggleGuide()"><Label text="?" /></Button>
+    <styles>
+        <include src="file://{resources}/styles/custom_game/wave_hud.css" />
+    </styles>
+    <scripts>
+        <include src="file://{resources}/scripts/custom_game/wave_hud.js" />
+    </scripts>
+    <Panel class="EnfosWaveHudRoot" hittest="false">
+        <!-- Top Bar Center Custom Container: replaces Day/Night & 0-0 score -->
+        <Panel id="EnfosTopBarCenter" class="EnfosTopBarCenter" hittest="false">
+            <!-- Left: Goodguys / Radiant Life (starts at 100) -->
+            <Panel id="RadiantLifeContainer" class="TeamLifeBox RadiantLifeBox">
+                <Panel class="LifeNumberRow">
+                    <Panel class="LifeShieldIcon RadiantShield" />
+                    <Label id="RadiantLifeNumber" class="LifeNumber" text="100" />
+                </Panel>
+                <Panel class="LifeTrack">
+                    <Panel id="RadiantLifeBarFill" class="LifeFill RadiantLifeFill" />
+                </Panel>
             </Panel>
-            <Panel class="TeamLifeRow">
-                <Panel class="TeamLifeCard RadiantCard"><Panel class="LifeTitle"><Label text="#DOTA_GoodGuys" /><Label id="RadiantLife" /></Panel><Panel class="LifeTrack"><Panel id="RadiantLifeFill" /></Panel></Panel>
-                <Panel class="TeamLifeCard DireCard"><Panel class="LifeTitle"><Label text="#DOTA_BadGuys" /><Label id="DireLife" /></Panel><Panel class="LifeTrack"><Panel id="DireLifeFill" /></Panel></Panel>
+
+            <!-- Center: Wave Number (replaces Day/Night icon) & Countdown (replaces GameTime) -->
+            <Panel id="WaveCenterBadge" class="WaveCenterBadge">
+                <Panel class="WaveNumberRow">
+                    <Label id="TopWaveTitle" class="TopWaveTitle" text="DALGA 1 / 60" />
+                    <Button id="GuideBtn" class="TopGuideBtn" onactivate="ToggleGuide()"><Label text="?" /></Button>
+                </Panel>
+                <Label id="TopWaveTimer" class="TopWaveTimer" text="00:45" />
             </Panel>
-            <Panel class="WaveEconomyRow"><Label id="WaveBudget" /><Label id="WaveGold" /></Panel>
-            <Label id="SoloSupport" />
+
+            <!-- Right: Badguys / Dire Life (starts at 100) -->
+            <Panel id="DireLifeContainer" class="TeamLifeBox DireLifeBox">
+                <Panel class="LifeNumberRow">
+                    <Label id="DireLifeNumber" class="LifeNumber" text="100" />
+                    <Panel class="LifeShieldIcon DireShield" />
+                </Panel>
+                <Panel class="LifeTrack">
+                    <Panel id="DireLifeBarFill" class="LifeFill DireLifeFill" />
+                </Panel>
+            </Panel>
         </Panel>
-        <Panel id="BossAlertPanel" class="BossAlertPanel Hidden" hittest="false"><Label id="BossAlertText" /></Panel>
+
+        <!-- Centered Boss Alert Notification -->
+        <Panel id="BossAlertPanel" class="BossAlertPanel Hidden" hittest="false">
+            <Label id="BossAlertText" text="! BOSS DALGASI BAŞLADI !" />
+        </Panel>
+
+        <!-- Bottom-Left SV / RET HUD Display -->
+        <Panel id="EnfosQuickStatsPanel" class="EnfosQuickStatsPanel" hittest="false">
+            <Panel class="EnfosStatItem StatSV">
+                <Label class="StatLabel" text="SV" />
+                <Label id="EnfosQuickStatSV" class="StatValue" text="1" />
+            </Panel>
+            <Panel class="EnfosStatDivider" />
+            <Panel class="EnfosStatItem StatRET">
+                <Label class="StatLabel" text="RET" />
+                <Label id="EnfosQuickStatRET" class="StatValue" text="0" />
+            </Panel>
+        </Panel>
+
+        <!-- Dedicated Hero Passive Skill Display -->
+        <Panel id="EnfosPassiveHud" class="EnfosPassiveHud" hittest="true" onmouseover="OnPassiveMouseOver()" onmouseout="OnPassiveMouseOut()">
+            <Panel class="PassiveIconBorder">
+                <DOTAAbilityImage id="EnfosPassiveAbilityImage" class="EnfosPassiveAbilityImage" hittest="false" />
+                <Panel class="PassiveBadge">
+                    <Label text="P" />
+                </Panel>
+            </Panel>
+        </Panel>
     </Panel>
 </root>
