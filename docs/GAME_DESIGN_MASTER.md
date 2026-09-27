@@ -479,6 +479,12 @@ Selection:
 Every hero, including Tank and Support, requires at least one viable solo PvE-clear build.
 
 User direction, 2026-09-27: Enfo's appeal includes deliberately powerful heroes.
+Clarification: lower overall difficulty through stronger kits in solo, multiplayer
+co-op and PvEvP PvE combat; do not scope this direction to solo assistance. Audit
+nearly all kits, especially Carry/Fighter/Mage, for wave-clear mechanics inspired
+by Watcher and similar games. Tank/Support partially retain their role-specific
+utility and defense, with a viable solo-clear path. See the current
+`ANTIGRAVITY_KAHRAMAN_YENILEME_PROMPTU.md` handoff.
 Prefer stronger wave-clearing kits, spell uptime and ability synergies over
 reducing enemy stats to solve solo difficulty. Preserve threats and readable Boss
 mechanics. Watcher of Samsara remains a mechanics/feel reference for independently

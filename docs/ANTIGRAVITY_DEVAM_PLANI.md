@@ -1,5 +1,10 @@
 # Antigravity devam planı — 27 Eylül 2026
 
+**Son kullanıcı yönlendirmesi:** Genel zorluk ve bütün kahraman kitleri için
+[yeni görev metni](ANTIGRAVITY_KAHRAMAN_YENILEME_PROMPTU.md) önceliklidir. Hedef
+yalnız solo değildir. Canlı testi kullanıcı yapacak; aşağıdaki eski canlı test
+adımları ajanın oyunu açması için yetki veya kod çalışmasına engel sayılmamalıdır.
+
 ## Başlangıç noktası
 
 Bu belge yeni bir oyun tasarımı değildir. Mevcut tasarımı, kodda gerçekten çalışan

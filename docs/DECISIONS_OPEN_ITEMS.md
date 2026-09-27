@@ -3,6 +3,11 @@
 This file exists so Codex does not "helpfully" redesign locked decisions.
 
 ## 2026-09-27 live-test follow-up (provisional / blocked)
+- Latest clarification: strengthen nearly all hero kits and lower general
+  difficulty across solo/co-op/PvEvP, not just solo. Carry/Fighter/Mage emphasize
+  wave clearing and synergies; Tank/Support partially preserve utility/defense.
+  [Antigravity handoff](ANTIGRAVITY_KAHRAMAN_YENILEME_PROMPTU.md) records scope and
+  acceptance. The user performs live tests; agent work is code/offline validation.
 - User-directed balance change: strengthen heroes and skill uptime instead of
   weakening enemies for solo. [Hero power seed](audit/HERO_POWER_2026-09-27.md)
   supersedes the prior solo enemy reductions. Values are provisional; individual
