@@ -90,6 +90,11 @@ check('hero empowerment regressions', () => {
   console.log(result.stdout);
   if (result.status !== 0 || result.stderr || !result.stdout.includes('hero power tests passed')) throw new Error('Hero power tests failed: ' + result.stderr);
 });
+check('hero kit behavior regressions', () => {
+  const result = spawnSync(process.execPath, ['node_modules/fengari-node-cli/src/lua-cli.js', 'tests/hero_kit_regressions.lua'], { encoding: 'utf8' });
+  console.log(result.stdout);
+  if (result.status !== 0 || result.stderr || !result.stdout.includes('hero kit regression tests passed')) throw new Error('Hero kit regression tests failed: ' + result.stderr);
+});
 check('native tooltip name, description and compact tooltip aliases', () => {
   const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
   for (const lang of languages) {

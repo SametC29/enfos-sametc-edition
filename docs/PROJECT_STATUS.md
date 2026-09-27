@@ -1,18 +1,19 @@
 # Current audit — 2026-09-27
 
-Latest changes: [hero power instead of solo enemy reductions](audit/HERO_POWER_2026-09-27.md)
-and [native team spawn markers](RUNTIME_FIXES.md). Hero empowerment is permanent
-for the match and snapshotted; first spawn at origin has a runtime marker fix
-awaiting user live testing. All 98 automated behavior tests and repository checks pass.
-29 unfinished Ascended upgrades remain visibly unavailable and cannot consume
-resources. The 30-item release target remains open.
-Legacy compiled map compatibility still requires the correct source/rebuild.
+Latest changes: [hero power instead of solo enemy reductions](audit/HERO_POWER_2026-09-27.md),
+[native team spawn markers](RUNTIME_FIXES.md), and [Batch 1 Hero PvE Kits Rework](HERO_PVE_REWORK_MATRIX.md).
+Batch 1 provides authoritative PvE kits for 6 representative heroes across all 5 roles:
+Sven (Tank), Juggernaut (Fighter), Drow Ranger (Carry), Lina (Mage), Omniknight (Support), and Luna (Carry)
+covering 30 complete abilities with attribute scaling, boss diminish/caps, and crowd clearing.
+All 109 automated behavior tests and repository checks pass (11 dedicated hero kit regressions,
+14 audit regressions, 9 hero power regressions, 6 spawn regressions, 6 runtime wave regressions,
+49 core behavior tests, 11 JavaScript/validator tests, 3 tool validation checks).
+29 unfinished Ascended upgrades remain purchase-gated; launch target stays 30.
+Live testing belongs to the user; offline validation and simulation complete.
 
 **Release status: prototype; gameplay acceptance incomplete.** See [Codex audit](audit/CODEX_AUDIT_2026-09-27.md) for corrected defects, verified evidence, production economy arithmetic, and remaining release blockers. The desktop Antigravity report is not acceptance evidence.
 
-For the next development pass, follow [Antigravity continuation plan (TR)](ANTIGRAVITY_DEVAM_PLANI.md): prove startup and the first five waves, then close one behavior-tested system at a time. Current user instruction: local commits only; no push.
-
-Latest live follow-up: [startup, map recovery and selection repairs, 27 September](audit/LIVE_STARTUP_2026-09-27.md). Launch outside the restricted agent sandbox passed the NVIDIA profile error. Invalid Panorama gradients/animation references, nine missing nettables and a case-folded localization collision were repaired. The accidentally active flat prototype was replaced with the recorded Survival map; obsolete VMAP sources were archived outside the build tree and a manifest integrity gate added. The new 40-hero selection screen was observed live, and the user confirmed manually selecting Luna. Earlier flat-map logs are not map acceptance; full five-wave gameplay acceptance remains open.
+For the next development pass, follow [Antigravity continuation plan (TR)](ANTIGRAVITY_DEVAM_PLANI.md) and [Antigravity Hero Overhaul (TR)](ANTIGRAVITY_KAHRAMAN_YENILEME_PROMPTU.md). Current user instruction: local commits only; no push. Live testing performed by user.
 
 ---
 
