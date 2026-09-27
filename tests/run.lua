@@ -102,40 +102,39 @@ PlayerResource = {
     connectionState = {},
 }
 local function mode()
-    return setmetatable({playerCouriers = {}, playerHeroes = {}, deliveryRequested = {}, pendingCouriers = {}}, {__index = EnfosSametC})
+    return setmetatable({playerHeroes = {}}, {__index = EnfosSametC})
 end
-test("ownerless courier is not assigned to player zero", function()
-    local m, courier = mode(), unit()
-    function courier:GetPlayerOwnerID() return -1 end
-    function courier:GetTeamNumber() return 2 end
-    assert(not m:ConfigureCourier(courier, -1))
-    assert(m.playerCouriers[0] == nil)
-    assert(not m:ConfigureCourier(courier, 0))
+test("TransferStashToInventory moves stash items into main inventory", function()
+    local m, hero = mode(), unit(14)
+    function hero:IsAlive() return true end
+    local stashItem = item()
+    hero.slots[9] = stashItem
+    m:TransferStashToInventory(hero)
+    assert(hero.slots[9] == nil)
+    assert(hero.slots[0] == stashItem)
 end)
-test("another player's courier ability cannot trigger delivery", function()
-    local m, courier, other = mode(), unit(), unit()
-    m.playerCouriers[0] = courier
-    fakeEntities[100] = {IsNull = function() return false end, GetAbilityName = function() return "courier_transfer_items" end, GetCaster = function() return other end}
-    assert(m:OrderFilter({issuer_player_id_const = 0, entindex_ability = 100}) == false)
-    assert(m.deliveryRequested[0] == nil)
+test("TransferStashToInventory falls back to backpack when main inventory is full", function()
+    local m, hero = mode(), unit(14)
+    function hero:IsAlive() return true end
+    for slot = 0, 5 do hero.slots[slot] = item() end
+    local stashItem = item()
+    hero.slots[10] = stashItem
+    m:TransferStashToInventory(hero)
+    assert(hero.slots[10] == nil)
+    assert(hero.slots[6] == stashItem)
 end)
-test("take-only retrieves without beginning delivery or passing native command", function()
-    local m, courier, hero = mode(), unit(), unit(14)
-    local original = item(); hero.slots[9] = original
-    function courier:GetPlayerOwnerID() return 0 end
-    function courier:GetTeamNumber() return 2 end
-    function hero:GetTeamNumber() return 2 end
-    m.playerCouriers[0] = courier; PlayerResource.heroes[0] = hero
-    fakeEntities[101] = {IsNull = function() return false end, GetAbilityName = function() return "courier_take_stash_items" end, GetCaster = function() return courier end}
-    assert(m:OrderFilter({issuer_player_id_const = 0, entindex_ability = 101}) == false)
-    assert(courier.slots[0] == original and hero.slots[9] == nil)
-    assert(m.deliveryRequested[0] == nil)
+test("TransferStashToInventory promotes backpack items when main inventory space frees up", function()
+    local m, hero = mode(), unit(14)
+    function hero:IsAlive() return true end
+    local bpItem = item()
+    hero.slots[6] = bpItem
+    m:TransferStashToInventory(hero)
+    assert(hero.slots[6] == nil)
+    assert(hero.slots[0] == bpItem)
 end)
-test("stopping the courier cancels pending delivery", function()
-    local m, courier = mode(), unit()
-    m.playerCouriers[0] = courier; m.deliveryRequested[0] = true; fakeEntities[102] = courier
-    assert(m:OrderFilter({issuer_player_id_const = 0, order_type = DOTA_UNIT_ORDER_STOP, units = {["0"] = 102}}))
-    assert(m.deliveryRequested[0] == nil)
+test("OrderFilter intercept allows general orders and intercepts sellback", function()
+    local m = mode()
+    assert(m:OrderFilter({issuer_player_id_const = 0, order_type = DOTA_UNIT_ORDER_HOLD_POSITION}) == true)
 end)
 
 -- =========================================================================

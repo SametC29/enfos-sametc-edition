@@ -54,6 +54,21 @@ local function get_str(c)
     return 0
 end
 
+local function get_atk(c, target)
+    if not c or (c.IsNull and c:IsNull()) then return 100 end
+    if c.GetAverageTrueAttackDamage then
+        local ok, val = pcall(c.GetAverageTrueAttackDamage, c, target or c)
+        if ok and type(val) == "number" and val > 0 then return val end
+        ok, val = pcall(c.GetAverageTrueAttackDamage, c, nil)
+        if ok and type(val) == "number" and val > 0 then return val end
+    end
+    if c.GetAttackDamage then
+        local ok, val = pcall(c.GetAttackDamage, c)
+        if ok and type(val) == "number" and val > 0 then return val end
+    end
+    return 100
+end
+
 local function damage(a, target, amount, kind)
     if target and not (target.IsNull and target:IsNull()) and (target.IsAlive and target:IsAlive()) and amount and amount > 0 then
         local caster = (a and not (a.IsNull and a:IsNull()) and a.GetCaster) and a:GetCaster() or nil
@@ -478,7 +493,7 @@ function modifier_bulwark_unbreakable:OnAttackLanded(e)
     if not IsServer() or e.attacker ~= c or c:PassivesDisabled() or e.target:GetTeamNumber() == c:GetTeamNumber() then return end
     local cleave_pct = value(self:GetAbility(), 'cleave_pct')
     if cleave_pct <= 0 then cleave_pct = 60 end
-    local cleave_dmg = (e.original_damage or c:GetAverageTrueAttackDamage(e.target)) * (cleave_pct / 100)
+    local cleave_dmg = (e.original_damage or get_atk(c, e.target)) * (cleave_pct / 100)
     for _, u in ipairs(enemies(c, e.target:GetAbsOrigin(), 380)) do
         if u ~= e.target then damage(self:GetAbility(), u, cleave_dmg, DAMAGE_TYPE_PHYSICAL) end
     end
@@ -566,7 +581,7 @@ function modifier_enfos_pve_crit:OnAttackLanded(event)
     if not IsServer() or event.attacker ~= self:GetParent() or not self.is_crit then return end
     local c = self:GetParent()
     local a = self:GetAbility()
-    local dmg = (c:GetAverageTrueAttackDamage(event.target)) * 0.6
+    local dmg = (get_atk(c, event.target)) * 0.6
     for _, u in ipairs(enemies(c, event.target:GetAbsOrigin(), 350)) do
         if u ~= event.target then damage(a, u, dmg, DAMAGE_TYPE_PHYSICAL) end
     end
@@ -602,7 +617,7 @@ function modifier_enfos_pve_slashes:OnIntervalThink()
     if not t or t:IsNull() or not t:IsAlive() then t = enemies(c, c:GetAbsOrigin(), value(a, 'radius'))[1] end
     if not t or (t:GetAbsOrigin() - home):Length2D() > 1400 then self:Destroy(); return end
     c:SetAbsOrigin(t:GetAbsOrigin() + Vector(64, 0, 0))
-    damage(a, t, c:GetAverageTrueAttackDamage(t) + value(a, 'bonus_damage'), DAMAGE_TYPE_PHYSICAL)
+    damage(a, t, get_atk(c, t) + value(a, 'bonus_damage'), DAMAGE_TYPE_PHYSICAL)
     effect('particles/units/heroes/hero_juggernaut/juggernaut_omni_slash.vpcf', t)
     self.target = nil
 end
@@ -775,7 +790,7 @@ end
 function enfos_drow_multishot:OnProjectileHit(t)
     if t then
         local c = self:GetCaster()
-        damage(self, t, c:GetAverageTrueAttackDamage(t) * value(self, 'arrow_damage_pct') / 100, DAMAGE_TYPE_PHYSICAL)
+        damage(self, t, get_atk(c, t) * value(self, 'arrow_damage_pct') / 100, DAMAGE_TYPE_PHYSICAL)
         local frost = c:FindAbilityByName('enfos_drow_frost_arrows')
         if frost and frost:GetLevel() > 0 then
             t:AddNewModifier(c, frost, 'modifier_enfos_pve_slow', { duration = 2.0 })
@@ -804,7 +819,7 @@ function modifier_enfos_pve_marksmanship:OnAttackLanded(e)
         local count = 0
         for _, u in ipairs(targets) do
             if u ~= e.target and count < 3 then
-                damage(self:GetAbility(), u, c:GetAverageTrueAttackDamage(u) * 0.6, DAMAGE_TYPE_PHYSICAL)
+                damage(self:GetAbility(), u, get_atk(c, u) * 0.6, DAMAGE_TYPE_PHYSICAL)
                 effect('particles/units/heroes/hero_drow/drow_base_attack.vpcf', u)
                 count = count + 1
             end
@@ -1114,6 +1129,7 @@ end
 
 enfos_luna_moon_glaives=class({})
 function enfos_luna_moon_glaives:GetIntrinsicModifierName() return 'modifier_enfos_luna_moon_glaives_passive' end
+function enfos_luna_moon_glaives:OnProjectileHit(hTarget, vLocation) return true end
 
 modifier_enfos_luna_moon_glaives_passive=class({})
 function modifier_enfos_luna_moon_glaives_passive:IsHidden() return true end
@@ -1124,7 +1140,7 @@ function modifier_enfos_luna_moon_glaives_passive:OnAttackLanded(e)
     if not IsServer() or e.attacker ~= c or c:PassivesDisabled() or e.target:GetTeamNumber() == c:GetTeamNumber() then return end
     local bounces = 3 + a:GetLevel() * 2
     local cur_target = e.target
-    local cur_dmg = c:GetAverageTrueAttackDamage(cur_target) * 0.85
+    local cur_dmg = get_atk(c, cur_target) * 0.85
     local visited = { [cur_target:entindex()] = true }
 
     for b = 1, bounces do
@@ -2576,13 +2592,15 @@ enfos_tide_anchor_smash=class({})
 function enfos_tide_anchor_smash:OnSpellStart()
     local c = self:GetCaster()
     c:EmitSound('Hero_Tidehunter.AnchorSmash')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_tidehunter/tidehunter_anchor_smash.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:ReleaseParticleIndex(fx)
 
     local base = value(self, 'bonus_damage')
     if base <= 0 then base = 160 end
     local str = get_str(c)
-    local dmg = (c.GetAverageTrueAttackDamage and c:GetAverageTrueAttackDamage() or 100) + base + (str * 0.75)
+    local dmg = get_atk(c) + base + (str * 0.75)
 
-    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 400)) do
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 450)) do
         damage(self, u, dmg, DAMAGE_TYPE_PHYSICAL)
         u:AddNewModifier(c, self, 'modifier_enfos_tide_anchor_smash_debuff', { duration = 6.0 })
     end
@@ -2795,19 +2813,60 @@ function enfos_pa_stifling_dagger:OnSpellStart()
     local base = value(self, 'base_damage')
     if base <= 0 then base = 120 end
     local agi = get_agi(c)
-    local atk = c.GetAverageTrueAttackDamage and c:GetAverageTrueAttackDamage() or 100
+    local atk = get_atk(c, t)
     local dmg = base + (atk * 0.7) + (agi * 0.5)
 
-    -- Pierces up to 3 targets in a line
-    local dir = (t:GetAbsOrigin() - c:GetAbsOrigin()):Normalized()
-    local hits = 0
-    for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 500), 500)) do
-        damage(self, u, dmg, DAMAGE_TYPE_PHYSICAL)
-        u:AddNewModifier(c, self, 'modifier_enfos_pa_stifling_dagger_slow', { duration = 4.0 })
-        effect('particles/units/heroes/hero_phantom_assassin/phantom_assassin_stifling_dagger.vpcf', u)
-        hits = hits + 1
-        if hits >= 3 then break end
+    if ProjectileManager and ProjectileManager.CreateTrackingProjectile then
+        ProjectileManager:CreateTrackingProjectile({
+            Target = t,
+            Source = c,
+            Ability = self,
+            EffectName = 'particles/units/heroes/hero_phantom_assassin/phantom_assassin_stifling_dagger.vpcf',
+            iMoveSpeed = 1200,
+            bDodgeable = false,
+            bVisibleToEnemies = true,
+            bProvidesVision = true,
+            iVisionRadius = 300,
+            iVisionTeamNumber = c:GetTeamNumber(),
+            ExtraData = { damage = dmg }
+        })
+    else
+        damage(self, t, dmg, DAMAGE_TYPE_PHYSICAL)
+        t:AddNewModifier(c, self, 'modifier_enfos_pa_stifling_dagger_slow', { duration = 4.0 })
     end
+
+    local count = 0
+    for _, u in ipairs(enemies(c, t:GetAbsOrigin(), 500)) do
+        if u ~= t and count < 2 then
+            if ProjectileManager and ProjectileManager.CreateTrackingProjectile then
+                ProjectileManager:CreateTrackingProjectile({
+                    Target = u,
+                    Source = c,
+                    Ability = self,
+                    EffectName = 'particles/units/heroes/hero_phantom_assassin/phantom_assassin_stifling_dagger.vpcf',
+                    iMoveSpeed = 1200,
+                    bDodgeable = false,
+                    bVisibleToEnemies = true,
+                    bProvidesVision = false,
+                    ExtraData = { damage = dmg * 0.75 }
+                })
+            else
+                damage(self, u, dmg * 0.75, DAMAGE_TYPE_PHYSICAL)
+                u:AddNewModifier(c, self, 'modifier_enfos_pa_stifling_dagger_slow', { duration = 4.0 })
+            end
+            count = count + 1
+        end
+    end
+end
+
+function enfos_pa_stifling_dagger:OnProjectileHit_ExtraData(hTarget, vLocation, extraData)
+    if not hTarget or hTarget:IsNull() or not hTarget:IsAlive() then return true end
+    local c = self:GetCaster()
+    local dmg = extraData and extraData.damage or 200
+    damage(self, hTarget, dmg, DAMAGE_TYPE_PHYSICAL)
+    hTarget:AddNewModifier(c, self, 'modifier_enfos_pa_stifling_dagger_slow', { duration = 4.0 })
+    hTarget:EmitSound('Hero_PhantomAssassin.Dagger.Target')
+    return true
 end
 
 modifier_enfos_pa_stifling_dagger_slow=class({})
@@ -2822,7 +2881,11 @@ function enfos_pa_phantom_strike:OnSpellStart()
     if not t or not t:IsAlive() then return end
 
     c:EmitSound('Hero_PhantomAssassin.Strike.Start')
-    FindClearSpaceForUnit(c, t:GetAbsOrigin() + Vector(-60, 0, 0), true)
+    effect('particles/units/heroes/hero_phantom_assassin/phantom_assassin_phantom_strike_start.vpcf', c)
+    local dest = t:GetAbsOrigin() + Vector(-60, 0, 0)
+    FindClearSpaceForUnit(c, dest, true)
+    effect('particles/units/heroes/hero_phantom_assassin/phantom_assassin_phantom_strike_end.vpcf', c)
+    c:EmitSound('Hero_PhantomAssassin.Strike.End')
     c:AddNewModifier(c, self, 'modifier_enfos_pa_phantom_strike_buff', { duration = 3.0 })
 end
 
@@ -3292,6 +3355,21 @@ function enfos_dk_elder_dragon_form:OnSpellStart()
 end
 
 modifier_enfos_dk_elder_dragon_form_buff=class({})
+function modifier_enfos_dk_elder_dragon_form_buff:OnCreated()
+    local p = self:GetParent()
+    if p and p.SetAttackCapability then
+        p:SetAttackCapability(DOTA_UNIT_CAP_RANGED_ATTACK)
+        if p.SetRangedProjectileName then
+            p:SetRangedProjectileName('particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_fire.vpcf')
+        end
+    end
+end
+function modifier_enfos_dk_elder_dragon_form_buff:OnDestroy()
+    local p = self:GetParent()
+    if p and p.SetAttackCapability then
+        p:SetAttackCapability(DOTA_UNIT_CAP_MELEE_ATTACK)
+    end
+end
 function modifier_enfos_dk_elder_dragon_form_buff:DeclareFunctions()
     return { MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE, MODIFIER_PROPERTY_ATTACK_RANGE_BONUS, MODIFIER_EVENT_ON_ATTACK_LANDED }
 end
@@ -3371,7 +3449,21 @@ end
 modifier_enfos_pudge_rot_aura=class({})
 function modifier_enfos_pudge_rot_aura:OnCreated()
     if not IsServer() then return end
+    local c = self:GetParent()
+    c:EmitSound('Hero_Pudge.Rot')
+    self.pfx = ParticleManager:CreateParticle('particles/units/heroes/hero_pudge/pudge_rot.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:SetParticleControl(self.pfx, 1, Vector(350, 1, 350))
     self:StartIntervalThink(0.5)
+end
+function modifier_enfos_pudge_rot_aura:OnDestroy()
+    if not IsServer() then return end
+    local c = self:GetParent()
+    if c and not c:IsNull() then c:StopSound('Hero_Pudge.Rot') end
+    if self.pfx then
+        ParticleManager:DestroyParticle(self.pfx, false)
+        ParticleManager:ReleaseParticleIndex(self.pfx)
+        self.pfx = nil
+    end
 end
 function modifier_enfos_pudge_rot_aura:OnIntervalThink()
     local c = self:GetParent()
@@ -3459,6 +3551,8 @@ function modifier_enfos_pudge_dismember_channel:OnIntervalThink()
 
     damage(a, t, tick_dmg, DAMAGE_TYPE_MAGICAL)
     c:Heal(tick_dmg, a)
+    effect('particles/units/heroes/hero_pudge/pudge_dismember.vpcf', t)
+    t:EmitSound('Hero_Pudge.Dismember')
 end
 
 modifier_enfos_pudge_dismember_target=class({})
@@ -3646,6 +3740,8 @@ function enfos_ursa_overpower:OnSpellStart()
 end
 
 modifier_enfos_ursa_overpower_buff=class({})
+function modifier_enfos_ursa_overpower_buff:GetEffectName() return 'particles/units/heroes/hero_ursa/ursa_overpower_buff.vpcf' end
+function modifier_enfos_ursa_overpower_buff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_ursa_overpower_buff:DeclareFunctions()
     return { MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_EVENT_ON_ATTACK_LANDED }
 end
@@ -3705,6 +3801,8 @@ function enfos_ursa_enrage:OnSpellStart()
 end
 
 modifier_enfos_ursa_enrage_buff=class({})
+function modifier_enfos_ursa_enrage_buff:GetEffectName() return 'particles/units/heroes/hero_ursa/ursa_enrage_buff.vpcf' end
+function modifier_enfos_ursa_enrage_buff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_ursa_enrage_buff:DeclareFunctions()
     return { MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE, MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING }
 end
@@ -3726,9 +3824,13 @@ enfos_mk_boundless_strike=class({})
 function enfos_mk_boundless_strike:OnSpellStart()
     local c = self:GetCaster()
     local dir = (self:GetCursorPosition() - c:GetAbsOrigin()):Normalized()
-    c:EmitSound('Hero_MonkeyKing.Spring.Cast')
+    c:EmitSound('Hero_MonkeyKing.Strike.Cast')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_monkey_king/monkey_king_strike.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx, 0, c:GetAbsOrigin())
+    ParticleManager:SetParticleControl(fx, 1, c:GetAbsOrigin() + (dir * 1200))
+    ParticleManager:ReleaseParticleIndex(fx)
 
-    local atk = (c.GetAverageTrueAttackDamage and c:GetAverageTrueAttackDamage()) or 100
+    local atk = get_atk(c)
     local dmg = atk * 2.0
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 600), 650)) do
@@ -3747,6 +3849,9 @@ function enfos_mk_primal_spring:OnSpellStart()
     local c = self:GetCaster()
     local pos = self:GetCursorPosition()
     c:EmitSound('Hero_MonkeyKing.Spring.Impact')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_monkey_king/monkey_king_spring.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx, 0, pos)
+    ParticleManager:ReleaseParticleIndex(fx)
     FindClearSpaceForUnit(c, pos, true)
 
     local base = value(self, 'spring_damage')
@@ -3815,7 +3920,19 @@ end
 modifier_enfos_mk_wukongs_command_thinker=class({})
 function modifier_enfos_mk_wukongs_command_thinker:OnCreated()
     if not IsServer() then return end
+    local p = self:GetParent():GetAbsOrigin()
+    self.pfx = ParticleManager:CreateParticle('particles/units/heroes/hero_monkey_king/monkey_king_circular_aoe.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(self.pfx, 0, p)
+    ParticleManager:SetParticleControl(self.pfx, 1, Vector(550, 1, 1))
     self:StartIntervalThink(1.1)
+end
+function modifier_enfos_mk_wukongs_command_thinker:OnDestroy()
+    if not IsServer() then return end
+    if self.pfx then
+        ParticleManager:DestroyParticle(self.pfx, false)
+        ParticleManager:ReleaseParticleIndex(self.pfx)
+        self.pfx = nil
+    end
 end
 function modifier_enfos_mk_wukongs_command_thinker:OnIntervalThink()
     local c = self:GetCaster()
@@ -3823,9 +3940,10 @@ function modifier_enfos_mk_wukongs_command_thinker:OnIntervalThink()
     local t = self:GetParent()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then self:Destroy() return end
 
-    local atk = (c.GetAverageTrueAttackDamage and c:GetAverageTrueAttackDamage()) or 100
+    local atk = get_atk(c)
     for _, u in ipairs(enemies(c, t:GetAbsOrigin(), 550)) do
         damage(a, u, atk, DAMAGE_TYPE_PHYSICAL)
+        effect('particles/units/heroes/hero_monkey_king/monkey_king_fur_army_attack.vpcf', u)
     end
 end
 
@@ -3873,7 +3991,15 @@ function enfos_am_blink:OnSpellStart()
     local c = self:GetCaster()
     local target_pos = self:GetCursorPosition()
     c:EmitSound('Hero_Antimage.Blink_out')
+    local p1 = ParticleManager:CreateParticle('particles/units/heroes/hero_antimage/antimage_blink_start.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(p1, 0, c:GetAbsOrigin())
+    ParticleManager:ReleaseParticleIndex(p1)
+
     FindClearSpaceForUnit(c, target_pos, true)
+
+    local p2 = ParticleManager:CreateParticle('particles/units/heroes/hero_antimage/antimage_blink_end.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(p2, 0, target_pos)
+    ParticleManager:ReleaseParticleIndex(p2)
     c:EmitSound('Hero_Antimage.Blink_in')
 end
 
@@ -3936,6 +4062,10 @@ function enfos_void_time_walk:OnSpellStart()
     local c = self:GetCaster()
     local pos = self:GetCursorPosition()
     c:EmitSound('Hero_FacelessVoid.TimeWalk')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_faceless_void/faceless_void_time_walk.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx, 0, c:GetAbsOrigin())
+    ParticleManager:SetParticleControl(fx, 1, pos)
+    ParticleManager:ReleaseParticleIndex(fx)
     FindClearSpaceForUnit(c, pos, true)
     c:Heal(300, self)
 end
@@ -3996,7 +4126,19 @@ end
 modifier_enfos_void_chronosphere_thinker=class({})
 function modifier_enfos_void_chronosphere_thinker:OnCreated()
     if not IsServer() then return end
+    local p = self:GetParent():GetAbsOrigin()
+    self.pfx = ParticleManager:CreateParticle('particles/units/heroes/hero_faceless_void/faceless_void_chronosphere.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(self.pfx, 0, p)
+    ParticleManager:SetParticleControl(self.pfx, 1, Vector(500, 500, 500))
     self:StartIntervalThink(0.1)
+end
+function modifier_enfos_void_chronosphere_thinker:OnDestroy()
+    if not IsServer() then return end
+    if self.pfx then
+        ParticleManager:DestroyParticle(self.pfx, false)
+        ParticleManager:ReleaseParticleIndex(self.pfx)
+        self.pfx = nil
+    end
 end
 function modifier_enfos_void_chronosphere_thinker:OnIntervalThink()
     local c = self:GetCaster()
@@ -4056,12 +4198,12 @@ function enfos_sf_necromastery:GetIntrinsicModifierName() return 'modifier_enfos
 
 modifier_enfos_sf_necromastery_passive=class({})
 function modifier_enfos_sf_necromastery_passive:DeclareFunctions()
-    return { MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE, MODIFIER_PROPERTY_SPELL_AMPLIFICATION_PERCENTAGE, MODIFIER_EVENT_ON_DEATH }
+    return { MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE, MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE, MODIFIER_EVENT_ON_DEATH }
 end
 function modifier_enfos_sf_necromastery_passive:GetModifierPreAttack_BonusDamage()
     return (self:GetStackCount() or 0) * 3
 end
-function modifier_enfos_sf_necromastery_passive:GetModifierSpellAmplication_Percentage()
+function modifier_enfos_sf_necromastery_passive:GetModifierSpellAmplify_Percentage()
     return (self:GetStackCount() or 0) * 1.0
 end
 function modifier_enfos_sf_necromastery_passive:OnDeath(params)
@@ -4139,7 +4281,18 @@ end
 modifier_enfos_storm_static_remnant_thinker=class({})
 function modifier_enfos_storm_static_remnant_thinker:OnCreated()
     if not IsServer() then return end
+    local pos = self:GetParent():GetAbsOrigin()
+    self.pfx = ParticleManager:CreateParticle('particles/units/heroes/hero_stormspirit/stormspirit_static_remnant.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(self.pfx, 0, pos)
     self:StartIntervalThink(0.2)
+end
+function modifier_enfos_storm_static_remnant_thinker:OnDestroy()
+    if not IsServer() then return end
+    if self.pfx then
+        ParticleManager:DestroyParticle(self.pfx, false)
+        ParticleManager:ReleaseParticleIndex(self.pfx)
+        self.pfx = nil
+    end
 end
 function modifier_enfos_storm_static_remnant_thinker:OnIntervalThink()
     local c = self:GetCaster()
@@ -4167,6 +4320,7 @@ function enfos_storm_electric_vortex:OnSpellStart()
     if not t or not t:IsAlive() then return end
 
     c:EmitSound('Hero_StormSpirit.ElectricVortex')
+    effect('particles/units/heroes/hero_stormspirit/stormspirit_electric_vortex.vpcf', t)
     local dur = is_boss(t) and 0.6 or 2.0
     for _, u in ipairs(enemies(c, t:GetAbsOrigin(), 300)) do
         u:AddNewModifier(c, self, 'modifier_enfos_storm_electric_vortex_debuff', { duration = dur })
@@ -4223,6 +4377,10 @@ function enfos_storm_ball_lightning:OnSpellStart()
     c:EmitSound('Hero_StormSpirit.BallLightning')
     local origin = c:GetAbsOrigin()
     local dist = (target_pos - origin):Length2D()
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_stormspirit/stormspirit_ball_lightning.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx, 0, origin)
+    ParticleManager:SetParticleControl(fx, 1, target_pos)
+    ParticleManager:ReleaseParticleIndex(fx)
     FindClearSpaceForUnit(c, target_pos, true)
     local int = get_int(c)
     local dmg = (dist / 100) * (30 + (int * 0.1))
@@ -4274,6 +4432,7 @@ function enfos_ss_hex:OnSpellStart()
     if not t or not t:IsAlive() then return end
 
     c:EmitSound('Hero_ShadowShaman.Hex.Target')
+    effect('particles/units/heroes/hero_shadowshaman/shadowshaman_voodoo.vpcf', t)
     local dur = is_boss(t) and 1.0 or ((self.GetSpecialValueFor and self:GetSpecialValueFor('duration')) or 3.5)
     t:AddNewModifier(c, self, 'modifier_enfos_ss_hex_debuff', { duration = dur })
 end
@@ -4319,6 +4478,7 @@ function modifier_enfos_ss_shackles_channel:OnIntervalThink()
     local dmg = (base + (int * 0.6)) * 0.5
     damage(a, t, dmg, DAMAGE_TYPE_MAGICAL)
     c:Heal(dmg, a)
+    effect('particles/units/heroes/hero_shadowshaman/shadowshaman_shackle.vpcf', t)
 end
 
 modifier_enfos_ss_shackles_debuff=class({})
@@ -4386,6 +4546,7 @@ function enfos_lion_hex:OnSpellStart()
     if not t or not t:IsAlive() then return end
 
     c:EmitSound('Hero_Lion.Voodoo')
+    effect('particles/units/heroes/hero_lion/lion_spell_voodoo.vpcf', t)
     local dur = is_boss(t) and 0.8 or ((self.GetSpecialValueFor and self:GetSpecialValueFor('duration')) or 3.0)
     t:AddNewModifier(c, self, 'modifier_enfos_lion_hex_debuff', { duration = dur })
 end
@@ -4431,6 +4592,7 @@ function modifier_enfos_lion_mana_drain_channel:OnIntervalThink()
 
     damage(a, t, tick_dmg, DAMAGE_TYPE_MAGICAL)
     if c.GiveMana then c:GiveMana(tick_dmg) end
+    effect('particles/units/heroes/hero_lion/lion_spell_mana_drain.vpcf', t)
 end
 
 modifier_enfos_lion_mana_drain_debuff=class({})
@@ -4464,8 +4626,8 @@ function enfos_lion_finger_of_death:OnSpellStart()
 end
 
 modifier_enfos_lion_finger_counter=class({})
-function modifier_enfos_lion_finger_counter:DeclareFunctions() return { MODIFIER_PROPERTY_SPELL_AMPLIFICATION_PERCENTAGE } end
-function modifier_enfos_lion_finger_counter:GetModifierSpellAmplication_Percentage()
+function modifier_enfos_lion_finger_counter:DeclareFunctions() return { MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE } end
+function modifier_enfos_lion_finger_counter:GetModifierSpellAmplify_Percentage()
     return (self:GetStackCount() or 0) * 1.5
 end
 
@@ -4474,10 +4636,10 @@ function enfos_lion_demon_soul:GetIntrinsicModifierName() return 'modifier_enfos
 
 modifier_enfos_lion_demon_soul_passive=class({})
 function modifier_enfos_lion_demon_soul_passive:DeclareFunctions()
-    return { MODIFIER_PROPERTY_CAST_RANGE_BONUS_STACKING, MODIFIER_PROPERTY_SPELL_AMPLIFICATION_PERCENTAGE }
+    return { MODIFIER_PROPERTY_CAST_RANGE_BONUS_STACKING, MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE }
 end
 function modifier_enfos_lion_demon_soul_passive:GetModifierCastRangeBonusStacking() return 150 end
-function modifier_enfos_lion_demon_soul_passive:GetModifierSpellAmplication_Percentage() return 15 end
+function modifier_enfos_lion_demon_soul_passive:GetModifierSpellAmplify_Percentage() return 15 end
 
 
 -- =========================================================================
@@ -4496,6 +4658,11 @@ function enfos_underlord_firestorm:OnSpellStart()
     local dmg = value(self, 'wave_damage')
     local str = get_str(c)
     local total_dmg = dmg + (str * 0.3)
+
+    c:EmitSound('Hero_AbyssalUnderlord.Firestorm.Cast')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_abyssal_underlord/abyssal_underlord_firestorm_wave.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx, 0, p)
+    ParticleManager:ReleaseParticleIndex(fx)
 
     for _, u in ipairs(enemies(c, p, r)) do
         damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
@@ -4529,6 +4696,12 @@ function enfos_underlord_pit_of_malice:OnSpellStart()
     local dmg = value(self, 'damage')
     local str = get_str(c)
     local total_dmg = dmg + (str * 0.5)
+
+    c:EmitSound('Hero_AbyssalUnderlord.PitOfMalice')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_abyssal_underlord/abyssal_underlord_pitofmalice.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx, 0, p)
+    ParticleManager:SetParticleControl(fx, 1, Vector(r, 1, r))
+    ParticleManager:ReleaseParticleIndex(fx)
 
     for _, u in ipairs(enemies(c, p, r)) do
         local d = dur
@@ -4590,6 +4763,11 @@ function enfos_underlord_dark_rift:OnSpellStart()
     local str = get_str(c)
     local total_dmg = dmg + (str * 1.5)
 
+    c:EmitSound('Hero_AbyssalUnderlord.DarkRift.Cast')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_abyssal_underlord/abyssal_underlord_darkrift_explode.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx, 0, p)
+    ParticleManager:ReleaseParticleIndex(fx)
+
     for _, u in ipairs(enemies(c, p, r)) do
         damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
     end
@@ -4619,33 +4797,64 @@ enfos_troll_berserkers_rage=class({})
 function enfos_troll_berserkers_rage:OnToggle()
     local c = self:GetCaster()
     if self:GetToggleState() then
+        c:EmitSound('Hero_TrollWarlord.BerserkersRage.Enter')
         c:AddNewModifier(c, self, 'modifier_enfos_troll_berserkers_rage', {})
     else
+        c:EmitSound('Hero_TrollWarlord.BerserkersRage.Exit')
         c:RemoveModifierByName('modifier_enfos_troll_berserkers_rage')
     end
 end
 
 modifier_enfos_troll_berserkers_rage=class({})
+function modifier_enfos_troll_berserkers_rage:OnCreated()
+    local p = self:GetParent()
+    if p and p.SetAttackCapability then
+        p:SetAttackCapability(DOTA_UNIT_CAP_MELEE_ATTACK)
+    end
+end
+function modifier_enfos_troll_berserkers_rage:OnDestroy()
+    local p = self:GetParent()
+    if p and p.SetAttackCapability then
+        p:SetAttackCapability(DOTA_UNIT_CAP_RANGED_ATTACK)
+    end
+end
+function modifier_enfos_troll_berserkers_rage:CheckState()
+    local state = {}
+    if MODIFIER_STATE_ATTACKS_ARE_MELEE ~= nil then
+        state[MODIFIER_STATE_ATTACKS_ARE_MELEE] = true
+    end
+    return state
+end
 function modifier_enfos_troll_berserkers_rage:DeclareFunctions()
-    return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS, MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT, MODIFIER_EVENT_ON_ATTACK_LANDED }
+    return {
+        MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT,
+        MODIFIER_PROPERTY_ATTACK_RANGE_BONUS,
+        MODIFIER_EVENT_ON_ATTACK_LANDED
+    }
+end
+function modifier_enfos_troll_berserkers_rage:GetModifierAttackRangeBonus()
+    return -350
 end
 function modifier_enfos_troll_berserkers_rage:GetModifierPhysicalArmorBonus()
     local ab = self:GetAbility()
-    return ab and value(ab, 'bonus_armor') or 5
+    return ab and value(ab, 'bonus_armor') or 6
 end
 function modifier_enfos_troll_berserkers_rage:GetModifierMoveSpeedBonus_Constant()
     local ab = self:GetAbility()
-    return ab and value(ab, 'bonus_ms') or 25
+    return ab and value(ab, 'bonus_ms') or 35
 end
 function modifier_enfos_troll_berserkers_rage:OnAttackLanded(params)
     if not IsServer() then return end
     if params.attacker == self:GetParent() and RollPercentage(20) then
         local t = params.target
         local c = self:GetParent()
-    local agi = get_agi(c)
-        local stun_dur = is_boss(t) and 0.3 or 0.8
+        local agi = get_agi(c)
+        local stun_dur = is_boss(t) and 0.4 or 1.0
         t:AddNewModifier(c, self:GetAbility(), 'modifier_generic_stunned_lua', { duration = stun_dur })
-        damage(self:GetAbility(), t, 75 + (agi * 0.5), DAMAGE_TYPE_PHYSICAL)
+        damage(self:GetAbility(), t, 80 + (agi * 0.6), DAMAGE_TYPE_PHYSICAL)
+        t:EmitSound('Hero_TrollWarlord.BerserkersRage.Stun')
+        effect('particles/generic_gameplay/generic_stunned.vpcf', t)
     end
 end
 
@@ -4653,15 +4862,23 @@ enfos_troll_whirling_axes=class({})
 function enfos_troll_whirling_axes:OnSpellStart()
     local c = self:GetCaster()
     local p = c:GetAbsOrigin()
-    local r = value(self, 'radius') or 450
+    local r = value(self, 'radius')
+    if r <= 0 then r = 550 end
     local dmg = value(self, 'damage')
+    if dmg <= 0 then dmg = 180 end
     local agi = get_agi(c)
     local total_dmg = dmg + (agi * 0.8)
-    local dur = value(self, 'duration') or 4.0
+    local dur = value(self, 'duration')
+    if dur <= 0 then dur = 4.0 end
+
+    c:EmitSound('Hero_TrollWarlord.WhirlingAxes.Melee')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_troll_warlord/troll_warlord_whirling_axes_melee.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:ReleaseParticleIndex(fx)
 
     for _, u in ipairs(enemies(c, p, r)) do
         damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
         u:AddNewModifier(c, self, 'modifier_enfos_troll_whirling_axes_blind', { duration = dur })
+        u:EmitSound('Hero_TrollWarlord.WhirlingAxes.Target')
     end
 end
 
@@ -4694,19 +4911,41 @@ end
 enfos_troll_battle_trance=class({})
 function enfos_troll_battle_trance:OnSpellStart()
     local c = self:GetCaster()
-    local dur = value(self, 'duration') or 5.0
+    local dur = value(self, 'duration') or 6.5
+    c:EmitSound('Hero_TrollWarlord.BattleTrance.Cast')
     c:AddNewModifier(c, self, 'modifier_enfos_troll_battle_trance', { duration = dur })
 end
 
 modifier_enfos_troll_battle_trance=class({})
+function modifier_enfos_troll_battle_trance:GetEffectName()
+    return 'particles/units/heroes/hero_troll_warlord/troll_warlord_battletrance_buff.vpcf'
+end
+function modifier_enfos_troll_battle_trance:GetEffectAttachType()
+    return PATTACH_ABSORIGIN_FOLLOW
+end
 function modifier_enfos_troll_battle_trance:DeclareFunctions()
-    return { MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_PROPERTY_MIN_HEALTH }
+    return {
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+        MODIFIER_PROPERTY_MIN_HEALTH,
+        MODIFIER_EVENT_ON_ATTACK_LANDED
+    }
 end
 function modifier_enfos_troll_battle_trance:GetModifierAttackSpeedBonus_Constant()
     local ab = self:GetAbility()
-    return ab and value(ab, 'bonus_as') or 180
+    return ab and value(ab, 'bonus_as') or 200
+end
+function modifier_enfos_troll_battle_trance:GetModifierMoveSpeedBonus_Percentage()
+    return 30
 end
 function modifier_enfos_troll_battle_trance:GetMinHealth() return 1 end
+function modifier_enfos_troll_battle_trance:OnAttackLanded(params)
+    if not IsServer() then return end
+    local c = self:GetParent()
+    if params.attacker == c and params.damage and params.damage > 0 then
+        c:Heal(params.damage * 0.60, self:GetAbility())
+    end
+end
 
 enfos_troll_rampage=class({})
 function enfos_troll_rampage:GetIntrinsicModifierName() return 'modifier_enfos_troll_rampage' end
@@ -4727,6 +4966,7 @@ function enfos_ck_chaos_bolt:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not t then return end
+    c:EmitSound('Hero_ChaosKnight.ChaosBolt.Cast')
     local dmg = value(self, 'damage')
     local str = get_str(c)
     local total_dmg = dmg + (str * 0.9)
@@ -4734,6 +4974,8 @@ function enfos_ck_chaos_bolt:OnSpellStart()
     local max_s = value(self, 'stun_max') or 2.5
     local stun_dur = RandomFloat(min_s, max_s)
     if is_boss(t) then stun_dur = stun_dur * 0.4 end
+    effect('particles/units/heroes/hero_chaos_knight/chaos_knight_chaos_bolt.vpcf', t)
+    t:EmitSound('Hero_ChaosKnight.ChaosBolt.Impact')
     t:AddNewModifier(c, self, 'modifier_generic_stunned_lua', { duration = stun_dur })
     damage(self, t, total_dmg, DAMAGE_TYPE_MAGICAL)
 end
@@ -4743,11 +4985,18 @@ function enfos_ck_reality_rift:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not t then return end
+    c:EmitSound('Hero_ChaosKnight.RealityRift')
+    t:EmitSound('Hero_ChaosKnight.RealityRift.Target')
     local dur = value(self, 'duration') or 6.0
     t:AddNewModifier(c, self, 'modifier_enfos_ck_reality_rift_debuff', { duration = dur })
     local p_mid = (c:GetAbsOrigin() + t:GetAbsOrigin()) * 0.5
-    c:SetAbsOrigin(p_mid)
-    if not is_boss(t) then t:SetAbsOrigin(p_mid) end
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_chaos_knight/chaos_knight_reality_rift.vpcf', PATTACH_CUSTOMORIGIN, c)
+    ParticleManager:SetParticleControl(fx, 0, c:GetAbsOrigin())
+    ParticleManager:SetParticleControl(fx, 1, t:GetAbsOrigin())
+    ParticleManager:SetParticleControl(fx, 2, p_mid)
+    ParticleManager:ReleaseParticleIndex(fx)
+    FindClearSpaceForUnit(c, p_mid, true)
+    if not is_boss(t) then FindClearSpaceForUnit(t, p_mid, true) end
     c:MoveToTargetToAttack(t)
 end
 
@@ -4775,6 +5024,7 @@ function modifier_enfos_ck_chaos_strike:GetModifierPreAttack_CriticalStrike()
     local ab = self:GetAbility()
     local chance = ab and value(ab, 'crit_chance') or 33
     if RollPercentage(chance) then
+        self.crit_proc = true
         return ab and value(ab, 'crit_mult') or 180
     end
 end
@@ -4782,6 +5032,10 @@ function modifier_enfos_ck_chaos_strike:OnTakeDamage(params)
     if not IsServer() then return end
     if params.attacker == self:GetParent() and (params.damage_category == DOTA_DAMAGE_CATEGORY_ATTACK or params.damage_category == 1 or params.damage_category == nil) and params.damage and params.damage > 0 and params.unit then
         local c = self:GetParent()
+        if self.crit_proc then
+            self.crit_proc = false
+            c:EmitSound('Hero_ChaosKnight.ChaosStrike')
+        end
         local heal = params.damage * 0.5
         c:Heal(heal, self:GetAbility())
         -- Cleave in 250 radius
@@ -4795,7 +5049,12 @@ end
 
 enfos_ck_phantasm=class({})
 function enfos_ck_phantasm:OnSpellStart()
-    require('heroes/summons'):Illusions(self,3,30,60)
+    local c = self:GetCaster()
+    c:EmitSound('Hero_ChaosKnight.Phantasm')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_chaos_knight/chaos_knight_phantasm.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:ReleaseParticleIndex(fx)
+    c:AddNewModifier(c, self, 'modifier_enfos_ck_phantasm_buff', { duration = 30.0 })
+    require('heroes/summons'):Illusions(self, 3, 30, 60)
 end
 
 modifier_enfos_ck_phantasm_buff=class({})
@@ -4830,6 +5089,7 @@ function modifier_enfos_ck_entropy:GetModifierAttackSpeedBonus_Constant() return
 
 enfos_medusa_split_shot=class({})
 function enfos_medusa_split_shot:GetIntrinsicModifierName() return 'modifier_enfos_medusa_split_shot' end
+function enfos_medusa_split_shot:OnProjectileHit(hTarget, vLocation) return true end
 
 modifier_enfos_medusa_split_shot=class({})
 function modifier_enfos_medusa_split_shot:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACK } end
@@ -4839,13 +5099,25 @@ function modifier_enfos_medusa_split_shot:OnAttack(params)
         local c = self:GetParent()
         local ab = self:GetAbility()
         local count = ab and value(ab, 'arrow_count') or 5
-    local agi = get_agi(c)
-        local base_dmg = (c.GetAverageTrueAttackDamage and c:GetAverageTrueAttackDamage(c)) or 100
+        local agi = get_agi(c)
+        local base_dmg = get_atk(c)
         local arrow_dmg = (base_dmg * 0.75) + (agi * 0.5)
         local targets = enemies(c, c:GetAbsOrigin(), 700)
         local hits = 0
         for _, u in ipairs(targets) do
             if u ~= params.target and hits < count then
+                if ProjectileManager and ProjectileManager.CreateTrackingProjectile then
+                    ProjectileManager:CreateTrackingProjectile({
+                        Target = u,
+                        Source = c,
+                        Ability = ab,
+                        EffectName = 'particles/units/heroes/hero_medusa/medusa_base_attack.vpcf',
+                        iMoveSpeed = 900,
+                        bDodgeable = false,
+                        bVisibleToEnemies = true,
+                        bProvidesVision = false
+                    })
+                end
                 damage(ab, u, arrow_dmg, DAMAGE_TYPE_PHYSICAL)
                 hits = hits + 1
             end
@@ -4858,6 +5130,7 @@ function enfos_medusa_mystic_snake:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not t then return end
+    c:EmitSound('Hero_Medusa.MysticSnake.Cast')
     local jumps = value(self, 'jump_count') or 5
     local base_dmg = value(self, 'base_damage')
     local agi = get_agi(c)
@@ -4869,6 +5142,8 @@ function enfos_medusa_mystic_snake:OnSpellStart()
     while current and hit_count < jumps do
         visited[current] = true
         damage(self, current, dmg, DAMAGE_TYPE_MAGICAL)
+        effect('particles/units/heroes/hero_medusa/medusa_mystic_snake_impact.vpcf', current)
+        current:EmitSound('Hero_Medusa.MysticSnake.Target')
         hit_count = hit_count + 1
         dmg = dmg * 1.2
         if c.GiveMana then c:GiveMana(30) end
@@ -4908,11 +5183,15 @@ end
 enfos_medusa_stone_gaze=class({})
 function enfos_medusa_stone_gaze:OnSpellStart()
     local c = self:GetCaster()
+    c:EmitSound('Hero_Medusa.StoneGaze.Cast')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_medusa/medusa_stone_gaze_active.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:ReleaseParticleIndex(fx)
     local r = value(self, 'radius') or 900
     local dur = value(self, 'duration') or 6.0
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), r)) do
         local petrify_dur = is_boss(u) and 0.8 or 2.5
         u:AddNewModifier(c, self, 'modifier_enfos_medusa_petrified', { duration = petrify_dur })
+        effect('particles/units/heroes/hero_medusa/medusa_stone_gaze_debuff.vpcf', u)
     end
 end
 
@@ -4944,8 +5223,10 @@ function enfos_tb_reflection:OnSpellStart()
     local p = self:GetCursorPosition()
     local r = value(self, 'radius') or 500
     local dur = value(self, 'duration') or 5.0
+    c:EmitSound('Hero_Terrorblade.Reflection')
     for _, u in ipairs(enemies(c, p, r)) do
         u:AddNewModifier(c, self, 'modifier_enfos_tb_reflection', { duration = dur })
+        effect('particles/units/heroes/hero_terrorblade/terrorblade_reflection_slow.vpcf', u)
     end
 end
 
@@ -4966,7 +5247,12 @@ function modifier_enfos_tb_reflection:GetModifierMoveSpeedBonus_Percentage() ret
 
 enfos_tb_conjure_image=class({})
 function enfos_tb_conjure_image:OnSpellStart()
-    require('heroes/summons'):Illusions(self,2,30,50)
+    local c = self:GetCaster()
+    c:EmitSound('Hero_Terrorblade.ConjureImage')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_terrorblade/terrorblade_mirror_image.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:ReleaseParticleIndex(fx)
+    c:AddNewModifier(c, self, 'modifier_enfos_tb_conjure_image_buff', { duration = 30.0 })
+    require('heroes/summons'):Illusions(self, 2, 30, 50)
 end
 
 modifier_enfos_tb_conjure_image_buff=class({})
@@ -4989,10 +5275,26 @@ enfos_tb_metamorphosis=class({})
 function enfos_tb_metamorphosis:OnSpellStart()
     local c = self:GetCaster()
     local dur = value(self, 'duration') or 40.0
+    c:EmitSound('Hero_Terrorblade.Metamorphosis')
     c:AddNewModifier(c, self, 'modifier_enfos_tb_metamorphosis', { duration = dur })
 end
 
 modifier_enfos_tb_metamorphosis=class({})
+function modifier_enfos_tb_metamorphosis:OnCreated()
+    local p = self:GetParent()
+    if p and p.SetAttackCapability then
+        p:SetAttackCapability(DOTA_UNIT_CAP_RANGED_ATTACK)
+        if p.SetRangedProjectileName then
+            p:SetRangedProjectileName('particles/units/heroes/hero_terrorblade/terrorblade_metamorphosis_base_attack.vpcf')
+        end
+    end
+end
+function modifier_enfos_tb_metamorphosis:OnDestroy()
+    local p = self:GetParent()
+    if p and p.SetAttackCapability then
+        p:SetAttackCapability(DOTA_UNIT_CAP_MELEE_ATTACK)
+    end
+end
 function modifier_enfos_tb_metamorphosis:DeclareFunctions()
     return { MODIFIER_PROPERTY_ATTACK_RANGE_BONUS, MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE }
 end
@@ -5009,7 +5311,14 @@ enfos_tb_sunder=class({})
 function enfos_tb_sunder:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
-    if not t then return end
+    if not t or not t:IsAlive() then return end
+    c:EmitSound('Hero_Terrorblade.Sunder.Cast')
+    t:EmitSound('Hero_Terrorblade.Sunder.Target')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_terrorblade/terrorblade_sunder.vpcf', PATTACH_CUSTOMORIGIN, c)
+    ParticleManager:SetParticleControlEnt(fx, 0, c, PATTACH_POINT_FOLLOW, 'attach_hitloc', c:GetAbsOrigin(), true)
+    ParticleManager:SetParticleControlEnt(fx, 1, t, PATTACH_POINT_FOLLOW, 'attach_hitloc', t:GetAbsOrigin(), true)
+    ParticleManager:ReleaseParticleIndex(fx)
+
     local heal = value(self, 'heal_amount') or 700
     local agi = get_agi(c)
     local total_heal = heal + (agi * 1.5)
@@ -5037,11 +5346,19 @@ enfos_leshrac_split_earth=class({})
 function enfos_leshrac_split_earth:OnSpellStart()
     local c = self:GetCaster()
     local p = self:GetCursorPosition()
-    local r = value(self, 'radius') or 250
+    local r = value(self, 'radius')
+    if r <= 0 then r = 250 end
     local dmg = value(self, 'damage')
     local int = get_int(c)
     local total_dmg = dmg + (int * 0.9)
-    local stun_dur = value(self, 'stun_duration') or 1.7
+    local stun_dur = value(self, 'stun_duration')
+    if stun_dur <= 0 then stun_dur = 1.7 end
+
+    c:EmitSound('Hero_Leshrac.Split_Earth')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_leshrac/leshrac_split_earth.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx, 0, p)
+    ParticleManager:SetParticleControl(fx, 1, Vector(r, r, r))
+    ParticleManager:ReleaseParticleIndex(fx)
 
     for _, u in ipairs(enemies(c, p, r)) do
         local d = stun_dur
@@ -5054,6 +5371,7 @@ end
 enfos_leshrac_diabolic_edict=class({})
 function enfos_leshrac_diabolic_edict:OnSpellStart()
     local c = self:GetCaster()
+    c:EmitSound('Hero_Leshrac.Diabolic_Edict')
     c:AddNewModifier(c, self, 'modifier_enfos_leshrac_diabolic_edict', { duration = 10.0 })
 end
 
@@ -5070,7 +5388,10 @@ function modifier_enfos_leshrac_diabolic_edict:OnIntervalThink()
     if #targets > 0 then
         local t = targets[RandomInt(1, #targets)]
         local base_d = ab and value(ab, 'damage_per_explosion') or 25
-    local int = get_int(c)
+        local int = get_int(c)
+        t:EmitSound('Hero_Leshrac.Diabolic_Edict_explode')
+        local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_leshrac/leshrac_diabolic_edict.vpcf', PATTACH_ABSORIGIN_FOLLOW, t)
+        ParticleManager:ReleaseParticleIndex(fx)
         damage(ab, t, base_d + (int * 0.15), DAMAGE_TYPE_PURE)
     end
 end
@@ -5080,7 +5401,9 @@ function enfos_leshrac_lightning_storm:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not t then return end
-    local jumps = value(self, 'jump_count') or 7
+    c:EmitSound('Hero_Leshrac.Lightning_Storm')
+    local jumps = value(self, 'jump_count')
+    if jumps <= 0 then jumps = 7 end
     local dmg = value(self, 'damage')
     local int = get_int(c)
     local total_dmg = dmg + (int * 0.8)
@@ -5090,6 +5413,11 @@ function enfos_leshrac_lightning_storm:OnSpellStart()
 
     while current and hit_count < jumps do
         visited[current] = true
+        current:EmitSound('Hero_Leshrac.Lightning_Storm')
+        local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_leshrac/leshrac_lightning_bolt.vpcf', PATTACH_ABSORIGIN_FOLLOW, current)
+        ParticleManager:SetParticleControl(fx, 0, current:GetAbsOrigin() + Vector(0, 0, 800))
+        ParticleManager:SetParticleControl(fx, 1, current:GetAbsOrigin())
+        ParticleManager:ReleaseParticleIndex(fx)
         damage(self, current, total_dmg, DAMAGE_TYPE_MAGICAL)
         hit_count = hit_count + 1
         local next_t = nil
@@ -5107,8 +5435,10 @@ enfos_leshrac_pulse_nova=class({})
 function enfos_leshrac_pulse_nova:OnToggle()
     local c = self:GetCaster()
     if self:GetToggleState() then
+        c:EmitSound('Hero_Leshrac.Pulse_Nova')
         c:AddNewModifier(c, self, 'modifier_enfos_leshrac_pulse_nova', {})
     else
+        c:StopSound('Hero_Leshrac.Pulse_Nova')
         c:RemoveModifierByName('modifier_enfos_leshrac_pulse_nova')
     end
 end
@@ -5132,6 +5462,10 @@ function modifier_enfos_leshrac_pulse_nova:OnIntervalThink()
     local dmg = ab and value(ab, 'damage') or 160
     local int = get_int(c)
     local total_dmg = dmg + (int * 0.75)
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_leshrac/leshrac_pulse_nova.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:SetParticleControl(fx, 0, c:GetAbsOrigin())
+    ParticleManager:SetParticleControl(fx, 1, Vector(r, 0, 0))
+    ParticleManager:ReleaseParticleIndex(fx)
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), r)) do
         damage(ab, u, total_dmg, DAMAGE_TYPE_MAGICAL)
     end
@@ -5155,7 +5489,15 @@ enfos_invoker_chaos_meteor=class({})
 function enfos_invoker_chaos_meteor:OnSpellStart()
     local c = self:GetCaster()
     local p = self:GetCursorPosition()
-    local r = value(self, 'radius') or 275
+    c:EmitSound('Hero_Invoker.ChaosMeteor.Cast')
+    c:EmitSound('Hero_Invoker.ChaosMeteor.Impact')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_invoker/invoker_chaos_meteor.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx, 0, p + Vector(-200, -200, 1000))
+    ParticleManager:SetParticleControl(fx, 1, p)
+    ParticleManager:SetParticleControl(fx, 2, Vector(1.5, 0, 0))
+    ParticleManager:ReleaseParticleIndex(fx)
+    local r = value(self, 'radius')
+    if r <= 0 then r = 275 end
     local dmg = value(self, 'impact_damage')
     local int = get_int(c)
     local total_dmg = dmg + (int * 1.2)
@@ -5184,7 +5526,13 @@ enfos_invoker_sun_strike=class({})
 function enfos_invoker_sun_strike:OnSpellStart()
     local c = self:GetCaster()
     local p = self:GetCursorPosition()
-    local r = value(self, 'radius') or 200
+    c:EmitSound('Hero_Invoker.SunStrike.Cast')
+    c:EmitSound('Hero_Invoker.SunStrike.Ignite')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_invoker/invoker_sun_strike.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx, 0, p)
+    ParticleManager:ReleaseParticleIndex(fx)
+    local r = value(self, 'radius')
+    if r <= 0 then r = 200 end
     local dmg = value(self, 'damage')
     local int = get_int(c)
     local total_dmg = dmg + (int * 1.8)
@@ -5198,11 +5546,18 @@ function enfos_invoker_deafening_blast:OnSpellStart()
     local c = self:GetCaster()
     local p = self:GetCursorPosition()
     local dir = (p - c:GetAbsOrigin()):Normalized()
-    local r = value(self, 'radius') or 250
+    c:EmitSound('Hero_Invoker.DeafeningBlast')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_invoker/invoker_deafening_blast.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:SetParticleControl(fx, 0, c:GetAbsOrigin())
+    ParticleManager:SetParticleControl(fx, 1, dir * 1000)
+    ParticleManager:ReleaseParticleIndex(fx)
+    local r = value(self, 'radius')
+    if r <= 0 then r = 250 end
     local dmg = value(self, 'damage')
     local int = get_int(c)
     local total_dmg = dmg + (int * 0.8)
-    local disarm_dur = value(self, 'disarm_duration') or 3.0
+    local disarm_dur = value(self, 'disarm_duration')
+    if disarm_dur <= 0 then disarm_dur = 3.0 end
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 400), 500)) do
         local d = disarm_dur
@@ -5220,7 +5575,14 @@ enfos_invoker_emp=class({})
 function enfos_invoker_emp:OnSpellStart()
     local c = self:GetCaster()
     local p = self:GetCursorPosition()
-    local r = value(self, 'radius') or 675
+    c:EmitSound('Hero_Invoker.EMP.Cast')
+    c:EmitSound('Hero_Invoker.EMP.Discharge')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_invoker/invoker_emp.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx, 0, p)
+    ParticleManager:SetParticleControl(fx, 1, Vector(675, 0, 0))
+    ParticleManager:ReleaseParticleIndex(fx)
+    local r = value(self, 'radius')
+    if r <= 0 then r = 675 end
     local dmg = value(self, 'damage')
     local int = get_int(c)
     local total_dmg = dmg + (int * 1.5)
@@ -5249,6 +5611,11 @@ function enfos_puck_illusory_orb:OnSpellStart()
     local c = self:GetCaster()
     local p = self:GetCursorPosition()
     local dir = (p - c:GetAbsOrigin()):Normalized()
+    c:EmitSound('Hero_Puck.Illusory_Orb')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_puck/puck_illusory_orb.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:SetParticleControl(fx, 0, c:GetAbsOrigin())
+    ParticleManager:SetParticleControl(fx, 1, dir * 900)
+    ParticleManager:ReleaseParticleIndex(fx)
     local dmg = value(self, 'damage')
     local int = get_int(c)
     local total_dmg = dmg + (int * 0.85)
@@ -5263,11 +5630,19 @@ function enfos_puck_waning_rift:OnSpellStart()
     local c = self:GetCaster()
     local p = self:GetCursorPosition()
     c:SetAbsOrigin(p)
-    local r = value(self, 'radius') or 400
+    FindClearSpaceForUnit(c, p, true)
+    c:EmitSound('Hero_Puck.Waning_Rift')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_puck/puck_waning_rift.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx, 0, p)
+    ParticleManager:SetParticleControl(fx, 1, Vector(400, 400, 400))
+    ParticleManager:ReleaseParticleIndex(fx)
+    local r = value(self, 'radius')
+    if r <= 0 then r = 400 end
     local dmg = value(self, 'damage')
     local int = get_int(c)
     local total_dmg = dmg + (int * 0.75)
-    local sil_dur = value(self, 'silence_duration') or 2.5
+    local sil_dur = value(self, 'silence_duration')
+    if sil_dur <= 0 then sil_dur = 2.5 end
 
     for _, u in ipairs(enemies(c, p, r)) do
         local d = sil_dur
@@ -5284,7 +5659,11 @@ function modifier_enfos_puck_silence:CheckState() return { [MODIFIER_STATE_SILEN
 enfos_puck_phase_shift=class({})
 function enfos_puck_phase_shift:OnSpellStart()
     local c = self:GetCaster()
-    local dur = value(self, 'duration') or 2.25
+    local dur = value(self, 'duration')
+    if dur <= 0 then dur = 2.25 end
+    c:EmitSound('Hero_Puck.Phase_Shift')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_puck/puck_phase_shift.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:ReleaseParticleIndex(fx)
     c:AddNewModifier(c, self, 'modifier_enfos_puck_phase_shift', { duration = dur })
 end
 
@@ -5297,11 +5676,17 @@ enfos_puck_dream_coil=class({})
 function enfos_puck_dream_coil:OnSpellStart()
     local c = self:GetCaster()
     local p = self:GetCursorPosition()
-    local r = value(self, 'radius') or 375
+    c:EmitSound('Hero_Puck.Dream_Coil')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_puck/puck_dreamcoil.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx, 0, p)
+    ParticleManager:ReleaseParticleIndex(fx)
+    local r = value(self, 'radius')
+    if r <= 0 then r = 375 end
     local dmg = value(self, 'break_damage')
     local int = get_int(c)
     local total_dmg = dmg + (int * 1.5)
-    local stun_dur = value(self, 'stun_duration') or 2.5
+    local stun_dur = value(self, 'stun_duration')
+    if stun_dur <= 0 then stun_dur = 2.5 end
 
     for _, u in ipairs(enemies(c, p, r)) do
         local d = stun_dur
@@ -5316,10 +5701,10 @@ function enfos_puck_faerie_magic:GetIntrinsicModifierName() return 'modifier_enf
 
 modifier_enfos_puck_faerie_magic=class({})
 function modifier_enfos_puck_faerie_magic:DeclareFunctions()
-    return { MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT, MODIFIER_PROPERTY_SPELL_AMPLIFICATION_PERCENTAGE }
+    return { MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT, MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE }
 end
 function modifier_enfos_puck_faerie_magic:GetModifierMoveSpeedBonus_Constant() return 25 end
-function modifier_enfos_puck_faerie_magic:GetModifierSpellAmplication_Percentage() return 15 end
+function modifier_enfos_puck_faerie_magic:GetModifierSpellAmplify_Percentage() return 15 end
 
 -- -------------------------------------------------------------------------
 -- JAKIRO (SUPPORT)
@@ -5330,10 +5715,16 @@ function enfos_jakiro_dual_breath:OnSpellStart()
     local c = self:GetCaster()
     local p = self:GetCursorPosition()
     local dir = (p - c:GetAbsOrigin()):Normalized()
+    c:EmitSound('Hero_Jakiro.DualBreath.Cast')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_jakiro/jakiro_dual_breath_fire.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:SetParticleControl(fx, 0, c:GetAbsOrigin())
+    ParticleManager:SetParticleControl(fx, 1, dir * 500)
+    ParticleManager:ReleaseParticleIndex(fx)
     local dmg = value(self, 'damage')
     local int = get_int(c)
     local total_dmg = dmg + (int * 0.8)
-    local dur = value(self, 'duration') or 5.0
+    local dur = value(self, 'duration')
+    if dur <= 0 then dur = 5.0 end
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 400), 500)) do
         damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
@@ -5354,10 +5745,17 @@ function enfos_jakiro_ice_path:OnSpellStart()
     local c = self:GetCaster()
     local p = self:GetCursorPosition()
     local dir = (p - c:GetAbsOrigin()):Normalized()
+    c:EmitSound('Hero_Jakiro.IcePath.Cast')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_jakiro/jakiro_ice_path.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx, 0, c:GetAbsOrigin())
+    ParticleManager:SetParticleControl(fx, 1, c:GetAbsOrigin() + (dir * 800))
+    ParticleManager:SetParticleControl(fx, 2, Vector(2.0, 0, 0))
+    ParticleManager:ReleaseParticleIndex(fx)
     local dmg = value(self, 'damage')
     local int = get_int(c)
     local total_dmg = dmg + (int * 0.6)
-    local stun_dur = value(self, 'stun_duration') or 2.0
+    local stun_dur = value(self, 'stun_duration')
+    if stun_dur <= 0 then stun_dur = 2.0 end
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 600), 700)) do
         local d = stun_dur
@@ -5379,8 +5777,11 @@ function modifier_enfos_jakiro_liquid_fire_passive:OnAttackLanded(params)
         local ab = self:GetAbility()
         local r = ab and value(ab, 'radius') or 300
         local base_d = ab and value(ab, 'bonus_damage') or 50
-    local int = get_int(c)
+        local int = get_int(c)
         local total_d = base_d + (int * 0.3)
+        params.target:EmitSound('Hero_Jakiro.LiquidFire')
+        local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_jakiro/jakiro_liquid_fire_explosion.vpcf', PATTACH_ABSORIGIN_FOLLOW, params.target)
+        ParticleManager:ReleaseParticleIndex(fx)
         for _, u in ipairs(enemies(c, params.target:GetAbsOrigin(), r)) do
             damage(ab, u, total_d, DAMAGE_TYPE_MAGICAL)
         end
@@ -5392,6 +5793,12 @@ function enfos_jakiro_macropyre:OnSpellStart()
     local c = self:GetCaster()
     local p = self:GetCursorPosition()
     local dir = (p - c:GetAbsOrigin()):Normalized()
+    c:EmitSound('Hero_Jakiro.Macropyre.Cast')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_jakiro/jakiro_macropyre.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx, 0, c:GetAbsOrigin())
+    ParticleManager:SetParticleControl(fx, 1, c:GetAbsOrigin() + (dir * 1200))
+    ParticleManager:SetParticleControl(fx, 2, Vector(10.0, 0, 0))
+    ParticleManager:ReleaseParticleIndex(fx)
     local dmg = value(self, 'damage_per_sec')
     local int = get_int(c)
     local total_dmg = (dmg + (int * 0.7)) * 2.0 -- 2 second immediate burst + burn
@@ -5420,13 +5827,32 @@ function enfos_vs_magic_missile:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not t then return end
+    c:EmitSound('Hero_VengefulSpirit.MagicMissile')
+    local proj = {
+        Target = t,
+        Source = c,
+        Ability = self,
+        EffectName = 'particles/units/heroes/hero_vengeful/vengeful_magic_missle.vpcf',
+        iMoveSpeed = 1250,
+        bDodgeable = true,
+        bVisibleToEnemies = true,
+        bProvidesVision = false
+    }
+    ProjectileManager:CreateTrackingProjectile(proj)
+end
+function enfos_vs_magic_missile:OnProjectileHit(target, loc)
+    if not target or target:IsNull() or not target:IsAlive() then return true end
+    local c = self:GetCaster()
+    target:EmitSound('Hero_VengefulSpirit.MagicMissileImpact')
     local dmg = value(self, 'damage')
     local agi = get_agi(c)
     local total_dmg = dmg + (agi * 0.9)
-    local stun_dur = value(self, 'stun_duration') or 1.6
-    if is_boss(t) then stun_dur = stun_dur * 0.4 end
-    t:AddNewModifier(c, self, 'modifier_generic_stunned_lua', { duration = stun_dur })
-    damage(self, t, total_dmg, DAMAGE_TYPE_MAGICAL)
+    local stun_dur = value(self, 'stun_duration')
+    if stun_dur <= 0 then stun_dur = 1.6 end
+    if is_boss(target) then stun_dur = stun_dur * 0.4 end
+    target:AddNewModifier(c, self, 'modifier_generic_stunned_lua', { duration = stun_dur })
+    damage(self, target, total_dmg, DAMAGE_TYPE_MAGICAL)
+    return true
 end
 
 enfos_vs_wave_of_terror=class({})
@@ -5434,10 +5860,16 @@ function enfos_vs_wave_of_terror:OnSpellStart()
     local c = self:GetCaster()
     local p = self:GetCursorPosition()
     local dir = (p - c:GetAbsOrigin()):Normalized()
+    c:EmitSound('Hero_VengefulSpirit.WaveOfTerror')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_vengeful/vengeful_wave_of_terror.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:SetParticleControl(fx, 0, c:GetAbsOrigin())
+    ParticleManager:SetParticleControl(fx, 1, dir * 1400)
+    ParticleManager:ReleaseParticleIndex(fx)
     local dmg = value(self, 'damage')
     local agi = get_agi(c)
     local total_dmg = dmg + (agi * 0.6)
-    local dur = value(self, 'duration') or 8.0
+    local dur = value(self, 'duration')
+    if dur <= 0 then dur = 8.0 end
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 700), 800)) do
         damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
@@ -5476,13 +5908,30 @@ function enfos_vs_nether_swap:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not t then return end
+    c:EmitSound('Hero_VengefulSpirit.NetherSwap')
+    t:EmitSound('Hero_VengefulSpirit.NetherSwap')
+    local p_target = t:GetAbsOrigin()
+    local p_caster = c:GetAbsOrigin()
+
+    local fx1 = ParticleManager:CreateParticle('particles/units/heroes/hero_vengeful/vengeful_nether_swap.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx1, 0, p_caster)
+    ParticleManager:SetParticleControl(fx1, 1, p_target)
+    ParticleManager:ReleaseParticleIndex(fx1)
+
+    local fx2 = ParticleManager:CreateParticle('particles/units/heroes/hero_vengeful/vengeful_nether_swap_target.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx2, 0, p_target)
+    ParticleManager:SetParticleControl(fx2, 1, p_caster)
+    ParticleManager:ReleaseParticleIndex(fx2)
+
+    c:SetAbsOrigin(p_target)
+    FindClearSpaceForUnit(c, p_target, true)
+    if not is_boss(t) then
+        t:SetAbsOrigin(p_caster)
+        FindClearSpaceForUnit(t, p_caster, true)
+    end
     local dmg = value(self, 'damage')
     local agi = get_agi(c)
     local total_dmg = dmg + (agi * 1.2)
-    local p_target = t:GetAbsOrigin()
-    local p_caster = c:GetAbsOrigin()
-    c:SetAbsOrigin(p_target)
-    if not is_boss(t) then t:SetAbsOrigin(p_caster) end
     damage(self, t, total_dmg, DAMAGE_TYPE_MAGICAL)
     c:AddNewModifier(c, self, 'modifier_enfos_vs_nether_swap_buff', { duration = 4.0 })
 end
@@ -5510,6 +5959,11 @@ function enfos_lich_frost_blast:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not t then return end
+    c:EmitSound('Ability.FrostNova')
+    t:EmitSound('Ability.FrostNova')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_lich/lich_frost_nova.vpcf', PATTACH_ABSORIGIN_FOLLOW, t)
+    ParticleManager:SetParticleControl(fx, 0, t:GetAbsOrigin())
+    ParticleManager:ReleaseParticleIndex(fx)
     local tdmg = value(self, 'target_damage')
     local rdmg = value(self, 'radius_damage')
     local int = get_int(c)
@@ -5532,7 +5986,9 @@ enfos_lich_frost_shield=class({})
 function enfos_lich_frost_shield:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget() or c
-    local dur = value(self, 'duration') or 6.0
+    local dur = value(self, 'duration')
+    if dur <= 0 then dur = 6.0 end
+    t:EmitSound('Hero_Lich.IceArmor')
     t:AddNewModifier(c, self, 'modifier_enfos_lich_frost_shield', { duration = dur })
 end
 
@@ -5540,6 +5996,12 @@ modifier_enfos_lich_frost_shield=class({})
 function modifier_enfos_lich_frost_shield:OnCreated()
     if not IsServer() then return end
     self:StartIntervalThink(1.0)
+end
+function modifier_enfos_lich_frost_shield:GetEffectName()
+    return 'particles/units/heroes/hero_lich/lich_frost_armor.vpcf'
+end
+function modifier_enfos_lich_frost_shield:GetEffectAttachType()
+    return PATTACH_OVERHEAD_FOLLOW
 end
 function modifier_enfos_lich_frost_shield:OnIntervalThink()
     local p = self:GetParent()
@@ -5564,13 +6026,21 @@ function enfos_lich_sinister_gaze:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not t then return end
-    local dur = value(self, 'duration') or 2.0
+    c:EmitSound('Hero_Lich.SinisterGaze.Cast')
+    local dur = value(self, 'duration')
+    if dur <= 0 then dur = 2.0 end
     if is_boss(t) then dur = dur * 0.35 end
     t:AddNewModifier(c, self, 'modifier_enfos_lich_sinister_gaze_debuff', { duration = dur })
 end
 
 modifier_enfos_lich_sinister_gaze_debuff=class({})
 function modifier_enfos_lich_sinister_gaze_debuff:IsDebuff() return true end
+function modifier_enfos_lich_sinister_gaze_debuff:GetEffectName()
+    return 'particles/units/heroes/hero_lich/lich_gaze.vpcf'
+end
+function modifier_enfos_lich_sinister_gaze_debuff:GetEffectAttachType()
+    return PATTACH_ABSORIGIN_FOLLOW
+end
 function modifier_enfos_lich_sinister_gaze_debuff:OnCreated()
     if not IsServer() then return end
     self:StartIntervalThink(0.5)
@@ -5579,7 +6049,10 @@ function modifier_enfos_lich_sinister_gaze_debuff:OnIntervalThink()
     local p = self:GetParent()
     local c = self:GetCaster()
     local dir = (c:GetAbsOrigin() - p:GetAbsOrigin()):Normalized()
-    if not is_boss(p) then p:SetAbsOrigin(p:GetAbsOrigin() + (dir * 40)) end
+    if not is_boss(p) then
+        p:SetAbsOrigin(p:GetAbsOrigin() + (dir * 40))
+        FindClearSpaceForUnit(p, p:GetAbsOrigin(), true)
+    end
     if c.GiveMana then c:GiveMana(40) end
 end
 
@@ -5588,7 +6061,9 @@ function enfos_lich_chain_frost:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not t or not t:IsAlive() then return end
-    local jumps = value(self, 'jump_count') or 10
+    c:EmitSound('Hero_Lich.ChainFrost')
+    local jumps = value(self, 'jump_count')
+    if jumps <= 0 then jumps = 10 end
     local dmg = value(self, 'damage')
     local int = get_int(c)
     local total_dmg = dmg + (int * 1.0)
@@ -5596,6 +6071,9 @@ function enfos_lich_chain_frost:OnSpellStart()
 
     for i = 1, jumps do
         if not current or not current:IsAlive() then break end
+        current:EmitSound('Hero_Lich.ChainFrost.Impact')
+        local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_lich/lich_chain_frost.vpcf', PATTACH_ABSORIGIN_FOLLOW, current)
+        ParticleManager:ReleaseParticleIndex(fx)
         damage(self, current, total_dmg, DAMAGE_TYPE_MAGICAL)
         local candidates = enemies(c, current:GetAbsOrigin(), 600)
         local next_target = nil
