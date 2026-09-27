@@ -46,10 +46,9 @@
 
 .GuideTitle {
 	color: #eed596;
-	font-family: "Radiance", "Cinzel", "Times New Roman", serif;
+	font-family: "Radiance", serif;
 	font-size: 28px;
 	font-weight: bold;
-	letter-spacing: 4px;
 	text-shadow: 0 0 16px rgba(230, 180, 50, 0.6);
 	vertical-align: center;
 }
@@ -83,7 +82,6 @@
 	color: #9f8c6b;
 	font-size: 12px;
 	font-weight: bold;
-	letter-spacing: 3px;
 	margin-top: 4px;
 }
 
@@ -111,10 +109,15 @@
 	color: #eed596;
 	font-size: 13px;
 	font-weight: bold;
-	letter-spacing: 2px;
 	margin-bottom: 12px;
-	border-bottom: 1px solid rgba(100, 80, 55, 0.4);
 	padding-bottom: 4px;
+}
+
+.ColumnHeaderLine {
+	width: 100%;
+	height: 1px;
+	background-color: rgba(100, 80, 55, 0.4);
+	margin-bottom: 8px;
 }
 
 .GuideRow {
@@ -132,7 +135,6 @@
 .RowText {
 	color: #c8bead;
 	font-size: 12px;
-	line-height: 18px;
 }
 
 /* Shortcuts */
@@ -194,7 +196,6 @@
 	color: #ffffff;
 	font-size: 14px;
 	font-weight: bold;
-	letter-spacing: 2px;
 	horizontal-align: center;
 	vertical-align: center;
 }

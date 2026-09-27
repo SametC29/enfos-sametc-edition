@@ -23,7 +23,6 @@
 	font-size: 14px;
 	font-weight: bold;
 	color: #ffd875;
-	letter-spacing: 1px;
 }
 
 .AscendedShopWindow {
@@ -48,7 +47,6 @@
 	flow-children: right;
 	margin-bottom: 12px;
 	padding-bottom: 8px;
-	border-bottom: 1px solid rgba(255, 215, 0, 0.2);
 }
 
 .TitleBlock {

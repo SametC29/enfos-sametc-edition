@@ -19,12 +19,12 @@
 	box-shadow: 0 0 16px rgba(212, 160, 23, 0.6);
 	transition-property: transform, box-shadow;
 	transition-duration: 0.2s;
-	animation-name: badge-pulse;
+	animation-name: 'badge-pulse';
 	animation-duration: 2.0s;
 	animation-iteration-count: infinite;
 }
 
-@keyframes badge-pulse {
+@keyframes 'badge-pulse' {
 	0% {
 		box-shadow: 0 0 10px rgba(212, 160, 23, 0.4);
 		transform: scale3d(1.0, 1.0, 1.0);
@@ -62,7 +62,6 @@
 	font-size: 14px;
 	font-weight: bold;
 	vertical-align: center;
-	letter-spacing: 1px;
 }
 
 /* Modal Overlay */
@@ -104,7 +103,6 @@
 	font-size: 24px;
 	font-weight: bold;
 	font-family: "Radiance", "Arial Black", sans-serif;
-	letter-spacing: 2px;
 	horizontal-align: center;
 	text-shadow: 0 0 16px rgba(241, 196, 15, 0.6);
 }
@@ -167,7 +165,6 @@
 	text-align: center;
 	horizontal-align: center;
 	height: 100px;
-	line-height: 20px;
 }
 
 .EvoSelectBtn {
@@ -191,7 +188,6 @@
 	color: #ffffff;
 	font-size: 14px;
 	font-weight: bold;
-	letter-spacing: 1px;
 }
 
 /* Footer */
@@ -217,5 +213,4 @@
 	color: #a89882;
 	font-size: 11px;
 	font-weight: bold;
-	letter-spacing: 1px;
 }

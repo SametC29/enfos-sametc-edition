@@ -10,17 +10,13 @@
 	width: 100%;
 	height: 100%;
 	background-color: #08070a;
-	background-image:
-		radial-gradient(ellipse at 15% 15%, rgba(212, 160, 23, 0.22) 0%, rgba(18, 14, 12, 0.08) 45%, rgba(6, 5, 8, 0.98) 75%),
-		repeating-linear-gradient(45deg, rgba(35, 28, 20, 0.25) 0px, rgba(35, 28, 20, 0.25) 2px, transparent 2px, transparent 80px),
-		repeating-linear-gradient(-35deg, rgba(20, 16, 24, 0.2) 0px, rgba(20, 16, 24, 0.2) 2px, transparent 2px, transparent 110px),
-		linear-gradient(135deg, rgba(30, 22, 12, 0.25) 0%, rgba(6, 5, 8, 0.95) 100%);
+	background-image: linear-gradient(135deg, rgba(212, 160, 23, 0.18) 0%, rgba(30, 22, 12, 0.12) 35%, rgba(6, 5, 8, 0.95) 100%);
 }
 
 .VignetteOverlay {
 	width: 100%;
 	height: 100%;
-	background-image: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.0) 45%, rgba(0, 0, 0, 0.85) 100%);
+	background-image: radial-gradient(rgba(0, 0, 0, 0.0) 45%, rgba(0, 0, 0, 0.85) 100%);
 }
 
 .LoadingContent {
@@ -41,10 +37,9 @@
 
 .MainTitle {
 	color: #eed596;
-	font-family: "Radiance", "Cinzel", "Times New Roman", serif;
+	font-family: "Radiance", serif;
 	font-size: 46px;
 	font-weight: bold;
-	letter-spacing: 6px;
 	text-shadow: 0 0 24px rgba(230, 180, 50, 0.7);
 	horizontal-align: center;
 }
@@ -53,7 +48,6 @@
 	color: #a4916a;
 	font-size: 14px;
 	font-weight: bold;
-	letter-spacing: 5px;
 	horizontal-align: center;
 	margin-top: 6px;
 }
@@ -134,14 +128,12 @@
 	font-family: "Radiance", serif;
 	font-size: 15px;
 	font-weight: bold;
-	letter-spacing: 1px;
 	vertical-align: center;
 }
 
 .PillarDesc {
 	color: #a09585;
 	font-size: 12px;
-	line-height: 18px;
 }
 
 /* Strategy Tip Box */
@@ -150,7 +142,6 @@
 	height: 84px;
 	background-color: rgba(22, 18, 16, 0.9);
 	border: 1px solid rgba(120, 95, 65, 0.5);
-	border-left: 4px solid #d4a017;
 	border-radius: 3px;
 	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
 	flow-children: down;
@@ -176,21 +167,18 @@
 	color: #eed596;
 	font-size: 10px;
 	font-weight: bold;
-	letter-spacing: 2px;
 }
 
 .TipCategoryText {
 	color: #8a7e6d;
 	font-size: 11px;
 	font-weight: bold;
-	letter-spacing: 2px;
 	vertical-align: center;
 }
 
 .StrategyTipLabel {
 	color: #dcd0be;
 	font-size: 13px;
-	line-height: 19px;
 }
 
 /* Progress Section */
@@ -209,18 +197,17 @@
 .LoadingSpinner {
 	width: 18px;
 	height: 18px;
-	border: 2px solid rgba(212, 160, 23, 0.2);
-	border-top: 2px solid #eed596;
-	border-radius: 50%;
+	border: 2px solid rgba(212, 160, 23, 0.3);
+	border-radius: 9px;
 	margin-right: 12px;
 	vertical-align: center;
-	animation-name: SpinAnimation;
+	animation-name: 'SpinAnimation';
 	animation-duration: 0.8s;
 	animation-timing-function: linear;
 	animation-iteration-count: infinite;
 }
 
-@keyframes SpinAnimation {
+@keyframes 'SpinAnimation' {
 	0% {
 		transform: rotateZ(0deg);
 	}
@@ -232,8 +219,7 @@
 .StatusText {
 	color: #c4b69d;
 	font-size: 13px;
-	font-weight: semi-bold;
-	letter-spacing: 1px;
+	font-weight: bold;
 	vertical-align: center;
 }
 
@@ -243,7 +229,7 @@
 	background-color: rgba(20, 16, 14, 0.9);
 	border: 1px solid rgba(70, 55, 40, 0.6);
 	border-radius: 3px;
-	overflow: noclip;
+	overflow: clip;
 }
 
 .ProgressBarThumb {
@@ -252,13 +238,13 @@
 	background-color: gradient(linear, 0% 0%, 100% 0%, from(#c09228), to(#f5d77f));
 	box-shadow: 0 0 12px rgba(245, 215, 127, 0.75);
 	border-radius: 3px;
-	animation-name: LoadingProgressPulse;
+	animation-name: 'LoadingProgressPulse';
 	animation-duration: 2.5s;
 	animation-timing-function: ease-in-out;
 	animation-iteration-count: infinite;
 }
 
-@keyframes LoadingProgressPulse {
+@keyframes 'LoadingProgressPulse' {
 	0% {
 		width: 25%;
 		opacity: 0.8;
