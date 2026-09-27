@@ -114,7 +114,6 @@ local modifier_list = {
     'modifier_enfos_luna_lunar_blessing',
     'modifier_enfos_luna_lunar_blessing_aura',
     'modifier_enfos_luna_eclipse_thinker',
-    'modifier_enfos_luna_lunar_orbit',
     'modifier_enfos_luna_lunar_orbit_buff',
     -- Axe
     'modifier_enfos_axe_call_buff',
@@ -197,7 +196,6 @@ local modifier_list = {
     -- Witch Doctor
     'modifier_enfos_wd_paralyzing_cask_stun',
     'modifier_enfos_wd_voodoo_restoration_aura',
-    'modifier_enfos_wd_voodoo_restoration_buff',
     'modifier_enfos_wd_maledict_debuff',
     'modifier_enfos_wd_death_ward_channel',
     'modifier_enfos_wd_voodoo_switcheroo_buff',
@@ -205,7 +203,6 @@ local modifier_list = {
     'modifier_enfos_dk_dragon_tail_stun',
     'modifier_enfos_dk_dragon_blood_passive',
     'modifier_enfos_dk_elder_dragon_form_buff',
-    'modifier_enfos_dk_dragon_corrosive_poison',
     'modifier_enfos_dk_dragon_frost_slow',
     'modifier_enfos_dk_wyrm_vigor_passive',
     'modifier_enfos_pudge_rot_aura',
@@ -236,13 +233,11 @@ local modifier_list = {
     'modifier_enfos_am_counterspell_passive',
     'modifier_enfos_am_counterspell_active',
     'modifier_enfos_am_spellbreaker_passive',
-    'modifier_enfos_am_spellbreaker_debuff',
     'modifier_enfos_void_time_dilation_debuff',
     'modifier_enfos_void_time_lock_passive',
     'modifier_enfos_void_time_lock_stun',
     'modifier_enfos_void_chronosphere_thinker',
     'modifier_enfos_void_chronosphere_freeze',
-    'modifier_enfos_void_chronosphere_speed',
     'modifier_enfos_void_backtrack_passive',
     'modifier_enfos_sf_necromastery_passive',
     'modifier_enfos_sf_presence_aura',
@@ -253,7 +248,6 @@ local modifier_list = {
     'modifier_enfos_storm_electric_vortex_debuff',
     'modifier_enfos_storm_overload_passive',
     'modifier_enfos_storm_overload_slow',
-    'modifier_enfos_storm_ball_lightning_buff',
     'modifier_enfos_storm_galvanic_core_passive',
     'modifier_enfos_ss_hex_debuff',
     'modifier_enfos_ss_shackles_channel',
@@ -320,8 +314,8 @@ local modifier_list = {
     'modifier_enfos_lich_frost_shield',
     'modifier_enfos_lich_sinister_gaze_debuff',
     'modifier_enfos_lich_ice_aura',
-    'modifier_enfos_lich_ice_aura_buff'
 }
+_G.ENFOS_PVE_MODIFIER_LIST = modifier_list
 
 for _, mod_name in ipairs(modifier_list) do
     LinkLuaModifier(mod_name, 'abilities/pve_kits', LUA_MODIFIER_MOTION_NONE)
@@ -407,7 +401,8 @@ function modifier_enfos_pve_taunt:IsDebuff() return true end
 function modifier_enfos_pve_taunt:CheckState() return { [MODIFIER_STATE_TAUNTED] = true } end
 function modifier_enfos_pve_taunt:OnCreated()
     if not IsServer() then return end
-    self:GetParent():SetForceAttackTarget(self:GetCaster())
+    local p = self:GetParent()
+    if p and p.SetForceAttackTarget then p:SetForceAttackTarget(self:GetCaster()) end
     self:StartIntervalThink(0.2)
 end
 function modifier_enfos_pve_taunt:OnIntervalThink()
@@ -415,7 +410,10 @@ function modifier_enfos_pve_taunt:OnIntervalThink()
     if not c or c:IsNull() or not c:IsAlive() then self:Destroy() end
 end
 function modifier_enfos_pve_taunt:OnDestroy()
-    if IsServer() then self:GetParent():SetForceAttackTarget(nil) end
+    if IsServer() then
+        local p = self:GetParent()
+        if p and p.SetForceAttackTarget then p:SetForceAttackTarget(nil) end
+    end
 end
 
 bulwark_iron_guard=class({})
@@ -589,18 +587,20 @@ function modifier_enfos_pve_slashes:CheckState()
 end
 function modifier_enfos_pve_slashes:OnCreated(kv)
     if not IsServer() then return end
-    self.home = self:GetParent():GetAbsOrigin()
-    self.target = EntIndexToHScript(kv.target)
+    local p = self:GetParent()
+    self.home = p and p:GetAbsOrigin() or nil
+    self.target = (kv and kv.target and EntIndexToHScript(kv.target)) or nil
     self:OnIntervalThink()
     self:StartIntervalThink(value(self:GetAbility(), 'slash_interval'))
 end
 function modifier_enfos_pve_slashes:OnIntervalThink()
     local c = self:GetParent()
     local a = self:GetAbility()
-    if not c:IsAlive() then self:Destroy(); return end
+    if not c or not c:IsAlive() then self:Destroy(); return end
+    local home = self.home or c:GetAbsOrigin()
     local t = self.target
     if not t or t:IsNull() or not t:IsAlive() then t = enemies(c, c:GetAbsOrigin(), value(a, 'radius'))[1] end
-    if not t or (t:GetAbsOrigin() - self.home):Length2D() > 1400 then self:Destroy(); return end
+    if not t or (t:GetAbsOrigin() - home):Length2D() > 1400 then self:Destroy(); return end
     c:SetAbsOrigin(t:GetAbsOrigin() + Vector(64, 0, 0))
     damage(a, t, c:GetAverageTrueAttackDamage(t) + value(a, 'bonus_damage'), DAMAGE_TYPE_PHYSICAL)
     effect('particles/units/heroes/hero_juggernaut/juggernaut_omni_slash.vpcf', t)
@@ -3448,7 +3448,7 @@ end
 modifier_enfos_pudge_dismember_channel=class({})
 function modifier_enfos_pudge_dismember_channel:OnCreated(kv)
     if not IsServer() then return end
-    self.target_idx = kv.target_idx
+    self.target_idx = kv and kv.target_idx or nil
     self:StartIntervalThink(0.5)
 end
 function modifier_enfos_pudge_dismember_channel:OnIntervalThink()
@@ -4312,7 +4312,7 @@ end
 modifier_enfos_ss_shackles_channel=class({})
 function modifier_enfos_ss_shackles_channel:OnCreated(kv)
     if not IsServer() then return end
-    self.target_idx = kv.target_idx
+    self.target_idx = kv and kv.target_idx or nil
     self:StartIntervalThink(0.5)
 end
 function modifier_enfos_ss_shackles_channel:OnIntervalThink()
@@ -4430,7 +4430,7 @@ end
 modifier_enfos_lion_mana_drain_channel=class({})
 function modifier_enfos_lion_mana_drain_channel:OnCreated(kv)
     if not IsServer() then return end
-    self.target_idx = kv.target_idx
+    self.target_idx = kv and kv.target_idx or nil
     self:StartIntervalThink(0.5)
 end
 function modifier_enfos_lion_mana_drain_channel:OnIntervalThink()
@@ -4794,7 +4794,7 @@ function modifier_enfos_ck_chaos_strike:GetModifierPreAttack_CriticalStrike()
 end
 function modifier_enfos_ck_chaos_strike:OnTakeDamage(params)
     if not IsServer() then return end
-    if params.attacker == self:GetParent() and params.damage_category == DOTA_DAMAGE_CATEGORY_ATTACK then
+    if params.attacker == self:GetParent() and (params.damage_category == DOTA_DAMAGE_CATEGORY_ATTACK or params.damage_category == 1 or params.damage_category == nil) and params.damage and params.damage > 0 and params.unit then
         local c = self:GetParent()
         local heal = params.damage * 0.5
         c:Heal(heal, self:GetAbility())

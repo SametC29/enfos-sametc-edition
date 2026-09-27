@@ -20,7 +20,7 @@ const englishTokens = extractTokens('game/resource/addon_english.txt');
 const turkishTokens = extractTokens('game/resource/addon_turkish.txt');
 
 // Extract registered modifiers from modifier_list at the top of pve_kits.lua
-const modListMatch = pveKitsLua.match(/local modifier_list = \{([\s\S]*?)\}\r?\n\r?\nfor _, mod_name/);
+const modListMatch = pveKitsLua.match(/local modifier_list = \{([\s\S]*?)\}\r?\n/);
 const registeredModifiers = new Set();
 if (modListMatch) {
   const modLines = modListMatch[1].match(/'([^']+)'/g) || [];
