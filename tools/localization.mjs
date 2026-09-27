@@ -22,6 +22,7 @@ export function generateLocalization(check = false) {
   const escape = value => value.replaceAll('"', '\\"');
 
   const resolveSpecials = (key, rawValue, abilityIdOverride = null) => {
+    if (!rawValue || typeof rawValue !== 'string') return rawValue ?? '';
     const id = abilityIdOverride ?? key.match(/^DOTA_Tooltip_[Aa]bility_(.+)_(?:Description|SummaryDescription|DesignDescription)$/)?.[1];
     const definition = abilities[id] ?? items[id];
     if (!definition) return rawValue;
@@ -56,7 +57,12 @@ export function generateLocalization(check = false) {
     // as well as special labels. Modern compact tooltips also need SummaryDescription.
     for (const id of [...Object.keys(abilities), ...Object.keys(items)]) {
       const prefix = `DOTA_Tooltip_Ability_${id}`;
-      data.Tokens[`${prefix}_SummaryDescription`] = data.Tokens[`${prefix}_Description`];
+      if (!data.Tokens[`${prefix}_Description`]) {
+        data.Tokens[`${prefix}_Description`] = data.Tokens[prefix] || '';
+      }
+      if (!data.Tokens[`${prefix}_SummaryDescription`]) {
+        data.Tokens[`${prefix}_SummaryDescription`] = data.Tokens[`${prefix}_Description`];
+      }
     }
     for (const [key, value] of Object.entries(data.Tokens)) {
       if (key.startsWith('DOTA_Tooltip_Ability_')) data.Tokens[key.replace('DOTA_Tooltip_Ability_', 'DOTA_Tooltip_ability_')] = value;

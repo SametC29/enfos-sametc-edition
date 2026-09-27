@@ -10,14 +10,16 @@
 	"bulwark_shield_slam"
 	{
 		"BaseClass" "ability_lua"
-		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitDamageType" "DAMAGE_TYPE_PHYSICAL"
 		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_NO"
 		"AbilityTextureName" "sven_storm_bolt"
-		"AbilityCastRange" "350"
+		"AbilityCastRange" "650"
 		"AbilityCastPoint" "0.2"
-		"AbilityCooldown" "8.0"
-		"AbilityManaCost" "75"
+		"AbilityCooldown" "10.0 9.0 8.0 7.0"
+		"AbilityManaCost" "75 85 95 105"
 		"MaxLevel" "4"
 		"AbilitySpecial"
 		{
@@ -41,6 +43,26 @@
 				"var_type" "FIELD_INTEGER"
 				"slow_pct" "-50"
 			}
+			"05"
+			{
+				"var_type" "FIELD_FLOAT"
+				"stun_duration" "1.5 1.8 2.1 2.4"
+			}
+			"06"
+			{
+				"var_type" "FIELD_FLOAT"
+				"str_scale" "2.0"
+			}
+			"07"
+			{
+				"var_type" "FIELD_FLOAT"
+				"armor_scale" "8.0"
+			}
+			"08"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bolt_speed" "1400"
+			}
 		}
 		"ScriptFile" "abilities/pve_kits"
 	}
@@ -49,18 +71,18 @@
 	{
 		"BaseClass" "ability_lua"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName" "axe_berserkers_call"
-		"AbilityCastRange" "450"
+		"AbilityTextureName" "sven_warcry"
+		"AbilityCastRange" "500"
 		"AbilityCastPoint" "0.2"
-		"AbilityCooldown" "14.0"
-		"AbilityManaCost" "90"
+		"AbilityCooldown" "14.0 13.0 12.0 11.0"
+		"AbilityManaCost" "80 90 100 110"
 		"MaxLevel" "4"
 		"AbilitySpecial"
 		{
 			"01"
 			{
 				"var_type" "FIELD_INTEGER"
-				"radius" "450"
+				"radius" "500"
 			}
 			"02"
 			{
@@ -70,7 +92,17 @@
 			"03"
 			{
 				"var_type" "FIELD_FLOAT"
-				"duration" "3.0 3.5 4.0 4.5"
+				"duration" "4.0 4.5 5.0 5.5"
+			}
+			"04"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_ms_pct" "20 25 30 35"
+			}
+			"05"
+			{
+				"var_type" "FIELD_INTEGER"
+				"barrier_hp" "150 250 350 450"
 			}
 		}
 		"ScriptFile" "abilities/pve_kits"
@@ -80,7 +112,7 @@
 	{
 		"BaseClass" "ability_lua"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName" "dragon_knight_dragon_blood"
+		"AbilityTextureName" "sven_great_cleave"
 		"MaxLevel" "4"
 		"AbilitySpecial"
 		{
@@ -104,6 +136,16 @@
 				"var_type" "FIELD_INTEGER"
 				"damage_block" "35 55 75 95"
 			}
+			"05"
+			{
+				"var_type" "FIELD_INTEGER"
+				"cleave_pct" "45 65 85 105"
+			}
+			"06"
+			{
+				"var_type" "FIELD_INTEGER"
+				"cleave_radius" "450"
+			}
 		}
 		"ScriptFile" "abilities/pve_kits"
 	}
@@ -116,15 +158,15 @@
 		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 		"AbilityTextureName" "sven_gods_strength"
 		"AbilityCastPoint" "0.3"
-		"AbilityCooldown" "60.0"
-		"AbilityManaCost" "120"
+		"AbilityCooldown" "60.0 50.0 40.0"
+		"AbilityManaCost" "100 125 150"
 		"MaxLevel" "3"
 		"AbilitySpecial"
 		{
 			"01"
 			{
 				"var_type" "FIELD_FLOAT"
-				"duration" "8.0"
+				"duration" "15.0 18.0 21.0"
 			}
 			"02"
 			{
@@ -139,17 +181,27 @@
 			"04"
 			{
 				"var_type" "FIELD_INTEGER"
-				"damage_reduction_pct" "30 40 50 60"
+				"damage_reduction_pct" "30 40 50"
 			}
 			"05"
 			{
 				"var_type" "FIELD_INTEGER"
-				"shockwave_damage" "100 160 220 280"
+				"shockwave_damage" "100 160 220"
 			}
 			"06"
 			{
 				"var_type" "FIELD_INTEGER"
 				"radius" "450"
+			}
+			"07"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_damage_pct" "100 150 200"
+			}
+			"08"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_str" "25 40 55"
 			}
 		}
 		"ScriptFile" "abilities/pve_kits"
@@ -161,7 +213,7 @@
 		"HasShardUpgrade" "1"
 		"BaseClass" "ability_lua"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName" "sven_warcry"
+		"AbilityTextureName" "sven_wrath_of_god"
 		"MaxLevel" "8"
 		"AbilitySpecial"
 		{
@@ -185,9 +237,21 @@
 				"var_type" "FIELD_INTEGER"
 				"bonus_damage_pct" "120 170 220"
 			}
+			"05"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_max_hp" "100 200 300 450 600 800 1050 1400"
+			}
+			"06"
+			{
+				"var_type" "FIELD_INTEGER"
+				"status_resistance" "10 12 14 16 18 20 22 25"
+			}
 		}
 		"ScriptFile" "abilities/pve_kits"
 	}
+
+
 
 // =========================================================================
 	// JUGGERNAUT (FIGHTER) ABILITIES
