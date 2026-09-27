@@ -30,6 +30,8 @@ function EnfosSametC:InitGameMode()
 	Log:Info("system", "========================================")
 
 	local gameMode = GameRules:GetGameModeEntity()
+	-- Install native team markers before the engine creates selected heroes.
+	require("map/hero_spawns"):Init()
 
 	-- Basic game settings
 	GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 5)
@@ -242,6 +244,7 @@ function EnfosSametC:OnNPCSpawned(event)
 
 	-- Register Hero
 	if spawnedUnit:IsRealHero() then
+		require("map/hero_spawns"):ConfigureHero(spawnedUnit)
 		local playerId = spawnedUnit:GetPlayerID()
 		if playerId and playerId >= 0 then
 			self.playerHeroes[playerId] = spawnedUnit

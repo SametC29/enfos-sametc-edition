@@ -49,3 +49,22 @@ eight portals, minimap alignment while walking, wave 1 spawn, an early wave 2,
 Boss warning, and reconnect/multiplayer behavior. Mock tests do not establish
 navigation correctness or a balanced 60-wave release. The imported map still
 references unused original entity scripts/custom particles; those are not copied.
+# Hero origin fallback — 2026-09-27
+
+User supplied a FindClearSpaceForUnit assertion for Drow at (0,0,0). The live log
+shows the pick accepted before this assertion during pregame. Existing map data
+has generic team starts but no Radiant/Dire-specific start classes. This is a
+spawn-placement failure; the exact native fallback path is not proven offline.
+
+`map/hero_spawns.lua` now creates three native team starts per arena during
+InitGameMode, before selected heroes are created. The installed `dota.fgd`
+documents these classes; Dota Workshop MCP confirms the spawn/respawn APIs.
+Coordinates come from the approved map's existing base starts. A bounded ground
+and navigation check rejects unsafe positions instead of falling back to origin.
+Real player heroes receive team respawn positions. Only heroes at the central
+origin fallback are relocated; repeat events cannot teleport a hero out of lane.
+The compiled map is unchanged. Initialization logs each registered start.
+
+Six mock-engine regressions and all repository checks pass (89 behavior tests
+total). Native spawn lookup and navigation timing still require a fresh match;
+the user explicitly owns live testing. No game launch/control was performed.
