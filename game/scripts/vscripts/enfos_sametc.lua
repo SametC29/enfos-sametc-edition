@@ -36,8 +36,12 @@ function EnfosSametC:InitGameMode()
 	GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 5)
 	GameRules:SetUseUniversalShopMode(true)
 
-	-- Hero Selection Settings
-	GameRules:SetHeroSelectionTime(30.0)
+	-- Custom Game Setup & Hero Selection Settings
+	GameRules:EnableCustomGameSetupAutoLaunch(false)
+	GameRules:SetCustomGameSetupTimeout(45.0)
+	GameRules:SetCustomGameSetupAutoLaunchDelay(0.0)
+	GameRules:SetCustomGameSetupRemainingTime(45.0)
+	GameRules:SetHeroSelectionTime(90.0)
 	GameRules:SetStrategyTime(0.0)
 	GameRules:SetShowcaseTime(0.0)
 	GameRules:SetPreGameTime(10.0)

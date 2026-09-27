@@ -1282,6 +1282,55 @@ test("twenty heroes are authored with exactly 4 per role (Tank/Fighter/Carry/Mag
     assert(roleCounts["Support"] == 4, "Must have exactly 4 Supports, got: " .. tostring(roleCounts["Support"]))
 end)
 
+-- =========================================================================
+-- Game Setup & Hero Selection Tests
+-- =========================================================================
+local EnfosSetupManager = require("setup/enfos_setup_manager")
+
+test("setup manager handles difficulty, team assignment, same-team lock prevention, and start trigger", function()
+    local dummyWaveManager = {
+        difficulty = "normal",
+        SetDifficulty = function(self, diff) self.difficulty = diff end,
+        GetDifficulty = function(self) return self.difficulty end,
+    }
+
+    EnfosSetupManager:Init(dummyWaveManager, nil)
+    assert(EnfosSetupManager.selectedDifficulty == "normal")
+    assert(dummyWaveManager.difficulty == "normal")
+
+    -- 1. Difficulty update
+    EnfosSetupManager:OnSetDifficulty({ PlayerID = 0, difficulty = "hard" })
+    assert(EnfosSetupManager.selectedDifficulty == "hard")
+    assert(dummyWaveManager.difficulty == "hard")
+
+    -- Reject invalid difficulty
+    EnfosSetupManager:OnSetDifficulty({ PlayerID = 0, difficulty = "godmode" })
+    assert(EnfosSetupManager.selectedDifficulty == "hard", "Invalid difficulty must be ignored")
+
+    -- 2. Lock in hero & same-team duplicate prevention
+    PlayerResource.GetTeam = function(_, pid) return 2 end -- Radiant
+    EnfosSetupManager:OnLockInHero({ PlayerID = 0, hero_name = "npc_dota_hero_sven" })
+    assert(EnfosSetupManager.playerPicks[0] == "npc_dota_hero_sven")
+
+    -- Player 1 on same team cannot pick Sven
+    PlayerResource.GetTeam = function(_, pid) return 2 end
+    EnfosSetupManager:OnLockInHero({ PlayerID = 1, hero_name = "npc_dota_hero_sven" })
+    assert(EnfosSetupManager.playerPicks[1] == nil, "Same team duplicate hero must be blocked")
+
+    -- Player 2 on opposing team (Dire / 3) CAN pick Sven
+    PlayerResource.GetTeam = function(_, pid) return 3 end
+    EnfosSetupManager:OnLockInHero({ PlayerID = 2, hero_name = "npc_dota_hero_sven" })
+    assert(EnfosSetupManager.playerPicks[2] == "npc_dota_hero_sven", "Opposing team can pick same hero")
+
+    -- 3. Start game
+    local finishCalled = false
+    GameRules.FinishCustomGameSetup = function() finishCalled = true end
+    EnfosSetupManager:OnStartGame({ PlayerID = 0 })
+    assert(EnfosSetupManager.isSetupComplete == true)
+    assert(finishCalled == true, "Must call FinishCustomGameSetup when host starts game")
+end)
+
 print(string.format("%d Lua behavior tests passed (mock engine; live tests separate).", passed))
+
 
 

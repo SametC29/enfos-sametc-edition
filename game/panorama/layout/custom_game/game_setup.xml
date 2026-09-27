@@ -1,0 +1,82 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="file://{resources}/styles/custom_game/game_setup.css" />
+	</styles>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/game_setup.js" />
+	</scripts>
+	<Panel class="GameSetupRoot" hittest="false">
+		<Panel id="SetupBackdrop" hittest="true" />
+		
+		<Panel class="SetupContent">
+			<!-- Header -->
+			<Panel class="HeaderContainer">
+				<Label class="SetupTitle" text="ENFOS TEAM SURVIVAL" />
+				<Label class="SetupSubtitle" text="GAME SETUP" />
+			</Panel>
+
+			<!-- Teams Container -->
+			<Panel id="TeamsContainer">
+				<!-- Radiant -->
+				<Panel id="RadiantPanel" class="TeamCard" onactivate="EnfosSetup.JoinTeam(2)">
+					<Panel class="TeamHeaderBar RadiantHeaderBar">
+						<Label class="TeamHeaderText RadiantText" text="RADIANT" />
+					</Panel>
+					<Panel id="RadiantSlots" class="SlotsContainer" />
+				</Panel>
+
+				<!-- Dire -->
+				<Panel id="DirePanel" class="TeamCard" onactivate="EnfosSetup.JoinTeam(3)">
+					<Panel class="TeamHeaderBar DireHeaderBar">
+						<Label class="TeamHeaderText DireText" text="DIRE" />
+					</Panel>
+					<Panel id="DireSlots" class="SlotsContainer" />
+				</Panel>
+			</Panel>
+
+			<!-- Difficulty Section -->
+			<Panel class="DifficultySection">
+				<Label class="DifficultyLabel" text="DIFFICULTY" />
+				
+				<Panel id="DifficultyDropdown" class="DifficultySelector" onactivate="EnfosSetup.ToggleDifficultyDropdown()">
+					<Label id="SelectedDifficultyText" text="NORMAL" />
+					<Panel class="DropdownArrow" />
+				</Panel>
+
+				<Panel id="DifficultyOptions" class="DifficultyDropdownMenu">
+					<Panel class="DifficultyOption" onactivate="EnfosSetup.SelectDifficulty('casual')">
+						<Label class="OptionTitle" text="CASUAL" />
+						<Label class="OptionDesc" text="Creature HP x0.85" />
+					</Panel>
+					<Panel class="DifficultyOption" onactivate="EnfosSetup.SelectDifficulty('normal')">
+						<Label class="OptionTitle" text="NORMAL" />
+						<Label class="OptionDesc" text="Creature HP x1.00" />
+					</Panel>
+					<Panel class="DifficultyOption" onactivate="EnfosSetup.SelectDifficulty('hard')">
+						<Label class="OptionTitle" text="HARD" />
+						<Label class="OptionDesc" text="Creature HP x1.25" />
+					</Panel>
+					<Panel class="DifficultyOption" onactivate="EnfosSetup.SelectDifficulty('nightmare')">
+						<Label class="OptionTitle" text="NIGHTMARE" />
+						<Label class="OptionDesc" text="Creature HP x1.50" />
+					</Panel>
+					<Panel class="DifficultyOption" onactivate="EnfosSetup.SelectDifficulty('hell')">
+						<Label class="OptionTitle" text="HELL" />
+						<Label class="OptionDesc" text="Creature HP x2.00" />
+					</Panel>
+				</Panel>
+
+				<Label id="DifficultyDetail" text="Creature HP x1.0" />
+			</Panel>
+
+			<!-- Start Game Action -->
+			<Panel class="ActionContainer">
+				<Button id="StartGameButton" class="StartGameBtn" onactivate="EnfosSetup.StartGame()">
+					<Label id="StartGameLabel" text="START GAME" />
+				</Button>
+				<Label id="AutoStartTimer" class="AutoStartText" text="Auto-starting..." />
+			</Panel>
+		</Panel>
+	</Panel>
+</root>

@@ -82,8 +82,18 @@ function WaveManager:Init()
 		self:RequestNextWave(event.PlayerID)
 	end)
 
+	self.difficulty = "normal"
 	self:SyncNetTable()
 	Log:Info("wave_manager", "Wave Manager initialized successfully.")
+end
+
+function WaveManager:SetDifficulty(difficulty)
+	self.difficulty = (difficulty or "normal"):lower()
+	Log:Info("wave_manager", "Game difficulty set to: %s", self.difficulty)
+end
+
+function WaveManager:GetDifficulty()
+	return self.difficulty or "normal"
 end
 
 --------------------------------------------------------------------------------

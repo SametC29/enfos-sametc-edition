@@ -1,0 +1,304 @@
+/* Enfos Team Survival — SametC Edition: Game Setup Screen */
+
+.GameSetupRoot {
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+}
+
+.GameSetupHidden {
+	visibility: collapse;
+	opacity: 0.0;
+}
+
+#SetupBackdrop {
+	width: 100%;
+	height: 100%;
+	background-color: #0b0b0e;
+	background-image: radial-gradient(ellipse at 15% 10%, rgba(212, 160, 23, 0.12) 0%, rgba(11, 11, 14, 0.98) 70%);
+}
+
+.SetupContent {
+	align: center center;
+	flow-children: down;
+	horizontal-align: center;
+	vertical-align: middle;
+	width: 1040px;
+	margin-bottom: 40px;
+}
+
+/* Header */
+.HeaderContainer {
+	flow-children: down;
+	horizontal-align: center;
+	margin-bottom: 30px;
+}
+
+.SetupTitle {
+	color: #eed596;
+	font-family: "Radiance", "Cinzel", "Times New Roman", serif;
+	font-size: 38px;
+	font-weight: bold;
+	letter-spacing: 4px;
+	text-shadow: 0 0 18px rgba(230, 180, 50, 0.65);
+	horizontal-align: center;
+}
+
+.SetupSubtitle {
+	color: #9a865f;
+	font-size: 13px;
+	font-weight: bold;
+	letter-spacing: 5px;
+	horizontal-align: center;
+	margin-top: 4px;
+}
+
+/* Teams Container */
+#TeamsContainer {
+	flow-children: right;
+	horizontal-align: center;
+	width: 900px;
+	margin-bottom: 25px;
+}
+
+.TeamCard {
+	width: 430px;
+	height: 300px;
+	background-color: rgba(18, 15, 14, 0.92);
+	border: 1px solid rgba(75, 55, 40, 0.5);
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+	flow-children: down;
+	margin-right: 20px;
+	margin-left: 20px;
+	transition-property: border, box-shadow;
+	transition-duration: 0.2s;
+}
+
+.TeamCard:hover {
+	border: 1px solid rgba(180, 140, 70, 0.7);
+	box-shadow: 0 0 14px rgba(210, 160, 60, 0.25);
+}
+
+.TeamHeaderBar {
+	width: 100%;
+	height: 44px;
+	flow-children: right;
+	vertical-align: top;
+	padding-left: 16px;
+	padding-top: 10px;
+}
+
+.RadiantHeaderBar {
+	border-bottom: 2px solid #27ae60;
+	background-color: rgba(39, 174, 96, 0.08);
+}
+
+.DireHeaderBar {
+	border-bottom: 2px solid #c0392b;
+	background-color: rgba(192, 57, 43, 0.08);
+}
+
+.TeamHeaderText {
+	font-size: 18px;
+	font-weight: bold;
+	letter-spacing: 3px;
+	vertical-align: center;
+}
+
+.RadiantText {
+	color: #38e54d;
+	text-shadow: 0 0 12px rgba(56, 229, 77, 0.6);
+}
+
+.DireText {
+	color: #ff4747;
+	text-shadow: 0 0 12px rgba(255, 71, 71, 0.6);
+}
+
+.SlotsContainer {
+	width: 100%;
+	height: 250px;
+	flow-children: down;
+	padding: 8px 12px;
+}
+
+.PlayerSlot {
+	width: 100%;
+	height: 42px;
+	background-color: rgba(28, 23, 20, 0.75);
+	border: 1px solid rgba(60, 48, 40, 0.45);
+	margin-bottom: 6px;
+	flow-children: right;
+	padding: 4px 8px;
+	vertical-align: center;
+	border-radius: 2px;
+}
+
+.PlayerAvatar {
+	width: 32px;
+	height: 32px;
+	vertical-align: center;
+	border: 1px solid rgba(120, 100, 80, 0.5);
+	background-color: #1a1a1a;
+}
+
+.PlayerName {
+	color: #ececec;
+	font-size: 15px;
+	font-weight: semi-bold;
+	margin-left: 12px;
+	vertical-align: center;
+}
+
+.EmptySlotName {
+	color: #554e44;
+	font-size: 14px;
+	margin-left: 12px;
+	vertical-align: center;
+}
+
+/* Difficulty Section */
+.DifficultySection {
+	flow-children: down;
+	horizontal-align: center;
+	margin-bottom: 20px;
+}
+
+.DifficultyLabel {
+	color: #7d7260;
+	font-size: 11px;
+	font-weight: bold;
+	letter-spacing: 3px;
+	horizontal-align: center;
+	margin-bottom: 6px;
+}
+
+.DifficultySelector {
+	width: 250px;
+	height: 38px;
+	background-color: rgba(22, 18, 16, 0.95);
+	border: 1px solid rgba(120, 95, 65, 0.6);
+	box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.8);
+	flow-children: right;
+	horizontal-align: center;
+	padding: 0 14px;
+	border-radius: 2px;
+	transition-property: border, box-shadow;
+	transition-duration: 0.2s;
+}
+
+.DifficultySelector:hover {
+	border: 1px solid #d4a017;
+	box-shadow: 0 0 10px rgba(212, 160, 23, 0.3);
+}
+
+#SelectedDifficultyText {
+	color: #eed596;
+	font-size: 14px;
+	font-weight: bold;
+	letter-spacing: 2px;
+	vertical-align: center;
+}
+
+.DropdownArrow {
+	width: 14px;
+	height: 14px;
+	vertical-align: center;
+	horizontal-align: right;
+	background-image: url("s2r://panorama/images/control_icons/arrow_dropdown_png.vtex");
+	background-repeat: no-repeat;
+	background-size: contain;
+	wash-color: #d4a017;
+}
+
+.DifficultyDropdownMenu {
+	width: 250px;
+	flow-children: down;
+	background-color: rgba(16, 13, 11, 0.98);
+	border: 1px solid rgba(140, 110, 70, 0.7);
+	horizontal-align: center;
+	margin-top: 4px;
+	visibility: collapse;
+	z-index: 100;
+}
+
+.DifficultyDropdownMenu.ShowMenu {
+	visibility: visible;
+}
+
+.DifficultyOption {
+	width: 100%;
+	height: 36px;
+	flow-children: right;
+	padding: 6px 12px;
+	border-bottom: 1px solid rgba(60, 48, 40, 0.3);
+}
+
+.DifficultyOption:hover {
+	background-color: rgba(212, 160, 23, 0.18);
+}
+
+.OptionTitle {
+	color: #eed596;
+	font-size: 13px;
+	font-weight: bold;
+	vertical-align: center;
+}
+
+.OptionDesc {
+	color: #9c9281;
+	font-size: 12px;
+	horizontal-align: right;
+	vertical-align: center;
+}
+
+#DifficultyDetail {
+	color: #7e7465;
+	font-size: 12px;
+	horizontal-align: center;
+	margin-top: 6px;
+}
+
+/* Action Container */
+.ActionContainer {
+	flow-children: down;
+	horizontal-align: center;
+	margin-top: 10px;
+}
+
+.StartGameBtn {
+	width: 190px;
+	height: 42px;
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#2ecc71), to(#1b7a3e));
+	border: 1px solid #40e07f;
+	border-radius: 4px;
+	box-shadow: 0 0 20px rgba(46, 204, 113, 0.45);
+	horizontal-align: center;
+	transition-property: brightness, box-shadow;
+	transition-duration: 0.2s;
+}
+
+.StartGameBtn:hover {
+	brightness: 1.25;
+	box-shadow: 0 0 28px rgba(46, 204, 113, 0.75);
+}
+
+.StartGameBtn:active {
+	brightness: 0.9;
+}
+
+#StartGameLabel {
+	color: #ffffff;
+	font-size: 15px;
+	font-weight: bold;
+	letter-spacing: 2px;
+	horizontal-align: center;
+	vertical-align: center;
+}
+
+.AutoStartText {
+	color: #6a6254;
+	font-size: 12px;
+	horizontal-align: center;
+	margin-top: 8px;
+}

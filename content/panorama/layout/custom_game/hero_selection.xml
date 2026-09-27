@@ -1,0 +1,90 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="file://{resources}/styles/custom_game/hero_selection.css" />
+	</styles>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/hero_selection.js" />
+	</scripts>
+
+	<Panel class="HeroSelectionRoot" hittest="false">
+		<Panel id="HeroSelectionBackdrop" hittest="true" />
+
+		<!-- Top Status Bar -->
+		<Panel class="TopStatusBar">
+			<Panel class="TopTeamStatus RadiantStatus">
+				<Label class="StatusTeamName RadiantStatusText" text="RADIANT" />
+				<Panel id="RadiantPicksRow" class="TeamPicksRow" />
+			</Panel>
+
+			<Panel class="TimerContainer">
+				<Label id="SelectTimerLabel" class="TimerNumber" text="86" />
+			</Panel>
+
+			<Panel class="TopTeamStatus DireStatus">
+				<Label class="StatusTeamName DireStatusText" text="DIRE" />
+				<Panel id="DirePicksRow" class="TeamPicksRow" />
+			</Panel>
+		</Panel>
+
+		<!-- Perimeter Role Panels (Surrounding the Center Stage) -->
+		
+		<!-- TOP ROLE: TANK / ROUNDED -->
+		<Panel class="PerimeterPanel TopRolePanel">
+			<Label class="RoleHeader" text="TANK" />
+			<Panel id="TopRoleHeroes" class="RoleHeroesRow" />
+		</Panel>
+
+		<!-- LEFT ROLE: COMBAT / FIGHTER -->
+		<Panel class="PerimeterPanel LeftRolePanel">
+			<Label class="RoleHeader" text="FIGHTER" />
+			<Panel id="LeftRoleHeroes" class="RoleHeroesColumn" />
+		</Panel>
+
+		<!-- RIGHT ROLE: SUPPORT -->
+		<Panel class="PerimeterPanel RightRolePanel">
+			<Label class="RoleHeader" text="SUPPORT" />
+			<Panel id="RightRoleHeroes" class="RoleHeroesColumn" />
+		</Panel>
+
+		<!-- BOTTOM ROLE: SPELLCASTER / MAGE -->
+		<Panel class="PerimeterPanel BottomRolePanel">
+			<Label class="RoleHeader" text="MAGE" />
+			<Panel id="BottomRoleHeroes" class="RoleHeroesRow" />
+		</Panel>
+
+		<!-- TOP RIGHT CORNER: CARRY / MARKSMAN -->
+		<Panel class="PerimeterPanel TopRightRolePanel">
+			<Label class="RoleHeader" text="CARRY" />
+			<Panel id="CarryRoleHeroes" class="RoleHeroesRow" />
+		</Panel>
+
+		<!-- CENTER SHOWCASE STAGE -->
+		<Panel id="CenterStage" class="CenterStagePanel">
+			<!-- Hero Portrait Frame -->
+			<Panel class="ShowcasePortraitFrame">
+				<DOTAHeroImage id="ShowcaseHeroImage" class="ShowcaseHeroImg" heroimagestyle="landscape" />
+				<Panel class="ShowcaseVignette" />
+			</Panel>
+
+			<!-- Hero Title & Info -->
+			<Label id="ShowcaseHeroTitle" class="HeroTitleText" text="SVEN" />
+
+			<!-- Badges Row -->
+			<Panel class="BadgesRow">
+				<Panel class="InfoBadge"><Label text="HERO" /></Panel>
+				<Panel class="InfoBadge"><Label text="NORMAL" /></Panel>
+				<Panel id="PrimaryAttrBadge" class="InfoBadge AttrBadge"><Label id="AttrBadgeText" text="STR" /></Panel>
+				<Panel id="RoleBadge" class="InfoBadge RoleBadge"><Label id="RoleBadgeText" text="TANK" /></Panel>
+			</Panel>
+
+			<!-- Abilities Row -->
+			<Panel id="ShowcaseAbilities" class="AbilitiesRow" />
+
+			<!-- Pick Hero Action Button -->
+			<Button id="PickHeroBtn" class="PickHeroButton" onactivate="EnfosHeroSelect.PickCurrentHero()">
+				<Label id="PickHeroBtnLabel" text="PICK HERO" />
+			</Button>
+		</Panel>
+	</Panel>
+</root>

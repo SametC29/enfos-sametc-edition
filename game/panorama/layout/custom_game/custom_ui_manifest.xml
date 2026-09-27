@@ -2,6 +2,8 @@
 <!-- Wave status and next-wave controls. -->
 <root>
 	<Panel>
+		<CustomUIElement type="GameSetup" layoutfile="file://{resources}/layout/custom_game/game_setup.xml" />
+		<CustomUIElement type="HeroSelection" layoutfile="file://{resources}/layout/custom_game/hero_selection.xml" />
 		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/wave_hud.xml" />
 		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/spellbringer.xml" />
 		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/economy.xml" />

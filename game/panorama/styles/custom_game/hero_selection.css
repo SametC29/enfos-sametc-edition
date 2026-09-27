@@ -1,0 +1,341 @@
+/* Enfos Team Survival — SametC Edition: Hero Selection Screen */
+
+.HeroSelectionRoot {
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+}
+
+.HeroSelectionHidden {
+	visibility: collapse;
+	opacity: 0.0;
+}
+
+#HeroSelectionBackdrop {
+	width: 100%;
+	height: 100%;
+	background-color: #070709;
+	background-image: radial-gradient(ellipse at 50% 50%, rgba(20, 16, 22, 0.4) 0%, rgba(6, 6, 8, 0.98) 85%);
+}
+
+/* Top Status Bar */
+.TopStatusBar {
+	width: 100%;
+	height: 100px;
+	vertical-align: top;
+	horizontal-align: center;
+	flow-children: right;
+	padding-top: 14px;
+}
+
+.TopTeamStatus {
+	width: 400px;
+	flow-children: down;
+	vertical-align: top;
+}
+
+.RadiantStatus {
+	margin-left: 80px;
+}
+
+.DireStatus {
+	margin-right: 80px;
+	horizontal-align: right;
+}
+
+.StatusTeamName {
+	font-size: 15px;
+	font-weight: bold;
+	letter-spacing: 3px;
+	margin-bottom: 6px;
+}
+
+.RadiantStatusText {
+	color: #38e54d;
+	text-shadow: 0 0 10px rgba(56, 229, 77, 0.5);
+}
+
+.DireStatusText {
+	color: #ff4747;
+	text-shadow: 0 0 10px rgba(255, 71, 71, 0.5);
+	horizontal-align: right;
+}
+
+.TeamPicksRow {
+	flow-children: right;
+	height: 32px;
+}
+
+.PickSlot {
+	width: 28px;
+	height: 28px;
+	margin-right: 6px;
+	background-color: rgba(20, 18, 16, 0.8);
+	border: 1px solid rgba(60, 50, 40, 0.5);
+	border-radius: 2px;
+}
+
+.PickSlotActive {
+	border: 1px solid #d4a017;
+	box-shadow: 0 0 8px rgba(212, 160, 23, 0.5);
+}
+
+.PickSlotHeroImg {
+	width: 100%;
+	height: 100%;
+}
+
+.TimerContainer {
+	horizontal-align: center;
+	vertical-align: top;
+	flow-children: down;
+}
+
+.TimerNumber {
+	color: #ffffff;
+	font-family: "Radiance", "Arial Black", sans-serif;
+	font-size: 56px;
+	font-weight: bold;
+	horizontal-align: center;
+	text-shadow: 0 0 24px rgba(255, 255, 255, 0.5);
+	letter-spacing: 2px;
+}
+
+/* Perimeter Role Panels */
+.PerimeterPanel {
+	flow-children: down;
+	background-color: rgba(12, 10, 12, 0.85);
+	border: 1px solid rgba(50, 42, 35, 0.4);
+	padding: 8px 12px;
+	border-radius: 3px;
+}
+
+.RoleHeader {
+	color: #8c806d;
+	font-size: 11px;
+	font-weight: bold;
+	letter-spacing: 3px;
+	margin-bottom: 6px;
+	horizontal-align: center;
+}
+
+/* TOP ROLE: TANK */
+.TopRolePanel {
+	horizontal-align: center;
+	vertical-align: top;
+	margin-top: 90px;
+}
+
+/* BOTTOM ROLE: MAGE */
+.BottomRolePanel {
+	horizontal-align: center;
+	vertical-align: bottom;
+	margin-bottom: 30px;
+}
+
+/* LEFT ROLE: FIGHTER */
+.LeftRolePanel {
+	horizontal-align: left;
+	vertical-align: middle;
+	margin-left: 40px;
+}
+
+/* RIGHT ROLE: SUPPORT */
+.RightRolePanel {
+	horizontal-align: right;
+	vertical-align: middle;
+	margin-right: 40px;
+}
+
+/* TOP RIGHT ROLE: CARRY */
+.TopRightRolePanel {
+	horizontal-align: right;
+	vertical-align: top;
+	margin-top: 90px;
+	margin-right: 140px;
+}
+
+.RoleHeroesRow {
+	flow-children: right;
+}
+
+.RoleHeroesColumn {
+	flow-children: down;
+}
+
+/* Hero Cards */
+.HeroCard {
+	width: 64px;
+	height: 78px;
+	flow-children: down;
+	margin: 4px;
+	background-color: rgba(18, 14, 14, 0.9);
+	border: 1px solid rgba(70, 55, 45, 0.5);
+	border-radius: 2px;
+	transition-property: border, box-shadow, transform;
+	transition-duration: 0.15s;
+}
+
+.HeroCard:hover {
+	border: 1px solid #d4a017;
+	box-shadow: 0 0 10px rgba(212, 160, 23, 0.5);
+	transform: scale3d(1.05, 1.05, 1.0);
+}
+
+.HeroCardSelected {
+	border: 2px solid #f1c40f;
+	box-shadow: 0 0 16px rgba(241, 196, 15, 0.85);
+}
+
+.HeroCardImg {
+	width: 62px;
+	height: 52px;
+	horizontal-align: center;
+}
+
+.HeroCardName {
+	color: #b5a995;
+	font-size: 10px;
+	font-weight: semi-bold;
+	horizontal-align: center;
+	text-align: center;
+	margin-top: 3px;
+	width: 62px;
+	text-overflow: ellipsis;
+}
+
+/* Center Stage */
+.CenterStagePanel {
+	align: center center;
+	flow-children: down;
+	horizontal-align: center;
+	vertical-align: middle;
+	width: 440px;
+}
+
+.ShowcasePortraitFrame {
+	width: 380px;
+	height: 280px;
+	horizontal-align: center;
+	background-color: rgba(16, 14, 16, 0.95);
+	border: 2px solid rgba(140, 110, 70, 0.7);
+	box-shadow: 0 0 24px rgba(0, 0, 0, 0.9);
+	border-radius: 4px;
+}
+
+.ShowcaseHeroImg {
+	width: 100%;
+	height: 100%;
+}
+
+.ShowcaseVignette {
+	width: 100%;
+	height: 100%;
+	background-image: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.0) 50%, rgba(5, 5, 8, 0.7) 100%);
+}
+
+.HeroTitleText {
+	color: #eed596;
+	font-family: "Radiance", "Cinzel", "Times New Roman", serif;
+	font-size: 26px;
+	font-weight: bold;
+	letter-spacing: 3px;
+	text-shadow: 0 0 16px rgba(230, 180, 50, 0.7);
+	horizontal-align: center;
+	margin-top: 14px;
+}
+
+.BadgesRow {
+	flow-children: right;
+	horizontal-align: center;
+	margin-top: 8px;
+}
+
+.InfoBadge {
+	height: 22px;
+	background-color: rgba(25, 20, 18, 0.85);
+	border: 1px solid rgba(90, 75, 60, 0.55);
+	border-radius: 3px;
+	padding: 0 8px;
+	margin-right: 5px;
+	vertical-align: center;
+}
+
+.InfoBadge Label {
+	color: #b0a390;
+	font-size: 11px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	vertical-align: center;
+}
+
+.AttrBadge Label {
+	color: #e74c3c;
+}
+
+.RoleBadge Label {
+	color: #3498db;
+}
+
+/* Abilities Row */
+.AbilitiesRow {
+	flow-children: right;
+	horizontal-align: center;
+	margin-top: 14px;
+}
+
+.ShowcaseAbilityIcon {
+	width: 46px;
+	height: 46px;
+	margin-right: 6px;
+	background-color: #100f12;
+	border: 1px solid rgba(100, 80, 60, 0.6);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+	border-radius: 2px;
+	transition-property: border, transform, box-shadow;
+	transition-duration: 0.15s;
+}
+
+.ShowcaseAbilityIcon:hover {
+	border: 1px solid #eed596;
+	box-shadow: 0 0 12px rgba(238, 213, 150, 0.6);
+	transform: scale3d(1.08, 1.08, 1.0);
+}
+
+/* Pick Hero Button */
+.PickHeroButton {
+	width: 220px;
+	height: 42px;
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#2ecc71), to(#196f3d));
+	border: 1px solid #58d68d;
+	border-radius: 3px;
+	box-shadow: 0 0 22px rgba(46, 204, 113, 0.5);
+	horizontal-align: center;
+	margin-top: 18px;
+	transition-property: brightness, box-shadow;
+	transition-duration: 0.2s;
+}
+
+.PickHeroButton:hover {
+	brightness: 1.25;
+	box-shadow: 0 0 30px rgba(46, 204, 113, 0.8);
+}
+
+.PickHeroButton:active {
+	brightness: 0.9;
+}
+
+.PickHeroButton.LockedIn {
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#27ae60), to(#145a32));
+	border: 1px solid #2ecc71;
+	box-shadow: 0 0 16px rgba(46, 204, 113, 0.4);
+}
+
+#PickHeroBtnLabel {
+	color: #ffffff;
+	font-size: 15px;
+	font-weight: bold;
+	letter-spacing: 2px;
+	horizontal-align: center;
+	vertical-align: center;
+}

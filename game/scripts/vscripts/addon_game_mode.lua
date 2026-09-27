@@ -91,4 +91,6 @@ function Activate()
 	boonManager:Init(WaveManager, economyManager, require("spellbringer/spellbringer_service"))
 	local progressionManager = require("progression/progression_manager")
 	progressionManager:Init(nil, WaveManager, require("waves/life_core"))
+	local setupManager = require("setup/enfos_setup_manager")
+	setupManager:Init(WaveManager, progressionManager)
 end
