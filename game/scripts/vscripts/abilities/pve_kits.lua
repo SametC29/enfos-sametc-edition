@@ -265,7 +265,62 @@ local modifier_list = {
     'modifier_enfos_lion_mana_drain_channel',
     'modifier_enfos_lion_mana_drain_debuff',
     'modifier_enfos_lion_finger_counter',
-    'modifier_enfos_lion_demon_soul_passive'
+    'modifier_enfos_lion_demon_soul_passive',
+    -- Underlord
+    'modifier_enfos_underlord_firestorm_burn',
+    'modifier_enfos_underlord_pit_root',
+    'modifier_enfos_underlord_atrophy_aura',
+    'modifier_enfos_underlord_atrophy_debuff',
+    'modifier_enfos_underlord_carapace',
+    -- Troll Warlord
+    'modifier_enfos_troll_berserkers_rage',
+    'modifier_enfos_troll_whirling_axes_blind',
+    'modifier_enfos_troll_fervor',
+    'modifier_enfos_troll_battle_trance',
+    'modifier_enfos_troll_rampage',
+    -- Chaos Knight
+    'modifier_enfos_ck_reality_rift_debuff',
+    'modifier_enfos_ck_chaos_strike',
+    'modifier_enfos_ck_phantasm_buff',
+    'modifier_enfos_ck_entropy',
+    -- Medusa
+    'modifier_enfos_medusa_split_shot',
+    'modifier_enfos_medusa_mana_shield',
+    'modifier_enfos_medusa_petrified',
+    'modifier_enfos_medusa_gorgon_gaze',
+    -- Terrorblade
+    'modifier_enfos_tb_reflection',
+    'modifier_enfos_tb_conjure_image_buff',
+    'modifier_enfos_tb_metamorphosis',
+    'modifier_enfos_tb_demon_zeal',
+    -- Leshrac
+    'modifier_enfos_leshrac_diabolic_edict',
+    'modifier_enfos_leshrac_pulse_nova',
+    'modifier_enfos_leshrac_defilement',
+    -- Invoker
+    'modifier_enfos_invoker_meteor_burn',
+    'modifier_enfos_invoker_disarm',
+    'modifier_enfos_invoker_alacrity',
+    -- Puck
+    'modifier_enfos_puck_silence',
+    'modifier_enfos_puck_phase_shift',
+    'modifier_enfos_puck_faerie_magic',
+    -- Jakiro
+    'modifier_enfos_jakiro_dual_breath_slow',
+    'modifier_enfos_jakiro_liquid_fire_passive',
+    'modifier_enfos_jakiro_double_trouble',
+    -- Vengeful Spirit
+    'modifier_enfos_vs_wave_debuff',
+    'modifier_enfos_vs_vengeance_aura',
+    'modifier_enfos_vs_vengeance_aura_buff',
+    'modifier_enfos_vs_nether_swap_buff',
+    'modifier_enfos_vs_retribution',
+    -- Lich
+    'modifier_enfos_lich_frost_blast_slow',
+    'modifier_enfos_lich_frost_shield',
+    'modifier_enfos_lich_sinister_gaze_debuff',
+    'modifier_enfos_lich_ice_aura',
+    'modifier_enfos_lich_ice_aura_buff'
 }
 
 for _, mod_name in ipairs(modifier_list) do
