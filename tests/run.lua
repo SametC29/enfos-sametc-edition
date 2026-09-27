@@ -903,20 +903,20 @@ test("ascended upgrade requires base item and sufficient lumber", function()
     PlayerResource.heroes[0] = hero
 
     -- 1. Missing base item check: hero has nothing in inventory
-    local can1, reason1 = AscendedShop:CanUpgrade(0, "item_ascended_worldheart")
+    local can1, reason1 = AscendedShop:CanUpgrade(0, "item_ascended_thornplate")
     assert(can1 == false, "Upgrade without base item must fail")
     assert(reason1 == "missing_base_item", "Reason must be missing_base_item")
 
-    -- 2. Give hero item_heart, but 0 Lumber
-    local heartItem = { IsNull = function() return false end, GetAbilityName = function() return "item_heart" end }
+    -- 2. Give hero item_blade_mail, but 0 Lumber
+    local heartItem = { IsNull = function() return false end, GetAbilityName = function() return "item_blade_mail" end }
     hero.items[0] = heartItem
-    local can2, reason2 = AscendedShop:CanUpgrade(0, "item_ascended_worldheart")
+    local can2, reason2 = AscendedShop:CanUpgrade(0, "item_ascended_thornplate")
     assert(can2 == false, "Upgrade with 0 lumber must fail")
     assert(reason2 == "insufficient_lumber", "Reason must be insufficient_lumber")
 
-    -- 3. Give hero 85 Lumber -> Upgrade must succeed
-    EconomyManager:ModifyLumber(0, 85, "test")
-    local can3 = AscendedShop:CanUpgrade(0, "item_ascended_worldheart")
+    -- 3. Give hero 55 Lumber -> Upgrade must succeed
+    EconomyManager:ModifyLumber(0, 55, "test")
+    local can3 = AscendedShop:CanUpgrade(0, "item_ascended_thornplate")
     assert(can3 == true, "Upgrade with base item and sufficient lumber must succeed")
 
     hero.TakeItem=hero.RemoveItem
@@ -924,15 +924,15 @@ test("ascended upgrade requires base item and sufficient lumber", function()
     hero.SwapItems=function(self,a,b) self.items[a],self.items[b]=self.items[b],self.items[a] end
     CreateItem=function(name) return {IsNull=function() return false end,GetAbilityName=function() return name end} end
     UTIL_Remove=function() end
-    local okUpgrade, _, newItem = AscendedShop:PurchaseUpgrade(0, "item_ascended_worldheart")
+    local okUpgrade, _, newItem = AscendedShop:PurchaseUpgrade(0, "item_ascended_thornplate")
     assert(okUpgrade == true, "PurchaseUpgrade must succeed")
-    assert(EconomyManager:GetLumber(0) == 0, "85 Lumber must be deducted")
-    assert(newItem:GetAbilityName() == "item_ascended_worldheart", "New item must be Worldheart")
+    assert(EconomyManager:GetLumber(0) == 0, "55 Lumber must be deducted")
+    assert(newItem:GetAbilityName() == "item_ascended_thornplate", "New item must be Thornplate")
 
-    -- 4. One copy restriction: cannot buy second Worldheart
+    -- 4. One copy restriction: cannot buy second Thornplate
     hero.items[1] = heartItem
-    EconomyManager:ModifyLumber(0, 85, "test")
-    local canDuplicate, reasonDup = AscendedShop:CanUpgrade(0, "item_ascended_worldheart")
+    EconomyManager:ModifyLumber(0, 55, "test")
+    local canDuplicate, reasonDup = AscendedShop:CanUpgrade(0, "item_ascended_thornplate")
     assert(canDuplicate == false, "Hero cannot purchase duplicate Ascended item")
     assert(reasonDup == "already_owned", "Reason must be already_owned")
 end)

@@ -22,7 +22,7 @@ export function generateLocalization(check = false) {
   const escape = value => value.replaceAll('"', '\\"');
 
   const resolveSpecials = (key, rawValue) => {
-    const id = key.match(/^DOTA_Tooltip_[Aa]bility_(.+)_(?:Description|SummaryDescription)$/)?.[1];
+    const id = key.match(/^DOTA_Tooltip_[Aa]bility_(.+)_(?:Description|SummaryDescription|DesignDescription)$/)?.[1];
     const definition = abilities[id] ?? items[id];
     const specials = Object.assign({}, ...Object.values(definition?.AbilitySpecial ?? {}));
     return rawValue.replace(/\{\{(\w+)(?:\|(\w+))?\}\}/g, (_, name, format) => {

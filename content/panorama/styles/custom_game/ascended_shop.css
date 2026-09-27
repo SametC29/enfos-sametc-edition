@@ -113,7 +113,7 @@
 
 .AscendedCard {
 	width: 320px;
-	height: 180px;
+	height: 242px;
 	background-color: rgba(25, 30, 42, 0.9);
 	border: 1px solid #4a3b22;
 	border-radius: 6px;
@@ -175,7 +175,7 @@
 .CardDesc {
 	font-size: 11px;
 	color: #cccccc;
-	height: 50px;
+	height: 112px;
 	overflow: squish scroll;
 }
 
@@ -223,6 +223,8 @@
 .UpgradeBtn:hover {
 	background-color: #387038;
 }
+
+.UpgradeBtn:disabled { saturation: 0; brightness: 0.5; }
 
 .UpgradeBtn Label {
 	font-size: 12px;

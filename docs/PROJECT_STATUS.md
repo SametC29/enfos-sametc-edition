@@ -1,5 +1,10 @@
 # Current audit — 2026-09-27
 
+Latest changes: [solo onboarding and Ascended correction](audit/SOLO_AND_ASCENDED_2026-09-27.md).
+Solo early-wave assistance is now snapshotted; 29 unfinished Ascended upgrades are
+visibly unavailable and cannot consume resources. The 30-item release target remains open.
+Legacy compiled map compatibility still requires the correct source/rebuild.
+
 **Release status: prototype; gameplay acceptance incomplete.** See [Codex audit](audit/CODEX_AUDIT_2026-09-27.md) for corrected defects, verified evidence, production economy arithmetic, and remaining release blockers. The desktop Antigravity report is not acceptance evidence.
 
 For the next development pass, follow [Antigravity continuation plan (TR)](ANTIGRAVITY_DEVAM_PLANI.md): prove startup and the first five waves, then close one behavior-tested system at a time. Current user instruction: local commits only; no push.

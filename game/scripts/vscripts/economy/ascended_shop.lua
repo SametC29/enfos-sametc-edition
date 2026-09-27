@@ -66,6 +66,8 @@ AscendedShop.ITEMS = {
 -- Fast lookup map
 AscendedShop.LOOKUP = {}
 for _, entry in ipairs(AscendedShop.ITEMS) do
+	-- Only expose working prototype transactions; other mechanics are still authored shells.
+	entry.available = entry.id == "item_ascended_thornplate" or entry.id == "item_ascended_aghanims_blessing"
 	AscendedShop.LOOKUP[entry.id] = entry
 end
 
@@ -94,6 +96,7 @@ function AscendedShop:SyncCatalogNetTable()
 			lumber = item.lumber,
 			gold = item.gold,
 			role = item.role,
+			available = item.available and 1 or 0,
 		}
 	end
 
@@ -134,6 +137,7 @@ end
 function AscendedShop:CanUpgrade(playerId, ascendedId)
 	local entry = self.LOOKUP[ascendedId]
 	if not entry then return false, "unknown_item" end
+	if not entry.available then return false, "not_available" end
 
 	if type(playerId)~="number" or not PlayerResource:IsValidPlayerID(playerId) then
 		return false, "invalid_player"

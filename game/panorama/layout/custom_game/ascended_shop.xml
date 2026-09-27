@@ -10,7 +10,7 @@
 		<!-- Quick Toggle Button on HUD -->
 		<Button id="AscendedShopToggleBtn" class="AscendedShopToggleBtn" onactivate="ToggleAscendedShop()">
 			<Panel class="ShopToggleIcon" />
-			<Label text="ASCENDED" />
+			<Label text="#enfos_ascended_label" />
 		</Button>
 
 		<!-- Main Ascended Shop Window -->
@@ -29,22 +29,22 @@
 			<!-- Role Filter Tabs -->
 			<Panel class="FilterBar">
 				<Button id="FilterAll" class="FilterTab Active" onactivate="SetRoleFilter('ALL')">
-					<Label text="TÜMÜ" />
+					<Label text="#enfos_role_all" />
 				</Button>
 				<Button id="FilterTank" class="FilterTab" onactivate="SetRoleFilter('Tank')">
-					<Label text="TANK" />
+					<Label text="#enfos_role_tank" />
 				</Button>
 				<Button id="FilterFighter" class="FilterTab" onactivate="SetRoleFilter('Fighter')">
-					<Label text="FIGHTER" />
+					<Label text="#enfos_role_fighter" />
 				</Button>
 				<Button id="FilterCarry" class="FilterTab" onactivate="SetRoleFilter('Carry')">
-					<Label text="CARRY" />
+					<Label text="#enfos_role_carry" />
 				</Button>
 				<Button id="FilterMage" class="FilterTab" onactivate="SetRoleFilter('Mage')">
-					<Label text="MAGE" />
+					<Label text="#enfos_role_mage" />
 				</Button>
 				<Button id="FilterSupport" class="FilterTab" onactivate="SetRoleFilter('Support')">
-					<Label text="SUPPORT" />
+					<Label text="#enfos_role_support" />
 				</Button>
 			</Panel>
 

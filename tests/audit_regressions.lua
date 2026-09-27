@@ -110,7 +110,7 @@ end)
 require('abilities/pve_kits')
 test('Ascended failure restores the same charged item and stash slot without charging lumber',function()
  local shop=require('economy/ascended_shop')
- local base={charges=17,IsNull=function() return false end,GetAbilityName=function() return 'item_heart' end}
+ local base={charges=17,IsNull=function() return false end,GetAbilityName=function() return 'item_blade_mail' end}
  local hero={slots={[12]=base},IsNull=function() return false end,IsAlive=function() return true end}
  function hero:GetItemInSlot(i) return self.slots[i] end
  function hero:TakeItem(it) for i,v in pairs(self.slots) do if v==it then self.slots[i]=nil end end end
@@ -119,9 +119,9 @@ test('Ascended failure restores the same charged item and stash slot without cha
  PlayerResource.heroes[0]=hero
  local lumber=85;shop.economyManager={GetLumber=function() return lumber end,ModifyLumber=function(_,_,n) lumber=lumber+n end}
  CreateItem=function() return {} end;UTIL_Remove=function(it) assert(it~=base) end
- local ok=shop:PurchaseUpgrade(0,'item_ascended_worldheart')
+ local ok=shop:PurchaseUpgrade(0,'item_ascended_thornplate')
  assert(not ok and lumber==85 and hero.slots[12]==base and base.charges==17)
- assert(not shop:Sellback(0,{IsNull=function() return false end,GetAbilityName=function() return 'item_ascended_worldheart' end}))
+ assert(not shop:Sellback(0,{IsNull=function() return false end,GetAbilityName=function() return 'item_ascended_thornplate' end}))
 end)
 test('gold conversions spend both reliable and unreliable gold via the engine spend API',function()
  local E=require('economy/economy_manager');E:Init()
@@ -147,5 +147,15 @@ test('Fiery Soul stack cap and Guardian Angel physical immunity are real propert
  for i=1,20 do m:OnRefresh() end
  assert(m.stack==4 and m:GetModifierAttackSpeedBonus_Constant()==120)
  assert(modifier_enfos_pve_angel:GetAbsoluteNoDamagePhysical()==1)
+end)
+test('unfinished Ascended upgrades cannot consume inventory or lumber',function()
+ local shop=require('economy/ascended_shop');local available=0
+ for _,entry in ipairs(shop.ITEMS) do
+  if entry.available then available=available+1 else
+   local ok,reason=shop:PurchaseUpgrade(0,entry.id)
+   assert(not ok and reason=='not_available')
+  end
+ end
+ assert(available==2)
 end)
 print(passed..' audit regression tests passed (mock engine).')

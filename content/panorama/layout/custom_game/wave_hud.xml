@@ -9,6 +9,7 @@
         <Label id="WaveLife" />
         <Label id="WaveBudget" />
         <Label id="WaveGold" />
+        <Label id="SoloSupport" />
         <Button id="NextWave" onactivate="SendNextWave()"><Label text="#enfos_next_wave" /></Button>
     </Panel>
 </root>

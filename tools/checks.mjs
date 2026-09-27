@@ -67,7 +67,7 @@ check('installed map/theme matches recorded playable version', () => {
   if (result.status !== 0) throw new Error(result.stderr || result.stdout);
 });
 check('validator regression tests', () => {
-  const result = spawnSync(process.execPath, ['--test', 'tools/tests/kv.test.mjs', 'tools/tests/hero_selection.test.mjs'], { stdio: 'inherit' });
+  const result = spawnSync(process.execPath, ['--test', 'tools/tests/kv.test.mjs', 'tools/tests/hero_selection.test.mjs', 'tools/tests/ascended_shop.test.mjs'], { stdio: 'inherit' });
   if (result.status !== 0) throw new Error('Validator tests failed');
 });
 if (fs.existsSync('tests/run.lua')) check('Lua behavior tests', () => {
@@ -111,7 +111,7 @@ check('Panorama source mirrors and overview mapping', () => {
   }
 });
 check('production roster and wave economy are current', () => {
-  for (const file of ['tools/roster.mjs', 'tools/wave_economy.mjs']) {
+  for (const file of ['tools/roster.mjs', 'tools/wave_economy.mjs', 'tools/item_tooltips.mjs']) {
     const result = spawnSync(process.execPath, [file, '--check'], { encoding: 'utf8' });
     if (result.status !== 0 || result.stderr) throw new Error(result.stderr || file);
   }

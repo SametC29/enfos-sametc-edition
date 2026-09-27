@@ -9,7 +9,7 @@ local EnfosSetupManager = {}
 EnfosSetupManager.__index = EnfosSetupManager
 
 EnfosSetupManager.DIFFICULTIES = {
-	casual = { name = "CASUAL", hp_mult = 0.85, xp_mult = 0.85, label = "Creature HP x0.85" },
+	casual = { name = "CASUAL", hp_mult = 0.75, xp_mult = 0.85, label = "Creature HP x0.75" },
 	normal = { name = "NORMAL", hp_mult = 1.00, xp_mult = 1.00, label = "Creature HP x1.00" },
 	hard = { name = "HARD", hp_mult = 1.25, xp_mult = 1.15, label = "Creature HP x1.25" },
 	nightmare = { name = "NIGHTMARE", hp_mult = 1.50, xp_mult = 1.30, label = "Creature HP x1.50" },

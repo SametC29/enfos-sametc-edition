@@ -15,6 +15,7 @@ local BossFramework = require("bosses/boss_framework")
 local EliteFramework = require("bosses/elite_framework")
 local EconomyManager = require("economy/economy_manager")
 local BoonManager = require("boons/boon_manager")
+local BalanceConfig = require("waves/balance_config")
 
 local WaveManager = {}
 WaveManager.__index = WaveManager
@@ -54,6 +55,7 @@ WaveManager.SPAWN_LOCATIONS = {
 --------------------------------------------------------------------------------
 function WaveManager:Init()
 	self.currentWave = 0
+	self.matchConfig = nil
 	self.state = WaveManager.STATE_IDLE
 	self.stateTimer = 0
 	self.activeCreeps = {
@@ -88,12 +90,21 @@ function WaveManager:Init()
 end
 
 function WaveManager:SetDifficulty(difficulty)
+	if self.matchConfig then return false end
 	self.difficulty = (difficulty or "normal"):lower()
 	Log:Info("wave_manager", "Game difficulty set to: %s", self.difficulty)
 end
 
 function WaveManager:GetDifficulty()
-	return self.difficulty or "normal"
+	return self.matchConfig and self.matchConfig.difficulty or self.difficulty or "normal"
+end
+
+function WaveManager:EnsureMatchConfig()
+	if not self.matchConfig then
+		self.matchConfig=BalanceConfig.Snapshot(self:GetDifficulty(),self:GetActivePlayerCount(2),self:GetActivePlayerCount(3))
+		Log:Info("wave_manager","Balance snapshot: version=%s difficulty=%s solo=%s",self.matchConfig.version,self.matchConfig.difficulty,tostring(self.matchConfig.solo))
+	end
+	return self.matchConfig
 end
 
 --------------------------------------------------------------------------------
@@ -193,8 +204,13 @@ end
 -- Preparation Phase
 --------------------------------------------------------------------------------
 function WaveManager:StartPreparation(customDuration)
+	local config=self:EnsureMatchConfig()
 	self.state = WaveManager.STATE_PREPARATION
-	self.stateTimer = customDuration or WaveManager.PREPARATION_TIME
+	local duration=config.normalPreparation
+	if config.solo and self.currentWave<config.fullSupportThrough then
+		duration=self.currentWave==0 and config.firstPreparation or config.soloPreparation
+	end
+	self.stateTimer = customDuration or duration
 
 	local nextWaveNum = self.currentWave + 1
 	Log:Info("wave_manager", "Preparation phase started for Wave %d (Duration: %.1fs).", nextWaveNum, self.stateTimer)
@@ -363,6 +379,9 @@ function WaveManager:SpawnNextBatch()
 
 	-- Set timer for next batch
 	self.batchSpawnTimer = waveDef.batch_interval or 3.5
+	if self.matchConfig and self.matchConfig.solo and self.currentWave<=self.matchConfig.fullSupportThrough and not isBoss then
+		self.batchSpawnTimer=math.max(self.batchSpawnTimer,self.matchConfig.soloBatchInterval)
+	end
 
 	if #self.pendingBatches == 0 then
 		self.state = WaveManager.STATE_ACTIVE
@@ -410,9 +429,7 @@ function WaveManager:SpawnCreepEntity(unitName, defendingTeam, lane, isBoss, act
 		Log:Info("wave_manager", "Scaled Boss HP for %d players: %d -> %d", activePlayers, baseHealth, scaledHealth)
 	end
 
-	local multipliers={casual=0.85,normal=1,hard=1.25,nightmare=1.5,hell=2}
-	local hp=math.floor(creep:GetMaxHealth()*(multipliers[self:GetDifficulty()] or 1))
-	creep:SetBaseMaxHealth(hp);creep:SetMaxHealth(hp);creep:SetHealth(hp)
+	BalanceConfig.Apply(creep,self:EnsureMatchConfig(),self.currentWave)
 	-- Register active creep
 	self.activeCreeps[defendingTeam][creep:entindex()] = creep
 
@@ -531,6 +548,7 @@ function WaveManager:SyncNetTable()
 	end
 
 	CustomNetTables:SetTableValue("wave_info", "status", {
+		solo_support = self.matchConfig and self.matchConfig.solo and nextWaveNum<self.matchConfig.fadeEnds and 1 or 0,
 		current_wave = self.currentWave,
 		next_wave = nextWaveNum,
 		max_waves = WaveDefinitions:GetTotalWaves(),

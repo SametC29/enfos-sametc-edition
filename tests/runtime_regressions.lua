@@ -28,7 +28,8 @@ test('registered wave thinker starts preparation, pauses, then spawns', function
  W:Init(); assert(thinker); thinker(); assert(W.state=='PREPARATION')
  local timer=W.stateTimer; GameRules.paused=true; thinker(); assert(W.stateTimer==timer)
  GameRules.paused=false
- for i=1,30 do thinker() end
+ assert(timer==45)
+ for i=1,90 do thinker() end
  assert(W.currentWave==1 and W.state=='SPAWNING' and #W.pendingBatches>0)
  GameRules.state=8; assert(thinker()==nil); GameRules.state=7
 end)
@@ -81,5 +82,38 @@ test('all eight portals teleport only their team and suppress bounce',function()
   h.pos=Vector(0,0,0);assert(not P:TryTeleport(h,15));h.pos=p.from;assert(P:TryTeleport(h,16))
   assert(not P:TryTeleport(hero(p.team==2 and 3 or 2,p.from),20))
  end
+end)
+test('solo balance applies actual health and attack damage, then tapers to baseline',function()
+ local B=require('waves/balance_config');local cfg=B.Snapshot('normal',1,0)
+ local unit={hp=280,lo=18,hi=24}
+ function unit:GetMaxHealth() return self.hp end
+ function unit:SetMaxHealth(v) self.hp=v end
+ function unit:SetBaseMaxHealth(v) self.baseHP=v end
+ function unit:SetHealth(v) self.currentHP=v end
+ function unit:GetBaseDamageMin() return self.lo end
+ function unit:GetBaseDamageMax() return self.hi end
+ function unit:SetBaseDamageMin(v) self.lo=v end
+ function unit:SetBaseDamageMax(v) self.hi=v end
+ B.Apply(unit,cfg,1)
+ assert(unit.hp==182 and unit.currentHP==182 and unit.lo==10 and unit.hi==14)
+ local h,d=B.Multipliers(cfg,10);assert(h==0.65 and d==0.60)
+ h,d=B.Multipliers(cfg,15);assert(math.abs(h-0.825)<0.0001 and math.abs(d-0.80)<0.0001)
+ h,d=B.Multipliers(cfg,20);assert(h==1 and d==1)
+end)
+test('solo support is symmetric and never applies to two-player coop or PvPvE',function()
+ local B=require('waves/balance_config')
+ assert(B.Snapshot('normal',0,1).solo)
+ for _,counts in ipairs({{1,1},{2,0},{0,2},{0,0}}) do
+  local cfg=B.Snapshot('normal',counts[1],counts[2]);assert(not cfg.solo)
+  local h,d=B.Multipliers(cfg,1);assert(h==1 and d==1)
+ end
+end)
+test('solo match configuration is frozen across disconnects and difficulty requests',function()
+ W:Init();W:StartPreparation();local cfg=W.matchConfig;assert(cfg.solo and W.stateTimer==45)
+ local original=W.GetActivePlayerCount;W.GetActivePlayerCount=function() return 5 end
+ assert(not W:SetDifficulty('hell'));W.currentWave=1;W:StartPreparation()
+ assert(W.matchConfig==cfg and W:GetDifficulty()=='normal' and W.stateTimer==20)
+	W.currentWave=10;W:StartPreparation();assert(W.stateTimer==15)
+ W.GetActivePlayerCount=original
 end)
 print(n..' runtime regression tests passed (mock engine).')
