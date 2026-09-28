@@ -1,5 +1,13 @@
 # Enfos kahraman ve skill araştırması — 29 Eylül 2026
 
+## Politika güncellemesi — araştırma sonrası
+
+Kullanıcı 2026-09-29 tarihinde diğer custom oyunlardan kod alma yasağını kaldırdı.
+Aşağıdaki araştırma, yapıldığı andaki politikayı ve o oturumda kod aktarılmadığını
+kaydeder. Gelecek çalışmalar için güncel [lisanslı kullanım politikası](../REFERENCE_ANALYSIS_POLICY.md)
+geçerlidir; genel yasak belirten eski değerlendirmeler artık yürürlükte değildir.
+Gerekirse bütün skiller değişebilir; kimlik, sınıflandırma ve gerçek oyun kabulü korunur.
+
 ## Sonuç ve kapsam
 
 Sorunu yalnız precache ekleyerek veya başka bir PvE oyunun skilllerini taşıyarak

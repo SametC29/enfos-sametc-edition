@@ -16,8 +16,10 @@ envanter çelişirse önce kaynak ve envanter uzlaştırılır.
    geçici bulgu; kurulu build ile eşleştiği ayrıca kanıtlanır.
 5. Yetenek eğitim depoları: kavramsal örnek; eski davranış, eksik animasyon,
    Aghanim veya hata içerebilir. Lisans ve commit kaydı olmadan kod alınmaz.
-6. Başka PvE custom oyun: yalnız oyuncuya görünen tasarım fikri; proje politikası
-   gereği kod, özel KV ve özel asset aktarımı yapılmaz.
+6. Başka PvE custom oyun: tasarım ve gerektiğinde lisanslı uygulama kaynağı.
+   Kullanıcı 2026-09-29 tarihinde genel kod aktarım yasağını kaldırdı. Kaynak sürümü,
+   lisans, dağıtım uyumu, atıf ve bağımlılıklar doğrulanınca kod/KV uyarlanabilir.
+   Özel asset hakları ayrı doğrulanır; belirsiz kaynak reference-only kalır.
 
 `FILE_VERIFIED`: kaynak arşivde bulundu/okundu. `STATIC_REVIEW`: kod incelemesi.
 `MOCK_PASS`: taklit motor testi. `ENGINE_PASS`: gerçek Dota testi, build ve kanıt

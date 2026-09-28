@@ -131,7 +131,8 @@ User direction: local commits only, no GitHub push (2026-09-26).
 Map direction (2026-09-26): preserve Enfos survival (Workshop 3591082091)'s layout and
 elevations; change its theme to autumn forest and stone roads. The user explicitly
 authorized map geometry reuse for this work, superseding the earlier geometry
-prohibition. Other reference gameplay code/custom assets remain excluded.
+prohibition. The 2026-09-29 owner update now permits verified licensed code reuse
+under REFERENCE_ANALYSIS_POLICY.md; custom asset rights remain separate.
 
 1. Courier capacity/ownership/reconnect behavior and item conservation.
 2. Complete Phase 1 proofs: selection, six-slot delivery design, shop integration,

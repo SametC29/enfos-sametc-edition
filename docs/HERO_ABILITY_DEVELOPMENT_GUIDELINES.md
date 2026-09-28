@@ -34,13 +34,15 @@ Prefer an additional Enfos modifier over a complete rewrite when it can provide 
 
 Define normal-creep, elite and boss behavior explicitly. Preserve useful boss interactions where practical while preventing permanent control loops, unrestricted executes and runaway scaling. Do not silently invent boss exceptions or radically redefine a hero. Record unresolved material choices in `DECISIONS_OPEN_ITEMS.md` before destructive changes. Restore correctness first; keep balance changes explicit and separate from technical repair where possible.
 
-## Verified references and clean-room boundaries
+## Verified references and licensed reuse
 
 Never guess native ability IDs, KV values or special-value keys, modifier names, particle/projectile paths, sound events, attachments, animation constants, API signatures, immunity, dispel or status-resistance behavior.
 
 Use current installed Dota KV, localization, VPK resources, particles and sound-event definitions first. Consult Valve Workshop documentation and official examples for supported engine patterns. Versioned game-data mirrors such as GameTracking are secondary evidence; record provenance and date/build and cross-check current installed data when possible. Older community implementations do not establish current native behavior.
 
-Use `REFERENCE_ANALYSIS_POLICY.md` for all external references. Other custom games, including hero-rework and PvE maps, remain design references only; a permissive license does not override this repository's prohibition on transplanting their code or custom assets. For otherwise permitted third-party libraries/examples, verify the exact license and attribution obligations before reuse. Unclear licensing means reference only; do not assume GPL code is interchangeable with permissively licensed code. Prefer valid native Valve resources for this Dota addon.
+Use `REFERENCE_ANALYSIS_POLICY.md` for all external references. The owner removed the blanket custom-game code prohibition on 2026-09-29. Reuse is permitted after exact source/version, license scope, distribution compatibility, notices and dependencies are established. Track imports and adaptations; unclear permission means reference only. Verify custom asset rights separately. Prefer valid native Valve resources.
+
+The owner permits replacement of all skills where necessary. Existing implementations are not mandatory merely because they exist. Native-first evaluation, evidence-backed classification, hero identity and engine acceptance still apply; permission does not mandate a blanket rewrite.
 
 Record the source file/resource and build or revision for verified identifiers. Distinguish confirmed defects from static suspicions and unavailable evidence. If actual resources or engine access are unavailable, mark verification pending rather than fabricate paths or claim success.
 

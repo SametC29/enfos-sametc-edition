@@ -8,7 +8,7 @@ This file stays concise. Detailed truth is under `docs/`.
 - `docs/IMPLEMENTATION_ROADMAP.md` — phased execution and acceptance gates.
 - `docs/QA_BALANCE_RELEASE.md` — tests, simulation, compatibility, release.
 - `docs/DECISIONS_OPEN_ITEMS.md` — locked/provisional/blocked decisions.
-- `docs/REFERENCE_ANALYSIS_POLICY.md` — clean-room reference rules.
+- `docs/REFERENCE_ANALYSIS_POLICY.md` — external references, licensed reuse and provenance rules.
 - `docs/HERO_ABILITY_DEVELOPMENT_GUIDELINES.md` — required before hero/ability audits, repairs, PvE conversions, VFX/SFX, modifiers or precache changes.
 - `docs/heroes/README.md` — find the affected hero, then read its `AGENTS.md` and `ABILITIES.md`, plus `docs/HERO_ABILITY_REFERENCE.md`, before every skill change (including shared Lua/KV/precache changes). These dossiers are evidence ledgers, not runtime certification.
 
@@ -29,7 +29,7 @@ Do not load every doc for trivial work.
 - No hero-ban phase.
 - Prefer Dota-native hero-selection experience if technically viable; prove early.
 - Localization from day one: EN/TR/RU/zh-CN.
-- Watcher/Enfo/other custom maps are references only; never copy their code/custom assets.
+- Other custom games may supply code after exact source/version, license, compatibility and attribution are verified under REFERENCE_ANALYSIS_POLICY.md. Unclear permission means reference only; custom asset rights are separate.
 
 ## Engineering rules
 1. Server-authoritative state.
@@ -47,6 +47,7 @@ Do not load every doc for trivial work.
 
 ## Hero and ability work
 - Native first: keep native behavior, then tune, then convert only the PvP-specific part; full replacement is the last resort. Preserve recognizable Dota hero identity.
+- The owner permits replacing every skill if evidence warrants it; no existing custom implementation must be retained merely because it exists. Follow pilot/hero rollout and preserve hero identity.
 - Classify each ability as KEEP / TUNE / PVE-CONVERT / REPLACE with evidence before changing it. Never guess Dota identifiers, assets or engine behavior.
 - Audit globally, repair shared root causes, validate 2–4 representative pilot heroes, then proceed hero by hero. Do not perform blanket Lua rewrites.
 - Gameplay, VFX, SFX, modifiers, precache, cleanup and tooltips are one acceptance unit. Automated checks alone do not establish DONE; record actual Dota/VConsole verification or explicitly mark it pending.

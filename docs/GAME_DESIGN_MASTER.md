@@ -18,7 +18,7 @@ Provisional timing, implementation boundaries and engine acceptance:
 
 Create an original Dota 2 Custom Game centered on authored PvE survival, team composition, itemization, strategic PvEvP interference through Spellbringer, readable Boss/Elite encounters, and long-term account/hero progression.
 
-Reference inspirations such as Enfo's, Watcher of Samsara, Aghanim's Labyrinth and other successful custom maps may inform mechanics and pacing. This project must not copy their code, custom assets, UI, names, text, lore, sounds or map data.
+Reference inspirations such as Enfo's, Watcher of Samsara, Aghanim's Labyrinth and other successful custom maps may inform mechanics and pacing. Since the owner's 2026-09-29 update, code reuse is permitted with verified source, license, compatibility and notices under REFERENCE_ANALYSIS_POLICY.md. Custom assets and other authored material require separately established rights; existing map authorization remains specific.
 
 Long-term product target:
 - release with 40 heroes,

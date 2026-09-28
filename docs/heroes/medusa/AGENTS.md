@@ -13,4 +13,4 @@ Read [the shared hero contract](../AGENTS.md), [technical reference](../../HERO_
 - Update each affected acceptance row; gameplay, VFX, SFX, modifier, precache, cleanup and tooltip are one acceptance unit.
 - PASS requires the relevant evidence; absent Dota/VConsole/audio/visual tests remain PENDING. A documented N/A must be justified.
 - Restore/reconnect must not duplicate ranks, points, modifiers, items or choices.
-- Never import another custom game's code/assets. Do not publish to Workshop from a dossier update.
+- Reuse other custom-game code only under REFERENCE_ANALYSIS_POLICY.md: verify exact source/version, license, distribution compatibility, notices and dependencies; document imports. Asset rights are separate. Do not publish to Workshop from a dossier update.

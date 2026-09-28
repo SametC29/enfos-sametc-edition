@@ -115,9 +115,10 @@ This file exists so Codex does not "helpfully" redesign locked decisions.
 - architecture must scale to 100 heroes.
 
 ### References
-- Watcher, Enfo's and other custom maps are references only.
-- never copy their code/custom assets/UI/map data/text.
-- suitable mechanics are independently reimplemented.
+- The owner removed the blanket custom-game code prohibition on 2026-09-29.
+- Verified licensed code reuse follows REFERENCE_ANALYSIS_POLICY.md; custom asset rights are separate.
+- Unclear permission means concept reference and independent implementation.
+- All hero skills may be replaced if justified; preserve identity, classify changes and validate pilots/hero rollout. No import or skill rewrite was performed by this policy update.
 
 ## PROVISIONAL BALANCE SEEDS
 May change without reopening core design:
