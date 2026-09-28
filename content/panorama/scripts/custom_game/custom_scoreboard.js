@@ -3,6 +3,13 @@
 var isManuallyOpen = false;
 var isEngineOpen = false;
 
+// This game uses the custom damage/life flyout. Keep Valve's duplicate top scoreboard hidden.
+if (typeof GameUI !== "undefined" && GameUI.SetDefaultUIEnabled &&
+    typeof DotaDefaultUIElement_t !== "undefined" &&
+    DotaDefaultUIElement_t.DOTA_DEFAULT_UI_TOP_SCOREBOARD !== undefined) {
+    GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_TOP_SCOREBOARD, false);
+}
+
 function ToggleScoreboard() {
     isManuallyOpen = !isManuallyOpen;
     var container = $("#ScoreboardContainer");

@@ -2,6 +2,12 @@ var EnfosEvolution=(function(){
  "use strict";
  var data={}, open=false, lastPending=0;
  var levels=[4,7,10,13,16,19];
+ function indexed(value,index){
+  if(!value)return null;
+  if(Array.isArray(value))return value[index-1]||null;
+  if(value[String(index)]!==undefined)return value[String(index)];
+  return value[index-1]||null;
+ }
  function show(value){open=value;$('#EvoModal').SetHasClass('EvoModalHidden',!value);}
  function description(c){
   var kind=c.special==='cooldown'?'cooldown':c.mode==='+'?'add':'percent';
@@ -12,9 +18,9 @@ var EnfosEvolution=(function(){
   levels.forEach(function(level){
    var tier=$.CreatePanel('Panel',root,'');tier.AddClass('EvoTier');
    var number=$.CreatePanel('Label',tier,'');number.AddClass('EvoLevel');number.text=String(level);
-   var pair=(data.tree||{})[String(level)]||{};
+   var pair=(data.tree||{})[String(level)]||indexed(data.tree,level)||{};
    [1,2].forEach(function(side){
-    var c=pair[String(side)];if(!c)return;
+    var c=indexed(pair,side);if(!c)return;
     var chosen=(data.chosen_history||{})[String(level)];
     var b=$.CreatePanel('Button',tier,'');b.AddClass('EvoChoice');b.SetHasClass('Selected',chosen===c.id);
     b.enabled=!chosen && Number(data.hero_level)>=level;
@@ -27,8 +33,6 @@ var EnfosEvolution=(function(){
     icon.SetPanelEvent('onmouseout',function(){ $.DispatchEvent('DOTAHideAbilityTooltip'); });
    });
   });
-  $('#EvoBadgeButton').SetHasClass('Pending',Number(data.pending_count)>0);
-  $('#EvoBadgeText').text=$.Localize('#enfos_evolution_tree')+(data.pending_count?' ('+data.pending_count+')':'');
  }
  function update(_,key,value){if(String(key)!==String(Players.GetLocalPlayer()))return;
   data=value||{};render();
@@ -40,7 +44,18 @@ var EnfosEvolution=(function(){
  function bindNative(){
   var root=$.GetContextPanel();while(root.GetParent())root=root.GetParent();
   var branch=root.FindChildTraverse('StatBranch');
-  if(branch){branch.SetPanelEvent('onactivate',toggle);branch.SetPanelEvent('onmouseover',function(){});branch.SetPanelEvent('onmouseout',function(){});}
+  if(branch){
+   if(branch.ClearPanelEvent)branch.ClearPanelEvent('onactivate');
+   branch.SetPanelEvent('onactivate',toggle);
+   if(branch.ClearPanelEvent){branch.ClearPanelEvent('onmouseover');branch.ClearPanelEvent('onmouseout');}
+   branch.SetPanelEvent('onmouseover',function(){});branch.SetPanelEvent('onmouseout',function(){});
+  }
+  var levelTab=root.FindChildTraverse('LevelUpTab');
+  if(levelTab){
+   if(levelTab.ClearPanelEvent){levelTab.ClearPanelEvent('onactivate');levelTab.ClearPanelEvent('onmouseover');levelTab.ClearPanelEvent('onmouseout');}
+   levelTab.SetPanelEvent('onactivate',toggle);
+   levelTab.SetPanelEvent('onmouseover',function(){});levelTab.SetPanelEvent('onmouseout',function(){});
+  }
   $.Schedule(1,bindNative);
  }
  CustomNetTables.SubscribeNetTableListener('evolution_state',update);

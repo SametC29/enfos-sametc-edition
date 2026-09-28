@@ -429,7 +429,9 @@ function modifier_bulwark_shield_slam_slow:GetModifierMoveSpeedBonus_Percentage(
 bulwark_challenge=class({})
 function bulwark_challenge:OnSpellStart()
     local c = self:GetCaster()
+    c:StartGesture(ACT_DOTA_CAST_ABILITY_2)
     c:EmitSound('Hero_Sven.WarCry')
+    effect('particles/units/heroes/hero_sven/sven_warcry_buff.vpcf', c)
     local dur = value(self, 'duration')
     local rad = value(self, 'radius')
     if rad <= 0 then rad = 500 end
@@ -437,7 +439,10 @@ function bulwark_challenge:OnSpellStart()
     c:AddNewModifier(c, self, 'modifier_enfos_pve_warcry', { duration = dur })
 
     for _, a in ipairs(allies(c, c:GetAbsOrigin(), rad)) do
-        if a~=c then a:AddNewModifier(c, self, 'modifier_enfos_pve_warcry', { duration = dur }) end
+        if a~=c then
+            a:AddNewModifier(c, self, 'modifier_enfos_pve_warcry', { duration = dur })
+            effect('particles/units/heroes/hero_sven/sven_warcry_buff.vpcf', a)
+        end
     end
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), rad)) do
@@ -470,6 +475,9 @@ function modifier_enfos_pve_warcry:OnCreated()
         self.barrier = self.barrier + (c:GetMaxHealth() * 0.25)
     end
     if IsServer() and self.SetStackCount then self:SetStackCount(math.ceil(self.barrier)) end
+    if IsServer() and c and SendOverheadEventMessage and OVERHEAD_ALERT_BLOCK then
+        SendOverheadEventMessage(nil, OVERHEAD_ALERT_BLOCK, c, math.ceil(self.barrier), nil)
+    end
 end
 function modifier_enfos_pve_warcry:OnTooltip() return value(self:GetAbility(), 'bonus_armor') end
 function modifier_enfos_pve_warcry:OnTooltip2() return self:GetStackCount() end
@@ -485,6 +493,7 @@ function modifier_enfos_pve_warcry:GetModifierTotal_ConstantBlock(e)
     if self.SetStackCount then self:SetStackCount(math.ceil(self.barrier)) end
     return block
 end
+function modifier_enfos_pve_warcry:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_pve_warcry:OnTakeDamage(e)
     if not IsServer() or e.unit ~= self:GetParent() or not e.attacker or e.attacker:IsNull() or e.attacker == e.unit then return end
     if e.damage_flags and bit and bit.band(e.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION or 16) ~= 0 then return end

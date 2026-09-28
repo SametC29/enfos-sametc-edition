@@ -63,6 +63,20 @@ Open scoreboard with the configured score key and SKOR; confirm damage/kills/gol
 advance and purchases/sales do not inflate earned gold. Flip minimap side and
 verify Spellbringer follows it. Reconnect must retain choices and scoreboard data.
 
-Publishing approval exists from the user's audit-and-publish request. Git remains
-local only by user instruction. Workshop upload, public metadata and fresh client
-download are separate release checks, recorded in WORKSHOP_YAYINLAMA.md.
+## Local follow-up after the supplied screenshots
+
+- Removed the extra bottom-left Evolution badge. Both the native StatBranch and
+  LevelUpTab open the custom tree and clear Valve's blank built-in popup handler.
+- The tree renderer accepts both Panorama's zero-based JS arrays and keyed
+  net-table objects, fixing the screenshot where only tier numbers appeared.
+- Disabled Valve's duplicate native top scoreboard; the custom SKOR flyout remains
+  available from Tab and the in-game SKOR button.
+- Sven W now starts Sven's cast gesture, shows an overhead barrier number, and
+  explicitly plays its stock Warcry particle on affected allies. Its persistent
+  buff particle, sound, armor/speed, shield and taunt remain active.
+- Recompiled the Evolution and custom scoreboard Panorama XML successfully. The
+  user asked to hold publication; these follow-up edits are local only and are not
+  in the Workshop package.
+
+Git remains local only by user instruction. Further Workshop publication requires
+the user's new explicit request; delivery and engine playtesting are separate checks.

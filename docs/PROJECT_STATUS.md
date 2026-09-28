@@ -5,6 +5,11 @@ until explicit instruction. V1.0.2 had already returned SteamCMD commit Success
 when the hold arrived; public metadata and client delivery remain unverified.
 Do not upload, re-upload or roll back remotely without a new user instruction.
 
+The screenshot follow-up is local only: removed the Evolution badge, fixed the
+choice list, rebound both native talent controls, hid the duplicate Valve
+scoreboard, and strengthened Sven W's feedback. Two UI layouts compile; this
+follow-up is not in the Workshop package. See [focused audit](audit/HUD_SVEN_RELEASE_2026-09-28.md).
+
 V1.0.2 repairs the scoreboard, minimap docking, top clocks, innate display and
 six-tier talent preview, plus Sven W/barrier/taunt, passive and Aghanim contracts.
 Full automated checks pass; all 13 Panorama resources compile. No new engine
