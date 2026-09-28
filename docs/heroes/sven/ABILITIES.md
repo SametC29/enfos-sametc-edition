@@ -58,24 +58,41 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+## Kit decision draft — 2026-09-29
+
+These are evidence-backed **design proposals**, not a production rewrite or runtime pass. The owner authorized full skill replacement where warranted. Confirm numbers, boss exceptions and exact VFX with in-game review before implementing a major identity change. All skills must ultimately support 10 total ranks; curve pending.
+
+| Slot | Proposed class | Direction | PvE job |
+| --- | --- | --- | --- |
+| Q Storm Hammer | TUNE | Use Sven's native Storm Hammer targeting/projectile/impact foundation; tune rank curve/AoE/stun for waves. Do not retain the current fake travel value or invent travel. | Ranged engage, wave stun, boss interrupt with explicit reduced duration. |
+| W Warcry | PVE-CONVERT | Retain recognizable team Warcry buff and sound/animation; add a bounded wave taunt/aggro pulse as the PvE conversion. Review current barrier/Shard reflection separately to avoid overloaded defense. | Team defense + tank threat. |
+| E Great Cleave | TUNE | Restore the native Sven cleave identity and tune cleave scaling/radius for wave clear. Current armor/block/reflect package is a substantial replacement for the signature cleave. | Reliable melee wave clear. |
+| R God's Strength | TUNE | Retain native transformation and attack damage as the centerpiece. Remove extra shockwave/reduction/Str/move/status components unless the level10 design demonstrates a distinct, balanced role. | Focused elite/boss attack window. |
+| Enfos passive | PVE-CONVERT | Keep a durable Sven passive, but connect it to the native Sven fantasy (e.g. bonus damage against stunned targets) rather than duplicating several unrelated defenses. Existing regen/health/status resistance needs one deliberate survivability budget. | Tank sustain and synergy with Q. |
+
+The proposed passive inspiration is the installed Sven native innate definition `sven_vanquisher` (bonus damage against stunned targets); `sven_wrath_of_god` is also present as a separate native definition/facet variant. This is not a slot mapping: confirm which native variant Enfos intends before migration. Current Enfos fifth slot uses `sven_wrath_of_god` icon and an 8-rank custom modifier.
+
 ## Slot 1: `bulwark_shield_slam`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
+Classification: TUNE
+Native counterpart: `sven_storm_bolt` / Storm Hammer, verified from installed Sven `AbilityDefinitions` (ClientVersion 6941, SourceRevision 11041083). The icon and Enfos slot alone were not used as evidence.
+Decision and PvE identity rationale: Proposal: keep/tune native Storm Hammer because the native stun/projectile/AoE already serves wave control. Existing custom code is a shield-themed immediate AoE and loses travel. Do not mark the proposal final until the user reviews the kit direction.
+Expected cast/travel/impact/ongoing/cleanup behavior: Native unit-target cast, native cast animation/projectile/travel and impact. Tune native values for Enfos. Any added PvE effect must own a separate impact/cleanup path. No Enfos slow/knockback is approved by this draft.
+Migration dependency: direct native assignment would replace stable project ID `bulwark_shield_slam`. Before doing so, trace hero slot/roster, localization, evolution overrides, Aghanim hooks and tooltip consumers; either keep a deliberate compatibility mapping or document the ID migration. The native skill's current four-rank definition also does not by itself establish the requested ten-rank curve.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
 
-- Native ability data source + build + hash/revision: PENDING.
-- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
-- Sound events + declaring banks + emission target + loop termination: PENDING.
+- Native definition: `scripts/npc/heroes/npc_dota_hero_sven.txt`, `AbilityDefinitions/sven_storm_bolt`; installed archive hash is recorded above; ClientVersion 6941 / SourceRevision 11041083. Native KV says unit-target + AoE, magical damage, `Hero_Sven.StormBoltImpact`, strong dispel, 600 range, 0.2 cast point, cast animation `ACT_DOTA_CAST_ABILITY_1`, projectile speed 1000, stun 1.0/1.25/1.5/1.75s and AoE 250/270/290/310. Native projectile/engine runtime itself remains untested.
+- Current Enfos source: `npc_abilities_custom.txt/bulwark_shield_slam` plus `pve_kits.lua:bulwark_shield_slam:OnSpellStart`. It allows both unit and point cast, deals physical damage immediately at the cursor origin, adds STR×2 + armor×8, applies 3s slow and rank-scaled stun, pushes non-boss enemies and caps boss stun at 0.6s. It creates no projectile; KV `bolt_speed=1400` is not read in the Lua callback. The tooltip describes an immediate strike, while the ability icon/name and unused bolt value suggest expectations need to be settled in the kit design.
+- Particle evidence: Enfos uses `sven_storm_bolt_projectile_explosion.vpcf`, attaches it to the caster with `PATTACH_ABSORIGIN`, sets CP3 to the selected impact origin, then releases its index. That compiled VPK asset exists and the project explicitly precaches the path in `addon_game_mode.lua`. The asset's CP3 meaning, visual placement, duration and correctness are not verified; existence/precache do not equal visible effect.
+- Audio evidence: Enfos emits `Hero_Sven.StormBolt`; the native hero file points to `soundevents/game_sounds_heroes/game_sounds_sven.vsndevts`, and native Storm Hammer declares `Hero_Sven.StormBoltImpact`. The current emitted event's definition, perceptible cast/hit timing and actual sound remain unverified. Do not claim SFX PASS.
+- Model/animation/gesture/icon evidence: Enfos KV does not define `AbilityCastAnimation` for this custom ability and Lua does not call `StartGesture`; runtime animation behavior is PENDING. Native ability declares the cast animation above.
 - Model/animation/gesture/icon evidence: PENDING.
 - Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.
-- Precache owner and cold-start test: PENDING.
+- Precache owner: `addon_game_mode.lua` (two declarations of this explosion path are present). Cold-start test: PENDING.
 - One-shot/persistent cleanup owner and repeated-use test: PENDING.
 - Localization keys and generated mirrors: PENDING.
 
@@ -83,16 +100,16 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Static source confirms immediate custom physical AoE, stun, slow, knockback and Scepter relocation; not a gameplay test. |
+| Targeting | PENDING | KV permits unit + point casts; source picks cursor target origin or cursor point. Invalid targets, range and immunity not tested. |
 | Ranks | PENDING | Not evaluated in this dossier setup. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
-| Animation | PENDING | Not evaluated in this dossier setup. |
+| VFX | PENDING | Explosion asset path is in installed VPK and explicit precache; CP3 meaning/placement and in-game visibility not tested. No projectile is created by current callback. |
+| SFX | PENDING | Native bank and native impact event declaration observed; current `Hero_Sven.StormBolt` event resolution and audible output not verified. |
+| Animation | PENDING | No custom cast animation KV or explicit gesture in current source; actual engine animation pending. |
 | Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
+| Precache | PENDING | Explosion path explicitly precached twice in `addon_game_mode.lua`; cold start and projectile-resource coverage pending. |
+| Cleanup | PENDING | Current callback releases one impact-particle index; visual lifetime and recast behavior pending. |
+| Boss | PENDING | Source caps stun at 0.6s and suppresses knockback on boss-name match; damage/slow/control outcome in engine pending. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
 | Localization | PENDING | Not evaluated in this dossier setup. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
@@ -103,10 +120,11 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 2: `bulwark_challenge`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `sven_warcry`, verified in the installed Sven `AbilityDefinitions`, ClientVersion 6941 / SourceRevision 11041083. Native Warcry has immediate no-target behavior, native War Cry sound, override ability 3 cast gesture, dispellable ally buff and native radius/duration/speed/armor values.
+Decision and PvE identity rationale: Proposal: retain Warcry's native allied armor/movement buff; Enfos enemy-wave taunt is a PvE conversion. Review the barrier and Shard reflection budget before keeping both.
+Expected cast/travel/impact/ongoing/cleanup behavior: Immediate AoE team cast plus bounded enemy aggro modifier; test target AI, boss behavior, caster death and modifier cleanup.
+Static review: current Enfos Lua plays `Hero_Sven.WarCry`, which matches the native hero ability's declared event. It manually starts `ACT_DOTA_CAST_ABILITY_2`, whereas native Warcry declares `ACT_DOTA_OVERRIDE_ABILITY_3`; verify whether this causes a bad/missing cast animation. The helper-created buff particles plus modifier `GetEffectName` may create duplicates; visual test pending. Taunt cleanup currently clears the unit's force-attack target unconditionally; check interaction with lane AI/other aggro sources.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
@@ -146,10 +164,11 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 3: `bulwark_iron_guard`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
+Classification: TUNE
+Native counterpart: `sven_great_cleave`, verified in the installed Sven `AbilityDefinitions`, ClientVersion 6941 / SourceRevision 11041083. Native source defines a passive, breakable cleave with four ranks and a native cleave attack animation.
+Decision and PvE identity rationale: Proposal: tune native Great Cleave for the core Sven wave-clear identity. The current custom replacement spends much of the slot on defense and does not preserve native cleave implementation.
+Expected cast/travel/impact/ongoing/cleanup behavior: Native passive attack cleave and its native visual/combat event; verify crowded waves, buildings, illusions, attack flags and Break in the target build.
+Static review: current custom E combines physical armor, constant physical block, 30% reflection based on a physical-damage event, and attack-landed radial cleave. KV also contains `passive_armor` and `damage_reduction` specials not read by this modifier; they remain unconfirmed audit candidates.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
@@ -189,10 +208,11 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 4: `bulwark_fortress`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
+Classification: TUNE
+Native counterpart: `sven_gods_strength`, verified in the installed Sven `AbilityDefinitions`, ClientVersion 6941 / SourceRevision 11041083. Native source declares no-target ultimate, native God's Strength sound, override ability 4 cast animation, non-dispellable duration and attack-damage scaling.
+Decision and PvE identity rationale: Proposal: preserve native God's Strength as Sven's focused damage window. The custom repeating shockwave and stacked defensive stats risk making it an AoE tank ultimate instead.
+Expected cast/travel/impact/ongoing/cleanup behavior: Native cast/transform/attack bonus and duration; tune cooldown/damage to bosses and waves, then validate Scepter and any Enfos upgrade.
+Static review: the current custom ultimate adds a shockwave every 1.5s, damage reduction, strength and movement speed; Scepter adds status resistance and ally buffs. `bonus_hp` and `bonus_armor` are present in KV but unreferenced in the contract scan. Each shockwave uses the Storm Bolt explosion particle at the caster origin with no target-position CP assignment; exact effect suitability remains unverified.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
@@ -232,10 +252,11 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 5: `bulwark_unbreakable`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
+Classification: PVE-CONVERT
+Native counterpart candidate: installed Sven definitions include innate `sven_vanquisher` (bonus damage versus stunned targets) and separate `sven_wrath_of_god` facet variant (strength-scaled bonus damage); neither is proven to be a direct mapping for this project-specific free passive slot. Build/revision is recorded above.
+Decision and PvE identity rationale: Proposal: keep a durable tank passive but add a deliberate interaction with Sven's stun/cleave identity. Installed source contains `sven_vanquisher` (bonus against stunned enemies) and separate `sven_wrath_of_god` facet definition; do not conflate either with Enfos's fifth slot.
+Expected cast/travel/impact/ongoing/cleanup behavior: Passive only; rank scaling, Break, death/respawn and free starting rank must be tested. Select either tank sustain or stun synergy as the primary passive budget before adding both.
+Static review: current 8-rank passive grants HP regen, max HP and status resistance; under-40%-health Shard doubles regen. This is a coherent durability package but does not currently implement the native stun synergy. KV also has `cleave_pct` and `gods_strength_duration` candidates not used by the passive.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
