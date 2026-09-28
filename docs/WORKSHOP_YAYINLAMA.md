@@ -133,6 +133,30 @@ yerel harita çalışmasına izni, referans harita yazarından alınmış bir ye
 lisansı belgesi değildir. Yayıncı hak sahipliği beyanı isterse bunu otomatik onaylamayın;
 mevcut izin/lisans kaydına göre değerlendirin.
 
+## Yayın bekletme — 2026-09-28
+
+Kullanıcı bundan sonraki canlı yayınları kendisi söyleyene kadar erteledi.
+Yerel geliştirme ve kontroller devam edebilir; yeni yükleme, yeniden yükleme veya
+canlı geri dönüş için yeniden açık talimat gerekir. Genel önceki yayın izni bu
+bekletmeyi geçersiz kılmaz.
+
+## V1.0.2 gönderim kaydı — 2026-09-28
+
+- İçerik commit'i: `f370a3b`; HUD/skor/hüner ağacı ve Sven düzeltmeleri.
+- Tam otomatik kontroller: 0 hata; 13 Panorama XML derlemesi başarılı.
+- Paket: 110 dosya, 22.273.882 bayt, 10 korunan harita dosyası değişmedi.
+- VPK SHA-256: `4657a7ada54b54eb81887efae19a9553336fdefaad11ea07bebd20d512ce208a`.
+- SteamCMD `Committing update...Success` döndürdü ve normal kapandı.
+  Kullanıcının yayın bekletme mesajı geldiğinde gönderim zaten tamamlanmıştı;
+  yalnız bu projeye ait devam eden yükleme işlemi arandı, aktif işlem bulunmadı.
+- Kullanıcıya tamamlanmış gönderim açıklandı. Sonraki uzak mutasyon yapılmadı.
+- Güncel herkese açık metadata ve V1.0.2 istemci indirmesi doğrulanmadı.
+  Web okuyucusu Workshop sayfasını açamadı. Upload kabulü, Arcade görünürlüğü ve
+  yeni paketin oyunculara teslimi aynı şey değildir.
+- Yeni motor içi oynanış testi yapılmadı; kullanıcı testi bekleniyor. Ayrıntılar:
+  [HUD/Sven denetimi](audit/HUD_SVEN_RELEASE_2026-09-28.md).
+- Önceki V1.0.1 paketi yerelde `release/rollback/V1.0.1/` altında korundu.
+
 ## V1.0.0 yayın kaydı
 
 - İstenen başlık: Enfos Team Survival - SametC Edition V1.0.0
