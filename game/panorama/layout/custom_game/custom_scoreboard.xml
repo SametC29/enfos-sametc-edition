@@ -11,10 +11,10 @@
             <Panel class="ScoreboardHeader">
                 <Panel class="ScoreboardTitleGroup">
                     <Label class="ScoreboardTitle" text="ENFOS TEAM SURVIVAL" />
-                    <Label class="ScoreboardSubtitle" text="HASAR VE SAVAŞ TABLOSU" />
+                    <Label class="ScoreboardSubtitle" text="#enfos_score_title" />
                 </Panel>
                 <Panel class="ScoreboardControls">
-                    <Label class="ScoreboardTip" text="[TAB] Aç / Kapat" />
+                    <Label class="ScoreboardTip" text="#enfos_score_hint" />
                     <Button id="ScoreboardCloseBtn" class="ScoreboardCloseBtn" onactivate="CloseScoreboard()">
                         <Label text="✕" />
                     </Button>
@@ -23,14 +23,14 @@
 
             <!-- Column Legend -->
             <Panel class="ScoreboardLegend">
-                <Label class="Col_Hero" text="KAHRAMAN" />
-                <Label class="Col_Player" text="OYUNCU" />
-                <Label class="Col_Level" text="SV" />
-                <Label class="Col_Damage" text="VERİLEN TOPLAM HASAR" />
-                <Label class="Col_Kills" text="ÖLDÜRÜLEN DÜŞMAN" />
-                <Label class="Col_Gold" text="KAZANILAN ALTIN" />
-                <Label class="Col_Lumber" text="ODUN" />
-                <Label class="Col_Items" text="EŞYALAR" />
+                <Label class="Col_Hero" text="#enfos_score_hero" />
+                <Label class="Col_Player" text="#enfos_score_player" />
+                <Label class="Col_Level" text="#enfos_hud_level" />
+                <Label class="Col_Damage" text="#enfos_score_damage" />
+                <Label class="Col_Kills" text="#enfos_score_kills" />
+                <Label class="Col_Gold" text="#enfos_score_gold" />
+                <Label class="Col_Lumber" text="#enfos_score_lumber" />
+                <Label class="Col_Items" text="#enfos_score_items" />
             </Panel>
 
             <!-- Teams Area -->
@@ -40,13 +40,13 @@
                     <Panel class="TeamHeaderRow RadiantHeader">
                         <Panel class="TeamNameRow">
                             <Panel class="TeamColorBar RadiantColorBar" />
-                            <Label class="TeamName" text="AYDINLIK (RADİANT)" />
+                            <Label class="TeamName" text="#DOTA_GoodGuys" />
                         </Panel>
                         <Panel class="TeamSummaryRow">
-                            <Label id="RadiantTotalDamage" class="TeamSummaryText" text="Takım Hasarı: 0" />
-                            <Label id="RadiantTotalKills" class="TeamSummaryText" text="Takım Düşman: 0" />
+                            <Label id="RadiantTotalDamage" class="TeamSummaryText" text="0" />
+                            <Label id="RadiantTotalKills" class="TeamSummaryText" text="0" />
                             <Panel class="TeamScoreBadge">
-                                <Label text="CAN: " class="TeamLifeLabel" />
+                                <Label text="#enfos_score_life" class="TeamLifeLabel" />
                                 <Label id="RadiantScoreboardLife" class="TeamLifeVal" text="100 / 100" />
                             </Panel>
                         </Panel>
@@ -59,13 +59,13 @@
                     <Panel class="TeamHeaderRow DireHeader">
                         <Panel class="TeamNameRow">
                             <Panel class="TeamColorBar DireColorBar" />
-                            <Label class="TeamName" text="KARANLIK (DİRE)" />
+                            <Label class="TeamName" text="#DOTA_BadGuys" />
                         </Panel>
                         <Panel class="TeamSummaryRow">
-                            <Label id="DireTotalDamage" class="TeamSummaryText" text="Takım Hasarı: 0" />
-                            <Label id="DireTotalKills" class="TeamSummaryText" text="Takım Düşman: 0" />
+                            <Label id="DireTotalDamage" class="TeamSummaryText" text="0" />
+                            <Label id="DireTotalKills" class="TeamSummaryText" text="0" />
                             <Panel class="TeamScoreBadge">
-                                <Label text="CAN: " class="TeamLifeLabel" />
+                                <Label text="#enfos_score_life" class="TeamLifeLabel" />
                                 <Label id="DireScoreboardLife" class="TeamLifeVal" text="100 / 100" />
                             </Panel>
                         </Panel>

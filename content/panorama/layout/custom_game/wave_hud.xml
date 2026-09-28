@@ -22,10 +22,11 @@
             <!-- Center: Wave Number (replaces Day/Night icon) & Countdown (replaces GameTime) -->
             <Panel id="WaveCenterBadge" class="WaveCenterBadge">
                 <Panel class="WaveNumberRow">
-                    <Label id="TopWaveTitle" class="TopWaveTitle" text="DALGA 1 / 60" />
+                    <Label id="TopWaveTitle" class="TopWaveTitle" text="#enfos_sametc_wave" />
                     <Button id="GuideBtn" class="TopGuideBtn" onactivate="ToggleGuide()"><Label text="?" /></Button>
-                    <Button id="ToggleDamageTableBtn" class="TopScoreboardBtn" onactivate="ToggleEnfosScoreboard()"><Label text="SKOR" /></Button>
+                    <Button id="ToggleDamageTableBtn" class="TopScoreboardBtn" onactivate="ToggleEnfosScoreboard()"><Label text="#enfos_hud_score" /></Button>
                 </Panel>
+                <Label id="TopElapsedTime" class="TopWaveTimer" text="00:00" />
                 <Label id="TopWaveTimer" class="TopWaveTimer" text="00:45" />
             </Panel>
 
@@ -43,7 +44,7 @@
 
         <!-- Centered Boss Alert Notification -->
         <Panel id="BossAlertPanel" class="BossAlertPanel Hidden" hittest="false">
-            <Label id="BossAlertText" text="! BOSS DALGASI BAŞLADI !" />
+            <Label id="BossAlertText" text="#enfos_sametc_boss_incoming" />
         </Panel>
     </Panel>
 </root>

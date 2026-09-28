@@ -1,59 +1,12 @@
 <root>
-	<styles>
-		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
-		<include src="file://{resources}/styles/custom_game/evolution.css" />
-	</styles>
-	<scripts>
-		<include src="file://{resources}/scripts/custom_game/evolution.js" />
-	</scripts>
-
-	<Panel class="EvolutionRoot" hittest="false">
-		<!-- Compact Floating HUD Badge (Always visible during game when choices are pending) -->
-		<Button id="EvoBadgeButton" class="EvoBadge EvoBadgeHidden" onactivate="EnfosEvolution.ToggleModal()">
-			<Label class="EvoBadgeIcon" text="⚡" />
-			<Label id="EvoBadgeText" class="EvoBadgeText" text="#enfos_evolution_pending" />
-		</Button>
-
-		<!-- Modal Dialog (Opens when milestone reached or badge clicked) -->
-		<Panel id="EvoModal" class="EvoModalRoot EvoModalHidden" hittest="true">
-			<Panel id="EvoModalBackdrop" class="EvoBackdrop" onactivate="EnfosEvolution.Defer()" />
-			<Panel class="EvoDialog">
-				<!-- Header -->
-				<Panel class="EvoHeader">
-					<Label id="EvoMilestoneTitle" class="EvoTitle" text="#enfos_evolution_level" />
-					<Label class="EvoSubtitle" text="#enfos_evolution_subtitle" />
-				</Panel>
-
-				<!-- Cards Row -->
-				<Panel id="EvoCardsRow" class="EvoCardsRow">
-					<!-- Card 1 -->
-					<Panel id="EvoCard1" class="EvoCard">
-						<DOTAAbilityImage id="EvoCardIcon1" class="EvoCardIcon" abilityname="" />
-						<Label id="EvoCardTitle1" class="EvoCardTitle" text="" />
-						<Label id="EvoCardDesc1" class="EvoCardDesc" text="" />
-						<Button id="EvoCardBtn1" class="EvoSelectBtn" onactivate="EnfosEvolution.SelectChoice(1)">
-							<Label text="#enfos_evolution_choose" />
-						</Button>
-					</Panel>
-
-					<!-- Card 2 -->
-					<Panel id="EvoCard2" class="EvoCard">
-						<DOTAAbilityImage id="EvoCardIcon2" class="EvoCardIcon" abilityname="" />
-						<Label id="EvoCardTitle2" class="EvoCardTitle" text="" />
-						<Label id="EvoCardDesc2" class="EvoCardDesc" text="" />
-						<Button id="EvoCardBtn2" class="EvoSelectBtn" onactivate="EnfosEvolution.SelectChoice(2)">
-							<Label text="#enfos_evolution_choose" />
-						</Button>
-					</Panel>
-				</Panel>
-
-				<!-- Footer: Defer Button (Match never pauses, player can defer anytime) -->
-				<Panel class="EvoFooter">
-					<Button class="EvoDeferBtn" onactivate="EnfosEvolution.Defer()">
-						<Label text="#enfos_evolution_defer" />
-					</Button>
-				</Panel>
-			</Panel>
-		</Panel>
-	</Panel>
+ <styles><include src="file://{resources}/styles/custom_game/evolution.css" /></styles>
+ <scripts><include src="file://{resources}/scripts/custom_game/evolution.js" /></scripts>
+ <Panel class="EvolutionRoot" hittest="false">
+  <Button id="EvoBadgeButton" class="EvoBadge" onactivate="EnfosEvolution.ToggleModal()"><Label id="EvoBadgeText" text="#enfos_evolution_tree" /></Button>
+  <Panel id="EvoModal" class="EvoModal EvoModalHidden">
+   <Panel class="EvoTreeHeader"><Label text="#enfos_evolution_tree" /><Button onactivate="EnfosEvolution.Defer()"><Label text="×" /></Button></Panel>
+   <Label class="EvoTreeHint" text="#enfos_evolution_tree_hint" />
+   <Panel id="EvoTreeRows" />
+  </Panel>
+ </Panel>
 </root>

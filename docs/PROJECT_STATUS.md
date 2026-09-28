@@ -1,3 +1,11 @@
+# HUD / Sven release candidate — 2026-09-28
+
+V1.0.2 repairs the scoreboard, minimap docking, top clocks, innate display and
+six-tier talent preview, plus Sven W/barrier/taunt, passive and Aghanim contracts.
+Full automated checks pass; all 13 Panorama resources compile. No new engine
+acceptance is claimed. See [focused audit](audit/HUD_SVEN_RELEASE_2026-09-28.md).
+Workshop publication/delivery status is recorded in WORKSHOP_YAYINLAMA.md.
+
 # Local candidate — 2026-09-28
 
 Scheduled hostile population is now uncapped, without overflow Life damage.

@@ -1,6 +1,7 @@
 "use strict";
 
 var isManuallyOpen = false;
+var isEngineOpen = false;
 
 function ToggleScoreboard() {
     isManuallyOpen = !isManuallyOpen;
@@ -32,7 +33,7 @@ if (typeof GameUI !== "undefined" && GameUI.CustomUIConfig) {
     }
 
     function GetOrCreatePlayerRow(parent, playerId) {
-        if (playerRows[playerId]) return playerRows[playerId];
+        if (playerRows[playerId]) { playerRows[playerId].row.SetParent(parent); return playerRows[playerId]; }
 
         var row = $.CreatePanel("Panel", parent, "PlayerRow_" + playerId);
         row.AddClass("PlayerRow");
@@ -99,8 +100,8 @@ if (typeof GameUI !== "undefined" && GameUI.CustomUIConfig) {
                     var heroIdx = (typeof Players !== "undefined" && Players.GetPlayerHeroEntityIndex) ? Players.GetPlayerHeroEntityIndex(pid) : null;
                     if (heroIdx && typeof Entities !== "undefined" && Entities.GetItemInSlot) {
                         var itemEnt = Entities.GetItemInSlot(heroIdx, slotIndex);
-                        if (itemEnt && itemEnt !== -1 && Entities.GetAbilityName) {
-                            var itemName = Entities.GetAbilityName(itemEnt);
+                        if (itemEnt && itemEnt !== -1 && Abilities.GetAbilityName) {
+                            var itemName = Abilities.GetAbilityName(itemEnt);
                             if (itemName && typeof $.DispatchEvent === "function") {
                                 $.DispatchEvent("DOTAShowAbilityTooltip", img, itemName);
                             }
@@ -168,19 +169,20 @@ if (typeof GameUI !== "undefined" && GameUI.CustomUIConfig) {
 
         // Update Team Summary Labels
         var radDmgLbl = $("#RadiantTotalDamage");
-        if (radDmgLbl) radDmgLbl.text = "Takım Hasarı: " + formatNumber(teamDamage[2]);
+        if (radDmgLbl) radDmgLbl.text = ($.Localize("#enfos_score_team_damage")+": ") + formatNumber(teamDamage[2]);
         var radKillsLbl = $("#RadiantTotalKills");
-        if (radKillsLbl) radKillsLbl.text = "Takım Düşman: " + formatNumber(teamKills[2]);
+        if (radKillsLbl) radKillsLbl.text = ($.Localize("#enfos_score_team_kills")+": ") + formatNumber(teamKills[2]);
 
         var direDmgLbl = $("#DireTotalDamage");
-        if (direDmgLbl) direDmgLbl.text = "Takım Hasarı: " + formatNumber(teamDamage[3]);
+        if (direDmgLbl) direDmgLbl.text = ($.Localize("#enfos_score_team_damage")+": ") + formatNumber(teamDamage[3]);
         var direKillsLbl = $("#DireTotalKills");
-        if (direKillsLbl) direKillsLbl.text = "Takım Düşman: " + formatNumber(teamKills[3]);
+        if (direKillsLbl) direKillsLbl.text = ($.Localize("#enfos_score_team_kills")+": ") + formatNumber(teamKills[3]);
 
         // Populate Player Rows
         for (var idx = 0; idx < allPids.length; idx++) {
             var pid = allPids[idx];
             var team = Players.GetTeam ? Players.GetTeam(pid) : 2;
+            if (team !== 2 && team !== 3) continue;
             var parent = (team === 2) ? radList : direList;
             if (!parent) continue;
 
@@ -236,8 +238,8 @@ if (typeof GameUI !== "undefined" && GameUI.CustomUIConfig) {
                 var itemPanel = r.itemPanels[s];
                 if (!itemPanel) continue;
                 var itemEnt = (heroIdx && typeof Entities !== "undefined" && Entities.GetItemInSlot) ? Entities.GetItemInSlot(heroIdx, s) : null;
-                if (itemEnt && itemEnt !== -1 && Entities.GetAbilityName) {
-                    var itemName = Entities.GetAbilityName(itemEnt);
+                if (itemEnt && itemEnt !== -1 && Abilities.GetAbilityName) {
+                    var itemName = Abilities.GetAbilityName(itemEnt);
                     itemPanel.itemname = itemName || "";
                     itemPanel.SetHasClass("HasItem", !!itemName && itemName !== "");
                 } else {
@@ -261,39 +263,12 @@ if (typeof GameUI !== "undefined" && GameUI.CustomUIConfig) {
         }
     }
 
-    // Suppress Valve's native flyout scoreboard and sync TAB key
-    function SyncScoreboardState() {
-        var hudRoot = ($.GetContextPanel && typeof $.GetContextPanel === "function") ? $.GetContextPanel().GetParent() : null;
-        while (hudRoot && hudRoot.GetParent()) {
-            hudRoot = hudRoot.GetParent();
-        }
-
-        if (hudRoot) {
-            // Hide Valve's native scoreboard permanently
-            var nativeScoreboard = hudRoot.FindChildTraverse("scoreboard");
-            var isTabHeld = false;
-            if (nativeScoreboard) {
-                isTabHeld = nativeScoreboard.BHasClass("flyout_scoreboard_visible");
-                nativeScoreboard.style.visibility = "collapse";
-                nativeScoreboard.style.opacity = "0";
-            }
-
-            var nativeFlyout = hudRoot.FindChildTraverse("FlyoutScoreboard");
-            if (nativeFlyout) {
-                nativeFlyout.style.visibility = "collapse";
-                nativeFlyout.style.opacity = "0";
-            }
-
-            var container = $("#ScoreboardContainer");
-            if (container) {
-                container.SetHasClass("Visible", isTabHeld || isManuallyOpen);
-            }
-        }
-
-        if ($.Schedule) {
-            $.Schedule(0.05, SyncScoreboardState);
-        }
-    }
+    // Engine FlyoutScoreboard contract, verified against Valve's installed sample.
+    $.RegisterEventHandler("DOTACustomUI_SetFlyoutScoreboardVisible", $.GetContextPanel(), function(visible) {
+        isEngineOpen = visible;
+        $("#ScoreboardContainer").SetHasClass("Visible", visible || isManuallyOpen);
+        if (visible) UpdateScoreboard();
+    });
 
     function PeriodicDataTick() {
         UpdateScoreboard();
@@ -309,6 +284,6 @@ if (typeof GameUI !== "undefined" && GameUI.CustomUIConfig) {
     }
 
     UpdateScoreboard();
-    SyncScoreboardState();
+
     PeriodicDataTick();
 })();

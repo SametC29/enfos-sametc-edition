@@ -1,145 +1,51 @@
-// Enfos Team Survival — SametC Edition: Evolution Milestone JS
-// Manages in-match level milestone build choices (Levels 4, 7, 10, 13, 16, 19)
-
-var EnfosEvolution = (function () {
-	"use strict";
-
-	var currentMilestone = 0;
-	var currentChoices = [];
-	var pendingCount = 0;
-	var isModalVisible = false;
-
-	function Init() {
-		CustomNetTables.SubscribeNetTableListener("evolution_state", OnNetTableChanged);
-
-		var playerId = Players.GetLocalPlayer();
-		var state = CustomNetTables.GetTableValue("evolution_state", String(playerId));
-		if (state) {
-			UpdateUI(state);
-		}
-	}
-
-	function OnNetTableChanged(table, key, data) {
-		var localPlayerId = String(Players.GetLocalPlayer());
-		if (key === localPlayerId && data) {
-			UpdateUI(data);
-		}
-	}
-
-	function UpdateUI(data) {
-		pendingCount = data.pending_count || 0;
-		currentMilestone = data.next_milestone || 0;
-		currentChoices = [];
-
-		if (data.active_choices) {
-			// In Lua it may arrive as an array or object table with 1, 2
-			for (var k in data.active_choices) {
-				currentChoices.push(data.active_choices[k]);
-			}
-		}
-
-		var badge = $("#EvoBadgeButton");
-		var badgeText = $("#EvoBadgeText");
-		var modal = $("#EvoModal");
-
-		if (pendingCount > 0) {
-			badge.RemoveClass("EvoBadgeHidden");
-			badgeText.text = pendingCount + " " + $.Localize("#enfos_evolution_pending");
-
-			// If modal was not manually deferred, automatically show it for the first milestone
-			if (!isModalVisible && Number(data.deferred) !== 1 && currentChoices.length > 0) {
-				ShowModal();
-			}
-		} else {
-			badge.AddClass("EvoBadgeHidden");
-			modal.AddClass("EvoModalHidden");
-			isModalVisible = false;
-		}
-
-		RefreshCards();
-	}
-
-	function RefreshCards() {
-		if (currentChoices.length < 2) return;
-
-		var titleLabel = $("#EvoMilestoneTitle");
-		if (titleLabel) {
-			titleLabel.text = $.Localize("#enfos_evolution_level") + " " + currentMilestone;
-		}
-
-		var c1 = currentChoices[0];
-		var c2 = currentChoices[1];
-
-        RenderChoice(c1, 1);
-        RenderChoice(c2, 2);
-	}
-
-    function RenderChoice(choice, index) {
-        if (!choice) return;
-        $("#EvoCardIcon" + index).abilityname = choice.icon || "";
-        if (choice.hero) {
-            $("#EvoCardTitle" + index).text = $.Localize("#DOTA_Tooltip_Ability_" + choice.ability);
-            var kind = choice.special === "cooldown" ? "cooldown" : choice.mode === "+" ? "add" : "percent";
-            var message = $.Localize("#enfos_evo_" + kind);
-            if (kind !== "cooldown") message = message.replace("{stat}", $.Localize("#enfos_evo_stat_" + choice.special));
-            message = message.replace("{amount}", String(choice.amount));
-            $("#EvoCardDesc" + index).text = message;
-        } else {
-            $("#EvoCardTitle" + index).text = $.Localize("#" + choice.id);
-            $("#EvoCardDesc" + index).text = $.Localize("#" + choice.id + "_desc");
-        }
-    }
-
-	function ShowModal() {
-		var modal = $("#EvoModal");
-		if (modal && currentChoices.length >= 2) {
-			modal.RemoveClass("EvoModalHidden");
-			isModalVisible = true;
-			RefreshCards();
-		}
-	}
-
-	function ToggleModal() {
-		var modal = $("#EvoModal");
-		if (!modal) return;
-
-		if (isModalVisible) {
-            Defer();
-		} else if (pendingCount > 0) {
-			ShowModal();
-		}
-	}
-
-	function SelectChoice(cardIndex) {
-		var choice = currentChoices[cardIndex - 1];
-		if (!choice || !currentMilestone) return;
-
-		GameEvents.SendCustomGameEventToServer("enfos_select_evolution", {
-			milestone_level: currentMilestone,
-			choice_id: choice.id,
-		});
-
-		// Modal closes or transitions to next queued milestone automatically via NetTable sync
-	}
-
-	function Defer() {
-		var modal = $("#EvoModal");
-		if (modal) {
-			modal.AddClass("EvoModalHidden");
-			isModalVisible = false;
-		}
-
-		GameEvents.SendCustomGameEventToServer("enfos_defer_evolution", {});
-	}
-
-	return {
-		Init: Init,
-		ToggleModal: ToggleModal,
-		SelectChoice: SelectChoice,
-		Defer: Defer,
-	};
-})();
-
-(function () {
-	EnfosEvolution.Init();
+var EnfosEvolution=(function(){
+ "use strict";
+ var data={}, open=false, lastPending=0;
+ var levels=[4,7,10,13,16,19];
+ function show(value){open=value;$('#EvoModal').SetHasClass('EvoModalHidden',!value);}
+ function description(c){
+  var kind=c.special==='cooldown'?'cooldown':c.mode==='+'?'add':'percent';
+  return $.Localize('#enfos_evo_'+kind).replace('{amount}',String(c.amount)).replace('{stat}',kind==='cooldown'?'':$.Localize('#enfos_evo_stat_'+c.special));
+ }
+ function render(){
+  var root=$('#EvoTreeRows');root.RemoveAndDeleteChildren();
+  levels.forEach(function(level){
+   var tier=$.CreatePanel('Panel',root,'');tier.AddClass('EvoTier');
+   var number=$.CreatePanel('Label',tier,'');number.AddClass('EvoLevel');number.text=String(level);
+   var pair=(data.tree||{})[String(level)]||{};
+   [1,2].forEach(function(side){
+    var c=pair[String(side)];if(!c)return;
+    var chosen=(data.chosen_history||{})[String(level)];
+    var b=$.CreatePanel('Button',tier,'');b.AddClass('EvoChoice');b.SetHasClass('Selected',chosen===c.id);
+    b.enabled=!chosen && Number(data.hero_level)>=level;
+    var icon=$.CreatePanel('DOTAAbilityImage',b,'');icon.abilityname=c.ability;
+    var words=$.CreatePanel('Panel',b,'');words.AddClass('EvoChoiceText');
+    var title=$.CreatePanel('Label',words,'');title.text=$.Localize('#DOTA_Tooltip_Ability_'+c.ability);
+    var desc=$.CreatePanel('Label',words,'');desc.AddClass('EvoDescription');desc.text=description(c);
+    b.SetPanelEvent('onactivate',function(){GameEvents.SendCustomGameEventToServer('enfos_select_evolution',{milestone_level:level,choice_id:c.id});});
+    icon.SetPanelEvent('onmouseover',function(){ $.DispatchEvent('DOTAShowAbilityTooltip',icon,c.ability); });
+    icon.SetPanelEvent('onmouseout',function(){ $.DispatchEvent('DOTAHideAbilityTooltip'); });
+   });
+  });
+  $('#EvoBadgeButton').SetHasClass('Pending',Number(data.pending_count)>0);
+  $('#EvoBadgeText').text=$.Localize('#enfos_evolution_tree')+(data.pending_count?' ('+data.pending_count+')':'');
+ }
+ function update(_,key,value){if(String(key)!==String(Players.GetLocalPlayer()))return;
+  data=value||{};render();
+  if(Number(data.pending_count)>lastPending && Number(data.deferred)!==1)show(true);
+  lastPending=Number(data.pending_count)||0;
+ }
+ function toggle(){show(!open);}
+ function defer(){show(false);GameEvents.SendCustomGameEventToServer('enfos_defer_evolution',{});}
+ function bindNative(){
+  var root=$.GetContextPanel();while(root.GetParent())root=root.GetParent();
+  var branch=root.FindChildTraverse('StatBranch');
+  if(branch){branch.SetPanelEvent('onactivate',toggle);branch.SetPanelEvent('onmouseover',function(){});branch.SetPanelEvent('onmouseout',function(){});}
+  $.Schedule(1,bindNative);
+ }
+ CustomNetTables.SubscribeNetTableListener('evolution_state',update);
+ update('',String(Players.GetLocalPlayer()),CustomNetTables.GetTableValue('evolution_state',String(Players.GetLocalPlayer())));
+ GameUI.CustomUIConfig().toggle_evolution_tree=toggle;
+ bindNative();
+ return {ToggleModal:toggle,Defer:defer};
 })();

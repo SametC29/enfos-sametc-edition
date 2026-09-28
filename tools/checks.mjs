@@ -81,7 +81,7 @@ check('installed map/theme matches recorded playable version', () => {
   if (result.status !== 0) throw new Error(result.stderr || result.stdout);
 });
 check('validator regression tests', () => {
-  const result = spawnSync(process.execPath, ['--test', 'tools/tests/kv.test.mjs', 'tools/tests/hero_selection.test.mjs', 'tools/tests/ascended_shop.test.mjs', 'tools/tests/spellbringer.test.mjs', 'tools/tests/content_contracts.test.mjs'], { stdio: 'inherit' });
+  const result = spawnSync(process.execPath, ['--test', 'tools/tests/kv.test.mjs', 'tools/tests/hero_selection.test.mjs', 'tools/tests/ascended_shop.test.mjs', 'tools/tests/spellbringer.test.mjs', 'tools/tests/content_contracts.test.mjs', 'tools/tests/hud_release.test.mjs'], { stdio: 'inherit' });
   if (result.status !== 0) throw new Error('Validator tests failed');
 });
 if (fs.existsSync('tests/run.lua')) check('Lua behavior tests', () => {
@@ -161,6 +161,10 @@ check('audit behavior regressions', () => {
   const result = spawnSync(process.execPath, ['node_modules/fengari-node-cli/src/lua-cli.js', 'tests/audit_regressions.lua'], {encoding:'utf8'});
   console.log(result.stdout);
   if (result.status !== 0 || result.stderr || !result.stdout.includes('audit regression tests passed')) throw new Error(result.stderr || 'Audit regressions did not finish');
+});
+check('scoreboard stats regressions',()=>{
+ const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','tests/scoreboard_regressions.lua'],{encoding:'utf8'});
+ if(r.status!==0||r.stderr||!r.stdout.includes('Scoreboard regression tests passed'))throw Error(r.stderr||r.stdout);
 });
 check('Lua ability entrypoints and authoritative hero references', () => {
   const abilities=kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;

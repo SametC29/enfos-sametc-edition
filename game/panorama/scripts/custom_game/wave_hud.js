@@ -103,13 +103,13 @@ function ToggleEnfosScoreboard() {
         if (s) {
             var waveNum = s.next_wave || s.current_wave || 1;
             var maxWaves = s.max_waves || 60;
-            var isBoss = Boolean(s.is_boss);
+            var isBoss = s.is_boss === true || Number(s.is_boss) === 1;
 
             var titleLabel = $("#TopWaveTitle");
             var badgePanel = $("#WaveCenterBadge");
             if (titleLabel) {
                 if (isBoss) {
-                    titleLabel.text = "BOSS: " + $.Localize("#enfos_sametc_wave") + " " + waveNum;
+                    titleLabel.text = $.Localize("#enfos_hud_boss") + ": " + $.Localize("#enfos_sametc_wave") + " " + waveNum;
                     if (badgePanel) badgePanel.SetHasClass("IsBossWave", true);
                 } else {
                     titleLabel.text = $.Localize("#enfos_sametc_wave") + " " + waveNum + " / " + maxWaves;
@@ -121,7 +121,7 @@ function ToggleEnfosScoreboard() {
             if (timerLabel) {
                 var timerSec = Number(s.state_timer) || 0;
                 if (timerSec > 0 && s.state !== "VICTORY") {
-                    timerLabel.text = formatTime(timerSec);
+                    timerLabel.text = $.Localize("#enfos_hud_next") + " " + formatTime(timerSec);
                 } else if (s.state === "VICTORY") {
                     timerLabel.text = $.Localize("#enfos_wave_state_victory");
                 } else {
@@ -199,7 +199,7 @@ function ToggleEnfosScoreboard() {
                     var rowSV = $.CreatePanel("Panel", enfosStats, "RowSV");
                     rowSV.style.flowChildren = "right";
                     var lblSVTitle = $.CreatePanel("Label", rowSV, "");
-                    lblSVTitle.text = "SV: ";
+                    lblSVTitle.text = $.Localize("#enfos_hud_level")+": ";
                     lblSVTitle.style.color = "#64b5f6";
                     lblSVTitle.style.fontSize = "13px";
                     lblSVTitle.style.fontWeight = "bold";
@@ -214,7 +214,7 @@ function ToggleEnfosScoreboard() {
                     rowRET.style.flowChildren = "right";
                     rowRET.style.marginTop = "2px";
                     var lblRETTitle = $.CreatePanel("Label", rowRET, "");
-                    lblRETTitle.text = "RET: ";
+                    lblRETTitle.text = $.Localize("#enfos_hud_kills")+": ";
                     lblRETTitle.style.color = "#f6c177";
                     lblRETTitle.style.fontSize = "13px";
                     lblRETTitle.style.fontWeight = "bold";
@@ -265,7 +265,14 @@ function ToggleEnfosScoreboard() {
                     facetIcon.style.visibility = "collapse";
                 }
 
-                var icon = innateDisplay.FindChildTraverse("InnateIcon");
+                var nativeIcon = innateDisplay.FindChildTraverse("InnateIcon");
+                if(nativeIcon) nativeIcon.style.visibility="collapse";
+                var icon = innateDisplay.FindChildTraverse("EnfosInnateIcon");
+                if(!icon) {
+                    icon=$.CreatePanel("DOTAAbilityImage",innateDisplay,"EnfosInnateIcon");
+                    icon.style.width="36px";icon.style.height="36px";
+                    icon.style.horizontalAlign="center";icon.style.verticalAlign="center";
+                }
                 if (icon) {
                     icon.abilityname = innate;
                     icon.style.visibility = "visible";
@@ -283,6 +290,8 @@ function ToggleEnfosScoreboard() {
     }
 
     function PeriodicHudTick() {
+        var elapsed=$("#TopElapsedTime");
+        if(elapsed)elapsed.text=$.Localize("#enfos_hud_elapsed")+" "+formatTime(Game.GetDOTATime(false,false));
         UpdateEnfosQuickStats();
         UpdateInnatePassiveDisplay();
         if ($.Schedule) {

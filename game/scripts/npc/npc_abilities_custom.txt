@@ -65,6 +65,7 @@
 			}
 		}
 		"ScriptFile" "abilities/pve_kits"
+		"HasScepterUpgrade" "1"
 	}
 
 	"bulwark_challenge"
@@ -106,6 +107,7 @@
 			}
 		}
 		"ScriptFile" "abilities/pve_kits"
+		"HasShardUpgrade" "1"
 	}
 
 	"bulwark_iron_guard"

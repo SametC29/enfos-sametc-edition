@@ -7,7 +7,7 @@
 .EnfosTopBarCenter {
     horizontal-align: center;
     vertical-align: top;
-    height: 44px;
+    height: 62px;
     flow-children: right;
     background-color: gradient(linear, 0% 0%, 0% 100%, from(#141a22fa), to(#080c10fa));
     border-bottom: 2px solid #5b4b32;

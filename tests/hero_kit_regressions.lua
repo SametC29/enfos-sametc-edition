@@ -207,6 +207,8 @@ test('Sven Shield Slam calculates Strength and Armor scaling with knockback', fu
     ab.GetCaster = function() return sven end
     ab.GetSpecialValueFor = function(_, k)
         if k == 'damage' then return 300 end
+        if k == 'str_scale' then return 2 end
+        if k == 'armor_scale' then return 8 end
         if k == 'radius' then return 400 end
         if k == 'slow_duration' then return 3.0 end
         if k == 'slow_pct' then return -50 end
@@ -269,7 +271,7 @@ test('Sven Iron Guard damage block reflects physical damage safely without recur
     mod:OnTakeDamage({
         unit = sven,
         attacker = attacker,
-        damage_flags = 0
+        damage_flags = 0, damage_type=DAMAGE_TYPE_PHYSICAL, original_damage=100
     })
     assert(#applied_damages == 1, 'Should reflect damage')
     assert(applied_damages[1].damage == 24, '30% of 80 blocked is 24')
@@ -1440,6 +1442,40 @@ test('Lich Chain Frost bounces across enemies with Intellect scaling', function(
     assert(applied_damages[2].damage == 500)
     assert(applied_damages[3].damage == 500)
     assert(applied_damages[4].damage == 500)
+end)
+
+test('Sven Warcry barrier absorbs, refreshes and reflects only physical damage with Shard',function()
+ local sven=create_mock_unit('npc_dota_hero_sven',2,Vector(0,0,0));sven.strength=100;sven.max_hp=2000
+ local enemy=create_mock_unit('enfos_creep_melee',4,Vector(100,0,0))
+ local a=bulwark_challenge();a.GetCaster=function() return sven end
+ local values={barrier_hp=150,bonus_armor=10,bonus_ms_pct=20}
+ a.GetSpecialValueFor=function(_,k) return values[k] or 0 end
+ local m=sven:AddNewModifier(sven,a,'modifier_enfos_pve_warcry',{})
+ m.SetStackCount=function(_,v) m.stacks=v end;m.GetStackCount=function() return m.stacks end
+ m:OnCreated();assert(m.barrier==300 and m:GetModifierPhysicalArmorBonus()==10 and m:GetModifierMoveSpeedBonus_Percentage()==20)
+ assert(m:GetModifierTotal_ConstantBlock({damage=120})==120 and m.barrier==180 and m:OnTooltip2()==180)
+ assert(m:GetModifierTotal_ConstantBlock({damage=200})==180 and m.barrier==0)
+ sven.modifiers.modifier_item_aghanims_shard={};m:OnRefresh();assert(m.barrier==800)
+ applied_damages={};m:OnTakeDamage({unit=sven,attacker=enemy,damage=100,damage_type=DAMAGE_TYPE_MAGICAL})
+ assert(#applied_damages==0)
+ m:OnTakeDamage({unit=sven,attacker=enemy,damage=100,damage_type=DAMAGE_TYPE_PHYSICAL});assert(#applied_damages==1 and applied_damages[1].damage==40)
+ m:OnTakeDamage({unit=sven,attacker=enemy,damage=100,damage_type=DAMAGE_TYPE_PHYSICAL,damage_flags=DOTA_DAMAGE_FLAG_REFLECTION});assert(#applied_damages==1)
+end)
+test('Sven taunt starts an attack order and releases it on expiry',function()
+ local sven=create_mock_unit('npc_dota_hero_sven',2,Vector(0,0,0));local enemy=create_mock_unit('enfos_creep_melee',4,Vector(100,0,0))
+ enemy.SetForceAttackTarget=function(_,u) enemy.forced=u end;enemy.MoveToTargetToAttack=function(_,u) enemy.ordered=u end
+ local m=enemy:AddNewModifier(sven,{},'modifier_enfos_pve_taunt',{})
+ m.StartIntervalThink=function() end;m:OnCreated();assert(enemy.forced==sven and enemy.ordered==sven);m:OnDestroy();assert(enemy.forced==nil)
+end)
+test('Sven innate has no second cleave and Scepter ally modifier is registered',function()
+ assert(modifier_bulwark_unbreakable.OnAttackLanded==nil)
+ local found=false;for _,n in ipairs(ENFOS_PVE_MODIFIER_LIST) do if n=='modifier_bulwark_fortress_scepter_ally' then found=true end end;assert(found)
+ local sven=create_mock_unit('npc_dota_hero_sven',2,Vector(0,0,0));sven.max_hp=1000;sven.hp=399
+ sven.GetHealthPercent=function(self) return self.hp/self.max_hp*100 end
+ local a=bulwark_unbreakable();a.GetSpecialValueFor=function(_,k) return k=='bonus_hp_regen' and 15 or 0 end
+ local m=sven:AddNewModifier(sven,a,'modifier_bulwark_unbreakable',{});assert(m:GetModifierConstantHealthRegen()==15)
+ sven.modifiers.modifier_item_aghanims_shard={};assert(m:GetModifierConstantHealthRegen()==30)
+ sven.hp=400;assert(m:GetModifierConstantHealthRegen()==15)
 end)
 
 print(passed .. ' hero kit regression tests passed (mock engine).')

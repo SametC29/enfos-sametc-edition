@@ -7,7 +7,7 @@ require("lib/log")
 local InventoryTransfer = require("lib/inventory_transfer")
 
 local function ReadBuildVersion()
-	return "0.1.0-dev"
+	return "1.0.2"
 end
 
 if EnfosSametC == nil then
@@ -72,7 +72,9 @@ function EnfosSametC:InitGameMode()
 	ParticleManager:SetParticleControl(weatherFx, 0, Vector(0, 0, 256))
 
 	-- Authoritative Stats & Scoreboard Manager
-	require("stats/scoreboard_manager"):Init()
+	local stats=require("stats/scoreboard_manager")
+	stats:Init()
+	gameMode:SetModifyGoldFilter(Dynamic_Wrap(stats, "GoldFilter"), stats)
 
 	-- Thinking
 	gameMode:SetThink("OnThink", self, "GlobalThink", 0.25)

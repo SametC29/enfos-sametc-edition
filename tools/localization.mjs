@@ -110,7 +110,9 @@ export function generateLocalization(check = false) {
     }
     const keys = Object.keys(data.Tokens).sort();
     const lines = keys.map(key => {
-      const value = resolveSpecials(key, data.Tokens[key]);
+      const modifierOwners={modifier_bulwark_unbreakable:'bulwark_unbreakable',modifier_bulwark_iron_guard:'bulwark_iron_guard',modifier_enfos_pve_warcry:'bulwark_challenge',modifier_bulwark_fortress:'bulwark_fortress'};
+      const modifier=key.match(/^DOTA_Tooltip_(modifier_\w+)_Description$/)?.[1];
+      const value = resolveSpecials(key, data.Tokens[key],modifierOwners[modifier]||null);
       if (!value || value.includes('{{')) throw new Error(`${lang}/${key}: empty or unresolved text`);
       return `\t\t"${key}" "${escape(value)}"`;
     });

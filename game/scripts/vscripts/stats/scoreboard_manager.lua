@@ -19,6 +19,8 @@ end
 ScoreboardManager.SYNC_INTERVAL = 0.5
 
 function ScoreboardManager:Init()
+	if self.initialized then return end
+	self.initialized = true
 	self.stats = {}
 	self.lastHurtSync = 0
 
@@ -47,7 +49,9 @@ function ScoreboardManager:Init()
 	Log:Info("system", "ScoreboardManager initialized successfully.")
 end
 
-function ScoreboardManager:ResolvePlayerID(entity)
+function ScoreboardManager:ResolvePlayerID(entity, depth)
+    depth=(depth or 0)+1
+    if depth>8 then return -1 end
 	if not entity or entity:IsNull() then return -1 end
 
 	if entity.GetPlayerOwnerID then
@@ -63,7 +67,7 @@ function ScoreboardManager:ResolvePlayerID(entity)
 	if entity.GetOwner then
 		local owner = entity:GetOwner()
 		if owner and not owner:IsNull() and owner ~= entity then
-			return self:ResolvePlayerID(owner)
+			return self:ResolvePlayerID(owner,depth)
 		end
 	end
 
@@ -98,16 +102,28 @@ function ScoreboardManager:OnEntityKilled(event)
 	local victim = EntIndexToHScript(event.entindex_killed)
 	if not killer or killer:IsNull() or not victim or victim:IsNull() then return end
 
-	-- Check that killer and victim are on opposing teams
+	if victim.enfosLeaked or victim.enfosNoReward or victim.enfosStatsKilled then return end
+    -- Check that killer and victim are on opposing teams
 	if killer.GetTeamNumber and victim.GetTeamNumber and killer:GetTeamNumber() == victim:GetTeamNumber() then
 		return
 	end
 
 	local pid = self:ResolvePlayerID(killer)
 	if pid >= 0 and self.stats[pid] then
+		victim.enfosStatsKilled=true
 		self.stats[pid].kills = self.stats[pid].kills + 1
 		self:SyncPlayer(pid)
 	end
+end
+
+function ScoreboardManager:GoldFilter(event)
+    local id=tonumber(event.player_id_const)
+    local amount=tonumber(event.gold) or 0
+    local reason=event.reason_const
+    if self.stats[id] and amount>0 and reason~=DOTA_ModifyGold_SellItem and reason~=DOTA_ModifyGold_PurchaseItem then
+        self.stats[id].goldEarned=self.stats[id].goldEarned+amount
+    end
+    return true
 end
 
 function ScoreboardManager:OnThink()
@@ -121,8 +137,9 @@ function ScoreboardManager:SyncPlayer(playerId)
 	local data = self.stats[playerId]
 	local hero = PlayerResource and PlayerResource:GetSelectedHeroEntity(playerId) or nil
 	local level = (hero and not hero:IsNull() and hero.GetLevel) and hero:GetLevel() or 1
-	local lumber = (EconomyManager and EconomyManager.GetLumber) and EconomyManager:GetLumber(playerId) or 0
-	local goldEarned = (PlayerResource and PlayerResource.GetTotalGoldEarned) and PlayerResource:GetTotalGoldEarned(playerId) or 0
+	local economy=require("economy/economy_manager")
+    local lumber= economy.playerLumber and economy:GetLumber(playerId) or 0
+	local goldEarned = data.goldEarned or 0
 
 	CustomNetTables:SetTableValue("player_stats", tostring(playerId), {
 		damage_dealt = math.floor(data.damageDealt or 0),

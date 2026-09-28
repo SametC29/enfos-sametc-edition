@@ -206,7 +206,10 @@ end
 
 -- Scepter Major Upgrade Modifier
 modifier_enfos_scepter_upgrade = class({})
-function modifier_enfos_scepter_upgrade:IsHidden() return false end
+function modifier_enfos_scepter_upgrade:IsHidden()
+    local parent = self.GetParent and self:GetParent()
+    return parent and parent.GetUnitName and parent:GetUnitName() == "npc_dota_hero_sven" or false
+end
 function modifier_enfos_scepter_upgrade:IsPurgable() return false end
 function modifier_enfos_scepter_upgrade:IsPermanent() return true end
 function modifier_enfos_scepter_upgrade:RemoveOnDeath() return false end
@@ -219,17 +222,22 @@ function modifier_enfos_scepter_upgrade:DeclareFunctions()
 	}
 end
 function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event)
+    if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_sven" then return 0 end
 	local a=event and event.inflictor
 	return a and a:GetAbilityType()==DOTA_ABILITY_TYPE_ULTIMATE and 40 or 0
 end
 function modifier_enfos_scepter_upgrade:GetModifierPercentageCooldown(event)
+    if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_sven" then return 0 end
 	local a=event and event.ability
 	return a and a:GetAbilityType()==DOTA_ABILITY_TYPE_ULTIMATE and 25 or 0
 end
 
 -- Shard Role Upgrade Modifier
 modifier_enfos_shard_upgrade = class({})
-function modifier_enfos_shard_upgrade:IsHidden() return false end
+function modifier_enfos_shard_upgrade:IsHidden()
+    local parent = self.GetParent and self:GetParent()
+    return parent and parent.GetUnitName and parent:GetUnitName() == "npc_dota_hero_sven" or false
+end
 function modifier_enfos_shard_upgrade:IsPurgable() return false end
 function modifier_enfos_shard_upgrade:IsPermanent() return true end
 function modifier_enfos_shard_upgrade:RemoveOnDeath() return false end
@@ -255,6 +263,7 @@ function modifier_enfos_shard_upgrade:DeclareFunctions()
 end
 
 function modifier_enfos_shard_upgrade:GetModifierHealthBonus()
+    if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_sven" then return 0 end
 	if self.role == "Tank" then return 350 end
 	return 0
 end
@@ -280,6 +289,7 @@ function modifier_enfos_shard_upgrade:GetModifierHealAmplify_PercentageSource()
 end
 
 function modifier_enfos_shard_upgrade:OnTakeDamage(keys)
+    if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_sven" then return end
 	if not IsServer or not IsServer() then return end
 	if keys.unit ~= self:GetParent() then return end
 	if bit.band(keys.damage_flags or 0, DOTA_DAMAGE_FLAG_REFLECTION) ~= 0 then return end

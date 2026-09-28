@@ -211,6 +211,14 @@ function SendNextWave() {
             if (mapBlock && mapBlock.actuallayoutheight && mapBlock.actuallayoutheight > 100) {
                 bottomMargin = mapBlock.actuallayoutheight + 12;
             }
+            if(mapBlock && mapBlock.actuallayoutwidth>0) {
+                var pos=mapBlock.GetPositionWithinWindow();
+                var screenWidth=hudRoot.actuallayoutwidth*(hudRoot.actualuiscale_x||1);
+                isFlipped=pos.x>screenWidth/2;
+                hud.SetHasClass("MinimapLeft",!isFlipped);hud.SetHasClass("MinimapRight",isFlipped);
+                var scale=hud.actualuiscale_y||1;
+                bottomMargin=Math.max(0,(hudRoot.actuallayoutheight*(hudRoot.actualuiscale_y||1)-pos.y)/scale)+8;
+            }
             hud.style.marginBottom = bottomMargin + "px";
         }
 

@@ -1,9 +1,9 @@
 {
   "appid": "570",
   "publishedfileid": "3809160125",
-  "version": "1.0.1",
-  "title": "Enfos Team Survival - SametC Edition V1.0.1",
-  "changenote": "V1.0.1 - Fixed startup failure preventing team switching and hero selection. Removed the duplicate map; enfos is the only playable map. Local gameplay test passed by the author.",
+  "version": "1.0.2",
+  "title": "Enfos Team Survival - SametC Edition V1.0.2",
+  "changenote": "V1.0.2 - HUD/Sven repair update: engine-integrated scoreboard with earned-gold tracking, visible six-tier talent tree, minimap-docked Spellbringer, elapsed/next-wave clocks, and Sven Warcry/barrier/taunt and Aghanim corrections. Automated regressions and Panorama compilation passed. Final gameplay verification is pending the author test.",
   "visibility": "0",
   "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3809160125"
 }

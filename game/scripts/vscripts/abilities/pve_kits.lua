@@ -118,6 +118,7 @@ local modifier_list = {
     'modifier_bulwark_fortress',
     'modifier_bulwark_unbreakable',
     'modifier_bulwark_gods_strength',
+    'modifier_bulwark_fortress_scepter_ally',
     -- Juggernaut
     'modifier_enfos_pve_fury',
     'modifier_enfos_juggernaut_healing_ward_thinker',
@@ -392,7 +393,7 @@ function bulwark_shield_slam:OnSpellStart()
 
     local str = get_str(c)
     local armor = c.GetPhysicalArmorValue and c:GetPhysicalArmorValue(false) or 0
-    local total_damage = value(self, 'damage') + (str * 2.0) + (armor * 8.0)
+    local total_damage = value(self, 'damage') + str * value(self, 'str_scale') + armor * value(self, 'armor_scale')
 
     c:EmitSound('Hero_Sven.StormBolt')
     local p = ParticleManager:CreateParticle('particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf', PATTACH_ABSORIGIN, c)
@@ -436,7 +437,7 @@ function bulwark_challenge:OnSpellStart()
     c:AddNewModifier(c, self, 'modifier_enfos_pve_warcry', { duration = dur })
 
     for _, a in ipairs(allies(c, c:GetAbsOrigin(), rad)) do
-        a:AddNewModifier(c, self, 'modifier_enfos_pve_warcry', { duration = dur })
+        if a~=c then a:AddNewModifier(c, self, 'modifier_enfos_pve_warcry', { duration = dur }) end
     end
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), rad)) do
@@ -453,6 +454,7 @@ function modifier_enfos_pve_warcry:DeclareFunctions()
         MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK,
+        MODIFIER_PROPERTY_TOOLTIP, MODIFIER_PROPERTY_TOOLTIP2,
         MODIFIER_EVENT_ON_TAKEDAMAGE
     }
 end
@@ -460,20 +462,27 @@ function modifier_enfos_pve_warcry:OnCreated()
     local a = self:GetAbility()
     local c = self:GetCaster()
     local base_barrier = value(a, 'barrier_hp')
-    if base_barrier <= 0 then base_barrier = 250 end
+
     self.barrier = base_barrier + (c and get_str(c) * 1.5 or 0)
 
     -- Aghanim's Shard: Grants barrier equal to 25% of Sven's max health
     if c and c.HasModifier and (c:HasModifier('modifier_item_aghanims_shard') or c:HasModifier('modifier_enfos_shard_upgrade')) then
         self.barrier = self.barrier + (c:GetMaxHealth() * 0.25)
     end
+    if IsServer() and self.SetStackCount then self:SetStackCount(math.ceil(self.barrier)) end
 end
+function modifier_enfos_pve_warcry:OnTooltip() return value(self:GetAbility(), 'bonus_armor') end
+function modifier_enfos_pve_warcry:OnTooltip2() return self:GetStackCount() end
+function modifier_enfos_pve_warcry:OnRefresh() self:OnCreated() end
+function modifier_enfos_pve_warcry:IsHidden() return false end
+function modifier_enfos_pve_warcry:GetTexture() return 'sven_warcry' end
 function modifier_enfos_pve_warcry:GetModifierPhysicalArmorBonus() return value(self:GetAbility(), 'bonus_armor') end
 function modifier_enfos_pve_warcry:GetModifierMoveSpeedBonus_Percentage() return value(self:GetAbility(), 'bonus_ms_pct') or 25 end
 function modifier_enfos_pve_warcry:GetModifierTotal_ConstantBlock(e)
     if not IsServer() or not self.barrier or self.barrier <= 0 then return 0 end
-    local block = math.min(self.barrier, e.damage)
+    local block = math.min(self.barrier, math.max(0,tonumber(e and e.damage) or 0))
     self.barrier = self.barrier - block
+    if self.SetStackCount then self:SetStackCount(math.ceil(self.barrier)) end
     return block
 end
 function modifier_enfos_pve_warcry:OnTakeDamage(e)
@@ -482,7 +491,8 @@ function modifier_enfos_pve_warcry:OnTakeDamage(e)
     -- Shard: 40% physical damage reflection during Warcry
     local c = self:GetCaster()
     if c and c.HasModifier and (c:HasModifier('modifier_item_aghanims_shard') or c:HasModifier('modifier_enfos_shard_upgrade')) then
-        local refl = e.original_damage * 0.40
+        if e.damage_type~=DAMAGE_TYPE_PHYSICAL then return end
+        local refl = (e.damage or 0) * 0.40
         if refl > 0 then damage(self:GetAbility(), e.attacker, refl, DAMAGE_TYPE_PHYSICAL, DOTA_DAMAGE_FLAG_REFLECTION) end
     end
 end
@@ -494,6 +504,7 @@ function modifier_enfos_pve_taunt:OnCreated()
     if not IsServer() then return end
     local p = self:GetParent()
     if p and p.SetForceAttackTarget then p:SetForceAttackTarget(self:GetCaster()) end
+    if p and p.MoveToTargetToAttack then p:MoveToTargetToAttack(self:GetCaster()) end
     self:StartIntervalThink(0.2)
 end
 function modifier_enfos_pve_taunt:OnIntervalThink()
@@ -521,12 +532,16 @@ function modifier_bulwark_iron_guard:DeclareFunctions()
         MODIFIER_EVENT_ON_ATTACK_LANDED
     }
 end
-function modifier_bulwark_iron_guard:GetModifierPhysicalArmorBonus() return value(self:GetAbility(), 'bonus_armor') end
-function modifier_bulwark_iron_guard:GetModifierPhysical_ConstantBlock() return value(self:GetAbility(), 'damage_block') end
+function modifier_bulwark_iron_guard:GetModifierPhysicalArmorBonus() if self:GetParent():PassivesDisabled() then return 0 end return value(self:GetAbility(), 'bonus_armor') end
+function modifier_bulwark_iron_guard:GetModifierPhysical_ConstantBlock(e)
+    if self:GetParent():PassivesDisabled() or (e and e.inflictor) then return 0 end
+    return value(self:GetAbility(), 'damage_block')
+end
 function modifier_bulwark_iron_guard:OnTakeDamage(e)
     if not IsServer() or e.unit ~= self:GetParent() or not e.attacker or e.attacker:IsNull() or e.attacker == e.unit then return end
     if e.damage_flags and bit and bit.band(e.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION or 16) ~= 0 then return end
-    local block = value(self:GetAbility(), 'damage_block')
+    if self:GetParent():PassivesDisabled() or e.damage_type~=DAMAGE_TYPE_PHYSICAL or e.inflictor then return end
+    local block = math.min(value(self:GetAbility(), 'damage_block'), e.original_damage or e.damage or 0)
     if block > 0 then
         local reflect = block * 0.3
         damage(self:GetAbility(), e.attacker, reflect, DAMAGE_TYPE_PHYSICAL, DOTA_DAMAGE_FLAG_REFLECTION)
@@ -596,6 +611,7 @@ function modifier_bulwark_fortress:OnCreated()
     if not IsServer() then return end
     self:StartIntervalThink(1.5)
 end
+function modifier_bulwark_fortress:OnRefresh() self:OnCreated() end
 function modifier_bulwark_fortress:OnIntervalThink()
     local c = self:GetParent()
     local a = self:GetAbility()
@@ -628,18 +644,12 @@ function modifier_bulwark_fortress_scepter_ally:GetModifierPhysicalArmorBonus() 
 
 bulwark_unbreakable=class({})
 function bulwark_unbreakable:GetIntrinsicModifierName() return 'modifier_bulwark_unbreakable' end
-function bulwark_unbreakable:OnSpellStart()
-    local c = self:GetCaster()
-    c:EmitSound('Hero_Sven.GodsStrength')
-    c:AddNewModifier(c, self, 'modifier_bulwark_gods_strength', { duration = value(self, 'gods_strength_duration') })
-end
 
 modifier_bulwark_unbreakable=class({})
 function modifier_bulwark_unbreakable:IsHidden() return false end
 function modifier_bulwark_unbreakable:GetTexture() return 'sven_wrath_of_god' end
 function modifier_bulwark_unbreakable:DeclareFunctions()
     return {
-        MODIFIER_EVENT_ON_ATTACK_LANDED,
         MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
         MODIFIER_PROPERTY_EXTRA_HEALTH_BONUS,
         MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING
@@ -654,20 +664,11 @@ function modifier_bulwark_unbreakable:GetModifierConstantHealthRegen()
             regen = regen * 2.0
         end
     end
+    if c:PassivesDisabled() then return 0 end
     return regen
 end
 function modifier_bulwark_unbreakable:GetModifierExtraHealthBonus() return value(self:GetAbility(), 'bonus_max_hp') or 0 end
 function modifier_bulwark_unbreakable:GetModifierStatusResistanceStacking() return value(self:GetAbility(), 'status_resistance') or 0 end
-function modifier_bulwark_unbreakable:OnAttackLanded(e)
-    local c = self:GetParent()
-    if not IsServer() or e.attacker ~= c or c:PassivesDisabled() or not e.target or e.target:IsNull() or e.target:GetTeamNumber() == c:GetTeamNumber() then return end
-    local cleave_pct = value(self:GetAbility(), 'cleave_pct')
-    if cleave_pct <= 0 then cleave_pct = 60 end
-    local cleave_dmg = (e.original_damage or get_atk(c, e.target)) * (cleave_pct / 100)
-    for _, u in ipairs(enemies(c, e.target:GetAbsOrigin(), 380)) do
-        if u ~= e.target then damage(self:GetAbility(), u, cleave_dmg, DAMAGE_TYPE_PHYSICAL) end
-    end
-end
 
 modifier_bulwark_gods_strength=class({})
 function modifier_bulwark_gods_strength:DeclareFunctions()

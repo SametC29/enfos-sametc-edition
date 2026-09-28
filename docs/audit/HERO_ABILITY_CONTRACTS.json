@@ -24,8 +24,6 @@
             "bolt_speed": "1400"
           },
           "unreferencedSpecials": [
-            "str_scale",
-            "armor_scale",
             "bolt_speed"
           ],
           "hasSound": true,
@@ -104,8 +102,7 @@
           "maxLevel": 8,
           "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
           "callbacks": [
-            "GetIntrinsicModifierName",
-            "OnSpellStart"
+            "GetIntrinsicModifierName"
           ],
           "specials": {
             "bonus_hp_regen": "15 25 35 45 60 75 90 110",
@@ -115,8 +112,11 @@
             "bonus_max_hp": "100 200 300 450 600 800 1050 1400",
             "status_resistance": "10 12 14 16 18 20 22 25"
           },
-          "unreferencedSpecials": [],
-          "hasSound": true,
+          "unreferencedSpecials": [
+            "cleave_pct",
+            "gods_strength_duration"
+          ],
+          "hasSound": false,
           "hasParticle": true
         }
       ]

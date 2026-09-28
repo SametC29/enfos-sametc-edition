@@ -164,13 +164,13 @@ function EvolutionManager:ApplyChoiceBonus(hero, choice)
 end
 
 function EvolutionManager:RestoreHero(playerId, hero)
-    local state=self.playerStates[playerId]
-    if not state then return end
+    local state=self:GetOrCreatePlayerState(playerId)
     for level,id in pairs(state.chosenHistory) do
         for _,choice in ipairs(HeroTrees:GetChoices(hero,tonumber(level))) do
             if choice.id==id then self:ApplyChoiceBonus(hero,choice) end
         end
     end
+    if hero and hero.GetLevel then self:CheckHeroMilestones(playerId,hero,hero:GetLevel()) end
     self:SyncNetTable(playerId)
 end
 
@@ -183,7 +183,9 @@ function EvolutionManager:SyncNetTable(playerId)
     local activeChoices = nextMilestone and HeroTrees:GetChoices(hero,nextMilestone) or nil
 
 	local payload = {
-		pending_count = #state.pendingQueue,
+		hero_level = hero and hero.GetLevel and hero:GetLevel() or 0,
+        tree = hero and hero.GetUnitName and HeroTrees.choices[hero:GetUnitName()] or {},
+        pending_count = #state.pendingQueue,
         deferred = state.deferred and 1 or 0,
 		next_milestone = nextMilestone or 0,
 		active_choices = activeChoices or {},
