@@ -196,11 +196,41 @@ Prove early:
 - LOCKED user-directed target: in-match max hero level50; Q/W/E/R and the fifth
   Enfos passive each reach10 total ranks. No automatic additional talent milestones.
   This supersedes the provisional level30/attribute7/innate8 allocation.
-- OPEN: retain free passive1 and use49 purchased ranks, or another explicit
-  allocation; starting point, XP curve, rank unlocks, ultimate timing, native
-  RequiredLevel compatibility and reconnect behavior need an engine POC.
-- IMPLEMENTATION PENDING: production XP/MaxLevel/upgrade logic and 200 rank curves
-  are not changed by this documentation package.
+- DESIGN DECISION: keep the fifth Enfos passive at rank1 for free at hero level1.
+  Levels2–50 grant exactly49 spendable points, for exactly50 total ranks across
+  five abilities. On the first real-hero spawn only, clear any native level-1
+  ability point after granting the free passive. Preserve unspent points on later
+  respawns/reconnects; never reset the budget on every `npc_spawned` event.
+- DESIGN DECISION: make authored wave `xp_bounty` the authoritative per-player
+  match XP award after a scheduled wave is resolved, and remove/disable per-creep
+  `BountyXP` awards to avoid double payment and kill-steal/party-size variance.
+  The 60 current wave awards sum to44,125 XP. Candidate custom threshold for the
+  transition from hero level L to L+1 is `300 + 25*(L-1)` XP for L=1..49. That
+  totals44,100 XP to reach level50, leaves25 XP under the current authored reward
+  budget, and raises the threshold gradually from300 to1,500. It makes a full,
+  successful 60-wave run reach level50; early finishes remain below the cap.
+  Wave failure/leak treatment, boss transition cleanup and partial-wave awards
+  must be explicit so players cannot farm or receive a duplicate wave award.
+- DESIGN DECISION: regular ranks become available in order at hero levels1–10;
+  ultimate ranks unlock at levels6,11,16,21,26,31,36,41,46,50. This preserves an
+  early ultimate identity while distributing ten ranks over the new cap. Rank
+  availability is separate from rank value curves; all200 curves still need
+  ability-specific design and tuning.
+- IMPLEMENTATION / ENGINE POC REQUIRED: confirm max-level50, custom XP threshold
+  indexing, actual skill-point award at level1, ten-rank KV/UI behavior, custom
+  `RequiredLevel`, initial free-passive sequencing, talent suppression and
+  reconnect persistence in the current Dota build. Do not ship the proposed
+  curve or gates until this POC passes. `xp_bounty` is currently unused and
+  `BountyXP` is awarded per killed creep, so migration must update preview/UI
+  estimates and the reward path together.
+- API evidence: current VScript catalog exposes server methods
+  `CDOTABaseGameMode:SetCustomXPRequiredToReachNextLevel(table)` and
+  `SetUseCustomHeroLevels(bool)` (define the table before enabling custom levels),
+  plus `CDOTA_BaseNPC_Hero:SetAbilityPoints(int)`. API availability does not
+  prove this addon's level-50 cap, table indexing or skill UI behavior; verify in
+  the current engine before rollout.
+- IMPLEMENTATION PENDING: production XP/MaxLevel/upgrade logic and200 rank curves
+  remain unchanged until that POC and migration are complete.
 - REFERENCE READY / ENGINE ACCEPTANCE PENDING: docs/heroes contains40 instructions
   and200 separate evidence ledgers. Native slots/models/SoundSet were extracted
   from installed Dota build6941; custom skill counterpart/classification remain
