@@ -9,6 +9,7 @@ This file stays concise. Detailed truth is under `docs/`.
 - `docs/QA_BALANCE_RELEASE.md` — tests, simulation, compatibility, release.
 - `docs/DECISIONS_OPEN_ITEMS.md` — locked/provisional/blocked decisions.
 - `docs/REFERENCE_ANALYSIS_POLICY.md` — clean-room reference rules.
+- `docs/HERO_ABILITY_DEVELOPMENT_GUIDELINES.md` — required before hero/ability audits, repairs, PvE conversions, VFX/SFX, modifiers or precache changes.
 
 Do not load every doc for trivial work.
 
@@ -42,6 +43,13 @@ Do not load every doc for trivial work.
 10. Critical danger is communicated with icon/shape/text/sound as well as color.
 11. Match config is versioned/snapshotted at match start.
 12. Reconnect must restore authoritative match state without duplication.
+
+## Hero and ability work
+- Native first: keep native behavior, then tune, then convert only the PvP-specific part; full replacement is the last resort. Preserve recognizable Dota hero identity.
+- Classify each ability as KEEP / TUNE / PVE-CONVERT / REPLACE with evidence before changing it. Never guess Dota identifiers, assets or engine behavior.
+- Audit globally, repair shared root causes, validate 2–4 representative pilot heroes, then proceed hero by hero. Do not perform blanket Lua rewrites.
+- Gameplay, VFX, SFX, modifiers, precache, cleanup and tooltips are one acceptance unit. Automated checks alone do not establish DONE; record actual Dota/VConsole verification or explicitly mark it pending.
+- Follow the detailed guideline contextually; its rollout workflow does not authorize unrelated hero changes during a documentation-only task.
 
 ## Git workflow
 For each coherent logical work unit:

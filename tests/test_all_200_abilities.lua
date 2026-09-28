@@ -241,6 +241,7 @@ function create_mock_unit(name, team, origin, hp)
         entindex = function(self) return self.idx end,
         EmitSound = function() end,
         StopSound = function() end,
+        StartGesture = function() end,
         TriggerSpellAbsorb = function() return false end,
         GetAverageTrueAttackDamage = function(self) return 150 end,
         AddNewModifier = function(self, caster, ability, mod_name, params)
