@@ -10,6 +10,7 @@ This file stays concise. Detailed truth is under `docs/`.
 - `docs/DECISIONS_OPEN_ITEMS.md` — locked/provisional/blocked decisions.
 - `docs/REFERENCE_ANALYSIS_POLICY.md` — clean-room reference rules.
 - `docs/HERO_ABILITY_DEVELOPMENT_GUIDELINES.md` — required before hero/ability audits, repairs, PvE conversions, VFX/SFX, modifiers or precache changes.
+- `docs/heroes/README.md` — find the affected hero, then read its `AGENTS.md` and `ABILITIES.md`, plus `docs/HERO_ABILITY_REFERENCE.md`, before every skill change (including shared Lua/KV/precache changes). These dossiers are evidence ledgers, not runtime certification.
 
 Do not load every doc for trivial work.
 
@@ -50,6 +51,7 @@ Do not load every doc for trivial work.
 - Audit globally, repair shared root causes, validate 2–4 representative pilot heroes, then proceed hero by hero. Do not perform blanket Lua rewrites.
 - Gameplay, VFX, SFX, modifiers, precache, cleanup and tooltips are one acceptance unit. Automated checks alone do not establish DONE; record actual Dota/VConsole verification or explicitly mark it pending.
 - Follow the detailed guideline contextually; its rollout workflow does not authorize unrelated hero changes during a documentation-only task.
+- Current user-directed progression target: match hero level 50; Q/W/E/R and the fifth Enfos passive each have 10 total ranks. This is a migration target, not implemented behavior. Free passive rank/point distribution, XP and unlock curves must be recorded explicitly before implementation; do not silently claim the old 30-level files implement this target.
 
 ## Git workflow
 For each coherent logical work unit:

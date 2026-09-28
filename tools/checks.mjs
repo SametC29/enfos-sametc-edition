@@ -114,11 +114,11 @@ check('hero kit behavior regressions', () => {
   console.log(result.stdout);
   if (result.status !== 0 || result.stderr || !result.stdout.includes('hero kit regression tests passed')) throw new Error('Hero kit regression tests failed: ' + result.stderr);
 });
-check('all 200 abilities and 210 modifiers runtime execution', () => {
+check('all 200 abilities and owned modifiers mock execution (not engine acceptance)', () => {
   const result = spawnSync(process.execPath, ['tools/test_real_abilities.mjs'], { encoding: 'utf8' });
   console.log(result.stdout);
   if (result.status !== 0 || result.stderr || !result.stdout.includes('Ability/modifier smoke checks passed; engine behavior not certified.')) {
-    throw new Error('All abilities runtime test failed: ' + (result.stderr || result.stdout));
+    throw new Error('All abilities mock execution failed: ' + (result.stderr || result.stdout));
   }
 });
 check('native tooltip name, description and compact tooltip aliases', () => {
@@ -176,6 +176,11 @@ check('Lua ability entrypoints and authoritative hero references', () => {
     const source=fs.readFileSync('game/scripts/vscripts/'+a.ScriptFile+'.lua','utf8');
     if (!source.includes(id+'=class({})')) throw new Error('Missing Lua entrypoint '+id);
   }
+});
+check('hero instructions, current references and skill evidence ledgers', () => {
+  const result = spawnSync(process.execPath, ['tools/hero_reference_docs.mjs', '--check'], { encoding: 'utf8' });
+  console.log(result.stdout);
+  if (result.status !== 0 || result.stderr) throw new Error(result.stderr || result.stdout);
 });
 console.log(`${failures} failed check(s). Engine playtests remain separate.`);
 process.exitCode = failures ? 1 : 0;

@@ -10,6 +10,17 @@ This standard replaces blanket PvP-to-PvE rewrite assumptions. It does not chang
 
 ## Native first and classification
 
+Before each skill task, use [the hero index](heroes/README.md) to read that hero's
+`AGENTS.md` and `ABILITIES.md`, then the relevant sections of
+[the technical reference](HERO_ABILITY_REFERENCE.md). This explicit reading rule
+also applies when editing the shared `pve_kits.lua`, NPC KV, localization or
+precache files; a documentation-directory AGENTS.md alone does not govern those
+code paths automatically. Update the ability's evidence ledger when work changes
+its classification, source provenance, behavior or acceptance status. Generated
+inventory blocks come from production KV; do not overwrite hand-recorded evidence
+when refreshing them. Never infer native counterparts from matching slot numbers
+or icons alone.
+
 Before changing any ability, record exactly one primary class and the reason:
 
 | Class | Meaning | Preferred action |

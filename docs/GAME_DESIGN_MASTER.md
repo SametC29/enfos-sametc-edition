@@ -494,16 +494,17 @@ for individual hero kit acceptance or proof of 60-wave balance.
 
 ## 14. In-match hero progression
 
-Max hero level: 30
+User-directed target (2026-09-29): max hero level **50**; Q/W/E/R and the fifth
+Enfos passive each have **10 total ranks**. The fifth passive is project-specific,
+not the modern native Dota innate. This supersedes the provisional level-30
+Q4/W4/E4/R3/attribute7/innate8 plan; production migration is not implemented.
 
-Current provisional skill-point plan pending Watcher analysis:
-- Q max 4
-- W max 4
-- E max 4
-- R max 3
-- Attribute Bonus max 7
-- hero-specific Innate max 8
-- total 30
+The current automatic free passive rank is separate from spent points. If retained,
+five skills at rank10 require 49 purchased ranks. Starting points, XP curve,
+rank unlocks and native level restrictions must be proved and recorded before rollout;
+49 spendable points is a proposal, not implemented behavior. Special talents and
+Shard/Scepter remain separate systems. See DECISIONS_OPEN_ITEMS and
+HERO_ABILITY_REFERENCE for the migration acceptance contract.
 
 Manual skill points.
 

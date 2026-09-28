@@ -1,0 +1,3210 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-09-28T21:16:02.562Z",
+  "build": {
+    "ClientVersion": "6941",
+    "ServerVersion": "6941",
+    "ProductName": "dota2_workshop",
+    "appID": "570",
+    "ServerAppID": "373310",
+    "CustomGameServerAppID": "471280",
+    "ToolsAppID": "316570",
+    "SourceRevision": "11041083",
+    "VersionDate": "Sep 25 2026",
+    "VersionTime": "15:36:08"
+  },
+  "scope": "Installed Valve hero scalar slots and literal asset existence only. No native counterpart mapping, CP semantics, sound-event validation or runtime acceptance. Dynamic resource paths are not covered.",
+  "archive": {
+    "file": "game/dota/pak01_dir.vpk",
+    "sha256": "74f59675f7dd85c003e5aa4921ab507d29e6d5c8b02cd8078596fa5062e19501"
+  },
+  "heroes": [
+    {
+      "id": "npc_dota_hero_sven",
+      "source": "scripts/npc/heroes/npc_dota_hero_sven.txt",
+      "sha256": "2e82f619775e4b747282ec4150126e56dfbbf898687869c012c2c93c0dac527c",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/sven/sven.vmdl",
+        "SoundSet": "Hero_Sven",
+        "Ability1": "sven_storm_bolt",
+        "Ability2": "sven_great_cleave",
+        "Ability3": "sven_warcry",
+        "Ability4": "generic_hidden",
+        "Ability5": "generic_hidden",
+        "Ability6": "sven_gods_strength",
+        "Ability7": "sven_wrath_of_god",
+        "Ability10": "special_bonus_unique_sven_5",
+        "Ability11": "special_bonus_unique_sven_gods_strength_slow_resist",
+        "Ability12": "special_bonus_unique_sven_3",
+        "Ability13": "special_bonus_unique_sven_8",
+        "Ability14": "special_bonus_unique_sven_stormhammer_cooldown",
+        "Ability15": "special_bonus_unique_sven_7",
+        "Ability16": "special_bonus_unique_sven_2",
+        "Ability17": "special_bonus_unique_sven_4",
+        "AttributeStrengthGain": "3.5",
+        "AttributeAgilityGain": "2.20000",
+        "AttributeIntelligenceGain": "1.500000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_juggernaut",
+      "source": "scripts/npc/heroes/npc_dota_hero_juggernaut.txt",
+      "sha256": "00260da4289144a9cda71ff0fceffddde5df7d2f86c9edb063fbd5dbafc02469",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/juggernaut/juggernaut.vmdl",
+        "SoundSet": "Hero_Juggernaut",
+        "Ability1": "juggernaut_blade_fury",
+        "Ability2": "juggernaut_healing_ward",
+        "Ability3": "juggernaut_blade_dance",
+        "Ability4": "juggernaut_swift_slash",
+        "Ability5": "juggernaut_bladeform",
+        "Ability6": "juggernaut_omni_slash",
+        "Ability10": "special_bonus_unique_juggernaut_5",
+        "Ability11": "special_bonus_unique_juggernaut_3",
+        "Ability12": "special_bonus_unique_juggernaut_omnislash_cooldown",
+        "Ability13": "special_bonus_unique_juggernaut_blade_fury_movespeed",
+        "Ability14": "special_bonus_unique_juggernaut_4",
+        "Ability15": "special_bonus_unique_juggernaut",
+        "Ability16": "special_bonus_unique_juggernaut_omnislash_duration",
+        "Ability17": "special_bonus_unique_juggernaut_blade_dance_lifesteal",
+        "AttributeStrengthGain": "2.0000",
+        "AttributeAgilityGain": "2.800000",
+        "AttributeIntelligenceGain": "1.400000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_drow_ranger",
+      "source": "scripts/npc/heroes/npc_dota_hero_drow_ranger.txt",
+      "sha256": "6b39eaee2c9b731438cb89105a6edfc254c38b56286bb0e6ca17d72ede3afd7b",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/drow/drow_base.vmdl",
+        "SoundSet": "Hero_DrowRanger",
+        "Ability1": "drow_ranger_frost_arrows",
+        "Ability2": "drow_ranger_wave_of_silence",
+        "Ability3": "drow_ranger_multishot",
+        "Ability4": "drow_ranger_glacier",
+        "Ability5": "drow_ranger_trueshot",
+        "Ability6": "drow_ranger_marksmanship",
+        "Ability10": "special_bonus_unique_drow_ranger_7",
+        "Ability11": "special_bonus_unique_drow_ranger_2",
+        "Ability12": "special_bonus_attack_range_75",
+        "Ability13": "special_bonus_unique_drow_ranger_6",
+        "Ability14": "special_bonus_unique_drow_ranger_gust_selfmovespeed",
+        "Ability15": "special_bonus_unique_drow_ranger_1",
+        "Ability16": "special_bonus_unique_drow_ranger_3",
+        "Ability17": "special_bonus_unique_drow_ranger_8",
+        "AttributeStrengthGain": "1.900000",
+        "AttributeAgilityGain": "2.800000",
+        "AttributeIntelligenceGain": "1.400000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_lina",
+      "source": "scripts/npc/heroes/npc_dota_hero_lina.txt",
+      "sha256": "f360660bedce58d9561e0bd92422b1ecef48ba9b9a5c152793f3670b9430c504",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/lina/lina.vmdl",
+        "SoundSet": "Hero_Lina",
+        "Ability1": "lina_dragon_slave",
+        "Ability2": "lina_light_strike_array",
+        "Ability3": "lina_fiery_soul",
+        "Ability4": "lina_flame_cloak",
+        "Ability5": "lina_slow_burn",
+        "Ability6": "lina_laguna_blade",
+        "Ability10": "special_bonus_attack_damage_25",
+        "Ability11": "special_bonus_unique_lina_1",
+        "Ability12": "special_bonus_unique_lina_4",
+        "Ability13": "special_bonus_unique_lina_3",
+        "Ability14": "special_bonus_unique_lina_6",
+        "Ability15": "special_bonus_unique_lina_2",
+        "Ability16": "special_bonus_unique_lina_7",
+        "Ability17": "special_bonus_unique_lina_crit_debuff",
+        "AttributeStrengthGain": "2.400000",
+        "AttributeAgilityGain": "2.400000",
+        "AttributeIntelligenceGain": "4.000000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_omniknight",
+      "source": "scripts/npc/heroes/npc_dota_hero_omniknight.txt",
+      "sha256": "c8f030c542ace2c12940d6e7c768557f23be9962051569014db4009d4108ceab",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/omniknight/omniknight.vmdl",
+        "SoundSet": "Hero_Omniknight",
+        "Ability1": "omniknight_purification",
+        "Ability2": "omniknight_martyr",
+        "Ability3": "omniknight_hammer_of_purity",
+        "Ability4": "omniknight_degen_aura",
+        "Ability5": "generic_hidden",
+        "Ability6": "omniknight_guardian_angel",
+        "Ability10": "special_bonus_unique_omniknight_2",
+        "Ability11": "special_bonus_attack_base_damage_30",
+        "Ability12": "special_bonus_unique_omniknight_3",
+        "Ability13": "special_bonus_unique_omniknight_7",
+        "Ability14": "special_bonus_unique_omniknight_degen_aura_radius",
+        "Ability15": "special_bonus_unique_omniknight_6",
+        "Ability16": "special_bonus_unique_omniknight_1",
+        "Ability17": "special_bonus_unique_omniknight_4",
+        "AttributeStrengthGain": "3.10000",
+        "AttributeAgilityGain": "1.7",
+        "AttributeIntelligenceGain": "2.100000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_axe",
+      "source": "scripts/npc/heroes/npc_dota_hero_axe.txt",
+      "sha256": "c91a8721a951d45c5c010769f68a650474d512819bae6a191306b652c71b999f",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/axe/axe.vmdl",
+        "SoundSet": "Hero_Axe",
+        "Ability1": "axe_berserkers_call",
+        "Ability2": "axe_battle_hunger",
+        "Ability3": "axe_counter_helix",
+        "Ability4": "generic_hidden",
+        "Ability5": "generic_hidden",
+        "Ability6": "axe_culling_blade",
+        "Ability7": "axe_one_man_army",
+        "Ability10": "special_bonus_unique_axe_culling_blade_speed_duration",
+        "Ability11": "special_bonus_unique_axe_8",
+        "Ability12": "special_bonus_unique_axe",
+        "Ability13": "special_bonus_unique_axe_7",
+        "Ability14": "special_bonus_strength_15",
+        "Ability15": "special_bonus_unique_axe_4",
+        "Ability16": "special_bonus_unique_axe_2",
+        "Ability17": "special_bonus_unique_axe_5",
+        "AttributeStrengthGain": "2.7",
+        "AttributeAgilityGain": "1.7",
+        "AttributeIntelligenceGain": "1.6"
+      }
+    },
+    {
+      "id": "npc_dota_hero_legion_commander",
+      "source": "scripts/npc/heroes/npc_dota_hero_legion_commander.txt",
+      "sha256": "07961ff69f2c14b83212b33e8f8013b012c9cf26245d6c01f804b0b81f66644b",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/legion_commander/legion_commander.vmdl",
+        "SoundSet": "Hero_LegionCommander",
+        "Ability1": "legion_commander_overwhelming_odds",
+        "Ability2": "legion_commander_press_the_attack",
+        "Ability3": "legion_commander_moment_of_courage",
+        "Ability4": "legion_commander_outfight_them",
+        "Ability5": "generic_hidden",
+        "Ability6": "legion_commander_duel",
+        "Ability10": "special_bonus_unique_legion_commander_9",
+        "Ability11": "special_bonus_unique_legion_commander_outfight_them_armor",
+        "Ability12": "special_bonus_unique_legion_commander_6",
+        "Ability13": "special_bonus_unique_legion_commander_4",
+        "Ability14": "special_bonus_unique_legion_commander_duel_duration",
+        "Ability15": "special_bonus_unique_legion_commander_3",
+        "Ability16": "special_bonus_unique_legion_commander_7",
+        "Ability17": "special_bonus_unique_legion_commander_duel_refresh_on_victory",
+        "AttributeStrengthGain": "3.000000",
+        "AttributeAgilityGain": "1.700000",
+        "AttributeIntelligenceGain": "2.200000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_sniper",
+      "source": "scripts/npc/heroes/npc_dota_hero_sniper.txt",
+      "sha256": "ffa8d1a8132d40f3c48e4a0ff093ee3973dc5b627a9bd370e7273b53afe900db",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/sniper/sniper.vmdl",
+        "SoundSet": "Hero_Sniper",
+        "Ability1": "sniper_shrapnel",
+        "Ability2": "sniper_headshot",
+        "Ability3": "sniper_take_aim",
+        "Ability4": "sniper_concussive_grenade",
+        "Ability5": "sniper_keen_scope",
+        "Ability6": "sniper_assassinate",
+        "Ability10": "special_bonus_unique_sniper_5",
+        "Ability11": "special_bonus_unique_sniper_headshot_damage",
+        "Ability12": "special_bonus_unique_sniper_6",
+        "Ability13": "special_bonus_unique_sniper_1",
+        "Ability14": "special_bonus_unique_sniper_4",
+        "Ability15": "special_bonus_unique_sniper_shrapnel_damage",
+        "Ability16": "special_bonus_unique_sniper_2",
+        "Ability17": "special_bonus_unique_sniper_3",
+        "AttributeStrengthGain": "2.0000",
+        "AttributeAgilityGain": "3.20000",
+        "AttributeIntelligenceGain": "2.600000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_crystal_maiden",
+      "source": "scripts/npc/heroes/npc_dota_hero_crystal_maiden.txt",
+      "sha256": "b4b1bddb3448471cbeecc2e625264954ac7705b1e110b9d17e1514a5183f9151",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/crystal_maiden/crystal_maiden.vmdl",
+        "SoundSet": "hero_Crystal",
+        "Ability1": "crystal_maiden_crystal_nova",
+        "Ability2": "crystal_maiden_frostbite",
+        "Ability3": "crystal_maiden_brilliance_aura",
+        "Ability4": "crystal_maiden_crystal_clone",
+        "Ability5": "crystal_maiden_glacial_guard",
+        "Ability6": "crystal_maiden_freezing_field",
+        "Ability7": "crystal_maiden_freezing_field_stop",
+        "Ability10": "special_bonus_hp_200",
+        "Ability11": "special_bonus_intelligence_12",
+        "Ability12": "special_bonus_unique_crystal_maiden_frostbite_castrange",
+        "Ability13": "special_bonus_unique_crystal_maiden_5",
+        "Ability14": "special_bonus_unique_crystal_maiden_glacial_guard_mana_multiplier",
+        "Ability15": "special_bonus_unique_crystal_maiden_3",
+        "Ability16": "special_bonus_unique_crystal_maiden_1",
+        "Ability17": "special_bonus_unique_crystal_maiden_2",
+        "AttributeStrengthGain": "2.200000",
+        "AttributeAgilityGain": "1.800000",
+        "AttributeIntelligenceGain": "3.300000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_dazzle",
+      "source": "scripts/npc/heroes/npc_dota_hero_dazzle.txt",
+      "sha256": "63068fe4bb9160f4f325ed30aa675a3506f8a6c4396cb7fc2fee3a7ce595a8b0",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/dazzle/dazzle.vmdl",
+        "SoundSet": "Hero_Dazzle",
+        "Ability1": "dazzle_poison_touch",
+        "Ability2": "dazzle_shallow_grave",
+        "Ability3": "dazzle_shadow_wave",
+        "Ability4": "dazzle_innate_weave",
+        "Ability5": "generic_hidden",
+        "Ability6": "dazzle_nothl_projection",
+        "Ability7": "dazzle_nothl_projection_end",
+        "Ability10": "special_bonus_unique_dazzle_poison_touch_attack_range_bonus",
+        "Ability11": "special_bonus_mp_regen_175",
+        "Ability12": "special_bonus_unique_dazzle_2",
+        "Ability13": "special_bonus_unique_dazzle_nothl_projection_duration",
+        "Ability14": "special_bonus_unique_dazzle_shallow_grave_cooldown",
+        "Ability15": "special_bonus_unique_dazzle_3",
+        "Ability16": "special_bonus_unique_dazzle_1",
+        "Ability17": "special_bonus_unique_dazzle_4",
+        "AttributeStrengthGain": "2.3",
+        "AttributeAgilityGain": "1.7",
+        "AttributeIntelligenceGain": "3.5"
+      }
+    },
+    {
+      "id": "npc_dota_hero_centaur",
+      "source": "scripts/npc/heroes/npc_dota_hero_centaur.txt",
+      "sha256": "33c8ac9381898217373bea1d5deea95c33504e9e40505d64c64f3b8f0bac6404",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/centaur/centaur.vmdl",
+        "SoundSet": "Hero_Centaur",
+        "Ability1": "centaur_hoof_stomp",
+        "Ability2": "centaur_double_edge",
+        "Ability3": "centaur_return",
+        "Ability4": "centaur_work_horse",
+        "Ability5": "centaur_mount",
+        "Ability6": "centaur_stampede",
+        "Ability7": "centaur_horsepower",
+        "Ability10": "special_bonus_hp_regen_4",
+        "Ability11": "special_bonus_movement_speed_15",
+        "Ability12": "special_bonus_strength_10",
+        "Ability13": "special_bonus_unique_centaur_4",
+        "Ability14": "special_bonus_unique_centaur_3",
+        "Ability15": "special_bonus_unique_centaur_5",
+        "Ability16": "special_bonus_unique_centaur_1",
+        "Ability17": "special_bonus_unique_centaur_2",
+        "AttributeStrengthGain": "4.3",
+        "AttributeAgilityGain": "1.0000",
+        "AttributeIntelligenceGain": "1.600000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_skeleton_king",
+      "source": "scripts/npc/heroes/npc_dota_hero_skeleton_king.txt",
+      "sha256": "dea472e68d3c6b427b7342a5798afa66a19b3be3a8272a9ee29c74071d4d409d",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/wraith_king/wraith_king.vmdl",
+        "SoundSet": "Hero_SkeletonKing",
+        "Ability1": "skeleton_king_hellfire_blast",
+        "Ability2": "skeleton_king_bone_guard",
+        "Ability3": "skeleton_king_mortal_strike",
+        "Ability4": "skeleton_king_vampiric_spirit",
+        "Ability5": "generic_hidden",
+        "Ability6": "skeleton_king_reincarnation",
+        "Ability10": "special_bonus_unique_wraith_king_2",
+        "Ability11": "special_bonus_unique_wraith_king_facet_1",
+        "Ability12": "special_bonus_unique_wraith_king_11",
+        "Ability13": "special_bonus_hp_300",
+        "Ability14": "special_bonus_attack_speed_50",
+        "Ability15": "special_bonus_unique_wraith_king_facet_3",
+        "Ability16": "special_bonus_unique_wraith_king_10",
+        "Ability17": "special_bonus_unique_wraith_king_4",
+        "AttributeStrengthGain": "2.8",
+        "AttributeAgilityGain": "1.7",
+        "AttributeIntelligenceGain": "1.4"
+      }
+    },
+    {
+      "id": "npc_dota_hero_phantom_assassin",
+      "source": "scripts/npc/heroes/npc_dota_hero_phantom_assassin.txt",
+      "sha256": "78f9c1ae238b3ecd2e41288478fb9c545fd8ab8476f2309b6a0a4c46a70b4b88",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/phantom_assassin/phantom_assassin.vmdl",
+        "SoundSet": "Hero_PhantomAssassin",
+        "Ability1": "phantom_assassin_stifling_dagger",
+        "Ability2": "phantom_assassin_phantom_strike",
+        "Ability3": "phantom_assassin_blur",
+        "Ability4": "phantom_assassin_fan_of_knives",
+        "Ability5": "phantom_assassin_immaterial",
+        "Ability6": "phantom_assassin_coup_de_grace",
+        "Ability10": "special_bonus_unique_phantom_assassin_4",
+        "Ability11": "special_bonus_unique_phantom_assassin_7",
+        "Ability12": "special_bonus_unique_phantom_assassin_3",
+        "Ability13": "special_bonus_unique_phantom_assassin_5",
+        "Ability14": "special_bonus_unique_phantom_assassin_6",
+        "Ability15": "special_bonus_unique_phantom_assassin_strike_aspd",
+        "Ability16": "special_bonus_unique_phantom_assassin_2",
+        "Ability17": "special_bonus_unique_phantom_assassin",
+        "AttributeStrengthGain": "2.2",
+        "AttributeAgilityGain": "3.40000",
+        "AttributeIntelligenceGain": "1.700000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_zuus",
+      "source": "scripts/npc/heroes/npc_dota_hero_zuus.txt",
+      "sha256": "e1a5d9c91fa66a70c233912115244d4ec8c0e388b76770d54a81404c3733a15c",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/zeus/zeus.vmdl",
+        "SoundSet": "Hero_zuus",
+        "Ability1": "zuus_arc_lightning",
+        "Ability2": "zuus_lightning_bolt",
+        "Ability3": "zuus_heavenly_jump",
+        "Ability4": "zuus_cloud",
+        "Ability5": "zuus_lightning_hands",
+        "Ability6": "zuus_thundergods_wrath",
+        "Ability7": "zuus_static_field",
+        "Ability10": "special_bonus_unique_zeus",
+        "Ability11": "special_bonus_hp_200",
+        "Ability12": "special_bonus_unique_zeus_4",
+        "Ability13": "special_bonus_unique_zeus_6",
+        "Ability14": "special_bonus_unique_zeus_2",
+        "Ability15": "special_bonus_unique_zeus_3",
+        "Ability16": "special_bonus_unique_zeus_5",
+        "Ability17": "special_bonus_unique_zeus_jump_charges",
+        "AttributeStrengthGain": "2.100000",
+        "AttributeAgilityGain": "1.200000",
+        "AttributeIntelligenceGain": "3.300000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_witch_doctor",
+      "source": "scripts/npc/heroes/npc_dota_hero_witch_doctor.txt",
+      "sha256": "9bf79ef6a42ed2f24f5b26e558799eb54a5ef048e82a5fda063ed99f3561f213",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/witchdoctor/witchdoctor.vmdl",
+        "SoundSet": "Hero_WitchDoctor",
+        "Ability1": "witch_doctor_paralyzing_cask",
+        "Ability2": "witch_doctor_voodoo_restoration",
+        "Ability3": "witch_doctor_maledict",
+        "Ability4": "witch_doctor_voodoo_switcheroo",
+        "Ability5": "witch_doctor_gris_gris",
+        "Ability6": "witch_doctor_death_ward",
+        "Ability10": "special_bonus_unique_witch_doctor_4",
+        "Ability11": "special_bonus_hp_200",
+        "Ability12": "special_bonus_unique_witch_doctor_6",
+        "Ability13": "special_bonus_unique_witch_doctor_7",
+        "Ability14": "special_bonus_unique_witch_doctor_maledict_spread",
+        "Ability15": "special_bonus_unique_witch_doctor_2",
+        "Ability16": "special_bonus_unique_witch_doctor_3",
+        "Ability17": "special_bonus_unique_witch_doctor_5",
+        "AttributeStrengthGain": "2.100000",
+        "AttributeAgilityGain": "1.400000",
+        "AttributeIntelligenceGain": "3.100000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_bristleback",
+      "source": "scripts/npc/heroes/npc_dota_hero_bristleback.txt",
+      "sha256": "2d8ca6edbae9a580a2faa49f798848d7beef87109dbac8c00e59f34bd68f7a34",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/bristleback/bristleback.vmdl",
+        "SoundSet": "Hero_Bristleback",
+        "Ability1": "bristleback_viscous_nasal_goo",
+        "Ability2": "bristleback_quill_spray",
+        "Ability3": "bristleback_bristleback",
+        "Ability4": "bristleback_hairball",
+        "Ability5": "generic_hidden",
+        "Ability6": "bristleback_warpath",
+        "Ability7": "bristleback_prickly",
+        "Ability10": "special_bonus_attack_speed_25",
+        "Ability11": "special_bonus_mp_regen_150",
+        "Ability12": "special_bonus_unique_bristleback_5",
+        "Ability13": "special_bonus_unique_bristleback_6",
+        "Ability14": "special_bonus_hp_regen_25",
+        "Ability15": "special_bonus_unique_bristleback_2",
+        "Ability16": "special_bonus_unique_bristleback",
+        "Ability17": "special_bonus_unique_bristleback_3",
+        "AttributeStrengthGain": "2.800000",
+        "AttributeAgilityGain": "1.800000",
+        "AttributeIntelligenceGain": "2.800000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_slark",
+      "source": "scripts/npc/heroes/npc_dota_hero_slark.txt",
+      "sha256": "c3bf34ff95deb386eaa918b14920ecd76b5a2a6060d7c07868ac39b8047cc752",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/slark/slark.vmdl",
+        "SoundSet": "Hero_Slark",
+        "Ability1": "slark_dark_pact",
+        "Ability2": "slark_pounce",
+        "Ability3": "slark_saltwater_shiv",
+        "Ability4": "slark_depth_shroud",
+        "Ability5": "slark_essence_shift",
+        "Ability6": "slark_shadow_dance",
+        "Ability10": "special_bonus_unique_slark_6",
+        "Ability11": "special_bonus_unique_slark",
+        "Ability12": "special_bonus_unique_slark_2",
+        "Ability13": "special_bonus_unique_slark_8",
+        "Ability14": "special_bonus_unique_slark_4",
+        "Ability15": "special_bonus_unique_slark_7",
+        "Ability16": "special_bonus_unique_slark_3",
+        "Ability17": "special_bonus_unique_slark_5",
+        "AttributeStrengthGain": "2.100000",
+        "AttributeAgilityGain": "1.500000",
+        "AttributeIntelligenceGain": "1.900000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_luna",
+      "source": "scripts/npc/heroes/npc_dota_hero_luna.txt",
+      "sha256": "96f7fb3388afcc02ac071da9beeb97f53ae5ea2ae41b95c172c16434fa60e747",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/luna/luna.vmdl",
+        "SoundSet": "Hero_Luna",
+        "Ability1": "luna_lucent_beam",
+        "Ability2": "luna_lunar_orbit",
+        "Ability3": "luna_moon_glaive",
+        "Ability4": "luna_lunar_blessing",
+        "Ability5": "generic_hidden",
+        "Ability6": "luna_eclipse",
+        "Ability7": "generic_hidden",
+        "Ability10": "special_bonus_unique_luna_7",
+        "Ability11": "special_bonus_unique_luna_4",
+        "Ability12": "special_bonus_unique_luna_lunar_orbit_glaive_count",
+        "Ability13": "special_bonus_unique_luna_1",
+        "Ability14": "special_bonus_unique_luna_6",
+        "Ability15": "special_bonus_unique_luna_lunar_orbit_speed_damage",
+        "Ability16": "special_bonus_unique_luna_3",
+        "Ability17": "special_bonus_unique_luna_5",
+        "AttributeStrengthGain": "2.200000",
+        "AttributeAgilityGain": "3.400000",
+        "AttributeIntelligenceGain": "1.90000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_nevermore",
+      "source": "scripts/npc/heroes/npc_dota_hero_nevermore.txt",
+      "sha256": "67de2fc73b3bddf8c2b3bf7943aa1c9c10d3de5e8c9e219a6762cbe37dae3371",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/shadow_fiend/shadow_fiend.vmdl",
+        "SoundSet": "Hero_Nevermore",
+        "Ability1": "nevermore_shadowraze1",
+        "Ability2": "nevermore_shadowraze2",
+        "Ability3": "nevermore_shadowraze3",
+        "Ability4": "nevermore_frenzy",
+        "Ability5": "nevermore_dark_lord",
+        "Ability6": "nevermore_requiem",
+        "Ability7": "nevermore_necromastery",
+        "Ability10": "special_bonus_unique_nevermore_7",
+        "Ability11": "special_bonus_unique_nevermore_4",
+        "Ability12": "special_bonus_unique_nevermore_3",
+        "Ability13": "special_bonus_unique_nevermore_frenzy_max_collection_count",
+        "Ability14": "special_bonus_unique_nevermore_1",
+        "Ability15": "special_bonus_unique_nevermore_6",
+        "Ability16": "special_bonus_unique_nevermore_frenzy_castspeed",
+        "Ability17": "special_bonus_unique_nevermore_raze_procsattacks",
+        "AttributeStrengthGain": "2.700000",
+        "AttributeAgilityGain": "3.600000",
+        "AttributeIntelligenceGain": "2.200000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_shadow_shaman",
+      "source": "scripts/npc/heroes/npc_dota_hero_shadow_shaman.txt",
+      "sha256": "762dfd6468712a21ed5c0e8bb16b23580e7da8edbbf35f5f0654313b143a4539",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/shadowshaman/shadowshaman.vmdl",
+        "SoundSet": "Hero_ShadowShaman",
+        "Ability1": "shadow_shaman_ether_shock",
+        "Ability2": "shadow_shaman_voodoo",
+        "Ability3": "shadow_shaman_shackles",
+        "Ability4": "shadow_shaman_fowl_play",
+        "Ability5": "shadow_shaman_urnaconda",
+        "Ability6": "shadow_shaman_mass_serpent_ward",
+        "Ability10": "special_bonus_unique_shadow_shaman_6",
+        "Ability11": "special_bonus_mp_regen_175",
+        "Ability12": "special_bonus_unique_shadow_shaman_8",
+        "Ability13": "special_bonus_unique_shadow_shaman_7",
+        "Ability14": "special_bonus_unique_shadow_shaman_2",
+        "Ability15": "special_bonus_unique_shadow_shaman_1",
+        "Ability16": "special_bonus_unique_shadow_shaman_3",
+        "Ability17": "special_bonus_unique_shadow_shaman_4",
+        "AttributeStrengthGain": "2.300000",
+        "AttributeAgilityGain": "1.600000",
+        "AttributeIntelligenceGain": "3.300000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_tidehunter",
+      "source": "scripts/npc/heroes/npc_dota_hero_tidehunter.txt",
+      "sha256": "8c96be768e85e8d845bc6ef04f99ad261c0f9bd5c0e45503aedb6ab4c5c78cda",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/tidehunter/tidehunter.vmdl",
+        "SoundSet": "Hero_Tidehunter",
+        "Ability1": "tidehunter_gush",
+        "Ability2": "tidehunter_kraken_shell",
+        "Ability3": "tidehunter_anchor_smash",
+        "Ability4": "tidehunter_dead_in_the_water",
+        "Ability5": "generic_hidden",
+        "Ability6": "tidehunter_ravage",
+        "Ability7": "tidehunter_leviathans_catch",
+        "Ability10": "special_bonus_unique_tidehunter_3",
+        "Ability11": "special_bonus_unique_tidehunter_5",
+        "Ability12": "special_bonus_unique_tidehunter_2",
+        "Ability13": "special_bonus_unique_tidehunter_ravage_cooldown",
+        "Ability14": "special_bonus_unique_tidehunter_smash_on_blubber",
+        "Ability15": "special_bonus_unique_tidehunter",
+        "Ability16": "special_bonus_unique_tidehunter_7",
+        "Ability17": "special_bonus_unique_tidehunter_10",
+        "AttributeStrengthGain": "3.7",
+        "AttributeAgilityGain": "1.500000",
+        "AttributeIntelligenceGain": "1.700000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_dragon_knight",
+      "source": "scripts/npc/heroes/npc_dota_hero_dragon_knight.txt",
+      "sha256": "3dcfc11fbe634effac91207ead048537ffdda6b22ad030c7c097c1d43b3b2043",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/dragon_knight/dragon_knight.vmdl",
+        "SoundSet": "Hero_DragonKnight",
+        "Ability1": "dragon_knight_breathe_fire",
+        "Ability2": "dragon_knight_dragon_tail",
+        "Ability3": "dragon_knight_wyrms_wrath",
+        "Ability4": "dragon_knight_fireball",
+        "Ability5": "dragon_knight_dragon_blood",
+        "Ability6": "dragon_knight_elder_dragon_form",
+        "Ability10": "special_bonus_attack_damage_15",
+        "Ability11": "special_bonus_unique_dragon_knight_3",
+        "Ability12": "special_bonus_unique_dragon_knight_2",
+        "Ability13": "special_bonus_hp_300",
+        "Ability14": "special_bonus_unique_dragon_knight_7",
+        "Ability15": "special_bonus_unique_dragon_knight_9",
+        "Ability16": "special_bonus_unique_dragon_knight",
+        "Ability17": "special_bonus_unique_dragon_knight_wyrms_wrath_damage",
+        "AttributeStrengthGain": "3.200000",
+        "AttributeAgilityGain": "2.000000",
+        "AttributeIntelligenceGain": "1.700000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_pudge",
+      "source": "scripts/npc/heroes/npc_dota_hero_pudge.txt",
+      "sha256": "01ac9e175c2127bb00839ef8356fdb09b89fbff81e16d80fded83664adc975fa",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/pudge/pudge.vmdl",
+        "SoundSet": "Hero_Pudge",
+        "Ability1": "pudge_meat_hook",
+        "Ability2": "pudge_rot",
+        "Ability3": "pudge_flesh_heap",
+        "Ability4": "generic_hidden",
+        "Ability5": "pudge_innate_graft_flesh",
+        "Ability6": "pudge_dismember",
+        "Ability10": "special_bonus_armor_5",
+        "Ability11": "special_bonus_unique_pudge_4",
+        "Ability12": "special_bonus_spell_lifesteal_8",
+        "Ability13": "special_bonus_unique_pudge_7",
+        "Ability14": "special_bonus_unique_pudge_6",
+        "Ability15": "special_bonus_unique_pudge_5",
+        "Ability16": "special_bonus_unique_pudge_3",
+        "Ability17": "special_bonus_unique_pudge_1",
+        "AttributeStrengthGain": "3.0",
+        "AttributeAgilityGain": "1.400000",
+        "AttributeIntelligenceGain": "1.800000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_abyssal_underlord",
+      "source": "scripts/npc/heroes/npc_dota_hero_abyssal_underlord.txt",
+      "sha256": "31060e5fdf53b01592b172f9f40a1113f9b8af09b3494750bbe881f34461a5d8",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/abyssal_underlord/abyssal_underlord_v2.vmdl",
+        "SoundSet": "Hero_AbyssalUnderlord",
+        "Ability1": "abyssal_underlord_firestorm",
+        "Ability2": "abyssal_underlord_pit_of_malice",
+        "Ability3": "abyssal_underlord_atrophy_aura",
+        "Ability4": "abyssal_underlord_raid_boss",
+        "Ability5": "generic_hidden",
+        "Ability6": "abyssal_underlord_dark_portal",
+        "Ability10": "special_bonus_unique_underlord_7",
+        "Ability11": "special_bonus_unique_underlord_8",
+        "Ability12": "special_bonus_unique_underlord_6",
+        "Ability13": "special_bonus_unique_underlord_5",
+        "Ability14": "special_bonus_unique_underlord_4",
+        "Ability15": "special_bonus_unique_underlord_3",
+        "Ability16": "special_bonus_unique_underlord",
+        "Ability17": "special_bonus_unique_underlord_9",
+        "AttributeStrengthGain": "3.2",
+        "AttributeAgilityGain": "1.600000",
+        "AttributeIntelligenceGain": "2.300000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_ursa",
+      "source": "scripts/npc/heroes/npc_dota_hero_ursa.txt",
+      "sha256": "613c2cefe0a70e0a5582c5dd9def317fb93da2a346d0da650070a147b4faad9a",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/ursa/ursa.vmdl",
+        "SoundSet": "Hero_Ursa",
+        "Ability1": "ursa_earthshock",
+        "Ability2": "ursa_overpower",
+        "Ability3": "ursa_fury_swipes",
+        "Ability4": "ursa_maul",
+        "Ability5": "generic_hidden",
+        "Ability6": "ursa_enrage",
+        "Ability10": "special_bonus_unique_ursa_4",
+        "Ability11": "special_bonus_mp_regen_175",
+        "Ability12": "special_bonus_unique_ursa_maul_health",
+        "Ability13": "special_bonus_unique_ursa_8",
+        "Ability14": "special_bonus_unique_ursa_2",
+        "Ability15": "special_bonus_unique_ursa",
+        "Ability16": "special_bonus_unique_ursa_3",
+        "Ability17": "special_bonus_unique_ursa_7",
+        "AttributeStrengthGain": "2.4",
+        "AttributeAgilityGain": "2.8",
+        "AttributeIntelligenceGain": "1.5"
+      }
+    },
+    {
+      "id": "npc_dota_hero_monkey_king",
+      "source": "scripts/npc/heroes/npc_dota_hero_monkey_king.txt",
+      "sha256": "6d7a10c3601871804fe1a69420f26192f09ff2267e138eb9799371bd448313a6",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/monkey_king/monkey_king.vmdl",
+        "SoundSet": "Hero_MonkeyKing",
+        "Ability1": "monkey_king_boundless_strike",
+        "Ability2": "monkey_king_tree_dance",
+        "Ability3": "monkey_king_primal_spring",
+        "Ability4": "monkey_king_jingu_mastery",
+        "Ability5": "monkey_king_mischief",
+        "Ability6": "monkey_king_wukongs_command",
+        "Ability7": "monkey_king_primal_spring_early",
+        "Ability8": "monkey_king_untransform",
+        "Ability9": "monkey_king_transfiguration",
+        "Ability10": "special_bonus_unique_monkey_king_7",
+        "Ability11": "special_bonus_unique_monkey_king_9",
+        "Ability12": "special_bonus_unique_monkey_king_8",
+        "Ability13": "special_bonus_unique_monkey_king_2",
+        "Ability14": "special_bonus_unique_monkey_king_3",
+        "Ability15": "special_bonus_unique_monkey_king_10",
+        "Ability16": "special_bonus_unique_monkey_king_11",
+        "Ability17": "special_bonus_unique_monkey_king_6",
+        "AttributeStrengthGain": "2.8",
+        "AttributeAgilityGain": "3.700000",
+        "AttributeIntelligenceGain": "1.8"
+      }
+    },
+    {
+      "id": "npc_dota_hero_troll_warlord",
+      "source": "scripts/npc/heroes/npc_dota_hero_troll_warlord.txt",
+      "sha256": "e0ee0f9b42f07cc6924e422f831d85dde557cb40dccbd4a9eea1c058c894f722",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/troll_warlord/troll_warlord.vmdl",
+        "SoundSet": "Hero_TrollWarlord",
+        "Ability1": "troll_warlord_switch_stance",
+        "Ability2": "troll_warlord_whirling_axes_ranged",
+        "Ability3": "troll_warlord_whirling_axes_melee",
+        "Ability4": "troll_warlord_fervor",
+        "Ability5": "troll_warlord_berserkers_rage",
+        "Ability6": "troll_warlord_battle_trance",
+        "Ability10": "special_bonus_unique_troll_warlord_whirling_axes_debuff_duration",
+        "Ability11": "special_bonus_unique_troll_warlord_2",
+        "Ability12": "special_bonus_unique_troll_warlord_5",
+        "Ability13": "special_bonus_unique_troll_warlord",
+        "Ability14": "special_bonus_unique_troll_warlord_battle_trance_movespeed",
+        "Ability15": "special_bonus_unique_troll_warlord_3",
+        "Ability16": "special_bonus_unique_troll_warlord_6",
+        "Ability17": "special_bonus_unique_troll_warlord_4",
+        "AttributeStrengthGain": "2.500000",
+        "AttributeAgilityGain": "3.30000",
+        "AttributeIntelligenceGain": "1.000000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_chaos_knight",
+      "source": "scripts/npc/heroes/npc_dota_hero_chaos_knight.txt",
+      "sha256": "d0288fc845f81f0445018401e8d35e4b615ce95656f9024078e1643f083aab47",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/chaos_knight/chaos_knight.vmdl",
+        "SoundSet": "Hero_ChaosKnight",
+        "Ability1": "chaos_knight_chaos_bolt",
+        "Ability2": "chaos_knight_reality_rift",
+        "Ability3": "chaos_knight_chaos_strike",
+        "Ability4": "generic_hidden",
+        "Ability5": "chaos_knight_fundamental_forging",
+        "Ability6": "chaos_knight_phantasm",
+        "Ability10": "special_bonus_unique_chaos_knight_6",
+        "Ability11": "special_bonus_unique_chaos_knight_2",
+        "Ability12": "special_bonus_unique_chaos_knight_8",
+        "Ability13": "special_bonus_strength_10",
+        "Ability14": "special_bonus_unique_chaos_knight_3",
+        "Ability15": "special_bonus_unique_chaos_knight",
+        "Ability16": "special_bonus_unique_chaos_knight_5",
+        "Ability17": "special_bonus_unique_chaos_knight_7",
+        "AttributeStrengthGain": "3.100000",
+        "AttributeAgilityGain": "1.8",
+        "AttributeIntelligenceGain": "1.200000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_antimage",
+      "source": "scripts/npc/heroes/npc_dota_hero_antimage.txt",
+      "sha256": "b70ba50c837db7379329dc1c515847dfa25a256b6252a115f39d2d7530579b11",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/antimage/antimage.vmdl",
+        "SoundSet": "Hero_Antimage",
+        "Ability1": "antimage_mana_break",
+        "Ability2": "antimage_blink",
+        "Ability3": "antimage_counterspell",
+        "Ability4": "generic_hidden",
+        "Ability5": "antimage_persectur",
+        "Ability6": "antimage_mana_void",
+        "Ability10": "special_bonus_hp_regen_3",
+        "Ability11": "special_bonus_unique_antimage_manavoid_aoe",
+        "Ability12": "special_bonus_unique_antimage_5",
+        "Ability13": "special_bonus_unique_antimage_6",
+        "Ability14": "special_bonus_unique_antimage_3",
+        "Ability15": "special_bonus_unique_antimage_8",
+        "Ability16": "special_bonus_unique_antimage",
+        "Ability17": "special_bonus_unique_antimage_2",
+        "AttributeStrengthGain": "1.600000",
+        "AttributeAgilityGain": "2.8",
+        "AttributeIntelligenceGain": "1.800000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_faceless_void",
+      "source": "scripts/npc/heroes/npc_dota_hero_faceless_void.txt",
+      "sha256": "8813f14acfc6a229872961dba2c9997feae3fbb84644b83b1b983e9b8e1b4117",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/faceless_void/faceless_void.vmdl",
+        "SoundSet": "Hero_FacelessVoid",
+        "Ability1": "faceless_void_time_walk",
+        "Ability2": "faceless_void_time_dilation",
+        "Ability3": "faceless_void_time_lock",
+        "Ability4": "faceless_void_time_walk_reverse",
+        "Ability5": "faceless_void_distortion_field",
+        "Ability6": "faceless_void_chronosphere",
+        "Ability10": "special_bonus_unique_faceless_void_6",
+        "Ability11": "special_bonus_unique_faceless_void_7",
+        "Ability12": "special_bonus_unique_faceless_void_3",
+        "Ability13": "special_bonus_unique_faceless_void_8",
+        "Ability14": "special_bonus_unique_faceless_void",
+        "Ability15": "special_bonus_unique_faceless_void_5",
+        "Ability16": "special_bonus_unique_faceless_void_4",
+        "Ability17": "special_bonus_unique_faceless_void_2",
+        "AttributeStrengthGain": "2.600000",
+        "AttributeAgilityGain": "3.3",
+        "AttributeIntelligenceGain": "1.500000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_medusa",
+      "source": "scripts/npc/heroes/npc_dota_hero_medusa.txt",
+      "sha256": "2e0ca286f7164f1160c2295eaa10dabffe7101f628c06c16b84a044ea63c6f53",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/medusa/medusa.vmdl",
+        "SoundSet": "Hero_Medusa",
+        "Ability1": "medusa_split_shot",
+        "Ability2": "medusa_mystic_snake",
+        "Ability3": "medusa_gorgon_grasp",
+        "Ability4": "medusa_cold_blooded",
+        "Ability5": "medusa_mana_shield",
+        "Ability6": "medusa_stone_gaze",
+        "Ability10": "special_bonus_unique_medusa_gorgons_grasp_radius",
+        "Ability11": "special_bonus_unique_medusa_8",
+        "Ability12": "special_bonus_unique_medusa_gorgons_grasp_volleys",
+        "Ability13": "special_bonus_unique_medusa_5",
+        "Ability14": "special_bonus_unique_medusa_snake_damage",
+        "Ability15": "special_bonus_unique_medusa_2",
+        "Ability16": "special_bonus_unique_medusa",
+        "Ability17": "special_bonus_intelligence_40",
+        "AttributeStrengthGain": "0",
+        "AttributeAgilityGain": "3.6",
+        "AttributeIntelligenceGain": "3.6"
+      }
+    },
+    {
+      "id": "npc_dota_hero_terrorblade",
+      "source": "scripts/npc/heroes/npc_dota_hero_terrorblade.txt",
+      "sha256": "4b597ba8251d4eed9cb1a3170e21e5708faec0a5018964010b384f99732343d5",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/terrorblade/terrorblade.vmdl",
+        "SoundSet": "Hero_Terrorblade",
+        "Ability1": "terrorblade_reflection",
+        "Ability2": "terrorblade_conjure_image",
+        "Ability3": "terrorblade_metamorphosis",
+        "Ability4": "terrorblade_demon_zeal",
+        "Ability5": "terrorblade_terror_wave",
+        "Ability6": "terrorblade_sunder",
+        "Ability7": "terrorblade_dark_unity",
+        "Ability10": "special_bonus_unique_terrorblade_2",
+        "Ability11": "special_bonus_unique_terrorblade_4",
+        "Ability12": "special_bonus_unique_terrorblade_metamorphosis_cooldown",
+        "Ability13": "special_bonus_unique_terrorblade_sunder_hp_threshold",
+        "Ability14": "special_bonus_all_stats_10",
+        "Ability15": "special_bonus_unique_terrorblade_5",
+        "Ability16": "special_bonus_unique_terrorblade",
+        "Ability17": "special_bonus_unique_terrorblade_3",
+        "AttributeStrengthGain": "2.0",
+        "AttributeAgilityGain": "4.000000",
+        "AttributeIntelligenceGain": "1.60000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_storm_spirit",
+      "source": "scripts/npc/heroes/npc_dota_hero_storm_spirit.txt",
+      "sha256": "02996ee5b413c86b193d109253e723ed3dabe87cbbe5002362f863b1b02c823c",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/storm_spirit/storm_spirit.vmdl",
+        "SoundSet": "Hero_StormSpirit",
+        "Ability1": "storm_spirit_static_remnant",
+        "Ability2": "storm_spirit_electric_vortex",
+        "Ability3": "storm_spirit_overload",
+        "Ability4": "generic_hidden",
+        "Ability5": "generic_hidden",
+        "Ability6": "storm_spirit_ball_lightning",
+        "Ability7": "storm_spirit_galvanized",
+        "Ability10": "special_bonus_unique_storm_spirit_overload_aspd",
+        "Ability11": "special_bonus_mp_regen_150",
+        "Ability12": "special_bonus_hp_250",
+        "Ability13": "special_bonus_unique_storm_spirit_5",
+        "Ability14": "special_bonus_unique_storm_spirit",
+        "Ability15": "special_bonus_unique_storm_spirit_8",
+        "Ability16": "special_bonus_unique_storm_spirit_7",
+        "Ability17": "special_bonus_unique_storm_spirit_4",
+        "AttributeStrengthGain": "2.000000",
+        "AttributeAgilityGain": "2.600000",
+        "AttributeIntelligenceGain": "3.7"
+      }
+    },
+    {
+      "id": "npc_dota_hero_leshrac",
+      "source": "scripts/npc/heroes/npc_dota_hero_leshrac.txt",
+      "sha256": "d28c42a4598c5a75717569cb970ade97839c4d07dc98ecee8b8d09d861df8b5f",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/leshrac/leshrac.vmdl",
+        "SoundSet": "Hero_Leshrac",
+        "Ability1": "leshrac_split_earth",
+        "Ability2": "leshrac_diabolic_edict",
+        "Ability3": "leshrac_lightning_storm",
+        "Ability4": "leshrac_greater_lightning_storm",
+        "Ability5": "leshrac_defilement",
+        "Ability6": "leshrac_pulse_nova",
+        "Ability10": "special_bonus_mp_regen_150",
+        "Ability11": "special_bonus_armor_4",
+        "Ability12": "special_bonus_unique_leshrac_6",
+        "Ability13": "special_bonus_unique_leshrac_4",
+        "Ability14": "special_bonus_unique_leshrac_7",
+        "Ability15": "special_bonus_unique_leshrac_3",
+        "Ability16": "special_bonus_unique_leshrac_1",
+        "Ability17": "special_bonus_unique_leshrac_pulse_nova_lightning",
+        "AttributeStrengthGain": "2.5",
+        "AttributeAgilityGain": "2.5",
+        "AttributeIntelligenceGain": "3.5"
+      }
+    },
+    {
+      "id": "npc_dota_hero_invoker",
+      "source": "scripts/npc/heroes/npc_dota_hero_invoker.txt",
+      "sha256": "72046fa3d6f49ce24e6c126ff93983ae859900039799b30895c95df9a8b17229",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/invoker/invoker.vmdl",
+        "SoundSet": "Hero_Invoker",
+        "Ability1": "invoker_quas",
+        "Ability2": "invoker_wex",
+        "Ability3": "invoker_exort",
+        "Ability4": "invoker_empty1",
+        "Ability5": "invoker_empty2",
+        "Ability6": "invoker_invoke",
+        "Ability7": "invoker_cold_snap",
+        "Ability8": "invoker_ghost_walk",
+        "Ability9": "invoker_tornado",
+        "Ability10": "invoker_emp",
+        "Ability11": "invoker_alacrity",
+        "Ability12": "invoker_chaos_meteor",
+        "Ability13": "invoker_sun_strike",
+        "Ability14": "invoker_forge_spirit",
+        "Ability15": "invoker_ice_wall",
+        "Ability16": "invoker_deafening_blast",
+        "Ability17": "special_bonus_unique_invoker_ice_wall_dps",
+        "Ability18": "special_bonus_unique_invoker_3",
+        "Ability19": "special_bonus_unique_invoker_5",
+        "Ability20": "special_bonus_unique_invoker_9",
+        "Ability21": "special_bonus_unique_invoker_additional_chaos_meteors",
+        "Ability22": "special_bonus_unique_invoker_forged_spirit_armor_reduction",
+        "Ability23": "special_bonus_unique_invoker_2",
+        "Ability24": "special_bonus_unique_invoker_13",
+        "Ability25": "",
+        "AttributeStrengthGain": "2.5",
+        "AttributeAgilityGain": "2.0",
+        "AttributeIntelligenceGain": "4.0"
+      }
+    },
+    {
+      "id": "npc_dota_hero_puck",
+      "source": "scripts/npc/heroes/npc_dota_hero_puck.txt",
+      "sha256": "f46e4f17fb0fab23f7d39ff60ea11a7e0dc61cfda5c6b60e30bc20313a4f3b62",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/puck/puck.vmdl",
+        "SoundSet": "Hero_Puck",
+        "Ability1": "puck_illusory_orb",
+        "Ability2": "puck_waning_rift",
+        "Ability3": "puck_phase_shift",
+        "Ability4": "puck_ethereal_jaunt",
+        "Ability5": "puck_puckish",
+        "Ability6": "puck_dream_coil",
+        "Ability10": "special_bonus_unique_puck_orb_damage",
+        "Ability11": "special_bonus_unique_puck_7",
+        "Ability12": "special_bonus_unique_puck_5",
+        "Ability13": "special_bonus_unique_puck_6",
+        "Ability14": "special_bonus_unique_puck_2",
+        "Ability15": "special_bonus_unique_puck_coil_damage",
+        "Ability16": "special_bonus_unique_puck",
+        "Ability17": "special_bonus_unique_puck_rift_radius",
+        "AttributeStrengthGain": "2.400000",
+        "AttributeAgilityGain": "2.1",
+        "AttributeIntelligenceGain": "3.800000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_lion",
+      "source": "scripts/npc/heroes/npc_dota_hero_lion.txt",
+      "sha256": "8734daf1360ea784a2cb81a3afcac9f4e3d3d128f5ed0dabe47897a80e01c1c6",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/lion/lion.vmdl",
+        "SoundSet": "Hero_Lion",
+        "Ability1": "lion_impale",
+        "Ability2": "lion_voodoo",
+        "Ability3": "lion_mana_drain",
+        "Ability4": "lion_to_hell_and_back",
+        "Ability5": "generic_hidden",
+        "Ability6": "lion_finger_of_death",
+        "Ability7": "",
+        "Ability10": "special_bonus_unique_lion_6",
+        "Ability11": "special_bonus_movement_speed_20",
+        "Ability12": "special_bonus_unique_lion_5",
+        "Ability13": "special_bonus_unique_lion_11",
+        "Ability14": "special_bonus_unique_lion_8",
+        "Ability15": "special_bonus_unique_lion_10",
+        "Ability16": "special_bonus_unique_lion_4",
+        "Ability17": "special_bonus_unique_lion_2",
+        "AttributeStrengthGain": "2.4",
+        "AttributeAgilityGain": "1.7",
+        "AttributeIntelligenceGain": "3.500000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_jakiro",
+      "source": "scripts/npc/heroes/npc_dota_hero_jakiro.txt",
+      "sha256": "da0a519bfad3795e143cd0f8e595d83ed20ea1354a8391beed27400aadcc0f34",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/jakiro/jakiro.vmdl",
+        "SoundSet": "Hero_Jakiro",
+        "Ability1": "jakiro_dual_breath",
+        "Ability2": "jakiro_ice_path",
+        "Ability3": "jakiro_liquid_fire",
+        "Ability4": "jakiro_liquid_ice",
+        "Ability5": "jakiro_double_trouble",
+        "Ability6": "jakiro_macropyre",
+        "Ability10": "special_bonus_unique_jakiro_4",
+        "Ability11": "special_bonus_unique_jakiro_6",
+        "Ability12": "special_bonus_attack_range_175",
+        "Ability13": "special_bonus_unique_jakiro_dualbreath_cooldown",
+        "Ability14": "special_bonus_unique_jakiro",
+        "Ability15": "special_bonus_unique_jakiro_7",
+        "Ability16": "special_bonus_unique_jakiro_2",
+        "Ability17": "special_bonus_unique_jakiro_3",
+        "AttributeStrengthGain": "2.6",
+        "AttributeAgilityGain": "1.200000",
+        "AttributeIntelligenceGain": "3.300000"
+      }
+    },
+    {
+      "id": "npc_dota_hero_vengefulspirit",
+      "source": "scripts/npc/heroes/npc_dota_hero_vengefulspirit.txt",
+      "sha256": "3853993f2cdf388a31d6c5e4bdf60a6904a0431496ffef278995e5a40298739b",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/vengeful/vengeful.vmdl",
+        "SoundSet": "Hero_VengefulSpirit",
+        "Ability1": "vengefulspirit_magic_missile",
+        "Ability2": "vengefulspirit_wave_of_terror",
+        "Ability3": "vengefulspirit_command_aura",
+        "Ability4": "vengefulspirit_retribution",
+        "Ability5": "generic_hidden",
+        "Ability6": "vengefulspirit_nether_swap",
+        "Ability10": "special_bonus_unique_vengeful_spirit_swap_damage",
+        "Ability11": "special_bonus_unique_vengeful_spirit_missile_castrange",
+        "Ability12": "special_bonus_unique_vengeful_spirit_4",
+        "Ability13": "special_bonus_unique_vengeful_spirit_1",
+        "Ability14": "special_bonus_unique_vengeful_spirit_wave_of_terror_steal",
+        "Ability15": "special_bonus_unique_vengeful_spirit_5",
+        "Ability16": "special_bonus_unique_vengeful_spirit_2",
+        "Ability17": "special_bonus_unique_vengeful_spirit_9",
+        "AttributeStrengthGain": "2.6",
+        "AttributeAgilityGain": "3.0",
+        "AttributeIntelligenceGain": "1.5"
+      }
+    },
+    {
+      "id": "npc_dota_hero_lich",
+      "source": "scripts/npc/heroes/npc_dota_hero_lich.txt",
+      "sha256": "b2ec9e1aa401185354c4f685e5db97994b00816a8a915bbf52f63dbe9128be75",
+      "status": "FILE_VERIFIED",
+      "fields": {
+        "Model": "models/heroes/lich/lich.vmdl",
+        "SoundSet": "Hero_Lich",
+        "Ability1": "lich_frost_nova",
+        "Ability2": "lich_frost_shield",
+        "Ability3": "lich_sinister_gaze",
+        "Ability4": "lich_ice_spire",
+        "Ability5": "lich_death_charge",
+        "Ability6": "lich_chain_frost",
+        "Ability10": "special_bonus_unique_lich_8",
+        "Ability11": "special_bonus_unique_lich_6",
+        "Ability12": "special_bonus_unique_lich_2",
+        "Ability13": "special_bonus_unique_lich_3",
+        "Ability14": "special_bonus_unique_lich_4",
+        "Ability15": "special_bonus_unique_lich_7",
+        "Ability16": "special_bonus_unique_lich_1",
+        "Ability17": "special_bonus_unique_lich_5",
+        "AttributeStrengthGain": "2.1",
+        "AttributeAgilityGain": "1.7",
+        "AttributeIntelligenceGain": "3.4"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "resource": "particles/generic_gameplay/generic_stunned.vpcf",
+      "compiledPath": "particles/generic_gameplay/generic_stunned.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5092
+        }
+      ]
+    },
+    {
+      "resource": "particles/items_fx/black_king_bar_avatar.vpcf",
+      "compiledPath": "particles/items_fx/black_king_bar_avatar.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 18
+        }
+      ]
+    },
+    {
+      "resource": "particles/rain_fx/coloseum_terrain_motes.vpcf",
+      "compiledPath": "particles/rain_fx/coloseum_terrain_motes.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 105
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_ancient_apparition/ancient_apparition_ice_blast_explode.vpcf",
+      "compiledPath": "particles/units/heroes/hero_ancient_apparition/ancient_apparition_ice_blast_explode.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 875
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_antimage/antimage_blink_end.vpcf",
+      "compiledPath": "particles/units/heroes/hero_antimage/antimage_blink_end.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4209
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 56
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_antimage/antimage_blink_start.vpcf",
+      "compiledPath": "particles/units/heroes/hero_antimage/antimage_blink_start.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4203
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 55
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_antimage/antimage_manabreak_enemy_debuff.vpcf",
+      "compiledPath": "particles/units/heroes/hero_antimage/antimage_manabreak_enemy_debuff.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4189
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_antimage/antimage_manavoid.vpcf",
+      "compiledPath": "particles/units/heroes/hero_antimage/antimage_manavoid.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4240
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 57
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_axe/axe_battle_hunger.vpcf",
+      "compiledPath": "particles/units/heroes/hero_axe/axe_battle_hunger.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1531
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 108
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_axe/axe_beserkers_call_owner.vpcf",
+      "compiledPath": "particles/units/heroes/hero_axe/axe_beserkers_call_owner.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1472
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 107
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_axe/axe_counterhelix.vpcf",
+      "compiledPath": "particles/units/heroes/hero_axe/axe_counterhelix.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1585
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 109
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_axe/axe_culling_blade.vpcf",
+      "compiledPath": "particles/units/heroes/hero_axe/axe_culling_blade.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1613
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 110
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_bristleback/bristleback_quill_spray.vpcf",
+      "compiledPath": "particles/units/heroes/hero_bristleback/bristleback_quill_spray.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2607
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 139
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_bristleback/bristleback_viscous_nasal_goo.vpcf",
+      "compiledPath": "particles/units/heroes/hero_bristleback/bristleback_viscous_nasal_goo.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 140
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_centaur/centaur_double_edge.vpcf",
+      "compiledPath": "particles/units/heroes/hero_centaur/centaur_double_edge.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1746
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 126
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_centaur/centaur_return.vpcf",
+      "compiledPath": "particles/units/heroes/hero_centaur/centaur_return.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1793
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 127
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_centaur/centaur_stampede.vpcf",
+      "compiledPath": "particles/units/heroes/hero_centaur/centaur_stampede.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 128
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_centaur/centaur_warstomp.vpcf",
+      "compiledPath": "particles/units/heroes/hero_centaur/centaur_warstomp.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1719
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 125
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_chaos_knight/chaos_knight_chaos_bolt.vpcf",
+      "compiledPath": "particles/units/heroes/hero_chaos_knight/chaos_knight_chaos_bolt.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5212
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 53
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_chaos_knight/chaos_knight_phantasm.vpcf",
+      "compiledPath": "particles/units/heroes/hero_chaos_knight/chaos_knight_phantasm.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5291
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_chaos_knight/chaos_knight_reality_rift.vpcf",
+      "compiledPath": "particles/units/heroes/hero_chaos_knight/chaos_knight_reality_rift.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5229
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 54
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_crystalmaiden/maiden_crystal_nova.vpcf",
+      "compiledPath": "particles/units/heroes/hero_crystalmaiden/maiden_crystal_nova.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2209
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2362
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 117
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_crystalmaiden/maiden_freezing_field_snow.vpcf",
+      "compiledPath": "particles/units/heroes/hero_crystalmaiden/maiden_freezing_field_snow.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2322
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 119
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_crystalmaiden/maiden_frostbite_buff.vpcf",
+      "compiledPath": "particles/units/heroes/hero_crystalmaiden/maiden_frostbite_buff.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2246
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 118
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_dazzle/dazzle_poison_touch.vpcf",
+      "compiledPath": "particles/units/heroes/hero_dazzle/dazzle_poison_touch.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2388
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 120
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_dazzle/dazzle_shadow_wave.vpcf",
+      "compiledPath": "particles/units/heroes/hero_dazzle/dazzle_shadow_wave.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2471
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 122
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_dazzle/dazzle_shallow_grave.vpcf",
+      "compiledPath": "particles/units/heroes/hero_dazzle/dazzle_shallow_grave.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2429
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 121
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire.vpcf",
+      "compiledPath": "particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3487
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 41
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_dragon_knight/dragon_knight_dragon_tail_impact.vpcf",
+      "compiledPath": "particles/units/heroes/hero_dragon_knight/dragon_knight_dragon_tail_impact.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3515
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_dragon_knight/dragon_knight_dragon_tail.vpcf",
+      "compiledPath": "particles/units/heroes/hero_dragon_knight/dragon_knight_dragon_tail.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 42
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_fire.vpcf",
+      "compiledPath": "particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_fire.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3562
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_drow/drow_base_attack.vpcf",
+      "compiledPath": "particles/units/heroes/hero_drow/drow_base_attack.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1005
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_drow/drow_frost_arrow.vpcf",
+      "compiledPath": "particles/units/heroes/hero_drow/drow_frost_arrow.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 859
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 92
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_drow/drow_marksmanship_frost_arrow.vpcf",
+      "compiledPath": "particles/units/heroes/hero_drow/drow_marksmanship_frost_arrow.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 997
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 95
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_drow/drow_multishot_proj_linear_proj.vpcf",
+      "compiledPath": "particles/units/heroes/hero_drow/drow_multishot_proj_linear_proj.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 954
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 94
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_drow/drow_precision.vpcf",
+      "compiledPath": "particles/units/heroes/hero_drow/drow_precision.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 96
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_drow/drow_silence_wave.vpcf",
+      "compiledPath": "particles/units/heroes/hero_drow/drow_silence_wave.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 894
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 93
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_faceless_void/faceless_void_chronosphere.vpcf",
+      "compiledPath": "particles/units/heroes/hero_faceless_void/faceless_void_chronosphere.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4341
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 59
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_faceless_void/faceless_void_time_walk.vpcf",
+      "compiledPath": "particles/units/heroes/hero_faceless_void/faceless_void_time_walk.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4275
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 58
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_invoker/invoker_chaos_meteor.vpcf",
+      "compiledPath": "particles/units/heroes/hero_invoker/invoker_chaos_meteor.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5748
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 69
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_invoker/invoker_deafening_blast.vpcf",
+      "compiledPath": "particles/units/heroes/hero_invoker/invoker_deafening_blast.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5804
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 71
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_invoker/invoker_emp.vpcf",
+      "compiledPath": "particles/units/heroes/hero_invoker/invoker_emp.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5834
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 72
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_invoker/invoker_sun_strike.vpcf",
+      "compiledPath": "particles/units/heroes/hero_invoker/invoker_sun_strike.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5785
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 70
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_jakiro/jakiro_dual_breath_fire.vpcf",
+      "compiledPath": "particles/units/heroes/hero_jakiro/jakiro_dual_breath_fire.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5973
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 80
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_jakiro/jakiro_ice_path.vpcf",
+      "compiledPath": "particles/units/heroes/hero_jakiro/jakiro_ice_path.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6003
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 81
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_jakiro/jakiro_liquid_fire_explosion.vpcf",
+      "compiledPath": "particles/units/heroes/hero_jakiro/jakiro_liquid_fire_explosion.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6033
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_jakiro/jakiro_macropyre.vpcf",
+      "compiledPath": "particles/units/heroes/hero_jakiro/jakiro_macropyre.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6063
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 82
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_juggernaut/jugg_crit_blur.vpcf",
+      "compiledPath": "particles/units/heroes/hero_juggernaut/jugg_crit_blur.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 90
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_juggernaut/juggernaut_blade_fury.vpcf",
+      "compiledPath": "particles/units/heroes/hero_juggernaut/juggernaut_blade_fury.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 723
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 770
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 88
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_juggernaut/juggernaut_healing_ward.vpcf",
+      "compiledPath": "particles/units/heroes/hero_juggernaut/juggernaut_healing_ward.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 89
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_juggernaut/juggernaut_omni_slash.vpcf",
+      "compiledPath": "particles/units/heroes/hero_juggernaut/juggernaut_omni_slash.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 803
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 91
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_legion_commander/legion_commander_courage_hit.vpcf",
+      "compiledPath": "particles/units/heroes/hero_legion_commander/legion_commander_courage_hit.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1964
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 113
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_legion_commander/legion_commander_duel_victory.vpcf",
+      "compiledPath": "particles/units/heroes/hero_legion_commander/legion_commander_duel_victory.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2018
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 114
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_legion_commander/legion_commander_odds.vpcf",
+      "compiledPath": "particles/units/heroes/hero_legion_commander/legion_commander_odds.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1876
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 111
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_legion_commander/legion_commander_press.vpcf",
+      "compiledPath": "particles/units/heroes/hero_legion_commander/legion_commander_press.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1916
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 112
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_leshrac/leshrac_diabolic_edict.vpcf",
+      "compiledPath": "particles/units/heroes/hero_leshrac/leshrac_diabolic_edict.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5640
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 67
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_leshrac/leshrac_lightning_bolt.vpcf",
+      "compiledPath": "particles/units/heroes/hero_leshrac/leshrac_lightning_bolt.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5664
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 68
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_leshrac/leshrac_pulse_nova.vpcf",
+      "compiledPath": "particles/units/heroes/hero_leshrac/leshrac_pulse_nova.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5712
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_leshrac/leshrac_split_earth.vpcf",
+      "compiledPath": "particles/units/heroes/hero_leshrac/leshrac_split_earth.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5605
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 66
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_lich/lich_chain_frost.vpcf",
+      "compiledPath": "particles/units/heroes/hero_lich/lich_chain_frost.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6342
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 87
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_lich/lich_frost_armor.vpcf",
+      "compiledPath": "particles/units/heroes/hero_lich/lich_frost_armor.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6268
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_lich/lich_frost_nova.vpcf",
+      "compiledPath": "particles/units/heroes/hero_lich/lich_frost_nova.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6231
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 86
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_lich/lich_gaze.vpcf",
+      "compiledPath": "particles/units/heroes/hero_lich/lich_gaze.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6306
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_lina/lina_fiery_soul.vpcf",
+      "compiledPath": "particles/units/heroes/hero_lina/lina_fiery_soul.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1124
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 99
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_lina/lina_spell_dragon_slave.vpcf",
+      "compiledPath": "particles/units/heroes/hero_lina/lina_spell_dragon_slave.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1046
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 97
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_lina/lina_spell_laguna_blade.vpcf",
+      "compiledPath": "particles/units/heroes/hero_lina/lina_spell_laguna_blade.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1133
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 100
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_lina/lina_spell_light_strike_array.vpcf",
+      "compiledPath": "particles/units/heroes/hero_lina/lina_spell_light_strike_array.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1086
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1172
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 98
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_lion/lion_spell_finger_of_death.vpcf",
+      "compiledPath": "particles/units/heroes/hero_lion/lion_spell_finger_of_death.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4843
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 79
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_lion/lion_spell_impale_hit_spikes.vpcf",
+      "compiledPath": "particles/units/heroes/hero_lion/lion_spell_impale_hit_spikes.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4759
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_lion/lion_spell_impale.vpcf",
+      "compiledPath": "particles/units/heroes/hero_lion/lion_spell_impale.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 76
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_lion/lion_spell_mana_drain.vpcf",
+      "compiledPath": "particles/units/heroes/hero_lion/lion_spell_mana_drain.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4827
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 78
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_lion/lion_spell_voodoo.vpcf",
+      "compiledPath": "particles/units/heroes/hero_lion/lion_spell_voodoo.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4774
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 77
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_luna/luna_ambient_lunar_blessing.vpcf",
+      "compiledPath": "particles/units/heroes/hero_luna/luna_ambient_lunar_blessing.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1422
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_luna/luna_base_attack_impact.vpcf",
+      "compiledPath": "particles/units/heroes/hero_luna/luna_base_attack_impact.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1442
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_luna/luna_base_attack.vpcf",
+      "compiledPath": "particles/units/heroes/hero_luna/luna_base_attack.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1343
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_luna/luna_eclipse.vpcf",
+      "compiledPath": "particles/units/heroes/hero_luna/luna_eclipse.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 144
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_luna/luna_lucent_beam.vpcf",
+      "compiledPath": "particles/units/heroes/hero_luna/luna_lucent_beam.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1299
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1306
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1405
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 143
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_medusa/medusa_base_attack.vpcf",
+      "compiledPath": "particles/units/heroes/hero_medusa/medusa_base_attack.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5358
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_medusa/medusa_mystic_snake_impact.vpcf",
+      "compiledPath": "particles/units/heroes/hero_medusa/medusa_mystic_snake_impact.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5389
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_medusa/medusa_mystic_snake_projectile.vpcf",
+      "compiledPath": "particles/units/heroes/hero_medusa/medusa_mystic_snake_projectile.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 60
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_medusa/medusa_stone_gaze_active.vpcf",
+      "compiledPath": "particles/units/heroes/hero_medusa/medusa_stone_gaze_active.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5431
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 61
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_medusa/medusa_stone_gaze_debuff.vpcf",
+      "compiledPath": "particles/units/heroes/hero_medusa/medusa_stone_gaze_debuff.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5438
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_monkey_king/monkey_king_fur_army_attack.vpcf",
+      "compiledPath": "particles/units/heroes/hero_monkey_king/monkey_king_fur_army_attack.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4154
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_monkey_king/monkey_king_furarmy_aoe.vpcf",
+      "compiledPath": "particles/units/heroes/hero_monkey_king/monkey_king_furarmy_aoe.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4131
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 14
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_monkey_king/monkey_king_spring.vpcf",
+      "compiledPath": "particles/units/heroes/hero_monkey_king/monkey_king_spring.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4059
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 50
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_monkey_king/monkey_king_strike.vpcf",
+      "compiledPath": "particles/units/heroes/hero_monkey_king/monkey_king_strike.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4035
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 49
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_nevermore/nevermore_requiemofsouls.vpcf",
+      "compiledPath": "particles/units/heroes/hero_nevermore/nevermore_requiemofsouls.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4457
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 146
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_nevermore/nevermore_shadowraze.vpcf",
+      "compiledPath": "particles/units/heroes/hero_nevermore/nevermore_shadowraze.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4408
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 145
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_omniknight/omniknight_degen_aura.vpcf",
+      "compiledPath": "particles/units/heroes/hero_omniknight/omniknight_degen_aura.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 103
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_omniknight/omniknight_guardian_angel_omni.vpcf",
+      "compiledPath": "particles/units/heroes/hero_omniknight/omniknight_guardian_angel_omni.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1262
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 104
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_omniknight/omniknight_hammer_of_purity_detonation.vpcf",
+      "compiledPath": "particles/units/heroes/hero_omniknight/omniknight_hammer_of_purity_detonation.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1281
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_omniknight/omniknight_purification.vpcf",
+      "compiledPath": "particles/units/heroes/hero_omniknight/omniknight_purification.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1200
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 101
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_omniknight/omniknight_repel_buff.vpcf",
+      "compiledPath": "particles/units/heroes/hero_omniknight/omniknight_repel_buff.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1224
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 102
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf",
+      "compiledPath": "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3145
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 132
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_phantom_assassin/phantom_assassin_phantom_strike_end.vpcf",
+      "compiledPath": "particles/units/heroes/hero_phantom_assassin/phantom_assassin_phantom_strike_end.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3084
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_phantom_assassin/phantom_assassin_phantom_strike_start.vpcf",
+      "compiledPath": "particles/units/heroes/hero_phantom_assassin/phantom_assassin_phantom_strike_start.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3081
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_phantom_assassin/phantom_assassin_stifling_dagger.vpcf",
+      "compiledPath": "particles/units/heroes/hero_phantom_assassin/phantom_assassin_stifling_dagger.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3021
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3043
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 131
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_puck/puck_dreamcoil.vpcf",
+      "compiledPath": "particles/units/heroes/hero_puck/puck_dreamcoil.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5934
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_puck/puck_illusory_orb.vpcf",
+      "compiledPath": "particles/units/heroes/hero_puck/puck_illusory_orb.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5869
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 73
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_puck/puck_phase_shift.vpcf",
+      "compiledPath": "particles/units/heroes/hero_puck/puck_phase_shift.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5919
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 75
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_puck/puck_waning_rift.vpcf",
+      "compiledPath": "particles/units/heroes/hero_puck/puck_waning_rift.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5889
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 74
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_pudge/pudge_dismember.vpcf",
+      "compiledPath": "particles/units/heroes/hero_pudge/pudge_dismember.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3761
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 45
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_pudge/pudge_meathook.vpcf",
+      "compiledPath": "particles/units/heroes/hero_pudge/pudge_meathook.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3631
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 43
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_pudge/pudge_rot.vpcf",
+      "compiledPath": "particles/units/heroes/hero_pudge/pudge_rot.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3654
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 44
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_shadowshaman/shadowshaman_ether_shock.vpcf",
+      "compiledPath": "particles/units/heroes/hero_shadowshaman/shadowshaman_ether_shock.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4640
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 147
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_shadowshaman/shadowshaman_shackle.vpcf",
+      "compiledPath": "particles/units/heroes/hero_shadowshaman/shadowshaman_shackle.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4706
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 148
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_shadowshaman/shadowshaman_voodoo.vpcf",
+      "compiledPath": "particles/units/heroes/hero_shadowshaman/shadowshaman_voodoo.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4653
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_skeletonking/skeletonking_hellfireblast.vpcf",
+      "compiledPath": "particles/units/heroes/hero_skeletonking/skeletonking_hellfireblast.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2858
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 129
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_skeletonking/skeletonking_mortalstrike.vpcf",
+      "compiledPath": "particles/units/heroes/hero_skeletonking/skeletonking_mortalstrike.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2936
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 130
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_slark/slark_dark_pact_pulses.vpcf",
+      "compiledPath": "particles/units/heroes/hero_slark/slark_dark_pact_pulses.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 141
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_slark/slark_shadow_dance.vpcf",
+      "compiledPath": "particles/units/heroes/hero_slark/slark_shadow_dance.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 142
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_sniper/sniper_assassinate.vpcf",
+      "compiledPath": "particles/units/heroes/hero_sniper/sniper_assassinate.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2153
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 116
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_sniper/sniper_shrapnel.vpcf",
+      "compiledPath": "particles/units/heroes/hero_sniper/sniper_shrapnel.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2074
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 115
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_stormspirit/stormspirit_ball_lightning.vpcf",
+      "compiledPath": "particles/units/heroes/hero_stormspirit/stormspirit_ball_lightning.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4598
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 65
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_stormspirit/stormspirit_electric_vortex.vpcf",
+      "compiledPath": "particles/units/heroes/hero_stormspirit/stormspirit_electric_vortex.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4541
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_stormspirit/stormspirit_static_remnant.vpcf",
+      "compiledPath": "particles/units/heroes/hero_stormspirit/stormspirit_static_remnant.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4502
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 64
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_sven/sven_gods_strength_hero_effect.vpcf",
+      "compiledPath": "particles/units/heroes/hero_sven/sven_gods_strength_hero_effect.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 597
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 38
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 124
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_sven/sven_spell_gods_strength.vpcf",
+      "compiledPath": "particles/units/heroes/hero_sven/sven_spell_gods_strength.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 590
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 688
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 37
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 123
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf",
+      "compiledPath": "particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 399
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 632
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 36
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 106
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_sven/sven_warcry_buff.vpcf",
+      "compiledPath": "particles/units/heroes/hero_sven/sven_warcry_buff.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 434
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 444
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 508
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 35
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_terrorblade/terrorblade_metamorphosis_base_attack.vpcf",
+      "compiledPath": "particles/units/heroes/hero_terrorblade/terrorblade_metamorphosis_base_attack.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5533
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_terrorblade/terrorblade_metamorphosis.vpcf",
+      "compiledPath": "particles/units/heroes/hero_terrorblade/terrorblade_metamorphosis.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 63
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_terrorblade/terrorblade_mirror_image.vpcf",
+      "compiledPath": "particles/units/heroes/hero_terrorblade/terrorblade_mirror_image.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5496
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_terrorblade/terrorblade_reflection_slow.vpcf",
+      "compiledPath": "particles/units/heroes/hero_terrorblade/terrorblade_reflection_slow.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5473
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 62
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_terrorblade/terrorblade_sunder.vpcf",
+      "compiledPath": "particles/units/heroes/hero_terrorblade/terrorblade_sunder.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5564
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_tidehunter/tidehunter_anchor_hero.vpcf",
+      "compiledPath": "particles/units/heroes/hero_tidehunter/tidehunter_anchor_hero.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2779
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 13
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_tidehunter/tidehunter_gush.vpcf",
+      "compiledPath": "particles/units/heroes/hero_tidehunter/tidehunter_gush.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2727
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 39
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_tidehunter/tidehunter_spell_ravage.vpcf",
+      "compiledPath": "particles/units/heroes/hero_tidehunter/tidehunter_spell_ravage.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2806
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 40
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_troll_warlord/troll_warlord_battletrance_buff.vpcf",
+      "compiledPath": "particles/units/heroes/hero_troll_warlord/troll_warlord_battletrance_buff.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5156
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 52
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_troll_warlord/troll_warlord_whirling_axe_melee.vpcf",
+      "compiledPath": "particles/units/heroes/hero_troll_warlord/troll_warlord_whirling_axe_melee.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5110
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 51
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_ursa/ursa_earthshock.vpcf",
+      "compiledPath": "particles/units/heroes/hero_ursa/ursa_earthshock.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3923
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 46
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_ursa/ursa_enrage_buff.vpcf",
+      "compiledPath": "particles/units/heroes/hero_ursa/ursa_enrage_buff.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4011
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 48
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_ursa/ursa_overpower_buff.vpcf",
+      "compiledPath": "particles/units/heroes/hero_ursa/ursa_overpower_buff.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3950
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 47
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_vengeful/vengeful_magic_missle.vpcf",
+      "compiledPath": "particles/units/heroes/hero_vengeful/vengeful_magic_missle.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6101
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 83
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_vengeful/vengeful_nether_swap_target.vpcf",
+      "compiledPath": "particles/units/heroes/hero_vengeful/vengeful_nether_swap_target.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6188
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_vengeful/vengeful_nether_swap.vpcf",
+      "compiledPath": "particles/units/heroes/hero_vengeful/vengeful_nether_swap.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6183
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 85
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_vengeful/vengeful_wave_of_terror.vpcf",
+      "compiledPath": "particles/units/heroes/hero_vengeful/vengeful_wave_of_terror.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6130
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 84
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_witchdoctor/witchdoctor_cask.vpcf",
+      "compiledPath": "particles/units/heroes/hero_witchdoctor/witchdoctor_cask.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3328
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 136
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_witchdoctor/witchdoctor_maledict.vpcf",
+      "compiledPath": "particles/units/heroes/hero_witchdoctor/witchdoctor_maledict.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3383
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 137
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_witchdoctor/witchdoctor_ward_attack.vpcf",
+      "compiledPath": "particles/units/heroes/hero_witchdoctor/witchdoctor_ward_attack.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3441
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3470
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 138
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_zuus/zuus_arc_lightning.vpcf",
+      "compiledPath": "particles/units/heroes/hero_zuus/zuus_arc_lightning.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3188
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3209
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 133
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_zuus/zuus_lightning_bolt.vpcf",
+      "compiledPath": "particles/units/heroes/hero_zuus/zuus_lightning_bolt.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3227
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3272
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 134
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_zuus/zuus_thundergods_wrath.vpcf",
+      "compiledPath": "particles/units/heroes/hero_zuus/zuus_thundergods_wrath.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3263
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 135
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/heroes_underlord/abbysal_underlord_darkrift_ambient_end.vpcf",
+      "compiledPath": "particles/units/heroes/heroes_underlord/abbysal_underlord_darkrift_ambient_end.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4999
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 17
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/heroes_underlord/abyssal_underlord_firestorm_wave.vpcf",
+      "compiledPath": "particles/units/heroes/heroes_underlord/abyssal_underlord_firestorm_wave.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4895
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 15
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/heroes_underlord/underlord_pitofmalice.vpcf",
+      "compiledPath": "particles/units/heroes/heroes_underlord/underlord_pitofmalice.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4933
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 16
+        }
+      ]
+    }
+  ]
+}

@@ -163,7 +163,8 @@ Prove early:
 
 - Fifth authored ability is the innate for each hero, starting with one free rank;
   native legacy talent/extra ability slots 7–17 are suppressed. Final eight-rank
-  curves and level-30 point allocation remain unresolved; do not label them complete.
+  curves and level-30 point allocation were unresolved at that milestone. The
+  2026-09-29 target below supersedes that provisional design; do not label migration complete.
 - Shared Evolution has functioning modifiers as an interim repair. It does not
   fulfill the locked hero-specific choice requirement or establish Watcher parity.
 - Ascended interim implementation uses current native base item classes and +20%
@@ -188,3 +189,21 @@ Prove early:
   of 63 remaining unreferenced-special candidates is still required. See
   audit/HERO_REVIEW_2026-09-27.md. Hero-specific trees, Shard/Scepter and distinct
   Ascended extensions remain unresolved implementation work, not completed content.
+
+## 2026-09-29 hero progression and reference infrastructure
+
+- LOCKED user-directed target: in-match max hero level50; Q/W/E/R and the fifth
+  Enfos passive each reach10 total ranks. No automatic additional talent milestones.
+  This supersedes the provisional level30/attribute7/innate8 allocation.
+- OPEN: retain free passive1 and use49 purchased ranks, or another explicit
+  allocation; starting point, XP curve, rank unlocks, ultimate timing, native
+  RequiredLevel compatibility and reconnect behavior need an engine POC.
+- IMPLEMENTATION PENDING: production XP/MaxLevel/upgrade logic and 200 rank curves
+  are not changed by this documentation package.
+- REFERENCE READY / ENGINE ACCEPTANCE PENDING: docs/heroes contains40 instructions
+  and200 separate evidence ledgers. Native slots/models/SoundSet were extracted
+  from installed Dota build6941; custom skill counterpart/classification remain
+  UNASSESSED until per-skill evidence is collected. File presence is not runtime pass.
+- Proposed pilot: Sven first, then Lina/Juggernaut/Dazzle subject to actual kit
+  pattern coverage; no unrelated hero repair is authorized by this docs rollout.
+- See audit/HERO_ABILITY_RESEARCH_2026-09-29.md and HERO_ABILITY_REFERENCE.md.
