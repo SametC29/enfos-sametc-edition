@@ -69,7 +69,7 @@ ParticleManager = {
 
 ProjectileManager = {
     CreateLinearProjectile = function() return 1 end,
-    CreateTrackingProjectile = function() return 1 end,
+    CreateTrackingProjectile = function(_, options) _G.last_tracking_projectile = options return 1 end,
 }
 
 local applied_damages = {}
@@ -195,35 +195,42 @@ require('abilities/pve_kits')
 -- TESTS
 -- =========================================================================
 
-test('Sven Shield Slam calculates Strength and Armor scaling with knockback', function()
+test('Sven Storm Hammer launches a visible tracking bolt and applies impact AoE', function()
     applied_damages = {}
     local sven = create_mock_unit('npc_dota_hero_sven', 2, Vector(0, 0, 0))
-    sven.strength = 80
-    sven.armor = 25
-    local creep1 = create_mock_unit('enfos_creep_melee', 3, Vector(100, 0, 0))
-    local boss = create_mock_unit('enfos_boss_stonebreaker', 3, Vector(200, 0, 0))
-    mock_world_units = { sven, creep1, boss }
+    local target = create_mock_unit('enfos_creep_melee', 3, Vector(500, 0, 0))
+    local creep1 = create_mock_unit('enfos_creep_melee', 3, Vector(550, 0, 0))
+    local boss = create_mock_unit('enfos_boss_stonebreaker', 3, Vector(580, 0, 0))
+    mock_world_units = { sven, target, creep1, boss }
 
     local ab = bulwark_shield_slam()
     ab.GetCaster = function() return sven end
+    ab.GetCursorTarget = function() return target end
     ab.GetSpecialValueFor = function(_, k)
         if k == 'damage' then return 300 end
-        if k == 'str_scale' then return 2 end
-        if k == 'armor_scale' then return 8 end
-        if k == 'radius' then return 400 end
-        if k == 'slow_duration' then return 3.0 end
-        if k == 'slow_pct' then return -50 end
+        if k == 'radius' then return 100 end
+        if k == 'stun_duration' then return 1.5 end
+        if k == 'boss_stun_cap' then return 0.6 end
+        if k == 'bolt_speed' then return 1000 end
         return 0
     end
 
     ab:OnSpellStart()
+    assert(#applied_damages == 0, 'Damage is applied on projectile impact, not cast')
+    assert(last_tracking_projectile.Target == target, 'Tracking bolt must follow the selected target')
+    assert(last_tracking_projectile.iMoveSpeed == 1000, 'Projectile speed must match the tuned value')
+    assert(last_tracking_projectile.EffectName:find('sven_storm_bolt_projectile_trail.vpcf', 1, true), 'Use Sven Storm Hammer trail VFX')
 
-    -- Damage formula: 300 + (80 * 2.0) + (25 * 8.0) = 300 + 160 + 200 = 660
-    assert(#applied_damages == 2, 'Should hit both enemies in radius')
-    assert(applied_damages[1].damage == 660, 'Damage must scale with Strength and Armor')
-    assert(creep1:GetAbsOrigin().x > 100, 'Non-boss creep must be knocked back')
-    assert(boss:GetAbsOrigin().x == 200, 'Boss must NOT be knocked back')
-    assert(creep1:HasModifier('modifier_bulwark_shield_slam_slow'), 'Must apply slow modifier')
+    ab:OnProjectileHit(target, target:GetAbsOrigin())
+    assert(#applied_damages == 3, 'Impact AoE should damage the target, nearby creep and boss')
+    assert(applied_damages[1].damage == 300 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL, 'Storm Hammer damage must be magical')
+    assert(creep1:HasModifier('modifier_stunned'), 'Ordinary creep must be stunned')
+    assert(boss:HasModifier('modifier_stunned'), 'Boss receives capped stun')
+    assert(boss.modifiers.modifier_stunned.params.duration == 0.6, 'Boss stun duration is capped')
+    assert(not creep1:HasModifier('modifier_bulwark_shield_slam_slow'), 'Removed the old unapproved slow')
+    local hitCount = #applied_damages
+    ab:OnProjectileHit(nil, target:GetAbsOrigin())
+    assert(#applied_damages == hitCount, 'Dodged/lost projectiles must not detonate')
 end)
 
 test('Sven Challenge taunts enemies and reduces duration by 75% on bosses', function()

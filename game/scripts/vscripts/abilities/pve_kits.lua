@@ -111,7 +111,6 @@ end
 -- Link all Lua modifiers
 local modifier_list = {
     -- Sven
-    'modifier_bulwark_shield_slam_slow',
     'modifier_enfos_pve_warcry',
     'modifier_enfos_pve_taunt',
     'modifier_bulwark_iron_guard',
@@ -382,49 +381,58 @@ modifier_enfos_pve_angel=class({})
 bulwark_shield_slam=class({})
 function bulwark_shield_slam:OnSpellStart()
     local c = self:GetCaster()
-    local target = self.GetCursorTarget and self:GetCursorTarget() or nil
-    local point = self.GetCursorPosition and self:GetCursorPosition() or nil
-    local origin = target and target:GetAbsOrigin() or point or c:GetAbsOrigin()
-
-    local radius = value(self, 'radius')
-    if radius <= 0 then radius = 400 end
-    local stun_dur = value(self, 'stun_duration')
-    if stun_dur <= 0 then stun_dur = 2.0 end
-
-    local str = get_str(c)
-    local armor = c.GetPhysicalArmorValue and c:GetPhysicalArmorValue(false) or 0
-    local total_damage = value(self, 'damage') + str * value(self, 'str_scale') + armor * value(self, 'armor_scale')
+    local target = self:GetCursorTarget()
+    if not c or not target or target:IsNull() or not target:IsAlive() then return end
+    if target.TriggerSpellAbsorb and target:TriggerSpellAbsorb(self) then return end
 
     c:EmitSound('Hero_Sven.StormBolt')
-    local p = ParticleManager:CreateParticle('particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf', PATTACH_ABSORIGIN, c)
-    ParticleManager:SetParticleControl(p, 3, origin)
+    if not ProjectileManager or not ProjectileManager.CreateTrackingProjectile then return end
+    ProjectileManager:CreateTrackingProjectile({
+        Target = target,
+        Source = c,
+        Ability = self,
+        EffectName = 'particles/units/heroes/hero_sven/sven_storm_bolt_projectile_trail.vpcf',
+        iMoveSpeed = value(self, 'bolt_speed'),
+        bDodgeable = true,
+        bVisibleToEnemies = true,
+        bProvidesVision = false
+    })
+end
+
+function bulwark_shield_slam:OnProjectileHit(target, location)
+    local c = self:GetCaster()
+    if not c or c:IsNull() then return true end
+    local origin = location or (target and not target:IsNull() and target:GetAbsOrigin())
+    if not origin then return true end
+
+    -- A dodged projectile has no impact target and must not detonate at its last location.
+    if not target or target:IsNull() or not target:IsAlive() then return true end
+
+    target:EmitSound('Hero_Sven.StormBoltImpact')
+    local p = ParticleManager:CreateParticle(
+        'particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf',
+        PATTACH_ABSORIGIN_FOLLOW, target)
     ParticleManager:ReleaseParticleIndex(p)
 
-    -- Scepter upgrade: during God's Strength, leaps/pulls Sven to the target
-    if c and c.HasScepter and c:HasScepter() and c.HasModifier and c:HasModifier('modifier_bulwark_fortress') then
+    -- Preserve the existing Enfos Scepter mobility upgrade, applied on impact.
+    if c.HasScepter and c:HasScepter() and c.HasModifier
+        and c:HasModifier('modifier_bulwark_fortress') then
         FindClearSpaceForUnit(c, origin, true)
     end
 
-    for _, u in ipairs(enemies(c, origin, radius)) do
-        damage(self, u, total_damage, DAMAGE_TYPE_PHYSICAL)
-        u:AddNewModifier(c, self, 'modifier_bulwark_shield_slam_slow', { duration = value(self, 'slow_duration') })
-        
-        local actual_stun = is_boss(u) and math.min(stun_dur, 0.6) or stun_dur
-        u:AddNewModifier(c, self, 'modifier_stunned', { duration = actual_stun })
-
-        if not is_boss(u) then
-            local dir = (u:GetAbsOrigin() - origin):Normalized()
-            dir.z = 0
-            u:SetAbsOrigin(u:GetAbsOrigin() + dir * 100)
-            FindClearSpaceForUnit(u, u:GetAbsOrigin(), true)
+    local radius = math.max(0, value(self, 'radius'))
+    local stunDuration = math.max(0, value(self, 'stun_duration'))
+    local totalDamage = math.max(0, value(self, 'damage'))
+    for _, enemy in ipairs(enemies(c, origin, radius)) do
+        damage(self, enemy, totalDamage, DAMAGE_TYPE_MAGICAL)
+        local bossStunCap = math.max(0, value(self, 'boss_stun_cap'))
+        local actualStun = is_boss(enemy) and math.min(stunDuration, bossStunCap) or stunDuration
+        if actualStun > 0 then
+            enemy:AddNewModifier(c, self, 'modifier_stunned', { duration = actualStun })
         end
     end
+    return true
 end
-
-modifier_bulwark_shield_slam_slow=class({})
-function modifier_bulwark_shield_slam_slow:IsDebuff() return true end
-function modifier_bulwark_shield_slam_slow:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
-function modifier_bulwark_shield_slam_slow:GetModifierMoveSpeedBonus_Percentage() return value(self:GetAbility(), 'slow_pct') end
 
 bulwark_challenge=class({})
 function bulwark_challenge:OnSpellStart()

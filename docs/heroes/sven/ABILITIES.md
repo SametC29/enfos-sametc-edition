@@ -9,7 +9,7 @@ Hero: `npc_dota_hero_sven`; role: Tank. Production target: hero level 50 / all f
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `bulwark_shield_slam` | 4 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_AOE | abilities/pve_kits | sven_storm_bolt |
+| 1 | `bulwark_shield_slam` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_AOE | abilities/pve_kits | sven_storm_bolt |
 | 2 | `bulwark_challenge` | 4 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | sven_warcry |
 | 3 | `bulwark_iron_guard` | 4 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | sven_great_cleave |
 | 4 | `bulwark_fortress` | 3 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | sven_gods_strength |
@@ -48,7 +48,7 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ### Per-ability review leads
 
-- `bulwark_shield_slam`: target flags, immunity, spell block/reflect if applicable, target loss; world position, travel/impact timing and radius alignment; static unreferenced-special candidates: bolt_speed (not confirmed defects).
+- `bulwark_shield_slam`: target flags, immunity, spell block/reflect if applicable, target loss.
 - `bulwark_challenge`: cast/impact/modifier contract and lifetime.
 - `bulwark_iron_guard`: intrinsic modifier, Break/illusion behavior, live rank refresh; static unreferenced-special candidates: passive_armor, damage_reduction (not confirmed defects).
 - `bulwark_fortress`: ultimate unlock curve, Scepter/Blessing and boss burst; static unreferenced-special candidates: bonus_hp, bonus_armor (not confirmed defects).
@@ -76,42 +76,40 @@ The proposed passive inspiration is the installed Sven native innate definition 
 
 Classification: TUNE
 Native counterpart: `sven_storm_bolt` / Storm Hammer, verified from installed Sven `AbilityDefinitions` (ClientVersion 6941, SourceRevision 11041083). The icon and Enfos slot alone were not used as evidence.
-Decision and PvE identity rationale: Proposal: keep/tune native Storm Hammer because the native stun/projectile/AoE already serves wave control. Existing custom code is a shield-themed immediate AoE and loses travel. Do not mark the proposal final until the user reviews the kit direction.
-Expected cast/travel/impact/ongoing/cleanup behavior: Native unit-target cast, native cast animation/projectile/travel and impact. Tune native values for Enfos. Any added PvE effect must own a separate impact/cleanup path. No Enfos slow/knockback is approved by this draft.
-Migration dependency: direct native assignment would replace stable project ID `bulwark_shield_slam`. Before doing so, trace hero slot/roster, localization, evolution overrides, Aghanim hooks and tooltip consumers; either keep a deliberate compatibility mapping or document the ID migration. The native skill's current four-rank definition also does not by itself establish the requested ten-rank curve.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Decision and PvE identity rationale: TUNE. Keep the stable custom Enfos ID and use Sven's verified native Storm Hammer tracking/trail/impact identity. This restores the absent travel phase while retaining Enfos's radial wave-control role. Removed unrelated strength/armor physical scaling, slow, manual knockback and point-target detonation; those behaviors were unsupported by the native ability and overloaded the tank Q.
+Expected cast/travel/impact/ongoing/cleanup behavior: unit-target cast with Sven Q animation from KV and cast event; visible, dodgeable, tracking Storm Hammer trail; on valid impact, impact sound/effect, magical damage and stun in configured AoE; one boss stun cap. A dodged/lost projectile does not detonate. Existing Scepter + God's Strength mobility effect happens at impact. One-shot impact particle index is released.
+Migration dependency: stable project ID retained and still mapped in hero KV/roster. Current Q rank curve is implemented at 10 ranks; project-wide skill-point unlock gates, UI behavior and level-50 engine migration are separate pending work.
+Normal creep / elite / boss, immunity / dispel / resistance rules: AoE magical damage and stun on successful impact; boss stun capped at 0.6s. Magic-immune enemies remain excluded by target filtering. Spell absorb is checked on the primary target before launch. Status resistance follows engine modifier rules; runtime pending.
+Current versus target rank curve; free rank / point cost: KV now exposes 10 ranks: damage 140/175/210/245/280/315/350/390/430/470; radius 250/260/270/280/290/300/310/320/330/340; stun 1.0/1.1/1.2/1.3/1.4/1.5/1.6/1.7/1.8/1.9s; boss cap 0.6s. Cooldown decreases 16 to 11s and mana rises 80 to 125. Rank gates pending.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
 
 - Native definition: `scripts/npc/heroes/npc_dota_hero_sven.txt`, `AbilityDefinitions/sven_storm_bolt`; installed archive hash is recorded above; ClientVersion 6941 / SourceRevision 11041083. Native KV says unit-target + AoE, magical damage, `Hero_Sven.StormBoltImpact`, strong dispel, 600 range, 0.2 cast point, cast animation `ACT_DOTA_CAST_ABILITY_1`, projectile speed 1000, stun 1.0/1.25/1.5/1.75s and AoE 250/270/290/310. Native projectile/engine runtime itself remains untested.
-- Current Enfos source: `npc_abilities_custom.txt/bulwark_shield_slam` plus `pve_kits.lua:bulwark_shield_slam:OnSpellStart`. It allows both unit and point cast, deals physical damage immediately at the cursor origin, adds STR×2 + armor×8, applies 3s slow and rank-scaled stun, pushes non-boss enemies and caps boss stun at 0.6s. It creates no projectile; KV `bolt_speed=1400` is not read in the Lua callback. The tooltip describes an immediate strike, while the ability icon/name and unused bolt value suggest expectations need to be settled in the kit design.
-- Particle evidence: Enfos uses `sven_storm_bolt_projectile_explosion.vpcf`, attaches it to the caster with `PATTACH_ABSORIGIN`, sets CP3 to the selected impact origin, then releases its index. That compiled VPK asset exists and the project explicitly precaches the path in `addon_game_mode.lua`. The asset's CP3 meaning, visual placement, duration and correctness are not verified; existence/precache do not equal visible effect.
-- Audio evidence: Enfos emits `Hero_Sven.StormBolt`; the native hero file points to `soundevents/game_sounds_heroes/game_sounds_sven.vsndevts`, and native Storm Hammer declares `Hero_Sven.StormBoltImpact`. The current emitted event's definition, perceptible cast/hit timing and actual sound remain unverified. Do not claim SFX PASS.
-- Model/animation/gesture/icon evidence: Enfos KV does not define `AbilityCastAnimation` for this custom ability and Lua does not call `StartGesture`; runtime animation behavior is PENDING. Native ability declares the cast animation above.
-- Model/animation/gesture/icon evidence: PENDING.
-- Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.
-- Precache owner: `addon_game_mode.lua` (two declarations of this explosion path are present). Cold-start test: PENDING.
-- One-shot/persistent cleanup owner and repeated-use test: PENDING.
-- Localization keys and generated mirrors: PENDING.
+- Current implementation: `OnSpellStart` validates the target, attempts spell absorb, starts the native Q gesture and cast sound, then creates a tracking projectile. `OnProjectileHit` handles impact only for a live target, centers the effect and AoE at projectile location, applies magical damage/stun and respects the boss cap. Runtime callback behavior remains pending.
+- Particle evidence: installed VPK contains `sven_storm_bolt_projectile_trail.vpcf` and `sven_storm_bolt_projectile_explosion.vpcf`; both are explicitly precached by `addon_game_mode.lua`. Their in-engine appearance, attachment/control-point fit, visual scale and cold-start load are pending.
+- Audio evidence: uses native Sven cast event `Hero_Sven.StormBolt` and impact event `Hero_Sven.StormBoltImpact` from installed Sven sounds source (ClientVersion 6941 / SourceRevision 11041083). Event audibility and 3D emission at cast/impact are pending.
+- Animation: KV declares `ACT_DOTA_CAST_ABILITY_1`, matching installed native Storm Hammer; actual engine animation pending.
+- Precache owner: `addon_game_mode.lua`, one declaration per trail and explosion. Cold-start test pending.
+- One-shot impact particle index is released; tracking projectile is engine-owned. Repeated-use/lifetime test pending.
+- Localization: description and summary updated in EN/TR/RU/zh-CN; verify client display after restart.
 
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Static source confirms immediate custom physical AoE, stun, slow, knockback and Scepter relocation; not a gameplay test. |
-| Targeting | PENDING | KV permits unit + point casts; source picks cursor target origin or cursor point. Invalid targets, range and immunity not tested. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
-| VFX | PENDING | Explosion asset path is in installed VPK and explicit precache; CP3 meaning/placement and in-game visibility not tested. No projectile is created by current callback. |
-| SFX | PENDING | Native bank and native impact event declaration observed; current `Hero_Sven.StormBolt` event resolution and audible output not verified. |
-| Animation | PENDING | No custom cast animation KV or explicit gesture in current source; actual engine animation pending. |
+| Gameplay | PENDING | Mock regression covers deferred impact AoE damage and stun; no engine test. |
+| Targeting | PENDING | Unit-target KV and spell absorb guard implemented; range, immunity and target-loss engine behavior pending. |
+| Ranks | PENDING | Ten values are in KV and static checks; in-engine rank display/leveling gates pending. |
+| VFX | PENDING | Installed trail/explosion resources precached and wired; engine visibility/CP and impact positioning pending. |
+| SFX | PENDING | Native cast/impact event IDs wired; audibility and source location pending. |
+| Animation | PENDING | Native Q cast animation set in KV; engine animation pending. |
 | Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Explosion path explicitly precached twice in `addon_game_mode.lua`; cold start and projectile-resource coverage pending. |
-| Cleanup | PENDING | Current callback releases one impact-particle index; visual lifetime and recast behavior pending. |
-| Boss | PENDING | Source caps stun at 0.6s and suppresses knockback on boss-name match; damage/slow/control outcome in engine pending. |
+| Precache | PENDING | Trail and explosion each explicitly precached once; cold-start test pending. |
+| Cleanup | PENDING | Impact index released; projectile expiry/recast engine behavior pending. |
+| Boss | PENDING | Code/mock caps stun at 0.6s; engine boss/status-resistance result pending. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | EN/TR/RU/zh-CN description and summary updated; client display pending. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
