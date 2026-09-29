@@ -16,6 +16,7 @@ Maintain a top-level command/script that runs applicable:
 
 ## 2. Wave validator
 Assert:
+- Wave 1 starts on the first live wave-manager tick without an opening preparation countdown.
 - exactly 60 waves,
 - Boss exactly every 5,
 - Boss wave has no ordinary spawn budget,

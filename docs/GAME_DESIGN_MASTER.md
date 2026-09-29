@@ -57,6 +57,10 @@ Unequal team sizes may be allowed privately. It is not considered standard compe
 
 ## 3. Match structure
 
+Wave 1 starts as soon as the match enters `GAME_IN_PROGRESS`; there is no opening
+preparation countdown. Preparation remains between later waves, and Boss waves
+retain their incoming warning.
+
 Normal run:
 - 60 authored waves,
 - target ~30 minutes,

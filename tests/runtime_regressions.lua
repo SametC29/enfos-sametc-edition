@@ -24,13 +24,11 @@ PlayerResource={IsValidPlayerID=function(_,id) return id==0 end,GetTeam=function
  GetConnectionState=function() return 2 end,GetSelectedHeroEntity=function() return nil end}
 local W=require('waves/wave_manager')
 local L=require('waves/life_core')
-test('registered wave thinker starts preparation, pauses, then spawns', function()
- W:Init(); assert(thinker); thinker(); assert(W.state=='PREPARATION')
- local timer=W.stateTimer; GameRules.paused=true; thinker(); assert(W.stateTimer==timer)
- GameRules.paused=false
- assert(timer==45)
- for i=1,90 do thinker() end
- assert(W.currentWave==1 and W.state=='SPAWNING' and #W.pendingBatches>0)
+test('registered wave thinker starts wave one immediately when match is live', function()
+	W:Init(); assert(thinker); thinker()
+	assert(W.currentWave==1 and W.state=='SPAWNING' and #W.pendingBatches>0)
+	local timer=W.stateTimer; GameRules.paused=true; thinker(); assert(W.stateTimer==timer)
+	GameRules.paused=false
  GameRules.state=8; assert(thinker()==nil); GameRules.state=7
 end)
 test('next-wave rejects spectators, active enemies and repeat clicks', function()
@@ -127,7 +125,7 @@ test('solo support is symmetric and never applies to two-player coop or PvPvE',f
  end
 end)
 test('solo match configuration is frozen across disconnects and difficulty requests',function()
- W:Init();W:StartPreparation();local cfg=W.matchConfig;assert(cfg.solo and W.stateTimer==45)
+	W:Init();W:StartPreparation();local cfg=W.matchConfig;assert(cfg.solo and W.stateTimer==20)
  local original=W.GetActivePlayerCount;W.GetActivePlayerCount=function() return 5 end
  assert(not W:SetDifficulty('hell'));W.currentWave=1;W:StartPreparation()
  assert(W.matchConfig==cfg and W:GetDifficulty()=='normal' and W.stateTimer==20)

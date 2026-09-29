@@ -54,6 +54,7 @@ This file exists so Codex does not "helpfully" redesign locked decisions.
 - Elite every 6 waves excluding Boss overlap.
 - 2026-09-28: scheduled hostiles are uncapped; population never directly costs Life.
 - Timed batches and temporary summon bounds remain; crowding requires engine performance testing.
+- Wave 1 starts immediately when the match enters `GAME_IN_PROGRESS`; later wave preparation remains.
 - Boss not suppressed by ordinary cap.
 - ability summons cannot cause free cap-based Life damage.
 

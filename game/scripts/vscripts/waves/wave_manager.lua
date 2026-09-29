@@ -132,9 +132,10 @@ function WaveManager:OnThink()
 
 	-- Auto-start once the match begins.
 	if self.state == WaveManager.STATE_IDLE then
-		if GameRules:State_Get() >= DOTA_GAMERULES_STATE_PRE_GAME then
-			self:StartPreparation()
-		end
+		-- The opening wave is the onboarding: start it as soon as the match is live.
+		-- Later waves retain their normal preparation and Boss warning transitions.
+		self:EnsureMatchConfig()
+		self:StartWave(1)
 		return WaveManager.THINK_INTERVAL
 	end
 
@@ -201,9 +202,7 @@ function WaveManager:StartPreparation(customDuration)
 	local config=self:EnsureMatchConfig()
 	self.state = WaveManager.STATE_PREPARATION
 	local duration=config.normalPreparation
-	if config.solo and self.currentWave<config.fullSupportThrough then
-		duration=self.currentWave==0 and config.firstPreparation or config.soloPreparation
-	end
+	if config.solo and self.currentWave<config.fullSupportThrough then duration=config.soloPreparation end
 	self.stateTimer = customDuration or duration
 
 	local nextWaveNum = self.currentWave + 1

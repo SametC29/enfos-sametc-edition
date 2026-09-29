@@ -11,7 +11,7 @@ function Config.Snapshot(difficulty, radiant, dire)
     return {version=Config.VERSION,difficulty=difficulty,hp=d.hp,damage=d.damage,
         solo=solo,heroPower=Power.Values(solo),heroPowerVersion=Power.VERSION,
         fullSupportThrough=10,boonEvery=10,hostileCapEnabled=false,heroEvolutionVersion="hero-evolution-1",
-        firstPreparation=45,soloPreparation=20,normalPreparation=15,soloBatchInterval=5}
+        soloPreparation=20,normalPreparation=15,soloBatchInterval=5}
 end
 function Config.Multipliers(snapshot,wave)
     -- Difficulty still affects enemies. Solo empowerment lives on the hero.
