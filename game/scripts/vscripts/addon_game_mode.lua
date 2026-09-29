@@ -5,6 +5,25 @@
 --------------------------------------------------------------------------------
 
 require("enfos_sametc")
+-- The shared Lua ability file owns the callbacks for all custom kits. Load it
+-- at addon bootstrap as well as through each KV ScriptFile so missing classes
+-- fail visibly before hero selection instead of degrading into empty casts.
+require("abilities/pve_kits")
+
+local function assertAbilityCallback(abilityName, callbackName)
+	local abilityClass = _G[abilityName]
+	if type(abilityClass) ~= "table" or type(abilityClass[callbackName]) ~= "function" then
+		error(string.format("Ability Lua callback missing: %s:%s", abilityName, callbackName))
+	end
+end
+
+assertAbilityCallback("bulwark_shield_slam", "OnSpellStart")
+assertAbilityCallback("bulwark_shield_slam", "OnProjectileHit")
+assertAbilityCallback("bulwark_challenge", "OnSpellStart")
+assertAbilityCallback("bulwark_iron_guard", "GetIntrinsicModifierName")
+assertAbilityCallback("modifier_bulwark_iron_guard", "OnAttackLanded")
+print("[SVEN_ABILITY_BOOTSTRAP] Q/W/E Lua handlers registered")
+
 local WaveManager = require("waves/wave_manager")
 
 function Precache(context)

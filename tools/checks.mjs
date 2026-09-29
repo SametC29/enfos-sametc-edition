@@ -191,6 +191,13 @@ check('match hero level progression',()=>{
 check('Lua ability entrypoints and authoritative hero references', () => {
   const abilities=kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
   const roster=kv('game/scripts/npc/npc_heroes_custom.txt').DOTAHeroes;
+  const bootstrap=fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua','utf8');
+  if (!bootstrap.includes('require("abilities/pve_kits")')
+      || !bootstrap.includes('assertAbilityCallback("bulwark_shield_slam", "OnSpellStart")')
+      || !bootstrap.includes('assertAbilityCallback("bulwark_challenge", "OnSpellStart")')
+      || !bootstrap.includes('assertAbilityCallback("modifier_bulwark_iron_guard", "OnAttackLanded")')) {
+    throw new Error('Sven Q/W/E shared ability callbacks must load and validate at addon startup');
+  }
   const counts={};
   for (const h of Object.values(roster)) counts[h.Role]=(counts[h.Role]||0)+1;
   if (Object.keys(roster).length!==40 || Object.values(counts).some(n=>n!==8)) throw new Error('Expected 8 heroes per role');

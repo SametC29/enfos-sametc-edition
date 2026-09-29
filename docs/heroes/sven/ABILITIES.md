@@ -58,6 +58,18 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+### Runtime class-registration guard — 2026-09-29
+
+The live test reported Q/W/E casts without their expected damage/feedback. Their
+KV-to-Lua identifiers and callback implementations are present, but static mocks
+cannot establish that Dota loaded the shared ability script. `addon_game_mode.lua`
+now explicitly loads `abilities/pve_kits` at bootstrap and asserts the Sven Q,
+W and E callbacks exist; a successful startup prints
+`[SVEN_ABILITY_BOOTSTRAP] Q/W/E Lua handlers registered`. Engine verification
+remains pending. Q is the direct damage spell; W is a buff/barrier/taunt, and E
+is attack cleave, so W should not be expected to deal direct damage and E needs a
+second enemy in the cone to show splash damage.
+
 ## Kit decision draft — 2026-09-29
 
 These are evidence-backed **design proposals**, not a production rewrite or runtime pass. The owner authorized full skill replacement where warranted. Confirm numbers, boss exceptions and exact VFX with in-game review before implementing a major identity change. All skills must ultimately support 10 total ranks; curve pending.

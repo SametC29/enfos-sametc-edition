@@ -196,6 +196,14 @@ require('abilities/pve_kits')
 -- TESTS
 -- =========================================================================
 
+test('Sven Q/W/E Lua callbacks are registered', function()
+    assert(type(bulwark_shield_slam) == 'table' and type(bulwark_shield_slam.OnSpellStart) == 'function')
+    assert(type(bulwark_shield_slam.OnProjectileHit) == 'function')
+    assert(type(bulwark_challenge) == 'table' and type(bulwark_challenge.OnSpellStart) == 'function')
+    assert(type(bulwark_iron_guard) == 'table' and type(bulwark_iron_guard.GetIntrinsicModifierName) == 'function')
+    assert(type(modifier_bulwark_iron_guard) == 'table' and type(modifier_bulwark_iron_guard.OnAttackLanded) == 'function')
+end)
+
 test('Sven Storm Hammer launches a visible tracking bolt and applies impact AoE', function()
     applied_damages = {}
     local sven = create_mock_unit('npc_dota_hero_sven', 2, Vector(0, 0, 0))
