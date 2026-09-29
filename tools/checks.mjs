@@ -30,6 +30,7 @@ check('Sven Q and W define ten-rank combat curves', () => {
   for (const [id, keys] of Object.entries({
     bulwark_shield_slam: ['radius', 'damage', 'stun_duration'],
     bulwark_challenge: ['bonus_armor', 'duration', 'bonus_ms_pct', 'barrier_hp'],
+    bulwark_iron_guard: ['cleave_pct', 'cleave_ending_width', 'cleave_distance'],
   })) {
     const ability = abilities[id];
     if (Number(ability.MaxLevel) !== 10) throw new Error(`${id}: MaxLevel must be 10`);
@@ -37,7 +38,7 @@ check('Sven Q and W define ten-rank combat curves', () => {
     for (const key of keys) {
       if ((specials[key] || '').trim().split(/\s+/).length !== 10) throw new Error(`${id}.${key}: expected exactly 10 ranks`);
     }
-    if (ability.AbilityCooldown.trim().split(/\s+/).length !== 10 || ability.AbilityManaCost.trim().split(/\s+/).length !== 10) {
+    if (id !== 'bulwark_iron_guard' && (ability.AbilityCooldown.trim().split(/\s+/).length !== 10 || ability.AbilityManaCost.trim().split(/\s+/).length !== 10)) {
       throw new Error(`${id}: cooldown and mana curves must each define ten rank values`);
     }
   }

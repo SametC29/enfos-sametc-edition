@@ -11,7 +11,7 @@ Hero: `npc_dota_hero_sven`; role: Tank. Production target: hero level 50 / all f
 | --- | --- | --- | --- | --- | --- |
 | 1 | `bulwark_shield_slam` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_AOE | abilities/pve_kits | sven_storm_bolt |
 | 2 | `bulwark_challenge` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | sven_warcry |
-| 3 | `bulwark_iron_guard` | 4 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | sven_great_cleave |
+| 3 | `bulwark_iron_guard` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | sven_great_cleave |
 | 4 | `bulwark_fortress` | 3 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | sven_gods_strength |
 | 5 | `bulwark_unbreakable` | 8 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | sven_wrath_of_god |
 
@@ -50,7 +50,7 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 - `bulwark_shield_slam`: target flags, immunity, spell block/reflect if applicable, target loss.
 - `bulwark_challenge`: cast/impact/modifier contract and lifetime.
-- `bulwark_iron_guard`: intrinsic modifier, Break/illusion behavior, live rank refresh; static unreferenced-special candidates: passive_armor, damage_reduction (not confirmed defects).
+- `bulwark_iron_guard`: intrinsic modifier, Break/illusion behavior, live rank refresh.
 - `bulwark_fortress`: ultimate unlock curve, Scepter/Blessing and boss burst; static unreferenced-special candidates: bonus_hp, bonus_armor (not confirmed defects).
 - `bulwark_unbreakable`: Enfos passive free starting rank, native innate separation, respawn/point budget; intrinsic modifier, Break/illusion behavior, live rank refresh; static unreferenced-special candidates: cleave_pct, gods_strength_duration (not confirmed defects).
 
@@ -164,38 +164,38 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 Classification: TUNE
 Native counterpart: `sven_great_cleave`, verified in the installed Sven `AbilityDefinitions`, ClientVersion 6941 / SourceRevision 11041083. Native source defines a passive, breakable cleave with four ranks and a native cleave attack animation.
-Decision and PvE identity rationale: Proposal: tune native Great Cleave for the core Sven wave-clear identity. The current custom replacement spends much of the slot on defense and does not preserve native cleave implementation.
-Expected cast/travel/impact/ongoing/cleanup behavior: Native passive attack cleave and its native visual/combat event; verify crowded waves, buildings, illusions, attack flags and Break in the target build.
-Static review: current custom E combines physical armor, constant physical block, 30% reflection based on a physical-damage event, and attack-landed radial cleave. KV also contains `passive_armor` and `damage_reduction` specials not read by this modifier; they remain unconfirmed audit candidates.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Decision and PvE identity rationale: TUNE. The primary Enfos ID stays stable; its defensive block/reflection package is removed because it displaced Sven's signature cleave. The passive now extends his attack damage through a widening cone so E is the kit's wave-clear role while Q controls/interrupts.
+Expected cast/travel/impact/ongoing/cleanup behavior: passive triggers only on the real Sven's landed attack while passives are enabled. Nearby enemies behind the primary target within the configured widening cone receive physical splash damage; primary target is excluded from repeat damage. One Sven cleave visual is attached to the primary hit per attack (God's Strength variant while R is active), and the particle index is released. Attack's native weapon audio remains in place; no guessed extra sound event is emitted.
+Static implementation: uses installed native `cleave_pct` identity and tuned widening-cone dimensions. This custom cone is a PvE implementation, not proof of byte-for-byte native engine cleave geometry. Illusions and Break are excluded. Building/ward compatibility and attacking dense groups remain engine tests.
+Normal creep / elite / boss, immunity / dispel / resistance rules: enemy Hero/Basic units in cone take physical damage, so armor applies. Bosses have no bespoke damage penalty; high armor and elite scaling remain live. Primary target receives only the normal attack. No direct spell-immunity check is needed for attack cleave; runtime pending.
+Current versus target rank curve; free rank / point cost: E now has 10 ranks: cleave damage 30/37/44/51/58/65/72/78/84/90% of attack damage; starting width 150; ending width 240/253/266/280/293/306/320/333/346/360; distance 400/433/467/500/533/567/600/633/667/700. Rank gates pending.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
 
-- Native ability data source + build + hash/revision: PENDING.
-- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
-- Sound events + declaring banks + emission target + loop termination: PENDING.
-- Model/animation/gesture/icon evidence: PENDING.
-- Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.
-- Precache owner and cold-start test: PENDING.
-- One-shot/persistent cleanup owner and repeated-use test: PENDING.
+- Native source: installed `sven_great_cleave`, ClientVersion 6941 / SourceRevision 11041083. Source uses passive/breakable identity, four ranks, attack animation `ACT_DOTA_CAST_ABILITY_2`, damage 60/70/80/90%, start width150, end width270/300/330/360 and distance400/500/600/700. Enfos target retains max native damage but spreads it over 10 ranks; runtime pending.
+- Native visual resources: VPK includes `sven_spell_great_cleave.vpcf` and `sven_spell_great_cleave_gods_strength.vpcf`; Enfos precaches and attaches one per primary attack. CP/attachment fit and visible result pending.
+- Sound: no extra custom cleave event is emitted; regular Sven weapon attack sound remains engine-owned. Any native cleave overlay sound is not claimed or overridden. Listening test pending.
+- Animation/icon: attacks use Sven's regular attack animation; stable `sven_great_cleave` icon retained. Native ability definition also declares `ACT_DOTA_CAST_ABILITY_2`; it is not assigned as an ability-cast gesture for this passive.
+- Modifier: intrinsic `modifier_bulwark_iron_guard`, attack-landed event only; honors Break, skips Sven illusions, no persistent state or stacks.
+- Precache owner: `addon_game_mode.lua`, both native cleave particles. Cold-start pending.
+- One-shot VFX index released immediately; no thinker/timer. Dense-wave visual budget and repeated attack cleanup pending.
 - Localization keys and generated mirrors: PENDING.
 
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
-| Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Mock test checks cone inclusion/exclusion, physical splash, and primary-hit exclusion; engine combat not tested. |
+| Targeting | PENDING | Hero/Basic enemy search; real target type/building/ward behavior pending. |
+| Ranks | PENDING | Ten-rank curves static checked; UI/rank unlock pending. |
+| VFX | PENDING | Native Sven cleave resources wired and precached; actual attachment and visibility pending. |
+| SFX | PENDING | No new sound override; actual native cleave/weapon mix pending. |
+| Animation | PENDING | Native Sven attack animation preserved; engine test pending. |
+| Modifiers | PENDING | Intrinsic and Break checks are mocked; illusion/attack-event edge cases pending. |
+| Precache | PENDING | Both cleave variants explicitly precached; cold-start pending. |
+| Cleanup | PENDING | Particle index released per primary attack; in-engine lifetime/performance pending. |
+| Boss | PENDING | Same physical cone damage, armor applies; boss armor/dense-wave balance pending. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
 | Localization | PENDING | Not evaluated in this dossier setup. |
 | Performance | PENDING | Not evaluated in this dossier setup. |

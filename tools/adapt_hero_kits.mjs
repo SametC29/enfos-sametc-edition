@@ -47,14 +47,43 @@ for (const id of new Set([...ids, ...ultimates])) {
 
   // Tuning specials
   if (id === 'bulwark_shield_slam') {
-    special(a, 'radius', '400');
-    special(a, 'damage', '140 220 300 380');
-    special(a, 'slow_duration', '3.0', 'FIELD_FLOAT');
-    special(a, 'slow_pct', '-50');
+    a.MaxLevel = '10';
+    a.AbilityBehavior = 'DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE';
+    a.AbilityUnitDamageType = 'DAMAGE_TYPE_MAGICAL';
+    a.AbilityCastRange = '600';
+    a.AbilityCastAnimation = 'ACT_DOTA_CAST_ABILITY_1';
+    a.AbilityCooldown = '16 15.5 15 14.5 14 13.5 13 12.5 12 11';
+    a.AbilityManaCost = '80 85 90 95 100 105 110 115 120 125';
+    a.AbilitySpecial = {
+      '01': { var_type: 'FIELD_INTEGER', radius: '250 260 270 280 290 300 310 320 330 340' },
+      '02': { var_type: 'FIELD_INTEGER', damage: '140 175 210 245 280 315 350 390 430 470' },
+      '03': { var_type: 'FIELD_FLOAT', stun_duration: '1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9' },
+      '04': { var_type: 'FIELD_FLOAT', boss_stun_cap: '0.6' },
+      '05': { var_type: 'FIELD_INTEGER', bolt_speed: '1000' },
+    };
+  }
+  if (id === 'bulwark_challenge') {
+    a.MaxLevel = '10';
+    a.AbilityCastAnimation = 'ACT_DOTA_OVERRIDE_ABILITY_3';
+    a.AbilityCooldown = '18 17.5 17 16.5 16 15.5 15 14.5 14 13.5';
+    a.AbilityManaCost = '65 70 75 80 85 90 95 100 105 110';
+    a.AbilitySpecial = {
+      '01': { var_type: 'FIELD_INTEGER', radius: '500' },
+      '02': { var_type: 'FIELD_INTEGER', bonus_armor: '6 8 10 12 14 16 18 20 22 24' },
+      '03': { var_type: 'FIELD_FLOAT', duration: '3.0 3.5 4.0 4.5 5.0 5.5 6.0 6.5 7.0 7.5' },
+      '04': { var_type: 'FIELD_INTEGER', bonus_ms_pct: '15 17 19 21 23 25 27 29 31 33' },
+      '05': { var_type: 'FIELD_INTEGER', barrier_hp: '100 150 200 250 300 350 400 450 500 550' },
+      '06': { var_type: 'FIELD_INTEGER', boss_taunt_pct: '25' },
+    };
   }
   if (id === 'bulwark_iron_guard') {
-    special(a, 'bonus_armor', '8 14 20 26');
-    special(a, 'damage_block', '35 55 75 95');
+    a.MaxLevel = '10';
+    a.AbilitySpecial = {
+      '01': { var_type: 'FIELD_INTEGER', cleave_pct: '30 37 44 51 58 65 72 78 84 90' },
+      '02': { var_type: 'FIELD_INTEGER', cleave_starting_width: '150' },
+      '03': { var_type: 'FIELD_INTEGER', cleave_ending_width: '240 253 266 280 293 306 320 333 346 360' },
+      '04': { var_type: 'FIELD_INTEGER', cleave_distance: '400 433 467 500 533 567 600 633 667 700' },
+    };
   }
   if (id === 'bulwark_fortress') {
     special(a, 'duration', '8.0', 'FIELD_FLOAT');

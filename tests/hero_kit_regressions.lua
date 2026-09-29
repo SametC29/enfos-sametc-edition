@@ -276,16 +276,23 @@ test('Sven Warcry taunt cleans up only its own forced target', function()
     assert(enemy.forcedTarget == replacement, 'Taunt cleanup must preserve a newer forced target')
 end)
 
-test('Sven Iron Guard damage block reflects physical damage safely without recursion', function()
+test('Sven Great Cleave damages only enemies inside its widening cone', function()
     applied_damages = {}
     local sven = create_mock_unit('npc_dota_hero_sven', 2, Vector(0, 0, 0))
-    local attacker = create_mock_unit('enfos_creep_melee', 3, Vector(100, 0, 0))
-    mock_world_units = { sven, attacker }
+    local primary = create_mock_unit('enfos_creep_melee', 3, Vector(100, 0, 0))
+    local side = create_mock_unit('enfos_creep_melee', 3, Vector(200, 20, 0))
+    local outside = create_mock_unit('enfos_creep_melee', 3, Vector(200, 120, 0))
+    local behind = create_mock_unit('enfos_creep_melee', 3, Vector(50, 0, 0))
+    mock_world_units = { sven, primary, side, outside, behind }
+    local cleaveParticle
+    ParticleManager.CreateParticle = function(_, path) cleaveParticle = path return 1 end
 
     local ab = bulwark_iron_guard()
     ab.GetSpecialValueFor = function(_, k)
-        if k == 'bonus_armor' then return 20 end
-        if k == 'damage_block' then return 80 end
+        if k == 'cleave_pct' then return 50 end
+        if k == 'cleave_starting_width' then return 150 end
+        if k == 'cleave_ending_width' then return 270 end
+        if k == 'cleave_distance' then return 300 end
         return 0
     end
 
@@ -294,22 +301,12 @@ test('Sven Iron Guard damage block reflects physical damage safely without recur
         GetAbility = function() return ab end
     }, modifier_bulwark_iron_guard)
 
-    -- Normal attack: should reflect 30% of 80 = 24
-    mod:OnTakeDamage({
-        unit = sven,
-        attacker = attacker,
-        damage_flags = 0, damage_type=DAMAGE_TYPE_PHYSICAL, original_damage=100
-    })
-    assert(#applied_damages == 1, 'Should reflect damage')
-    assert(applied_damages[1].damage == 24, '30% of 80 blocked is 24')
-
-    -- Reflection attack: should NOT reflect (anti-recursion check)
-    mod:OnTakeDamage({
-        unit = sven,
-        attacker = attacker,
-        damage_flags = DOTA_DAMAGE_FLAG_REFLECTION
-    })
-    assert(#applied_damages == 1, 'Reflection attack must be ignored to prevent loop')
+    mod:OnAttackLanded({ attacker = sven, target = primary, original_damage = 200 })
+    assert(#applied_damages == 1, 'Only the side unit inside the cleave cone is hit')
+    assert(applied_damages[1].victim == side and applied_damages[1].damage == 100, 'Cleave deals the configured 50% attack damage')
+    assert(applied_damages[1].damage_type == DAMAGE_TYPE_PHYSICAL, 'Great Cleave keeps physical attack damage type')
+    assert(cleaveParticle == 'particles/units/heroes/hero_sven/sven_spell_great_cleave.vpcf', 'Use Sven Great Cleave impact visual')
+    assert(type(mod.OnTakeDamage) == 'nil', 'Great Cleave no longer carries the unrelated armor/block/reflection package')
 end)
 
 test('Luna Moon Glaives bounces across consecutive targets with 15% falloff', function()

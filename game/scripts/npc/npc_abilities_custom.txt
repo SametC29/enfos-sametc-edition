@@ -107,38 +107,28 @@
 		"BaseClass" "ability_lua"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName" "sven_great_cleave"
-		"MaxLevel" "4"
+		"MaxLevel" "10"
 		"AbilitySpecial"
 		{
 			"01"
 			{
 				"var_type" "FIELD_INTEGER"
-				"passive_armor" "4 8 12 16"
+				"cleave_pct" "30 37 44 51 58 65 72 78 84 90"
 			}
 			"02"
 			{
 				"var_type" "FIELD_INTEGER"
-				"damage_reduction" "8 14 20 26"
+				"cleave_starting_width" "150"
 			}
 			"03"
 			{
 				"var_type" "FIELD_INTEGER"
-				"bonus_armor" "8 14 20 26"
+				"cleave_ending_width" "240 253 266 280 293 306 320 333 346 360"
 			}
 			"04"
 			{
 				"var_type" "FIELD_INTEGER"
-				"damage_block" "35 55 75 95"
-			}
-			"05"
-			{
-				"var_type" "FIELD_INTEGER"
-				"cleave_pct" "45 65 85 105"
-			}
-			"06"
-			{
-				"var_type" "FIELD_INTEGER"
-				"cleave_radius" "450"
+				"cleave_distance" "400 433 467 500 533 567 600 633 667 700"
 			}
 		}
 		"ScriptFile" "abilities/pve_kits"

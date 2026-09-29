@@ -48,25 +48,20 @@
         {
           "slot": 3,
           "id": "bulwark_iron_guard",
-          "maxLevel": 4,
+          "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
           "callbacks": [
             "GetIntrinsicModifierName"
           ],
           "specials": {
-            "passive_armor": "4 8 12 16",
-            "damage_reduction": "8 14 20 26",
-            "bonus_armor": "8 14 20 26",
-            "damage_block": "35 55 75 95",
-            "cleave_pct": "45 65 85 105",
-            "cleave_radius": "450"
+            "cleave_pct": "30 37 44 51 58 65 72 78 84 90",
+            "cleave_starting_width": "150",
+            "cleave_ending_width": "240 253 266 280 293 306 320 333 346 360",
+            "cleave_distance": "400 433 467 500 533 567 600 633 667 700"
           },
-          "unreferencedSpecials": [
-            "passive_armor",
-            "damage_reduction"
-          ],
+          "unreferencedSpecials": [],
           "hasSound": false,
-          "hasParticle": false
+          "hasParticle": true
         },
         {
           "slot": 4,

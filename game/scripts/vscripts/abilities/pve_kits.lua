@@ -542,45 +542,45 @@ function bulwark_iron_guard:GetIntrinsicModifierName() return 'modifier_bulwark_
 modifier_bulwark_iron_guard=class({})
 function modifier_bulwark_iron_guard:IsHidden() return false end
 function modifier_bulwark_iron_guard:GetTexture() return 'sven_great_cleave' end
-function modifier_bulwark_iron_guard:DeclareFunctions()
-    return {
-        MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
-        MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK,
-        MODIFIER_EVENT_ON_TAKEDAMAGE,
-        MODIFIER_EVENT_ON_ATTACK_LANDED
-    }
-end
-function modifier_bulwark_iron_guard:GetModifierPhysicalArmorBonus() if self:GetParent():PassivesDisabled() then return 0 end return value(self:GetAbility(), 'bonus_armor') end
-function modifier_bulwark_iron_guard:GetModifierPhysical_ConstantBlock(e)
-    if self:GetParent():PassivesDisabled() or (e and e.inflictor) then return 0 end
-    return value(self:GetAbility(), 'damage_block')
-end
-function modifier_bulwark_iron_guard:OnTakeDamage(e)
-    if not IsServer() or e.unit ~= self:GetParent() or not e.attacker or e.attacker:IsNull() or e.attacker == e.unit then return end
-    if e.damage_flags and bit and bit.band(e.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION or 16) ~= 0 then return end
-    if self:GetParent():PassivesDisabled() or e.damage_type~=DAMAGE_TYPE_PHYSICAL or e.inflictor then return end
-    local block = math.min(value(self:GetAbility(), 'damage_block'), e.original_damage or e.damage or 0)
-    if block > 0 then
-        local reflect = block * 0.3
-        damage(self:GetAbility(), e.attacker, reflect, DAMAGE_TYPE_PHYSICAL, DOTA_DAMAGE_FLAG_REFLECTION)
-    end
-end
+function modifier_bulwark_iron_guard:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACK_LANDED } end
 function modifier_bulwark_iron_guard:OnAttackLanded(e)
     local c = self:GetParent()
-    if not IsServer() or e.attacker ~= c or c:PassivesDisabled() or not e.target or e.target:IsNull() or e.target:GetTeamNumber() == c:GetTeamNumber() then return end
-    
-    local cleave_pct = value(self:GetAbility(), 'cleave_pct')
-    if cleave_pct <= 0 then cleave_pct = 65 end
+    local primary = e and e.target
+    if not IsServer() or not e or e.attacker ~= c or c:PassivesDisabled()
+        or (c.IsIllusion and c:IsIllusion()) or not primary
+        or (primary.IsNull and primary:IsNull()) or not primary:IsAlive()
+        or primary:GetTeamNumber() == c:GetTeamNumber() then return end
 
-    local cleave_radius = value(self:GetAbility(), 'cleave_radius')
-    if cleave_radius <= 0 then cleave_radius = 450 end
+    local direction = (primary:GetAbsOrigin() - c:GetAbsOrigin()):Normalized()
+    local distance = math.max(0, value(self:GetAbility(), 'cleave_distance'))
+    local startWidth = math.max(0, value(self:GetAbility(), 'cleave_starting_width')) * 0.5
+    local endWidth = math.max(0, value(self:GetAbility(), 'cleave_ending_width')) * 0.5
+    local percent = math.max(0, value(self:GetAbility(), 'cleave_pct')) / 100
+    local baseDamage = e.original_damage or get_atk(c, primary)
+    local splashDamage = math.max(0, baseDamage * percent)
+    local center = primary:GetAbsOrigin()
 
-    local cleave_dmg = (e.original_damage or get_atk(c, e.target)) * (cleave_pct / 100)
-    for _, u in ipairs(enemies(c, e.target:GetAbsOrigin(), cleave_radius)) do
-        if u ~= e.target then
-            damage(self:GetAbility(), u, cleave_dmg, DAMAGE_TYPE_PHYSICAL)
+    -- Native Great Cleave uses a widening cone extending beyond the struck unit.
+    for _, enemy in ipairs(enemies(c, center, distance)) do
+        if enemy ~= primary then
+            local offset = enemy:GetAbsOrigin() - center
+            local along = offset.x * direction.x + offset.y * direction.y
+            if along >= 0 and along <= distance then
+                local width = startWidth + (endWidth - startWidth) * (along / math.max(distance, 1))
+                local lateralSq = math.max(0, offset.x * offset.x + offset.y * offset.y - along * along)
+                if lateralSq <= width * width then
+                    damage(self:GetAbility(), enemy, splashDamage, DAMAGE_TYPE_PHYSICAL)
+                end
+            end
         end
     end
+
+    -- One hit-confirmation visual per landed attack; splash units do not each spawn particles.
+    local particle = 'particles/units/heroes/hero_sven/sven_spell_great_cleave.vpcf'
+    if c.HasModifier and c:HasModifier('modifier_bulwark_fortress') then
+        particle = 'particles/units/heroes/hero_sven/sven_spell_great_cleave_gods_strength.vpcf'
+    end
+    effect(particle, primary)
 end
 
 bulwark_fortress=class({})

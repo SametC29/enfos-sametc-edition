@@ -3,7 +3,7 @@ return {
  ["npc_dota_hero_sven"]={
   [4]={
    {id="evo_sven_4_1",hero="npc_dota_hero_sven",tier=0,side=1,ability="bulwark_shield_slam",icon="bulwark_shield_slam",special="radius",mode="+",amount=60},
-   {id="evo_sven_4_2",hero="npc_dota_hero_sven",tier=0,side=2,ability="bulwark_iron_guard",icon="bulwark_iron_guard",special="damage_block",mode="*",amount=15},
+   {id="evo_sven_4_2",hero="npc_dota_hero_sven",tier=0,side=2,ability="bulwark_iron_guard",icon="bulwark_iron_guard",special="cleave_pct",mode="*",amount=15},
   },
   [7]={
    {id="evo_sven_7_1",hero="npc_dota_hero_sven",tier=1,side=1,ability="bulwark_challenge",icon="bulwark_challenge",special="duration",mode="+",amount=0.5},
@@ -11,10 +11,10 @@ return {
   },
   [10]={
    {id="evo_sven_10_1",hero="npc_dota_hero_sven",tier=2,side=1,ability="bulwark_fortress",icon="bulwark_fortress",special="cooldown",mode="*",amount=8},
-   {id="evo_sven_10_2",hero="npc_dota_hero_sven",tier=2,side=2,ability="bulwark_challenge",icon="bulwark_challenge",special="bonus_armor",mode="+",amount=2},
+   {id="evo_sven_10_2",hero="npc_dota_hero_sven",tier=2,side=2,ability="bulwark_iron_guard",icon="bulwark_iron_guard",special="cleave_distance",mode="+",amount=50},
   },
   [13]={
-   {id="evo_sven_13_1",hero="npc_dota_hero_sven",tier=3,side=1,ability="bulwark_iron_guard",icon="bulwark_iron_guard",special="damage_block",mode="*",amount=15},
+   {id="evo_sven_13_1",hero="npc_dota_hero_sven",tier=3,side=1,ability="bulwark_iron_guard",icon="bulwark_iron_guard",special="cleave_pct",mode="*",amount=15},
    {id="evo_sven_13_2",hero="npc_dota_hero_sven",tier=3,side=2,ability="bulwark_challenge",icon="bulwark_challenge",special="duration",mode="+",amount=0.5},
   },
   [16]={
@@ -22,7 +22,7 @@ return {
    {id="evo_sven_16_2",hero="npc_dota_hero_sven",tier=4,side=2,ability="bulwark_fortress",icon="bulwark_fortress",special="cooldown",mode="*",amount=8},
   },
   [19]={
-   {id="evo_sven_19_1",hero="npc_dota_hero_sven",tier=5,side=1,ability="bulwark_challenge",icon="bulwark_challenge",special="bonus_armor",mode="+",amount=2},
+   {id="evo_sven_19_1",hero="npc_dota_hero_sven",tier=5,side=1,ability="bulwark_iron_guard",icon="bulwark_iron_guard",special="cleave_distance",mode="+",amount=50},
    {id="evo_sven_19_2",hero="npc_dota_hero_sven",tier=5,side=2,ability="bulwark_shield_slam",icon="bulwark_shield_slam",special="radius",mode="+",amount=60},
   },
  },

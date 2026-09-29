@@ -35,7 +35,7 @@
     ]
   ],
   "profiles": {
-    "sven": "1.radius:+60 3.damage_block:*15 2.duration:+0.5 4.shockwave_damage:*15 4.cooldown:*8 2.bonus_armor:+2",
+    "sven": "1.radius:+60 3.cleave_pct:*15 2.duration:+0.5 4.shockwave_damage:*15 4.cooldown:*8 3.cleave_distance:+50",
     "juggernaut": "1.radius:+50 2.heal_pct:*10 3.crit_chance:+2 4.bonus_damage:*15 1.damage_per_sec:*12 4.cooldown:*8",
     "drow_ranger": "3.arrow_count:+2 2.silence_duration:+0.4 1.bonus_damage:*15 5.bonus_range:+30 3.arrow_range:+100 4.proc_chance:+2",
     "lina": "1.dragon_slave_width_end:+40 2.stun_duration:+0.2 3.fiery_soul_max_stacks:+1 4.overflow_radius:+60 1.damage:*12 4.cooldown:*8",
