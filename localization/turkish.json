@@ -33,10 +33,10 @@
     "DOTA_Tooltip_Ability_bulwark_shield_slam_damage": "HASAR:",
     "DOTA_Tooltip_ability_bulwark_challenge": "Savaş Narası",
     "DOTA_Tooltip_Ability_bulwark_challenge": "Savaş Narası",
-    "DOTA_Tooltip_ability_bulwark_challenge_Description": "{{duration}} sn boyunca Sven ve {{radius}} alandaki dostlarına {{bonus_armor}} zırh, %{{bonus_ms_pct}} hareket hızı ve her birine {{barrier_hp}} + Kuvvet × 1,5 hasar kalkanı verir. Düşmanları aynı süre kışkırtır (Boss %25 süre; Koşucular bağışık). Shard her kalkana Sven’in azami canının %25’ini ekler ve gerçekten alınan fiziksel hasarın %40’ını yansıtır.",
-    "DOTA_Tooltip_Ability_bulwark_challenge_Description": "{{duration}} sn boyunca Sven ve {{radius}} alandaki dostlarına {{bonus_armor}} zırh, %{{bonus_ms_pct}} hareket hızı ve her birine {{barrier_hp}} + Kuvvet × 1,5 hasar kalkanı verir. Düşmanları aynı süre kışkırtır (Boss %25 süre; Koşucular bağışık). Shard her kalkana Sven’in azami canının %25’ini ekler ve gerçekten alınan fiziksel hasarın %40’ını yansıtır.",
-    "DOTA_Tooltip_ability_bulwark_challenge_SummaryDescription": "{{duration}} sn boyunca Sven ve {{radius}} alandaki dostlarına {{bonus_armor}} zırh, %{{bonus_ms_pct}} hareket hızı ve her birine {{barrier_hp}} + Kuvvet × 1,5 hasar kalkanı verir. Düşmanları aynı süre kışkırtır (Boss %25 süre; Koşucular bağışık). Shard her kalkana Sven’in azami canının %25’ini ekler ve gerçekten alınan fiziksel hasarın %40’ını yansıtır.",
-    "DOTA_Tooltip_Ability_bulwark_challenge_SummaryDescription": "{{duration}} sn boyunca Sven ve {{radius}} alandaki dostlarına {{bonus_armor}} zırh, %{{bonus_ms_pct}} hareket hızı ve her birine {{barrier_hp}} + Kuvvet × 1,5 hasar kalkanı verir. Düşmanları aynı süre kışkırtır (Boss %25 süre; Koşucular bağışık). Shard her kalkana Sven’in azami canının %25’ini ekler ve gerçekten alınan fiziksel hasarın %40’ını yansıtır.",
+    "DOTA_Tooltip_ability_bulwark_challenge_Description": "{{duration}} sn boyunca Sven ve {{radius}} alandaki dostlarına {{bonus_armor}} zırh, %{{bonus_ms_pct}} hareket hızı ve her birine {{barrier_hp}} + Kuvvet × 1,5 hasar kalkanı verir. Düşmanları aynı süre kışkırtır (Boss süresi %{{boss_taunt_pct}}; Koşucular bağışık). Shard her kalkana Svenin azami canının %25ini ekler ve gerçekten alınan fiziksel hasarın %40ını yansıtır.",
+    "DOTA_Tooltip_Ability_bulwark_challenge_Description": "{{duration}} sn boyunca Sven ve {{radius}} alandaki dostlarına {{bonus_armor}} zırh, %{{bonus_ms_pct}} hareket hızı ve her birine {{barrier_hp}} + Kuvvet × 1,5 hasar kalkanı verir. Düşmanları aynı süre kışkırtır (Boss süresi %{{boss_taunt_pct}}; Koşucular bağışık). Shard her kalkana Svenin azami canının %25ini ekler ve gerçekten alınan fiziksel hasarın %40ını yansıtır.",
+    "DOTA_Tooltip_ability_bulwark_challenge_SummaryDescription": "{{duration}} sn boyunca Sven ve {{radius}} alandaki dostlarına {{bonus_armor}} zırh, %{{bonus_ms_pct}} hareket hızı ve her birine {{barrier_hp}} + Kuvvet × 1,5 hasar kalkanı verir. Düşmanları aynı süre kışkırtır (Boss süresi %{{boss_taunt_pct}}; Koşucular bağışık). Shard her kalkana Svenin azami canının %25ini ekler ve gerçekten alınan fiziksel hasarın %40ını yansıtır.",
+    "DOTA_Tooltip_Ability_bulwark_challenge_SummaryDescription": "{{duration}} sn boyunca Sven ve {{radius}} alandaki dostlarına {{bonus_armor}} zırh, %{{bonus_ms_pct}} hareket hızı ve her birine {{barrier_hp}} + Kuvvet × 1,5 hasar kalkanı verir. Düşmanları aynı süre kışkırtır (Boss süresi %{{boss_taunt_pct}}; Koşucular bağışık). Shard her kalkana Svenin azami canının %25ini ekler ve gerçekten alınan fiziksel hasarın %40ını yansıtır.",
     "DOTA_Tooltip_ability_bulwark_challenge_radius": "ETKİ ALANI:",
     "DOTA_Tooltip_Ability_bulwark_challenge_radius": "ETKİ ALANI:",
     "DOTA_Tooltip_ability_bulwark_challenge_bonus_armor": "İLAVE ZIRH:",
@@ -1621,6 +1621,8 @@
     "DOTA_Tooltip_Ability_bulwark_shield_slam_boss_stun_cap": "BOSS SERSEMLETME SINIRI:",
     "DOTA_Tooltip_Ability_bulwark_shield_slam_bolt_speed": "MERMİ HIZI:",
     "DOTA_Tooltip_ability_bulwark_shield_slam_boss_stun_cap": "BOSS SERSEMLETME SINIRI:",
-    "DOTA_Tooltip_ability_bulwark_shield_slam_bolt_speed": "MERMİ HIZI:"
+    "DOTA_Tooltip_ability_bulwark_shield_slam_bolt_speed": "MERMİ HIZI:",
+    "DOTA_Tooltip_Ability_bulwark_challenge_boss_taunt_pct": "BOSS KIŞKIRTMA SÜRESİ:",
+    "DOTA_Tooltip_ability_bulwark_challenge_boss_taunt_pct": "BOSS KIŞKIRTMA SÜRESİ:"
   }
 }

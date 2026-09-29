@@ -437,9 +437,8 @@ end
 bulwark_challenge=class({})
 function bulwark_challenge:OnSpellStart()
     local c = self:GetCaster()
-    c:StartGesture(ACT_DOTA_CAST_ABILITY_2)
+    if not c or c:IsNull() then return end
     c:EmitSound('Hero_Sven.WarCry')
-    effect('particles/units/heroes/hero_sven/sven_warcry_buff.vpcf', c)
     local dur = value(self, 'duration')
     local rad = value(self, 'radius')
     if rad <= 0 then rad = 500 end
@@ -449,15 +448,13 @@ function bulwark_challenge:OnSpellStart()
     for _, a in ipairs(allies(c, c:GetAbsOrigin(), rad)) do
         if a~=c then
             a:AddNewModifier(c, self, 'modifier_enfos_pve_warcry', { duration = dur })
-            effect('particles/units/heroes/hero_sven/sven_warcry_buff.vpcf', a)
         end
     end
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), rad)) do
         if u:GetUnitName() ~= 'enfos_creep_runner' then
-            local t_dur = dur * (is_boss(u) and 0.25 or 1.0)
-            local status_res = u.GetStatusResistance and u:GetStatusResistance() or 0
-            u:AddNewModifier(c, self, 'modifier_enfos_pve_taunt', { duration = t_dur * (1 - status_res) })
+            local tauntPct = is_boss(u) and value(self, 'boss_taunt_pct') or 100
+            u:AddNewModifier(c, self, 'modifier_enfos_pve_taunt', { duration = dur * tauntPct / 100 })
         end
     end
 end
@@ -516,22 +513,26 @@ end
 function modifier_enfos_pve_warcry:GetEffectName() return 'particles/units/heroes/hero_sven/sven_warcry_buff.vpcf' end
 
 function modifier_enfos_pve_taunt:IsDebuff() return true end
+function modifier_enfos_pve_taunt:DeclareFunctions() return { MODIFIER_EVENT_ON_DEATH } end
 function modifier_enfos_pve_taunt:CheckState() return { [MODIFIER_STATE_TAUNTED] = true } end
 function modifier_enfos_pve_taunt:OnCreated()
     if not IsServer() then return end
     local p = self:GetParent()
     if p and p.SetForceAttackTarget then p:SetForceAttackTarget(self:GetCaster()) end
     if p and p.MoveToTargetToAttack then p:MoveToTargetToAttack(self:GetCaster()) end
-    self:StartIntervalThink(0.2)
 end
-function modifier_enfos_pve_taunt:OnIntervalThink()
+function modifier_enfos_pve_taunt:OnDeath(event)
     local c = self:GetCaster()
-    if not c or c:IsNull() or not c:IsAlive() then self:Destroy() end
+    if event and event.unit == c then self:Destroy() end
 end
 function modifier_enfos_pve_taunt:OnDestroy()
     if IsServer() then
         local p = self:GetParent()
-        if p and p.SetForceAttackTarget then p:SetForceAttackTarget(nil) end
+        local c = self:GetCaster()
+        if p and p.SetForceAttackTarget and p.GetForceAttackTarget
+            and p:GetForceAttackTarget() == c then
+            p:SetForceAttackTarget(nil)
+        end
     end
 end
 

@@ -27,10 +27,10 @@
     "DOTA_Tooltip_Ability_bulwark_shield_slam_damage": "伤害:",
     "DOTA_Tooltip_ability_bulwark_challenge": "挑衅咆哮",
     "DOTA_Tooltip_Ability_bulwark_challenge": "挑衅咆哮",
-    "DOTA_Tooltip_ability_bulwark_challenge_Description": "持续{{duration}}秒，为自身及{{radius}}范围友军提供{{bonus_armor}}护甲、{{bonus_ms_pct}}%移速及{{barrier_hp}}+力量×1.5的各自护盾。嘲讽敌人（首领持续25%，奔跑者免疫）。魔晶使护盾额外增加斯温最大生命的25%，并反弹实际受到物理伤害的40%。",
-    "DOTA_Tooltip_Ability_bulwark_challenge_Description": "持续{{duration}}秒，为自身及{{radius}}范围友军提供{{bonus_armor}}护甲、{{bonus_ms_pct}}%移速及{{barrier_hp}}+力量×1.5的各自护盾。嘲讽敌人（首领持续25%，奔跑者免疫）。魔晶使护盾额外增加斯温最大生命的25%，并反弹实际受到物理伤害的40%。",
-    "DOTA_Tooltip_ability_bulwark_challenge_SummaryDescription": "持续{{duration}}秒，为自身及{{radius}}范围友军提供{{bonus_armor}}护甲、{{bonus_ms_pct}}%移速及{{barrier_hp}}+力量×1.5的各自护盾。嘲讽敌人（首领持续25%，奔跑者免疫）。魔晶使护盾额外增加斯温最大生命的25%，并反弹实际受到物理伤害的40%。",
-    "DOTA_Tooltip_Ability_bulwark_challenge_SummaryDescription": "持续{{duration}}秒，为自身及{{radius}}范围友军提供{{bonus_armor}}护甲、{{bonus_ms_pct}}%移速及{{barrier_hp}}+力量×1.5的各自护盾。嘲讽敌人（首领持续25%，奔跑者免疫）。魔晶使护盾额外增加斯温最大生命的25%，并反弹实际受到物理伤害的40%。",
+    "DOTA_Tooltip_ability_bulwark_challenge_Description": "持续{{duration}}秒，为自身及{{radius}}范围友军提供{{bonus_armor}}护甲、{{bonus_ms_pct}}%移速及{{barrier_hp}}+力量×1.5的护盾。嘲讽敌人（首领持续{{boss_taunt_pct}}%；奔跑者免疫）。魔晶使护盾增加斯温最大生命的25%，并反弹实际受到物理伤害的40%。",
+    "DOTA_Tooltip_Ability_bulwark_challenge_Description": "持续{{duration}}秒，为自身及{{radius}}范围友军提供{{bonus_armor}}护甲、{{bonus_ms_pct}}%移速及{{barrier_hp}}+力量×1.5的护盾。嘲讽敌人（首领持续{{boss_taunt_pct}}%；奔跑者免疫）。魔晶使护盾增加斯温最大生命的25%，并反弹实际受到物理伤害的40%。",
+    "DOTA_Tooltip_ability_bulwark_challenge_SummaryDescription": "持续{{duration}}秒，为自身及{{radius}}范围友军提供{{bonus_armor}}护甲、{{bonus_ms_pct}}%移速及{{barrier_hp}}+力量×1.5的护盾。嘲讽敌人（首领持续{{boss_taunt_pct}}%；奔跑者免疫）。魔晶使护盾增加斯温最大生命的25%，并反弹实际受到物理伤害的40%。",
+    "DOTA_Tooltip_Ability_bulwark_challenge_SummaryDescription": "持续{{duration}}秒，为自身及{{radius}}范围友军提供{{bonus_armor}}护甲、{{bonus_ms_pct}}%移速及{{barrier_hp}}+力量×1.5的护盾。嘲讽敌人（首领持续{{boss_taunt_pct}}%；奔跑者免疫）。魔晶使护盾增加斯温最大生命的25%，并反弹实际受到物理伤害的40%。",
     "DOTA_Tooltip_ability_bulwark_challenge_radius": "作用范围:",
     "DOTA_Tooltip_Ability_bulwark_challenge_radius": "作用范围:",
     "DOTA_Tooltip_ability_bulwark_challenge_bonus_armor": "额外护甲:",
@@ -994,6 +994,8 @@
     "DOTA_Tooltip_Ability_bulwark_shield_slam_boss_stun_cap": "首领眩晕上限:",
     "DOTA_Tooltip_Ability_bulwark_shield_slam_bolt_speed": "弹道速度:",
     "DOTA_Tooltip_ability_bulwark_shield_slam_boss_stun_cap": "首领眩晕上限:",
-    "DOTA_Tooltip_ability_bulwark_shield_slam_bolt_speed": "弹道速度:"
+    "DOTA_Tooltip_ability_bulwark_shield_slam_bolt_speed": "弹道速度:",
+    "DOTA_Tooltip_Ability_bulwark_challenge_boss_taunt_pct": "首领嘲讽时长:",
+    "DOTA_Tooltip_ability_bulwark_challenge_boss_taunt_pct": "首领嘲讽时长:"
   }
 }

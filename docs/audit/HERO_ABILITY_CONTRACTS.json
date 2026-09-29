@@ -28,17 +28,18 @@
         {
           "slot": 2,
           "id": "bulwark_challenge",
-          "maxLevel": 4,
+          "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
           "callbacks": [
             "OnSpellStart"
           ],
           "specials": {
             "radius": "500",
-            "bonus_armor": "10 15 20 25",
-            "duration": "4.0 4.5 5.0 5.5",
-            "bonus_ms_pct": "20 25 30 35",
-            "barrier_hp": "150 250 350 450"
+            "bonus_armor": "6 8 10 12 14 16 18 20 22 24",
+            "duration": "3.0 3.5 4.0 4.5 5.0 5.5 6.0 6.5 7.0 7.5",
+            "bonus_ms_pct": "15 17 19 21 23 25 27 29 31 33",
+            "barrier_hp": "100 150 200 250 300 350 400 450 500 550",
+            "boss_taunt_pct": "25"
           },
           "unreferencedSpecials": [],
           "hasSound": true,

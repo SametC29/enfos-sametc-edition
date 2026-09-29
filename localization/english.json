@@ -27,10 +27,10 @@
     "DOTA_Tooltip_Ability_bulwark_shield_slam_damage": "DAMAGE:",
     "DOTA_Tooltip_ability_bulwark_challenge": "Warcry",
     "DOTA_Tooltip_Ability_bulwark_challenge": "Warcry",
-    "DOTA_Tooltip_ability_bulwark_challenge_Description": "For {{duration}}s, Sven and allies within {{radius}} gain {{bonus_armor}} armor, {{bonus_ms_pct}}% movement speed and a {{barrier_hp}} + Strength × 1.5 damage barrier each. Taunts enemies for the same duration (Boss 25%; Runners immune). Shard adds 25% of Sven’s maximum HP to each barrier and reflects 40% of physical damage actually taken.",
-    "DOTA_Tooltip_Ability_bulwark_challenge_Description": "For {{duration}}s, Sven and allies within {{radius}} gain {{bonus_armor}} armor, {{bonus_ms_pct}}% movement speed and a {{barrier_hp}} + Strength × 1.5 damage barrier each. Taunts enemies for the same duration (Boss 25%; Runners immune). Shard adds 25% of Sven’s maximum HP to each barrier and reflects 40% of physical damage actually taken.",
-    "DOTA_Tooltip_ability_bulwark_challenge_SummaryDescription": "For {{duration}}s, Sven and allies within {{radius}} gain {{bonus_armor}} armor, {{bonus_ms_pct}}% movement speed and a {{barrier_hp}} + Strength × 1.5 damage barrier each. Taunts enemies for the same duration (Boss 25%; Runners immune). Shard adds 25% of Sven’s maximum HP to each barrier and reflects 40% of physical damage actually taken.",
-    "DOTA_Tooltip_Ability_bulwark_challenge_SummaryDescription": "For {{duration}}s, Sven and allies within {{radius}} gain {{bonus_armor}} armor, {{bonus_ms_pct}}% movement speed and a {{barrier_hp}} + Strength × 1.5 damage barrier each. Taunts enemies for the same duration (Boss 25%; Runners immune). Shard adds 25% of Sven’s maximum HP to each barrier and reflects 40% of physical damage actually taken.",
+    "DOTA_Tooltip_ability_bulwark_challenge_Description": "For {{duration}}s, Sven and allies within {{radius}} gain {{bonus_armor}} armor, {{bonus_ms_pct}}% movement speed and a {{barrier_hp}} + Strength × 1.5 damage barrier each. Taunts enemies for the same duration (Boss {{boss_taunt_pct}}%; Runners immune). Shard adds 25% of Svens maximum HP to each barrier and reflects 40% of physical damage actually taken.",
+    "DOTA_Tooltip_Ability_bulwark_challenge_Description": "For {{duration}}s, Sven and allies within {{radius}} gain {{bonus_armor}} armor, {{bonus_ms_pct}}% movement speed and a {{barrier_hp}} + Strength × 1.5 damage barrier each. Taunts enemies for the same duration (Boss {{boss_taunt_pct}}%; Runners immune). Shard adds 25% of Svens maximum HP to each barrier and reflects 40% of physical damage actually taken.",
+    "DOTA_Tooltip_ability_bulwark_challenge_SummaryDescription": "For {{duration}}s, Sven and allies within {{radius}} gain {{bonus_armor}} armor, {{bonus_ms_pct}}% movement speed and a {{barrier_hp}} + Strength × 1.5 damage barrier each. Taunts enemies for the same duration (Boss {{boss_taunt_pct}}%; Runners immune). Shard adds 25% of Svens maximum HP to each barrier and reflects 40% of physical damage actually taken.",
+    "DOTA_Tooltip_Ability_bulwark_challenge_SummaryDescription": "For {{duration}}s, Sven and allies within {{radius}} gain {{bonus_armor}} armor, {{bonus_ms_pct}}% movement speed and a {{barrier_hp}} + Strength × 1.5 damage barrier each. Taunts enemies for the same duration (Boss {{boss_taunt_pct}}%; Runners immune). Shard adds 25% of Svens maximum HP to each barrier and reflects 40% of physical damage actually taken.",
     "DOTA_Tooltip_ability_bulwark_challenge_radius": "RADIUS:",
     "DOTA_Tooltip_Ability_bulwark_challenge_radius": "RADIUS:",
     "DOTA_Tooltip_ability_bulwark_challenge_bonus_armor": "BONUS ARMOR:",
@@ -1060,6 +1060,8 @@
     "DOTA_Tooltip_Ability_bulwark_shield_slam_boss_stun_cap": "BOSS STUN CAP:",
     "DOTA_Tooltip_Ability_bulwark_shield_slam_bolt_speed": "PROJECTILE SPEED:",
     "DOTA_Tooltip_ability_bulwark_shield_slam_boss_stun_cap": "BOSS STUN CAP:",
-    "DOTA_Tooltip_ability_bulwark_shield_slam_bolt_speed": "PROJECTILE SPEED:"
+    "DOTA_Tooltip_ability_bulwark_shield_slam_bolt_speed": "PROJECTILE SPEED:",
+    "DOTA_Tooltip_Ability_bulwark_challenge_boss_taunt_pct": "BOSS TAUNT DURATION:",
+    "DOTA_Tooltip_ability_bulwark_challenge_boss_taunt_pct": "BOSS TAUNT DURATION:"
   }
 }

@@ -25,6 +25,23 @@ for (const file of walk('game/scripts/vscripts').filter(f => f.endsWith('.lua'))
   check(`Lua syntax ${file}`, () => luaparse.parse(fs.readFileSync(file, 'utf8'), { luaVersion: '5.1' }));
 }
 check('localization values and mirror files', () => generateLocalization(true));
+check('Sven Q and W define ten-rank combat curves', () => {
+  const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
+  for (const [id, keys] of Object.entries({
+    bulwark_shield_slam: ['radius', 'damage', 'stun_duration'],
+    bulwark_challenge: ['bonus_armor', 'duration', 'bonus_ms_pct', 'barrier_hp'],
+  })) {
+    const ability = abilities[id];
+    if (Number(ability.MaxLevel) !== 10) throw new Error(`${id}: MaxLevel must be 10`);
+    const specials = Object.assign({}, ...Object.values(ability.AbilitySpecial));
+    for (const key of keys) {
+      if ((specials[key] || '').trim().split(/\s+/).length !== 10) throw new Error(`${id}.${key}: expected exactly 10 ranks`);
+    }
+    if (ability.AbilityCooldown.trim().split(/\s+/).length !== 10 || ability.AbilityManaCost.trim().split(/\s+/).length !== 10) {
+      throw new Error(`${id}: cooldown and mana curves must each define ten rank values`);
+    }
+  }
+});
 check('localization tokens do not conflict after engine case folding', () => {
   for (const lang of languages) {
     const seen = new Map();

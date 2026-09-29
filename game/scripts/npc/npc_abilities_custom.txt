@@ -61,9 +61,10 @@
 		"AbilityTextureName" "sven_warcry"
 		"AbilityCastRange" "500"
 		"AbilityCastPoint" "0.2"
-		"AbilityCooldown" "14.0 13.0 12.0 11.0"
-		"AbilityManaCost" "80 90 100 110"
-		"MaxLevel" "4"
+		"AbilityCastAnimation" "ACT_DOTA_OVERRIDE_ABILITY_3"
+		"AbilityCooldown" "18 17.5 17 16.5 16 15.5 15 14.5 14 13.5"
+		"AbilityManaCost" "65 70 75 80 85 90 95 100 105 110"
+		"MaxLevel" "10"
 		"AbilitySpecial"
 		{
 			"01"
@@ -74,22 +75,27 @@
 			"02"
 			{
 				"var_type" "FIELD_INTEGER"
-				"bonus_armor" "10 15 20 25"
+				"bonus_armor" "6 8 10 12 14 16 18 20 22 24"
 			}
 			"03"
 			{
 				"var_type" "FIELD_FLOAT"
-				"duration" "4.0 4.5 5.0 5.5"
+				"duration" "3.0 3.5 4.0 4.5 5.0 5.5 6.0 6.5 7.0 7.5"
 			}
 			"04"
 			{
 				"var_type" "FIELD_INTEGER"
-				"bonus_ms_pct" "20 25 30 35"
+				"bonus_ms_pct" "15 17 19 21 23 25 27 29 31 33"
 			}
 			"05"
 			{
 				"var_type" "FIELD_INTEGER"
-				"barrier_hp" "150 250 350 450"
+				"barrier_hp" "100 150 200 250 300 350 400 450 500 550"
+			}
+			"06"
+			{
+				"var_type" "FIELD_INTEGER"
+				"boss_taunt_pct" "25"
 			}
 		}
 		"ScriptFile" "abilities/pve_kits"

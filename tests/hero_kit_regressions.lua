@@ -54,6 +54,7 @@ DOTA_UNIT_TARGET_TEAM_FRIENDLY = 1
 DOTA_UNIT_TARGET_HERO = 1
 DOTA_UNIT_TARGET_BASIC = 2
 DOTA_UNIT_TARGET_FLAG_NONE = 0
+MODIFIER_EVENT_ON_DEATH = 4
 DAMAGE_TYPE_PHYSICAL = 1
 DAMAGE_TYPE_MAGICAL = 2
 DAMAGE_TYPE_PURE = 4
@@ -245,6 +246,7 @@ test('Sven Challenge taunts enemies and reduces duration by 75% on bosses', func
         if k == 'duration' then return 4.0 end
         if k == 'radius' then return 450 end
         if k == 'bonus_armor' then return 20 end
+        if k == 'boss_taunt_pct' then return 25 end
         return 0
     end
 
@@ -255,6 +257,23 @@ test('Sven Challenge taunts enemies and reduces duration by 75% on bosses', func
     assert(boss:HasModifier('modifier_enfos_pve_taunt'), 'Boss must be taunted')
     assert(creep.modifiers['modifier_enfos_pve_taunt'].params.duration == 4.0, 'Normal creep takes full taunt duration')
     assert(boss.modifiers['modifier_enfos_pve_taunt'].params.duration == 1.0, 'Boss taunt must be 0.25x (1.0s)')
+end)
+
+test('Sven Warcry taunt cleans up only its own forced target', function()
+    local caster = create_mock_unit('npc_dota_hero_sven', 2, Vector(0, 0, 0))
+    local enemy = create_mock_unit('enfos_creep_melee', 3, Vector(100, 0, 0))
+    local replacement = create_mock_unit('npc_dota_hero_axe', 2, Vector(0, 100, 0))
+    enemy.SetForceAttackTarget = function(self, target) self.forcedTarget = target end
+    enemy.GetForceAttackTarget = function(self) return self.forcedTarget end
+    enemy.MoveToTargetToAttack = function(self, target) self.orderedTarget = target end
+    local taunt = modifier_enfos_pve_taunt()
+    taunt.GetParent = function() return enemy end
+    taunt.GetCaster = function() return caster end
+    taunt:OnCreated()
+    assert(enemy.forcedTarget == caster, 'Taunt forces the enemy onto Sven')
+    enemy.forcedTarget = replacement
+    taunt:OnDestroy()
+    assert(enemy.forcedTarget == replacement, 'Taunt cleanup must preserve a newer forced target')
 end)
 
 test('Sven Iron Guard damage block reflects physical damage safely without recursion', function()
@@ -1471,9 +1490,9 @@ test('Sven Warcry barrier absorbs, refreshes and reflects only physical damage w
 end)
 test('Sven taunt starts an attack order and releases it on expiry',function()
  local sven=create_mock_unit('npc_dota_hero_sven',2,Vector(0,0,0));local enemy=create_mock_unit('enfos_creep_melee',4,Vector(100,0,0))
- enemy.SetForceAttackTarget=function(_,u) enemy.forced=u end;enemy.MoveToTargetToAttack=function(_,u) enemy.ordered=u end
+ enemy.SetForceAttackTarget=function(_,u) enemy.forced=u end;enemy.GetForceAttackTarget=function() return enemy.forced end;enemy.MoveToTargetToAttack=function(_,u) enemy.ordered=u end
  local m=enemy:AddNewModifier(sven,{},'modifier_enfos_pve_taunt',{})
- m.StartIntervalThink=function() end;m:OnCreated();assert(enemy.forced==sven and enemy.ordered==sven);m:OnDestroy();assert(enemy.forced==nil)
+ m:OnCreated();assert(enemy.forced==sven and enemy.ordered==sven);m:OnDestroy();assert(enemy.forced==nil)
 end)
 test('Sven innate has no second cleave and Scepter ally modifier is registered',function()
  assert(modifier_bulwark_unbreakable.OnAttackLanded==nil)

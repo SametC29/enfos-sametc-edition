@@ -10,7 +10,7 @@ Hero: `npc_dota_hero_sven`; role: Tank. Production target: hero level 50 / all f
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
 | 1 | `bulwark_shield_slam` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_AOE | abilities/pve_kits | sven_storm_bolt |
-| 2 | `bulwark_challenge` | 4 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | sven_warcry |
+| 2 | `bulwark_challenge` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | sven_warcry |
 | 3 | `bulwark_iron_guard` | 4 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | sven_great_cleave |
 | 4 | `bulwark_fortress` | 3 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | sven_gods_strength |
 | 5 | `bulwark_unbreakable` | 8 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | sven_wrath_of_god |
@@ -120,21 +120,21 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 Classification: PVE-CONVERT
 Native counterpart: `sven_warcry`, verified in the installed Sven `AbilityDefinitions`, ClientVersion 6941 / SourceRevision 11041083. Native Warcry has immediate no-target behavior, native War Cry sound, override ability 3 cast gesture, dispellable ally buff and native radius/duration/speed/armor values.
-Decision and PvE identity rationale: Proposal: retain Warcry's native allied armor/movement buff; Enfos enemy-wave taunt is a PvE conversion. Review the barrier and Shard reflection budget before keeping both.
-Expected cast/travel/impact/ongoing/cleanup behavior: Immediate AoE team cast plus bounded enemy aggro modifier; test target AI, boss behavior, caster death and modifier cleanup.
-Static review: current Enfos Lua plays `Hero_Sven.WarCry`, which matches the native hero ability's declared event. It manually starts `ACT_DOTA_CAST_ABILITY_2`, whereas native Warcry declares `ACT_DOTA_OVERRIDE_ABILITY_3`; verify whether this causes a bad/missing cast animation. The helper-created buff particles plus modifier `GetEffectName` may create duplicates; visual test pending. Taunt cleanup currently clears the unit's force-attack target unconditionally; check interaction with lane AI/other aggro sources.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Decision and PvE identity rationale: PVE-CONVERT. Keep recognizable Warcry team armor/movement support and its barrier; add a bounded short aggro pulse so Sven can protect nearby allies from waves. Runners remain immune and boss taunt remains 25% duration.
+Expected cast/travel/impact/ongoing/cleanup behavior: immediate no-target cast with native Warcry sound and override-ability-3 animation; a modifier-owned buff particle accompanies each ally buff. Applies the Sven/allied armor, movement buff and damage barrier; enemy taunt is duration-limited. Caster death removes the taunt through an event callback, and cleanup clears only the force-attack target still owned by this taunt. No repeating interval thinker.
+Static repair: removed manually started ability-2 gesture that disagreed with native Warcry's `ACT_DOTA_OVERRIDE_ABILITY_3`. Removed duplicate helper-created buff particles because the buff modifier already owns the same effect. Boss-duration scaling now uses the configured 25% factor and lets the engine apply status resistance once; the previous code pre-scaled by resistance and risked a second engine reduction. Forced-target cleanup now checks ownership.
+Normal creep / elite / boss, immunity / dispel / resistance rules: normal eligible creeps taunted for the buff duration; `enfos_creep_runner` excluded; boss duration is 25% before engine status resistance. Buff is dispellable as configured by existing modifier behavior; runtime and AI interaction pending.
+Current versus target rank curve; free rank / point cost: W now exposes 10 ranks: armor 6–24, duration 3.0–7.5s by 0.5, movement speed 15–33% by 2, barrier 100–550 by 50; radius remains 500. Cooldown decreases 18–13.5s and mana rises 65–110. Boss taunt factor is 25%; rank gates pending.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
 
-- Native ability data source + build + hash/revision: PENDING.
-- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
-- Sound events + declaring banks + emission target + loop termination: PENDING.
-- Model/animation/gesture/icon evidence: PENDING.
+- Native source: installed Sven `sven_warcry`, ClientVersion 6941 / SourceRevision 11041083; native ability declares War Cry event and `ACT_DOTA_OVERRIDE_ABILITY_3`. Engine verification pending.
+- Buff particle path `particles/units/heroes/hero_sven/sven_warcry_buff.vpcf` already exists in VPK and is precached; now modifier-owned via `GetEffectName`/`GetEffectAttachType`, but actual rendering and duplicate-free behavior pending.
+- Sound event: `Hero_Sven.WarCry`, emitted by Sven. Bank source is the installed Sven sound bank; audible output and cold-start resolution pending.
+- Animation: `ACT_DOTA_OVERRIDE_ABILITY_3` now set in KV from installed native ability data; engine animation pending.
 - Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.
-- Precache owner and cold-start test: PENDING.
+- Precache owner: `addon_game_mode.lua` already precaches the Sven Warcry buff particle. Cold-start test pending.
 - One-shot/persistent cleanup owner and repeated-use test: PENDING.
 - Localization keys and generated mirrors: PENDING.
 
@@ -142,16 +142,16 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
-| Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Existing mock test verifies self/ally buff and normal/boss taunt duration; Dota AI/runtime not tested. |
+| Targeting | PENDING | No-target cast; runner/boss exclusions in Lua. Runtime selection and team behavior pending. |
+| Ranks | PENDING | Ten-rank curves are checked statically; engine UI/level gates pending. |
+| VFX | PENDING | Modifier-owned VPK particle; actual attachment/appearance pending. |
+| SFX | PENDING | Native WarCry event wired; audible test pending. |
+| Animation | PENDING | Native override ability 3 animation set; engine result pending. |
+| Modifiers | PENDING | Mock coverage exists; refresh/barrier/break/dispel/multi-caster engine behavior pending. |
+| Precache | PENDING | Buff path explicitly precached once; cold-start pending. |
+| Cleanup | PENDING | Taunt no longer uses interval scans and checks forced-target ownership; death/expiry engine test pending. |
+| Boss | PENDING | Configured 25% duration; resistance/taunt immunity and AI behavior pending. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
 | Localization | PENDING | Not evaluated in this dossier setup. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
