@@ -497,14 +497,16 @@ for individual hero kit acceptance or proof of 60-wave balance.
 User-directed target (2026-09-29): max hero level **50**; Q/W/E/R and the fifth
 Enfos passive each have **10 total ranks**. The fifth passive is project-specific,
 not the modern native Dota innate. This supersedes the provisional level-30
-Q4/W4/E4/R3/attribute7/innate8 plan; production migration is not implemented.
+Q4/W4/E4/R3/attribute7/innate8 plan; match-level migration is partially implemented.
 
-The current automatic free passive rank is separate from spent points. If retained,
-five skills at rank10 require 49 purchased ranks. Starting points, XP curve,
-rank unlocks and native level restrictions must be proved and recorded before rollout;
-49 spendable points is a proposal, not implemented behavior. Special talents and
-Shard/Scepter remain separate systems. See DECISIONS_OPEN_ITEMS and
-HERO_ABILITY_REFERENCE for the migration acceptance contract.
+The current automatic free passive rank is separate from spent points. Five skills
+at rank10 require 49 purchased ranks. The proposed allocation preserves the free
+passive at hero level1 and uses the 49 points from levels2–50. The match XP curve
+and one-time initial-point clear are implemented in `heroes/match_levels.lua`, but
+still need in-engine confirmation. Ten-rank ability definitions, rank unlocks and
+native UI/tooltip behavior remain migration work. Special talents and Shard/Scepter
+remain separate systems. See DECISIONS_OPEN_ITEMS and HERO_ABILITY_REFERENCE for
+the migration acceptance contract.
 
 Manual skill points.
 

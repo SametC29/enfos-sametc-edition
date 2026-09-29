@@ -27,6 +27,9 @@ function EnfosSametC:InitGameMode()
 	Log:Info("system", "========================================")
 
 	local gameMode = GameRules:GetGameModeEntity()
+	-- In-match hero progression is separate from persistent account/mastery XP.
+	require("heroes/match_levels"):Configure(gameMode)
+	self.initializedHeroAbilityPoints = {}
 	-- Install native team markers before the engine creates selected heroes.
 	require("map/hero_spawns"):Init()
 
@@ -196,6 +199,8 @@ function EnfosSametC:OnNPCSpawned(event)
 		require("map/hero_spawns"):ConfigureHero(spawnedUnit)
 		require("heroes/hero_power"):Apply(spawnedUnit)
 		require("heroes/innates"):Apply(spawnedUnit)
+		require("heroes/match_levels"):InitializeStartingAbilityPoints(
+			spawnedUnit, self.initializedHeroAbilityPoints)
 		local playerId = spawnedUnit:GetPlayerID()
 		if playerId and playerId >= 0 then
 			self.playerHeroes[playerId] = spawnedUnit

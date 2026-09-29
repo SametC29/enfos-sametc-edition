@@ -166,6 +166,10 @@ check('scoreboard stats regressions',()=>{
  const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','tests/scoreboard_regressions.lua'],{encoding:'utf8'});
  if(r.status!==0||r.stderr||!r.stdout.includes('Scoreboard regression tests passed'))throw Error(r.stderr||r.stdout);
 });
+check('match hero level progression',()=>{
+ const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','tests/match_levels.lua'],{cwd:root,encoding:'utf8'});
+ if(r.status!==0||r.stderr||!r.stdout.includes('Match hero level progression tests passed'))throw Error(r.stderr||r.stdout);
+});
 check('Lua ability entrypoints and authoritative hero references', () => {
   const abilities=kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
   const roster=kv('game/scripts/npc/npc_heroes_custom.txt').DOTAHeroes;

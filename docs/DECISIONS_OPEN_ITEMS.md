@@ -201,16 +201,22 @@ Prove early:
   five abilities. On the first real-hero spawn only, clear any native level-1
   ability point after granting the free passive. Preserve unspent points on later
   respawns/reconnects; never reset the budget on every `npc_spawned` event.
-- DESIGN DECISION: make authored wave `xp_bounty` the authoritative per-player
-  match XP award after a scheduled wave is resolved, and remove/disable per-creep
-  `BountyXP` awards to avoid double payment and kill-steal/party-size variance.
-  The 60 current wave awards sum to44,125 XP. Candidate custom threshold for the
-  transition from hero level L to L+1 is `300 + 25*(L-1)` XP for L=1..49. That
-  totals44,100 XP to reach level50, leaves25 XP under the current authored reward
-  budget, and raises the threshold gradually from300 to1,500. It makes a full,
-  successful 60-wave run reach level50; early finishes remain below the cap.
-  Wave failure/leak treatment, boss transition cleanup and partial-wave awards
-  must be explicit so players cannot farm or receive a duplicate wave award.
+- DESIGN DECISION: retain the authored per-creep `BountyXP` kill reward and team
+  sharing. The game design explicitly removed any separate wave-completion XP
+  award; the `xp_bounty` fields in `wave_definitions.lua` are currently unused and
+  must not be repurposed without a product decision. Exact static replay of all
+  60 spawn plans using current NPC `BountyXP`, including current single-Boss
+  counts and per-team sharing, estimates full-clear XP per player at about115,116
+  (solo),109,170 (2 players),107,248 (3),106,240 (4) and105,617 (5). These are
+  content estimates, not telemetry; leaks, disconnects and match outcomes lower
+  or shift them.
+- DESIGN DECISION: use an increasing XP cost of `900 + 45*(L-1)` to move from
+  hero level L to L+1, for L=1..49. The sum is97,020 XP to reach level50. Encode
+  the Dota table as cumulative XP thresholds: table[1]=0 for level1, then add each
+  transition cost to create table[2]..table[50]. This leaves roughly8% headroom
+  beneath the current five-player full-clear estimate, so some missed kills do
+  not automatically prevent reaching the cap, while early finishes remain below
+  it. Revisit this candidate after match telemetry; do not add a wave award.
 - DESIGN DECISION: regular ranks become available in order at hero levels1–10;
   ultimate ranks unlock at levels6,11,16,21,26,31,36,41,46,50. This preserves an
   early ultimate identity while distributing ten ranks over the new cap. Rank
@@ -220,17 +226,25 @@ Prove early:
   indexing, actual skill-point award at level1, ten-rank KV/UI behavior, custom
   `RequiredLevel`, initial free-passive sequencing, talent suppression and
   reconnect persistence in the current Dota build. Do not ship the proposed
-  curve or gates until this POC passes. `xp_bounty` is currently unused and
-  `BountyXP` is awarded per killed creep, so migration must update preview/UI
-  estimates and the reward path together.
+  curve or gates until this POC passes. Preserve kill-based XP and ensure
+  preview/UI estimates continue to use per-unit `BountyXP` rather than the unused
+  wave-level field.
+- ENGINE ATTEMPT 2026-09-29: the tools-mode launch was blocked before map load by
+  a hidden Dota startup dialog reporting NVIDIA `NVAPI_ACCESS_DENIED`. The dialog
+  was safely dismissed; Dota then exited. No level-cap or skill-point engine
+  result was obtained. Retry after the local graphics-driver startup issue is
+  resolved; retain ENGINE PENDING status until then.
 - API evidence: current VScript catalog exposes server methods
   `CDOTABaseGameMode:SetCustomXPRequiredToReachNextLevel(table)` and
   `SetUseCustomHeroLevels(bool)` (define the table before enabling custom levels),
   plus `CDOTA_BaseNPC_Hero:SetAbilityPoints(int)`. API availability does not
   prove this addon's level-50 cap, table indexing or skill UI behavior; verify in
   the current engine before rollout.
-- IMPLEMENTATION PENDING: production XP/MaxLevel/upgrade logic and200 rank curves
-  remain unchanged until that POC and migration are complete.
+- IMPLEMENTATION IN PROGRESS: `heroes/match_levels.lua` defines the level-50
+  cumulative XP curve and clears the initial level-1 point once per player after
+  granting the free Enfos passive. `enfos_sametc.lua` installs it at game-mode
+  startup and hero spawn. Actual runtime level/point behavior remains PENDING;
+  ten-rank KV curves, unlock enforcement and HUD validation are not implemented.
 - REFERENCE READY / ENGINE ACCEPTANCE PENDING: docs/heroes contains40 instructions
   and200 separate evidence ledgers. Native slots/models/SoundSet were extracted
   from installed Dota build6941; custom skill counterpart/classification remain
