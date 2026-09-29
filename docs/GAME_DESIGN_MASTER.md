@@ -499,10 +499,18 @@ Enfos passive each have **10 total ranks**. The fifth passive is project-specifi
 not the modern native Dota innate. This supersedes the provisional level-30
 Q4/W4/E4/R3/attribute7/innate8 plan; match-level migration is partially implemented.
 
+Testing start (2026-09-29): every selected hero begins the match at level **6**,
+with five spendable ability points from levels 2–6. The fifth Enfos passive is
+still granted separately at rank 1. This is a temporary testability baseline;
+the level-50 cap and XP thresholds remain unchanged. The level and point grant
+occur once per player and do not repeat on respawn or reconnect.
+
 The current automatic free passive rank is separate from spent points. Five skills
 at rank10 require 49 purchased ranks. The proposed allocation preserves the free
-passive at hero level1 and uses the 49 points from levels2–50. The match XP curve
-and one-time initial-point clear are implemented in `heroes/match_levels.lua`, but
+passive at hero level1 and uses the 49 points from levels2–50. With the level-6
+testing start, five points are granted immediately and 44 remain across levels
+7–50. The match XP curve and starting-level point budget are implemented in
+`heroes/match_levels.lua`, but
 still need in-engine confirmation. Ten-rank ability definitions, rank unlocks and
 native UI/tooltip behavior remain migration work. Special talents and Shard/Scepter
 remain separate systems. See DECISIONS_OPEN_ITEMS and HERO_ABILITY_REFERENCE for

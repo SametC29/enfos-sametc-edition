@@ -241,9 +241,10 @@ Prove early:
   prove this addon's level-50 cap, table indexing or skill UI behavior; verify in
   the current engine before rollout.
 - IMPLEMENTATION IN PROGRESS: `heroes/match_levels.lua` defines the level-50
-  cumulative XP curve and clears the initial level-1 point once per player after
-  granting the free Enfos passive. `enfos_sametc.lua` installs it at game-mode
-  startup and hero spawn. Actual runtime level/point behavior remains PENDING;
+  cumulative XP curve and starts each player at level 6 with five spendable
+  points once per player after granting the free Enfos passive.
+  `enfos_sametc.lua` installs it at game-mode startup and hero spawn. Actual
+  runtime level/point behavior remains PENDING;
   ten-rank KV curves, unlock enforcement and HUD validation are not implemented.
 - REFERENCE READY / ENGINE ACCEPTANCE PENDING: docs/heroes contains40 instructions
   and200 separate evidence ledgers. Native slots/models/SoundSet were extracted
