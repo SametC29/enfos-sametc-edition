@@ -1,5 +1,6 @@
--- The fifth authored skill is the hero's innate. One free starting rank;
--- subsequent ranks still use the authored skill-point progression.
+-- The fifth authored slot is the Enfos passive, kept separate from Dota's
+-- innate metadata. It receives one free starting rank; later ranks use the
+-- authored skill-point progression.
 local Innates={byHero={}}
 for _,hero in ipairs(require("heroes/roster")) do Innates.byHero[hero.id]=hero.abilities[5] end
 function Innates:Apply(hero)

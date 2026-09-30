@@ -1,6 +1,6 @@
 --------------------------------------------------------------------------------
 -- creep_ai.lua
--- Server-authoritative creep AI navigation, aggro leash, Runner logic, and stuck detection
+-- Server-authoritative creep AI navigation, aggro leash, and stuck detection
 -- Reference: docs/GAME_DESIGN_MASTER.md § 6
 --------------------------------------------------------------------------------
 
@@ -125,7 +125,7 @@ function CreepAI:Attach(unit, defendingTeam, laneName, onLeakCallback)
 	end
 
 	local unitName = unit:GetUnitName()
-	local isRunner = (unitName == "enfos_creep_runner")
+	local isRunner = unitName == "enfos_creep_runner"
 	local isBoss = string.find(unitName, "boss") ~= nil
 
 	local state = {
@@ -141,11 +141,7 @@ function CreepAI:Attach(unit, defendingTeam, laneName, onLeakCallback)
 		stuckTimer = 0,
 		leashed = false,
 	}
-
-	-- Runner properties: phased movement, taunt immunity
-	if isRunner then
-		unit:AddNewModifier(unit, nil, "modifier_phased", {})
-	end
+	if isRunner then unit:AddNewModifier(unit, nil, "modifier_phased", {}) end
 
 	unit.creepState = state
 	-- Initial order towards first waypoint
@@ -169,23 +165,13 @@ function CreepAI:OrderMoveToWaypoint(state)
 	local targetPos = state.route[state.waypointIndex]
 	if not targetPos then return end
 
-	if state.isRunner then
-		-- Runners only move, never attack
-		ExecuteOrderFromTable({
-			UnitIndex = unit:entindex(),
-			OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION,
-			Position = targetPos,
-			Queue = false,
-		})
-	else
-		-- Standard creeps / Bosses attack-move along the route
-		ExecuteOrderFromTable({
-			UnitIndex = unit:entindex(),
-			OrderType = DOTA_UNIT_ORDER_ATTACK_MOVE,
-			Position = targetPos,
-			Queue = false,
-		})
-	end
+	local order = {
+		UnitIndex = unit:entindex(),
+		OrderType = state.isRunner and DOTA_UNIT_ORDER_MOVE_TO_POSITION or DOTA_UNIT_ORDER_ATTACK_MOVE,
+		Position = targetPos,
+		Queue = false,
+	}
+	ExecuteOrderFromTable(order)
 end
 
 --------------------------------------------------------------------------------
@@ -201,7 +187,8 @@ function CreepAI:OnThink(state)
 
 	local currentPos = unit:GetAbsOrigin()
 	local currentWaypoint = state.route[state.waypointIndex]
-	if unit:IsStunned() or unit:IsRooted() or unit:IsChanneling() or unit:HasModifier("modifier_enfos_pve_taunt") then
+	if unit:IsStunned() or unit:IsRooted() or unit:IsChanneling()
+		or (not state.isRunner and unit:HasModifier("modifier_enfos_pve_taunt")) then
 		state.stuckTimer = 0
 		return THINK_INTERVAL
 	end
@@ -250,7 +237,7 @@ function CreepAI:OnThink(state)
 				state.lastPos = currentPos
 				return THINK_INTERVAL
 			end
-			-- Explicit acquisition: Query defending team's units (heroes, summons) within aggro range
+			-- Explicit acquisition: Query defending team's units (heroes, summons) within aggro range.
 			local enemies = FindUnitsInRadius(
 				state.defendingTeam,
 				currentPos,

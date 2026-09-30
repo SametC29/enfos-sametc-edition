@@ -37,7 +37,20 @@ function EnfosSetupManager:Init(waveManager, progressionManager)
 	GameRules:GetGameModeEntity():SetContextThink("EnfosSetupState", function()
 		local state=GameRules:State_Get()
 		if state>DOTA_GAMERULES_STATE_HERO_SELECTION then return nil end
-		if state==DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then self:BroadcastSetupState() end
+		if state==DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP and not self.isSetupComplete then
+			self.setupRemainingTime = math.max(0, self.setupRemainingTime - 1)
+			if self.setupRemainingTime <= 0 then
+				if self.waveManager and self.waveManager.SetDifficulty then
+					self.waveManager:SetDifficulty(self.selectedDifficulty)
+				end
+				self.isSetupComplete = true
+				self:BroadcastSetupState()
+				Log:Info("setup_manager", "Setup countdown expired; starting the game with difficulty %s", self.selectedDifficulty)
+				if GameRules and GameRules.FinishCustomGameSetup then GameRules:FinishCustomGameSetup() end
+				return nil
+			end
+			self:BroadcastSetupState()
+		end
 		if state==DOTA_GAMERULES_STATE_HERO_SELECTION then
 			self.heroSelectionRemainingTime=GameRules:GetStateTransitionTime()
 			self:BroadcastHeroSelectionState()
@@ -82,17 +95,35 @@ function EnfosSetupManager:ValidPlayer(id)
 	return type(id)=="number" and id==math.floor(id) and PlayerResource:IsValidPlayerID(id)
 end
 
-function EnfosSetupManager:CanConfigure(id, hostOnly)
-	if not self:ValidPlayer(id) or self.isSetupComplete then return false end
-	if GameRules:State_Get() ~= DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then return false end
-	local player = PlayerResource:GetPlayer(id)
-	return player ~= nil and (not hostOnly or GameRules:PlayerHasCustomGameHostPrivileges(player))
+function EnfosSetupManager:CanConfigure(id)
+	if not self:ValidPlayer(id) then
+		Log:Warn("setup_manager", "Setup action rejected: invalid PlayerID %s", tostring(id))
+		return false
+	end
+	if GameRules and GameRules.PlayerHasCustomGameHostPrivileges and PlayerResource and PlayerResource.GetPlayer then
+		local player = PlayerResource:GetPlayer(id)
+		if not player or not GameRules:PlayerHasCustomGameHostPrivileges(player) then
+			Log:Warn("setup_manager", "Setup action rejected: player %d is not the lobby host", id)
+			return false
+		end
+	end
+	if self.isSetupComplete then
+		Log:Warn("setup_manager", "Setup action rejected: setup is already complete (player %d)", id)
+		return false
+	end
+	local state = GameRules:State_Get()
+	if state ~= DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
+		Log:Warn("setup_manager", "Setup action rejected: wrong game state %s (player %d)", tostring(state), id)
+		return false
+	end
+	return true
 end
 
 function EnfosSetupManager:OnSetDifficulty(event)
 	if not event or not event.difficulty then return end
 	local playerId = event.PlayerID
-	if not self:CanConfigure(playerId, true) then return false end
+	Log:Info("setup_manager", "Difficulty event received: player=%s difficulty=%s", tostring(playerId), tostring(event.difficulty))
+	if not self:CanConfigure(playerId) then return false end
 	local diffKey = tostring(event.difficulty):lower()
 	if not self.DIFFICULTIES[diffKey] then return end
 
@@ -108,7 +139,8 @@ end
 function EnfosSetupManager:OnJoinTeam(event)
 	if not event or not event.team then return end
 	local playerId = event.PlayerID
-	if not self:CanConfigure(playerId, false) then return false end
+	Log:Info("setup_manager", "Team event received: player=%s team=%s", tostring(playerId), tostring(event.team))
+	if not self:CanConfigure(playerId) then return false end
 	local team = tonumber(event.team)
 	if team ~= (DOTA_TEAM_GOODGUYS or 2) and team ~= (DOTA_TEAM_BADGUYS or 3) then return end
 
@@ -127,7 +159,8 @@ end
 
 function EnfosSetupManager:OnStartGame(event)
 	local playerId = event and event.PlayerID
-	if not self:CanConfigure(playerId, true) then return false end
+	Log:Info("setup_manager", "Start event received: player=%s", tostring(playerId))
+	if not self:CanConfigure(playerId) then return false end
 	Log:Info("setup_manager", "Start Game requested by player %d", playerId)
 
 	if self.waveManager and self.waveManager.SetDifficulty then

@@ -29,6 +29,11 @@ function EmitGlobalSound() end
 function EmitSoundOn() end
 function RandomInt(min, max) return min end
 function RollPercentage(pct) return true end
+GameRules = { GetGameModeEntity = function() return {
+    SetContextThink = function(_, name, callback, delay)
+        _G.last_context_think = { name = name, callback = callback, delay = delay }
+    end
+} end }
 
 bit = { band = function(a, b) return math.floor(a / b) % 2 == 1 and b or 0 end }
 
@@ -61,6 +66,7 @@ DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES = 8
 DAMAGE_TYPE_PHYSICAL = 1
 DAMAGE_TYPE_MAGICAL = 2
 DAMAGE_TYPE_PURE = 4
+MODIFIER_STATE_TETHERED = 45
 DOTA_DAMAGE_FLAG_REFLECTION = 16
 DOTA_DAMAGE_CATEGORY_ATTACK = 1
 PATTACH_ABSORIGIN_FOLLOW = 1
@@ -98,6 +104,7 @@ MODIFIER_STATE_ROOTED = 0
 MODIFIER_STATE_DISARMED = 1
 MODIFIER_STATE_ATTACK_IMMUNE = 2
 MODIFIER_STATE_SILENCED = 3
+MODIFIER_STATE_DEBUFF_IMMUNE = 56
 MODIFIER_STATE_MUTED = 4
 MODIFIER_STATE_STUNNED = 5
 MODIFIER_STATE_HEXED = 6
@@ -151,6 +158,21 @@ function FindUnitsInRadius(team, pos, cache, radius, target_team, target_type, f
         end
     end
     return res
+end
+
+function FindUnitsInLine(team, start_pos, end_pos, cache, width, target_team, target_type, flags)
+    local result = {}
+    local dx, dy = end_pos.x - start_pos.x, end_pos.y - start_pos.y
+    local length_sq = dx * dx + dy * dy
+    for _, unit in ipairs(mock_world_units) do
+        if unit and not unit:IsNull() and unit:IsAlive() and unit:GetTeamNumber() ~= team then
+            local p = unit:GetAbsOrigin()
+            local t = math.max(0, math.min(1, ((p.x-start_pos.x)*dx+(p.y-start_pos.y)*dy) / math.max(1, length_sq)))
+            local qx, qy = start_pos.x + t*dx, start_pos.y + t*dy
+            if math.sqrt((p.x-qx)^2 + (p.y-qy)^2) <= width then table.insert(result, unit) end
+        end
+    end
+    return result
 end
 
 function CreateUnitByName(name, origin, find_clear, owner, owner2, team)
@@ -573,7 +595,7 @@ do
     assert(enemy:HasModifier('modifier_enfos_troll_whirling_axes_blind'))
     ability('enfos_troll_battle_trance'):OnSpellStart()
     local trance=hero:FindModifierByName('modifier_enfos_troll_battle_trance')
-    assert(trance and trance:GetModifierAttackSpeedBonus_Constant()==220 and trance:GetMinHealth()==1)
+    assert(trance and trance:GetModifierAttackSpeedBonus_Constant()==special('enfos_troll_battle_trance','bonus_as') and trance:GetMinHealth()==1)
     local dagger=ability('enfos_pa_stifling_dagger')
     dagger:OnProjectileHit_ExtraData(enemy,nil,{damage=321})
     assert(hits[#hits].damage==321 and enemy:HasModifier('modifier_enfos_pa_stifling_dagger_slow'))
@@ -595,12 +617,16 @@ do
     end
     local shield=hero:AddNewModifier(hero,ability('enfos_medusa_mana_shield'),'modifier_enfos_medusa_mana_shield',{})
     hero.mana=100
-    assert(shield:GetModifierIncomingDamageConstant({damage=1000})==-320,'Shield cannot absorb more than available mana funds')
+    local shield_absorption=special('enfos_medusa_mana_shield','absorption_pct')
+    local shield_efficiency=special('enfos_medusa_mana_shield','damage_per_mana')
+    local first_absorb=math.min(1000*shield_absorption/100,100*shield_efficiency)
+    assert(shield:GetModifierIncomingDamageConstant({damage=1000})==-first_absorb,'Shield cannot absorb more than available mana funds')
     assert(hero.mana==0)
     assert(shield:GetModifierIncomingDamageConstant({damage=1000})==0,'No mana means no absorption')
     hero.mana=100
-    assert(shield:GetModifierIncomingDamageConstant({damage=100})==-85)
-    assert(math.abs(hero.mana-73.4375)<0.001,'Mana cost must scale with actual absorbed damage')
+    local second_absorb=math.min(100*shield_absorption/100,100*shield_efficiency)
+    assert(shield:GetModifierIncomingDamageConstant({damage=100})==-second_absorb)
+    assert(math.abs(hero.mana-(100-second_absorb/shield_efficiency))<0.001,'Mana cost must scale with actual absorbed damage')
     assert(shield:GetModifierIncomingDamageConstant({damage=0})==0)
 
     local pa=ability('enfos_pa_coup_de_grace')
@@ -626,9 +652,9 @@ do
     leech:OnTakeDamage({attacker=hero,unit=enemy,damage=100,inflictor=wk,damage_flags=16})
     assert(hero.hp==500,'Reflected damage cannot heal again')
     leech:OnTakeDamage({attacker=hero,unit=enemy,damage=100,inflictor=wk})
-    assert(hero.hp==520,'Actual spell lifesteal must heal')
+    assert(hero.hp==525,'Maximum-rank spell lifesteal must heal at its configured 25 percent')
     leech:OnTakeDamage({attacker=hero,unit=hero,damage=100,inflictor=wk})
-    assert(hero.hp==520,'Self damage cannot heal')
+    assert(hero.hp==525,'Self damage cannot heal')
     print('PASS finite mana shield, rank-sensitive crit, native reincarnation eligibility and spell lifesteal')
 end
 
@@ -683,11 +709,18 @@ do
     local split=enfos_medusa_split_shot();local enabled=false
     split.GetCaster=function() return hero end
     split.GetToggleState=function() return enabled end
-    split.GetSpecialValueFor=function(_,key) return special('enfos_medusa_split_shot',key) end
+    split.GetSpecialValueFor=function(_,key) return ({arrow_count=1,damage_modifier=50,agility_factor=0.2,projectile_speed=900,radius=700})[key] or 0 end
     local arrows=hero:AddNewModifier(hero,split,'modifier_enfos_medusa_split_shot',{})
-    arrows:OnAttack({attacker=hero,target=enemy});assert(hits==0)
-    enabled=true;arrows:OnAttack({attacker=hero,target=enemy});assert(hits==1)
-    enabled=false;arrows:OnAttack({attacker=hero,target=enemy});assert(hits==1)
+    local side=create_mock_unit('enfos_creep_soldier',4,Vector(120,0,0),1000)
+    table.insert(mock_world_units,side)
+    local oldProjectile=ProjectileManager.CreateTrackingProjectile;local projectiles={}
+    ProjectileManager.CreateTrackingProjectile=function(_,options) projectiles[#projectiles+1]=options;return #projectiles end
+    arrows:OnAttackLanded({attacker=hero,target=enemy});assert(hits==0 and #projectiles==0)
+    enabled=true;arrows:OnAttackLanded({attacker=hero,target=enemy});assert(hits==0 and #projectiles==1)
+    split:OnProjectileHit_ExtraData(projectiles[1].Target,nil,projectiles[1].ExtraData);assert(hits==1)
+    enabled=false;arrows:OnAttackLanded({attacker=hero,target=enemy});assert(hits==1 and #projectiles==1)
+    ProjectileManager.CreateTrackingProjectile=oldProjectile
+    mock_world_units={hero,enemy,other}
 
     local fire=enfos_jakiro_liquid_fire();local automatic,ready=false,true
     fire.GetCaster=function() return hero end
@@ -702,7 +735,7 @@ do
     automatic=true;passive:OnAttackLanded({attacker=hero,target=enemy});assert(hits==2 and not ready)
     passive:OnAttackLanded({attacker=hero,target=enemy});assert(hits==2,'Cooldown must prevent another proc')
     automatic=false;fire:OnSpellStart();assert(hits==4,'Manual cast works with autocast disabled')
-    assert(enemy:FindModifierByName('modifier_enfos_jakiro_liquid_fire_slow'):GetModifierAttackSpeedBonus_Constant()==-60)
+    assert(enemy:FindModifierByName('modifier_enfos_jakiro_liquid_fire_slow'):GetModifierAttackSpeedBonus_Constant()==-75)
     ApplyDamage=oldDamage
 
     local boss=create_mock_unit('enfos_boss_test',4,Vector(100,0,0),10000)

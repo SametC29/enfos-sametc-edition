@@ -1,33 +1,31 @@
 -- Enfos Team Survival — SametC Edition
--- Evolution Manager (In-match Level 4/7/10/13/16/19 Build Choice Milestones)
+-- Evolution Manager (native Dota talent choices at levels 10/15/20/25)
 -- Server-authoritative build directions per GAME_DESIGN_MASTER.md §15
 
 local Log = require("lib/log")
 local HeroTrees = require("evolution/hero_trees")
 
 local EvolutionManager = {
-	MILESTONE_LEVELS = { 4, 7, 10, 13, 16, 19 },
+	MILESTONE_LEVELS = { 10, 15, 20, 25 },
 	playerStates = {},
 	initialized = false,
 }
+
+local function choiceLevel(choice)
+	return EvolutionManager.MILESTONE_LEVELS[(choice and choice.tier or -1)+1]
+end
 
 
 function EvolutionManager:Init()
 	if self.initialized then return end
 	self.playerStates = {}
 
-	if CustomGameEventManager then
-		CustomGameEventManager:RegisterListener("enfos_select_evolution", function(_, event)
-			self:OnClientSelectEvolution(event)
-		end)
-		CustomGameEventManager:RegisterListener("enfos_defer_evolution", function(_, event)
-			self:OnClientDeferEvolution(event)
-		end)
-	end
-
 	if ListenToGameEvent then
 		ListenToGameEvent("dota_player_gained_level", function(event)
 			self:OnLevelGainedEvent(event)
+		end, nil)
+		ListenToGameEvent("dota_player_learned_ability", function(event)
+			self:OnNativeTalentLearned(event)
 		end, nil)
 	end
 
@@ -38,10 +36,9 @@ end
 function EvolutionManager:GetOrCreatePlayerState(playerId)
 	if not self.playerStates[playerId] then
 		self.playerStates[playerId] = {
-			pendingQueue = {},      -- list of milestone levels [4, 7, ...]
+			pendingQueue = {},      -- native talent levels awaiting a choice [10, 15, 20, 25]
 			chosenHistory = {},     -- map: milestoneLevel -> choiceId
-			isModalOpen = false,
-            deferred = false,
+			grantedTalentPoints = {}, -- one additional point at each native talent level
 		}
 	end
 	return self.playerStates[playerId]
@@ -53,6 +50,7 @@ function EvolutionManager:OnLevelGainedEvent(event)
 	local level = event.level
 	if playerId and level then
 		local hero = PlayerResource and PlayerResource:GetSelectedHeroEntity(playerId)
+		self:GrantTalentPoints(playerId,hero,level)
 		self:CheckHeroMilestones(playerId, hero, level)
 	end
 end
@@ -73,7 +71,6 @@ function EvolutionManager:CheckHeroMilestones(playerId, hero, newLevel)
 
 			if not alreadyChosen and not alreadyQueued then
 				table.insert(state.pendingQueue, mLevel)
-                state.deferred = false
 				Log:Info("evolution_manager", "Queued milestone level %d for player %s (Queue size: %d)",
 					mLevel, tostring(playerId), #state.pendingQueue)
 			end
@@ -83,26 +80,38 @@ function EvolutionManager:CheckHeroMilestones(playerId, hero, newLevel)
 	self:SyncNetTable(playerId)
 end
 
-function EvolutionManager:OnClientSelectEvolution(event)
-	if not event then return end
-	local playerId = event.PlayerID
-	local milestoneLevel = tonumber(event.milestone_level)
-	local choiceId = event.choice_id
-
-	if playerId ~= nil and milestoneLevel and choiceId then
-		self:SelectChoice(playerId, milestoneLevel, choiceId)
-	end
+function EvolutionManager:OnNativeTalentLearned(event)
+	if not event then return false end
+	local playerId=event.PlayerID or event.player_id
+	local talent=event.abilityname or event.ability_name
+	if playerId==nil then return false end
+	if not talent then return false end
+	local choice=HeroTrees:GetTalentChoice(talent)
+	if not choice then return false end
+	local hero=PlayerResource and PlayerResource:GetSelectedHeroEntity(playerId)
+	local level=choiceLevel(choice)
+	if not hero or hero:IsNull() or hero:GetUnitName()~=choice.hero or hero:GetLevel()<level then return false end
+	self:CheckHeroMilestones(playerId,hero,hero:GetLevel())
+	return self:SelectChoice(playerId,level,choice.id)
 end
 
-function EvolutionManager:OnClientDeferEvolution(event)
-	if not event then return end
-	local playerId = event.PlayerID
-	if playerId ~= nil then
-		local state = self:GetOrCreatePlayerState(playerId)
-		state.isModalOpen = false
-        state.deferred = true
-		self:SyncNetTable(playerId)
+-- Native talent choices spend normal Dota ability points. Add one point at
+-- each talent gate so four talent picks fit alongside all 49 paid skill ranks
+-- (the fifth Enfos passive starts at rank one for free).
+function EvolutionManager:GrantTalentPoints(playerId,hero,newLevel)
+	if not hero or hero:IsNull() or not hero.GetAbilityPoints or not hero.SetAbilityPoints then return 0 end
+	newLevel=tonumber(newLevel) or (hero.GetLevel and hero:GetLevel()) or 0
+	local state=self:GetOrCreatePlayerState(playerId)
+	local granted=0
+	for _,level in ipairs(self.MILESTONE_LEVELS) do
+		if newLevel>=level and not state.grantedTalentPoints[level] then
+			hero:SetAbilityPoints(hero:GetAbilityPoints()+1)
+			state.grantedTalentPoints[level]=true
+			granted=granted+1
+			Log:Info("evolution_manager", "Granted the level-%d native talent point to player %s",level,tostring(playerId))
+		end
 	end
+	return granted
 end
 
 function EvolutionManager:SelectChoice(playerId, milestoneLevel, choiceId)
@@ -148,7 +157,6 @@ function EvolutionManager:SelectChoice(playerId, milestoneLevel, choiceId)
 	-- Dequeue and record
 	table.remove(state.pendingQueue, foundIndex)
 	state.chosenHistory[milestoneLevel] = choiceId
-    state.deferred = false
 
 
 	Log:Info("evolution_manager", "Player %s selected %s for milestone %d (Remaining queue: %d)",
@@ -164,14 +172,27 @@ function EvolutionManager:ApplyChoiceBonus(hero, choice)
 end
 
 function EvolutionManager:RestoreHero(playerId, hero)
+    if not hero or (hero.IsNull and hero:IsNull()) then return false end
     local state=self:GetOrCreatePlayerState(playerId)
-    for level,id in pairs(state.chosenHistory) do
-        for _,choice in ipairs(HeroTrees:GetChoices(hero,tonumber(level))) do
-            if choice.id==id then self:ApplyChoiceBonus(hero,choice) end
+    for _,choice in ipairs(HeroTrees:GetAllChoices(hero)) do
+        local talent=hero:FindAbilityByName(choice.talent)
+        if talent and talent:GetLevel()>0 then
+            self:ApplyChoiceBonus(hero,choice)
+            state.chosenHistory[choiceLevel(choice)]=choice.id
         end
     end
-    if hero and hero.GetLevel then self:CheckHeroMilestones(playerId,hero,hero:GetLevel()) end
+    if hero and hero.GetLevel then
+        -- Ability points persist with the hero across restore/reconnect. Rebuild
+        -- these guards before granting so a fresh manager state cannot award
+        -- already-earned level-gate points a second time.
+        for _,level in ipairs(self.MILESTONE_LEVELS) do
+            if hero:GetLevel()>=level then state.grantedTalentPoints[level]=true end
+        end
+        self:GrantTalentPoints(playerId,hero,hero:GetLevel())
+        self:CheckHeroMilestones(playerId,hero,hero:GetLevel())
+    end
     self:SyncNetTable(playerId)
+    return true
 end
 
 function EvolutionManager:SyncNetTable(playerId)
@@ -186,7 +207,7 @@ function EvolutionManager:SyncNetTable(playerId)
 		hero_level = hero and hero.GetLevel and hero:GetLevel() or 0,
         tree = hero and hero.GetUnitName and HeroTrees.choices[hero:GetUnitName()] or {},
         pending_count = #state.pendingQueue,
-        deferred = state.deferred and 1 or 0,
+		deferred = 0,
 		next_milestone = nextMilestone or 0,
 		active_choices = activeChoices or {},
 		chosen_history = state.chosenHistory,

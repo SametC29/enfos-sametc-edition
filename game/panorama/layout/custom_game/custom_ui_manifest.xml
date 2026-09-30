@@ -11,7 +11,6 @@
 		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/ascended_shop.xml" />
 		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/boon_vote.xml" />
 		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/progression.xml" />
-		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/evolution.xml" />
 		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/welcome_guide.xml" />
 		<CustomUIElement type="FlyoutScoreboard" layoutfile="file://{resources}/layout/custom_game/custom_scoreboard.xml" />
 	</Panel>

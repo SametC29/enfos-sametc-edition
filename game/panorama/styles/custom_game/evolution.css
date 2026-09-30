@@ -1,18 +1,25 @@
 .EvolutionRoot { width: 100%; height: 100%; }
-.EvoModal { width: 760px; max-height: 82%; horizontal-align: center; vertical-align: center; padding: 16px; flow-children: down; background-color: #121923fa; border: 1px solid #a28852; box-shadow: #000000bb 0px 3px 14px 0px; }
+.EvoToggle { width: 120px; height: 38px; padding: 4px 8px; background-color: #252a30f5; border: 1px solid #77715e; box-shadow: #00000099 0px 2px 8px 0px; }
+.EvoToggle Label { width: 100%; height: 100%; text-align: center; vertical-align: center; color: #e5d2a0; font-size: 13px; font-weight: bold; }
+.EvoToggle:hover { brightness: 1.35; }
+.EvoToggleHidden { visibility: collapse; }
+.EvoModal { width: 500px; max-width: 100%; max-height: 86%; padding: 22px 18px 12px; flow-children: down; background-image: url("s2r://panorama/images/hud/reborn/statbranch_background_psd.vtex"); background-size: 100% 100%; background-repeat: no-repeat; }
 .EvoModalHidden { visibility: collapse; }
-.EvoTreeHeader { width: 100%; flow-children: right; margin-bottom: 8px; }
-.EvoTreeHeader Label { color: #eed9a6; font-size: 22px; font-weight: bold; width: fill-parent-flow(1); }
-.EvoTreeHeader Button { width: 24px; }
-.EvoTreeHint { color: #a7b4c1; font-size: 13px; margin-bottom: 12px; }
-#EvoTreeRows { flow-children: down; width: 100%; max-height: 680px; overflow: squish scroll; }
-.EvoTier { width: 100%; flow-children: right; margin-bottom: 6px; }
-.EvoLevel { width: 36px; vertical-align: center; font-size: 20px; color: #d8be81; }
-.EvoChoice { width: fill-parent-flow(1); min-width: 0px; height: 68px; margin-left: 6px; padding: 5px; flow-children: right; background-color: #202d3c; border: 1px solid #435363; }
+.EvoTreeHeader { width: 100%; flow-children: right; margin-bottom: 4px; }
+.EvoTreeHeader Label { color: #e1e1e1; font-size: 18px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0px 0px 4px 2.0 #000000; width: fill-parent-flow(1); horizontal-align: center; }
+.EvoTreeHeader Button { width: 24px; height: 24px; }
+.EvoTreeHint { color: #d1c6aa; font-size: 11px; margin-bottom: 5px; text-shadow: 1px 1px 2px 2.0 #000000; }
+#EvoTreeRows { flow-children: down; width: 100%; max-height: 76%; overflow: squish scroll; }
+.EvoTier { width: 100%; min-height: 47px; flow-children: right; margin-bottom: 3px; padding: 2px; background-image: url("s2r://panorama/images/hud/reborn/statbranch_background_description_psd.vtex"); background-size: 100% 100%; background-repeat: no-repeat; }
+.EvoTierCurrent { brightness: 1.25; }
+.EvoTierComplete { saturation: 0.75; }
+.EvoLevel { width: 42px; height: 42px; vertical-align: center; text-align: center; font-size: 17px; color: #e7d291; text-shadow: 0px 0px 3px 3.7 #000000; background-image: url("s2r://panorama/images/hud/reborn/statbranch_levelbg_psd.vtex"); background-size: 100% 100%; background-position: center; background-repeat: no-repeat; }
+.EvoTierCurrent .EvoLevel { color: #ffffff; }
+.EvoChoice { width: fill-parent-flow(1); min-width: 0px; height: 42px; margin-left: 4px; padding: 3px; flow-children: right; background-color: gradient( linear, 0% 0%, 0% 100%, from( #22292f ), to( #0e1011 ) ); border-top: 1px solid #55555577; border-left: 1px solid #49494966; border-bottom: 1px solid #111418; border-right: 1px solid #333940; }
 .EvoChoice:disabled { opacity: 0.5; }
 .EvoChoice.Selected { opacity: 1; border: 2px solid #d5b15e; background-color: #3a3525; }
 .EvoChoice:hover { brightness: 1.4; }
-.EvoChoice DOTAAbilityImage { width: 44px; height: 44px; vertical-align: center; margin-right: 7px; }
+.EvoChoice DOTAAbilityImage { width: 32px; height: 32px; vertical-align: center; margin-right: 5px; }
 .EvoChoiceText { flow-children: down; width: fill-parent-flow(1); vertical-align: center; }
-.EvoChoice Label { color: #eadcbd; font-size: 13px; }
-.EvoChoice .EvoDescription { color: #acbfce; font-size: 12px; }
+.EvoChoice Label { color: #e1e4e7; font-size: 11px; }
+.EvoChoice .EvoDescription { color: #b6c0c9; font-size: 10px; }

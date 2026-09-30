@@ -14,8 +14,10 @@ local function hero(name)
 end
 local count=0
 for name,tree in pairs(T.choices) do
+ if name~='_talents' then
  for level,pair in pairs(tree) do for side,c in ipairs(pair) do
   local h=hero(name);assert(T:Apply(h,c));local m=h.mod;local code=m.stack
+  assert(T:GetTalentChoice(c.talent)==c)
   assert(T:Apply(h,c) and code==m.stack)
   assert(not T:Apply(h,pair[3-side]) and code==m.stack)
   local a={IsNull=function() return false end,GetCaster=function() return h end,GetAbilityName=function() return c.ability end,
@@ -36,21 +38,23 @@ for name,tree in pairs(T.choices) do
   assert(not T:Apply(hero('npc_dota_hero_invalid'),c))
   count=count+1
  end end
- -- Six choices survive repeated restore without doubling their encoded state.
+ -- Four choices survive repeated restore without doubling their encoded state.
  local h=hero(name)
- for _,level in ipairs({4,7,10,13,16,19}) do assert(T:Apply(h,tree[level][2])) end
- assert(h.mod.stack==728)
- for _,level in ipairs({4,7,10,13,16,19}) do assert(T:Apply(h,tree[level][2])) end
- assert(h.mod.stack==728)
-end
-assert(count==480)
--- Flat radius and repeated percentage cooldown choices sum only for the matching skill.
-local s=hero('npc_dota_hero_sven')
-for _,level in ipairs({4,7,10,13,16,19}) do
- for _,c in ipairs(T.choices.npc_dota_hero_sven[level]) do
-  if c.special=='radius' or c.special=='cooldown' then T:Apply(s,c);break end
+ for _,level in ipairs({10,15,20,25}) do assert(T:Apply(h,tree[level][2])) end
+ assert(h.mod.stack==80)
+ for _,level in ipairs({10,15,20,25}) do assert(T:Apply(h,tree[level][2])) end
+ assert(h.mod.stack==80)
  end
 end
-local a={IsNull=function() return false end,GetCaster=function() return s end,GetAbilityName=function() return 'bulwark_shield_slam' end}
-local flat=s.mod:GetBonuses(a,'radius');assert(flat==120)
-print('Hero evolution tests passed: 480 choices, persistence, ownership, duplicates and ability overrides (mock engine).')
+assert(count==320)
+-- Flat radius and repeated percentage cooldown choices sum only for the matching skill.
+local s=hero('npc_dota_hero_sven')
+for _,c in ipairs(T:GetAllChoices(s)) do
+ if c.special=='radius' or c.special=='cooldown' then T:Apply(s,c) end
+end
+local currentAbility='bulwark_shield_slam'
+local a={IsNull=function() return false end,GetCaster=function() return s end,GetAbilityName=function() return currentAbility end}
+local flat=s.mod:GetBonuses(a,'radius');assert(flat==60)
+currentAbility='bulwark_fortress'
+local _,cooldown=s.mod:GetBonuses(a,'cooldown');assert(cooldown==16)
+print('Hero evolution tests passed: 320 choices across four native tiers, persistence, ownership, duplicates and ability overrides (mock engine).')

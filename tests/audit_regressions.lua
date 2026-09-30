@@ -135,7 +135,7 @@ test('gold conversions spend both reliable and unreliable gold via the engine sp
 end)
 test('Juggernaut crit chance can fail and succeeds with configured multiplier',function()
  local a={GetSpecialValueFor=function(_,k) return k=='crit_chance' and 25 or 200 end}
- local p={PassivesDisabled=function() return false end,GetTeamNumber=function() return 2 end}
+ local p={IsNull=function() return false end,PassivesDisabled=function() return false end,GetTeamNumber=function() return 2 end}
  local m=setmetatable({GetParent=function() return p end,GetAbility=function() return a end},{__index=modifier_enfos_pve_crit})
  local e={target={GetTeamNumber=function() return 4 end}}
  RollPercentage=function() return false end;assert(m:GetModifierPreAttack_CriticalStrike(e)==nil)
@@ -143,6 +143,7 @@ test('Juggernaut crit chance can fail and succeeds with configured multiplier',f
 end)
 test('Fiery Soul stack cap and Guardian Angel physical immunity are real properties',function()
  local m=setmetatable({stack=1,GetStackCount=function(self) return self.stack end,SetStackCount=function(self,n) self.stack=n end,
+  GetParent=function() return {PassivesDisabled=function() return false end} end,
   GetAbility=function() return {GetSpecialValueFor=function(_,k) return k=='fiery_soul_max_stacks' and 4 or 30 end} end},{__index=modifier_enfos_pve_fiery_stacks})
  for i=1,20 do m:OnRefresh() end
  assert(m.stack==4 and m:GetModifierAttackSpeedBonus_Constant()==120)

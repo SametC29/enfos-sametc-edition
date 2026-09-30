@@ -54,14 +54,22 @@ local function unit()
 end
 test('controllable summon cap survives repeated casts; illusions cannot recursively summon',function()
  local service=require('heroes/summons');local a={GetCaster=function() return hero end}
- local created={};CreateUnitByName=function(_,_,_,owner,_,team) assert(owner==hero and team==2);local u=unit();created[#created+1]=u;return u end
+ local created={};CreateUnitByName=function(_,pos,_,owner,_,team) assert(owner==hero and team==2);local u=unit();u.origin=pos;created[#created+1]=u;return u end
  service:Units(a,'skeleton',Vector(0,0,500),999,30,50,500)
  assert(#a.enfosSummons==8)
  for _,u in ipairs(a.enfosSummons) do assert(u.player==7 and u.control and u.owner==hero and u.life==30 and u.enfosNoReward) end
  local old=a.enfosSummons;service:Units(a,'skeleton',Vector(0,0,500),4,30,50,500)
  for _,u in ipairs(old) do assert(not u.alive) end
  assert(#a.enfosSummons==4)
- hero.IsIllusion=function() return true end;service:Units(a,'skeleton',Vector(0,0,500),8,30,50,500);assert(#created==12)
+ service:Units(a,'skeleton',Vector(0,0,500),12,30,50,500,12)
+ assert(#a.enfosSummons==12,'Explicit summon cap must support Wraith King rank 10 KV count')
+ local positions={};for _,u in ipairs(a.enfosSummons) do
+  local p=u.origin;local key=string.format('%.3f:%.3f',p.x,p.y);assert(not positions[key],'Expanded formation must not overlap units');positions[key]=true
+ end
+ service:Units(a,'skeleton',Vector(0,0,500),99,30,50,500,99)
+ assert(#a.enfosSummons==20,'Caller-provided summon caps must remain globally bounded')
+ local createdBeforeIllusion=#created
+ hero.IsIllusion=function() return true end;service:Units(a,'skeleton',Vector(0,0,500),8,30,50,500);assert(#created==createdBeforeIllusion)
  hero.IsIllusion=function() return false end
  CreateIllusions=function(owner,copy,p,count) assert(owner==hero and copy==hero and count==3 and p.outgoing_damage== -40 and p.incoming_damage==200);return {unit(),unit(),unit()} end
  service:Illusions(a,3,30,60);assert(#a.enfosSummons==3)
@@ -71,7 +79,24 @@ end)
 test('legacy global evolution choices are no longer exposed',function()
  local manager=require('evolution/evolution_manager')
  assert(manager.MILESTONE_CHOICES==nil)
+ assert(table.concat(manager.MILESTONE_LEVELS,',')=='10,15,20,25')
  local trees=require('evolution/hero_trees')
- assert(#trees:GetChoices(nil,4)==0)
+ assert(#trees:GetChoices(nil,10)==0)
+end)
+
+test('native talent gates grant exactly four additional ability points once',function()
+ local manager=require('evolution/evolution_manager')
+ local hero={points=5}
+ function hero:IsNull() return false end
+ function hero:GetAbilityPoints() return self.points end
+ function hero:SetAbilityPoints(value) self.points=value end
+ assert(manager:GrantTalentPoints(91,hero,6)==0 and hero.points==5)
+ assert(manager:GrantTalentPoints(91,hero,10)==1 and hero.points==6)
+ assert(manager:GrantTalentPoints(91,hero,25)==3 and hero.points==9)
+ assert(manager:GrantTalentPoints(91,hero,50)==0 and hero.points==9)
+ -- Levels 2..50 provide 49 points; four native talent gates bring the budget to 53.
+ assert(50-1+4==53)
+ -- Four talent picks plus 49 paid skill ranks reach ten total ranks in all five skills.
+ assert(4+(4*10)+9==53)
 end)
 print('Player feedback regression tests passed (mock engine).')

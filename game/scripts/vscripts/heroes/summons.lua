@@ -15,12 +15,16 @@ function Summons:Own(ability,unit)
     unit.is_allied_reinforcement=true
     table.insert(ability.enfosSummons,unit)
 end
-function Summons:Units(ability,name,position,count,duration,damage,health)
+function Summons:Units(ability,name,position,count,duration,damage,health,maxUnits)
     local hero=ability:GetCaster()
     if hero:IsIllusion() then return end
     self:Clear(ability)
-    for i=1,math.min(8,math.max(0,count)) do
-        local angle=i*2*math.pi/math.min(8,count)
+    -- Keep the established default cap for ordinary summons. A caller may opt
+    -- into a higher, still bounded cap when its own KV contract requires it.
+    local unitCap=math.max(0,math.min(20,math.floor(maxUnits or 8)))
+    local summonCount=math.min(unitCap,math.max(0,math.floor(count or 0)))
+    for i=1,summonCount do
+        local angle=i*2*math.pi/summonCount
         local pos=position+Vector(math.cos(angle)*140,math.sin(angle)*140,0)
         local unit=CreateUnitByName(name,pos,true,hero,hero,hero:GetTeamNumber())
         if unit then

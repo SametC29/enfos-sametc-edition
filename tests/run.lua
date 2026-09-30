@@ -370,6 +370,7 @@ CreateUnitByName = CreateUnitByName or function(unitName, pos, bFindClearSpace, 
 end
 
 FindUnitsInRadius = FindUnitsInRadius or function() return {} end
+FindUnitsInLine = FindUnitsInLine or function() return {} end
 ApplyDamage = ApplyDamage or function() end
 FindClearSpaceForUnit = FindClearSpaceForUnit or function() end
 CreateModifierThinker = CreateModifierThinker or function() end
@@ -1332,7 +1333,7 @@ end)
 -- =========================================================================
 local EvolutionManager = require("evolution/evolution_manager")
 
-test("evolution manager queues milestones at 4/7/10/13/16/19, supports deferral, and applies build choices", function()
+test("evolution manager queues native talent milestones at 10/15/20/25", function()
     EvolutionManager.initialized = false
     EvolutionManager:Init()
 
@@ -1341,6 +1342,7 @@ test("evolution manager queues milestones at 4/7/10/13/16/19, supports deferral,
         hp = 1000,
         maxMana = 500,
         mana = 500,
+        level = 3,
         str = 20, agi = 20, int = 20,
         GetMaxHealth = function(self) return self.maxHp end,
         SetMaxHealth = function(self, val) self.maxHp = val end,
@@ -1352,7 +1354,7 @@ test("evolution manager queues milestones at 4/7/10/13/16/19, supports deferral,
         ModifyAgility = function(self, val) self.agi = self.agi + val end,
         ModifyIntellect = function(self, val) self.int = self.int + val end,
         GetUnitName = function() return 'npc_dota_hero_sven' end,
-        GetLevel = function() return 19 end,
+        GetLevel = function(self) return self.level end,
         FindModifierByName = function(self) return self.modifier end,
         AddNewModifier = function(self)
             self.modifier={stack=0,GetStackCount=function(m) return m.stack end,SetStackCount=function(m,v) m.stack=v end}
@@ -1362,41 +1364,16 @@ test("evolution manager queues milestones at 4/7/10/13/16/19, supports deferral,
     }
     PlayerResource.heroes[0] = dummyHero
 
-    -- 1. Level up to 3 (no milestone)
-    EvolutionManager:CheckHeroMilestones(0, dummyHero, 3)
-    assert(EvolutionManager:GetPendingCount(0) == 0, "Level 3 should not trigger milestone")
-
-    -- 2. Level up to 4 (triggers Milestone 4)
-    EvolutionManager:CheckHeroMilestones(0, dummyHero, 4)
-    assert(EvolutionManager:GetPendingCount(0) == 1, "Level 4 must queue 1 milestone")
-
-    -- 3. Level up to 7 without choosing 4 (should queue 7 behind 4)
-    EvolutionManager:CheckHeroMilestones(0, dummyHero, 7)
-    assert(EvolutionManager:GetPendingCount(0) == 2, "Level 7 must queue behind 4 (total 2)")
-
-    -- 4. Deferral keeps queue intact
-    EvolutionManager:OnClientDeferEvolution({ PlayerID = 0 })
-    assert(EvolutionManager:GetPendingCount(0) == 2, "Deferral must preserve queue")
-
-    -- 5. Reject invalid choice or wrong milestone
-    local failRes = EvolutionManager:SelectChoice(0, 10, "evo_iron_bulwark")
-    assert(failRes == false, "Must reject non-pending milestone 10")
-
-    -- 6. Select choice for Milestone 4 (Wave Sweeper)
-    local succ4 = EvolutionManager:SelectChoice(0, 4, "evo_sven_4_1")
-    assert(succ4 == true, "Selecting valid choice for milestone 4 must succeed")
-    assert(EvolutionManager:IsMilestoneChosen(0, 4) == true)
-    assert(EvolutionManager:GetPendingCount(0) == 1, "Remaining queue should now be 1 (Milestone 7)")
-
-    -- 7. Select choice for Milestone 7 (Battle Ferocity)
-    local succ7 = EvolutionManager:SelectChoice(0, 7, "evo_sven_7_1")
-    assert(succ7 == true, "Selecting valid choice for milestone 7 must succeed")
-    assert(EvolutionManager:IsMilestoneChosen(0, 7) == true)
-    assert(EvolutionManager:GetPendingCount(0) == 0, "Queue must be empty now")
-
-    -- 8. Level up to 19 directly (milestones 10, 13, 16, 19 queued)
-    EvolutionManager:CheckHeroMilestones(0, dummyHero, 19)
-    assert(EvolutionManager:GetPendingCount(0) == 4, "Milestones 10, 13, 16, 19 must all be queued")
+    EvolutionManager:CheckHeroMilestones(0, dummyHero, 9)
+    assert(EvolutionManager:GetPendingCount(0) == 0, "Level 9 must not queue a native talent")
+    for index, level in ipairs({10, 15, 20, 25}) do
+        dummyHero.level = level
+        EvolutionManager:CheckHeroMilestones(0, dummyHero, level)
+        assert(EvolutionManager:GetPendingCount(0) == index, "Level " .. level .. " must queue one native talent")
+    end
+    dummyHero.level = 50
+    EvolutionManager:CheckHeroMilestones(0, dummyHero, 50)
+    assert(EvolutionManager:GetPendingCount(0) == 4, "No talent choices may be queued above level 25")
 end)
 
 -- =========================================================================

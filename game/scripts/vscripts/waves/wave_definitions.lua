@@ -28,6 +28,8 @@ local UNIT_LEAK_TYPES = {
 	["enfos_creep_healer"] = "normal",
 	["enfos_creep_shieldbearer"] = "normal",
 	["enfos_creep_mindstealer"] = "normal",
+	["enfos_creep_skyraker"] = "normal",
+	["enfos_creep_silencer"] = "normal",
 	["enfos_creep_conqueror"] = "normal",
 	["enfos_creep_assassin"] = "normal",
 	["enfos_creep_summoner"] = "normal",
@@ -102,7 +104,7 @@ local WAVES = {
 		xp_bounty = 95,
 		creeps = {
 			{ unit_name = "enfos_creep_soldier", count_per_player = 2, lane = "both" },
-			{ unit_name = "enfos_creep_archer", count_per_player = 4, lane = "both" },
+			{ unit_name = "enfos_creep_venomous", count_per_player = 4, lane = "both" },
 		},
 	},
 	[3] = {
@@ -115,8 +117,8 @@ local WAVES = {
 		gold_bounty = 80,
 		xp_bounty = 110,
 		creeps = {
-			{ unit_name = "enfos_creep_runner", count_per_player = 3, lane = "both" },
-			{ unit_name = "enfos_creep_soldier", count_per_player = 2, lane = "both" },
+			{ unit_name = "enfos_creep_soldier", count_per_player = 3, lane = "both" },
+			{ unit_name = "enfos_creep_conqueror", count_per_player = 2, lane = "both" },
 		},
 	},
 	[4] = {
@@ -159,7 +161,7 @@ local WAVES = {
 		xp_bounty = 170,
 		creeps = {
 			{ unit_name = "enfos_elite_vanguard", count_per_player = 1, lane = "both", is_elite = true },
-			{ unit_name = "enfos_creep_runner", count_per_player = 3, lane = "both" },
+			{ unit_name = "enfos_creep_skyraker", count_per_player = 3, lane = "both" },
 		},
 	},
 	[7] = {
@@ -186,8 +188,8 @@ local WAVES = {
 		gold_bounty = 125,
 		xp_bounty = 175,
 		creeps = {
-			{ unit_name = "enfos_creep_healer", count_per_player = 1, lane = "both" },
-			{ unit_name = "enfos_creep_soldier", count_per_player = 3, lane = "both" },
+			{ unit_name = "enfos_creep_runner", count_per_player = 1, lane = "both" },
+			{ unit_name = "enfos_creep_shieldbearer", count_per_player = 3, lane = "both" },
 			{ unit_name = "enfos_creep_archer", count_per_player = 2, lane = "both" },
 		},
 	},
@@ -276,7 +278,7 @@ local WAVES = {
 		gold_bounty = 175,
 		xp_bounty = 245,
 		creeps = {
-			{ unit_name = "enfos_creep_conqueror", count_per_player = 2, lane = "both" },
+			{ unit_name = "enfos_creep_mindstealer", count_per_player = 2, lane = "both" },
 			{ unit_name = "enfos_creep_soldier", count_per_player = 3, lane = "both" },
 		},
 	},
@@ -304,8 +306,8 @@ local WAVES = {
 		gold_bounty = 190,
 		xp_bounty = 265,
 		creeps = {
-			{ unit_name = "enfos_creep_soldier", count_per_player = 4, lane = "both" },
-			{ unit_name = "enfos_creep_archer", count_per_player = 3, lane = "both" },
+			{ unit_name = "enfos_creep_bloodbeast", count_per_player = 4, lane = "both" },
+			{ unit_name = "enfos_creep_soldier", count_per_player = 3, lane = "both" },
 		},
 	},
 	[17] = {
@@ -318,7 +320,7 @@ local WAVES = {
 		gold_bounty = 200,
 		xp_bounty = 280,
 		creeps = {
-			{ unit_name = "enfos_creep_shieldbearer", count_per_player = 3, lane = "both" },
+			{ unit_name = "enfos_creep_conqueror", count_per_player = 3, lane = "both" },
 			{ unit_name = "enfos_creep_frostguard", count_per_player = 2, lane = "both" },
 		},
 	},
@@ -347,7 +349,7 @@ local WAVES = {
 		gold_bounty = 215,
 		xp_bounty = 300,
 		creeps = {
-			{ unit_name = "enfos_creep_runner", count_per_player = 3, lane = "both" },
+			{ unit_name = "enfos_creep_assassin", count_per_player = 3, lane = "both" },
 			{ unit_name = "enfos_creep_archer", count_per_player = 3, lane = "both" },
 		},
 	},
@@ -393,8 +395,8 @@ local WAVES = {
 		gold_bounty = 240,
 		xp_bounty = 340,
 		creeps = {
-			{ unit_name = "enfos_creep_spellguard", count_per_player = 3, lane = "both" },
-			{ unit_name = "enfos_creep_archer", count_per_player = 2, lane = "both" },
+			{ unit_name = "enfos_creep_silencer", count_per_player = 3, lane = "both" },
+			{ unit_name = "enfos_creep_spellguard", count_per_player = 2, lane = "both" },
 		},
 	},
 	[23] = {
@@ -423,7 +425,7 @@ local WAVES = {
 		xp_bounty = 410,
 		creeps = {
 			{ unit_name = "enfos_elite_reflector", count_per_player = 1, lane = "both", is_elite = true },
-			{ unit_name = "enfos_creep_reflector", count_per_player = 2, lane = "both" },
+			{ unit_name = "enfos_creep_mindstealer", count_per_player = 2, lane = "both" },
 		},
 	},
 	[25] = {
@@ -451,7 +453,7 @@ local WAVES = {
 		xp_bounty = 385,
 		creeps = {
 			{ unit_name = "enfos_creep_venomous", count_per_player = 4, lane = "both" },
-			{ unit_name = "enfos_creep_soldier", count_per_player = 2, lane = "both" },
+			{ unit_name = "enfos_creep_conqueror", count_per_player = 2, lane = "both" },
 		},
 	},
 	[27] = {
@@ -464,7 +466,7 @@ local WAVES = {
 		gold_bounty = 280,
 		xp_bounty = 400,
 		creeps = {
-			{ unit_name = "enfos_creep_cursecaster", count_per_player = 3, lane = "both" },
+			{ unit_name = "enfos_creep_skyraker", count_per_player = 3, lane = "both" },
 			{ unit_name = "enfos_creep_archer", count_per_player = 2, lane = "both" },
 		},
 	},
@@ -492,7 +494,7 @@ local WAVES = {
 		gold_bounty = 310,
 		xp_bounty = 440,
 		creeps = {
-			{ unit_name = "enfos_creep_runner", count_per_player = 3, lane = "both" },
+			{ unit_name = "enfos_creep_venomous", count_per_player = 3, lane = "both" },
 			{ unit_name = "enfos_creep_shieldbearer", count_per_player = 3, lane = "both" },
 		},
 	},
@@ -525,7 +527,7 @@ local WAVES = {
 		xp_bounty = 460,
 		creeps = {
 			{ unit_name = "enfos_creep_assassin", count_per_player = 2, lane = "both" },
-			{ unit_name = "enfos_creep_runner", count_per_player = 3, lane = "both" },
+			{ unit_name = "enfos_creep_frostguard", count_per_player = 3, lane = "both" },
 		},
 	},
 	[32] = {
@@ -553,7 +555,7 @@ local WAVES = {
 		xp_bounty = 500,
 		creeps = {
 			{ unit_name = "enfos_creep_shieldbearer", count_per_player = 3, lane = "both" },
-			{ unit_name = "enfos_creep_healer", count_per_player = 2, lane = "both" },
+			{ unit_name = "enfos_creep_splitter", count_per_player = 2, lane = "both" },
 		},
 	},
 	[34] = {
@@ -609,8 +611,8 @@ local WAVES = {
 		gold_bounty = 390,
 		xp_bounty = 550,
 		creeps = {
-			{ unit_name = "enfos_creep_soldier", count_per_player = 4, lane = "both" },
-			{ unit_name = "enfos_creep_archer", count_per_player = 3, lane = "both" },
+			{ unit_name = "enfos_creep_exploder", count_per_player = 4, lane = "both" },
+			{ unit_name = "enfos_creep_healer", count_per_player = 3, lane = "both" },
 		},
 	},
 	[38] = {
@@ -624,7 +626,7 @@ local WAVES = {
 		xp_bounty = 575,
 		creeps = {
 			{ unit_name = "enfos_creep_conqueror", count_per_player = 2, lane = "both" },
-			{ unit_name = "enfos_creep_runner", count_per_player = 3, lane = "both" },
+			{ unit_name = "enfos_creep_exploder", count_per_player = 3, lane = "both" },
 		},
 	},
 	[39] = {
@@ -638,7 +640,7 @@ local WAVES = {
 		xp_bounty = 600,
 		creeps = {
 			{ unit_name = "enfos_creep_reflector", count_per_player = 3, lane = "both" },
-			{ unit_name = "enfos_creep_mindstealer", count_per_player = 3, lane = "both" },
+			{ unit_name = "enfos_creep_healer", count_per_player = 3, lane = "both" },
 		},
 	},
 	[40] = {
@@ -699,7 +701,7 @@ local WAVES = {
 		gold_bounty = 460,
 		xp_bounty = 660,
 		creeps = {
-			{ unit_name = "enfos_creep_runner", count_per_player = 3, lane = "both" },
+			{ unit_name = "enfos_creep_silencer", count_per_player = 3, lane = "both" },
 			{ unit_name = "enfos_creep_frostguard", count_per_player = 3, lane = "both" },
 		},
 	},
@@ -741,8 +743,8 @@ local WAVES = {
 		gold_bounty = 500,
 		xp_bounty = 720,
 		creeps = {
-			{ unit_name = "enfos_creep_soldier", count_per_player = 4, lane = "both" },
-			{ unit_name = "enfos_creep_archer", count_per_player = 4, lane = "both" },
+			{ unit_name = "enfos_creep_assassin", count_per_player = 4, lane = "both" },
+			{ unit_name = "enfos_creep_conqueror", count_per_player = 4, lane = "both" },
 		},
 	},
 	[47] = {
@@ -785,7 +787,7 @@ local WAVES = {
 		gold_bounty = 540,
 		xp_bounty = 780,
 		creeps = {
-			{ unit_name = "enfos_creep_runner", count_per_player = 3, lane = "both" },
+			{ unit_name = "enfos_creep_cursecaster", count_per_player = 3, lane = "both" },
 			{ unit_name = "enfos_creep_mindstealer", count_per_player = 2, lane = "both" },
 			{ unit_name = "enfos_creep_shieldbearer", count_per_player = 2, lane = "both" },
 		},
@@ -819,7 +821,7 @@ local WAVES = {
 		xp_bounty = 820,
 		creeps = {
 			{ unit_name = "enfos_creep_assassin", count_per_player = 3, lane = "both" },
-			{ unit_name = "enfos_creep_runner", count_per_player = 3, lane = "both" },
+			{ unit_name = "enfos_creep_healer", count_per_player = 3, lane = "both" },
 		},
 	},
 	[52] = {
@@ -890,8 +892,8 @@ local WAVES = {
 		gold_bounty = 640,
 		xp_bounty = 920,
 		creeps = {
-			{ unit_name = "enfos_creep_soldier", count_per_player = 4, lane = "both" },
-			{ unit_name = "enfos_creep_runner", count_per_player = 3, lane = "both" },
+			{ unit_name = "enfos_creep_frostguard", count_per_player = 4, lane = "both" },
+			{ unit_name = "enfos_creep_bloodbeast", count_per_player = 3, lane = "both" },
 		},
 	},
 	[57] = {
@@ -918,7 +920,7 @@ local WAVES = {
 		gold_bounty = 680,
 		xp_bounty = 980,
 		creeps = {
-			{ unit_name = "enfos_creep_runner", count_per_player = 2, lane = "both" },
+			{ unit_name = "enfos_creep_spellguard", count_per_player = 2, lane = "both" },
 			{ unit_name = "enfos_creep_assassin", count_per_player = 2, lane = "both" },
 			{ unit_name = "enfos_creep_mindstealer", count_per_player = 2, lane = "both" },
 			{ unit_name = "enfos_creep_healer", count_per_player = 1, lane = "both" },
@@ -988,7 +990,7 @@ end
 -- Threat cost is retained for audits; it no longer reduces scheduled unit counts.
 function WaveDefinitions:GetThreatCost(name)
 	if name:find("enfos_elite_", 1, true) then return 2.5 end
-	if name:find("summoner", 1, true) or name:find("cursecaster", 1, true) then return 2.5 end
+	if name:find("summoner", 1, true) or name:find("cursecaster", 1, true) or name:find("skyraker", 1, true) or name:find("silencer", 1, true) or name:find("conqueror", 1, true) then return 2.5 end
 	if name:find("healer", 1, true) or name:find("shieldbearer", 1, true)
 		or name:find("spellguard", 1, true) or name:find("reflector", 1, true) then return 2 end
 	if name == "enfos_creep_soldier" or name == "enfos_creep_archer" then return 1 end
@@ -1006,6 +1008,9 @@ function WaveDefinitions:GetDuration(waveNumber)
 end
 function WaveDefinitions:GetSpawnPlan(waveNumber, players)
     local wave = assert(self:GetWave(waveNumber), "Unknown wave")
+    if self:IsBossWave(waveNumber) then
+        return {{unit_name=wave.boss_name,lane="center",count=players > 0 and 1 or 0,cost=1}}, players > 0 and 1 or 0, players > 0 and 1 or 0
+    end
     local plan, totalWeight, spent = {}, 0, 0
     local budget = self:GetScheduledCount(waveNumber, players)
     for _, entry in ipairs(wave.creeps) do totalWeight = totalWeight + entry.count_per_player end

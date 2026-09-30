@@ -2,10 +2,20 @@
 -- Engine special overrides keep client tooltips and server ability logic in agreement.
 local Trees={choices=require('evolution/hero_choices')}
 LinkLuaModifier('modifier_enfos_hero_evolution','evolution/hero_trees',LUA_MODIFIER_MOTION_NONE)
-local levels={4,7,10,13,16,19}
+local levels={10,15,20,25}
 function Trees:GetChoices(hero,level)
     local name=hero and hero.GetUnitName and hero:GetUnitName()
     return (self.choices[name] or {})[level] or {}
+end
+function Trees:GetTalentChoice(talent)
+    return self.choices._talents and self.choices._talents[talent] or nil
+end
+function Trees:GetAllChoices(hero)
+    local result={}
+    for _,level in ipairs(levels) do
+        for _,choice in ipairs(self:GetChoices(hero,level)) do result[#result+1]=choice end
+    end
+    return result
 end
 function Trees:Apply(hero,choice)
     if not hero or hero:IsNull() or not hero.GetUnitName or hero:GetUnitName()~=choice.hero then return false end

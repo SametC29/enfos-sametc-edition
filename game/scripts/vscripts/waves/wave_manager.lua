@@ -212,7 +212,7 @@ function WaveManager:StartPreparation(customDuration)
 end
 
 --------------------------------------------------------------------------------
--- Boss Incoming Transition (Clean Battlefield Rule)
+-- Boss Incoming Transition
 -- Reference: docs/GAME_DESIGN_MASTER.md § 3
 --------------------------------------------------------------------------------
 function WaveManager:StartBossIncoming()
@@ -233,26 +233,8 @@ function WaveManager:StartBossIncoming()
 		boss_name = waveDef and waveDef.boss_name or "",
 	})
 
-	-- Clean battlefield rule: resolve any remaining leakable units once
-	for _, team in ipairs({ DOTA_TEAM_GOODGUYS or 2, DOTA_TEAM_BADGUYS or 3 }) do
-		local creeps = self.activeCreeps[team]
-		if creeps then
-			for entIndex, creep in pairs(creeps) do
-				if creep and not creep:IsNull() and creep:IsAlive() then
-					creep.enfosLeaked = true
-					local leakPenalty = WaveDefinitions:GetLeakPenalty(creep:GetUnitName())
-					if leakPenalty > 0 then
-						-- Apply standard leak penalty
-						LifeCore:ApplyDamage(team, leakPenalty, "boss_transition_cleanup", creep:GetUnitName())
-					end
-					creep:ForceKill(false)
-					UTIL_Remove(creep)
-				end
-			end
-		end
-		self.activeCreeps[team] = {}
-	end
-
+	-- Previous waves remain on the field. Scheduled hostiles only cost Life
+	-- after they physically reach the Core leak trigger.
 	self:SyncNetTable()
 end
 
@@ -474,17 +456,8 @@ end
 
 function WaveManager:AdvanceScheduledWave()
     self.pendingBatches = {}
-    -- Bosses never carry over into a normal wave. Unfinished Boss = one leak.
-    if WaveDefinitions:IsBossWave(self.currentWave) then
-        for team, units in pairs(self.activeCreeps) do
-            for _,unit in pairs(units) do
-                if unit and not unit:IsNull() and unit:IsAlive() then
-                    LifeCore:ProcessLeak(unit,team)
-                end
-            end
-        end
-    end
-    if LifeCore.isGameOver then return end
+    -- A wave deadline advances scheduling only; living units stay active and
+    -- are charged Life only by the physical Core leak callback.
     if WaveDefinitions:IsBossWave(self.currentWave+1) then self:StartBossIncoming()
     else self:StartWave(self.currentWave+1) end
 end

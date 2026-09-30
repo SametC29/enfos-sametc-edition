@@ -191,12 +191,24 @@ function AghanimManager:OnShardAcquired(hero, role)
 			})
 		end)
 	end
+	if hero.GetUnitName and hero:GetUnitName() == "npc_dota_hero_witch_doctor" then
+		local ability = hero.FindAbilityByName and hero:FindAbilityByName("enfos_wd_voodoo_switcheroo")
+		if not ability and hero.AddAbility then ability = hero:AddAbility("enfos_wd_voodoo_switcheroo") end
+		if ability then
+			if ability.SetLevel then ability:SetLevel(1) end
+			if ability.SetHidden then ability:SetHidden(false) end
+			if ability.SetActivated then ability:SetActivated(true) end
+		end
+	end
 end
 
 function AghanimManager:OnShardLost(hero)
 	Log:Info("aghanim_manager", "Aghanim's Shard removed from hero.")
 	if hero.RemoveModifierByName then
 		hero:RemoveModifierByName("modifier_enfos_shard_upgrade")
+	end
+	if hero.GetUnitName and hero:GetUnitName() == "npc_dota_hero_witch_doctor" then
+		if hero.RemoveAbility then hero:RemoveAbility("enfos_wd_voodoo_switcheroo") end
 	end
 end
 

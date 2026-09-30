@@ -5,11 +5,12 @@
 -- 1. Boss base modifier: CC reduction (max 1.5s stun), reflect cap (150 max),
 --    and %-HP damage cap (max 4% max HP per instance).
 -- 2. Ground telegraph system: readable delay and visual warning before heavy spells.
--- 3. Boss-only wave transition and battlefield cleanup.
--- 4. Concrete behaviors for first 3 Bosses:
+-- 3. Boss-only wave transition while prior scheduled creeps remain active.
+-- 4. Concrete signature behaviors for all 12 Bosses:
 --    - Stonebreaker (Wave 5): Ground Slam telegraph + Low-HP Enrage phase.
 --    - Brood Matron (Wave 10): Toxic Spit telegraph + Capped spiderling add spawns.
 --    - Bloodfang Alpha (Wave 15): Alpha Pounce telegraph + Lifesteal / Blood Frenzy.
+--    - Later Bosses each mark a distinct control, positioning, resource, or hazard check.
 -- Reference: docs/GAME_DESIGN_MASTER.md § 10, docs/QA_BALANCE_RELEASE.md § 7
 --------------------------------------------------------------------------------
 
@@ -83,6 +84,24 @@ function BossFramework:RegisterBoss(unit, bossName, waveNumber, playerCount)
 	Log:Info("boss_framework", "Registered Boss '%s' for Wave %d (Players: %d)", bossName, waveNumber, playerCount or 1)
 end
 
+-- Advance phase as soon as damage reaches the current floor. The think loop
+-- remains a fallback, but relying on it alone can leave a boss permanently
+-- clamped at its phase minimum if its context think stops or errors.
+function BossFramework:AdvancePhaseIfNeeded(unit)
+	if not unit or unit:IsNull() or not unit:IsAlive() then return false end
+	local state = unit.bossState
+	if not state then return false end
+	local boundary = state.phase == 1 and 0.70 or (state.phase == 2 and 0.35 or 0)
+	if boundary <= 0 or unit:GetHealth() > math.ceil(unit:GetMaxHealth() * boundary) then return false end
+
+	state.phase = state.phase + 1
+	state.abilityTimer = 2.5
+	unit:AddNewModifier(unit, nil, "modifier_enfos_boss_phase_guard", { duration = 2 })
+	unit:EmitSound("Hero_Sven.WarCry")
+	Log:Info("boss_framework", "Boss phase: wave=%d phase=%d", state.wave, state.phase)
+	return true
+end
+
 --------------------------------------------------------------------------------
 -- Boss Thinker Loop
 --------------------------------------------------------------------------------
@@ -99,14 +118,7 @@ function BossFramework:OnBossThink(unit)
 	local state = unit.bossState
 	if not state then return nil end
 
-	local boundary = state.phase == 1 and 0.70 or (state.phase == 2 and 0.35 or 0)
-    if boundary > 0 and unit:GetHealth() <= math.ceil(unit:GetMaxHealth()*boundary) then
-        state.phase = state.phase + 1
-        state.abilityTimer = 2.5
-        unit:AddNewModifier(unit,nil,"modifier_enfos_boss_phase_guard",{duration=2})
-        unit:EmitSound("Hero_Sven.WarCry")
-        Log:Info("boss_framework","Boss phase: wave=%d phase=%d",state.wave,state.phase)
-    end
+	self:AdvancePhaseIfNeeded(unit)
     state.abilityTimer = (state.abilityTimer or 0) - 0.5
 
 	-- Dispatch to specific Boss behavior
@@ -117,7 +129,7 @@ function BossFramework:OnBossThink(unit)
 	elseif state.name == "enfos_boss_bloodfang_alpha" then
 		self:ThinkBloodfangAlpha(unit, state)
     else
-        self:ThinkPhasedBoss(unit,state)
+        self:ThinkSignatureBoss(unit,state)
 	end
 
 	return 0.5
@@ -333,33 +345,146 @@ end
 -- MODIFIERS
 --------------------------------------------------------------------------------
 
--- All later bosses use a bounded, dodgeable multi-zone phase pattern.
-function BossFramework:ThinkPhasedBoss(unit,state)
-    if state.abilityTimer > 0 then return end
-    state.abilityTimer = 10 - state.phase
-    local heroes = FindUnitsInRadius(unit:GetTeamNumber(),unit:GetAbsOrigin(),nil,1600,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,DOTA_UNIT_TARGET_HERO,DOTA_UNIT_TARGET_FLAG_NONE,FIND_CLOSEST,false)
-    local marked=0
-    for _,hero in ipairs(heroes) do
-        if hero:GetTeamNumber()==unit.defendingTeam and not hero:IsIllusion() then
-            local position=hero:GetAbsOrigin()
-            marked=marked+1
-            self:CreateTelegraph(position,280,1.8,function(pos,radius)
-                if unit:IsNull() or not unit:IsAlive() then return end
-                unit:EmitSound("Hero_Centaur.HoofStomp")
-                local targets=FindUnitsInRadius(unit:GetTeamNumber(),pos,nil,radius,
-                    DOTA_UNIT_TARGET_TEAM_ENEMY,DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_BASIC,
-                    DOTA_UNIT_TARGET_FLAG_NONE,FIND_ANY_ORDER,false)
-                for _,target in ipairs(targets) do
-                    if target:GetTeamNumber()==unit.defendingTeam then
-                        ApplyDamage({victim=target,attacker=unit,damage=unit:GetBaseDamageMax(),damage_type=DAMAGE_TYPE_MAGICAL})
-                        target:AddNewModifier(unit,nil,"modifier_enfos_boss_toxic_slow",{duration=2})
-                    end
-                end
-            end)
-            if marked >= state.phase then break end
-        end
-    end
+local function BossTargets(unit, position, radius, order)
+	local candidates = FindUnitsInRadius(unit:GetTeamNumber(), position, nil, radius,
+		DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO,
+		DOTA_UNIT_TARGET_FLAG_NONE, order or FIND_ANY_ORDER, false)
+	local targets = {}
+	for _, target in ipairs(candidates) do
+		if target and not target:IsNull() and target:IsAlive()
+			and target:GetTeamNumber() == unit.defendingTeam and not target:IsIllusion() then
+			table.insert(targets, target)
+		end
+	end
+	return targets
+end
+
+local function BossDamage(unit, multiplier)
+	return math.max(180, (unit:GetBaseDamageMax() or 150) * multiplier)
+end
+
+function BossFramework:ResolveBossStrike(unit, position, radius, damage, damageType, onHit)
+	if not unit or unit:IsNull() or not unit:IsAlive() then return end
+	local targets = BossTargets(unit, position, radius)
+	for _, target in ipairs(targets) do
+		ApplyDamage({ victim = target, attacker = unit, damage = damage, damage_type = damageType })
+		if onHit then onHit(target) end
+	end
+end
+
+-- Bosses 4–12 have separate signatures. Each attack marks its danger area before
+-- resolving, while each identity tests a different team response.
+function BossFramework:ThinkSignatureBoss(unit, state)
+	if state.abilityTimer > 0 then return end
+	local name = state.name
+	local origin = unit:GetAbsOrigin()
+	local damage = BossDamage(unit, 1.25 + 0.15 * (state.phase - 1))
+
+	if name == "enfos_boss_frost_warden" then
+		state.abilityTimer = 9
+		local targets = BossTargets(unit, origin, 1000, FIND_CLOSEST)
+		if #targets == 0 then return end
+		local pos = targets[1]:GetAbsOrigin()
+		self:CreateTelegraph(pos, 390, 1.5, function(mark, radius)
+			self:ResolveBossStrike(unit, mark, radius, damage, DAMAGE_TYPE_MAGICAL, function(target)
+				target:AddNewModifier(unit, nil, "modifier_enfos_boss_toxic_slow", { duration = 3.0 })
+			end)
+		end)
+	elseif name == "enfos_boss_mind_devourer" then
+		state.abilityTimer = 10
+		local targets = BossTargets(unit, origin, 1100)
+		local target, lowestMana
+		for _, hero in ipairs(targets) do
+			if not lowestMana or hero:GetMana() < lowestMana then target, lowestMana = hero, hero:GetMana() end
+		end
+		if not target then return end
+		local pos = target:GetAbsOrigin()
+		self:CreateTelegraph(pos, 310, 1.35, function(mark, radius)
+			self:ResolveBossStrike(unit, mark, radius, damage, DAMAGE_TYPE_MAGICAL, function(victim)
+				local drained = math.min(victim:GetMana(), 90 + 30 * state.phase)
+				if drained > 0 then victim:SpendMana(drained, unit) end
+			end)
+		end)
+	elseif name == "enfos_boss_iron_colossus" then
+		state.abilityTimer = 11
+		self:CreateTelegraph(origin, 430 + 70 * state.phase, 1.8, function(mark, radius)
+			self:ResolveBossStrike(unit, mark, radius, damage * 1.2, DAMAGE_TYPE_PHYSICAL, function(target)
+				target:AddNewModifier(unit, nil, "modifier_stunned", { duration = 0.75 })
+				local direction = (target:GetAbsOrigin() - mark):Normalized()
+				FindClearSpaceForUnit(target, target:GetAbsOrigin() + direction * 250, true)
+			end)
+		end)
+	elseif name == "enfos_boss_gravecaller" then
+		state.abilityTimer = 13
+		local summon = unit:FindAbilityByName("enfos_creep_summoner_raise")
+		if summon and summon:IsCooldownReady() then unit:CastAbilityNoTarget(summon, -1) end
+		self:CreateTelegraph(origin, 500, 1.25, function(mark, radius)
+			self:ResolveBossStrike(unit, mark, radius, damage * 0.85, DAMAGE_TYPE_MAGICAL, function(target)
+				target:AddNewModifier(unit, nil, "modifier_enfos_boss_toxic_slow", { duration = 1.5 })
+			end)
+		end)
+	elseif name == "enfos_boss_storm_tyrant" then
+		state.abilityTimer = 8
+		local targets = BossTargets(unit, origin, 1300, FIND_CLOSEST)
+		for i = 1, math.min(#targets, state.phase + 1) do
+			local pos = targets[i]:GetAbsOrigin()
+			self:CreateTelegraph(pos, 270, 1.1, function(mark, radius)
+				self:ResolveBossStrike(unit, mark, radius, damage * 0.8, DAMAGE_TYPE_MAGICAL, function(target)
+					target:AddNewModifier(unit, nil, "modifier_stunned", { duration = 0.45 })
+				end)
+			end)
+		end
+	elseif name == "enfos_boss_shadow_huntress" then
+		state.abilityTimer = 9
+		local targets = BossTargets(unit, origin, 1400, FIND_FARTHEST)
+		for i = 1, math.min(#targets, state.phase) do
+			local pos = targets[i]:GetAbsOrigin()
+			self:CreateTelegraph(pos, 235, 1.25, function(mark, radius)
+				self:ResolveBossStrike(unit, mark, radius, damage * 1.05, DAMAGE_TYPE_PHYSICAL, function(target)
+					target:AddNewModifier(unit, nil, "modifier_enfos_boss_hemorrhage", { duration = 4.0 })
+				end)
+			end)
+		end
+	elseif name == "enfos_boss_plague_behemoth" then
+		state.abilityTimer = 10
+		local targets = BossTargets(unit, origin, 1000)
+		if #targets == 0 then return end
+		local pos = targets[1]:GetAbsOrigin()
+		self:CreateTelegraph(pos, 360, 1.4, function(mark, radius)
+			self:ResolveBossStrike(unit, mark, radius, damage, DAMAGE_TYPE_MAGICAL, function(target)
+				target:AddNewModifier(unit, nil, "modifier_enfos_boss_hemorrhage", { duration = 6.0 })
+			end)
+		end)
+	elseif name == "enfos_boss_rift_lord" then
+		state.abilityTimer = 11
+		self:CreateTelegraph(origin, 700, 1.6, function(mark, radius)
+			if not unit or unit:IsNull() or not unit:IsAlive() then return end
+			local targets = BossTargets(unit, mark, radius)
+			for _, target in ipairs(targets) do
+				local offset = (target:GetAbsOrigin() - mark):Normalized() * 180
+				FindClearSpaceForUnit(target, mark + offset, true)
+				ApplyDamage({ victim = target, attacker = unit, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL })
+				target:AddNewModifier(unit, nil, "modifier_stunned", { duration = 0.6 })
+			end
+		end)
+	elseif name == "enfos_boss_ascendant_gatekeeper" then
+		state.abilityTimer = 12
+		for ring = 1, 3 do
+			local inner = (ring - 1) * 240
+			local outer = ring * 240
+			local ringInner, ringOuter, ringIndex = inner, outer, ring
+			self:CreateTelegraph(origin, ringOuter, 1.0 + ring * 0.3, function(mark)
+				if not unit or unit:IsNull() or not unit:IsAlive() then return end
+				local targets = BossTargets(unit, mark, ringOuter)
+				for _, target in ipairs(targets) do
+					local distance = (target:GetAbsOrigin() - mark):Length2D()
+					if distance > ringInner and distance <= ringOuter then
+						ApplyDamage({ victim = target, attacker = unit, damage = damage * (0.7 + 0.15 * ringIndex), damage_type = DAMAGE_TYPE_MAGICAL })
+					end
+				end
+			end)
+		end
+	end
 end
 
 modifier_enfos_boss_phase_guard=class({})
@@ -379,7 +504,14 @@ function modifier_enfos_boss_base:DeclareFunctions()
 		MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING,
 		MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK,
         MODIFIER_PROPERTY_MIN_HEALTH,
+		MODIFIER_EVENT_ON_TAKEDAMAGE,
 	}
+end
+
+function modifier_enfos_boss_base:OnTakeDamage(event)
+	if IsServer and not IsServer() then return end
+	if not event or event.unit ~= self:GetParent() then return end
+	BossFramework:AdvancePhaseIfNeeded(self:GetParent())
 end
 
 function modifier_enfos_boss_base:GetMinHealth()

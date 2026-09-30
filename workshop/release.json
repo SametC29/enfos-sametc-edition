@@ -1,9 +1,9 @@
 {
   "appid": "570",
   "publishedfileid": "3809160125",
-  "version": "1.0.2",
-  "title": "Enfos Team Survival - SametC Edition V1.0.2",
-  "changenote": "V1.0.2 - HUD/Sven repair update: engine-integrated scoreboard with earned-gold tracking, visible six-tier talent tree, minimap-docked Spellbringer, elapsed/next-wave clocks, and Sven Warcry/barrier/taunt and Aghanim corrections. Automated regressions and Panorama compilation passed. Final gameplay verification is pending the author test.",
+  "version": "1.0.5",
+  "title": "Enfos Team Survival - SametC Edition V1.0.5",
+  "changenote": "V1.0.5 - Boss phase health floors now advance immediately when damage reaches the threshold, preventing the Wave 5 boss from remaining stuck at 70% HP. Lobby configuration is restricted to the host. Automated checks passed; in-game verification remains pending.",
   "visibility": "0",
   "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3809160125"
 }

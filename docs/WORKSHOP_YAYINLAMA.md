@@ -1,11 +1,35 @@
 # Steam Workshop — ilk yayın ve güncellemeler
 
-Durum (2026-09-27): **V1.0.1 yüklemesi kabul edildi; indirme doğrulaması bekliyor.**
-Workshop ID: **3809160125**. Custom Game etiketi, Public görünürlüğü, yeni başlık,
-manifest ve boyut anonim Steam API'sinden doğrulandı. SteamCMD indirmesi hâlâ önceki
-V1.0.0 paketini döndürüyor; yeni dosyaların dağıtımı henüz doğrulanmış sayılmıyor.
-Oyun kodu temel sürümü: `6eec7db`. Kullanıcı yerel düzeltmeyi kabul etti ve yayını istedi.
-Yayın hazırlığı oyun kodunu değiştirmedi. Aşağıdaki V1.0.0 kayıtları tarihsel kanıttır.
+Durum (2026-09-30): **V1.0.5 SteamCMD gönderimi başarılı ve Workshop araması yeni başlığı gösteriyor; bağımsız indirme henüz V1.0.4 paketini veriyor. Yeni boss düzeltmesinin oyunculara ulaştığı doğrulanmadı.**
+Workshop ID: **3809160125**. Workshop araması başlığı V1.0.4 gösteriyor ve SteamCMD
+`Committing update...Success` verdi. Yükleme günlüğü yeni içerik manifesti
+`8279123130043297897` diyor. Buna karşın temiz, ayrı bir SteamCMD indirmesi 25.631.479
+baytlık eski paketi ve manifest `7445992684088480157`'yi döndürdü; indirilen VPK SHA-256'sı
+`7e6c5e7d1a2149c2e32fd690a29074bce0130760713593a557a8d4880b2d0a87` olup V1.0.3 ile
+eşleşiyor. Aday V1.0.4 VPK'sı 25.647.892 bayt ve SHA-256'sı
+`8fe4b012dac866db72f9ad34b50c8947707ba8be50471472c983fd9991029c54`; temiz indirmeyle
+eşleşmiyor. Bu nedenle yeni içeriğin oyunculara ulaştığı doğrulanmadı.
+
+Steam'in herkese açık dosya ayrıntıları API'si de V1.0.4 başlığını, 25.667.980 bayt
+dosya boyutunu ve 2026-09-30 17:45:54 İstanbul güncelleme zamanını gösteriyor; bu
+yeni yüklemenin Steam tarafından alındığını doğruluyor. Temiz indirmedeki eski manifest
+ise yayımlanan içeriğin hâlâ önceki onaylı sürüm olabileceğini gösteriyor. Steam Support,
+belirli topluluk merkezlerinde güncellemelerin moderasyon kuyruğunda tutulabildiğini ve
+bu sırada abonelerin önceki onaylı sürümü aldığını belirtiyor. Bu öğenin inceleme durumu
+Steam hesabındaki öğe sayfasından/Steam bildirim e-postasından teyit edilmeli.
+
+Steam Support, bazı topluluk merkezlerinde yeni/güncellenmiş UGC'nin inceleme kuyruğunda
+kalabildiğini ve onaylanana kadar abonelerin önceki sürümü alacağını belirtiyor
+([Steam UGC approval](https://help.steampowered.com/en/wizard/HelpWithUGCSubmission/)).
+Bu durum bu öğe için henüz doğrulanmadı; içerik indirimi eski kaldığı sürece V1.0.4 teslim
+edildi denmemeli. Aday arşivin statik doğrulaması geçti; oyun içi görsel ve davranış kabulü
+kullanıcı testini bekliyor.
+
+V1.0.4 adayı hazırlandı ve mevcut öğeye yükleme için gönderildi; 111 paket girdisi, 25.647.892 bayt VPK ve
+SHA-256 `8fe4b012dac866db72f9ad34b50c8947707ba8be50471472c983fd9991029c54`.
+Bağımsız VPK doğrulaması ve korumalı harita girdilerinin hash kontrolü geçti. Temiz
+indirilen Workshop kopyası adayla eşleşmiyor. Dosya `release/workshop-candidate-v1.0.4/`
+altında duruyor; Talent HUD düzeltmelerinin oyun içi kabulü kullanıcı testini bekliyor.
 
 Kullanıcı Steam Workshop'ta herkese açık yayını ve sonraki güncellemeleri istedi.
 GitHub'a gönderim için önceki yalnızca yerel commit tercihi devam ediyor.
@@ -133,12 +157,49 @@ yerel harita çalışmasına izni, referans harita yazarından alınmış bir ye
 lisansı belgesi değildir. Yayıncı hak sahipliği beyanı isterse bunu otomatik onaylamayın;
 mevcut izin/lisans kaydına göre değerlendirin.
 
-## Yayın bekletme — 2026-09-28
+## Yayın bekletme — 2026-09-28 (V1.0.3 için geçersiz kılındı)
 
 Kullanıcı bundan sonraki canlı yayınları kendisi söyleyene kadar erteledi.
-Yerel geliştirme ve kontroller devam edebilir; yeni yükleme, yeniden yükleme veya
-canlı geri dönüş için yeniden açık talimat gerekir. Genel önceki yayın izni bu
-bekletmeyi geçersiz kılmaz.
+2026-09-30'da kullanıcı V1.0.3'ün mevcut Workshop kaydına yüklenmesini açıkça istedi;
+bu talimat yalnız V1.0.3 yüklemesini kapsar. Gelecek sürümler için yeniden açık talimat gerekir.
+
+## V1.0.5 gönderim kaydı — 2026-09-30
+
+- Kullanıcı, Wave 5 bossunun %70 can eşiğinde (gözlenen 2.800 HP) kalmasını düzelten
+  faz geçişinin aynı herkese açık öğeye gönderilmesini yeniden açıkça onayladı.
+- Aynı Workshop ID `3809160125` ve Public görünürlük korundu. V1.0.5 paketi 111 girdi,
+  25.663.055 bayt VPK; SHA-256 `2a2d62580cadcc97e22724dceac26f7cefe9e3f2937f817210b4ceea6f115f7a`.
+  Paket boss Lua'sının kaynak SHA-256'sını manifestte doğruluyor.
+- Tam statik kontroller, harita bütünlüğü ve runtime mock regresyonları geçti.
+  Gerçek Dota içi boss testi yapılmadı.
+- SteamCMD kayıt `3809160125` için `Committing update...Success` döndürdü. Workshop araması
+  `Enfos Team Survival - SametC Edition V1.0.5` başlığını gösteriyor.
+- SteamCMD üzerinden yapılan bağımsız indirme 25.647.892 baytlık eski V1.0.4 VPK'sını
+  (`8fe4b012dac866db72f9ad34b50c8947707ba8be50471472c983fd9991029c54`) döndürdü;
+  yeni adayla eşleşmiyor. Yeni dosyanın abonelere ulaştığı doğrulanana kadar V1.0.5
+  gönderilmiş kabul edilir, teslim edilmiş kabul edilmez.
+
+## V1.0.3 gönderim kaydı — 2026-09-30
+
+- Kullanıcı SteamCMD ile V1.0.3'ü mevcut yayına yüklemeyi açıkça istedi.
+- Aynı Workshop ID `3809160125` korundu; yeni bir öğe oluşturulmadı. SteamCMD
+  `Committing update...Success` verdi.
+- `node tools/checks.mjs` ve `node tools/check_map.mjs` geçti. Source 2 içerik derlemesi
+  37 dosyayı derledi, 0 hata verdi. Harita/tema için kayıtlı 10 dosya aynı kaldı.
+- Paket: 111 içerik girdisi, VPK 25.631.292 bayt; `publish_data.txt` ile toplam
+  25.631.479 bayt. VPK SHA-256:
+  `7e6c5e7d1a2149c2e32fd690a29074bce0130760713593a557a8d4880b2d0a87`.
+- Steam'in herkese açık öğe ayrıntısı: V1.0.3 başlığı, `visibility=0`,
+  `consumer_app_id=570`, dosya boyutu 25.631.479 bayt.
+- Temiz anonim SteamCMD indirmesi VPK'yi 25.631.292 bayt olarak indirdi ve SHA-256
+  yerel VPK ile birebir eşleşti. İlk, önceden kullanılmış indirme klasörü eski
+  V1.0.2 manifestini/cache'ini döndürüyordu; bağımsız temiz istemci güncel içeriği aldı.
+- Önceki dağıtılmış V1.0.2 paketi aynı doğrulanmış hash ile
+  `release/rollback/V1.0.2/` altında geri dönüş kopyası olarak saklandı.
+- Workshop araması başlığı V1.0.3 olarak gösterdi. URL:
+  https://steamcommunity.com/sharedfiles/filedetails/?id=3809160125
+- Dota canlı oyun testi yapılmadı; hüner paneli, puan dağıtımı ve beceri davranışı
+  kullanıcı kabulünü bekliyor.
 
 ## V1.0.2 gönderim kaydı — 2026-09-28
 
