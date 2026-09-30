@@ -1,0 +1,107 @@
+"use strict";
+
+// Small, guarded edits to Valve's HUD. These ids are internal Dota panel ids,
+// so retry after HUD rebuilds and tolerate panels that are absent in a mode.
+(function () {
+    var spellbringerOpen = false;
+
+    function FindHudRoot() {
+        var panel = $.GetContextPanel();
+        while (panel && panel.GetParent()) panel = panel.GetParent();
+        return panel;
+    }
+
+    function FindHudElement(root, id) {
+        return root ? root.FindChildTraverse(id) : null;
+    }
+
+    function HidePanel(root, id) {
+        var panel = FindHudElement(root, id);
+        if (!panel) return;
+        panel.visible = false;
+        panel.enabled = false;
+        panel.hittest = false;
+        panel.hittestchildren = false;
+        panel.style.visibility = "collapse;";
+    }
+
+    function ShowSpellbringer() {
+        var panel = $("#SpellbringerHud");
+        if (!panel) return;
+        spellbringerOpen = !spellbringerOpen;
+        panel.SetHasClass("Visible", spellbringerOpen);
+        if (spellbringerOpen) PositionSpellbringer(FindHudElement(FindHudRoot(), "glyph"));
+    }
+
+    function PositionSpellbringer(glyph) {
+        var panel = $("#SpellbringerHud");
+        if (!panel || !glyph || !spellbringerOpen) return;
+
+        var screenWidth = Game.GetScreenWidth();
+        var screenHeight = Game.GetScreenHeight();
+        var buttonPosition = glyph.GetPositionWithinWindow();
+        if (!screenWidth || !screenHeight || !buttonPosition) return;
+
+        panel.SetHasClass("ShieldPopup", true);
+        var width = panel.actuallayoutwidth || 236;
+        var height = panel.actuallayoutheight || 175;
+        var buttonWidth = glyph.actuallayoutwidth || 44;
+        var buttonHeight = glyph.actuallayoutheight || 44;
+        var onRight = buttonPosition.x > screenWidth / 2;
+        var x = onRight ? buttonPosition.x - width - 10 : buttonPosition.x + buttonWidth + 10;
+        var y = buttonPosition.y + buttonHeight - height;
+        x = Math.max(8, Math.min(x, screenWidth - width - 8));
+        y = Math.max(8, Math.min(y, screenHeight - height - 8));
+
+        // Panorama's position property uses screen-relative coordinates.
+        panel.style.position = (x / screenWidth * 100) + "% " + (y / screenHeight * 100) + "% 0px";
+    }
+
+    function BindFortification(root) {
+        var glyph = FindHudElement(root, "glyph");
+        if (!glyph) return;
+
+        // Keep the recognizable Fortification control, but route its click to
+        // Spellbringer instead of invoking Dota's base fortification action.
+        glyph.ClearPanelEvent("onactivate");
+        glyph.ClearPanelEvent("onmouseover");
+        glyph.ClearPanelEvent("onmouseout");
+        glyph.SetPanelEvent("onactivate", ShowSpellbringer);
+        glyph.SetPanelEvent("onmouseover", function () {
+            $.DispatchEvent("DOTAShowTextTooltip", glyph, $.Localize("#enfos_spellbringer_title"));
+        });
+        glyph.SetPanelEvent("onmouseout", function () {
+            $.DispatchEvent("DOTAHideTextTooltip", glyph);
+        });
+    }
+
+    function ApplyNativeHudChanges() {
+        var root = FindHudRoot();
+        if (!root) return;
+
+        HidePanel(root, "RoshanTimerContainer");
+        HidePanel(root, "TormentorTimerContainer");
+        HidePanel(root, "RadarButton");
+
+        // Remove the native talent-tree/stat-branch button so it cannot show
+        // an empty tooltip or occupy a dead slot beside the hero abilities.
+        var talentButton = FindHudElement(root, "StatBranch");
+        if (talentButton) {
+            talentButton.ClearPanelEvent("onmouseover");
+            talentButton.ClearPanelEvent("onmouseout");
+            talentButton.ClearPanelEvent("onactivate");
+            HidePanel(root, "StatBranch");
+        }
+
+        // Keep the Town Portal Scroll control while removing only the neutral
+        // item slot and its level-up affordance/label.
+        HidePanel(root, "inventory_neutral_slot_container");
+        HidePanel(root, "inventory_neutral_level_up");
+
+        BindFortification(root);
+        PositionSpellbringer(FindHudElement(root, "glyph"));
+        $.Schedule(0.5, ApplyNativeHudChanges);
+    }
+
+    ApplyNativeHudChanges();
+})();

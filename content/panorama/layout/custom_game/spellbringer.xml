@@ -3,11 +3,11 @@
         <include src="file://{resources}/styles/custom_game/spellbringer.css" />
     </styles>
     <scripts>
+        <include src="file://{resources}/scripts/custom_game/native_hud_controls.js" />
         <include src="file://{resources}/scripts/custom_game/spellbringer.js" />
     </scripts>
-    <Panel class="SpellbringerRoot" hittest="false">
-    <Panel id="SpellbringerHud" class="SpellbringerHud MinimapLeft" hittest="false">
-        <Button id="NextWave" onactivate="SendNextWave()"><Label text="#enfos_next_wave" /></Button>
+    <Panel class="SpellbringerRoot" hittest="false" hittestchildren="true">
+    <Panel id="SpellbringerHud" class="SpellbringerHud MinimapLeft" hittest="true" hittestchildren="true">
         <Panel class="SpellbringerHeader">
             <Label id="SpellbringerTitle" text="#enfos_spellbringer_title" />
             <Label id="SpellbringerCoopNotice" text="#enfos_spellbringer_coop_notice" />

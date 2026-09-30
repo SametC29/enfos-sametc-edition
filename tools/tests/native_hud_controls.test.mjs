@@ -1,0 +1,73 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+
+const gameScript = 'game/panorama/scripts/custom_game/native_hud_controls.js';
+const contentScript = 'content/panorama/scripts/custom_game/native_hud_controls.js';
+
+test('native minimap controls retain only fortification, repurposed for Spellbringer', () => {
+  const script = fs.readFileSync(gameScript, 'utf8');
+  for (const id of ['RoshanTimerContainer', 'TormentorTimerContainer', 'RadarButton'])
+    assert.match(script, new RegExp(`HidePanel\\(root, "${id}"\\)`));
+  assert.match(script, /FindHudElement\(root, "glyph"\)/);
+  assert.match(script, /glyph\.SetPanelEvent\("onactivate", ShowSpellbringer\)/);
+  assert.match(script, /SpellbringerHud/);
+  assert.equal(fs.readFileSync(contentScript, 'utf8'), script);
+});
+
+test('native HUD controller hides requested panels and toggles Spellbringer from glyph', () => {
+  const panels = new Map();
+  function makePanel(id) {
+    const panel = {
+      id, style: {}, classes: new Set(), events: {}, visible: true, enabled: true,
+      hittest: true, hittestchildren: true,
+      GetParent: () => null,
+      GetPositionWithinWindow: () => ({ x: 10, y: 10 }),
+      FindChildTraverse: name => panels.get(name) || null,
+      ClearPanelEvent(name) { delete this.events[name]; },
+      SetPanelEvent(name, callback) { this.events[name] = callback; },
+      SetHasClass(name, on) { on ? this.classes.add(name) : this.classes.delete(name); },
+    };
+    panels.set(id, panel);
+    return panel;
+  }
+  const root = makePanel('DotaHud');
+  for (const id of ['RoshanTimerContainer', 'TormentorTimerContainer', 'RadarButton',
+    'StatBranch', 'inventory_neutral_slot_container', 'inventory_neutral_level_up',
+    'inventory_tpscroll_container', 'glyph', 'SpellbringerHud']) makePanel(id);
+  const $ = selector => panels.get(selector.slice(1)) || null;
+  Object.assign($, {
+    GetContextPanel: () => root,
+    Schedule: () => {},
+    Localize: key => key,
+    DispatchEvent: () => {},
+  });
+  vm.runInNewContext(fs.readFileSync(gameScript, 'utf8'), {
+    $, Game: { GetScreenWidth: () => 1280, GetScreenHeight: () => 720 },
+  });
+
+  for (const id of ['RoshanTimerContainer', 'TormentorTimerContainer', 'RadarButton',
+    'StatBranch', 'inventory_neutral_slot_container', 'inventory_neutral_level_up'])
+    assert.equal(panels.get(id).visible, false, id);
+  assert.equal(panels.get('inventory_tpscroll_container').visible, true);
+  panels.get('glyph').events.onactivate();
+  assert(panels.get('SpellbringerHud').classes.has('Visible'));
+  panels.get('glyph').events.onactivate();
+  assert(!panels.get('SpellbringerHud').classes.has('Visible'));
+});
+
+test('native talent and neutral item affordances are hidden while TP scroll stays intact', () => {
+  const script = fs.readFileSync(gameScript, 'utf8');
+  assert.match(script, /FindHudElement\(root, "StatBranch"\)/);
+  assert.match(script, /HidePanel\(root, "inventory_neutral_slot_container"\)/);
+  assert.match(script, /HidePanel\(root, "inventory_neutral_level_up"\)/);
+  assert.doesNotMatch(script, /HidePanel\(root, "inventory_tpscroll_container"\)/);
+});
+
+test('next-wave action is absent from Spellbringer UI and client controller', () => {
+  const layout = fs.readFileSync('game/panorama/layout/custom_game/spellbringer.xml', 'utf8');
+  const script = fs.readFileSync('game/panorama/scripts/custom_game/spellbringer.js', 'utf8');
+  const css = fs.readFileSync('game/panorama/styles/custom_game/spellbringer.css', 'utf8');
+  assert.doesNotMatch(layout + script + css, /NextWave|SendNextWave|enfos_next_wave/);
+});
