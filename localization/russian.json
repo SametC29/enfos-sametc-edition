@@ -419,7 +419,7 @@
     "DOTA_Tooltip_spellbringer_reveal_Description": "Даёт обзор и истинное зрение в выбранной области, раскрывая невидимых врагов.",
     "DOTA_Tooltip_spellbringer_purification_Description": "Снимает усиления Spellbringer с врагов в области, наносит 800 чистого урона его вражеским призывам и применяет сильное развеивание к союзным героям.",
     "DOTA_Tooltip_spellbringer_future_reinforcements_Description": "Призывает 5 управляемых союзных бойцов в выбранной точке на 30 сек. Сила зависит от текущей волны +4.",
-    "DOTA_Tooltip_Ability_bulwark_fortress_scepter_description": "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%.",
+    "DOTA_Tooltip_Ability_bulwark_fortress_scepter_description": "Увеличивает длительность «Божественной силы» на 5 сек. Свен получает 50% сопротивления эффектам. Каждая ударная волна на 1,8 сек. даёт союзным героям в радиусе 900 +50% к их собственному базовому урону от атаки и 10 брони.",
     "DOTA_Tooltip_Ability_bulwark_unbreakable_shard_description": "+350 здоровья. Отражает 15% входящего вражеского урона физическим уроном.",
     "DOTA_Tooltip_Ability_enfos_juggernaut_omni_slash_scepter_description": "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%.",
     "DOTA_Tooltip_Ability_enfos_juggernaut_duelist_shard_description": "+35 скорости атаки. Атаки замедляют движение на 25% и атаки на 25 на 3 сек.",
@@ -1001,6 +1001,8 @@
     "DOTA_Tooltip_Ability_bulwark_iron_guard_cleave_distance": "ДИСТАНЦИЯ РАССЕЧЕНИЯ:",
     "DOTA_Tooltip_ability_bulwark_iron_guard_cleave_distance": "ДИСТАНЦИЯ РАССЕЧЕНИЯ:",
     "enfos_evo_stat_cleave_pct": "Урон",
-    "enfos_evo_stat_cleave_distance": "Дальность"
+    "enfos_evo_stat_cleave_distance": "Дальность",
+    "DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally": "Божественная сила — союзник",
+    "DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally_Description": "Даёт +50% базового урона от атаки и 10 брони. Ударные волны Свена обновляют усиление на 1,8 сек."
   }
 }

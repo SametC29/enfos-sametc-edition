@@ -5029,6 +5029,30 @@ test('Sven Warcry barrier absorbs, refreshes and reflects only physical damage w
  m:OnTakeDamage({unit=sven,attacker=enemy,damage=100,damage_type=DAMAGE_TYPE_PHYSICAL})
  assert(#applied_damages==1, 'Warcry must not reflect onto allies or dead attackers')
 end)
+test('Sven Warcry cast owns a head-bound native burst and precaches its resources',function()
+ local c=create_mock_unit('npc_dota_hero_sven',2,Vector(0,0,0));mock_world_units={c}
+ local a=bulwark_challenge();a.GetCaster=function() return c end
+ a.GetSpecialValueFor=function(_,k) return k=='radius' and 500 or 3 end
+ local oldCreate,oldEnt,oldRelease=ParticleManager.CreateParticle,ParticleManager.SetParticleControlEnt,ParticleManager.ReleaseParticleIndex
+ local oldPrecache,oldAttach=PrecacheResource,PATTACH_POINT_FOLLOW
+ local created,bound,released,resources=0,0,0,{}
+ PATTACH_POINT_FOLLOW='mock_point_follow'
+ ParticleManager.CreateParticle=function(_,path,attach,owner)
+  assert(path=='particles/units/heroes/hero_sven/sven_spell_warcry.vpcf' and owner==c)
+  created=created+1;return 71
+ end
+ ParticleManager.SetParticleControlEnt=function(_,id,cp,owner,attach,name)
+  assert(id==71 and cp==2 and owner==c and attach==PATTACH_POINT_FOLLOW and name=='attach_head');bound=bound+1
+ end
+ ParticleManager.ReleaseParticleIndex=function(_,id) assert(id==71);released=released+1 end
+ PrecacheResource=function(kind,path) resources[path]=kind end
+ a:Precache({});a:OnSpellStart()
+ ParticleManager.CreateParticle,ParticleManager.SetParticleControlEnt,ParticleManager.ReleaseParticleIndex=oldCreate,oldEnt,oldRelease
+ PrecacheResource,PATTACH_POINT_FOLLOW=oldPrecache,oldAttach
+ assert(created==1 and bound==1 and released==1, 'One self-ending native cast burst, no persistent helper duplicate')
+ assert(resources['particles/units/heroes/hero_sven/sven_spell_warcry.vpcf']=='particle')
+ assert(resources['soundevents/game_sounds_heroes/game_sounds_sven.vsndevts']=='soundfile')
+end)
 test('Sven Warcry announces each recipient barrier and Gods Strength resists dispel',function()
  local sven=create_mock_unit('npc_dota_hero_sven',2,Vector(0,0,0))
  local ally=create_mock_unit('npc_dota_hero_axe',2,Vector(100,0,0))

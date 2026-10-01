@@ -24,7 +24,7 @@
 		"DOTA_Tooltip_Ability_bulwark_fortress_bonus_str" "İLAVE GÜÇ:"
 		"DOTA_Tooltip_Ability_bulwark_fortress_damage_reduction_pct" "% HASAR AZALTMA:"
 		"DOTA_Tooltip_Ability_bulwark_fortress_duration" "SÜRE:"
-		"DOTA_Tooltip_Ability_bulwark_fortress_scepter_description" "Tanrısal Güç süresi +5 sn artar. Sven %50 Durum Direnci ve +20 Zırh kazanır. 900 menzildeki dost kahramanlara Sven'ın bonus saldırı hasarının %50'sini ve +10 Zırh veren güç aurası yayar. Fırtına Çekici bekleme süresi 4 saniyeye düşer ve Sven'i hedef konuma fırlatır."
+		"DOTA_Tooltip_Ability_bulwark_fortress_scepter_description" "Tanrısal Güç süresi 5 sn artar. Sven %50 durum direnci kazanır. Her şok dalgası, 900 menzildeki dost kahramanlara 1,8 sn boyunca kendi temel saldırı hasarlarının %50'si kadar ek hasar ve +10 zırh verir."
 		"DOTA_Tooltip_Ability_bulwark_fortress_shockwave_damage" "ŞOK DALGASI HASARI:"
 		"DOTA_Tooltip_Ability_bulwark_iron_guard" "Büyük Yarma"
 		"DOTA_Tooltip_Ability_bulwark_iron_guard_Description" "Svenin saldırıları ana hedeften öteye genişleyen bir konide, 400 / 433 / 467 / 500 / 533 / 567 / 600 / 633 / 667 / 700 menzile kadar saldırı hasarının %30 / 37 / 44 / 51 / 58 / 65 / 72 / 78 / 84 / 90 kadarını verir. Koni genişliği 150 ile 240 / 253 / 266 / 280 / 293 / 306 / 320 / 333 / 346 / 360 arasında açılır. Kırılma bu pasifi devre dışı bırakır."
@@ -1197,7 +1197,7 @@
 		"DOTA_Tooltip_ability_bulwark_fortress_bonus_str" "İLAVE GÜÇ:"
 		"DOTA_Tooltip_ability_bulwark_fortress_damage_reduction_pct" "% HASAR AZALTMA:"
 		"DOTA_Tooltip_ability_bulwark_fortress_duration" "SÜRE:"
-		"DOTA_Tooltip_ability_bulwark_fortress_scepter_description" "Tanrısal Güç süresi +5 sn artar. Sven %50 Durum Direnci ve +20 Zırh kazanır. 900 menzildeki dost kahramanlara Sven'ın bonus saldırı hasarının %50'sini ve +10 Zırh veren güç aurası yayar. Fırtına Çekici bekleme süresi 4 saniyeye düşer ve Sven'i hedef konuma fırlatır."
+		"DOTA_Tooltip_ability_bulwark_fortress_scepter_description" "Tanrısal Güç süresi 5 sn artar. Sven %50 durum direnci kazanır. Her şok dalgası, 900 menzildeki dost kahramanlara 1,8 sn boyunca kendi temel saldırı hasarlarının %50'si kadar ek hasar ve +10 zırh verir."
 		"DOTA_Tooltip_ability_bulwark_fortress_shockwave_damage" "ŞOK DALGASI HASARI:"
 		"DOTA_Tooltip_ability_bulwark_iron_guard" "Büyük Yarma"
 		"DOTA_Tooltip_ability_bulwark_iron_guard_Description" "Svenin saldırıları ana hedeften öteye genişleyen bir konide, 400 / 433 / 467 / 500 / 533 / 567 / 600 / 633 / 667 / 700 menzile kadar saldırı hasarının %30 / 37 / 44 / 51 / 58 / 65 / 72 / 78 / 84 / 90 kadarını verir. Koni genişliği 150 ile 240 / 253 / 266 / 280 / 293 / 306 / 320 / 333 / 346 / 360 arasında açılır. Kırılma bu pasifi devre dışı bırakır."
@@ -3095,5 +3095,7 @@
 		"npc_dota_hero_witch_doctor_hype" "Destek (Support) rolünün voodoo hekimi. Düşmanlar arasında seken felç edici fıçısı, takımını ayakta tutan şifa aurası ve ölümcül totemiyle savaşın seyrini değiştirir."
 		"npc_dota_hero_zuus" "Zeus"
 		"npc_dota_hero_zuus_hype" "Büyücü (Mage) rolünün yıldırım tanrısı. Zincirleme sıçrayan ark yıldırımları, gökten inen yıldırımları ve tüm kulvarı çarpan gazabıyla düşmanları küle çevirir."
+		"DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally" "Tanrısal Güç — Dost"
+		"DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally_Description" "Temel saldırı hasarı %50 ve zırh 10 artar. Sven'in şok dalgaları bu güçlendirmeyi 1,8 sn için yeniler."
 	}
 }

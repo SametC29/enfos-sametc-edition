@@ -503,9 +503,20 @@ function bulwark_shield_slam:OnProjectileHit(target, location)
 end
 
 bulwark_challenge=class({})
+function bulwark_challenge:Precache(context)
+    PrecacheResource('particle', 'particles/units/heroes/hero_sven/sven_spell_warcry.vpcf', context)
+    PrecacheResource('soundfile', 'soundevents/game_sounds_heroes/game_sounds_sven.vsndevts', context)
+end
 function bulwark_challenge:OnSpellStart()
+    if not IsServer() then return end
     local c = self:GetCaster()
     if not c or c:IsNull() then return end
+    -- The native cast root's mouth child reads CP2 as its head location.
+    local castParticle = ParticleManager:CreateParticle(
+        'particles/units/heroes/hero_sven/sven_spell_warcry.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:SetParticleControlEnt(castParticle, 2, c, PATTACH_POINT_FOLLOW,
+        'attach_head', c:GetAbsOrigin(), true)
+    ParticleManager:ReleaseParticleIndex(castParticle)
     local dur = value(self, 'duration')
     local rad = value(self, 'radius')
     if rad <= 0 then rad = 500 end

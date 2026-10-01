@@ -24,7 +24,7 @@
 		"DOTA_Tooltip_Ability_bulwark_fortress_bonus_str" "İLAVE GÜÇ:"
 		"DOTA_Tooltip_Ability_bulwark_fortress_damage_reduction_pct" "% HASAR AZALTMA:"
 		"DOTA_Tooltip_Ability_bulwark_fortress_duration" "ДЛИТЕЛЬНОСТЬ:"
-		"DOTA_Tooltip_Ability_bulwark_fortress_scepter_description" "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%."
+		"DOTA_Tooltip_Ability_bulwark_fortress_scepter_description" "Увеличивает длительность «Божественной силы» на 5 сек. Свен получает 50% сопротивления эффектам. Каждая ударная волна на 1,8 сек. даёт союзным героям в радиусе 900 +50% к их собственному базовому урону от атаки и 10 брони."
 		"DOTA_Tooltip_Ability_bulwark_fortress_shockwave_damage" "ŞOK DALGASI HASARI:"
 		"DOTA_Tooltip_Ability_bulwark_iron_guard" "Великий раскол"
 		"DOTA_Tooltip_Ability_bulwark_iron_guard_Description" "Атаки Свена поражают врагов за основной целью расширяющимся конусом, нанося 30 / 37 / 44 / 51 / 58 / 65 / 72 / 78 / 84 / 90% урона атаки на расстоянии до 400 / 433 / 467 / 500 / 533 / 567 / 600 / 633 / 667 / 700. Ширина конуса увеличивается с 150 до 240 / 253 / 266 / 280 / 293 / 306 / 320 / 333 / 346 / 360. Истощение отключает пассивное умение."
@@ -1197,7 +1197,7 @@
 		"DOTA_Tooltip_ability_bulwark_fortress_bonus_str" "İLAVE GÜÇ:"
 		"DOTA_Tooltip_ability_bulwark_fortress_damage_reduction_pct" "% HASAR AZALTMA:"
 		"DOTA_Tooltip_ability_bulwark_fortress_duration" "ДЛИТЕЛЬНОСТЬ:"
-		"DOTA_Tooltip_ability_bulwark_fortress_scepter_description" "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%."
+		"DOTA_Tooltip_ability_bulwark_fortress_scepter_description" "Увеличивает длительность «Божественной силы» на 5 сек. Свен получает 50% сопротивления эффектам. Каждая ударная волна на 1,8 сек. даёт союзным героям в радиусе 900 +50% к их собственному базовому урону от атаки и 10 брони."
 		"DOTA_Tooltip_ability_bulwark_fortress_shockwave_damage" "ŞOK DALGASI HASARI:"
 		"DOTA_Tooltip_ability_bulwark_iron_guard" "Великий раскол"
 		"DOTA_Tooltip_ability_bulwark_iron_guard_Description" "Атаки Свена поражают врагов за основной целью расширяющимся конусом, нанося 30 / 37 / 44 / 51 / 58 / 65 / 72 / 78 / 84 / 90% урона атаки на расстоянии до 400 / 433 / 467 / 500 / 533 / 567 / 600 / 633 / 667 / 700. Ширина конуса увеличивается с 150 до 240 / 253 / 266 / 280 / 293 / 306 / 320 / 333 / 346 / 360. Истощение отключает пассивное умение."
@@ -3095,5 +3095,7 @@
 		"npc_dota_hero_witch_doctor_hype" "Destek (Support) rolünün voodoo hekimi. Düşmanlar arasında seken felç edici fıçısı, takımını ayakta tutan şifa aurası ve ölümcül totemiyle savaşın seyrini değiştirir."
 		"npc_dota_hero_zuus" "Zeus"
 		"npc_dota_hero_zuus_hype" "Büyücü (Mage) rolünün yıldırım tanrısı. Zincirleme sıçrayan ark yıldırımları, gökten inen yıldırımları ve tüm kulvarı çarpan gazabıyla düşmanları küle çevirir."
+		"DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally" "Божественная сила — союзник"
+		"DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally_Description" "Даёт +50% базового урона от атаки и 10 брони. Ударные волны Свена обновляют усиление на 1,8 сек."
 	}
 }

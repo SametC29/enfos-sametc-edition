@@ -303,3 +303,11 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
 Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+
+### Individual-review follow-up — 2026-10-01, ClientVersion 6942
+
+See [the current individual review](../../audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md) for source comparisons, before/after reproducer and unresolved issues. E now cleaves living secondary victims even when the primary attack kills its target; Break/illusion/team/null guards remain. W Shard reflection rejects friendly/dead attackers and displays each ally's barrier on that ally. R is explicitly non-dispellable, matching current native God's Strength. These are code/mock repairs, not new engine PASS evidence.
+
+W presentation repair: current decoded native cast root's mouth child uses CP2 as head location; native Sven model declares `attach_head`. The no-target server cast now emits one native `sven_spell_warcry.vpcf` root with CP2 head binding and finite particle-index release. Explicit ability precache covers cast particle and Sven sound bank; KV keeps sole cast sound ownership. Existing persistent Warcry buff remains modifier-owned; its unresolved CP1 composition is still PENDING. No duplicate persistent particle or gesture is added.
+
+The four-language Scepter tooltip now correctly says the ally receives +50% of its **own base attack damage**, not 50% of Sven's bonus damage. The real allied Scepter modifier now has four-language name/description and synchronized generated mirrors. Current mock behavior suite:207 passing, full project checks pass. W/R VFX, SFX, animations, purge/death/recast, multi-caster and rank UI remain owner-runtime PENDING.

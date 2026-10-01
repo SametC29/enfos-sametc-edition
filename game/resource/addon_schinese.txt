@@ -24,7 +24,7 @@
 		"DOTA_Tooltip_Ability_bulwark_fortress_bonus_str" "İLAVE GÜÇ:"
 		"DOTA_Tooltip_Ability_bulwark_fortress_damage_reduction_pct" "% HASAR AZALTMA:"
 		"DOTA_Tooltip_Ability_bulwark_fortress_duration" "持续时间:"
-		"DOTA_Tooltip_Ability_bulwark_fortress_scepter_description" "神之力量持续时间延长5秒。斯温获得50%状态抗性。每次冲击波都会使900范围内的友方英雄获得斯温额外攻击力50%的攻击力和10点护甲，持续1.8秒。"
+		"DOTA_Tooltip_Ability_bulwark_fortress_scepter_description" "神之力量持续时间延长5秒。斯温获得50%状态抗性。每次冲击波使900范围内的友方英雄获得自身基础攻击力50%的额外攻击力和10点护甲，持续1.8秒。"
 		"DOTA_Tooltip_Ability_bulwark_fortress_shockwave_damage" "ŞOK DALGASI HASARI:"
 		"DOTA_Tooltip_Ability_bulwark_iron_guard" "巨力挥舞"
 		"DOTA_Tooltip_Ability_bulwark_iron_guard_Description" "斯温的攻击会向主目标身后形成逐渐变宽的顺劈，对最多400 / 433 / 467 / 500 / 533 / 567 / 600 / 633 / 667 / 700距离内的敌人造成30 / 37 / 44 / 51 / 58 / 65 / 72 / 78 / 84 / 90%攻击伤害。锥形范围宽度从150扩大至240 / 253 / 266 / 280 / 293 / 306 / 320 / 333 / 346 / 360。破坏会禁用此被动。"
@@ -2164,7 +2164,7 @@
 		"DOTA_Tooltip_ability_bulwark_fortress_bonus_str" "İLAVE GÜÇ:"
 		"DOTA_Tooltip_ability_bulwark_fortress_damage_reduction_pct" "% HASAR AZALTMA:"
 		"DOTA_Tooltip_ability_bulwark_fortress_duration" "持续时间:"
-		"DOTA_Tooltip_ability_bulwark_fortress_scepter_description" "神之力量持续时间延长5秒。斯温获得50%状态抗性。每次冲击波都会使900范围内的友方英雄获得斯温额外攻击力50%的攻击力和10点护甲，持续1.8秒。"
+		"DOTA_Tooltip_ability_bulwark_fortress_scepter_description" "神之力量持续时间延长5秒。斯温获得50%状态抗性。每次冲击波使900范围内的友方英雄获得自身基础攻击力50%的额外攻击力和10点护甲，持续1.8秒。"
 		"DOTA_Tooltip_ability_bulwark_fortress_shockwave_damage" "ŞOK DALGASI HASARI:"
 		"DOTA_Tooltip_ability_bulwark_iron_guard" "巨力挥舞"
 		"DOTA_Tooltip_ability_bulwark_iron_guard_Description" "斯温的攻击会向主目标身后形成逐渐变宽的顺劈，对最多400 / 433 / 467 / 500 / 533 / 567 / 600 / 633 / 667 / 700距离内的敌人造成30 / 37 / 44 / 51 / 58 / 65 / 72 / 78 / 84 / 90%攻击伤害。锥形范围宽度从150扩大至240 / 253 / 266 / 280 / 293 / 306 / 320 / 333 / 346 / 360。破坏会禁用此被动。"
@@ -5038,5 +5038,7 @@
 		"npc_dota_hero_witch_doctor_hype" "Destek (Support) rolünün voodoo hekimi. Düşmanlar arasında seken felç edici fıçısı, takımını ayakta tutan şifa aurası ve ölümcül totemiyle savaşın seyrini değiştirir."
 		"npc_dota_hero_zuus" "Zeus"
 		"npc_dota_hero_zuus_hype" "Büyücü (Mage) rolünün yıldırım tanrısı. Zincirleme sıçrayan ark yıldırımları, gökten inen yıldırımları ve tüm kulvarı çarpan gazabıyla düşmanları küle çevirir."
+		"DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally" "神之力量 — 友军"
+		"DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally_Description" "基础攻击力提高50%，护甲提高10点。斯温的冲击波会将此增益的持续时间刷新为1.8秒。"
 	}
 }

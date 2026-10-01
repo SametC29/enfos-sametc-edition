@@ -1065,7 +1065,7 @@
     "enfos_spell_target_enemy": "Rakip arenada yere tıkla. Sağ tık: iptal.",
     "enfos_spell_target_ally": "Kendi arenanda yere tıkla. Sağ tık: iptal.",
     "enfos_spell_target_invalid": "Geçerli bir arena noktası seç.",
-    "DOTA_Tooltip_Ability_bulwark_fortress_scepter_description": "Tanrısal Güç süresi +5 sn artar. Sven %50 Durum Direnci ve +20 Zırh kazanır. 900 menzildeki dost kahramanlara Sven'ın bonus saldırı hasarının %50'sini ve +10 Zırh veren güç aurası yayar. Fırtına Çekici bekleme süresi 4 saniyeye düşer ve Sven'i hedef konuma fırlatır.",
+    "DOTA_Tooltip_Ability_bulwark_fortress_scepter_description": "Tanrısal Güç süresi 5 sn artar. Sven %50 durum direnci kazanır. Her şok dalgası, 900 menzildeki dost kahramanlara 1,8 sn boyunca kendi temel saldırı hasarlarının %50'si kadar ek hasar ve +10 zırh verir.",
     "DOTA_Tooltip_Ability_bulwark_unbreakable_shard_description": "Savaş Narası Sven'ın Azami Canının %25'i kadar kalkan verir ve süresince gelen fiziksel hasarın %40'ını yansıtır. Sven'ın canı %40 altına düştüğünde Kırılmaz İrade can yenilenmesi 2 katına çıkar.",
     "DOTA_Tooltip_Ability_enfos_juggernaut_omni_slash_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_juggernaut_duelist_shard_description": "+35 saldırı hızı. Saldırılar hedefin hareket hızını %25, saldırı hızını 25 azaltır (3 sn).",
@@ -1624,6 +1624,8 @@
     "DOTA_Tooltip_Ability_bulwark_iron_guard_cleave_distance": "YARMA MENZİLİ:",
     "DOTA_Tooltip_ability_bulwark_iron_guard_cleave_distance": "YARMA MENZİLİ:",
     "enfos_evo_stat_cleave_pct": "Hasar",
-    "enfos_evo_stat_cleave_distance": "Menzil"
+    "enfos_evo_stat_cleave_distance": "Menzil",
+    "DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally": "Tanrısal Güç — Dost",
+    "DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally_Description": "Temel saldırı hasarı %50 ve zırh 10 artar. Sven'in şok dalgaları bu güçlendirmeyi 1,8 sn için yeniler."
   }
 }
