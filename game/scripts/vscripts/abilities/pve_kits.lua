@@ -784,12 +784,14 @@ end
 enfos_juggernaut_blade_fury=class({})
 function enfos_juggernaut_blade_fury:OnSpellStart()
     local c = self:GetCaster()
-    c:EmitSound('Hero_Juggernaut.BladeFuryStart')
     c:AddNewModifier(c, self, 'modifier_enfos_pve_fury', { duration = value(self, 'duration') })
 end
 
 function modifier_enfos_pve_fury:OnCreated()
-    if IsServer() then self:StartIntervalThink(value(self:GetAbility(), 'tick_interval')) end
+    if IsServer() then
+        self:GetParent():EmitSound('Hero_Juggernaut.BladeFuryStart')
+        self:StartIntervalThink(value(self:GetAbility(), 'tick_interval'))
+    end
 end
 function modifier_enfos_pve_fury:IsPurgable() return false end
 function modifier_enfos_pve_fury:IsDebuff() return false end
@@ -814,7 +816,13 @@ function modifier_enfos_pve_fury:GetModifierStatusResistanceStacking() return va
 function modifier_enfos_pve_fury:GetModifierMoveSpeedBonus_Constant() return value(self:GetAbility(), 'bonus_movespeed') end
 function modifier_enfos_pve_fury:GetEffectName() return 'particles/units/heroes/hero_juggernaut/juggernaut_blade_fury.vpcf' end
 function modifier_enfos_pve_fury:OnDestroy()
-    if IsServer() then self:GetParent():StopSound('Hero_Juggernaut.BladeFuryStart') end
+    if IsServer() then
+        local c = self:GetParent()
+        if c and not c:IsNull() then
+            c:StopSound('Hero_Juggernaut.BladeFuryStart')
+            c:EmitSound('Hero_Juggernaut.BladeFuryStop')
+        end
+    end
 end
 
 enfos_juggernaut_healing_ward=class({})
@@ -918,7 +926,7 @@ function modifier_enfos_pve_slashes:OnIntervalThink()
         or (t:GetAbsOrigin() - c:GetAbsOrigin()):Length2D() > value(a, 'radius') then
         t = nil
         local nearest, nearestDistance
-        local candidates = enemies(c, c:GetAbsOrigin(), value(a, 'radius'))
+        local candidates = enemies(c, c:GetAbsOrigin(), value(a, 'radius'), DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)
         for _, candidate in ipairs(candidates) do
             if candidate and not candidate:IsNull() and candidate:IsAlive()
                 and candidate:GetTeamNumber() ~= c:GetTeamNumber() then
@@ -940,10 +948,18 @@ function modifier_enfos_pve_slashes:OnIntervalThink()
     end
     if not t or (t:GetAbsOrigin() - home):Length2D() > 1400 then self:Destroy(); return end
     self.visitedTargets[t:entindex()] = true
+    local previousPosition = c:GetAbsOrigin()
+    local hitPosition = t:GetAbsOrigin()
     local offset = t.GetForwardVector and t:GetForwardVector() or Vector(1, 0, 0)
     c:SetAbsOrigin(t:GetAbsOrigin() - offset * 64)
     damage(a, t, get_atk(c, t) + value(a, 'bonus_damage'), DAMAGE_TYPE_PHYSICAL)
-    effect('particles/units/heroes/hero_juggernaut/juggernaut_omni_slash.vpcf', t)
+    -- Native root draws a path between CP0 and CP1. Keep its impact children
+    -- at the victim and bridge to the pre-jump position, even after a lethal hit.
+    local slashParticle = ParticleManager:CreateParticle(
+        'particles/units/heroes/hero_juggernaut/juggernaut_omni_slash.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(slashParticle, 0, hitPosition)
+    ParticleManager:SetParticleControl(slashParticle, 1, previousPosition)
+    ParticleManager:ReleaseParticleIndex(slashParticle)
     self.target = nil
 end
 function modifier_enfos_pve_slashes:OnDestroy()
@@ -1008,6 +1024,7 @@ function modifier_enfos_juggernaut_duelist_stack:GetModifierPhysicalArmorBonus()
 function modifier_enfos_juggernaut_duelist_stack:GetModifierMoveSpeedBonus_Percentage() return duelist_stack_count(self) * value(self:GetAbility(), 'kill_stack_movespeed_pct') end
 function modifier_enfos_juggernaut_duelist_stack:OnAttackLanded(e)
     if not IsServer() or not e or e.attacker ~= self:GetParent() or duelist_stack_count(self) < value(self:GetAbility(), 'kill_stack_cap') then return end
+    if not e.target or e.target:IsNull() or e.target:GetTeamNumber() == self:GetParent():GetTeamNumber() then return end
     local heal = (e.damage or 0) * value(self:GetAbility(), 'kill_stack_lifesteal_pct') / 100
     if heal > 0 then self:GetParent():Heal(heal, self:GetAbility()) end
 end

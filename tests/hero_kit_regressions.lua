@@ -689,10 +689,13 @@ test('Juggernaut Duelist stacks on kill and caps at 10 with lifesteal', function
     jugg.hp = 300
     stack_mod:OnAttackLanded({
         attacker = jugg,
+        target = enemy,
         damage = 200
     })
     -- 20% of 200 = 40 heal
     assert(jugg.hp == 340, 'Lifesteal at 10 stacks should heal 40 HP')
+    stack_mod:OnAttackLanded({attacker=jugg,target=jugg,damage=200})
+    assert(jugg.hp==340, 'Friendly/deny attacks cannot heal Duelist')
 end)
 test('Juggernaut Healing Ward casts at the cursor, creates its effect and caps live wards', function()
     local jugg = create_mock_unit('npc_dota_hero_juggernaut', 2, Vector(0, 0, 0))
@@ -785,8 +788,34 @@ test('Juggernaut Omni Slash selects a fresh nearby enemy after the current targe
     assert(applied_damages[1].victim == first)
     modifier:OnIntervalThink()
     assert(applied_damages[2].victim == second, 'jump should avoid repeating an already-hit target when another is nearby')
+    assert(last_find_units_flags==DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+        'Omni Slash follow-up search must match its native/KV immunity-piercing target policy')
 end)
 
+test('Juggernaut Omni Slash supplies native beam endpoints before movement and lethal damage',function()
+ local c=create_mock_unit('npc_dota_hero_juggernaut',2,Vector(12,30,0))
+ local t=create_mock_unit('enfos_creep',3,Vector(100,50,0));mock_world_units={c,t}
+ local a=enfos_juggernaut_omni_slash();a.GetCaster=function() return c end
+ a.GetSpecialValueFor=function(_,k) return k=='radius' and 450 or 50 end
+ local m=setmetatable({GetParent=function() return c end,GetAbility=function() return a end,home=c:GetAbsOrigin(),target=t,visitedTargets={}},modifier_enfos_pve_slashes)
+ local oldCreate,oldControl,oldRelease,oldDamage=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex,ApplyDamage
+ local controls,released={},0
+ ParticleManager.CreateParticle=function(_,path,attach,owner) assert(path:find('juggernaut_omni_slash.vpcf',1,true) and attach==PATTACH_WORLDORIGIN and owner==nil);return 77 end
+ ParticleManager.SetParticleControl=function(_,id,cp,v) assert(id==77);controls[cp]=v end
+ ParticleManager.ReleaseParticleIndex=function(_,id) assert(id==77);released=released+1 end
+ ApplyDamage=function() t.alive=false end
+ m:OnIntervalThink()
+ ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex,ApplyDamage=oldCreate,oldControl,oldRelease,oldDamage
+ assert(controls[0].x==100 and controls[0].y==50 and controls[1].x==12 and controls[1].y==30 and released==1)
+end)
+test('Juggernaut Blade Fury owns its loop and emits the verified ending sound',function()
+ local c=create_mock_unit('npc_dota_hero_juggernaut',2,Vector(0,0,0));local sounds,stopped={},{}
+ c.EmitSound=function(_,s) sounds[#sounds+1]=s end;c.StopSound=function(_,s) stopped[#stopped+1]=s end
+ local a=enfos_juggernaut_blade_fury();a.GetSpecialValueFor=function() return 0.2 end
+ local m=setmetatable({GetParent=function() return c end,GetAbility=function() return a end,StartIntervalThink=function() end},modifier_enfos_pve_fury)
+ m:OnCreated();m:OnDestroy()
+ assert(sounds[1]=='Hero_Juggernaut.BladeFuryStart' and sounds[2]=='Hero_Juggernaut.BladeFuryStop' and stopped[1]==sounds[1])
+end)
 test('Shadow Shaman Fowl Play does not consume its save until lethal damage is prevented', function()
     local shaman = create_mock_unit('npc_dota_hero_shadow_shaman', 2, Vector(0, 0, 0), 1000)
     local ability = enfos_ss_fowl_play()
