@@ -390,6 +390,9 @@ function WaveManager:SpawnCreepEntity(unitName, defendingTeam, lane, isBoss, act
 	creep.waveNumber = self.currentWave
 	creep.isBoss = isBoss
 	creep.bossRewardName = isBoss and bossRewardName or nil
+	-- A wave Boss is a one-life hostile, even though its entity is a native
+	-- hero. Disable the engine's automatic hero respawn before any setup fails.
+	if isBoss then creep:SetRespawnsDisabled(true) end
 	if isBoss and not BossFramework:PrepareBoss(creep, unitName, self.currentWave, defendingTeam) then
 		Log:Error("wave_manager", "Boss setup failed; refusing to spawn an incorrectly configured Boss %s", unitName)
 		creep:ForceKill(false)
@@ -463,6 +466,7 @@ function WaveManager:OnEntityKilled(event)
 			end
 		end
 		self:OnCreepRemoved(killedUnit, defendingTeam)
+		if killedUnit.isBoss then BossFramework:OnBossKilled(killedUnit) end
 	end
 end
 

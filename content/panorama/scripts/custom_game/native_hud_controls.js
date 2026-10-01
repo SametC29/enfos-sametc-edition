@@ -22,7 +22,7 @@
         panel.enabled = false;
         panel.hittest = false;
         panel.hittestchildren = false;
-        panel.style.visibility = "collapse;";
+        panel.style.visibility = "collapse";
     }
 
     function ShowSpellbringer() {
@@ -102,6 +102,8 @@
     }
 
     function ApplyNativeHudChanges() {
+        // Keep retrying when the engine has not built the HUD yet.
+        $.Schedule(0.5, ApplyNativeHudChanges);
         var root = FindHudRoot();
         if (!root) return;
 
@@ -126,6 +128,15 @@
             talentTab.ClearPanelEvent("onactivate");
             HidePanel(root, "LevelUpTab");
         }
+        // SkillUpgradable/CanLevelStats make the native frame visible again.
+        // Suppress its parent and the drawer/hotkey as well as the child tab.
+        // `levelup` is a separate DOTALevelUpButton and stays available.
+        ["level_stats_frame", "StatBranch", "StatBranchDrawer", "StatBranchHotkey"].forEach(function (id) {
+            var panel = FindHudElement(root, id);
+            if (!panel) return;
+            HidePanel(root, id);
+            panel.style.opacity = "0";
+        });
 
         // Keep the Town Portal Scroll control while removing only the neutral
         // item slot and its level-up affordance/label.
@@ -134,7 +145,6 @@
 
         BindFortification(root);
         PositionSpellbringer(FindHudElement(root, "glyph"));
-        $.Schedule(0.5, ApplyNativeHudChanges);
     }
 
     ApplyNativeHudChanges();

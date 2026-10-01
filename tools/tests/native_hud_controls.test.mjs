@@ -31,12 +31,17 @@ test('native HUD controller hides requested panels and toggles Spellbringer from
       SetPanelEvent(name, callback) { this.events[name] = callback; },
       SetHasClass(name, on) { on ? this.classes.add(name) : this.classes.delete(name); },
     };
+    Object.defineProperty(panel.style, 'visibility', {
+      set(value) { assert(['visible', 'collapse'].includes(value), 'CSS value must not include a declaration semicolon'); this._visibility = value; },
+      get() { return this._visibility; },
+    });
     panels.set(id, panel);
     return panel;
   }
   const root = makePanel('DotaHud');
   for (const id of ['RoshanTimerContainer', 'TormentorTimerContainer', 'RadarButton',
-    'StatBranch', 'LevelUpTab', 'AbilityLevelUpButton', 'inventory_neutral_slot_container', 'inventory_neutral_level_up',
+    'StatBranch', 'LevelUpTab', 'level_stats_frame', 'StatBranchDrawer', 'StatBranchHotkey',
+    'levelup', 'AbilityLevelUpButton', 'abilities', 'inventory_neutral_slot_container', 'inventory_neutral_level_up',
     'inventory_tpscroll_container', 'glyph', 'NormalRoot', 'GlyphButton', 'SpellbringerHud']) makePanel(id);
   // Simulate native Glyph cooldown: Valve may disable its button, but the
   // repurposed control must still open Spellbringer.
@@ -58,16 +63,27 @@ test('native HUD controller hides requested panels and toggles Spellbringer from
   });
 
   for (const id of ['RoshanTimerContainer', 'TormentorTimerContainer', 'RadarButton',
-    'StatBranch', 'LevelUpTab', 'inventory_neutral_slot_container', 'inventory_neutral_level_up'])
+    'StatBranch', 'LevelUpTab', 'level_stats_frame', 'StatBranchDrawer', 'StatBranchHotkey',
+    'inventory_neutral_slot_container', 'inventory_neutral_level_up'])
     assert.equal(panels.get(id).visible, false, id);
   assert.equal(panels.get('LevelUpTab').events.onactivate, undefined);
   assert.equal(panels.get('AbilityLevelUpButton').visible, true);
+  assert.equal(panels.get('levelup').visible, true);
+  assert.equal(panels.get('abilities').visible, true);
   // A level-up/HUD rebuild can restore native visibility. The next refresh
   // must suppress the talent tab while leaving ordinary rank controls alone.
   panels.get('LevelUpTab').visible = true;
+  panels.get('level_stats_frame').visible = true;
+  panels.get('StatBranchDrawer').visible = true;
+  assert.equal(panels.get('level_stats_frame').style.opacity, '0', 'parent remains transparent during native child refresh');
+  // A HUD rebuild replaces the native frame, not just its visible flag.
+  makePanel('level_stats_frame');
   retry();
   assert.equal(panels.get('LevelUpTab').visible, false);
   assert.equal(panels.get('AbilityLevelUpButton').visible, true);
+  assert.equal(panels.get('level_stats_frame').style.opacity, '0');
+  assert.equal(panels.get('StatBranchDrawer').visible, false);
+  assert.equal(panels.get('levelup').visible, true);
   assert.equal(panels.get('inventory_tpscroll_container').visible, true);
   assert.equal(panels.get('glyph').enabled, true);
   assert.equal(panels.get('NormalRoot').enabled, true);

@@ -195,13 +195,15 @@ function EnfosSametC:OnNPCSpawned(event)
 	end
 
 	-- Register Hero
-	if spawnedUnit:IsRealHero() then
+	local team = spawnedUnit:GetTeamNumber()
+	local playerId = spawnedUnit:IsRealHero() and spawnedUnit:GetPlayerID() or -1
+	if spawnedUnit:IsRealHero() and (team == DOTA_TEAM_GOODGUYS or team == DOTA_TEAM_BADGUYS)
+		and playerId and playerId >= 0 then
 		require("map/hero_spawns"):ConfigureHero(spawnedUnit)
 		require("heroes/hero_power"):Apply(spawnedUnit)
 		require("heroes/innates"):Apply(spawnedUnit)
 		require("heroes/match_levels"):InitializeStartingAbilityPoints(
 			spawnedUnit, self.initializedHeroAbilityPoints)
-		local playerId = spawnedUnit:GetPlayerID()
 		if playerId and playerId >= 0 then
 			self.playerHeroes[playerId] = spawnedUnit
 		end

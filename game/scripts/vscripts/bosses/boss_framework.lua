@@ -29,7 +29,7 @@ BossFramework.STATUS_RESISTANCE = 60 -- Percent
 BossFramework.MAX_REFLECT_DAMAGE = 150 -- Per damage instance
 
 -- Link Lua Modifiers
-if IsServer and IsServer() and LinkLuaModifier then
+if LinkLuaModifier then
 	LinkLuaModifier("modifier_enfos_boss_base", "bosses/boss_framework", LUA_MODIFIER_MOTION_NONE)
 end
 
@@ -111,6 +111,14 @@ function BossFramework:OnBossThink(unit)
 		return nil
 	end
 	return NativeHeroBosses:Think(unit, state)
+end
+
+-- Retire the dead entity immediately; a later Boss spawn only registers its
+-- own entity. The existing thinker observes the cleared state and stops.
+function BossFramework:OnBossKilled(unit)
+	if not unit or unit:IsNull() then return end
+	unit.bossState = nil
+	if self.activeBosses then self.activeBosses[unit:entindex()] = nil end
 end
 
 --------------------------------------------------------------------------------

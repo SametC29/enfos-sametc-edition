@@ -1,6 +1,11 @@
 # Four regressions — implementation delivery, 2026-10-01
 
-Status: **IMPLEMENTED BUT NOT ENGINE-VERIFIED; goal remains active.**
+Status: **IMPLEMENTED BUT NOT ENGINE-VERIFIED.**
+
+Owner follow-up: Elite removal and Boss loading were confirmed; talent `+`
+still appeared, dead Bosses returned, and Reveal was not yet tested. See
+[the talent/Boss follow-up](TALENT_BOSS_FOLLOWUP_2026-10-01.md) for the new
+focused repair and explicit delivery without waiting for engine testing.
 
 This is the current delivery record and supersedes intermediate status in
 `FOUR_REGRESSIONS_GOAL_2026-10-01.md`. Existing unrelated contributor changes
