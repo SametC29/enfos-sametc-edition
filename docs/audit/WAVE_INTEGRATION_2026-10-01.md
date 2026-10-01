@@ -82,4 +82,6 @@ Owner runtime checklist: start a fresh match; inspect waves 1, 11, 12, 21, 31,
 36, 49 and 59 plus each Boss; verify paths, native animation/projectiles,
 stun/silence/root, resource callbacks and bounded summons in VConsole; use
 Reveal on Ghost/Lycan units; assess solo opening and late pressure. Spellbringer
-+5 power, target area and accepted-cast effects are a separate pending commit.
++5 power, target area and accepted-cast effects are committed in 9e14de5;
+their separate evidence and pending engine checks are recorded in
+`SPELLBRINGER_FUTURE_EFFECTS_2026-10-01.md`.

@@ -1,8 +1,9 @@
 # Wave curve and native roster foundation
 
-Status: data foundation implemented and automated contracts verified. Integration
-with spawning, special abilities, Spellbringer, localization and effects remains
-a separate work unit. This commit alone does not activate the new wave behavior.
+Status: foundation committed in d14edc7; spawning and special mechanics integrated
+in aca4251; Spellbringer, localization and effects completed in 9e14de5.
+Automated contracts verified. The foundation commit alone does not activate the
+new wave behavior; the subsequent integration commits do.
 No Workshop publication or live promotion is authorized.
 
 ## Evidence and decisions

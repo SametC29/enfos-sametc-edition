@@ -1,7 +1,8 @@
-# Active owner goal — progressive waves and Spellbringer
+# Owner goal — progressive waves and Spellbringer
 
 Implementation record: curve/roster foundation in d14edc7 and wave integration
-in aca4251. Spellbringer final integration is documented in
+in aca4251; final Spellbringer integration committed/pushed in 9e14de5.
+Implementation and automated verification complete. Final integration is documented in
 `SPELLBRINGER_FUTURE_EFFECTS_2026-10-01.md`. Engine acceptance remains pending;
 publication remains prohibited without a new explicit owner instruction.
 
