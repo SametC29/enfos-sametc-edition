@@ -41,4 +41,14 @@ Mock regressions now206 passing. Added lethal-hit/Break and friendly/dead-reflec
 - Check repeated casts, multiple Svens, death/purge, item removal/Blessing, passive rank refresh and no duplicated state after reconnect.
 - Owner test: rank1/maxrank casts, lethal E attack in a pack and Break, W on Sven+ally with Shard, R attempted dispel/Scepter ally stats, normal/immune/boss targets; record current-build VConsole plus visible/audio feedback.
 
-Status: **IN PROGRESS**, not whole-hero DONE and not ENGINE_PASS.
+## Cast presentation and upgrade localization follow-up
+
+2026-10-01: read Boss Survival Adventure Workshop1571786267 `scripts/vscripts/heroes/hero_sven/sven_warcry_lua/sven_warcry_lua.lua` through `workshop_read` after `ref_get` failed. Reference-only: version/license unresolved, no code imported. Its head-bound cast behavior was cross-checked independently against current native particles/model/API. Decoded native `sven_spell_warcry_mouth.vpcf` pre-emission operator uses `m_nHeadLocation=2`; decoded native Sven model declares `attach_head`. [Particle attachment guide](https://moddota.com/scripting/particle-attachment) documents entity attachment control points.
+
+W now creates one native `sven_spell_warcry.vpcf` cast root on Sven, binds CP2 to his `attach_head`, and releases the finite-lived particle index. Server-only cast path; explicit ability precache covers the cast particle and Sven sound bank. KV already owns WarCry cast sound, so no duplicate sound or gesture was added. Existing modifier-owned persistent buff remains, with no extra persistent particle. Its CP1 root/child interpretation still needs native engine evidence and owner visual testing; the cast fix does **not** close persistent VFX acceptance.
+
+Corrected Scepter description in EN/TR/RU/zh-CN to recipient's own base damage, matching the ally modifier; added the missing actual `modifier_bulwark_fortress_scepter_ally` name/description in all four languages. Regenerated all twelve resource/Panorama localization mirrors. Numerical upgrades unchanged.
+
+Added cast ownership/control-point/release and precache regression. **207 mock hero behavior tests pass**. Full checks pass after refreshing the structural inventory; the first run correctly detected stale inventory, not a gameplay failure. Particle existence checks include the new cast root. Audio, animation, particle composition/expiry and cosmetic head binding remain owner engine tests.
+
+Status: **IN PROGRESS**, not whole-hero DONE and not ENGINE_PASS. Scepter text/ally modifier labels and absent W cast burst are repaired at code level; remaining geometry/targeting/persistent VFX checks above are still open.
