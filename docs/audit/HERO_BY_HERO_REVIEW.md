@@ -12,7 +12,7 @@ Per hero: read its instructions/dossier; compare installed native definitions; t
 | 2 | Juggernaut | SOURCE REVIEW COMPLETE / ENGINE PENDING — attack records, hostile healing, slash targeting/CPs, Fury radius/audio and four-locale R text repaired; compatibility/runtime questions remain in individual record |
 | 3 | Drow Ranger | SOURCE REVIEW COMPLETE / ENGINE PENDING — Gust overlap, finite impact/precache, Q/R lethal-hit handling and passive Scepter text repaired; owner checklist in individual record |
 | 4 | Lina | SOURCE REVIEW COMPLETE / ENGINE PENDING — Break/hostile event guards, stack flames, W radius/CPs, captured corpse center, visible burn and four-locale tooltips repaired; shared-upgrade limits and owner checklist in individual record |
-| 5 | Omniknight | IN PROGRESS — hero instructions read; individual dossier/native comparison and five-skill source trace underway |
+| 5 | Omniknight | SOURCE REVIEW COMPLETE / ENGINE PENDING — Purification piercing/radius, Hammer lethal impact/splash, aura ownership, recipient effects, Scepter text and visible modifier identities repaired; individual record contains upgrade limits and owner tests |
 | 6 | Axe | NOT STARTED |
 | 7 | Legion Commander | NOT STARTED |
 | 8 | Sniper | NOT STARTED |

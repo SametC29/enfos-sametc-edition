@@ -271,3 +271,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
 Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+
+### Individual source review — 2026-10-01 / build6942
+
+All five abilities retain PVE-CONVERT classification with per-skill native comparison, source trace, resource CP/cleanup, upgrades, localization, tests and owner acceptance checklist in [the individual review](../../audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md). This current source record supersedes initial setup placeholders and historical6941 observations where later corrections are recorded. Repel grants debuff immunity (not magic immunity). Purification native piercing/target indicator, Hammer lethal splash/impact CP, Degen radius ownership, Guardian Angel recipient effects, Scepter text and visible modifier identities were repaired.226 behavior regressions and full checks pass; all gameplay/render/audio/VConsole acceptance remains ENGINE PENDING. No talents, permanent progression, native Shard recast/global Angel promise or Workshop publication was added.
