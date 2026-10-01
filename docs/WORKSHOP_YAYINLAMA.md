@@ -1,5 +1,13 @@
 # Steam Workshop — ilk yayın ve güncellemeler
 
+Güncel durum (2026-10-01): **V1.0.11 yüklemesi başarılı; resmi Steam API başlığı
+V1.0.11 ve görünürlüğü Public gösteriyor. Temiz anonim indirme hâlâ V1.0.10
+paketini veriyor; V1.0.11'in oyunculara teslimi doğrulanmadı.** Güncel kod GitHub'a
+`4211943` olarak gönderildi. Paket doğrulamaları geçti; oyun içi kabul bekliyor.
+Ayrıntılı kanıt: [V1.0.11 yayın kaydı](audit/WORKSHOP_V1.0.11_2026-10-01.md).
+Bu yayın kullanıcının yeni açık isteğiyle yapıldı; sonraki yayınlar yine yeni
+açık istek gerektirir. Aşağıdaki eski sürüm kayıtları tarihsel kanıttır.
+
 Durum (2026-09-30): **V1.0.5 SteamCMD gönderimi başarılı ve Workshop araması yeni başlığı gösteriyor; bağımsız indirme henüz V1.0.4 paketini veriyor. Yeni boss düzeltmesinin oyunculara ulaştığı doğrulanmadı.**
 Workshop ID: **3809160125**. Workshop araması başlığı V1.0.4 gösteriyor ve SteamCMD
 `Committing update...Success` verdi. Yükleme günlüğü yeni içerik manifesti
