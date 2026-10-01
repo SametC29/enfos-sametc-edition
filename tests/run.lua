@@ -166,24 +166,23 @@ test("boss waves are exactly every 5th wave and contain only the Boss", function
     end
 end)
 
-test("elite waves are every 6th wave except boss overlaps", function()
-    local expectedElites = {6, 12, 18, 24, 36, 42, 48, 54}
-    for _, wave in ipairs(expectedElites) do
-        assert(WaveDefs:IsEliteWave(wave), "Wave " .. wave .. " should be an elite wave")
+test("every authored non-Boss wave is normal and no Elite units are scheduled", function()
+    local formerElites = {6, 12, 18, 24, 36, 42, 48, 54}
+    for _, wave in ipairs(formerElites) do
         local def = WaveDefs:GetWave(wave)
-        assert(def.wave_type == "elite", "Wave " .. wave .. " type should be elite")
+        assert(def.wave_type == "normal", "Wave " .. wave .. " must be a normal wave")
+        local plan = WaveDefs:GetSpawnPlan(wave, 1)
+        for _, entry in ipairs(plan) do
+            assert(not entry.unit_name:find("enfos_elite_", 1, true), "Retired elite unit still scheduled: " .. entry.unit_name)
+        end
     end
-    -- Wave 30 is a boss wave (6*5=30), boss takes precedence
     assert(WaveDefs:IsBossWave(30))
-    assert(not WaveDefs:IsEliteWave(30))
 end)
 
 
 test("leak penalties strictly follow game design specification", function()
     assert(WaveDefs:GetLeakPenalty("enfos_creep_soldier") == 1)
     assert(WaveDefs:GetLeakPenalty("enfos_creep_runner") == 1)
-    assert(WaveDefs:GetLeakPenalty("enfos_elite_vanguard") == 2)
-    assert(WaveDefs:GetLeakPenalty("enfos_elite_assassin") == 2)
     assert(WaveDefs:GetLeakPenalty("enfos_boss_stonebreaker") == 5)
     assert(WaveDefs:GetLeakPenalty("enfos_boss_brood_matron") == 5)
     assert(WaveDefs:GetLeakPenalty("enfos_creep_skeleton") == 0)
@@ -235,20 +234,16 @@ test("life core starts at 100 life for both teams and deducts on leaks", functio
     LifeCore:ProcessLeak(makeCreep("enfos_creep_soldier"), 2)
     assert(LifeCore:GetLife(2) == 99)
 
-    -- Elite creep leak (-2)
-    LifeCore:ProcessLeak(makeCreep("enfos_elite_vanguard"), 2)
-    assert(LifeCore:GetLife(2) == 97)
-
     -- Boss leak (-5)
     LifeCore:ProcessLeak(makeCreep("enfos_boss_stonebreaker"), 2)
-    assert(LifeCore:GetLife(2) == 92)
+    assert(LifeCore:GetLife(2) == 94)
 
     -- Summon leak (-0)
     LifeCore:ProcessLeak(makeCreep("enfos_creep_skeleton"), 2)
-    assert(LifeCore:GetLife(2) == 92)
+    assert(LifeCore:GetLife(2) == 94)
 
     -- Direct deduction causing defeat
-    LifeCore:ApplyDamage(2, 92, "test_defeat", "boss")
+    LifeCore:ApplyDamage(2, 94, "test_defeat", "boss")
     assert(LifeCore:GetLife(2) == 0)
     assert(GameRules.winner == 3) -- When Radiant (2) reaches 0, Dire (3) wins
 end)
@@ -576,12 +571,11 @@ test("future reinforcements summons exactly 5 allied fighters with wave scaling 
 end)
 
 -- =========================================================================
--- Elite & Boss Framework Tests (Phase 6)
+-- Boss Framework Tests (Phase 6)
 -- =========================================================================
 LinkLuaModifier = LinkLuaModifier or function() end
 IsServer = function() return true end
 local BossFramework = require("bosses/boss_framework")
-local EliteFramework = require("bosses/elite_framework")
 
 test("boss base modifier enforces CC, reflect, and %-HP damage caps", function()
     BossFramework:Init()
@@ -688,24 +682,6 @@ test("bosses have no health-threshold phase or phase-triggered adds", function()
 	assert(spawnedAdds == 0, "Boss phases must not create threshold-triggered adds")
 
     CreateUnitByName = originalCreate
-end)
-
-test("elite vanguard has 35% physical damage reduction and elite assassin has ambush stealth", function()
-    EliteFramework:Init()
-
-    -- 1. Vanguard Shield Wall
-    local shieldMod = modifier_enfos_elite_vanguard_shield()
-    assert(shieldMod:GetModifierIncomingPhysicalDamage_Percentage() == -35, "Vanguard must have -35% physical damage reduction")
-
-    -- 2. Elite Base status resistance
-    local eliteBase = modifier_enfos_elite_base()
-    assert(eliteBase:GetModifierStatusResistanceStacking() == 35, "Elite must have 35% status resistance")
-    assert(eliteBase:GetModifierModelScale() == 15, "Elite must have +15% model scale")
-
-    -- 3. Elite Assassin Ambush Strike
-    MODIFIER_STATE_INVISIBLE = 1
-    local assassinMod = modifier_enfos_elite_assassin_stealth()
-    assert(assassinMod:CheckState()[MODIFIER_STATE_INVISIBLE] == true, "Assassin must have invisible state")
 end)
 
 -- =========================================================================

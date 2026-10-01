@@ -12,7 +12,6 @@ WaveDefinitions.STARTING_LIFE = 100
 -- Creep leak penalties
 WaveDefinitions.LEAK_PENALTIES = {
 	normal = 1,
-	elite = 2,
 	boss = 5,
 	summon = 0,
 }
@@ -39,16 +38,6 @@ local UNIT_LEAK_TYPES = {
 	["enfos_creep_splitter"] = "normal",
 	["enfos_creep_bloodbeast"] = "normal",
 	["enfos_creep_cursecaster"] = "normal",
-
-	-- Elites (-2)
-	["enfos_elite_vanguard"] = "elite",
-	["enfos_elite_assassin"] = "elite",
-	["enfos_elite_necromancer"] = "elite",
-	["enfos_elite_reflector"] = "elite",
-	["enfos_elite_stormcaster"] = "elite",
-	["enfos_elite_assassin_master"] = "elite",
-	["enfos_elite_bomber"] = "elite",
-	["enfos_elite_controller"] = "elite",
 
 	-- Bosses (-5)
 	["enfos_boss_stonebreaker"] = "boss",
@@ -151,16 +140,15 @@ local WAVES = {
 	},
 	[6] = {
 		wave_number = 6,
-		wave_type = "elite",
+		wave_type = "normal",
 		title = "enfos_wave_title_6",
 		description = "enfos_wave_desc_6",
-		elite_name = "enfos_elite_vanguard",
 		batches = 4,
 		batch_interval = 3.5,
 		gold_bounty = 120,
 		xp_bounty = 170,
 		creeps = {
-			{ unit_name = "enfos_elite_vanguard", count_per_player = 1, lane = "both", is_elite = true },
+			{ unit_name = "enfos_creep_shieldbearer", count_per_player = 1, lane = "both" },
 			{ unit_name = "enfos_creep_skyraker", count_per_player = 3, lane = "both" },
 		},
 	},
@@ -241,16 +229,15 @@ local WAVES = {
 	},
 	[12] = {
 		wave_number = 12,
-		wave_type = "elite",
+		wave_type = "normal",
 		title = "enfos_wave_title_12",
 		description = "enfos_wave_desc_12",
-		elite_name = "enfos_elite_assassin",
 		batches = 4,
 		batch_interval = 3.5,
 		gold_bounty = 180,
 		xp_bounty = 250,
 		creeps = {
-			{ unit_name = "enfos_elite_assassin", count_per_player = 1, lane = "both", is_elite = true },
+			{ unit_name = "enfos_creep_assassin", count_per_player = 1, lane = "both" },
 			{ unit_name = "enfos_creep_assassin", count_per_player = 3, lane = "both" },
 		},
 	},
@@ -326,16 +313,15 @@ local WAVES = {
 	},
 	[18] = {
 		wave_number = 18,
-		wave_type = "elite",
+		wave_type = "normal",
 		title = "enfos_wave_title_18",
 		description = "enfos_wave_desc_18",
-		elite_name = "enfos_elite_necromancer",
 		batches = 4,
 		batch_interval = 3.5,
 		gold_bounty = 230,
 		xp_bounty = 320,
 		creeps = {
-			{ unit_name = "enfos_elite_necromancer", count_per_player = 1, lane = "both", is_elite = true },
+			{ unit_name = "enfos_creep_summoner", count_per_player = 1, lane = "both" },
 			{ unit_name = "enfos_creep_summoner", count_per_player = 2, lane = "both" },
 		},
 	},
@@ -415,16 +401,15 @@ local WAVES = {
 	},
 	[24] = {
 		wave_number = 24,
-		wave_type = "elite",
+		wave_type = "normal",
 		title = "enfos_wave_title_24",
 		description = "enfos_wave_desc_24",
-		elite_name = "enfos_elite_reflector",
 		batches = 4,
 		batch_interval = 3.5,
 		gold_bounty = 290,
 		xp_bounty = 410,
 		creeps = {
-			{ unit_name = "enfos_elite_reflector", count_per_player = 1, lane = "both", is_elite = true },
+			{ unit_name = "enfos_creep_reflector", count_per_player = 1, lane = "both" },
 			{ unit_name = "enfos_creep_mindstealer", count_per_player = 2, lane = "both" },
 		},
 	},
@@ -588,16 +573,15 @@ local WAVES = {
 	},
 	[36] = {
 		wave_number = 36,
-		wave_type = "elite",
+		wave_type = "normal",
 		title = "enfos_wave_title_36",
 		description = "enfos_wave_desc_36",
-		elite_name = "enfos_elite_stormcaster",
 		batches = 4,
 		batch_interval = 3.5,
 		gold_bounty = 410,
 		xp_bounty = 580,
 		creeps = {
-			{ unit_name = "enfos_elite_stormcaster", count_per_player = 1, lane = "both", is_elite = true },
+			{ unit_name = "enfos_creep_skyraker", count_per_player = 1, lane = "both" },
 			{ unit_name = "enfos_creep_archer", count_per_player = 4, lane = "both" },
 		},
 	},
@@ -677,16 +661,15 @@ local WAVES = {
 	},
 	[42] = {
 		wave_number = 42,
-		wave_type = "elite",
+		wave_type = "normal",
 		title = "enfos_wave_title_42",
 		description = "enfos_wave_desc_42",
-		elite_name = "enfos_elite_assassin_master",
 		batches = 4,
 		batch_interval = 3.5,
 		gold_bounty = 490,
 		xp_bounty = 700,
 		creeps = {
-			{ unit_name = "enfos_elite_assassin_master", count_per_player = 1, lane = "both", is_elite = true },
+			{ unit_name = "enfos_creep_assassin", count_per_player = 1, lane = "both" },
 			{ unit_name = "enfos_creep_assassin", count_per_player = 2, lane = "both" },
 			{ unit_name = "enfos_creep_venomous", count_per_player = 2, lane = "both" },
 		},
@@ -763,16 +746,15 @@ local WAVES = {
 	},
 	[48] = {
 		wave_number = 48,
-		wave_type = "elite",
+		wave_type = "normal",
 		title = "enfos_wave_title_48",
 		description = "enfos_wave_desc_48",
-		elite_name = "enfos_elite_bomber",
 		batches = 4,
 		batch_interval = 3.5,
 		gold_bounty = 570,
 		xp_bounty = 820,
 		creeps = {
-			{ unit_name = "enfos_elite_bomber", count_per_player = 1, lane = "both", is_elite = true },
+			{ unit_name = "enfos_creep_exploder", count_per_player = 1, lane = "both" },
 			{ unit_name = "enfos_creep_exploder", count_per_player = 3, lane = "both" },
 			{ unit_name = "enfos_creep_splitter", count_per_player = 2, lane = "both" },
 		},
@@ -854,16 +836,15 @@ local WAVES = {
 	},
 	[54] = {
 		wave_number = 54,
-		wave_type = "elite",
+		wave_type = "normal",
 		title = "enfos_wave_title_54",
 		description = "enfos_wave_desc_54",
-		elite_name = "enfos_elite_controller",
 		batches = 4,
 		batch_interval = 3.5,
 		gold_bounty = 670,
 		xp_bounty = 970,
 		creeps = {
-			{ unit_name = "enfos_elite_controller", count_per_player = 1, lane = "both", is_elite = true },
+			{ unit_name = "enfos_creep_conqueror", count_per_player = 1, lane = "both" },
 			{ unit_name = "enfos_creep_conqueror", count_per_player = 2, lane = "both" },
 			{ unit_name = "enfos_creep_mindstealer", count_per_player = 2, lane = "both" },
 		},
@@ -973,10 +954,6 @@ function WaveDefinitions:IsBossWave(waveNumber)
 	return (waveNumber > 0) and (waveNumber % 5 == 0)
 end
 
-function WaveDefinitions:IsEliteWave(waveNumber)
-	return (waveNumber > 0) and (waveNumber % 6 == 0) and not WaveDefinitions:IsBossWave(waveNumber)
-end
-
 
 function WaveDefinitions:GetUnitLeakType(unitName)
 	return UNIT_LEAK_TYPES[unitName] or "normal"
@@ -989,7 +966,6 @@ end
 
 -- Threat cost is retained for audits; it no longer reduces scheduled unit counts.
 function WaveDefinitions:GetThreatCost(name)
-	if name:find("enfos_elite_", 1, true) then return 2.5 end
 	if name:find("summoner", 1, true) or name:find("cursecaster", 1, true) or name:find("skyraker", 1, true) or name:find("silencer", 1, true) or name:find("conqueror", 1, true) then return 2.5 end
 	if name:find("healer", 1, true) or name:find("shieldbearer", 1, true)
 		or name:find("spellguard", 1, true) or name:find("reflector", 1, true) then return 2 end

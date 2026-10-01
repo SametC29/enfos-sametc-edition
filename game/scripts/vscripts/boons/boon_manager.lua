@@ -15,14 +15,13 @@ BoonManager.__index = BoonManager
 BoonManager.VOTE_DURATION = 10.0 -- 10 seconds voting window
 BoonManager.DEFAULT_MAX_STACKS = 3
 
--- Registry of 25 Authored Boons + 3 Pacts (docs/GAME_DESIGN_MASTER.md § 24)
+-- Registry of 24 Authored Boons + 3 Pacts (docs/GAME_DESIGN_MASTER.md § 24)
 BoonManager.DEFINITIONS = {
 	-- Offensive Boons
 	{ id = "war_training", category = "offensive", isUnique = false, maxStacks = 3, minWave = 1, bonus = 10 },
 	{ id = "quickening", category = "offensive", isUnique = false, maxStacks = 3, minWave = 1, bonus = 25 },
 	{ id = "arcane_knowledge", category = "offensive", isUnique = false, maxStacks = 3, minWave = 1, bonus = 12 },
 	{ id = "execution_training", category = "offensive", isUnique = false, maxStacks = 3, minWave = 1, bonus = 30 },
-	{ id = "elite_hunters", category = "offensive", isUnique = false, maxStacks = 3, minWave = 1, bonus = 25 },
 	{ id = "boss_slayers", category = "offensive", isUnique = false, maxStacks = 3, minWave = 1, bonus = 25 },
 	{ id = "battle_rhythm", category = "offensive", isUnique = true, maxStacks = 1, minWave = 1, bonus = 35 },
 

@@ -29,7 +29,7 @@
 						<Panel class="PillarIcon IconWaves" />
 						<Label class="PillarTitle" text="60 Authored Waves" />
 					</Panel>
-					<Label class="PillarDesc" text="Battle through 40 Normal, 8 Elite, and 12 Boss waves. Every 5th wave spawns a solo Boss; every 6th wave unleashes brutal Elites." />
+					<Label class="PillarDesc" text="#enfos_loading_wave_format" />
 				</Panel>
 
 				<!-- Pillar 2: 100 Team Life -->
@@ -38,7 +38,7 @@
 						<Panel class="PillarIcon IconLife" />
 						<Label class="PillarTitle" text="100 Team Life" />
 					</Panel>
-					<Label class="PillarDesc" text="Defend your team core. Scheduled hostile units exceeding lane caps convert directly into irrevocable Team Life loss." />
+					<Label class="PillarDesc" text="#enfos_loading_core_format" />
 				</Panel>
 
 				<!-- Pillar 3: Spellbringer -->

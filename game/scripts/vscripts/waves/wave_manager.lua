@@ -12,7 +12,6 @@ local CreepAI = require("waves/creep_ai")
 local LifeCore = require("waves/life_core")
 local Rewards = require("waves/rewards")
 local BossFramework = require("bosses/boss_framework")
-local EliteFramework = require("bosses/elite_framework")
 local EconomyManager = require("economy/economy_manager")
 local BoonManager = require("boons/boon_manager")
 local BalanceConfig = require("waves/balance_config")
@@ -62,11 +61,10 @@ function WaveManager:Init()
 	self.bossResourcePlan = nil
 	self.bossResourceWait = 0
 
-	-- Initialize Life Core, Rewards, Boss and Elite Frameworks
+	-- Initialize Life Core, Rewards and Boss framework
 	LifeCore:Init(self)
 	Rewards:Init()
 	BossFramework:Init()
-	EliteFramework:Init()
 
 	-- Register Listeners
 	ListenToGameEvent("entity_killed", Dynamic_Wrap(WaveManager, "OnEntityKilled"), self)
@@ -284,7 +282,6 @@ function WaveManager:StartWave(waveNumber)
 	self.bossResourcePlan = isBoss and WaveDefinitions:GetSpawnPlan(waveNumber, 1) or nil
 	self.bossResourceWait = 0
 	if self.bossResourcePlan then self.bossResources:RequestPlan(self.bossResourcePlan) end
-	local isElite = WaveDefinitions:IsEliteWave(waveNumber)
 
 	Log:Info("wave_manager", "Starting Wave %d [Type: %s, Batches: %d]",
 		waveNumber, waveDef.wave_type, waveDef.batches)
@@ -411,11 +408,9 @@ function WaveManager:SpawnCreepEntity(unitName, defendingTeam, lane, isBoss, act
 	-- Register active creep
 	self.activeCreeps[defendingTeam][creep:entindex()] = creep
 
-	-- Hook Boss / Elite frameworks
+	-- Hook Boss framework
 	if isBoss then
 		BossFramework:RegisterBoss(creep, unitName, self.currentWave, activePlayers)
-	elseif unitName:find("enfos_elite_", 1, true) then
-		EliteFramework:RegisterElite(creep, unitName, self.currentWave)
 	end
 
 	-- Attach AI navigation and leak callback
@@ -535,7 +530,6 @@ function WaveManager:SyncNetTable()
 		clear_gold = 0,
 		state_timer = math.max(0, math.floor(self.stateTimer + 0.5)),
 		is_boss = displayDef and WaveDefinitions:IsBossWave(displayDef.wave_number) or false,
-		is_elite = displayDef and WaveDefinitions:IsEliteWave(displayDef.wave_number) or false,
 		title = displayDef and displayDef.title or "",
 		active_goodguys = self:GetActiveCreepCount(DOTA_TEAM_GOODGUYS or 2),
 		active_badguys = self:GetActiveCreepCount(DOTA_TEAM_BADGUYS or 3),
