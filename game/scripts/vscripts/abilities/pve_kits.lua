@@ -1332,7 +1332,8 @@ function enfos_lina_dragon_slave:OnProjectileHit(t)
         damage(self, t, dmg, DAMAGE_TYPE_MAGICAL)
         local comb = c:FindAbilityByName('enfos_lina_combustion')
         if c.IsIllusion and c:IsIllusion() then comb = nil end
-        if comb and comb:GetLevel() > 0 then
+        if comb and not (comb.IsNull and comb:IsNull()) and comb:GetLevel() > 0
+            and not c:PassivesDisabled() and not (t.IsNull and t:IsNull()) and t:IsAlive() then
             t:AddNewModifier(c, comb, 'modifier_enfos_pve_burn', { duration = value(comb, 'burn_duration') })
         end
     end
@@ -1389,8 +1390,10 @@ function modifier_enfos_pve_fiery:OnAbilityFullyCast(e)
 end
 function modifier_enfos_pve_fiery:OnAttackLanded(e)
     local c = self:GetParent()
+    local target = e and e.target
     local proc_chance = value(self:GetAbility(), 'fiery_soul_attack_proc_chance')
     if IsServer() and e and e.attacker == c and not c:PassivesDisabled() and not c:IsIllusion()
+        and target and not (target.IsNull and target:IsNull()) and target:GetTeamNumber() ~= c:GetTeamNumber()
         and RollPercentage(proc_chance) then
         c:AddNewModifier(c, self:GetAbility(), 'modifier_enfos_pve_fiery_stacks', { duration = value(self:GetAbility(), 'fiery_soul_stack_duration') })
     end

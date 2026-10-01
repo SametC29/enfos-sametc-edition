@@ -1,0 +1,25 @@
+# Lina individual review — in progress
+
+Complete hero AGENTS/ABILITIES and shared research/runtime/development/reference contract read. Installed native AbilityDefinitions extracted from scripts/npc/heroes/npc_dota_hero_lina.txt on2026-10-01, ClientVersion6942/SourceRevision11055158; source hash in HERO_NATIVE_PRESENTATION_2026-10-01.json. Earlier6941 dossier is historical. All five production implementations and KV were read before edits. No engine launch, remote push or Workshop publication.
+
+| Slot | Classification and source comparison |
+| --- | --- |
+| Q Dragon Slave | PVE-CONVERT; native moving fire wave preserved, damage180–480+1.2INT, distance1200/speed1200/width275→200 versus native65–245/distance1075. Explicit secondary burn path must obey the fifth passive's Break state. |
+| W Light Strike Array | PVE-CONVERT; native0.5sec delayed point stun preserved; Enfos radius350/damage150–390+INT/stun2–3.2sec, Boss35% stun. Native radius250/damage80–215/stun1.2–2.4sec. Context name includes cast serial for independent delayed casts; particle CP/timing and invalid ability cleanup remain review. |
+| E Fiery Soul | PVE-CONVERT; cast or25% landed attack builds10sec stacks,4–7 cap;30–75AS/4–10%MS and5%spell amp per stack. Native7stacks/16sec/7–28AS/1–2.5%MS; exact engine trigger not inferred from KV. Break suppresses bonuses/procs. Hostile-target eligibility and current particle CP1 stack control need review. |
+| R Laguna Blade | PVE-CONVERT; native targeted magical strike remains, Enfos instant600–1300+2INT plus50%overflow in450radius. Native400–760 with0.25sec damage delay and Shard supercharge; Enfos uses shared40%ultimate spell amp/25%CDR, not native Flame Cloak. Spell block/team/null guards present. |
+| Fifth Combustion | PVE-CONVERT; Enfos-only separately granted passive with6–18%spell amp,3sec burn20–65DPS+30%INT, corpse burst120+min(8%maxHP,600) in300radius. Native slow_burn, flame_cloak and separate native combustion are not silently mapped by icon. Break/illusion/owned burn guards must apply to every path. |
+
+All five have10ranks; Q/W/E/fifth1/1 gates, R5/5. No talent/account progression restoration. Shared Mage Shard gives15%spell amp; Scepter/Blessing40%R amp/25%R cooldown modifier paths require final verification and owner testing. Icons, four-locale descriptions, particle lifetime/CPs, sound banks, precache and cleanup still IN PROGRESS. Owner Dota/VConsole acceptance remains PENDING.
+
+## Reproduced direct Q burn Break bypass
+
+OnTakeDamage passive correctly rejects PassivesDisabled, but Q OnProjectileHit independently adds the burn without that guard. A regression overrides Lina PassivesDisabled=true, calls Q on a hostile target with learned passive, confirms active magical damage still occurs, and fails because burn was applied. Scratch log TEMP/enfos-lina-break-repro.log. Focused repair: direct path must respect Break without disabling active Q damage; no numerical rebalance or shared helper rewrite.
+
+MCP confirms CDOTA_BaseNPC:PassivesDisabled and CDOTA_Modifier_Lua:OnTakeDamage signatures. [ModDota API declarations](https://docs.moddota.com/lua_server/declaration) checked; old enum numeric values were not copied. Reference-only MCP read Boss Survival Adventure1571786267 scripts/vscripts/heroes/hero_lina/lina_fiery_soul_lua/lina_fiery_soul_lua.lua: cast event guards, modifier-owned particle and explicit CP1 stack count. Its talent/old-trigger logic is not adopted; license/version/runtime remain unverified, so no imported code/assets.
+
+## Focused event repairs
+
+Q direct burn now checks passive handle/learned rank/Break and target validity again after damage. Active Q damage is retained under Break; no rank/damage curve changed. Fiery Soul attack proc now requires a non-null enemy target, preventing deny/friendly or missing-target stacks while retaining hostile landed killing hits. Its failure was reproduced after fixing Q, then the separate focused repair passed. Mock tests intentionally do not certify engine event ordering.219 hero regressions and full checks passed;200 abilities/223 modifiers smokes pass.
+
+Decoded installed Lina folder via VRF19.2: fiery_soul continuous emitter reads CP1.x×10. Current GetEffectName auto-attachment never sets CP1, so stack-dependent flame presentation needs a focused ownership/control-point repair next. Laguna decoded sequential path ends at CP1; existing caster/target CP0/1 attachments match. W warning/impact children and corpse burst still need lifetime/radius trace. No whole-hero completion claimed.

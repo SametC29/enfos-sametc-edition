@@ -5473,4 +5473,43 @@ test('Witch Doctor Shard launches its ward projectile and resolves damage at imp
     ProjectileManager.CreateTrackingProjectile = previous
 end)
 
+
+test('Lina Dragon Slave cannot bypass Combustion Break through its direct burn path', function()
+    local lina = create_mock_unit('npc_dota_hero_lina', 2, Vector(0, 0, 0))
+    local target = create_mock_unit('enfos_lina_break_target', 3, Vector(100, 0, 0))
+    local comb = enfos_lina_combustion()
+    comb.GetLevel = function() return 1 end
+    comb.GetSpecialValueFor = function(_, key) return key == 'burn_duration' and 3 or 0 end
+    lina.FindAbilityByName = function(_, name) return name == 'enfos_lina_combustion' and comb or nil end
+    local q = enfos_lina_dragon_slave()
+    q.GetCaster = function() return lina end
+    q.GetSpecialValueFor = function() return 100 end
+    lina.PassivesDisabled = function() return true end
+    applied_damages = {}
+    q:OnProjectileHit(target)
+    assert(#applied_damages == 1, 'Break must not disable active Dragon Slave damage')
+    assert(not target:HasModifier('modifier_enfos_pve_burn'), 'Q direct burn bypassed Combustion Break')
+    lina.PassivesDisabled = function() return false end
+    q:OnProjectileHit(target)
+    assert(target:HasModifier('modifier_enfos_pve_burn'), 'Learned unbroken passive still burns the enemy')
+end)
+
+test('Lina Fiery Soul attack proc rejects friendly and missing targets but retains hostile killing hits', function()
+    local lina = create_mock_unit('npc_dota_hero_lina', 2, Vector(0, 0, 0))
+    local ally = create_mock_unit('enfos_lina_friendly', 2, Vector(100, 0, 0))
+    local enemy = create_mock_unit('enfos_lina_hostile', 3, Vector(100, 0, 0))
+    local ability = enfos_lina_fiery_soul()
+    ability.GetSpecialValueFor = function(_, key) return key == 'fiery_soul_attack_proc_chance' and 25 or 10 end
+    local mod = modifier_enfos_pve_fiery()
+    mod.GetParent = function() return lina end
+    mod.GetAbility = function() return ability end
+    mod:OnAttackLanded({attacker=lina,target=ally})
+    assert(not lina:HasModifier('modifier_enfos_pve_fiery_stacks'), 'Deny/friendly attack must not grant combat stacks')
+    mod:OnAttackLanded({attacker=lina})
+    assert(not lina:HasModifier('modifier_enfos_pve_fiery_stacks'), 'Missing target must not grant stacks')
+    enemy.alive = false
+    mod:OnAttackLanded({attacker=lina,target=enemy})
+    assert(lina:HasModifier('modifier_enfos_pve_fiery_stacks'), 'Hostile killing landed event must still grant stack')
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')
