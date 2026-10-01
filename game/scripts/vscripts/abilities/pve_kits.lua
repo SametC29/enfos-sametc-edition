@@ -1519,6 +1519,7 @@ end
 -- =========================================================================
 
 enfos_omni_purification=class({})
+function enfos_omni_purification:GetAOERadius() return value(self, 'radius') end
 function enfos_omni_purification:OnSpellStart()
     local target = self:GetCursorTarget() or self:GetCaster()
     local c = self:GetCaster()
@@ -1532,6 +1533,7 @@ function enfos_omni_purification:OnSpellStart()
     if target.Heal then target:Heal(amount, self) end
 
     local p = ParticleManager:CreateParticle('particles/units/heroes/hero_omniknight/omniknight_purification.vpcf', PATTACH_ABSORIGIN_FOLLOW, target)
+    ParticleManager:SetParticleControl(p, 1, Vector(radius, 0, 0))
     ParticleManager:ReleaseParticleIndex(p)
 
     for _, u in ipairs(enemies(c, target:GetAbsOrigin(), radius)) do

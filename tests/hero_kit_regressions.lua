@@ -5622,4 +5622,24 @@ test('Omniknight Hammer retains splash and sustain on lethal landed attacks with
     assert(c.hp==400,'Bonus lethal hit must retain configured sustain')
 end)
 
+
+test('Omniknight Purification supplies its actual area radius to the native finite ring', function()
+    local c=create_mock_unit('npc_dota_hero_omniknight',2,Vector(0,0,0))
+    local target=create_mock_unit('enfos_purification_ally',2,Vector(200,100,0))
+    local a=enfos_omni_purification()
+    a.GetCaster=function() return c end;a.GetCursorTarget=function() return target end
+    a.GetSpecialValueFor=function(_,k) return ({radius=400,heal_amount=180,strength_multiplier=2})[k] or 0 end
+    mock_world_units={c,target}
+    local oldCreate,oldControl,oldRelease=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex
+    local cp,release,owner
+    ParticleManager.CreateParticle=function(_,path,attachment,unit) owner=unit;return 811 end
+    ParticleManager.SetParticleControl=function(_,id,index,v) if index==1 then cp=v end end
+    ParticleManager.ReleaseParticleIndex=function(_,id) release=id end
+    a:OnSpellStart()
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex=oldCreate,oldControl,oldRelease
+    assert(cp and cp.x==400,'Purification ring reads radius from CP1.x; omitted controls collapse its area')
+    assert(owner==target and release==811,'Finite effect must follow healed target and release its index')
+    assert(type(a.GetAOERadius)=='function' and a:GetAOERadius()==400,'Native AoE target cursor must match actual hit radius')
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')

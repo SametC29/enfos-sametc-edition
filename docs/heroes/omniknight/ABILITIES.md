@@ -9,7 +9,7 @@ Hero: `npc_dota_hero_omniknight`; role: Support. Production target: hero level 5
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_omni_purification` | 4 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | omniknight_purification |
+| 1 | `enfos_omni_purification` | 4 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_AOE | abilities/pve_kits | omniknight_purification |
 | 2 | `enfos_omni_repel` | 4 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | omniknight_repel |
 | 3 | `enfos_omni_degen_aura` | 4 | DOTA_ABILITY_BEHAVIOR_PASSIVE \| DOTA_ABILITY_BEHAVIOR_AURA | abilities/pve_kits | omniknight_degen_aura |
 | 4 | `enfos_omni_guardian_angel` | 3 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | omniknight_guardian_angel |
