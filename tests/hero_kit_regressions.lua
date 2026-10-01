@@ -338,46 +338,37 @@ test('Sven Warcry taunt cleans up only its own forced target', function()
     assert(enemy.forcedTarget == replacement, 'Taunt cleanup must preserve a newer forced target')
 end)
 
-test('Sven Great Cleave damages only enemies inside its widening cone', function()
-    applied_damages = {}
+test('Sven Great Cleave delegates native damage and visuals with tuned widths and lethal-hit guards', function()
     local sven = create_mock_unit('npc_dota_hero_sven', 2, Vector(0, 0, 0))
     local primary = create_mock_unit('enfos_creep_melee', 3, Vector(100, 0, 0))
-    local side = create_mock_unit('enfos_creep_melee', 3, Vector(200, 20, 0))
-    local outside = create_mock_unit('enfos_creep_melee', 3, Vector(200, 120, 0))
-    local behind = create_mock_unit('enfos_creep_melee', 3, Vector(50, 0, 0))
-    mock_world_units = { sven, primary, side, outside, behind }
-    local cleaveParticle
-    ParticleManager.CreateParticle = function(_, path) cleaveParticle = path return 1 end
-
     local ab = bulwark_iron_guard()
     ab.GetSpecialValueFor = function(_, k)
-        if k == 'cleave_pct' then return 50 end
-        if k == 'cleave_starting_width' then return 150 end
-        if k == 'cleave_ending_width' then return 270 end
-        if k == 'cleave_distance' then return 300 end
-        return 0
+        return ({cleave_pct=50,cleave_starting_width=150,cleave_ending_width=270,cleave_distance=300})[k] or 0
     end
-
-    local mod = setmetatable({
-        GetParent = function() return sven end,
-        GetAbility = function() return ab end
-    }, modifier_bulwark_iron_guard)
-
-    mod:OnAttackLanded({ attacker = sven, target = primary, original_damage = 200 })
-    assert(#applied_damages == 1, 'Only the side unit inside the cleave cone is hit')
-    assert(applied_damages[1].victim == side and applied_damages[1].damage == 100, 'Cleave deals the configured 50% attack damage')
-    assert(applied_damages[1].damage_type == DAMAGE_TYPE_PHYSICAL, 'Great Cleave keeps physical attack damage type')
-    assert(cleaveParticle == 'particles/units/heroes/hero_sven/sven_spell_great_cleave.vpcf', 'Use Sven Great Cleave impact visual')
-    assert(type(mod.OnTakeDamage) == 'nil', 'Great Cleave no longer carries the unrelated armor/block/reflection package')
-    primary.alive = false -- OnAttackLanded may arrive after the lethal primary hit.
-    applied_damages = {}
-    mod:OnAttackLanded({ attacker = sven, target = primary, original_damage = 200 })
-    assert(#applied_damages == 1 and applied_damages[1].victim == side,
-        'A lethal primary attack must still cleave living secondary enemies')
-    sven.PassivesDisabled = function() return true end
-    applied_damages = {}
-    mod:OnAttackLanded({ attacker = sven, target = primary, original_damage = 200 })
-    assert(#applied_damages == 0, 'Break still disables lethal-hit cleave')
+    local mod = setmetatable({GetParent=function() return sven end,GetAbility=function() return ab end}, modifier_bulwark_iron_guard)
+    local oldCleave,oldCreate = DoCleaveAttack,ParticleManager.CreateParticle
+    local calls={}
+    DoCleaveAttack=function(...) calls[#calls+1]={...};return 1 end
+    ParticleManager.CreateParticle=function() error('Engine owns cleave VFX; no manual target-attached copies') end
+    mod:OnAttackLanded({attacker=sven,target=primary,original_damage=200})
+    assert(#calls==1 and calls[1][1]==sven and calls[1][2]==primary and calls[1][3]==ab)
+    assert(calls[1][4]==100 and calls[1][5]==75 and calls[1][6]==135 and calls[1][7]==300)
+    assert(calls[1][8]=='particles/units/heroes/hero_sven/sven_spell_great_cleave.vpcf')
+    primary.alive=false
+    mod:OnAttackLanded({attacker=sven,target=primary,original_damage=200})
+    assert(#calls==2, 'A lethal primary hit must still dispatch cleave')
+    sven.modifiers.modifier_bulwark_fortress={}
+    mod:OnAttackLanded({attacker=sven,target=primary,original_damage=200})
+    assert(calls[3][8]=='particles/units/heroes/hero_sven/sven_spell_great_cleave_gods_strength.vpcf')
+    sven.PassivesDisabled=function() return true end
+    mod:OnAttackLanded({attacker=sven,target=primary,original_damage=200});assert(#calls==3)
+    sven.PassivesDisabled=function() return false end;sven.IsIllusion=function() return true end
+    mod:OnAttackLanded({attacker=sven,target=primary,original_damage=200});assert(#calls==3)
+    sven.IsIllusion=function() return false end;primary.team=2
+    mod:OnAttackLanded({attacker=sven,target=primary,original_damage=200});assert(#calls==3)
+    primary.IsNull=function() return true end
+    mod:OnAttackLanded({attacker=sven,target=primary,original_damage=200});assert(#calls==3)
+    DoCleaveAttack,ParticleManager.CreateParticle=oldCleave,oldCreate
 end)
 
 test('Luna Moon Glaives bounces across consecutive targets with 15% falloff', function()

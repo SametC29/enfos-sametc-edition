@@ -8,7 +8,7 @@ Per hero: read its instructions/dossier; compare installed native definitions; t
 
 | Order | Hero | Individual review status |
 | --- | --- | --- |
-| 1 | Sven | IN PROGRESS — see `SVEN_INDIVIDUAL_REVIEW_2026-10-01.md`; four focused fixes, presentation/tooltip follow-up remains |
+| 1 | Sven | SOURCE REVIEW COMPLETE / ENGINE PENDING — native cleave, lethal-hit fix, W cast feedback, reflection/recipient/R dispel and upgrade text repaired; see individual record for runtime questions |
 | 2 | Juggernaut | NOT STARTED |
 | 3 | Drow Ranger | NOT STARTED |
 | 4 | Lina | NOT STARTED |

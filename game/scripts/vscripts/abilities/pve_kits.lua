@@ -637,47 +637,19 @@ function modifier_bulwark_iron_guard:OnAttackLanded(e)
         or (primary.IsNull and primary:IsNull())
         or primary:GetTeamNumber() == c:GetTeamNumber() then return end
 
-    local direction = (primary:GetAbsOrigin() - c:GetAbsOrigin()):Normalized()
     local distance = math.max(0, value(self:GetAbility(), 'cleave_distance'))
     local startWidth = math.max(0, value(self:GetAbility(), 'cleave_starting_width')) * 0.5
     local endWidth = math.max(0, value(self:GetAbility(), 'cleave_ending_width')) * 0.5
     local percent = math.max(0, value(self:GetAbility(), 'cleave_pct')) / 100
     local baseDamage = e.original_damage or get_atk(c, primary)
     local splashDamage = math.max(0, baseDamage * percent)
-    local center = primary:GetAbsOrigin()
-    local cleaveCount = 0
-    local cleaveVisualCount = 1
-    local maxCleaveVisualTargets = 6 -- Primary impact plus up to five splash targets per attack.
     local particle = 'particles/units/heroes/hero_sven/sven_spell_great_cleave.vpcf'
     if c.HasModifier and c:HasModifier('modifier_bulwark_fortress') then
         particle = 'particles/units/heroes/hero_sven/sven_spell_great_cleave_gods_strength.vpcf'
     end
-    effect(particle, primary)
-
-    -- Native Great Cleave uses a widening cone extending beyond the struck unit.
-    for _, enemy in ipairs(enemies(c, center, distance)) do
-        if enemy ~= primary then
-            local offset = enemy:GetAbsOrigin() - center
-            local along = offset.x * direction.x + offset.y * direction.y
-            if along >= 0 and along <= distance then
-                local width = startWidth + (endWidth - startWidth) * (along / math.max(distance, 1))
-                local lateralSq = math.max(0, offset.x * offset.x + offset.y * offset.y - along * along)
-                if lateralSq <= width * width then
-                    damage(self:GetAbility(), enemy, splashDamage, DAMAGE_TYPE_PHYSICAL)
-                    cleaveCount = cleaveCount + 1
-                    -- The custom damage path does not trigger Dota's native cleave visuals
-                    -- on secondary victims, so give each of the first few hits feedback.
-                    if cleaveVisualCount < maxCleaveVisualTargets then
-                        effect(particle, enemy)
-                        cleaveVisualCount = cleaveVisualCount + 1
-                    end
-                end
-            end
-        end
-    end
-
-    print(string.format("[SVEN_TRACE][E] attack target=%s nearby_cleave_hits=%d splash_damage=%.1f radius=%s vfx_targets=%d",
-        primary:GetUnitName(), cleaveCount, splashDamage, tostring(distance), cleaveVisualCount))
+    -- Use the engine's physical cleave and particle contract, not target-attached
+    -- copies of a cleave root. Enfos KV widths remain full widths; API takes radii.
+    DoCleaveAttack(c, primary, self:GetAbility(), splashDamage, startWidth, endWidth, distance, particle)
 end
 
 bulwark_fortress=class({})

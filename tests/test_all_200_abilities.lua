@@ -27,6 +27,11 @@ DOTA_UNIT_CAP_RANGED_ATTACK=2
 function IsServer() return true end
 function EmitGlobalSound() end
 function EmitSoundOn() end
+-- API dispatch smoke only: engine-owned cleave geometry/damage/VFX need Dota.
+function DoCleaveAttack(attacker,target,ability,amount,startRadius,endRadius,distance,particle)
+    assert(attacker and target and ability and amount>=0 and startRadius>=0 and endRadius>=0 and distance>=0 and type(particle)=='string')
+    return 0
+end
 function RandomInt(min, max) return min end
 function RollPercentage(pct) return true end
 GameRules = { GetGameModeEntity = function() return {
