@@ -5541,4 +5541,52 @@ test('Lina Fiery Soul owns one stack-controlled flame particle across refreshes'
     ParticleManager.CreateParticle, ParticleManager.SetParticleControl = oldCreate, oldControl
 end)
 
+
+test('Lina Light Strike Array supplies native radius and motion controls matching its targeting cursor', function()
+    local c=create_mock_unit('npc_dota_hero_lina',2,Vector(0,0,0))
+    local a=enfos_lina_light_strike_array()
+    a.GetCaster=function() return c end
+    a.GetCursorPosition=function() return Vector(100,200,0) end
+    a.GetSpecialValueFor=function(_,k) return ({radius=350,light_strike_array_delay_time=0.5})[k] or 0 end
+    local oldRules,oldCreate,oldControl,oldRelease=GameRules,ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex
+    GameRules={GetGameModeEntity=function() return {SetContextThink=function() end} end}
+    local attachment,owner,controls,released
+    controls={}
+    ParticleManager.CreateParticle=function(_,path,at,u) attachment,owner=at,u; return 791 end
+    ParticleManager.SetParticleControl=function(_,id,cp,v) controls[cp]=v end
+    ParticleManager.ReleaseParticleIndex=function(_,id) released=id end
+    a:OnSpellStart()
+    assert(controls[1].x==350 and controls[1].y==1 and controls[1].z==1,
+        'Decoded LSA collapse rings need CP1 motion component, not radius with zero controls')
+    assert(attachment==PATTACH_WORLDORIGIN and owner==nil and controls[0].x==100 and released==791)
+    assert(type(a.GetAOERadius)=='function' and a:GetAOERadius()==350,'Targeting cursor must expose the same area used for hits')
+    GameRules,ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex=oldRules,oldCreate,oldControl,oldRelease
+end)
+
+test('Lina Combustion presents its captured corpse explosion center and radius without a dead attachment', function()
+    local c=create_mock_unit('npc_dota_hero_lina',2,Vector(0,0,0))
+    local corpse=create_mock_unit('enfos_lina_corpse',3,Vector(200,30,0),1000)
+    local neighbor=create_mock_unit('enfos_lina_burst_neighbor',3,Vector(220,30,0))
+    local a=enfos_lina_combustion()
+    a.GetCaster=function() return c end
+    a.GetSpecialValueFor=function(_,k) return ({corpse_burst_base=120,corpse_burst_hp_pct=8,corpse_burst_hp_cap=600,corpse_burst_radius=300})[k] or 0 end
+    corpse:AddNewModifier(c,a,'modifier_enfos_pve_burn',{})
+    corpse.alive=false
+    local mod=modifier_enfos_pve_combustion()
+    mod.GetParent=function() return c end
+    mod.GetAbility=function() return a end
+    mock_world_units={corpse,neighbor}
+    local oldDamage,oldCreate,oldControl,oldRelease=ApplyDamage,ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex
+    local controls,attachment,owner={},nil,nil
+    ApplyDamage=function(info) corpse:SetAbsOrigin(Vector(999,999,0)); return 200 end
+    ParticleManager.CreateParticle=function(_,path,at,u) attachment,owner=at,u;return 792 end
+    ParticleManager.SetParticleControl=function(_,id,cp,v) controls[cp]=v end
+    ParticleManager.ReleaseParticleIndex=function() end
+    mod:OnDeath({unit=corpse})
+    assert(attachment==PATTACH_WORLDORIGIN and owner==nil,'Corpse detonation must not follow a dead/removed entity')
+    assert(controls[0] and controls[0].x==200 and controls[0].y==30,'Damage callback must not shift explosion presentation origin')
+    assert(controls[1] and controls[1].x==300 and controls[1].z==1,'Corpse explosion must supply its own configured radius and native motion CP')
+    ApplyDamage,ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex=oldDamage,oldCreate,oldControl,oldRelease
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')

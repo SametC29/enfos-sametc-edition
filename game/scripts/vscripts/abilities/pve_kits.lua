@@ -1294,6 +1294,13 @@ function modifier_enfos_pve_precision_buff:GetModifierAttackRangeBonus() return 
 -- LINA (MAGE)
 -- =========================================================================
 
+local function lina_array_effect(position, radius)
+    local p = ParticleManager:CreateParticle('particles/units/heroes/hero_lina/lina_spell_light_strike_array.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(p, 0, position)
+    ParticleManager:SetParticleControl(p, 1, Vector(radius, 1, 1))
+    ParticleManager:ReleaseParticleIndex(p)
+end
+
 enfos_lina_dragon_slave=class({})
 function enfos_lina_dragon_slave:OnSpellStart()
     local c = self:GetCaster()
@@ -1341,6 +1348,7 @@ function enfos_lina_dragon_slave:OnProjectileHit(t)
 end
 
 enfos_lina_light_strike_array=class({})
+function enfos_lina_light_strike_array:GetAOERadius() return value(self, 'radius') end
 function enfos_lina_light_strike_array:OnSpellStart()
     local c = self:GetCaster()
     local point = self:GetCursorPosition()
@@ -1351,10 +1359,7 @@ function enfos_lina_light_strike_array:OnSpellStart()
     local dmg = value(self, 'damage') + (int * 1.0)
 
     c:EmitSound('Ability.LightStrikeArray')
-    local p = ParticleManager:CreateParticle('particles/units/heroes/hero_lina/lina_spell_light_strike_array.vpcf', PATTACH_CUSTOMORIGIN, nil)
-    ParticleManager:SetParticleControl(p, 0, point)
-    ParticleManager:SetParticleControl(p, 1, Vector(radius, 0, 0))
-    ParticleManager:ReleaseParticleIndex(p)
+    lina_array_effect(point, radius)
 
     self.cast_serial = (self.cast_serial or 0) + 1
     local owner_id = (self.entindex and self:entindex()) or (c.entindex and c:entindex()) or (c.GetUnitName and c:GetUnitName()) or 'lina'
@@ -1487,10 +1492,12 @@ function modifier_enfos_pve_combustion:OnDeath(e)
         e.unit:FindModifierByNameAndCaster('modifier_enfos_pve_burn', c) then
         local max_hp = e.unit:GetMaxHealth() or 500
         local corpse_dmg = value(a, 'corpse_burst_base') + math.min(max_hp * value(a, 'corpse_burst_hp_pct') / 100, value(a, 'corpse_burst_hp_cap'))
-        for _, u in ipairs(enemies(c, e.unit:GetAbsOrigin(), value(a, 'corpse_burst_radius'))) do
+        local position = e.unit:GetAbsOrigin()
+        local radius = value(a, 'corpse_burst_radius')
+        for _, u in ipairs(enemies(c, position, radius)) do
             if u ~= e.unit then damage(a, u, corpse_dmg, DAMAGE_TYPE_MAGICAL) end
         end
-        effect('particles/units/heroes/hero_lina/lina_spell_light_strike_array.vpcf', e.unit)
+        lina_array_effect(position, radius)
     end
 end
 
