@@ -38,3 +38,33 @@ for both teams, confirm visibility/targetability inside 900 units for 15 seconds
 no opposite-arena/outside-radius reveal, and loss of detection after expiry/linger.
 No Dota was launched/controlled. Release without awaiting owner testing remains
 authorized; runtime acceptance must not be claimed from package or mock checks.
+
+## Native comparison requested by owner
+
+Internet/API research refreshed after the owner's request. The installed API
+explicitly defines GetAuraOwner as the emitter that applied an aura modifier;
+it is nil on the client. GetModifierAura delegates the secondary modifier to
+the engine. This supports choosing an emitter over manually attaching an aura
+debuff, but does not prove that the old missing aura owner caused the failure.
+
+| Aspect | Installed native Gem | Enfos Reveal |
+| --- | --- | --- |
+| Passive detection radius | 900 | Fixed ground aura, radius 900 |
+| Active radius / duration | 300 / 4 seconds | 900 / 15 seconds by product design |
+| Target relationship | Native engine team relationship | Neutral hostiles plus authoritative defendingTeam filter |
+| Before this repair | Engine-managed source | Direct debuff refresh every 0.5 seconds |
+| After this repair | Engine-managed source | Engine-managed secondary modifier with selected hero source |
+
+Assassin uses MODIFIER_STATE_INVISIBLE, not AddNoDraw/model hiding or True Sight
+immunity. Increasing FOW alone would not establish detection, and forcibly
+disabling invisibility would reveal it beyond the intended team's detection.
+Both shortcuts were excluded. No additional speculative fallback was shipped.
+
+Primary API sources consulted:
+- https://docs.moddota.com/lua_server/declaration
+- https://github.com/TypeScriptToLua/Dota2Declarations/blob/master/dota-modifier-properties.d.ts
+
+Valve Developer Community's data-driven ability page returned an internal
+error during this web lookup; installed VPK/API values were used for current
+engine identifiers and numeric values. Native C++ True Sight implementation
+is not exposed by the inspected KV, so its complete internals are not claimed.
