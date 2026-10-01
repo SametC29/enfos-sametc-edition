@@ -164,7 +164,7 @@ test('bosses no longer clamp health at former phase floors',function()
  local B=require('bosses/boss_framework')
  local u={bossState={name='enfos_boss_stonebreaker',wave=5,abilityTimer=10},hp=2800,
   GetMaxHealth=function() return 4000 end,GetHealth=function(self) return self.hp end,
-  IsNull=function() return false end,IsAlive=function() return true end,
+  entindex=function() return 9001 end,IsNull=function() return false end,IsAlive=function() return true end,
   EmitSound=function() end,AddNewModifier=function() end}
  local modifier=setmetatable({GetParent=function() return u end},{__index=modifier_enfos_boss_base})
  assert(modifier.GetMinHealth==nil,'Boss must not expose a phase minimum-health gate')

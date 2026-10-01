@@ -126,7 +126,7 @@ function CreepAI:Attach(unit, defendingTeam, laneName, onLeakCallback)
 
 	local unitName = unit:GetUnitName()
 	local isRunner = unitName == "enfos_creep_runner"
-	local isBoss = string.find(unitName, "boss") ~= nil
+	local isBoss = unit.isBoss == true or string.find(unitName, "boss") ~= nil
 
 	local state = {
 		unit = unit,
@@ -187,7 +187,11 @@ function CreepAI:OnThink(state)
 
 	local currentPos = unit:GetAbsOrigin()
 	local currentWaypoint = state.route[state.waypointIndex]
+	-- Preserve native Boss casts before movement, stuck recovery or leaks.
+	local activeAbility = unit.GetCurrentActiveAbility and unit:GetCurrentActiveAbility()
+	local casting = activeAbility and not activeAbility:IsNull() and activeAbility:IsInAbilityPhase()
 	if unit:IsStunned() or unit:IsRooted() or unit:IsChanneling()
+		or casting
 		or (not state.isRunner and unit:HasModifier("modifier_enfos_pve_taunt")) then
 		state.stuckTimer = 0
 		return THINK_INTERVAL

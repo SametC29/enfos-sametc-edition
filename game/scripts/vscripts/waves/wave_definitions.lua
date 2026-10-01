@@ -63,6 +63,24 @@ local UNIT_LEAK_TYPES = {
 	["enfos_spellbringer_reinforcement"] = "summon",
 }
 
+-- Each scheduled Boss uses a roster hero whose current native QWER and Valve
+-- bot build are loaded by bosses/boss_framework.lua. The old themed unit name
+-- remains the reward/balance template only.
+WaveDefinitions.BOSS_HEROES = {
+	enfos_boss_stonebreaker = "npc_dota_hero_sven",
+	enfos_boss_brood_matron = "npc_dota_hero_axe",
+	enfos_boss_bloodfang_alpha = "npc_dota_hero_juggernaut",
+	enfos_boss_frost_warden = "npc_dota_hero_drow_ranger",
+	enfos_boss_mind_devourer = "npc_dota_hero_lina",
+	enfos_boss_iron_colossus = "npc_dota_hero_omniknight",
+	enfos_boss_gravecaller = "npc_dota_hero_sniper",
+	enfos_boss_storm_tyrant = "npc_dota_hero_crystal_maiden",
+	enfos_boss_shadow_huntress = "npc_dota_hero_dazzle",
+	enfos_boss_plague_behemoth = "npc_dota_hero_witch_doctor",
+	enfos_boss_rift_lord = "npc_dota_hero_luna",
+	enfos_boss_ascendant_gatekeeper = "npc_dota_hero_dragon_knight",
+}
+
 -- Authoritative wave table (1..60)
 local WAVES = {
 	-- =========================================================================
@@ -985,7 +1003,9 @@ end
 function WaveDefinitions:GetSpawnPlan(waveNumber, players)
     local wave = assert(self:GetWave(waveNumber), "Unknown wave")
     if self:IsBossWave(waveNumber) then
-        return {{unit_name=wave.boss_name,lane="center",count=players > 0 and 1 or 0,cost=1}}, players > 0 and 1 or 0, players > 0 and 1 or 0
+        local heroName = self.BOSS_HEROES[wave.boss_name]
+        assert(heroName, "Boss wave has no native roster hero: " .. tostring(wave.boss_name))
+        return {{unit_name=heroName,boss_reward_name=wave.boss_name,lane="center",count=players > 0 and 1 or 0,cost=1}}, players > 0 and 1 or 0, players > 0 and 1 or 0
     end
     local plan, totalWeight, spent = {}, 0, 0
     local budget = self:GetScheduledCount(waveNumber, players)

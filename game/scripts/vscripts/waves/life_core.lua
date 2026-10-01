@@ -99,7 +99,7 @@ function LifeCore:ProcessLeak(unit, team)
 	unit.enfosLeaked = true
 
 	local unitName = unit:GetUnitName()
-	local damage = WaveDefinitions:GetLeakPenalty(unitName)
+	local damage = unit.isBoss and WaveDefinitions.LEAK_PENALTIES.boss or WaveDefinitions:GetLeakPenalty(unitName)
 
 	-- Apply the authoritative Life penalty
 	if damage > 0 then

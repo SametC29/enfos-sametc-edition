@@ -19,8 +19,8 @@ function Rewards:Init()
     self.goldCarry, self.xpCarry = {}, {}
 end
 
-function Rewards:Configure(unit, name)
-    local kv = self.units[name] or {}
+function Rewards:Configure(unit, name, rewardTemplateName)
+	local kv = self.units[name] or self.units[rewardTemplateName] or {}
     unit.enfosGold = RandomInt(tonumber(kv.BountyGoldMin) or 0, tonumber(kv.BountyGoldMax) or 0)
     unit.enfosXP = tonumber(kv.BountyXP) or 0
     -- Native last-hit/radius payouts would duplicate the shared award.
@@ -30,7 +30,8 @@ end
 function Rewards:Estimate(plan)
     local out={count=0,goldMin=0,goldMax=0,xp=0}
     for _,entry in ipairs(plan) do
-        local kv=(self.units or {})[entry.unit_name] or {}
+        local units=self.units or {}
+        local kv=units[entry.unit_name] or units[entry.boss_reward_name] or {}
         out.count=out.count+entry.count
         out.goldMin=out.goldMin+entry.count*(tonumber(kv.BountyGoldMin) or 0)
         out.goldMax=out.goldMax+entry.count*(tonumber(kv.BountyGoldMax) or 0)

@@ -282,7 +282,6 @@ function WaveManager:StartWave(waveNumber)
 	self.bossResourcePlan = isBoss and WaveDefinitions:GetSpawnPlan(waveNumber, 1) or nil
 	self.bossResourceWait = 0
 	if self.bossResourcePlan then self.bossResources:RequestPlan(self.bossResourcePlan) end
-
 	Log:Info("wave_manager", "Starting Wave %d [Type: %s, Batches: %d]",
 		waveNumber, waveDef.wave_type, waveDef.batches)
 
@@ -326,6 +325,7 @@ function WaveManager:SpawnNextBatch()
 		if activePlayers > 0 then
 			for _, creepEntry in ipairs(self.spawnPlans[team] or {}) do
 				local unitName = creepEntry.unit_name
+				local bossRewardName = creepEntry.boss_reward_name
 				local countPerPlayer = creepEntry.count_per_player or 1
 				local laneAssignment = creepEntry.lane or "both"
 				local totalToSpawn = creepEntry.count
@@ -349,7 +349,7 @@ function WaveManager:SpawnNextBatch()
 
 				for i = 1, unitsThisBatch do
 					local lane = lanes[((previous + i - 1) % #lanes) + 1]
-					self:SpawnCreepEntity(unitName, team, lane, isBoss, activePlayers)
+					self:SpawnCreepEntity(unitName, team, lane, isBoss, activePlayers, bossRewardName)
 				end
 			end
 		end
@@ -368,7 +368,7 @@ end
 --------------------------------------------------------------------------------
 -- Spawn Creep Entity & Attach AI
 --------------------------------------------------------------------------------
-function WaveManager:SpawnCreepEntity(unitName, defendingTeam, lane, isBoss, activePlayers)
+function WaveManager:SpawnCreepEntity(unitName, defendingTeam, lane, isBoss, activePlayers, bossRewardName)
 	local spawnLocs = WaveManager.SPAWN_LOCATIONS[defendingTeam]
 	if not spawnLocs then return end
 
@@ -389,7 +389,14 @@ function WaveManager:SpawnCreepEntity(unitName, defendingTeam, lane, isBoss, act
 	creep.laneName = lane
 	creep.waveNumber = self.currentWave
 	creep.isBoss = isBoss
-	Rewards:Configure(creep, unitName)
+	creep.bossRewardName = isBoss and bossRewardName or nil
+	if isBoss and not BossFramework:PrepareBoss(creep, unitName, self.currentWave, defendingTeam) then
+		Log:Error("wave_manager", "Boss setup failed; refusing to spawn an incorrectly configured Boss %s", unitName)
+		creep:ForceKill(false)
+		UTIL_Remove(creep)
+		return nil
+	end
+	Rewards:Configure(creep, unitName, creep.bossRewardName)
 	creep:SetIdleAcquire(true)
 	creep:SetAcquisitionRange(unitName == "enfos_creep_runner" and 0 or 650)
 
@@ -405,13 +412,16 @@ function WaveManager:SpawnCreepEntity(unitName, defendingTeam, lane, isBoss, act
 	end
 
 	BalanceConfig.Apply(creep,self:EnsureMatchConfig(),self.currentWave)
+	-- A Boss without its native roster kit must not enter the live wave as an
+	-- unarmed legacy unit. Register before indexing it as active.
+	if isBoss and not BossFramework:RegisterBoss(creep, creep.bossRewardName or unitName, self.currentWave, activePlayers, defendingTeam) then
+		Log:Error("wave_manager", "Boss registration failed; removing unconfigured Boss %s", unitName)
+		creep:ForceKill(false)
+		UTIL_Remove(creep)
+		return nil
+	end
 	-- Register active creep
 	self.activeCreeps[defendingTeam][creep:entindex()] = creep
-
-	-- Hook Boss framework
-	if isBoss then
-		BossFramework:RegisterBoss(creep, unitName, self.currentWave, activePlayers)
-	end
 
 	-- Attach AI navigation and leak callback
 	CreepAI:Attach(creep, defendingTeam, lane, function(leakingUnit, team)
