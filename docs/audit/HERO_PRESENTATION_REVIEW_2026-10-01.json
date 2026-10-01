@@ -1,0 +1,2241 @@
+{
+  "scope": "Desktop items 14–16; initial static presentation review queue",
+  "limitations": "No explicit KV field does not prove no animation. Boolean signals do not verify event identity, assets, helpers, precache, attachment or engine result. Run audit_heroes_deep.mjs first to verify inventory freshness.",
+  "heroes": [
+    {
+      "hero": "npc_dota_hero_sven",
+      "abilities": [
+        {
+          "id": "bulwark_shield_slam",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE",
+          "explicitCastAnimation": "ACT_DOTA_CAST_ABILITY_1",
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "bulwark_challenge",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": "ACT_DOTA_OVERRIDE_ABILITY_3",
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "bulwark_iron_guard",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "bulwark_fortress",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": "ACT_DOTA_OVERRIDE_ABILITY_4",
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "bulwark_unbreakable",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_juggernaut",
+      "abilities": [
+        {
+          "id": "enfos_juggernaut_blade_fury",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL",
+          "explicitCastAnimation": "ACT_DOTA_CAST_ABILITY_1",
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_juggernaut_healing_ward",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
+          "explicitCastAnimation": "ACT_DOTA_CAST_ABILITY_2",
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_juggernaut_blade_dance",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_juggernaut_omni_slash",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK",
+          "explicitCastAnimation": "ACT_DOTA_CAST_ABILITY_4",
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_juggernaut_duelist",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_drow_ranger",
+      "abilities": [
+        {
+          "id": "enfos_drow_frost_arrows",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_drow_gust",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
+          "explicitCastAnimation": "ACT_DOTA_CAST_ABILITY_2",
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_drow_multishot",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED",
+          "explicitCastAnimation": "ACT_DOTA_CHANNEL_ABILITY_3",
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_drow_marksmanship",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_drow_precision_aura",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_lina",
+      "abilities": [
+        {
+          "id": "enfos_lina_dragon_slave",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
+          "explicitCastAnimation": "ACT_DOTA_CAST_ABILITY_1",
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_lina_light_strike_array",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
+          "explicitCastAnimation": "ACT_DOTA_CAST_ABILITY_2",
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_lina_fiery_soul",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_lina_laguna_blade",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": "ACT_DOTA_CAST_ABILITY_4",
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_lina_combustion",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_omniknight",
+      "abilities": [
+        {
+          "id": "enfos_omni_purification",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_omni_repel",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_omni_degen_aura",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_AURA",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_omni_guardian_angel",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_omni_hammer_of_purity",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_axe",
+      "abilities": [
+        {
+          "id": "enfos_axe_berserkers_call",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_axe_battle_hunger",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_axe_counter_helix",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_axe_culling_blade",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_axe_blood_armor",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_legion_commander",
+      "abilities": [
+        {
+          "id": "enfos_legion_overwhelming_odds",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_legion_press_the_attack",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_legion_moment_of_courage",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_legion_duel",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_legion_commanders_banner",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_sniper",
+      "abilities": [
+        {
+          "id": "enfos_sniper_shrapnel",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_sniper_headshot",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_sniper_take_aim",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_sniper_assassinate",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_sniper_keen_eye",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_crystal_maiden",
+      "abilities": [
+        {
+          "id": "enfos_cm_crystal_nova",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_cm_frostbite",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_cm_arcane_aura",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_cm_freezing_field",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_cm_glacial_mastery",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_dazzle",
+      "abilities": [
+        {
+          "id": "enfos_dazzle_poison_touch",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_dazzle_shallow_grave",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_dazzle_shadow_wave",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_dazzle_bad_juju",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_dazzle_nothl_weave",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_centaur",
+      "abilities": [
+        {
+          "id": "enfos_centaur_hoof_stomp",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_centaur_double_edge",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_centaur_return",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_centaur_stampede",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_centaur_colossal_hide",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_skeleton_king",
+      "abilities": [
+        {
+          "id": "enfos_wk_wraithfire_blast",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_wk_skeleton_army",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION",
+            "NO_PARTICLE_SIGNAL_IN_CONTRACT_INVENTORY"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_wk_mortal_strike",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_wk_reincarnation",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_wk_vampiric_aura",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_phantom_assassin",
+      "abilities": [
+        {
+          "id": "enfos_pa_stifling_dagger",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_pa_phantom_strike",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_pa_blur",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION",
+            "NO_PARTICLE_SIGNAL_IN_CONTRACT_INVENTORY"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_pa_coup_de_grace",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_pa_immaterial",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_zuus",
+      "abilities": [
+        {
+          "id": "enfos_zeus_arc_lightning",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_zeus_lightning_bolt",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_zeus_heavenly_jump",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_zeus_thundergods_wrath",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_zeus_static_field",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_witch_doctor",
+      "abilities": [
+        {
+          "id": "enfos_wd_paralyzing_cask",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_wd_voodoo_restoration",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION",
+            "NO_SOUND_SIGNAL_IN_CONTRACT_INVENTORY"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_wd_maledict",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_wd_death_ward",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_wd_gris_gris",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_bristleback",
+      "abilities": [
+        {
+          "id": "enfos_bb_viscous_nasal_goo",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_bb_quill_spray",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_bb_bristleback",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_bb_hairball",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_bb_warpath",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_slark",
+      "abilities": [
+        {
+          "id": "enfos_slark_dark_pact",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_slark_pounce",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_slark_essence_shift",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_slark_shadow_dance",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_slark_fish_bait",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_luna",
+      "abilities": [
+        {
+          "id": "enfos_luna_lucent_beam",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": "ACT_DOTA_CAST_ABILITY_1",
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_luna_lunar_orbit",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_luna_lunar_blessing",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_AURA",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_luna_eclipse",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": "ACT_DOTA_CAST_ABILITY_4",
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_luna_moon_glaives",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_nevermore",
+      "abilities": [
+        {
+          "id": "enfos_sf_shadowraze",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_sf_necromastery",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_sf_presence_of_the_dark_lord",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_sf_requiem_of_souls",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_sf_feast_of_souls",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_shadow_shaman",
+      "abilities": [
+        {
+          "id": "enfos_ss_ether_shock",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_ss_hex",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_ss_shackles",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_ss_mass_serpent_ward",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION",
+            "NO_PARTICLE_SIGNAL_IN_CONTRACT_INVENTORY"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_ss_fowl_play",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_tidehunter",
+      "abilities": [
+        {
+          "id": "enfos_tide_gush",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_tide_kraken_shell",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_tide_anchor_smash",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_tide_ravage",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_tide_colossal_presence",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_dragon_knight",
+      "abilities": [
+        {
+          "id": "enfos_dk_breathe_fire",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_dk_dragon_tail",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_dk_dragon_blood",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_dk_elder_dragon_form",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_dk_wyrm_vigor",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_pudge",
+      "abilities": [
+        {
+          "id": "enfos_pudge_meat_hook",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_pudge_rot",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_pudge_flesh_heap",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_pudge_dismember",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_pudge_meat_shield",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_abyssal_underlord",
+      "abilities": [
+        {
+          "id": "enfos_underlord_firestorm",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_underlord_pit_of_malice",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_underlord_atrophy_aura",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_underlord_dark_rift",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_underlord_abyssal_carapace",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_ursa",
+      "abilities": [
+        {
+          "id": "enfos_ursa_earthshock",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_ursa_overpower",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_ursa_fury_swipes",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_ursa_enrage",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_ursa_ursa_minor",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_monkey_king",
+      "abilities": [
+        {
+          "id": "enfos_mk_boundless_strike",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_mk_primal_spring",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_mk_jingu_mastery",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_mk_wukongs_command",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_mk_mischief",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_troll_warlord",
+      "abilities": [
+        {
+          "id": "enfos_troll_berserkers_rage",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_troll_whirling_axes",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_troll_fervor",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_troll_battle_trance",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_troll_rampage",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_chaos_knight",
+      "abilities": [
+        {
+          "id": "enfos_ck_chaos_bolt",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_ck_reality_rift",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_ck_chaos_strike",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_ck_phantasm",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_ck_entropy",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_antimage",
+      "abilities": [
+        {
+          "id": "enfos_am_mana_break",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_am_blink",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_am_counterspell",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_am_mana_void",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_am_spellbreaker",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_faceless_void",
+      "abilities": [
+        {
+          "id": "enfos_void_time_walk",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_void_time_dilation",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_void_time_lock",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_void_chronosphere",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_void_backtrack",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_medusa",
+      "abilities": [
+        {
+          "id": "enfos_medusa_split_shot",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION",
+            "NO_SOUND_SIGNAL_IN_CONTRACT_INVENTORY"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_medusa_mystic_snake",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_medusa_mana_shield",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_medusa_stone_gaze",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_medusa_gorgon_gaze",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_terrorblade",
+      "abilities": [
+        {
+          "id": "enfos_tb_reflection",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_tb_conjure_image",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_tb_metamorphosis",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_tb_sunder",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_tb_demon_zeal",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_storm_spirit",
+      "abilities": [
+        {
+          "id": "enfos_storm_static_remnant",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_storm_electric_vortex",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_storm_overload",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_storm_ball_lightning",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_storm_galvanic_core",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_leshrac",
+      "abilities": [
+        {
+          "id": "enfos_leshrac_split_earth",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_leshrac_diabolic_edict",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_leshrac_lightning_storm",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_leshrac_pulse_nova",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_leshrac_defilement",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_invoker",
+      "abilities": [
+        {
+          "id": "enfos_invoker_chaos_meteor",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_invoker_sun_strike",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_invoker_deafening_blast",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_invoker_emp",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_invoker_alacrity",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_puck",
+      "abilities": [
+        {
+          "id": "enfos_puck_illusory_orb",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_puck_waning_rift",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_puck_phase_shift",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_puck_dream_coil",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_puck_faerie_magic",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_lion",
+      "abilities": [
+        {
+          "id": "enfos_lion_earth_spike",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_lion_hex",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_lion_mana_drain",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_lion_finger_of_death",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_lion_demon_soul",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_jakiro",
+      "abilities": [
+        {
+          "id": "enfos_jakiro_dual_breath",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_jakiro_ice_path",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_jakiro_liquid_fire",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AUTOCAST",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_jakiro_macropyre",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_jakiro_double_trouble",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_vengefulspirit",
+      "abilities": [
+        {
+          "id": "enfos_vs_magic_missile",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_vs_wave_of_terror",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_vs_vengeance_aura",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_vs_nether_swap",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_vs_retribution",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    },
+    {
+      "hero": "npc_dota_hero_lich",
+      "abilities": [
+        {
+          "id": "enfos_lich_frost_blast",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_lich_frost_shield",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_lich_sinister_gaze",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_lich_chain_frost",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": true,
+          "sourceParticleSignal": true,
+          "reviewCandidates": [
+            "NO_EXPLICIT_KV_CAST_ANIMATION"
+          ],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        },
+        {
+          "id": "enfos_lich_ice_aura",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "explicitCastAnimation": null,
+          "sourceSoundSignal": false,
+          "sourceParticleSignal": false,
+          "reviewCandidates": [],
+          "engineAcceptance": "PENDING_OWNER_TEST"
+        }
+      ]
+    }
+  ]
+}
