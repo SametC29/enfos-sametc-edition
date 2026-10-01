@@ -1,0 +1,3206 @@
+{
+  "build": "ClientVersion=6942\r\nServerVersion=6942\r\nProductName=dota2_workshop\r\nappID=570\r\nServerAppID=373310\r\nCustomGameServerAppID=471280\r\nToolsAppID=316570\r\nSourceRevision=11055158\r\nVersionDate=Sep 29 2026\r\nVersionTime=11:34:03",
+  "scope": "Literal hero ability EmitSound/StopSound and KV AbilitySound against decoded installed hero banks",
+  "limitations": "No dynamic event names, other bank directories, sound resource decode, playback or precache certification. Missing in hero banks is a review candidate, not proof absent from the entire game. Case matching requires engine confirmation.",
+  "banks": [
+    {
+      "file": "game_sounds_abaddon.vsndevts",
+      "sha256": "87363056c308f79ac5a821a6aa212aa266914693507e1e8916e2d0b768d497b9"
+    },
+    {
+      "file": "game_sounds_abyssal_underlord.vsndevts",
+      "sha256": "9e2ae45174d29733b4df93ab595f359d1228699a228bc677af4b53cb75653849"
+    },
+    {
+      "file": "game_sounds_alchemist.vsndevts",
+      "sha256": "9b8e49600eb92aabefb90025bb31603d3dcd126616843d517ad42c5f7ddda54c"
+    },
+    {
+      "file": "game_sounds_ancient_apparition.vsndevts",
+      "sha256": "7f51d733b3a1e2aec8c6ab6d3cb9997be6aac0c686b2c4e58518afe2cd8fdb14"
+    },
+    {
+      "file": "game_sounds_antimage.vsndevts",
+      "sha256": "695cc0e1af40f187f6bfa0d31e832c09759d4714a13acf843e9a32d7743cbcdf"
+    },
+    {
+      "file": "game_sounds_arc_warden.vsndevts",
+      "sha256": "0453b70d67e6a9e52c23cfa6db8d10ff387256c4130ba347fba7c19a40cc2aa0"
+    },
+    {
+      "file": "game_sounds_axe.vsndevts",
+      "sha256": "458b361d635e1cfe6c59d02df533b659f32c1ae09d479c171ac1cf15366100fd"
+    },
+    {
+      "file": "game_sounds_bane.vsndevts",
+      "sha256": "db66dfc21427e6d148238efe5f38114828234b60c27d1ac9a95f678acb5a2ffc"
+    },
+    {
+      "file": "game_sounds_batrider.vsndevts",
+      "sha256": "799aa5ca4fc3d7f98b7cc2eb9c6e4fbc8f86da2de12cd58cbfdc6aa9015f29a0"
+    },
+    {
+      "file": "game_sounds_beastmaster.vsndevts",
+      "sha256": "9e1ea033efa53992929589e8fc0b977d1826ae0eaadbd5a8076beb3413c138bd"
+    },
+    {
+      "file": "game_sounds_bloodseeker.vsndevts",
+      "sha256": "ed53d2fcc8c90370abf361ab70fa41ceb7e12fb5d9760e126f4cb80e761218b3"
+    },
+    {
+      "file": "game_sounds_bounty_hunter.vsndevts",
+      "sha256": "a59dcbc711c0bb8274499cb46ac8c870bad2d26a0484f16cc521c2ba9629f55f"
+    },
+    {
+      "file": "game_sounds_brewmaster.vsndevts",
+      "sha256": "a00a9b58e232c4638664140d50bbff010c04deb0621a1bc9778ef1ea8a937ebb"
+    },
+    {
+      "file": "game_sounds_bristleback.vsndevts",
+      "sha256": "76e4852a78d9f481ba92562de4241b47b7f2d6e6f2f06fcc8388983ee800010c"
+    },
+    {
+      "file": "game_sounds_broodmother.vsndevts",
+      "sha256": "42ae9baf0b4f571bdccee9028b0f33a812a1eec55cc2cd120bd6e5fc9a25fef9"
+    },
+    {
+      "file": "game_sounds_centaur.vsndevts",
+      "sha256": "0249849ff33531743eba38a662e9047fbc337ca6d4e291e8c8a689ed767e6066"
+    },
+    {
+      "file": "game_sounds_chaos_knight.vsndevts",
+      "sha256": "84419aa7cf81b00659edb076888b50f67950e2e65acad98f4a8fcb11d577e4d3"
+    },
+    {
+      "file": "game_sounds_chen.vsndevts",
+      "sha256": "7b5f19dc1dd002900bcb1237cae2f450842efcba5bb1236f848ef90abf549208"
+    },
+    {
+      "file": "game_sounds_clinkz.vsndevts",
+      "sha256": "83b8c2578c277461d8cbd7934bfae36a1934ad3bd7b822f6169ba504da648dca"
+    },
+    {
+      "file": "game_sounds_crystalmaiden.vsndevts",
+      "sha256": "097b5da9a224c4a59bc6815a6fa3984ac5d9b76fd15cab2364d8d82ede617c5e"
+    },
+    {
+      "file": "game_sounds_dark_seer.vsndevts",
+      "sha256": "d1a10701a87e92ad0dbe5583ceac8852220d853482b6bcaedc21801bd9865bd0"
+    },
+    {
+      "file": "game_sounds_dark_willow.vsndevts",
+      "sha256": "94947622ef042e90c9814b5c3c973f8f7d6288069c8cc4bae59b8e598d4bc2b1"
+    },
+    {
+      "file": "game_sounds_dawnbreaker.vsndevts",
+      "sha256": "2a54f52f05f1d69911c441f9b006858e8cb79f47f4f323857d6b707a314fbdbe"
+    },
+    {
+      "file": "game_sounds_dazzle.vsndevts",
+      "sha256": "8602fbfcb5942e424bae197c43ad24fd2d6c8e0006a178a03a76961e11db11db"
+    },
+    {
+      "file": "game_sounds_death_prophet.vsndevts",
+      "sha256": "8e5be3faff914bd27c135200e62978bf748ad6054d20f510c878f8bc55317410"
+    },
+    {
+      "file": "game_sounds_disruptor.vsndevts",
+      "sha256": "6c644de2d6b3ac78ae8638498635c01893555d0089060857365b2e2cb7c01772"
+    },
+    {
+      "file": "game_sounds_doombringer.vsndevts",
+      "sha256": "8122aaa4484471242e9c68f3af66cc751f702aded44165b99e75f541690281bb"
+    },
+    {
+      "file": "game_sounds_dragon_knight.vsndevts",
+      "sha256": "8cd4fa7d4f6a5b3c46cec3e7c81568e2edfa6947d2f7e50a2baad7059eebd0e2"
+    },
+    {
+      "file": "game_sounds_drowranger.vsndevts",
+      "sha256": "feb843145d389cc017c81921beb9d5d5bbd27d6927fd68b1ffc66ed783d9dbf6"
+    },
+    {
+      "file": "game_sounds_earth_spirit.vsndevts",
+      "sha256": "fc6d765d3ec0ec9f8c48c23b6ab9bb0120398c1a98adc725649ece5c742cca34"
+    },
+    {
+      "file": "game_sounds_earthshaker.vsndevts",
+      "sha256": "1bbc2a2b973ec5b4722ba3b17aefa3a6fb9ba0052e78a33cc3af9cec1e84a488"
+    },
+    {
+      "file": "game_sounds_elder_titan.vsndevts",
+      "sha256": "484ddeae8f65f8fdb487572f11caa9f496f0ff65853d8b261dfc55892bd39529"
+    },
+    {
+      "file": "game_sounds_ember_spirit.vsndevts",
+      "sha256": "c24863641e14be563129ba11524e1d047881b79c6b79113c4021b0a7aa943a50"
+    },
+    {
+      "file": "game_sounds_enchantress.vsndevts",
+      "sha256": "0bf5290f66f720f01b361714a2497929246e157e192004cfa4d123855f9b24ba"
+    },
+    {
+      "file": "game_sounds_enigma.vsndevts",
+      "sha256": "be89b7241f643eca30799dd1a478436d83a351313077ed528a9497e973b3d154"
+    },
+    {
+      "file": "game_sounds_faceless_void.vsndevts",
+      "sha256": "13fbfe5189abdc9c128ac018af8be1c3f3eaa445a06d7a34c653517f57a0bda9"
+    },
+    {
+      "file": "game_sounds_furion.vsndevts",
+      "sha256": "27c8945f90adf8c3bc1a18a6bdf6d45632bfbe8b1108c8af03a76a023100c93d"
+    },
+    {
+      "file": "game_sounds_grimstroke.vsndevts",
+      "sha256": "1ca03507dd5ed0ae30de415cdd3294c81afe0fad2b9751895e52550e510a7947"
+    },
+    {
+      "file": "game_sounds_gyrocopter.vsndevts",
+      "sha256": "81cada65b968fa4f2976a4c2017d3b722786f7a4b5a27fc1ed6d8a4eceab1af6"
+    },
+    {
+      "file": "game_sounds_hoodwink.vsndevts",
+      "sha256": "5bd768e99a914acdcb9ad20cfe99d87e5f86be9bcf93673d1232a8f2746a294a"
+    },
+    {
+      "file": "game_sounds_huskar.vsndevts",
+      "sha256": "42b7c92fd57b4bb56eb0921ce1f583eb160ab063800b2e0669a2b551ff2636f4"
+    },
+    {
+      "file": "game_sounds_invoker.vsndevts",
+      "sha256": "732ae76858367a9588b65223fc4f1c1b7862a8b5cd1c95ce2deb8648006a5b1f"
+    },
+    {
+      "file": "game_sounds_jakiro.vsndevts",
+      "sha256": "51fd1c7b932b0e1a9c3ed733f8fd112e3af56cdea8e85c82f4e9783d4a91001d"
+    },
+    {
+      "file": "game_sounds_juggernaut.vsndevts",
+      "sha256": "ec2a8660325ad214789ae89d42f4e53827843a952dddaab7dd077a064dfbd315"
+    },
+    {
+      "file": "game_sounds_keeper_of_the_light.vsndevts",
+      "sha256": "456ad5d2db425de9b770902c400235a7884e35853ff6d93f2fe656369f153929"
+    },
+    {
+      "file": "game_sounds_kez.vsndevts",
+      "sha256": "98f9404a0f24b9d26c4fad5379d8a19109189c817fccc82f1e9faaf5361c4803"
+    },
+    {
+      "file": "game_sounds_kunkka.vsndevts",
+      "sha256": "ab6cf9b94296906804e7b3ee398ed47eecd3316f14dd81951e08b77ad906cecc"
+    },
+    {
+      "file": "game_sounds_largo.vsndevts",
+      "sha256": "d95e7642f19954457b89318e4f12abe5a3e59dcc4f7a1cc2f3b3fa0494621378"
+    },
+    {
+      "file": "game_sounds_legion_commander.vsndevts",
+      "sha256": "7d6b68b3576d74d08330a8577036c2780f0dd9bec147c588782ca76357c4f7b9"
+    },
+    {
+      "file": "game_sounds_leshrac.vsndevts",
+      "sha256": "6f9848be4b7395e39ab238221669c0733c87bed253ce87f9d4c9da059cb5d2af"
+    },
+    {
+      "file": "game_sounds_lich.vsndevts",
+      "sha256": "8d52899ca2bc4ec1a8ce6ddee677b218862881b0525e7e60ff4dd1e982ea2f63"
+    },
+    {
+      "file": "game_sounds_life_stealer.vsndevts",
+      "sha256": "4a84c0e47766be0ded585a7b0377d4dd7853e41c93be107c0fa3fcda1c3de842"
+    },
+    {
+      "file": "game_sounds_lina.vsndevts",
+      "sha256": "bf1d70b7a8eb9f5b9525388f4f81397d05b24d994cbf14925e4c98ada3c71552"
+    },
+    {
+      "file": "game_sounds_lion.vsndevts",
+      "sha256": "b6c3d6a8e3a1e73cf4828774179aaece55d3e9db1cfd60023a52cbe22489767e"
+    },
+    {
+      "file": "game_sounds_lone_druid.vsndevts",
+      "sha256": "ef2938ec9bfc1d8b3e90b4576bdba632e80a1b9ca28eb1cc3ae6ffdcd6e30b61"
+    },
+    {
+      "file": "game_sounds_luna.vsndevts",
+      "sha256": "5a57193afe345064a41f255b28ab6125a4fba51b2aac1441febdda6d29fb6942"
+    },
+    {
+      "file": "game_sounds_lycan.vsndevts",
+      "sha256": "32a67aa93fdf9be15f31cf632f4994aa21012d706a2eb959551275f8e6a81f2f"
+    },
+    {
+      "file": "game_sounds_magnataur.vsndevts",
+      "sha256": "48bdc723ad95b0055c4646024c0b61ae175b6eb9c354b499cc1d535ae28295b7"
+    },
+    {
+      "file": "game_sounds_marci.vsndevts",
+      "sha256": "6c417296692b7be3c9916a48b15ada2908ed6dafdb425e2f2013f7159e99685a"
+    },
+    {
+      "file": "game_sounds_mars.vsndevts",
+      "sha256": "66966f09e464f19dde9147f591010ce669fb3dbe54efcc8b2f5b1a0dcf5141bb"
+    },
+    {
+      "file": "game_sounds_medusa.vsndevts",
+      "sha256": "faf30dfdc73882a24392fba86a344bba6f4886cfafff46b144c0bd8293cc6b01"
+    },
+    {
+      "file": "game_sounds_meepo.vsndevts",
+      "sha256": "3a0ba9640e1e77551ad65e18af8449b9012df1a6b90e2d54de919665dd48223f"
+    },
+    {
+      "file": "game_sounds_mirana.vsndevts",
+      "sha256": "d8936c54f8af76983ad7a19caebe54d627ccf8151c67783bd7931b9618131962"
+    },
+    {
+      "file": "game_sounds_monkey_king.vsndevts",
+      "sha256": "c3a876416d7d9b3e7ba1adf329f3423a20d5feab25b76e37db828256728f2aa3"
+    },
+    {
+      "file": "game_sounds_morphling.vsndevts",
+      "sha256": "c9f4d50fadfe4155e8e75d17b06f3225e32ac93f7dbc18dd83cc01c165a63f13"
+    },
+    {
+      "file": "game_sounds_muerta.vsndevts",
+      "sha256": "f106208828c1d76b6cf8742c5d81144c2331bddc07bd334ba64f42eab0cf692f"
+    },
+    {
+      "file": "game_sounds_muerta_release_event.vsndevts",
+      "sha256": "565ca9c871c62765b9135b01a31f18aece59c8ead85f3251d717fcc031ebe5e4"
+    },
+    {
+      "file": "game_sounds_naga_siren.vsndevts",
+      "sha256": "acb9ce9c32aa6e4b1e5dd0ec6d1a57ace4212cd338e492e3bef640938f1b3880"
+    },
+    {
+      "file": "game_sounds_necrolyte.vsndevts",
+      "sha256": "384caed600035e91aa4e96506d9954b38ab97421a479ef10471edf7cf0b9fdf8"
+    },
+    {
+      "file": "game_sounds_nevermore.vsndevts",
+      "sha256": "8dc8617238e0f91acd196b778b6bd66ddcb483fd7e33cc411eb0991ad2c3408d"
+    },
+    {
+      "file": "game_sounds_nightstalker.vsndevts",
+      "sha256": "2e4586f745e19cbe47dfc8d3da694105c446de9a832cb37f86c64ba34f89f113"
+    },
+    {
+      "file": "game_sounds_nyx_assassin.vsndevts",
+      "sha256": "c2a04d5fca7b856ca0c4cddaeea09356a15f135def5663531fcf9b9153a543b3"
+    },
+    {
+      "file": "game_sounds_obsidian_destroyer.vsndevts",
+      "sha256": "2d29b9a122030cf49e97e766c1883e241f29f383d89c4dc9a225347d6d3e5849"
+    },
+    {
+      "file": "game_sounds_ogre_magi.vsndevts",
+      "sha256": "09b350204475f4e621deda9fd434c5b2981c88540494dcdb54bc02bcbce196e7"
+    },
+    {
+      "file": "game_sounds_omniknight.vsndevts",
+      "sha256": "971e12f806c89f4c3ef3878c1948fd359a9cbeb2f0cc820a0c986cbb06d0c4d8"
+    },
+    {
+      "file": "game_sounds_oracle.vsndevts",
+      "sha256": "c4bd9bad4ba04d24613036f500d78fb6ff09c16047d9ce2acd903b3a49431e68"
+    },
+    {
+      "file": "game_sounds_pangolier.vsndevts",
+      "sha256": "103ec94e3275739a246e779c9113fceecdfdb9d66dfdec0c55ae557410854868"
+    },
+    {
+      "file": "game_sounds_phantom_assassin.vsndevts",
+      "sha256": "04b0afdda3dae9d397dc9372c9122d36e8f42451a7437a4648c9e8cb3b3df3cc"
+    },
+    {
+      "file": "game_sounds_phantom_lancer.vsndevts",
+      "sha256": "83fa02aa30d400df5cdef4ff48985c6a98abffa961c3f0ebfb44c343ed733072"
+    },
+    {
+      "file": "game_sounds_phoenix.vsndevts",
+      "sha256": "c6a667cc915d9f9d1ba6f20b3019d1831ca530f404e2b472dfc654c8c1dbf4db"
+    },
+    {
+      "file": "game_sounds_primal_beast.vsndevts",
+      "sha256": "4dc6cf51018b622dea73f00750a63d705576badaa3e60d02f0b1e2b4ba048b0a"
+    },
+    {
+      "file": "game_sounds_puck.vsndevts",
+      "sha256": "f2877f5decc1c5d79b935ee397cce276c6d9e149e634db910bd86b54f2978243"
+    },
+    {
+      "file": "game_sounds_pudge.vsndevts",
+      "sha256": "2dc54c724a4799125e22f338fe10278880bdefefe9a3a62dbc6fefff986ae898"
+    },
+    {
+      "file": "game_sounds_pugna.vsndevts",
+      "sha256": "0964b58d5fe63a26d419b91eeee3a792ba4898595fea4bc25408c12561e9a23f"
+    },
+    {
+      "file": "game_sounds_queenofpain.vsndevts",
+      "sha256": "33503035d639a25dc02f4cf1162f3cfa31a030cd366062997f0624417ed5729e"
+    },
+    {
+      "file": "game_sounds_rattletrap.vsndevts",
+      "sha256": "f013c9bce8ff0b0ea635230f7f515f867b63fe8a2978f78e53aa759a5fa69ceb"
+    },
+    {
+      "file": "game_sounds_razor.vsndevts",
+      "sha256": "711d7748a23ae24d7e3bb6fe350d5fbc81127067ba8e9d6186522b84d499a42b"
+    },
+    {
+      "file": "game_sounds_riki.vsndevts",
+      "sha256": "d609a5d684680c4a578009c68c89cbdc1d470a7be0e0fba986a9d468165faecc"
+    },
+    {
+      "file": "game_sounds_ringmaster.vsndevts",
+      "sha256": "5c8aba90979501a4b545134e42565842fa08e3cbe7e64f56ee67dcb39cba4a09"
+    },
+    {
+      "file": "game_sounds_rubick.vsndevts",
+      "sha256": "d9c49899b3dab0970df09c89d633a0bf3e755bc44962d7b573be028cdf37821d"
+    },
+    {
+      "file": "game_sounds_sandking.vsndevts",
+      "sha256": "0e9c7fa25b8b8b767af307b455413e3c3f2872ba0da75d4021f1fa5f3ff1c257"
+    },
+    {
+      "file": "game_sounds_shadow_demon.vsndevts",
+      "sha256": "172936065942c4bf0a815d6ea9f7159aae547bbf93f00a746e6342a214546f29"
+    },
+    {
+      "file": "game_sounds_shadowshaman.vsndevts",
+      "sha256": "bd677c169225e8c8201e6919488bc66f1fff11dd742209c901718928aa3bfa75"
+    },
+    {
+      "file": "game_sounds_shredder.vsndevts",
+      "sha256": "61dd7b091dfe4c8ab6052e225776a5cb129a695c9039fe84b5cde63fd3cdfe30"
+    },
+    {
+      "file": "game_sounds_silencer.vsndevts",
+      "sha256": "ad98f24676b33de9e50ed89d40eb0ada4e013aec9c360eb986ecc41821d5e0d0"
+    },
+    {
+      "file": "game_sounds_skeletonking.vsndevts",
+      "sha256": "37e25a98837fc6d6f703e0eb085ce6741c94fdf60953431879e50c10ebc0a650"
+    },
+    {
+      "file": "game_sounds_skywrath_mage.vsndevts",
+      "sha256": "7259f01cd2b46451d776ab3a65863742b4dddf03393a05b79ddf55195376c531"
+    },
+    {
+      "file": "game_sounds_slardar.vsndevts",
+      "sha256": "9b3107c6b16f49bafa0fc7aa8bd65284e424dd95b6ad3f6c1c9d1a9cec13ba40"
+    },
+    {
+      "file": "game_sounds_slark.vsndevts",
+      "sha256": "6ed2e7d2dea8dc5a4dbedcdd9f4cb770decdb60621e9c893dc567617f98cf40e"
+    },
+    {
+      "file": "game_sounds_snapfire.vsndevts",
+      "sha256": "7377dc2639bc1fb82f9258c1a26bf2836ab0276f565a54f03fdb49a1de00cbc0"
+    },
+    {
+      "file": "game_sounds_sniper.vsndevts",
+      "sha256": "4ce3e7bbf5db0baaf00dada296ccfc2ec3932f6d448d0a33ab72276d0263073c"
+    },
+    {
+      "file": "game_sounds_spectre.vsndevts",
+      "sha256": "ea800f4503b51ea8349b655b97db12da709e7bdac1b076f6b3acb1b310d1f299"
+    },
+    {
+      "file": "game_sounds_spirit_breaker.vsndevts",
+      "sha256": "de65ee2c1b1ca09cf2b764f0a6be1aef4bfe549388d416776bb732d483ac3723"
+    },
+    {
+      "file": "game_sounds_stormspirit.vsndevts",
+      "sha256": "80aebbb332bd4c7913a663ca379cb4a8df81db4a129fc488d4c048c0a53292b9"
+    },
+    {
+      "file": "game_sounds_sven.vsndevts",
+      "sha256": "778ed11abe3f66abdb79d073bfd29a6ed3b4c94199da6196f81a58273cec7ae5"
+    },
+    {
+      "file": "game_sounds_techies.vsndevts",
+      "sha256": "c60d7155851f896ba34e8e33e3670560a7513f3824b219606f916be355a96fee"
+    },
+    {
+      "file": "game_sounds_templar_assassin.vsndevts",
+      "sha256": "42ed6e6e496f483eeed06b097aa5884f885cb8040f74ec2542e99c3fa47aa613"
+    },
+    {
+      "file": "game_sounds_terrorblade.vsndevts",
+      "sha256": "d4689843f9b100d70cd889d744d072aadff8a34c6e7cf0ab34ab0a6c9efac060"
+    },
+    {
+      "file": "game_sounds_tidehunter.vsndevts",
+      "sha256": "6891535d4d40d7f8b0d674091b602f2d89e8d72834321013043acfe7c7cb83c5"
+    },
+    {
+      "file": "game_sounds_tinker.vsndevts",
+      "sha256": "dc119966e6c597c976701f625e0799c805e6debe1bb924b870b40d15c869e11b"
+    },
+    {
+      "file": "game_sounds_tiny.vsndevts",
+      "sha256": "079afc84ef07c4f59421359003fb91f4af42ef879b828e86bd0603b03c9d924c"
+    },
+    {
+      "file": "game_sounds_treant.vsndevts",
+      "sha256": "adbb7fb4a9f51f8b86e3588341b10fecea2490a6f0808636b6755fd38b65a99b"
+    },
+    {
+      "file": "game_sounds_troll_warlord.vsndevts",
+      "sha256": "7d96584af569c97902f663268c0d5c80b544d4aeb83c27397d8e6a6e68eefb52"
+    },
+    {
+      "file": "game_sounds_tusk.vsndevts",
+      "sha256": "b15d4d69c5980d92b540d0fce15c11c2717c05dfcfdf28d0b43702f35d2dde25"
+    },
+    {
+      "file": "game_sounds_undying.vsndevts",
+      "sha256": "526b74df37756e36486aaf6d8c147e961a5cad65e5369363ca77f333b418e325"
+    },
+    {
+      "file": "game_sounds_ursa.vsndevts",
+      "sha256": "0abffcee2335bbdc93bf0ce5d2311f9a1ecb18fc8c86280c017e890d1a7134c5"
+    },
+    {
+      "file": "game_sounds_vengefulspirit.vsndevts",
+      "sha256": "759f19cfa71de6ee5559c66ae6383cddd6bbbe31deb208f060625fccb9593480"
+    },
+    {
+      "file": "game_sounds_venomancer.vsndevts",
+      "sha256": "2dc2d816974c870c2d972da413f8db52b3c99a742bce48fb24e0914309903530"
+    },
+    {
+      "file": "game_sounds_viper.vsndevts",
+      "sha256": "4608901a3b05bf598d3db5b00543bdd0f32bb071a83c06da653c66497fa854a7"
+    },
+    {
+      "file": "game_sounds_visage.vsndevts",
+      "sha256": "edd109a24006cc58c933e4de730eb55c9c06d181b7b44c4c9b67731fdb019e40"
+    },
+    {
+      "file": "game_sounds_void_spirit.vsndevts",
+      "sha256": "d387256602514bba81999de58ee0d2b5948525fd9e2b94d0597f23933ef9fa27"
+    },
+    {
+      "file": "game_sounds_warlock.vsndevts",
+      "sha256": "5d3e04b21652c632f02f1e799ce7096a8e3bf703890f4c0b0a170441eca08146"
+    },
+    {
+      "file": "game_sounds_weaver.vsndevts",
+      "sha256": "0a945c9f1d779a874050d24a1e478bd969bf7cc00c16e8aa62743f39803fe576"
+    },
+    {
+      "file": "game_sounds_windrunner.vsndevts",
+      "sha256": "24daf293e38f504e443d0b3a4cf7dff4625687362160e11aaf3b87de409a0ce3"
+    },
+    {
+      "file": "game_sounds_winter_wyvern.vsndevts",
+      "sha256": "014fae3da558bef8fffed840203ffee8633cc9071a77e09631b7f8f3cef8b705"
+    },
+    {
+      "file": "game_sounds_wisp.vsndevts",
+      "sha256": "0f921b030f992fa18d1bb260e352cd808eda47fc218769cea543b5cac8daf722"
+    },
+    {
+      "file": "game_sounds_witchdoctor.vsndevts",
+      "sha256": "a003d8b2b5a473cd522fd928d66a5ee61d0aca040b665bafe108c2f44fef4765"
+    },
+    {
+      "file": "game_sounds_zuus.vsndevts",
+      "sha256": "78816bdac19ed82b99e80af93562e4b31b84eba05eff3ae515c4f4de9cad07fc"
+    }
+  ],
+  "events": [
+    {
+      "event": "Ability.FrostNova",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7962,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7963,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_lich.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Ability.LagunaBladeImpact",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1377,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_lina.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Ability.LightStrikeArray",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1301,
+          "operation": "EmitSound"
+        },
+        {
+          "ability": "enfos_lina_light_strike_array",
+          "operation": "AbilitySound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_lina.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_AbyssalUnderlord.DarkRift.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6352,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_abyssal_underlord.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_AbyssalUnderlord.Firestorm.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6221,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_abyssal_underlord.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_AbyssalUnderlord.PitOfMalice",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6280,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_abyssal_underlord.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Antimage.Blink_in",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5389,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_antimage.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Antimage.Blink_out",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5379,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_antimage.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Antimage.Counterspell.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5397,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_antimage.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Antimage.ManaVoid",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5427,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_antimage.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Axe.Battle_Hunger",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1825,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_axe.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Axe.BerserkersCall",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1782,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "NOT_FOUND_IN_DECODED_HERO_BANKS",
+      "banks": [],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Axe.CounterHelix",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1908,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_axe.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Axe.Culling_Blade_Fail",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1951,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_axe.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Axe.Culling_Blade_Success",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1939,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_axe.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Bristleback.Hairball.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3300,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_bristleback.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Bristleback.QuillSpray.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3152,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3186,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_bristleback.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Bristleback.ViscousGoo.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3125,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_bristleback.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Centaur.DoubleEdge",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2100,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Centaur.HoofStomp",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2071,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Centaur.Stampede.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2172,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_ChaosKnight.ChaosBolt.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6609,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_chaos_knight.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_ChaosKnight.ChaosBolt.Impact",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6628,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_chaos_knight.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_ChaosKnight.ChaosStrike",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6710,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_chaos_knight.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_ChaosKnight.Phantasm",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6724,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_chaos_knight.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_ChaosKnight.RealityRift",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6645,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_chaos_knight.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_ChaosKnight.RealityRift.Target",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6646,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_chaos_knight.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Crystal.CrystalNova",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2671,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_crystalmaiden.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "hero_Crystal.freezingField.wind",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2785,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2799,
+          "operation": "StopSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_crystalmaiden.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Crystal.Frostbite",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2700,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "CASE_ONLY_MATCH_REVIEW",
+      "banks": [],
+      "caseMatches": [
+        "hero_Crystal.frostbite"
+      ],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Dazzle.BadJuju.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3029,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "CASE_ONLY_MATCH_REVIEW",
+      "banks": [],
+      "caseMatches": [
+        "Hero_Dazzle.BadJuJu.Cast"
+      ],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Dazzle.Poison_Touch",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2897,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_dazzle.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Dazzle.Shadow_Wave",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2978,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_dazzle.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Dazzle.Shallow_Grave",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2957,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_dazzle.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_DragonKnight.BreathFire",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4361,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_dragon_knight.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_DragonKnight.DragonTail.Target",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4397,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_dragon_knight.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_DragonKnight.ElderDragonForm",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4442,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_dragon_knight.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_DrowRanger.FrostArrows",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1039,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_drowranger.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_DrowRanger.Multishot.Channel",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1132,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1181,
+          "operation": "StopSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_drowranger.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_DrowRanger.Silence",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1075,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_drowranger.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_FacelessVoid.Chronosphere",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5550,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_faceless_void.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_FacelessVoid.TimeDilation.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5495,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_faceless_void.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_FacelessVoid.TimeLock.Impact",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5531,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "NOT_FOUND_IN_DECODED_HERO_BANKS",
+      "banks": [],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_FacelessVoid.TimeWalk",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5482,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_faceless_void.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Invoker.ChaosMeteor.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7309,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_invoker.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Invoker.ChaosMeteor.Impact",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7329,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_invoker.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Invoker.DeafeningBlast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7404,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_invoker.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Invoker.EMP.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7434,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_invoker.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Invoker.EMP.Discharge",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7451,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_invoker.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Invoker.SunStrike.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7373,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "NOT_FOUND_IN_DECODED_HERO_BANKS",
+      "banks": [],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Invoker.SunStrike.Ignite",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7388,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_invoker.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Jakiro.DualBreath.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7620,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_jakiro.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Jakiro.IcePath.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7652,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_jakiro.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Jakiro.LiquidFire",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7689,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_jakiro.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Jakiro.Macropyre.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7724,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_jakiro.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Juggernaut.BladeFuryStart",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 803,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 833,
+          "operation": "StopSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_juggernaut.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Juggernaut.HealingWard.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 840,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_juggernaut.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Juggernaut.OmniSlash",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 896,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_juggernaut.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_LegionCommander.Duel.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2393,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_legion_commander.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_LegionCommander.Duel.Victory",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2421,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_legion_commander.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_LegionCommander.MomentOfCourage",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2358,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "NOT_FOUND_IN_DECODED_HERO_BANKS",
+      "banks": [],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_LegionCommander.OverwhelmingOdds",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2256,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "NOT_FOUND_IN_DECODED_HERO_BANKS",
+      "banks": [],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_LegionCommander.PressTheAttack",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2303,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_legion_commander.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Leshrac.Diabolic_Edict",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7154,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_leshrac.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Leshrac.Diabolic_Edict_explode",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7173,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "NOT_FOUND_IN_DECODED_HERO_BANKS",
+      "banks": [],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Leshrac.Lightning_Storm",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7187,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7199,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_leshrac.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Leshrac.Pulse_Nova",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7234,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7237,
+          "operation": "StopSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7246,
+          "operation": "StopSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_leshrac.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Leshrac.Split_Earth",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7136,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_leshrac.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Lich.ChainFrost",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 8118,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_lich.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Lich.ChainFrost.Impact",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 8132,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "NOT_FOUND_IN_DECODED_HERO_BANKS",
+      "banks": [],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Lich.IceArmor",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 8007,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "NOT_FOUND_IN_DECODED_HERO_BANKS",
+      "banks": [],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Lich.SinisterGaze.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 8055,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_lich.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Lina.DragonSlave",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1255,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_lina.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Lion.FingerOfDeath",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6152,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_lion.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Lion.Impale",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6047,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_lion.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Lion.ManaDrain",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6097,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6114,
+          "operation": "StopSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_lion.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Lion.Voodoo",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6075,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_lion.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Luna.Eclipse.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1673,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_luna.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Luna.Eclipse.NoTarget",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1716,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_luna.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Luna.LucentBeam.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1577,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_luna.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Luna.LucentBeam.Target",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1578,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1709,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_luna.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Luna.MoonGlaive.Impact",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1758,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_luna.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Medusa.MysticSnake.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6830,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_medusa.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Medusa.MysticSnake.Target",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6878,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_medusa.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Medusa.StoneGaze.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6923,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_medusa.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_MonkeyKing.FurArmy",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5288,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_monkey_king.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_MonkeyKing.Spring.Impact",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5211,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_monkey_king.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_MonkeyKing.Strike.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5184,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_monkey_king.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Nevermore.RequiemOfSouls",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5689,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_nevermore.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Nevermore.Shadowraze",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5621,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_nevermore.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Omniknight.GuardianAngel.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1525,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_omniknight.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Omniknight.Purification",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1457,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_omniknight.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Omniknight.Repel",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 1474,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_omniknight.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_PhantomAssassin.Blur",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3828,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_PhantomAssassin.CoupDeGrace",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3869,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_PhantomAssassin.Dagger.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3719,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_PhantomAssassin.Dagger.Target",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3782,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_PhantomAssassin.Strike.End",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3805,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_PhantomAssassin.Strike.Start",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3799,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Puck.Dream_Coil",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7573,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_puck.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Puck.Illusory_Orb",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7500,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_puck.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Puck.Phase_Shift",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7557,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_puck.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Puck.Waning_Rift",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7524,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_puck.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Pudge.Dismember",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4706,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4727,
+          "operation": "StopSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_pudge.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Pudge.MeatHook",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4551,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "NOT_FOUND_IN_DECODED_HERO_BANKS",
+      "banks": [],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Pudge.Rot",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4607,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4616,
+          "operation": "StopSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_pudge.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_ShadowShaman.EtherShock",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5901,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_shadowshaman.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_ShadowShaman.Hex.Target",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5925,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_shadowshaman.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_ShadowShaman.SerpentWard",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6005,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_shadowshaman.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_ShadowShaman.Shackles",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5954,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5970,
+          "operation": "StopSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_shadowshaman.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_SkeletonKing.CriticalStrike",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3619,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_skeletonking.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_SkeletonKing.Hellfire_Blast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3493,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_skeletonking.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_SkeletonKing.Reincarnate",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3651,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3690,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_skeletonking.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Slark.DarkPact.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4817,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_slark.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Slark.Pounce.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4857,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_slark.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Slark.ShadowDance",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4965,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_slark.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Sniper.AssassinateShot",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2582,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "NOT_FOUND_IN_DECODED_HERO_BANKS",
+      "banks": [],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Sniper.Headshot",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2533,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "CASE_ONLY_MATCH_REVIEW",
+      "banks": [],
+      "caseMatches": [
+        "Hero_Sniper.HeadShot"
+      ],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Sniper.ShrapnelShoot",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2479,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_sniper.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Sniper.TakeAim.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 2551,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_sniper.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_StormSpirit.BallLightning",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5856,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_stormspirit.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_StormSpirit.ElectricVortex",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5781,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_stormspirit.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_StormSpirit.Overload",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5821,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_stormspirit.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_StormSpirit.StaticRemnantExplode",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5762,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_stormspirit.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_StormSpirit.StaticRemnantPlant",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5731,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_stormspirit.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Sven.GodsStrength",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 676,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_sven.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Sven.StormBolt",
+      "uses": [
+        {
+          "ability": "bulwark_shield_slam",
+          "operation": "AbilitySound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_sven.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Sven.StormBoltImpact",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 476,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_sven.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Sven.WarCry",
+      "uses": [
+        {
+          "ability": "bulwark_challenge",
+          "operation": "AbilitySound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_sven.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Terrorblade.ConjureImage",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7013,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_terrorblade.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Terrorblade.Metamorphosis",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7044,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_terrorblade.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Terrorblade.Reflection",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6972,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_terrorblade.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Terrorblade.Sunder.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7087,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_terrorblade.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Terrorblade.Sunder.Target",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7088,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_terrorblade.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Tidehunter.AnchorSmash",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3389,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_tidehunter.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Tidehunter.Gush.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3321,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "NOT_FOUND_IN_DECODED_HERO_BANKS",
+      "banks": [],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Tidehunter.Ravage",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3417,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "NOT_FOUND_IN_DECODED_HERO_BANKS",
+      "banks": [],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_TrollWarlord.BattleTrance.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6536,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_troll_warlord.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_TrollWarlord.BerserkersRage.Enter",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6392,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "NOT_FOUND_IN_DECODED_HERO_BANKS",
+      "banks": [],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_TrollWarlord.BerserkersRage.Exit",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6395,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "NOT_FOUND_IN_DECODED_HERO_BANKS",
+      "banks": [],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_TrollWarlord.BerserkersRage.Stun",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6458,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_troll_warlord.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_TrollWarlord.WhirlingAxes.Melee",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6480,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_troll_warlord.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_TrollWarlord.WhirlingAxes.Target",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 6490,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_troll_warlord.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Ursa.Earthshock",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5039,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_ursa.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Ursa.Enrage",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5141,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_ursa.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Ursa.Overpower",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 5069,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_ursa.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_VengefulSpirit.MagicMissile",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7798,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_vengefulspirit.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_VengefulSpirit.MagicMissileImpact",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7814,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_vengefulspirit.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_VengefulSpirit.NetherSwap",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7899,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7900,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_vengefulspirit.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_VengefulSpirit.WaveOfTerror",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 7839,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_vengefulspirit.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_WitchDoctor_Ward.Attack",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4195,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_witchdoctor.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_WitchDoctor_Ward.ProjectileImpact",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4212,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_witchdoctor.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_WitchDoctor.Death_WardBuild",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4224,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4243,
+          "operation": "StopSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4256,
+          "operation": "StopSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4294,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4302,
+          "operation": "StopSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_witchdoctor.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_WitchDoctor.Maledict_Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4152,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_witchdoctor.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_WitchDoctor.Paralyzing_Cask_Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4050,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_witchdoctor.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_WitchDoctor.Voodoo_Restoration",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4105,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_witchdoctor.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_WitchDoctor.Voodoo_Restoration.Loop",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4106,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4117,
+          "operation": "StopSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_witchdoctor.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_WitchDoctor.Voodoo_Restoration.Off",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4118,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_witchdoctor.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Zuus.ArcLightning.Cast",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3905,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Zuus.ArcLightning.Target",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3920,
+          "operation": "EmitSound"
+        },
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3941,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Zuus.GodsWrath",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3992,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Zuus.HeavenlyJump",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 4010,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "NOT_FOUND_IN_DECODED_HERO_BANKS",
+      "banks": [],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    },
+    {
+      "event": "Hero_Zuus.LightningBolt",
+      "uses": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3955,
+          "operation": "EmitSound"
+        }
+      ],
+      "status": "EXACT_EVENT_FOUND",
+      "banks": [
+        "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts"
+      ],
+      "caseMatches": [],
+      "runtime": "PENDING"
+    }
+  ]
+}

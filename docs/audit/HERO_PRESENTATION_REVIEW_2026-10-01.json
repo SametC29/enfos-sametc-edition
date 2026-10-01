@@ -782,36 +782,29 @@
         },
         {
           "id": "enfos_wd_voodoo_restoration",
-          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE",
-          "explicitCastAnimation": null,
-          "sourceSoundSignal": false,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL",
+          "explicitCastAnimation": "ACT_DOTA_CAST_ABILITY_2",
+          "sourceSoundSignal": true,
           "sourceParticleSignal": true,
-          "reviewCandidates": [
-            "NO_EXPLICIT_KV_CAST_ANIMATION",
-            "NO_SOUND_SIGNAL_IN_CONTRACT_INVENTORY"
-          ],
+          "reviewCandidates": [],
           "engineAcceptance": "PENDING_OWNER_TEST"
         },
         {
           "id": "enfos_wd_maledict",
           "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
-          "explicitCastAnimation": null,
+          "explicitCastAnimation": "ACT_DOTA_CAST_ABILITY_5",
           "sourceSoundSignal": true,
           "sourceParticleSignal": true,
-          "reviewCandidates": [
-            "NO_EXPLICIT_KV_CAST_ANIMATION"
-          ],
+          "reviewCandidates": [],
           "engineAcceptance": "PENDING_OWNER_TEST"
         },
         {
           "id": "enfos_wd_death_ward",
           "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED",
-          "explicitCastAnimation": null,
+          "explicitCastAnimation": "ACT_DOTA_CAST_ABILITY_4",
           "sourceSoundSignal": true,
           "sourceParticleSignal": true,
-          "reviewCandidates": [
-            "NO_EXPLICIT_KV_CAST_ANIMATION"
-          ],
+          "reviewCandidates": [],
           "engineAcceptance": "PENDING_OWNER_TEST"
         },
         {

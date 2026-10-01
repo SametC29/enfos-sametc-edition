@@ -2764,17 +2764,35 @@ test('Witch Doctor Death Ward targeting includes spell-immune enemies', function
     applied_damages = {}
     local wd = create_mock_unit('npc_dota_hero_witch_doctor', 2, Vector(0, 0, 0))
     local target = create_mock_unit('spell_immune_creep_wd', 3, Vector(100, 0, 0), 1000)
-    mock_world_units = { wd, target }
+    local ward = create_mock_unit('npc_dota_witch_doctor_death_ward', 2, Vector(20, 0, 0))
+    mock_world_units = { wd, target, ward }
     local ability = enfos_wd_death_ward()
-    ability.GetSpecialValueFor = function(_, key) return key == 'damage' and 240 or 0 end
+    ability.GetCaster = function() return wd end
+    ability.GetSpecialValueFor = function(_, key) return ({ damage = 240, projectile_speed = 1000 })[key] or 0 end
     local channel = modifier_enfos_wd_death_ward_channel()
     channel.GetCaster = function() return wd end
     channel.GetAbility = function() return ability end
     channel.pos = Vector(0, 0, 0)
+    channel.ward_idx = ward:entindex()
+    local originalProjectile = ProjectileManager.CreateTrackingProjectile
+    local projectile
+    ProjectileManager.CreateTrackingProjectile = function(_, options) projectile = options; return 1 end
     channel:OnIntervalThink()
     assert(last_find_units_flags == DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
         'Death Ward declares spell-immunity piercing and must include those enemies in its search')
+    assert(projectile and projectile.Source == ward and projectile.Target == target and projectile.iMoveSpeed == 1000)
+    assert(#applied_damages == 0, 'Ward attack damage must wait for the visible projectile impact')
+    ability:OnProjectileHit_ExtraData(nil, nil, projectile.ExtraData)
+    assert(#applied_damages == 0, 'Lost target must not take damage')
+    ability:OnProjectileHit_ExtraData(wd, nil, projectile.ExtraData)
+    assert(#applied_damages == 0, 'Impact must reject allied targets')
+    ability:OnProjectileHit_ExtraData(target, nil, projectile.ExtraData)
     assert(#applied_damages == 1 and applied_damages[1].victim == target)
+    assert(applied_damages[1].damage == 277.5, 'Ranked damage and Intelligence scaling must be preserved')
+    target.alive = false
+    ability:OnProjectileHit_ExtraData(target, nil, projectile.ExtraData)
+    assert(#applied_damages == 1, 'A dead target must not receive a second hit')
+    ProjectileManager.CreateTrackingProjectile = originalProjectile
 end)
 
 test('Witch Doctor Gris-Gris does not pay while broken or to an illusion', function()
@@ -5145,6 +5163,93 @@ test('Shadow Fiend aura and Feast of Souls disable while Broken', function()
     sf.PassivesDisabled = function() return false end
     feast:OnDeath({ attacker = sf, unit = create_mock_unit('enfos_creep_melee', 3) })
     assert(sf.hp == 425 and sf.mana == 315, 'Feast should heal and restore mana for a valid kill')
+end)
+
+test('Witch Doctor restoration owns audio and particle cleanup on off and mana exhaustion', function()
+    local wd = create_mock_unit('npc_dota_hero_witch_doctor', 2, Vector(0, 0, 0), 1000)
+    wd.hp = 500
+    local emitted, stopped = {}, {}
+    wd.EmitSound = function(_, event) emitted[#emitted + 1] = event end
+    wd.StopSound = function(_, event) stopped[#stopped + 1] = event end
+    local ability = enfos_wd_voodoo_restoration()
+    local active = true
+    ability.GetCaster = function() return wd end
+    ability.GetToggleState = function() return active end
+    ability.GetSpecialValueFor = function(_, key)
+        return ({ mana_per_second = 8, radius = 500, heal_per_second = 20 })[key] or 0
+    end
+    local function remove()
+        local mod = wd.modifiers.modifier_enfos_wd_voodoo_restoration_aura
+        if mod then mod:OnDestroy(); wd.modifiers.modifier_enfos_wd_voodoo_restoration_aura = nil end
+    end
+    wd.RemoveModifierByName = function() remove() end
+    ability.ToggleAbility = function() active = not active; ability:OnToggle() end
+    local originalAdd = wd.AddNewModifier
+    wd.AddNewModifier = function(self, ...)
+        local mod = originalAdd(self, ...)
+        mod.StartIntervalThink = function() end
+        mod.Destroy = function() remove() end
+        mod:OnCreated()
+        return mod
+    end
+    mock_world_units = { wd }
+    ability:OnToggle()
+    local aura = wd.modifiers.modifier_enfos_wd_voodoo_restoration_aura
+    assert(aura and not aura:IsPurgable(), 'Purge must not detach an enabled healing toggle')
+    assert(emitted[1] == 'Hero_WitchDoctor.Voodoo_Restoration')
+    assert(emitted[2] == 'Hero_WitchDoctor.Voodoo_Restoration.Loop')
+    aura:OnIntervalThink()
+    assert(wd.mana == 492 and wd.hp == 535, 'The audio change must preserve mana and heal behavior')
+    assert(#emitted == 2, 'Healing ticks must not repeatedly start the sound')
+    ability:ToggleAbility()
+    assert(stopped[1] == 'Hero_WitchDoctor.Voodoo_Restoration.Loop' and aura.particle == nil)
+    assert(emitted[3] == 'Hero_WitchDoctor.Voodoo_Restoration.Off')
+    ability:ToggleAbility()
+    wd.mana = 0
+    wd.modifiers.modifier_enfos_wd_voodoo_restoration_aura:OnIntervalThink()
+    assert(not active and #stopped == 2, 'Mana exhaustion must stop the loop exactly once and disable the toggle')
+    local originalServer = IsServer
+    IsServer = function() return false end
+    local count = #emitted
+    ability:OnToggle()
+    assert(#emitted == count, 'Predicted client callback must not emit server audio or modify state')
+    IsServer = originalServer
+end)
+
+test('Witch Doctor channel and Shard sound stop during modifier teardown', function()
+    local wd = create_mock_unit('npc_dota_hero_witch_doctor', 2, Vector(0, 0, 0))
+    local stopped = {}
+    wd.StopSound = function(_, event) stopped[#stopped + 1] = event end
+    local channel = modifier_enfos_wd_death_ward_channel()
+    channel.GetCaster = function() return wd end
+    channel:OnDestroy()
+    assert(stopped[1] == 'Hero_WitchDoctor.Death_WardBuild', 'Death/expiry teardown must stop audio without relying on OnChannelFinish')
+    local shard = modifier_enfos_wd_voodoo_switcheroo_buff()
+    shard.GetParent = function() return wd end
+    shard:OnDestroy()
+    assert(stopped[2] == 'Hero_WitchDoctor.Death_WardBuild', 'Two-second Shard must not leave the eight-second build sound playing')
+end)
+
+test('Witch Doctor Shard launches its ward projectile and resolves damage at impact', function()
+    applied_damages = {}
+    local wd = create_mock_unit('npc_dota_hero_witch_doctor', 2, Vector(0, 0, 0))
+    local enemy = create_mock_unit('enfos_creep_melee', 3, Vector(100, 0, 0))
+    mock_world_units = { wd, enemy }
+    local ability = enfos_wd_voodoo_switcheroo()
+    ability.GetCaster = function() return wd end
+    ability.GetSpecialValueFor = function(_, key) return key == 'projectile_speed' and 1000 or 0 end
+    local buff = modifier_enfos_wd_voodoo_switcheroo_buff()
+    buff.GetParent = function() return wd end
+    buff.GetAbility = function() return ability end
+    local previous = ProjectileManager.CreateTrackingProjectile
+    local projectile
+    ProjectileManager.CreateTrackingProjectile = function(_, options) projectile = options; return 1 end
+    buff:OnIntervalThink()
+    assert(projectile.Source == wd and projectile.Target == enemy and projectile.iMoveSpeed == 1000)
+    assert(#applied_damages == 0)
+    ability:OnProjectileHit_ExtraData(enemy, nil, projectile.ExtraData)
+    assert(#applied_damages == 1 and applied_damages[1].damage == 160)
+    ProjectileManager.CreateTrackingProjectile = previous
 end)
 
 print(passed .. ' hero kit regression tests passed (mock engine).')

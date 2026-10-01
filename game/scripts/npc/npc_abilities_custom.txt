@@ -2506,7 +2506,13 @@
 	"enfos_wd_voodoo_restoration"
 	{
 		"BaseClass"					"ability_lua"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_2"
+		"precache"
+		{
+			"soundfile" "soundevents/game_sounds_heroes/game_sounds_witchdoctor.vsndevts"
+			"particle" "particles/units/heroes/hero_witchdoctor/witchdoctor_voodoo_restoration_aura.vpcf"
+		}
 		"AbilityTextureName"		"witch_doctor_voodoo_restoration"
 		"RequiredLevel"	"1"
 		"LevelsBetweenUpgrades"	"1"
@@ -2522,6 +2528,7 @@
 
 	"enfos_wd_maledict"
 	{
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_5"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
@@ -2548,6 +2555,13 @@
 
 	"enfos_wd_death_ward"
 	{
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_4"
+		"AbilityChannelAnimation" "ACT_DOTA_CHANNEL_ABILITY_4"
+		"precache"
+		{
+			"soundfile" "soundevents/game_sounds_heroes/game_sounds_witchdoctor.vsndevts"
+			"particle" "particles/units/heroes/hero_witchdoctor/witchdoctor_ward_attack.vpcf"
+		}
 		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
@@ -2567,12 +2581,23 @@
 		{
 			"channel_duration" "8.0"
 			"damage" "90 107 123 140 157 173 190 207 223 240"
+			"projectile_speed" "1000"
 		}
 		"ScriptFile"				"abilities/pve_kits"
 	}
 
 	"enfos_wd_voodoo_switcheroo"
 	{
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_3"
+		"precache"
+		{
+			"soundfile" "soundevents/game_sounds_heroes/game_sounds_witchdoctor.vsndevts"
+			"particle" "particles/units/heroes/hero_witchdoctor/witchdoctor_ward_attack.vpcf"
+		}
+		"AbilityValues"
+		{
+			"projectile_speed" "1000"
+		}
 		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"

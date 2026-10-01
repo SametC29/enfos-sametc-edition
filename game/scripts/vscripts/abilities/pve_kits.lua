@@ -4088,6 +4088,7 @@ function modifier_enfos_wd_paralyzing_cask_stun:CheckState() return { [MODIFIER_
 
 enfos_wd_voodoo_restoration=class({})
 function enfos_wd_voodoo_restoration:OnToggle()
+    if not IsServer() then return end
     local c = self:GetCaster()
     if self:GetToggleState() then
         c:AddNewModifier(c, self, 'modifier_enfos_wd_voodoo_restoration_aura', {})
@@ -4097,8 +4098,11 @@ function enfos_wd_voodoo_restoration:OnToggle()
 end
 
 modifier_enfos_wd_voodoo_restoration_aura=class({})
+function modifier_enfos_wd_voodoo_restoration_aura:IsPurgable() return false end
 function modifier_enfos_wd_voodoo_restoration_aura:OnCreated()
     if not IsServer() then return end
+    self:GetParent():EmitSound('Hero_WitchDoctor.Voodoo_Restoration')
+    self:GetParent():EmitSound('Hero_WitchDoctor.Voodoo_Restoration.Loop')
     if ParticleManager and self:GetParent() then
         self.particle = ParticleManager:CreateParticle('particles/units/heroes/hero_witchdoctor/witchdoctor_voodoo_restoration_aura.vpcf', PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
         if self.particle then ParticleManager:SetParticleControl(self.particle, 0, self:GetParent():GetAbsOrigin()) end
@@ -4106,6 +4110,12 @@ function modifier_enfos_wd_voodoo_restoration_aura:OnCreated()
     self:StartIntervalThink(1.0)
 end
 function modifier_enfos_wd_voodoo_restoration_aura:OnDestroy()
+    if not IsServer() then return end
+    local parent = self:GetParent()
+    if parent and not parent:IsNull() then
+        parent:StopSound('Hero_WitchDoctor.Voodoo_Restoration.Loop')
+        parent:EmitSound('Hero_WitchDoctor.Voodoo_Restoration.Off')
+    end
     if self.particle and ParticleManager then
         ParticleManager:DestroyParticle(self.particle, false)
         ParticleManager:ReleaseParticleIndex(self.particle)
@@ -4176,11 +4186,41 @@ function modifier_enfos_wd_maledict_debuff:OnIntervalThink()
     end
 end
 
+-- The installed ward particle is a tracking projectile, not an impact effect.
+-- Engine projectile ownership supplies travel/termination instead of leaving a
+-- persistent parent particle at the target with an unset destination CP.
+local function wd_launch_ward_attack(ability, source, target, amount)
+    if not source or source:IsNull() or not target or target:IsNull() or not target:IsAlive() then return end
+    source:EmitSound('Hero_WitchDoctor_Ward.Attack')
+    ProjectileManager:CreateTrackingProjectile({
+        Target = target, Source = source, Ability = ability,
+        EffectName = 'particles/units/heroes/hero_witchdoctor/witchdoctor_ward_attack.vpcf',
+        iMoveSpeed = value(ability, 'projectile_speed'),
+        bDodgeable = false, bVisibleToEnemies = true,
+        ExtraData = { damage = amount },
+    })
+end
+
+local function wd_ward_attack_impact(ability, target, extra)
+    if not target or target:IsNull() or not target:IsAlive() then return true end
+    local caster = ability:GetCaster()
+    if not caster or caster:IsNull() or target:GetTeamNumber() == caster:GetTeamNumber() then return true end
+    local amount = tonumber(extra and extra.damage) or 0
+    if amount > 0 then
+        damage(ability, target, amount, DAMAGE_TYPE_PHYSICAL)
+        target:EmitSound('Hero_WitchDoctor_Ward.ProjectileImpact')
+    end
+    return true
+end
+
 enfos_wd_death_ward=class({})
+function enfos_wd_death_ward:OnProjectileHit_ExtraData(target, location, extra)
+    return wd_ward_attack_impact(self, target, extra)
+end
 function enfos_wd_death_ward:OnSpellStart()
     local c = self:GetCaster()
     local pos = self:GetCursorPosition()
-    c:EmitSound('Hero_WitchDoctor.Death_Ward')
+    c:EmitSound('Hero_WitchDoctor.Death_WardBuild')
     local channel_duration = value(self, 'channel_duration')
     channel_duration = channel_duration > 0 and channel_duration or 8.0
     local ward = CreateUnitByName and CreateUnitByName('npc_dota_witch_doctor_death_ward', pos, true, c, c, c:GetTeamNumber()) or nil
@@ -4199,7 +4239,7 @@ end
 function enfos_wd_death_ward:OnChannelFinish(interrupted)
     local c = self:GetCaster()
     c:RemoveModifierByName('modifier_enfos_wd_death_ward_channel')
-    c:StopSound('Hero_WitchDoctor.Death_Ward')
+    c:StopSound('Hero_WitchDoctor.Death_WardBuild')
 end
 
 modifier_enfos_wd_death_ward_channel=class({})
@@ -4211,6 +4251,8 @@ function modifier_enfos_wd_death_ward_channel:OnCreated(kv)
 end
 function modifier_enfos_wd_death_ward_channel:OnDestroy()
     if not IsServer() then return end
+    local caster = self:GetCaster()
+    if caster and not caster:IsNull() then caster:StopSound('Hero_WitchDoctor.Death_WardBuild') end
     local ward = self.ward_idx and EntIndexToHScript(self.ward_idx) or nil
     if ward and not ward:IsNull() then UTIL_Remove(ward) end
 end
@@ -4224,8 +4266,8 @@ function modifier_enfos_wd_death_ward_channel:OnIntervalThink()
     local targets = enemies(c, self.pos, 700, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)
     if #targets > 0 then
         local t = targets[RandomInt(1, #targets)]
-        damage(a, t, dmg, DAMAGE_TYPE_PHYSICAL)
-        effect('particles/units/heroes/hero_witchdoctor/witchdoctor_ward_attack.vpcf', t)
+        local ward = self.ward_idx and EntIndexToHScript(self.ward_idx) or nil
+        if ward and not ward:IsNull() then wd_launch_ward_attack(a, ward, t, dmg) end
     end
 end
 
@@ -4243,13 +4285,21 @@ function modifier_enfos_wd_death_ward_visual:CheckState()
 end
 
 enfos_wd_voodoo_switcheroo=class({})
+function enfos_wd_voodoo_switcheroo:OnProjectileHit_ExtraData(target, location, extra)
+    return wd_ward_attack_impact(self, target, extra)
+end
 function enfos_wd_voodoo_switcheroo:OnSpellStart()
     local c = self:GetCaster()
-    c:EmitSound('Hero_WitchDoctor.Death_Ward')
+    c:EmitSound('Hero_WitchDoctor.Death_WardBuild')
     c:AddNewModifier(c, self, 'modifier_enfos_wd_voodoo_switcheroo_buff', { duration = 2.0 })
 end
 
 modifier_enfos_wd_voodoo_switcheroo_buff=class({})
+function modifier_enfos_wd_voodoo_switcheroo_buff:OnDestroy()
+    if not IsServer() then return end
+    local parent = self:GetParent()
+    if parent and not parent:IsNull() then parent:StopSound('Hero_WitchDoctor.Death_WardBuild') end
+end
 function modifier_enfos_wd_voodoo_switcheroo_buff:CheckState()
     return { [MODIFIER_STATE_INVULNERABLE] = true, [MODIFIER_STATE_DISARMED] = true }
 end
@@ -4266,8 +4316,7 @@ function modifier_enfos_wd_voodoo_switcheroo_buff:OnIntervalThink()
     local targets = enemies(c, c:GetAbsOrigin(), 600)
     if #targets > 0 then
         local t = targets[RandomInt(1, #targets)]
-        damage(a, t, dmg, DAMAGE_TYPE_PHYSICAL)
-        effect('particles/units/heroes/hero_witchdoctor/witchdoctor_ward_attack.vpcf', t)
+        wd_launch_ward_attack(a, c, t, dmg)
     end
 end
 
