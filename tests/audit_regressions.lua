@@ -82,8 +82,11 @@ test('stationary attacking creep does not cancel attacks on a long route',functi
 end)
 test('Spellbringer barrier visits sparse entity-index tables and rejects opposite arena',function()
  local B=require('spellbringer/spellbringer_service');local count=0
- local c={IsNull=function() return false end,IsAlive=function() return true end,AddNewModifier=function() count=count+1 end}
- B.waveManager={activeCreeps={[3]={[187]=c,[922]=c}}}
+	local function makeCreep(id)
+	 return {defendingTeam=3,IsNull=function() return false end,IsAlive=function() return true end,entindex=function() return id end,
+	  GetAbsOrigin=function() return Vector(7500,-2000,136) end,AddNewModifier=function() count=count+1 end}
+	end
+	B.waveManager={activeCreeps={[3]={[187]=makeCreep(187),[922]=makeCreep(922)}}}
  B:CastArcaneBarrier(2,3,{duration=10});assert(count==2)
  B.playerState={};B.isCoop=false
  assert(not B:CanCast(0,'spellbringer_reveal',Vector(-7500,-1300,136)))
