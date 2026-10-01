@@ -1399,11 +1399,21 @@ function modifier_enfos_pve_fiery:OnAttackLanded(e)
     end
 end
 
-function modifier_enfos_pve_fiery_stacks:OnCreated() if IsServer() then self:SetStackCount(1) end end
+function modifier_enfos_pve_fiery_stacks:OnCreated()
+    if not IsServer() then return end
+    self:SetStackCount(1)
+    self.flame_particle = ParticleManager:CreateParticle('particles/units/heroes/hero_lina/lina_fiery_soul.vpcf', PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+    ParticleManager:SetParticleControl(self.flame_particle, 1, Vector(self:GetStackCount(), 0, 0))
+    self:AddParticle(self.flame_particle, false, false, -1, false, false)
+end
 function modifier_enfos_pve_fiery_stacks:IsPurgable() return false end
 function modifier_enfos_pve_fiery_stacks:IsDebuff() return false end
 function modifier_enfos_pve_fiery_stacks:OnRefresh()
-    if IsServer() then self:SetStackCount(math.min(self:GetStackCount() + 1, value(self:GetAbility(), 'fiery_soul_max_stacks'))) end
+    if not IsServer() then return end
+    self:SetStackCount(math.min(self:GetStackCount() + 1, value(self:GetAbility(), 'fiery_soul_max_stacks')))
+    if self.flame_particle then
+        ParticleManager:SetParticleControl(self.flame_particle, 1, Vector(self:GetStackCount(), 0, 0))
+    end
 end
 function modifier_enfos_pve_fiery_stacks:DeclareFunctions()
     return { MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE }
@@ -1418,7 +1428,6 @@ function modifier_enfos_pve_fiery_stacks:GetModifierMoveSpeedBonus_Percentage() 
 function modifier_enfos_pve_fiery_stacks:GetModifierSpellAmplify_Percentage()
     return fiery_soul_stacks(self) * value(self:GetAbility(), 'fiery_soul_spell_amp_per_stack')
 end
-function modifier_enfos_pve_fiery_stacks:GetEffectName() return 'particles/units/heroes/hero_lina/lina_fiery_soul.vpcf' end
 
 enfos_lina_laguna_blade=class({})
 function enfos_lina_laguna_blade:OnSpellStart()

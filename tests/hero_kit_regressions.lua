@@ -5512,4 +5512,33 @@ test('Lina Fiery Soul attack proc rejects friendly and missing targets but retai
     assert(lina:HasModifier('modifier_enfos_pve_fiery_stacks'), 'Hostile killing landed event must still grant stack')
 end)
 
+
+test('Lina Fiery Soul owns one stack-controlled flame particle across refreshes', function()
+    local lina = create_mock_unit('npc_dota_hero_lina', 2, Vector(0,0,0))
+    local a = enfos_lina_fiery_soul()
+    a.GetSpecialValueFor = function(_, key) return key == 'fiery_soul_max_stacks' and 4 or 10 end
+    local mod = lina:AddNewModifier(lina, a, 'modifier_enfos_pve_fiery_stacks', {})
+    local oldCreate, oldControl = ParticleManager.CreateParticle, ParticleManager.SetParticleControl
+    local creates, controls, owned = 0, {}, 0
+    ParticleManager.CreateParticle = function(_, path, attachment, unit)
+        assert(path == 'particles/units/heroes/hero_lina/lina_fiery_soul.vpcf')
+        assert(attachment == PATTACH_ABSORIGIN_FOLLOW and unit == lina)
+        creates = creates + 1; return 771
+    end
+    ParticleManager.SetParticleControl = function(_, id, cp, vector)
+        assert(id == 771 and cp == 1); controls[#controls + 1] = vector.x
+    end
+    mod.AddParticle = function(_, id, immediate, status, priority, hero, overhead)
+        assert(id == 771 and immediate == false and status == false)
+        owned = owned + 1
+    end
+    mod:OnCreated()
+    assert(creates == 1 and owned == 1 and controls[1] == 1,
+        'Fiery Soul must own its flame and supply decoded emission stack CP1')
+    for i=1,6 do mod:OnRefresh() end
+    assert(creates == 1 and owned == 1 and mod:GetStackCount() == 4 and controls[#controls] == 4,
+        'Refreshes update the same particle to capped stacks, never allocate another')
+    ParticleManager.CreateParticle, ParticleManager.SetParticleControl = oldCreate, oldControl
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')
