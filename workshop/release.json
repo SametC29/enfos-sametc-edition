@@ -1,9 +1,9 @@
 {
   "appid": "570",
   "publishedfileid": "3809160125",
-  "version": "1.0.6",
-  "title": "Enfos Team Survival - SametC Edition V1.0.6",
-  "changenote": "V1.0.6 - Current development snapshot: match-only level 50 and ten skill ranks; talent/account progression removal; wave, Boss, Spellbringer and HUD revisions; focused Sven, Juggernaut and Drow ability fixes, effects and localization. Automated checks passed. Full roster audit and owner in-game acceptance remain ongoing.",
+  "version": "1.0.7",
+  "title": "Enfos Team Survival - SametC Edition V1.0.7",
+  "changenote": "V1.0.7 - All 12 native hero Bosses now spawn at twice their normal model scale without compounding on repeated preparation. Includes Lina fixes: Dragon Slave burns respect Break, Fiery Soul attack stacks require hostile targets, and stack-controlled flame effects. Automated checks passed; owner in-game verification and full hero review remain ongoing.",
   "visibility": "0",
   "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3809160125"
 }
