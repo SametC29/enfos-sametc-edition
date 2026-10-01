@@ -5038,5 +5038,9 @@
 		"npc_dota_hero_zuus_hype" "Büyücü (Mage) rolünün yıldırım tanrısı. Zincirleme sıçrayan ark yıldırımları, gökten inen yıldırımları ve tüm kulvarı çarpan gazabıyla düşmanları küle çevirir."
 		"DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally" "Tanrısal Güç — Dost"
 		"DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally_Description" "Temel saldırı hasarı %50 ve zırh 10 artar. Sven'in şok dalgaları bu güçlendirmeyi 1,8 sn için yeniler."
+		"DOTA_Tooltip_modifier_enfos_pve_burn" "Tutuşma Yanması"
+		"DOTA_Tooltip_modifier_enfos_pve_burn_Description" "Lina’nın ateşi düzenli aralıklarla büyü hasarı verir. Bu düşman yanarken ölürse patlar ve yakındaki düşmanlara hasar verir. Patlama için Lina’nın pasifi etkin olmalıdır."
+		"DOTA_Tooltip_modifier_enfos_pve_fiery_stacks" "Ateşli Ruh"
+		"DOTA_Tooltip_modifier_enfos_pve_fiery_stacks_Description" "Her yük saldırı hızını, hareket hızını ve büyü güçlendirmesini artırır. Eşya dışı büyüler ve yük veren saldırılar tüm yüklerin ortak süresini yeniler. Pasifleri devre dışı bırakma bu bonusları kapatır."
 	}
 }

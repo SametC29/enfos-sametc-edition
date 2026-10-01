@@ -5040,5 +5040,9 @@
 		"npc_dota_hero_zuus_hype" "Büyücü (Mage) rolünün yıldırım tanrısı. Zincirleme sıçrayan ark yıldırımları, gökten inen yıldırımları ve tüm kulvarı çarpan gazabıyla düşmanları küle çevirir."
 		"DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally" "God's Strength — Ally"
 		"DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally_Description" "Grants +50% base attack damage and +10 armor. Sven's shockwaves refresh this buff for 1.8s."
+		"DOTA_Tooltip_modifier_enfos_pve_burn" "Combustion Burn"
+		"DOTA_Tooltip_modifier_enfos_pve_burn_Description" "Lina's fire deals periodic magical damage. If this enemy dies while burning, it explodes and damages nearby enemies. The explosion requires Lina's passive to be active."
+		"DOTA_Tooltip_modifier_enfos_pve_fiery_stacks" "Fiery Soul"
+		"DOTA_Tooltip_modifier_enfos_pve_fiery_stacks_Description" "Each stack increases attack speed, movement speed and spell amplification. Non-item spell casts and eligible attacks refresh the shared stack duration. Break disables these bonuses."
 	}
 }

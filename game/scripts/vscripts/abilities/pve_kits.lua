@@ -1413,6 +1413,7 @@ function modifier_enfos_pve_fiery_stacks:OnCreated()
 end
 function modifier_enfos_pve_fiery_stacks:IsPurgable() return false end
 function modifier_enfos_pve_fiery_stacks:IsDebuff() return false end
+function modifier_enfos_pve_fiery_stacks:GetTexture() return 'lina_fiery_soul' end
 function modifier_enfos_pve_fiery_stacks:OnRefresh()
     if not IsServer() then return end
     self:SetStackCount(math.min(self:GetStackCount() + 1, value(self:GetAbility(), 'fiery_soul_max_stacks')))

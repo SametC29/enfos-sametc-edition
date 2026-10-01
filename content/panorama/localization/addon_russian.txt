@@ -3097,5 +3097,9 @@
 		"npc_dota_hero_zuus_hype" "Büyücü (Mage) rolünün yıldırım tanrısı. Zincirleme sıçrayan ark yıldırımları, gökten inen yıldırımları ve tüm kulvarı çarpan gazabıyla düşmanları küle çevirir."
 		"DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally" "Божественная сила — союзник"
 		"DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally_Description" "Даёт +50% базового урона от атаки и 10 брони. Ударные волны Свена обновляют усиление на 1,8 сек."
+		"DOTA_Tooltip_modifier_enfos_pve_burn" "Горение"
+		"DOTA_Tooltip_modifier_enfos_pve_burn_Description" "Огонь Лины периодически наносит магический урон. Если этот враг погибает во время горения, он взрывается и наносит урон ближайшим врагам. Для взрыва пассивная способность Лины должна быть активна."
+		"DOTA_Tooltip_modifier_enfos_pve_fiery_stacks" "Огненная душа"
+		"DOTA_Tooltip_modifier_enfos_pve_fiery_stacks_Description" "Каждый заряд увеличивает скорость атаки, скорость передвижения и усиление заклинаний. Заклинания, кроме предметов, и атаки, дающие заряд, обновляют общее время действия зарядов. Истощение отключает эти бонусы."
 	}
 }

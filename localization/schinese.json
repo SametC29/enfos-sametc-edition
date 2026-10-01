@@ -1004,6 +1004,10 @@
     "enfos_evo_stat_cleave_distance": "距离",
     "DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally": "神之力量 — 友军",
     "DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally_Description": "基础攻击力提高50%，护甲提高10点。斯温的冲击波会将此增益的持续时间刷新为1.8秒。",
-    "DOTA_Tooltip_Ability_enfos_juggernaut_omni_slash_Description": "获得无敌状态并在附近敌人间跳跃，持续{{duration}}秒。每{{slash_interval}}秒造成攻击伤害 + {{bonus_damage}}点物理伤害。结束时返回起始位置。这些斩击不会触发攻击特效。"
+    "DOTA_Tooltip_Ability_enfos_juggernaut_omni_slash_Description": "获得无敌状态并在附近敌人间跳跃，持续{{duration}}秒。每{{slash_interval}}秒造成攻击伤害 + {{bonus_damage}}点物理伤害。结束时返回起始位置。这些斩击不会触发攻击特效。",
+    "DOTA_Tooltip_modifier_enfos_pve_burn": "燃烧",
+    "DOTA_Tooltip_modifier_enfos_pve_burn_Description": "莉娜的火焰周期性造成魔法伤害。如果该敌人在燃烧期间死亡，会爆炸并伤害附近敌人。爆炸要求莉娜的被动技能处于生效状态。",
+    "DOTA_Tooltip_modifier_enfos_pve_fiery_stacks": "炽魂",
+    "DOTA_Tooltip_modifier_enfos_pve_fiery_stacks_Description": "每层提高攻击速度、移动速度和技能增强。施放非物品技能或攻击成功获得一层时，会刷新所有层数的共同持续时间。破坏禁用这些加成。"
   }
 }
