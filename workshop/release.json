@@ -1,9 +1,9 @@
 {
   "appid": "570",
   "publishedfileid": "3809160125",
-  "version": "1.0.10",
-  "title": "Enfos Team Survival - SametC Edition V1.0.10",
-  "changenote": "V1.0.10 - Reveal now uses an engine-managed native True Sight aura with a player hero source, own-arena hostile filters and source cleanup. Failed creation refunds mana and cooldown. Radius 900 and duration 15 seconds retained. Owner confirms talent plus removal and Boss death without revival. Automated checks and package validation passed; Reveal visibility in Dota remains pending owner testing.",
+  "version": "1.0.11",
+  "title": "Enfos Team Survival - SametC Edition V1.0.11",
+  "changenote": "V1.0.11 - Easier opening and progressively harder 60-wave campaign, 60 distinct native wave/Boss models, special traits on every authored creep including invisible waves 11/21/49, synchronized invisibility and bounded native skill AI. Spellbringer reinforcements use wave+5 profiles/stats, with cursor area and accepted cast effects. Hero respawn scales from 30 to 50 seconds. Talent/account progression retired. Automated checks passed; engine gameplay and balance acceptance remain pending owner testing. Published at the owner's explicit request.",
   "visibility": "0",
   "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3809160125"
 }
