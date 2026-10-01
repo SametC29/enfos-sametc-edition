@@ -16,6 +16,7 @@ local EliteFramework = require("bosses/elite_framework")
 local EconomyManager = require("economy/economy_manager")
 local BoonManager = require("boons/boon_manager")
 local BalanceConfig = require("waves/balance_config")
+local BossResources = require("bosses/resource_gate")
 
 local WaveManager = {}
 WaveManager.__index = WaveManager
@@ -57,6 +58,9 @@ function WaveManager:Init()
 	self.spawnPlans = {}
 	self.wavePlayers = {}
 	self.batchSpawnTimer = 0
+	self.bossResources = BossResources.New()
+	self.bossResourcePlan = nil
+	self.bossResourceWait = 0
 
 	-- Initialize Life Core, Rewards, Boss and Elite Frameworks
 	LifeCore:Init(self)
@@ -165,6 +169,16 @@ function WaveManager:OnThink()
 	end
 
 	-- The deadline runs while spawning and fighting, including uncleared enemies.
+	-- Do not consume a Boss batch or its combat deadline before its actual
+	-- native hero resources finish loading. Normal waves never enter this gate.
+	if self.state == self.STATE_SPAWNING and self.bossResourcePlan
+		and not self.bossResources:IsPlanReady(self.bossResourcePlan) then
+		self.bossResourceWait = self.bossResourceWait + self.THINK_INTERVAL
+		if self.bossResourceWait == 30 then
+			Log:Error("boss_resources", "Wave %d blocked: Boss precache callback still pending after 30 seconds", self.currentWave)
+		end
+		return self.THINK_INTERVAL
+	end
 	if self.state == self.STATE_SPAWNING or self.state == self.STATE_ACTIVE then
 		self.stateTimer = self.stateTimer - self.THINK_INTERVAL
 		if self.stateTimer <= 0 then self:AdvanceScheduledWave(); return self.THINK_INTERVAL end
@@ -221,6 +235,7 @@ function WaveManager:StartBossIncoming()
 
 	local bossWaveNum = self.currentWave + 1
 	local waveDef = WaveDefinitions:GetWave(bossWaveNum)
+	self.bossResources:RequestPlan(WaveDefinitions:GetSpawnPlan(bossWaveNum, 1))
 
 	Log:Warn("wave_manager", "========================================")
 	Log:Warn("wave_manager", "BOSS INCOMING: Wave %d (%s)", bossWaveNum, waveDef and waveDef.boss_name or "Unknown")
@@ -266,6 +281,9 @@ function WaveManager:StartWave(waveNumber)
 	self.pendingBatches = {}
 
 	local isBoss = WaveDefinitions:IsBossWave(waveNumber)
+	self.bossResourcePlan = isBoss and WaveDefinitions:GetSpawnPlan(waveNumber, 1) or nil
+	self.bossResourceWait = 0
+	if self.bossResourcePlan then self.bossResources:RequestPlan(self.bossResourcePlan) end
 	local isElite = WaveDefinitions:IsEliteWave(waveNumber)
 
 	Log:Info("wave_manager", "Starting Wave %d [Type: %s, Batches: %d]",
@@ -291,6 +309,7 @@ end
 -- Reference: docs/GAME_DESIGN_MASTER.md § 5
 --------------------------------------------------------------------------------
 function WaveManager:SpawnNextBatch()
+	if self.bossResourcePlan and not self.bossResources:IsPlanReady(self.bossResourcePlan) then return end
 	if #self.pendingBatches == 0 then
 		self.state = WaveManager.STATE_ACTIVE
 		self:SyncNetTable()

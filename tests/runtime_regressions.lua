@@ -14,6 +14,7 @@ function Dynamic_Wrap(t,k) return t[k] end
 function ListenToGameEvent() end
 function EmitGlobalSound() end
 function LoadKeyValues() return {} end
+function PrecacheUnitByNameAsync(_, callback) callback() end -- Mock only; delayed callback coverage is separate.
 local thinker
 local mode={SetContextThink=function(_,name,fn,delay) assert(type(fn)=='function'); thinker=fn end}
 GameRules={state=7,paused=false,GetGameModeEntity=function() return mode end,
