@@ -159,30 +159,17 @@ test('early clear preserves deadline and pays no duplicate completion gold',func
  W:OnWaveCleared();assert(W.state==W.STATE_PREPARATION and W.stateTimer==9)
  R.Credit=old
 end)
-test('boss phases cannot be skipped by burst damage',function()
- local B=require('bosses/boss_framework');local guards=0
- local u={bossState={name='enfos_boss_stonebreaker',wave=5,phase=1,abilityTimer=10},hp=700,
-  GetMaxHealth=function() return 1000 end,GetHealth=function(self) return self.hp end,
-  IsNull=function() return false end,IsAlive=function() return true end,
-  EmitSound=function() end,AddNewModifier=function() guards=guards+1 end}
- local modifier=setmetatable({GetParent=function() return u end},{__index=modifier_enfos_boss_base})
- assert(modifier:GetMinHealth()==700);B:OnBossThink(u);assert(u.bossState.phase==2 and guards==1)
- assert(modifier:GetMinHealth()==350);u.hp=350;B:OnBossThink(u)
- assert(u.bossState.phase==3 and guards==2 and modifier:GetMinHealth()==0)
-end)
-test('boss damage crossing the health floor advances phase immediately',function()
- local B=require('bosses/boss_framework');local guards=0
- local u={bossState={name='enfos_boss_stonebreaker',wave=5,phase=1,abilityTimer=10},hp=2800,
+test('bosses no longer clamp health at former phase floors',function()
+ local B=require('bosses/boss_framework')
+ local u={bossState={name='enfos_boss_stonebreaker',wave=5,abilityTimer=10},hp=2800,
   GetMaxHealth=function() return 4000 end,GetHealth=function(self) return self.hp end,
   IsNull=function() return false end,IsAlive=function() return true end,
-  EmitSound=function() end,AddNewModifier=function() guards=guards+1 end}
+  EmitSound=function() end,AddNewModifier=function() end}
  local modifier=setmetatable({GetParent=function() return u end},{__index=modifier_enfos_boss_base})
- assert(modifier:GetMinHealth()==2800,'first phase floor should match the observed 2800 HP lock')
- modifier:OnTakeDamage({unit=u})
- assert(u.bossState.phase==2 and modifier:GetMinHealth()==1400 and guards==1,
-  'damage at the phase floor must release the boss below 70% HP immediately')
- u.hp=1400;modifier:OnTakeDamage({unit=u})
- assert(u.bossState.phase==3 and modifier:GetMinHealth()==0 and guards==2,
-  'damage at the second phase floor must release the boss to lethal damage')
+ assert(modifier.GetMinHealth==nil,'Boss must not expose a phase minimum-health gate')
+ assert(modifier:GetModifierTotal_ConstantBlock({damage=2800,damage_flags=0})==0,
+  'Large ordinary damage must not be capped at the old phase threshold')
+ B:OnBossThink(u)
+ assert(u.bossState.phase==nil,'Boss AI must not advance or store health phases')
 end)
 print(n..' runtime regression tests passed (mock engine).')

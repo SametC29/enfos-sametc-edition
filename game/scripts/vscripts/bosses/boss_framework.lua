@@ -2,12 +2,11 @@
 -- boss_framework.lua
 -- Server-authoritative Boss framework for Enfos Team Survival — SametC Edition
 -- Implements reusable:
--- 1. Boss base modifier: CC reduction (max 1.5s stun), reflect cap (150 max),
---    and %-HP damage cap (max 4% max HP per instance).
+-- 1. Boss base modifier: CC resistance and reflect cap (150 max).
 -- 2. Ground telegraph system: readable delay and visual warning before heavy spells.
 -- 3. Boss-only wave transition while prior scheduled creeps remain active.
 -- 4. Concrete signature behaviors for all 12 Bosses:
---    - Stonebreaker (Wave 5): Ground Slam telegraph + Low-HP Enrage phase.
+--    - Stonebreaker (Wave 5): Ground Slam telegraph.
 --    - Brood Matron (Wave 10): Toxic Spit telegraph + Capped spiderling add spawns.
 --    - Bloodfang Alpha (Wave 15): Alpha Pounce telegraph + Lifesteal / Blood Frenzy.
 --    - Later Bosses each mark a distinct control, positioning, resource, or hazard check.
@@ -28,19 +27,16 @@ local class = _G.class or function(...)
 end
 
 local BossFramework = {telegraphSerial=0}
-if LinkLuaModifier then LinkLuaModifier("modifier_enfos_boss_phase_guard", "bosses/boss_framework", LUA_MODIFIER_MOTION_NONE) end
 BossFramework.__index = BossFramework
 
 -- Boss Balance Caps (docs/QA_BALANCE_RELEASE.md § 7)
 BossFramework.MAX_STUN_DURATION = 1.5 -- Seconds
 BossFramework.STATUS_RESISTANCE = 60 -- Percent
 BossFramework.MAX_REFLECT_DAMAGE = 150 -- Per damage instance
-BossFramework.MAX_HP_PERCENT_DAMAGE = 0.04 -- Max 4% of max HP per instance
 
 -- Link Lua Modifiers
 if IsServer and IsServer() and LinkLuaModifier then
 	LinkLuaModifier("modifier_enfos_boss_base", "bosses/boss_framework", LUA_MODIFIER_MOTION_NONE)
-	LinkLuaModifier("modifier_enfos_boss_enrage", "bosses/boss_framework", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_enfos_boss_toxic_pool", "bosses/boss_framework", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_enfos_boss_toxic_slow", "bosses/boss_framework", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_enfos_boss_blood_frenzy", "bosses/boss_framework", LUA_MODIFIER_MOTION_NONE)
@@ -61,7 +57,7 @@ end
 function BossFramework:RegisterBoss(unit, bossName, waveNumber, playerCount)
 	if not unit or unit:IsNull() then return end
 
-	-- Apply core Boss baseline modifier (caps CC, reflect, and %-HP damage)
+	-- Apply Boss baseline modifier (status resistance and reflect safety cap).
 	unit:AddNewModifier(unit, nil, "modifier_enfos_boss_base", {})
 
 	-- Initialize Boss AI state machine
@@ -69,10 +65,7 @@ function BossFramework:RegisterBoss(unit, bossName, waveNumber, playerCount)
 		name = bossName,
 		wave = waveNumber,
 		players = playerCount or 1,
-		phase = 1,
 		abilityTimer = 3.0, -- First ability after 3s
-		isEnraged = false,
-		addsSpawned = false,
 	}
 
 	-- Attach Boss Thinker
@@ -82,24 +75,6 @@ function BossFramework:RegisterBoss(unit, bossName, waveNumber, playerCount)
 
 	self.activeBosses[unit:entindex()] = unit
 	Log:Info("boss_framework", "Registered Boss '%s' for Wave %d (Players: %d)", bossName, waveNumber, playerCount or 1)
-end
-
--- Advance phase as soon as damage reaches the current floor. The think loop
--- remains a fallback, but relying on it alone can leave a boss permanently
--- clamped at its phase minimum if its context think stops or errors.
-function BossFramework:AdvancePhaseIfNeeded(unit)
-	if not unit or unit:IsNull() or not unit:IsAlive() then return false end
-	local state = unit.bossState
-	if not state then return false end
-	local boundary = state.phase == 1 and 0.70 or (state.phase == 2 and 0.35 or 0)
-	if boundary <= 0 or unit:GetHealth() > math.ceil(unit:GetMaxHealth() * boundary) then return false end
-
-	state.phase = state.phase + 1
-	state.abilityTimer = 2.5
-	unit:AddNewModifier(unit, nil, "modifier_enfos_boss_phase_guard", { duration = 2 })
-	unit:EmitSound("Hero_Sven.WarCry")
-	Log:Info("boss_framework", "Boss phase: wave=%d phase=%d", state.wave, state.phase)
-	return true
 end
 
 --------------------------------------------------------------------------------
@@ -118,7 +93,6 @@ function BossFramework:OnBossThink(unit)
 	local state = unit.bossState
 	if not state then return nil end
 
-	self:AdvancePhaseIfNeeded(unit)
     state.abilityTimer = (state.abilityTimer or 0) - 0.5
 
 	-- Dispatch to specific Boss behavior
@@ -191,22 +165,12 @@ end
 -- Boss 1: Stonebreaker (Wave 5)
 -- Abilities:
 -- 1. Ground Slam (Telegraphed 1.5s, 450 AoE, 300 damage + 1.5s stun)
--- 2. Enrage Phase (<30% HP: +40 AS, +25% MS, red glow)
+-- 2. Wave-scaled boss attacks (no health-gated invulnerability phases).
 --------------------------------------------------------------------------------
 function BossFramework:ThinkStonebreaker(unit, state)
-	local hpPct = (unit:GetHealth() / unit:GetMaxHealth()) * 100
-
-	-- Phase 2: Enrage below 30% HP
-	if hpPct <= 30 and not state.isEnraged then
-		state.isEnraged = true
-		unit:AddNewModifier(unit, nil, "modifier_enfos_boss_enrage", {})
-		unit:EmitSound("Hero_Sven.GodsStrength")
-		Log:Info("boss_framework", "Stonebreaker entered ENRAGE phase!")
-	end
-
-	-- Ability: Ground Slam every 12 seconds in combat
+	-- Ability: Ground Slam on a fixed cadence; boss power scales with the wave.
 	if state.abilityTimer <= 0 then
-		state.abilityTimer = state.isEnraged and 8.0 or 12.0
+		state.abilityTimer = 12.0
 
 		-- Target nearest hero
 		local heroes = FindUnitsInRadius(unit:GetTeamNumber(), unit:GetAbsOrigin(), nil, 600,
@@ -245,16 +209,6 @@ end
 -- 2. Brood Spawn (Summons 4 spiderlings at 50% HP or periodically)
 --------------------------------------------------------------------------------
 function BossFramework:ThinkBroodMatron(unit, state)
-	local hpPct = (unit:GetHealth() / unit:GetMaxHealth()) * 100
-
-	-- Spawn spiderling adds at 50% HP (once)
-	if hpPct <= 50 and not state.addsSpawned then
-		state.addsSpawned = true
-		self:SpawnSpiderlingAdds(unit, 4)
-		unit:EmitSound("Hero_Broodmother.SpawnSpiderlings")
-		Log:Info("boss_framework", "Brood Matron spawned spiderling adds at 50% HP.")
-	end
-
 	-- Ability: Toxic Spit every 10 seconds
 	if state.abilityTimer <= 0 then
 		state.abilityTimer = 10.0
@@ -279,20 +233,6 @@ function BossFramework:ThinkBroodMatron(unit, state)
 	end
 end
 
-function BossFramework:SpawnSpiderlingAdds(boss, count)
-	local pos = boss:GetAbsOrigin()
-	for i = 1, count do
-		local offset = Vector(math.cos(i) * 100, math.sin(i) * 100, 0)
-		local add = CreateUnitByName("enfos_creep_spiderling", pos + offset, true, boss, boss, boss:GetTeamNumber())
-		if add then
-			add.is_boss_add = true
-			add.defendingTeam = boss.defendingTeam or 2
-			add:SetIdleAcquire(true)
-			add:SetAcquisitionRange(650)
-		end
-	end
-end
-
 --------------------------------------------------------------------------------
 -- Boss 3: Bloodfang Alpha (Wave 15)
 -- Abilities:
@@ -300,7 +240,6 @@ end
 -- 2. Blood Frenzy (+25% Lifesteal, <40% HP gains +50 Attack Speed)
 --------------------------------------------------------------------------------
 function BossFramework:ThinkBloodfangAlpha(unit, state)
-	local hpPct = (unit:GetHealth() / unit:GetMaxHealth()) * 100
 
 	-- Ensure Blood Frenzy passive modifier is present
 	if not unit:HasModifier("modifier_enfos_boss_blood_frenzy") then
@@ -378,7 +317,8 @@ function BossFramework:ThinkSignatureBoss(unit, state)
 	if state.abilityTimer > 0 then return end
 	local name = state.name
 	local origin = unit:GetAbsOrigin()
-	local damage = BossDamage(unit, 1.25 + 0.15 * (state.phase - 1))
+	local waveTier = math.floor(math.max(0, (state.wave or 5) - 5) / 10)
+	local damage = BossDamage(unit, 1.25 + 0.04 * waveTier)
 
 	if name == "enfos_boss_frost_warden" then
 		state.abilityTimer = 9
@@ -401,13 +341,13 @@ function BossFramework:ThinkSignatureBoss(unit, state)
 		local pos = target:GetAbsOrigin()
 		self:CreateTelegraph(pos, 310, 1.35, function(mark, radius)
 			self:ResolveBossStrike(unit, mark, radius, damage, DAMAGE_TYPE_MAGICAL, function(victim)
-				local drained = math.min(victim:GetMana(), 90 + 30 * state.phase)
+			local drained = math.min(victim:GetMana(), 90 + 30 * math.floor((state.wave or 5) / 20))
 				if drained > 0 then victim:SpendMana(drained, unit) end
 			end)
 		end)
 	elseif name == "enfos_boss_iron_colossus" then
 		state.abilityTimer = 11
-		self:CreateTelegraph(origin, 430 + 70 * state.phase, 1.8, function(mark, radius)
+		self:CreateTelegraph(origin, 430 + 70 * math.floor((state.wave or 5) / 20), 1.8, function(mark, radius)
 			self:ResolveBossStrike(unit, mark, radius, damage * 1.2, DAMAGE_TYPE_PHYSICAL, function(target)
 				target:AddNewModifier(unit, nil, "modifier_stunned", { duration = 0.75 })
 				local direction = (target:GetAbsOrigin() - mark):Normalized()
@@ -426,7 +366,7 @@ function BossFramework:ThinkSignatureBoss(unit, state)
 	elseif name == "enfos_boss_storm_tyrant" then
 		state.abilityTimer = 8
 		local targets = BossTargets(unit, origin, 1300, FIND_CLOSEST)
-		for i = 1, math.min(#targets, state.phase + 1) do
+		for i = 1, math.min(#targets, 2 + math.floor(waveTier / 2)) do
 			local pos = targets[i]:GetAbsOrigin()
 			self:CreateTelegraph(pos, 270, 1.1, function(mark, radius)
 				self:ResolveBossStrike(unit, mark, radius, damage * 0.8, DAMAGE_TYPE_MAGICAL, function(target)
@@ -437,7 +377,7 @@ function BossFramework:ThinkSignatureBoss(unit, state)
 	elseif name == "enfos_boss_shadow_huntress" then
 		state.abilityTimer = 9
 		local targets = BossTargets(unit, origin, 1400, FIND_FARTHEST)
-		for i = 1, math.min(#targets, state.phase) do
+		for i = 1, math.min(#targets, 1 + math.floor(waveTier / 2)) do
 			local pos = targets[i]:GetAbsOrigin()
 			self:CreateTelegraph(pos, 235, 1.25, function(mark, radius)
 				self:ResolveBossStrike(unit, mark, radius, damage * 1.05, DAMAGE_TYPE_PHYSICAL, function(target)
@@ -487,15 +427,7 @@ function BossFramework:ThinkSignatureBoss(unit, state)
 	end
 end
 
-modifier_enfos_boss_phase_guard=class({})
-function modifier_enfos_boss_phase_guard:IsPurgable() return false end
-function modifier_enfos_boss_phase_guard:CheckState()
-    return {[MODIFIER_STATE_INVULNERABLE]=true,[MODIFIER_STATE_ROOTED]=true,[MODIFIER_STATE_DISARMED]=true}
-end
-function modifier_enfos_boss_phase_guard:GetEffectName() return "particles/items_fx/black_king_bar_avatar.vpcf" end
-function modifier_enfos_boss_phase_guard:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
-
--- 1. Boss Base Modifier (CC, reflect, and %-HP damage caps)
+-- 1. Boss Base Modifier (CC resistance and reflect cap)
 modifier_enfos_boss_base = class({})
 function modifier_enfos_boss_base:IsHidden() return true end
 function modifier_enfos_boss_base:IsPurgable() return false end
@@ -503,22 +435,7 @@ function modifier_enfos_boss_base:DeclareFunctions()
 	return {
 		MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING,
 		MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK,
-        MODIFIER_PROPERTY_MIN_HEALTH,
-		MODIFIER_EVENT_ON_TAKEDAMAGE,
 	}
-end
-
-function modifier_enfos_boss_base:OnTakeDamage(event)
-	if IsServer and not IsServer() then return end
-	if not event or event.unit ~= self:GetParent() then return end
-	BossFramework:AdvancePhaseIfNeeded(self:GetParent())
-end
-
-function modifier_enfos_boss_base:GetMinHealth()
-    if IsServer and not IsServer() then return 0 end
-    local unit=self:GetParent()
-    local phase=unit.bossState and unit.bossState.phase or 3
-    return math.ceil(unit:GetMaxHealth()*(phase==1 and 0.70 or (phase==2 and 0.35 or 0)))
 end
 function modifier_enfos_boss_base:GetModifierStatusResistanceStacking()
 	return BossFramework.STATUS_RESISTANCE
@@ -543,28 +460,8 @@ function modifier_enfos_boss_base:GetModifierTotal_ConstantBlock(kv)
 		return incoming - BossFramework.MAX_REFLECT_DAMAGE
 	end
 
-	-- 2. Cap single-instance %-HP damage at 4% of Boss max HP
-	local maxHp = parent and parent:GetMaxHealth() or 10000
-	local cap = maxHp * BossFramework.MAX_HP_PERCENT_DAMAGE
-	if incoming > cap then
-		return incoming - cap
-	end
-
 	return 0
 end
-
--- 2. Stonebreaker Enrage Modifier
-modifier_enfos_boss_enrage = class({})
-function modifier_enfos_boss_enrage:IsPurgable() return false end
-function modifier_enfos_boss_enrage:DeclareFunctions()
-	return {
-		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
-	}
-end
-function modifier_enfos_boss_enrage:GetModifierAttackSpeedBonus_Constant() return 40 end
-function modifier_enfos_boss_enrage:GetModifierMoveSpeedBonus_Percentage() return 25 end
-function modifier_enfos_boss_enrage:GetStatusEffectName() return "particles/status_fx/status_effect_gods_strength.vpcf" end
 
 -- 3. Brood Matron Toxic Pool Thinker & Slow
 modifier_enfos_boss_toxic_pool = class({})
@@ -599,17 +496,7 @@ function modifier_enfos_boss_toxic_slow:GetModifierMoveSpeedBonus_Percentage() r
 -- 4. Bloodfang Alpha Blood Frenzy & Hemorrhage
 modifier_enfos_boss_blood_frenzy = class({})
 function modifier_enfos_boss_blood_frenzy:DeclareFunctions()
-	return {
-		MODIFIER_EVENT_ON_ATTACK_LANDED,
-		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-	}
-end
-function modifier_enfos_boss_blood_frenzy:GetModifierAttackSpeedBonus_Constant()
-	local parent = self:GetParent()
-	if parent and (parent:GetHealth() / parent:GetMaxHealth()) <= 0.4 then
-		return 50
-	end
-	return 0
+	return { MODIFIER_EVENT_ON_ATTACK_LANDED }
 end
 function modifier_enfos_boss_blood_frenzy:OnAttackLanded(params)
 	if not (IsServer and IsServer()) then return end

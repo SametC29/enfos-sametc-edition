@@ -491,13 +491,7 @@ function WaveManager:SyncNetTable()
 		and (self.currentWave + 1) or self.currentWave
 
 	local displayDef = WaveDefinitions:GetWave(nextWaveNum) or waveDef
-	local summaries, phases = {}, {}
-    for team,units in pairs(self.activeCreeps) do
-        phases[team]=0
-        for _,unit in pairs(units) do
-            if unit and not unit:IsNull() and unit:IsAlive() and unit.bossState then phases[team]=unit.bossState.phase end
-        end
-    end
+	local summaries = {}
 	for _, team in ipairs({2,3}) do
 		local plan = self.spawnPlans[team] or {}
 		if self.state == self.STATE_PREPARATION or self.state == self.STATE_IDLE then
@@ -507,7 +501,6 @@ function WaveManager:SyncNetTable()
 	end
 
 	CustomNetTables:SetTableValue("wave_info", "status", {
-		boss_phase_goodguys = phases[2], boss_phase_badguys = phases[3],
 		solo_support = self.matchConfig and self.matchConfig.solo and 1 or 0,
 		current_wave = self.currentWave,
 		next_wave = nextWaveNum,

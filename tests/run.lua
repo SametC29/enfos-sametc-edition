@@ -632,7 +632,7 @@ test("boss ground telegraph executes callback and notifies warning", function()
     assert(callbackExecuted == true, "Telegraph callback must execute")
 end)
 
-test("stonebreaker enrages below 30% HP and brood matron spawns adds below 50% HP", function()
+test("bosses have no health-threshold phase or phase-triggered adds", function()
     BossFramework:Init()
 
     -- Stonebreaker
@@ -651,10 +651,10 @@ test("stonebreaker enrages below 30% HP and brood matron spawns adds below 50% H
         entindex = function() return 1001 end,
     }
 
-    BossFramework:RegisterBoss(stonebreaker, "enfos_boss_stonebreaker", 5, 1)
-    BossFramework:ThinkStonebreaker(stonebreaker, stonebreaker.bossState)
-    assert(stonebreaker.bossState.isEnraged == true, "Stonebreaker must enrage below 30% HP")
-    assert(stonebreaker.enragedMod == "modifier_enfos_boss_enrage", "Must apply modifier_enfos_boss_enrage")
+	BossFramework:RegisterBoss(stonebreaker, "enfos_boss_stonebreaker", 5, 1)
+	assert(stonebreaker.bossState.phase == nil, "Boss state must not track health phases")
+	BossFramework:ThinkStonebreaker(stonebreaker, stonebreaker.bossState)
+	assert(stonebreaker.bossState.isEnraged == nil, "Stonebreaker must not gain a health-threshold phase")
 
     -- Brood Matron
     local broodMatron = {
@@ -681,10 +681,11 @@ test("stonebreaker enrages below 30% HP and brood matron spawns adds below 50% H
         return { SetIdleAcquire = function() end, SetAcquisitionRange = function() end }
     end
 
-    BossFramework:RegisterBoss(broodMatron, "enfos_boss_brood_matron", 10, 1)
-    BossFramework:ThinkBroodMatron(broodMatron, broodMatron.bossState)
-    assert(broodMatron.bossState.addsSpawned == true, "Brood Matron must spawn adds below 50% HP")
-    assert(spawnedAdds == 4, "Brood Matron must spawn exactly 4 spiderlings, got: " .. spawnedAdds)
+	BossFramework:RegisterBoss(broodMatron, "enfos_boss_brood_matron", 10, 1)
+	assert(broodMatron.bossState.phase == nil, "Boss state must not track health phases")
+	BossFramework:ThinkBroodMatron(broodMatron, broodMatron.bossState)
+	assert(broodMatron.bossState.addsSpawned == nil, "Brood Matron must not track a health-triggered adds phase")
+	assert(spawnedAdds == 0, "Boss phases must not create threshold-triggered adds")
 
     CreateUnitByName = originalCreate
 end)
