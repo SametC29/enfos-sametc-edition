@@ -5604,10 +5604,20 @@ test('Omniknight Hammer retains splash and sustain on lethal landed attacks with
     a.GetSpecialValueFor=function(_,k) return ({bonus_pure_damage=80,strength_multiplier=1.2,lifesteal_pct=50,splash_radius=275,splash_damage_pct=50,slow_duration=2})[k] or 0 end
     local m=modifier_enfos_pve_hammer()
     m.GetParent=function() return c end;m.GetAbility=function() return a end
+    local oldParticles,oldWorldAttach=ParticleManager,PATTACH_WORLDORIGIN
+    PATTACH_WORLDORIGIN=971
+    local creations, controls, releases={}, {}, {}
+    ParticleManager={
+        CreateParticle=function(_,path,attach,owner) local id=#creations+1;creations[id]={path=path,attach=attach,owner=owner};controls[id]={};return id end,
+        SetParticleControl=function(_,id,cp,position) controls[id][cp]=position end,
+        ReleaseParticleIndex=function(_,id) releases[id]=true end,
+    }
     applied_damages={}
     m:OnAttackLanded({attacker=c,target=corpse})
     assert(#applied_damages==1 and applied_damages[1].victim==neighbor and applied_damages[1].damage==100,'Lethal landed attack must still trigger Hammer splash')
     assert(c.hp==400,'Lethal landed attack must retain configured sustain')
+    assert(#creations==1 and controls[1][3] and controls[1][3].x==100,'Killing hit must supply the native Hammer detonation CP3 at its impact point')
+    assert(creations[1].attach==PATTACH_WORLDORIGIN and creations[1].owner==c and releases[1],'Finite impact must use world origin, retain caster attribution and release its index')
     assert(not corpse:HasModifier('modifier_enfos_pve_slow'),'Never apply slow to the already dead primary target')
     -- Bonus damage can itself kill/relocate the primary before splash or slow runs.
     corpse.alive=true;c.hp=300;applied_damages={}
@@ -5622,6 +5632,8 @@ test('Omniknight Hammer retains splash and sustain on lethal landed attacks with
     assert(#applied_damages==2 and applied_damages[2].victim==neighbor and applied_damages[2].damage==100,'Bonus lethal hit must retain splash at captured center')
     assert(not corpse:HasModifier('modifier_enfos_pve_slow'),'Bonus lethal hit must not add slow to the corpse')
     assert(c.hp==400,'Bonus lethal hit must retain configured sustain')
+    assert(#creations==2 and controls[2][0].x==100 and controls[2][3].x==100 and releases[2],'Bonus kill/relocation must keep both impact controls at the captured point')
+    ParticleManager,PATTACH_WORLDORIGIN=oldParticles,oldWorldAttach
 end)
 
 

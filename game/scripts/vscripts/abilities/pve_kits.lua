@@ -1649,8 +1649,11 @@ function modifier_enfos_pve_hammer:OnAttackLanded(e)
     damage(a, target, dmg, DAMAGE_TYPE_PURE)
     if not (target.IsNull and target:IsNull()) and target:IsAlive() then
         target:AddNewModifier(c, a, 'modifier_enfos_pve_slow', { duration = value(a, 'slow_duration') })
-        effect('particles/units/heroes/hero_omniknight/omniknight_hammer_of_purity_detonation.vpcf', target)
     end
+    local particle = ParticleManager:CreateParticle('particles/units/heroes/hero_omniknight/omniknight_hammer_of_purity_detonation.vpcf', PATTACH_WORLDORIGIN, c)
+    ParticleManager:SetParticleControl(particle, 0, position)
+    ParticleManager:SetParticleControl(particle, 3, position)
+    ParticleManager:ReleaseParticleIndex(particle)
     if c.Heal then c:Heal(dmg * value(a, 'lifesteal_pct') / 100, a) end
     for _, u in ipairs(enemies(c, position, value(a, 'splash_radius'))) do
         if u ~= target then damage(a, u, dmg * value(a, 'splash_damage_pct') / 100, DAMAGE_TYPE_PURE) end
