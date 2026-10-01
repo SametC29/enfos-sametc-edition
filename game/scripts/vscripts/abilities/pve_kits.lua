@@ -1502,6 +1502,9 @@ function modifier_enfos_pve_combustion:OnDeath(e)
 end
 
 function modifier_enfos_pve_burn:IsDebuff() return true end
+function modifier_enfos_pve_burn:GetTexture() return 'lina_flame_cloak' end
+function modifier_enfos_pve_burn:GetEffectName() return 'particles/units/heroes/hero_jakiro/jakiro_liquid_fire_debuff.vpcf' end
+function modifier_enfos_pve_burn:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_pve_burn:OnCreated() if IsServer() then self:StartIntervalThink(0.5) end end
 function modifier_enfos_pve_burn:OnIntervalThink()
     local c = self:GetCaster()
