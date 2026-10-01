@@ -15,7 +15,10 @@ Earlier mock tests explicitly asserted this limited distribution and therefore
 did not certify the behavior the owner expected.
 
 TryCast required missing health for every friendly-target ability, including
-non-healing buffs, and searched only heroes for hostile casts despite normal
+any non-healing buff using that branch. In the current 29-native-ability inventory,
+the only explicitly friendly-target active is High Priest Heal; the buff branch
+repair is defensive compatibility, not a demonstrated current missing-buff cause.
+TryCast also searched only heroes for hostile casts despite normal
 route AI also attacking summons. No-target spells without an exposed radius
 used a 250-unit trigger, which can miss a ranged creep's actual engagement.
 
@@ -90,3 +93,10 @@ alone does not prove what a particular player sees. The old desktop log1.txt
 was no longer present at its supplied path during this re-audit; no runtime log
 or screenshot beyond the owner-provided wave-49 image was treated as evidence.
 Test a fresh local Tools match after this repair; no Workshop upload occurred.
+
+Shared-workspace integration note: concurrent validated commit 89ef435 included
+the repair, tests and inventory during this audit. The exact resulting index was
+rechecked: five focused Node tests and 44 Lua behavior tests passed. The earlier
+general working-tree run also passed. This audit did not create a duplicate
+gameplay commit or upload to Workshop. Client invisibility synchronization is
+a repaired code-contract weakness; live rendering still requires owner evidence.
