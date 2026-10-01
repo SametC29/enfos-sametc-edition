@@ -1880,7 +1880,7 @@ function enfos_axe_berserkers_call:OnSpellStart()
     local armor = value(self, 'bonus_armor')
     if armor <= 0 then armor = 30 end
 
-    c:EmitSound('Hero_Axe.BerserkersCall')
+    c:EmitSound('Hero_Axe.Berserkers_Call')
     effect('particles/units/heroes/hero_axe/axe_beserkers_call_owner.vpcf', c)
 
     c:AddNewModifier(c, self, 'modifier_enfos_axe_call_buff', { duration = dur, bonus_armor = armor })
