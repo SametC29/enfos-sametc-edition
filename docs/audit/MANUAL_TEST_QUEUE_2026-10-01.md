@@ -1,0 +1,7099 @@
+# Manuel test envanteri — 2026-10-01
+
+Kaynak revizyon: a6f6c0b053e97495ed69e542065637abdfcd21ce. 386 kaynak dosya tarandı; 5996 açık-test/TODO/kanıt işareti kaynak indeksine kaydedildi.
+
+Bekleyen soru/kabul alanı: 3527. Önceden kullanıcı tarafından doğrulanmış ve yeniden sorulmayacak: 2. Bir alan birden fazla senaryo içeriyorsa yalnız yanıtın kanıtladığı kapsam kapanır. Bu sayı bağımsız test kombinasyonlarının sayısı değildir.
+
+| Kategori | Bekleyen alan |
+|---|---:|
+| Spellbringer / Glyph | 4 |
+| Görünmezlik / Reveal | 5 |
+| Harita / yenilenme | 5 |
+| Kahraman yeniden doğuşu | 7 |
+| Seviye / puan / HUD | 4 |
+| Harita / seçim / arayüz | 5 |
+| Harita / portallar | 8 |
+| Lobi / kahraman seçimi | 5 |
+| Gameplay / dalga / ekonomi | 13 |
+| Normal dalgalar | 4 |
+| Özel dalga mekanikleri | 47 |
+| Özel dalga sınırları | 6 |
+| Boss testleri | 96 |
+| Spellbringer yetenekleri | 55 |
+| Spellbringer / takviyeler | 4 |
+| Ascended eşyalar | 240 |
+| Normal mağaza / kurye | 6 |
+| Yeniden bağlanma | 7 |
+| Dil / okunabilirlik | 4 |
+| Performans / konsol | 5 |
+| Kahraman / yetenek | 2997 |
+
+## İşleyiş
+
+Sorular tek tek ilerler. Yanıt, gerçek metni ve bildirilen sürüm/maç/takım/dalga bağlamıyla birlikte JSON kaydına ve ilgili kaynak dosyanın insan test kaydına yazılır. Kaynak veya mock PASS, ENGINE_PASS yapılmaz. Sorulmuş test tekrar sorulmaz; PARTIAL/BLOCKED kapsamı not edilir. Belirsiz yanıtta yalnız gerekli açıklama istenir. Eski yetenek ağacı, kalıcı ilerleme, Elite ve kaldırılmış Boss fazı testleri uygulanmaz. Ayrıntılı özgün notlar kaynak indeksinde korunur; her sorudan önce güncel ilgili bölüm okunur.
+
+## Önceden doğrulanan
+
+- Talent + işareti kaldırıldı — PASS (önceki kullanıcı bildirimi).
+- Ölen Bosslar yeniden doğmuyor — PASS (önceki kullanıcı bildirimi).
+
+## Soru sırası
+
+- **MT-0001 / PENDING** — Yeni bir maçta Glyph düğmesine bir kez tıkladığında Spellbringer paneli açılıyor, tekrar tıkladığında kapanıyor ve normal Fortification tetiklenmiyor mu?
+  - Kaynak: docs/audit/GLYPH_NATIVE_LAYOUT_2026-10-01.md
+- **MT-0002 / PENDING** — Glyph’in normal şarjı hazır değilken de bir tıklama Spellbringer panelini doğru açıp kapatıyor mu?
+  - Kaynak: docs/audit/GLYPH_NATIVE_LAYOUT_2026-10-01.md
+- **MT-0003 / PENDING** — Mini haritayı diğer tarafa alınca Glyph ile Spellbringer paneli doğru açılıp kapanıyor mu?
+  - Kaynak: docs/audit/GLYPH_NATIVE_LAYOUT_2026-10-01.md
+- **MT-0004 / PENDING** — Yeniden bağlanma veya HUD yenilenmesinden sonra Glyph düğmesi hâlâ çalışıyor mu?
+  - Kaynak: docs/audit/GLYPH_NATIVE_LAYOUT_2026-10-01.md
+- **MT-0005 / PENDING** — Radiant tarafında 11. dalgadaki görünmez Assassin’in bulunduğu yere Reveal attığında yaratık görünür oluyor ve ona saldırı/yetenek hedefleyebiliyor musun?
+  - Kaynak: docs/audit/REVEAL_NATIVE_AURA_2026-10-01.md
+- **MT-0006 / PENDING** — Dire tarafında aynı Reveal testi görünmez yaratığı görünür ve hedeflenebilir yapıyor mu?
+  - Kaynak: docs/audit/REVEAL_NATIVE_AURA_2026-10-01.md
+- **MT-0007 / PENDING** — Reveal alanının 900 birim dışındaki yaratıklar ve karşı takımın arenasındakiler gizli kalıyor mu?
+  - Kaynak: docs/audit/REVEAL_NATIVE_AURA_2026-10-01.md
+- **MT-0008 / PENDING** — Reveal’den 15 saniye ve yaklaşık 0,75 saniye aura gecikmesi geçince, başka görüş kaynağı yoksa yaratık tekrar gizleniyor mu?
+  - Kaynak: docs/audit/REVEAL_NATIVE_AURA_2026-10-01.md
+- **MT-0009 / PENDING** — 21. ve 49. dalgadaki görünmez yaratıklarda da Reveal doğru çalışıyor mu?
+  - Kaynak: docs/audit/REVEAL_NATIVE_AURA_2026-10-01.md
+- **MT-0010 / PENDING** — Radiant kahramanıyla kendi yenilenme heykelinin yanında durunca eksik canın ve manan artıyor mu? Önceki ve sonraki değerleri yazabilir misin?
+  - Kaynak: docs/audit/HEALING_ZONES_2026-10-01.md
+- **MT-0011 / PENDING** — Dire kahramanıyla kendi yenilenme heykelinin yanında durunca eksik canın ve manan artıyor mu? Önceki ve sonraki değerleri yazabilir misin?
+  - Kaynak: docs/audit/HEALING_ZONES_2026-10-01.md
+- **MT-0012 / PENDING** — Yenilenme alanından çıkınca alanın sağladığı can ve mana dolumu duruyor mu?
+  - Kaynak: docs/audit/HEALING_ZONES_2026-10-01.md
+- **MT-0013 / PENDING** — Karşı takımın yenilenme alanı sana can veya mana vermeden doğru takım sınırını koruyor mu?
+  - Kaynak: docs/audit/HEALING_ZONES_2026-10-01.md
+- **MT-0014 / PENDING** — Yenilenme heykelleri için konsolda eksik birim veya sınıf hatası görünüyor mu?
+  - Kaynak: docs/audit/HEALING_ZONES_2026-10-01.md
+- **MT-0015 / PENDING** — 6. seviyede normal öldüğünde yeniden doğuş sayacı 30 saniye oluyor mu?
+  - Kaynak: docs/audit/HERO_RESPAWN_2026-10-01.md
+- **MT-0016 / PENDING** — 28. seviyede normal öldüğünde sayaç 40 saniye oluyor mu?
+  - Kaynak: docs/audit/HERO_RESPAWN_2026-10-01.md
+- **MT-0017 / PENDING** — 50. seviyede normal öldüğünde sayaç 50 saniye oluyor mu?
+  - Kaynak: docs/audit/HERO_RESPAWN_2026-10-01.md
+- **MT-0018 / PENDING** — İki takımda da ölüm sayacı doğru görünüp doğru takım noktasında yeniden doğuluyor mu?
+  - Kaynak: docs/audit/HERO_RESPAWN_2026-10-01.md
+- **MT-0019 / PENDING** — Buyback kullanınca yeniden doğuş ve sayaç doğru çalışıyor mu?
+  - Kaynak: docs/audit/HERO_RESPAWN_2026-10-01.md
+- **MT-0020 / PENDING** — Aegis ile dirilirken normal 30–50 saniyelik ölüm süresi dirilişi bozmuyor mu?
+  - Kaynak: docs/audit/HERO_RESPAWN_2026-10-01.md
+- **MT-0021 / PENDING** — Wraith King’in Reincarnation dirilişi normal ölüm sayacı tarafından bozulmadan çalışıyor mu?
+  - Kaynak: docs/audit/HERO_RESPAWN_2026-10-01.md
+- **MT-0022 / PASS** — Yetenek ağacının + işareti kaldırıldı.
+  - Kaynak: docs/audit/REVEAL_NATIVE_AURA_2026-10-01.md
+- **MT-0023 / PASS** — Ölen Bosslar yeniden doğmuyor.
+  - Kaynak: docs/audit/REVEAL_NATIVE_AURA_2026-10-01.md
+- **MT-0024 / PENDING** — Yeni maçta kahraman 6. seviyede, harcanabilir 5 yetenek puanıyla ve ayrı ücretsiz Enfos pasifi 1. rütbede başlıyor mu?
+  - Kaynak: AGENTS.md
+- **MT-0025 / PENDING** — Yetenek ağacı kaldırıldıktan sonra normal Q/W/E/R ve pasif öğrenme düğmeleri çalışıyor mu?
+  - Kaynak: AGENTS.md
+- **MT-0026 / PENDING** — 50. seviyede beş yetenek de 10. rütbeye ulaşabiliyor ve toplam 49 normal puan dışında fazladan puan verilmiyor mu?
+  - Kaynak: AGENTS.md
+- **MT-0027 / PENDING** — Yeni maça girince önceki maçtan kalıcı kahraman bonusu, seviye veya ödül taşınmadan doğru başlangıç yapılıyor mu?
+  - Kaynak: AGENTS.md
+- **MT-0028 / PENDING** — Kahraman seçimini bitirince doğru takım başlangıcında doğuyor musun; haritanın (0,0,0) merkezinde takılma veya yerleştirme hatası oluyor mu?
+  - Kaynak: docs/RUNTIME_FIXES.md
+- **MT-0029 / PENDING** — Yürüdüğünde mini haritadaki kahraman işareti gerçek konumunu doğru gösteriyor mu?
+  - Kaynak: docs/RUNTIME_FIXES.md
+- **MT-0030 / PENDING** — Blink, uçuş veya TP kullanarak rakip arenaya fiziksel geçiş engelleniyor mu?
+  - Kaynak: docs/RUNTIME_FIXES.md
+- **MT-0031 / PENDING** — İki arena ve tüm yaratık grupları temizlenmeden sonraki dalga düğmesi dalgayı başlatmayı engelliyor mu?
+  - Kaynak: docs/RUNTIME_FIXES.md
+- **MT-0032 / PENDING** — Sonraki dalga düğmesine art arda basınca yalnız bir dalga başlıyor ve Boss uyarısı korunuyor mu?
+  - Kaynak: docs/RUNTIME_FIXES.md
+- **MT-0033 / PENDING** — 1. aynı takım portalından geçince doğru varış noktasına gidiyor ve orada dururken ileri geri ışınlanma döngüsü oluşmuyor mu?
+  - Kaynak: docs/RUNTIME_FIXES.md
+- **MT-0034 / PENDING** — 2. aynı takım portalından geçince doğru varış noktasına gidiyor ve orada dururken ileri geri ışınlanma döngüsü oluşmuyor mu?
+  - Kaynak: docs/RUNTIME_FIXES.md
+- **MT-0035 / PENDING** — 3. aynı takım portalından geçince doğru varış noktasına gidiyor ve orada dururken ileri geri ışınlanma döngüsü oluşmuyor mu?
+  - Kaynak: docs/RUNTIME_FIXES.md
+- **MT-0036 / PENDING** — 4. aynı takım portalından geçince doğru varış noktasına gidiyor ve orada dururken ileri geri ışınlanma döngüsü oluşmuyor mu?
+  - Kaynak: docs/RUNTIME_FIXES.md
+- **MT-0037 / PENDING** — 5. aynı takım portalından geçince doğru varış noktasına gidiyor ve orada dururken ileri geri ışınlanma döngüsü oluşmuyor mu?
+  - Kaynak: docs/RUNTIME_FIXES.md
+- **MT-0038 / PENDING** — 6. aynı takım portalından geçince doğru varış noktasına gidiyor ve orada dururken ileri geri ışınlanma döngüsü oluşmuyor mu?
+  - Kaynak: docs/RUNTIME_FIXES.md
+- **MT-0039 / PENDING** — 7. aynı takım portalından geçince doğru varış noktasına gidiyor ve orada dururken ileri geri ışınlanma döngüsü oluşmuyor mu?
+  - Kaynak: docs/RUNTIME_FIXES.md
+- **MT-0040 / PENDING** — 8. aynı takım portalından geçince doğru varış noktasına gidiyor ve orada dururken ileri geri ışınlanma döngüsü oluşmuyor mu?
+  - Kaynak: docs/RUNTIME_FIXES.md
+- **MT-0041 / PENDING** — Takım seçimi ve kahraman seçimi ekranında oyuncu adları ve seçilen kahraman doğru görünüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0042 / PENDING** — Her takımda 1–5 oyuncuyla seçim tamamlanıyor ve kahramanlar doğru takımlara atanıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0043 / PENDING** — Aynı takımda seçilmiş bir kahramanı ikinci oyuncu seçmeye çalışınca tekrar seçim engelleniyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0044 / PENDING** — Seçim zaman aşımı veya bağlantı kopması sırasında ekran kilitlenmeden geçerli bir kahramanla maça geçiliyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0045 / PENDING** — Co-op ve PvEvP seçeneklerinde gerçek maç ayarları seçtiğin mod ve zorlukla aynı mı?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0046 / PENDING** — Maç canlı başladığında ilk dalga açılış hazırlık sayacı olmadan geliyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0047 / PENDING** — Normal yaratıklar iki normal koridordan, Bosslar daha kısa orta koridordan doğru rotayı izliyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0048 / PENDING** — Maç 100 takım canıyla başlıyor ve sızan her birim yalnız bir kez doğru can kaybını oluşturuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0049 / PENDING** — Çok yaratık birikince yalnız sayı nedeniyle takım canı azalmadan planlanan dalgalar gelmeye devam ediyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0050 / PENDING** — Oyunu duraklatınca dalga zamanlaması da duruyor ve devam edince düzgün ilerliyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0051 / PENDING** — Boss dalgalarında yalnız Boss geliyor; sıradan yaratık veya eski Elite spawn olmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0052 / PENDING** — Her Boss sonrasında Boon seçimi açılıyor ve kazanan bonus yalnız bir kez uygulanıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0053 / PENDING** — 60. dalgaya kadar normal eşya masraflarını da ödeyerek dört farklı Ascended eşyayı satın alabiliyor musun? Oyuncu sayısı, zorluk ve alış dalgalarını yazabilir misin?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0054 / PENDING** — Solo maçın ilk dalgaları oynanabilir mi? Kahraman, zorluk ve zorlandığın dalgayı yazabilir misin?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0055 / PENDING** — Geç dalgalar giderek daha fazla baskı oluşturuyor mu? Kahraman, zorluk ve ilgili dalgaları yazabilir misin?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0056 / PENDING** — 60. dalgayı bitirince zafer/Endless akışı ve sonuç ekranı beklenen şekilde çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0057 / PENDING** — Teslim olma işlemi doğru takım ve maç sonucuna yalnız bir kez uygulanıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0058 / PENDING** — Boş takım arenasına yaratık spawn olmuyor ve oyuncu ayrıldığında dalga akışı bozulmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0059 / PENDING** — 1. dalga yalnız temel yaratıklarla, istenmeyen özel yetenek olmadan çalışıyor mu?
+  - Kaynak: docs/audit/WAVE_SPECIAL_CONTRACTS_2026-10-01.json
+- **MT-0060 / PENDING** — 2. dalga yalnız temel yaratıklarla, istenmeyen özel yetenek olmadan çalışıyor mu?
+  - Kaynak: docs/audit/WAVE_SPECIAL_CONTRACTS_2026-10-01.json
+- **MT-0061 / PENDING** — 3. dalga yalnız temel yaratıklarla, istenmeyen özel yetenek olmadan çalışıyor mu?
+  - Kaynak: docs/audit/WAVE_SPECIAL_CONTRACTS_2026-10-01.json
+- **MT-0062 / PENDING** — 4. dalga yalnız temel yaratıklarla, istenmeyen özel yetenek olmadan çalışıyor mu?
+  - Kaynak: docs/audit/WAVE_SPECIAL_CONTRACTS_2026-10-01.json
+- **MT-0063 / PENDING** — 6. dalgada tüm yaratıkların forest_troll_high_priest_heal mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0064 / PENDING** — 7. dalgada tüm yaratıkların berserker_troll_break mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0065 / PENDING** — 8. dalgada tüm yaratıkların gnoll_assassin_envenomed_weapon mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0066 / PENDING** — 9. dalgada tüm yaratıkların fel_beast_haunt mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0067 / PENDING** — 11. dalgada tüm yaratıkların invisible mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0068 / PENDING** — 12. dalgada tüm yaratıkların silence mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0069 / PENDING** — 13. dalgada tüm yaratıkların harpy_storm_chain_lightning mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0070 / PENDING** — 14. dalgada tüm yaratıkların necronomicon_archer_mana_burn mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0071 / PENDING** — 16. dalgada tüm yaratıkların gnoll_assassin_envenomed_weapon mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0072 / PENDING** — 17. dalgada tüm yaratıkların enfos_creep_shieldbearer_carapace mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0073 / PENDING** — 18. dalgada tüm yaratıkların giant_wolf_intimidate mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0074 / PENDING** — 19. dalgada tüm yaratıkların alpha_wolf_critical_strike mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0075 / PENDING** — 19. dalgada tüm yaratıkların alpha_wolf_command_aura mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0076 / PENDING** — 21. dalgada tüm yaratıkların invisible mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0077 / PENDING** — 22. dalgada tüm yaratıkların satyr_trickster_purge mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0078 / PENDING** — 23. dalgada tüm yaratıkların satyr_soulstealer_mana_burn mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0079 / PENDING** — 24. dalgada tüm yaratıkların ogre_bruiser_ogre_smash mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0080 / PENDING** — 26. dalgada tüm yaratıkların enfos_creep_frostguard_aura mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0081 / PENDING** — 27. dalgada tüm yaratıkların enfos_creep_spellguard_ward mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0082 / PENDING** — 28. dalgada tüm yaratıkların enfos_creep_mindstealer_burn mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0083 / PENDING** — 29. dalgada tüm yaratıkların mudgolem_cloak_aura mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0084 / PENDING** — 31. dalgada tüm yaratıkların centaur_khan_war_stomp mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0085 / PENDING** — 32. dalgada tüm yaratıkların satyr_hellcaller_shockwave mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0086 / PENDING** — 33. dalgada tüm yaratıkların warpine_raider_seed_shot mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0087 / PENDING** — 34. dalgada tüm yaratıkların root mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0088 / PENDING** — 36. dalgada tüm yaratıkların root mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0089 / PENDING** — 36. dalgada tüm yaratıkların enfos_wave_raise mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0090 / PENDING** — 37. dalgada tüm yaratıkların hill_troll_rally mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0091 / PENDING** — 38. dalgada tüm yaratıkların mud_golem_hurl_boulder mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0092 / PENDING** — 39. dalgada tüm yaratıkların necronomicon_warrior_mana_burn mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0093 / PENDING** — 41. dalgada tüm yaratıkların furbolg_enrage_attack_speed mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0094 / PENDING** — 42. dalgada tüm yaratıkların polar_furbolg_ursa_warrior_thunder_clap mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0095 / PENDING** — 43. dalgada tüm yaratıkların enfos_creep_spellguard_ward mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0096 / PENDING** — 44. dalgada tüm yaratıkların enraged_wildkin_hurricane mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0097 / PENDING** — 46. dalgada tüm yaratıkların enfos_creep_venomous_poison mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0098 / PENDING** — 47. dalgada tüm yaratıkların centaur_khan_war_stomp mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0099 / PENDING** — 48. dalgada tüm yaratıkların mud_golem_hurl_boulder mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0100 / PENDING** — 49. dalgada tüm yaratıkların invisible mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0101 / PENDING** — 51. dalgada tüm yaratıkların enfos_creep_exploder_burst mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0102 / PENDING** — 52. dalgada tüm yaratıkların black_drake_magic_amplification_aura mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0103 / PENDING** — 53. dalgada tüm yaratıkların ancient_rock_golem_weakening_aura mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0104 / PENDING** — 54. dalgada tüm yaratıkların big_thunder_lizard_slam mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0105 / PENDING** — 56. dalgada tüm yaratıkların frostbitten_golem_time_warp_aura mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0106 / PENDING** — 57. dalgada tüm yaratıkların spawnlord_aura mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0107 / PENDING** — 57. dalgada tüm yaratıkların reflect mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0108 / PENDING** — 58. dalgada tüm yaratıkların black_dragon_splash_attack mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0109 / PENDING** — 59. dalgada tüm yaratıkların ice_shaman_incendiary_bomb mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+  - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
+- **MT-0110 / PENDING** — Kalabalık dalgada stun/silence/root etkileri kesintisiz kilitleme oluşturmadan ortak bekleme sınırlarına uyuyor mu?
+  - Kaynak: docs/audit/WAVE_INTEGRATION_2026-10-01.md
+- **MT-0111 / PENDING** — Dark Troll çağrıları yaratık başına en fazla dört canlı çocukla sınırlanıyor ve 20 saniye sonra temizleniyor mu?
+  - Kaynak: docs/audit/WAVE_INTEGRATION_2026-10-01.md
+- **MT-0112 / PENDING** — Troll çocukları öldüğünde Gold/XP vermiyor ve sızdığında takım canı düşürmüyor mu?
+  - Kaynak: docs/audit/WAVE_INTEGRATION_2026-10-01.md
+- **MT-0113 / PENDING** — Çağrılan çocuklar yeniden çocuk çağırmadan rotayı ve sahipliği doğru koruyor mu?
+  - Kaynak: docs/audit/WAVE_INTEGRATION_2026-10-01.md
+- **MT-0114 / PENDING** — Geç dalga yansıtma etkileri sonsuz hasar döngüsü veya ani karşılıklı ölüm yaratmadan çalışıyor mu?
+  - Kaynak: docs/audit/WAVE_INTEGRATION_2026-10-01.md
+- **MT-0115 / PENDING** — Tek seferlik özel yaratık konsol denetimi eksik yetenek rütbesi, trait modifier veya görünmezlik durumu hatası vermeden geçiyor mu?
+  - Kaynak: docs/audit/WAVE_INTEGRATION_2026-10-01.md
+- **MT-0116 / PENDING** — 5. dalgadaki npc_dota_hero_sven doğru kahraman modeliyle, normalin iki katı boyutta ve ERROR modeli olmadan görünüyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0117 / PENDING** — 5. dalgadaki npc_dota_hero_sven kaynak yükleme tamamlandıktan sonra her aktif arenada bir kez spawn oluyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0118 / PENDING** — 5. dalgadaki npc_dota_hero_sven yerel Q/W/E/R yeteneklerini uygun hedeflere kullanıyor ve pasifleri çalışıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0119 / PENDING** — 5. dalgadaki npc_dota_hero_sven dalga için beklenen eşyaları alıp aktif eşyalarını uygun şekilde kullanıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0120 / PENDING** — 5. dalgadaki npc_dota_hero_sven takımın ilerlemesine uygun seviye/yetenek rütbeleriyle geliyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0121 / PENDING** — 5. dalgadaki npc_dota_hero_sven orta rotayı atlamadan takip edip sızarsa can cezasını yalnız bir kez oluşturuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0122 / PENDING** — 5. dalgadaki npc_dota_hero_sven öldüğünde Gold/Lumber ödülü ve Boon seçimi yalnız bir kez oluşuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0123 / PENDING** — 5. dalgadaki npc_dota_hero_sven melee/ranged/spell/sustain/control takımlarıyla kalıcı CC veya yansıtma ölüm döngüsü olmadan oynanabilir mi?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0124 / PENDING** — 10. dalgadaki npc_dota_hero_axe doğru kahraman modeliyle, normalin iki katı boyutta ve ERROR modeli olmadan görünüyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0125 / PENDING** — 10. dalgadaki npc_dota_hero_axe kaynak yükleme tamamlandıktan sonra her aktif arenada bir kez spawn oluyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0126 / PENDING** — 10. dalgadaki npc_dota_hero_axe yerel Q/W/E/R yeteneklerini uygun hedeflere kullanıyor ve pasifleri çalışıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0127 / PENDING** — 10. dalgadaki npc_dota_hero_axe dalga için beklenen eşyaları alıp aktif eşyalarını uygun şekilde kullanıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0128 / PENDING** — 10. dalgadaki npc_dota_hero_axe takımın ilerlemesine uygun seviye/yetenek rütbeleriyle geliyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0129 / PENDING** — 10. dalgadaki npc_dota_hero_axe orta rotayı atlamadan takip edip sızarsa can cezasını yalnız bir kez oluşturuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0130 / PENDING** — 10. dalgadaki npc_dota_hero_axe öldüğünde Gold/Lumber ödülü ve Boon seçimi yalnız bir kez oluşuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0131 / PENDING** — 10. dalgadaki npc_dota_hero_axe melee/ranged/spell/sustain/control takımlarıyla kalıcı CC veya yansıtma ölüm döngüsü olmadan oynanabilir mi?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0132 / PENDING** — 15. dalgadaki npc_dota_hero_juggernaut doğru kahraman modeliyle, normalin iki katı boyutta ve ERROR modeli olmadan görünüyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0133 / PENDING** — 15. dalgadaki npc_dota_hero_juggernaut kaynak yükleme tamamlandıktan sonra her aktif arenada bir kez spawn oluyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0134 / PENDING** — 15. dalgadaki npc_dota_hero_juggernaut yerel Q/W/E/R yeteneklerini uygun hedeflere kullanıyor ve pasifleri çalışıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0135 / PENDING** — 15. dalgadaki npc_dota_hero_juggernaut dalga için beklenen eşyaları alıp aktif eşyalarını uygun şekilde kullanıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0136 / PENDING** — 15. dalgadaki npc_dota_hero_juggernaut takımın ilerlemesine uygun seviye/yetenek rütbeleriyle geliyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0137 / PENDING** — 15. dalgadaki npc_dota_hero_juggernaut orta rotayı atlamadan takip edip sızarsa can cezasını yalnız bir kez oluşturuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0138 / PENDING** — 15. dalgadaki npc_dota_hero_juggernaut öldüğünde Gold/Lumber ödülü ve Boon seçimi yalnız bir kez oluşuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0139 / PENDING** — 15. dalgadaki npc_dota_hero_juggernaut melee/ranged/spell/sustain/control takımlarıyla kalıcı CC veya yansıtma ölüm döngüsü olmadan oynanabilir mi?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0140 / PENDING** — 20. dalgadaki npc_dota_hero_drow_ranger doğru kahraman modeliyle, normalin iki katı boyutta ve ERROR modeli olmadan görünüyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0141 / PENDING** — 20. dalgadaki npc_dota_hero_drow_ranger kaynak yükleme tamamlandıktan sonra her aktif arenada bir kez spawn oluyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0142 / PENDING** — 20. dalgadaki npc_dota_hero_drow_ranger yerel Q/W/E/R yeteneklerini uygun hedeflere kullanıyor ve pasifleri çalışıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0143 / PENDING** — 20. dalgadaki npc_dota_hero_drow_ranger dalga için beklenen eşyaları alıp aktif eşyalarını uygun şekilde kullanıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0144 / PENDING** — 20. dalgadaki npc_dota_hero_drow_ranger takımın ilerlemesine uygun seviye/yetenek rütbeleriyle geliyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0145 / PENDING** — 20. dalgadaki npc_dota_hero_drow_ranger orta rotayı atlamadan takip edip sızarsa can cezasını yalnız bir kez oluşturuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0146 / PENDING** — 20. dalgadaki npc_dota_hero_drow_ranger öldüğünde Gold/Lumber ödülü ve Boon seçimi yalnız bir kez oluşuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0147 / PENDING** — 20. dalgadaki npc_dota_hero_drow_ranger melee/ranged/spell/sustain/control takımlarıyla kalıcı CC veya yansıtma ölüm döngüsü olmadan oynanabilir mi?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0148 / PENDING** — 25. dalgadaki npc_dota_hero_lina doğru kahraman modeliyle, normalin iki katı boyutta ve ERROR modeli olmadan görünüyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0149 / PENDING** — 25. dalgadaki npc_dota_hero_lina kaynak yükleme tamamlandıktan sonra her aktif arenada bir kez spawn oluyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0150 / PENDING** — 25. dalgadaki npc_dota_hero_lina yerel Q/W/E/R yeteneklerini uygun hedeflere kullanıyor ve pasifleri çalışıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0151 / PENDING** — 25. dalgadaki npc_dota_hero_lina dalga için beklenen eşyaları alıp aktif eşyalarını uygun şekilde kullanıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0152 / PENDING** — 25. dalgadaki npc_dota_hero_lina takımın ilerlemesine uygun seviye/yetenek rütbeleriyle geliyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0153 / PENDING** — 25. dalgadaki npc_dota_hero_lina orta rotayı atlamadan takip edip sızarsa can cezasını yalnız bir kez oluşturuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0154 / PENDING** — 25. dalgadaki npc_dota_hero_lina öldüğünde Gold/Lumber ödülü ve Boon seçimi yalnız bir kez oluşuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0155 / PENDING** — 25. dalgadaki npc_dota_hero_lina melee/ranged/spell/sustain/control takımlarıyla kalıcı CC veya yansıtma ölüm döngüsü olmadan oynanabilir mi?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0156 / PENDING** — 30. dalgadaki npc_dota_hero_omniknight doğru kahraman modeliyle, normalin iki katı boyutta ve ERROR modeli olmadan görünüyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0157 / PENDING** — 30. dalgadaki npc_dota_hero_omniknight kaynak yükleme tamamlandıktan sonra her aktif arenada bir kez spawn oluyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0158 / PENDING** — 30. dalgadaki npc_dota_hero_omniknight yerel Q/W/E/R yeteneklerini uygun hedeflere kullanıyor ve pasifleri çalışıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0159 / PENDING** — 30. dalgadaki npc_dota_hero_omniknight dalga için beklenen eşyaları alıp aktif eşyalarını uygun şekilde kullanıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0160 / PENDING** — 30. dalgadaki npc_dota_hero_omniknight takımın ilerlemesine uygun seviye/yetenek rütbeleriyle geliyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0161 / PENDING** — 30. dalgadaki npc_dota_hero_omniknight orta rotayı atlamadan takip edip sızarsa can cezasını yalnız bir kez oluşturuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0162 / PENDING** — 30. dalgadaki npc_dota_hero_omniknight öldüğünde Gold/Lumber ödülü ve Boon seçimi yalnız bir kez oluşuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0163 / PENDING** — 30. dalgadaki npc_dota_hero_omniknight melee/ranged/spell/sustain/control takımlarıyla kalıcı CC veya yansıtma ölüm döngüsü olmadan oynanabilir mi?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0164 / PENDING** — 35. dalgadaki npc_dota_hero_sniper doğru kahraman modeliyle, normalin iki katı boyutta ve ERROR modeli olmadan görünüyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0165 / PENDING** — 35. dalgadaki npc_dota_hero_sniper kaynak yükleme tamamlandıktan sonra her aktif arenada bir kez spawn oluyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0166 / PENDING** — 35. dalgadaki npc_dota_hero_sniper yerel Q/W/E/R yeteneklerini uygun hedeflere kullanıyor ve pasifleri çalışıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0167 / PENDING** — 35. dalgadaki npc_dota_hero_sniper dalga için beklenen eşyaları alıp aktif eşyalarını uygun şekilde kullanıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0168 / PENDING** — 35. dalgadaki npc_dota_hero_sniper takımın ilerlemesine uygun seviye/yetenek rütbeleriyle geliyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0169 / PENDING** — 35. dalgadaki npc_dota_hero_sniper orta rotayı atlamadan takip edip sızarsa can cezasını yalnız bir kez oluşturuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0170 / PENDING** — 35. dalgadaki npc_dota_hero_sniper öldüğünde Gold/Lumber ödülü ve Boon seçimi yalnız bir kez oluşuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0171 / PENDING** — 35. dalgadaki npc_dota_hero_sniper melee/ranged/spell/sustain/control takımlarıyla kalıcı CC veya yansıtma ölüm döngüsü olmadan oynanabilir mi?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0172 / PENDING** — 40. dalgadaki npc_dota_hero_crystal_maiden doğru kahraman modeliyle, normalin iki katı boyutta ve ERROR modeli olmadan görünüyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0173 / PENDING** — 40. dalgadaki npc_dota_hero_crystal_maiden kaynak yükleme tamamlandıktan sonra her aktif arenada bir kez spawn oluyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0174 / PENDING** — 40. dalgadaki npc_dota_hero_crystal_maiden yerel Q/W/E/R yeteneklerini uygun hedeflere kullanıyor ve pasifleri çalışıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0175 / PENDING** — 40. dalgadaki npc_dota_hero_crystal_maiden dalga için beklenen eşyaları alıp aktif eşyalarını uygun şekilde kullanıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0176 / PENDING** — 40. dalgadaki npc_dota_hero_crystal_maiden takımın ilerlemesine uygun seviye/yetenek rütbeleriyle geliyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0177 / PENDING** — 40. dalgadaki npc_dota_hero_crystal_maiden orta rotayı atlamadan takip edip sızarsa can cezasını yalnız bir kez oluşturuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0178 / PENDING** — 40. dalgadaki npc_dota_hero_crystal_maiden öldüğünde Gold/Lumber ödülü ve Boon seçimi yalnız bir kez oluşuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0179 / PENDING** — 40. dalgadaki npc_dota_hero_crystal_maiden melee/ranged/spell/sustain/control takımlarıyla kalıcı CC veya yansıtma ölüm döngüsü olmadan oynanabilir mi?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0180 / PENDING** — 45. dalgadaki npc_dota_hero_dazzle doğru kahraman modeliyle, normalin iki katı boyutta ve ERROR modeli olmadan görünüyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0181 / PENDING** — 45. dalgadaki npc_dota_hero_dazzle kaynak yükleme tamamlandıktan sonra her aktif arenada bir kez spawn oluyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0182 / PENDING** — 45. dalgadaki npc_dota_hero_dazzle yerel Q/W/E/R yeteneklerini uygun hedeflere kullanıyor ve pasifleri çalışıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0183 / PENDING** — 45. dalgadaki npc_dota_hero_dazzle dalga için beklenen eşyaları alıp aktif eşyalarını uygun şekilde kullanıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0184 / PENDING** — 45. dalgadaki npc_dota_hero_dazzle takımın ilerlemesine uygun seviye/yetenek rütbeleriyle geliyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0185 / PENDING** — 45. dalgadaki npc_dota_hero_dazzle orta rotayı atlamadan takip edip sızarsa can cezasını yalnız bir kez oluşturuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0186 / PENDING** — 45. dalgadaki npc_dota_hero_dazzle öldüğünde Gold/Lumber ödülü ve Boon seçimi yalnız bir kez oluşuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0187 / PENDING** — 45. dalgadaki npc_dota_hero_dazzle melee/ranged/spell/sustain/control takımlarıyla kalıcı CC veya yansıtma ölüm döngüsü olmadan oynanabilir mi?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0188 / PENDING** — 50. dalgadaki npc_dota_hero_witch_doctor doğru kahraman modeliyle, normalin iki katı boyutta ve ERROR modeli olmadan görünüyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0189 / PENDING** — 50. dalgadaki npc_dota_hero_witch_doctor kaynak yükleme tamamlandıktan sonra her aktif arenada bir kez spawn oluyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0190 / PENDING** — 50. dalgadaki npc_dota_hero_witch_doctor yerel Q/W/E/R yeteneklerini uygun hedeflere kullanıyor ve pasifleri çalışıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0191 / PENDING** — 50. dalgadaki npc_dota_hero_witch_doctor dalga için beklenen eşyaları alıp aktif eşyalarını uygun şekilde kullanıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0192 / PENDING** — 50. dalgadaki npc_dota_hero_witch_doctor takımın ilerlemesine uygun seviye/yetenek rütbeleriyle geliyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0193 / PENDING** — 50. dalgadaki npc_dota_hero_witch_doctor orta rotayı atlamadan takip edip sızarsa can cezasını yalnız bir kez oluşturuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0194 / PENDING** — 50. dalgadaki npc_dota_hero_witch_doctor öldüğünde Gold/Lumber ödülü ve Boon seçimi yalnız bir kez oluşuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0195 / PENDING** — 50. dalgadaki npc_dota_hero_witch_doctor melee/ranged/spell/sustain/control takımlarıyla kalıcı CC veya yansıtma ölüm döngüsü olmadan oynanabilir mi?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0196 / PENDING** — 55. dalgadaki npc_dota_hero_luna doğru kahraman modeliyle, normalin iki katı boyutta ve ERROR modeli olmadan görünüyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0197 / PENDING** — 55. dalgadaki npc_dota_hero_luna kaynak yükleme tamamlandıktan sonra her aktif arenada bir kez spawn oluyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0198 / PENDING** — 55. dalgadaki npc_dota_hero_luna yerel Q/W/E/R yeteneklerini uygun hedeflere kullanıyor ve pasifleri çalışıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0199 / PENDING** — 55. dalgadaki npc_dota_hero_luna dalga için beklenen eşyaları alıp aktif eşyalarını uygun şekilde kullanıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0200 / PENDING** — 55. dalgadaki npc_dota_hero_luna takımın ilerlemesine uygun seviye/yetenek rütbeleriyle geliyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0201 / PENDING** — 55. dalgadaki npc_dota_hero_luna orta rotayı atlamadan takip edip sızarsa can cezasını yalnız bir kez oluşturuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0202 / PENDING** — 55. dalgadaki npc_dota_hero_luna öldüğünde Gold/Lumber ödülü ve Boon seçimi yalnız bir kez oluşuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0203 / PENDING** — 55. dalgadaki npc_dota_hero_luna melee/ranged/spell/sustain/control takımlarıyla kalıcı CC veya yansıtma ölüm döngüsü olmadan oynanabilir mi?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0204 / PENDING** — 60. dalgadaki npc_dota_hero_dragon_knight doğru kahraman modeliyle, normalin iki katı boyutta ve ERROR modeli olmadan görünüyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0205 / PENDING** — 60. dalgadaki npc_dota_hero_dragon_knight kaynak yükleme tamamlandıktan sonra her aktif arenada bir kez spawn oluyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0206 / PENDING** — 60. dalgadaki npc_dota_hero_dragon_knight yerel Q/W/E/R yeteneklerini uygun hedeflere kullanıyor ve pasifleri çalışıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0207 / PENDING** — 60. dalgadaki npc_dota_hero_dragon_knight dalga için beklenen eşyaları alıp aktif eşyalarını uygun şekilde kullanıyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0208 / PENDING** — 60. dalgadaki npc_dota_hero_dragon_knight takımın ilerlemesine uygun seviye/yetenek rütbeleriyle geliyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0209 / PENDING** — 60. dalgadaki npc_dota_hero_dragon_knight orta rotayı atlamadan takip edip sızarsa can cezasını yalnız bir kez oluşturuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0210 / PENDING** — 60. dalgadaki npc_dota_hero_dragon_knight öldüğünde Gold/Lumber ödülü ve Boon seçimi yalnız bir kez oluşuyor mu?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0211 / PENDING** — 60. dalgadaki npc_dota_hero_dragon_knight melee/ranged/spell/sustain/control takımlarıyla kalıcı CC veya yansıtma ölüm döngüsü olmadan oynanabilir mi?
+  - Kaynak: docs/audit/BOSS_RESOURCE_GATE_2026-10-01.md
+- **MT-0212 / PENDING** — spellbringer_arcane_barrier seçtiğin zemin noktasında beklenen etkiyi oluşturuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0213 / PENDING** — spellbringer_arcane_barrier hedef seçerken sağ tıkla iptal edince mana/cooldown harcamadan göstergeyi kaldırıyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0214 / PENDING** — spellbringer_arcane_barrier geçersiz arena, doğrudan kahraman hedefi veya yetersiz mana durumunda reddediliyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0215 / PENDING** — spellbringer_arcane_barrier başarılı kullanımda mana/cooldown doğru harcanıyor, başarısız kullanımda geri alınıyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0216 / PENDING** — spellbringer_arcane_barrier alan halkası, görsel/ses ve süre doğru görünüp bitince temizleniyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0217 / PENDING** — spellbringer_arcane_barrier Co-op modundaki kullanılabilirlik kuralına uyuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0218 / PENDING** — spellbringer_arcane_barrier aynı anda iki oyuncu kullanınca veya hedef ölünce çift etki/harcama oluşturmuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0219 / PENDING** — spellbringer_war_standard seçtiğin zemin noktasında beklenen etkiyi oluşturuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0220 / PENDING** — spellbringer_war_standard hedef seçerken sağ tıkla iptal edince mana/cooldown harcamadan göstergeyi kaldırıyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0221 / PENDING** — spellbringer_war_standard geçersiz arena, doğrudan kahraman hedefi veya yetersiz mana durumunda reddediliyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0222 / PENDING** — spellbringer_war_standard başarılı kullanımda mana/cooldown doğru harcanıyor, başarısız kullanımda geri alınıyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0223 / PENDING** — spellbringer_war_standard alan halkası, görsel/ses ve süre doğru görünüp bitince temizleniyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0224 / PENDING** — spellbringer_war_standard Co-op modundaki kullanılabilirlik kuralına uyuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0225 / PENDING** — spellbringer_war_standard aynı anda iki oyuncu kullanınca veya hedef ölünce çift etki/harcama oluşturmuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0226 / PENDING** — spellbringer_thorn_idol seçtiğin zemin noktasında beklenen etkiyi oluşturuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0227 / PENDING** — spellbringer_thorn_idol hedef seçerken sağ tıkla iptal edince mana/cooldown harcamadan göstergeyi kaldırıyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0228 / PENDING** — spellbringer_thorn_idol geçersiz arena, doğrudan kahraman hedefi veya yetersiz mana durumunda reddediliyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0229 / PENDING** — spellbringer_thorn_idol başarılı kullanımda mana/cooldown doğru harcanıyor, başarısız kullanımda geri alınıyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0230 / PENDING** — spellbringer_thorn_idol alan halkası, görsel/ses ve süre doğru görünüp bitince temizleniyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0231 / PENDING** — spellbringer_thorn_idol Co-op modundaki kullanılabilirlik kuralına uyuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0232 / PENDING** — spellbringer_thorn_idol aynı anda iki oyuncu kullanınca veya hedef ölünce çift etki/harcama oluşturmuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0233 / PENDING** — spellbringer_rift_surge seçtiğin zemin noktasında beklenen etkiyi oluşturuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0234 / PENDING** — spellbringer_rift_surge hedef seçerken sağ tıkla iptal edince mana/cooldown harcamadan göstergeyi kaldırıyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0235 / PENDING** — spellbringer_rift_surge geçersiz arena, doğrudan kahraman hedefi veya yetersiz mana durumunda reddediliyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0236 / PENDING** — spellbringer_rift_surge başarılı kullanımda mana/cooldown doğru harcanıyor, başarısız kullanımda geri alınıyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0237 / PENDING** — spellbringer_rift_surge alan halkası, görsel/ses ve süre doğru görünüp bitince temizleniyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0238 / PENDING** — spellbringer_rift_surge Co-op modundaki kullanılabilirlik kuralına uyuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0239 / PENDING** — spellbringer_rift_surge aynı anda iki oyuncu kullanınca veya hedef ölünce çift etki/harcama oluşturmuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0240 / PENDING** — spellbringer_whole_displacement seçtiğin zemin noktasında beklenen etkiyi oluşturuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0241 / PENDING** — spellbringer_whole_displacement hedef seçerken sağ tıkla iptal edince mana/cooldown harcamadan göstergeyi kaldırıyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0242 / PENDING** — spellbringer_whole_displacement geçersiz arena, doğrudan kahraman hedefi veya yetersiz mana durumunda reddediliyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0243 / PENDING** — spellbringer_whole_displacement başarılı kullanımda mana/cooldown doğru harcanıyor, başarısız kullanımda geri alınıyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0244 / PENDING** — spellbringer_whole_displacement alan halkası, görsel/ses ve süre doğru görünüp bitince temizleniyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0245 / PENDING** — spellbringer_whole_displacement Co-op modundaki kullanılabilirlik kuralına uyuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0246 / PENDING** — spellbringer_whole_displacement aynı anda iki oyuncu kullanınca veya hedef ölünce çift etki/harcama oluşturmuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0247 / PENDING** — spellbringer_reveal hedef seçerken sağ tıkla iptal edince mana/cooldown harcamadan göstergeyi kaldırıyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0248 / PENDING** — spellbringer_reveal geçersiz arena, doğrudan kahraman hedefi veya yetersiz mana durumunda reddediliyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0249 / PENDING** — spellbringer_reveal başarılı kullanımda mana/cooldown doğru harcanıyor, başarısız kullanımda geri alınıyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0250 / PENDING** — spellbringer_reveal alan halkası, görsel/ses ve süre doğru görünüp bitince temizleniyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0251 / PENDING** — spellbringer_reveal Co-op modundaki kullanılabilirlik kuralına uyuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0252 / PENDING** — spellbringer_reveal aynı anda iki oyuncu kullanınca veya hedef ölünce çift etki/harcama oluşturmuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0253 / PENDING** — spellbringer_purification seçtiğin zemin noktasında beklenen etkiyi oluşturuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0254 / PENDING** — spellbringer_purification hedef seçerken sağ tıkla iptal edince mana/cooldown harcamadan göstergeyi kaldırıyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0255 / PENDING** — spellbringer_purification geçersiz arena, doğrudan kahraman hedefi veya yetersiz mana durumunda reddediliyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0256 / PENDING** — spellbringer_purification başarılı kullanımda mana/cooldown doğru harcanıyor, başarısız kullanımda geri alınıyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0257 / PENDING** — spellbringer_purification alan halkası, görsel/ses ve süre doğru görünüp bitince temizleniyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0258 / PENDING** — spellbringer_purification Co-op modundaki kullanılabilirlik kuralına uyuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0259 / PENDING** — spellbringer_purification aynı anda iki oyuncu kullanınca veya hedef ölünce çift etki/harcama oluşturmuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0260 / PENDING** — spellbringer_future_reinforcements seçtiğin zemin noktasında beklenen etkiyi oluşturuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0261 / PENDING** — spellbringer_future_reinforcements hedef seçerken sağ tıkla iptal edince mana/cooldown harcamadan göstergeyi kaldırıyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0262 / PENDING** — spellbringer_future_reinforcements geçersiz arena, doğrudan kahraman hedefi veya yetersiz mana durumunda reddediliyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0263 / PENDING** — spellbringer_future_reinforcements başarılı kullanımda mana/cooldown doğru harcanıyor, başarısız kullanımda geri alınıyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0264 / PENDING** — spellbringer_future_reinforcements alan halkası, görsel/ses ve süre doğru görünüp bitince temizleniyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0265 / PENDING** — spellbringer_future_reinforcements Co-op modundaki kullanılabilirlik kuralına uyuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0266 / PENDING** — spellbringer_future_reinforcements aynı anda iki oyuncu kullanınca veya hedef ölünce çift etki/harcama oluşturmuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_ACTIVATION_2026-10-01.md
+- **MT-0267 / PENDING** — Future Reinforcements seçtiğin noktada kontrol edebildiğin tam beş dost birim oluşturuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_FUTURE_EFFECTS_2026-10-01.md
+- **MT-0268 / PENDING** — Takviyelerin gücü mevcut dalga +5 profilini, Boss komşusu ve kampanya sonundaki profil sınırlarını doğru kullanıyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_FUTURE_EFFECTS_2026-10-01.md
+- **MT-0269 / PENDING** — Takviyeler 30 saniye sonunda temizleniyor, Gold/XP veya takım canı kaybı oluşturmuyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_FUTURE_EFFECTS_2026-10-01.md
+- **MT-0270 / PENDING** — Dost takviyeler kendi özel dalga yeteneklerini çalıştırıp düşman sızma rotasına girmiyor mu?
+  - Kaynak: docs/audit/SPELLBRINGER_FUTURE_EFFECTS_2026-10-01.md
+- **MT-0271 / PENDING** — item_ascended_thornplate yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0272 / PENDING** — item_ascended_thornplate temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0273 / PENDING** — item_ascended_thornplate pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0274 / PENDING** — item_ascended_thornplate charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0275 / PENDING** — item_ascended_thornplate sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0276 / PENDING** — item_ascended_thornplate satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0277 / PENDING** — item_ascended_thornplate ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0278 / PENDING** — item_ascended_thornplate adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0279 / PENDING** — item_ascended_sacred_reliquary yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0280 / PENDING** — item_ascended_sacred_reliquary temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0281 / PENDING** — item_ascended_sacred_reliquary pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0282 / PENDING** — item_ascended_sacred_reliquary charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0283 / PENDING** — item_ascended_sacred_reliquary sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0284 / PENDING** — item_ascended_sacred_reliquary satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0285 / PENDING** — item_ascended_sacred_reliquary ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0286 / PENDING** — item_ascended_sacred_reliquary adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0287 / PENDING** — item_ascended_sunward_crest yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0288 / PENDING** — item_ascended_sunward_crest temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0289 / PENDING** — item_ascended_sunward_crest pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0290 / PENDING** — item_ascended_sunward_crest charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0291 / PENDING** — item_ascended_sunward_crest sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0292 / PENDING** — item_ascended_sunward_crest satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0293 / PENDING** — item_ascended_sunward_crest ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0294 / PENDING** — item_ascended_sunward_crest adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0295 / PENDING** — item_ascended_bastion_guard yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0296 / PENDING** — item_ascended_bastion_guard temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0297 / PENDING** — item_ascended_bastion_guard pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0298 / PENDING** — item_ascended_bastion_guard charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0299 / PENDING** — item_ascended_bastion_guard sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0300 / PENDING** — item_ascended_bastion_guard satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0301 / PENDING** — item_ascended_bastion_guard ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0302 / PENDING** — item_ascended_bastion_guard adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0303 / PENDING** — item_ascended_aegis_of_insight yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0304 / PENDING** — item_ascended_aegis_of_insight temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0305 / PENDING** — item_ascended_aegis_of_insight pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0306 / PENDING** — item_ascended_aegis_of_insight charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0307 / PENDING** — item_ascended_aegis_of_insight sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0308 / PENDING** — item_ascended_aegis_of_insight satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0309 / PENDING** — item_ascended_aegis_of_insight ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0310 / PENDING** — item_ascended_aegis_of_insight adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0311 / PENDING** — item_ascended_leviathan_harpoon yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0312 / PENDING** — item_ascended_leviathan_harpoon temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0313 / PENDING** — item_ascended_leviathan_harpoon pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0314 / PENDING** — item_ascended_leviathan_harpoon charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0315 / PENDING** — item_ascended_leviathan_harpoon sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0316 / PENDING** — item_ascended_leviathan_harpoon satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0317 / PENDING** — item_ascended_leviathan_harpoon ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0318 / PENDING** — item_ascended_leviathan_harpoon adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0319 / PENDING** — item_ascended_warstride yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0320 / PENDING** — item_ascended_warstride temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0321 / PENDING** — item_ascended_warstride pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0322 / PENDING** — item_ascended_warstride charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0323 / PENDING** — item_ascended_warstride sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0324 / PENDING** — item_ascended_warstride satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0325 / PENDING** — item_ascended_warstride ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0326 / PENDING** — item_ascended_warstride adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0327 / PENDING** — item_ascended_seraphic_greaves yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0328 / PENDING** — item_ascended_seraphic_greaves temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0329 / PENDING** — item_ascended_seraphic_greaves pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0330 / PENDING** — item_ascended_seraphic_greaves charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0331 / PENDING** — item_ascended_seraphic_greaves sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0332 / PENDING** — item_ascended_seraphic_greaves satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0333 / PENDING** — item_ascended_seraphic_greaves ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0334 / PENDING** — item_ascended_seraphic_greaves adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0335 / PENDING** — item_ascended_mirror_lotus yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0336 / PENDING** — item_ascended_mirror_lotus temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0337 / PENDING** — item_ascended_mirror_lotus pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0338 / PENDING** — item_ascended_mirror_lotus charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0339 / PENDING** — item_ascended_mirror_lotus sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0340 / PENDING** — item_ascended_mirror_lotus satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0341 / PENDING** — item_ascended_mirror_lotus ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0342 / PENDING** — item_ascended_mirror_lotus adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0343 / PENDING** — item_ascended_war_drums yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0344 / PENDING** — item_ascended_war_drums temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0345 / PENDING** — item_ascended_war_drums pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0346 / PENDING** — item_ascended_war_drums charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0347 / PENDING** — item_ascended_war_drums sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0348 / PENDING** — item_ascended_war_drums satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0349 / PENDING** — item_ascended_war_drums ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0350 / PENDING** — item_ascended_war_drums adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0351 / PENDING** — item_ascended_sovereign_bkb yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0352 / PENDING** — item_ascended_sovereign_bkb temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0353 / PENDING** — item_ascended_sovereign_bkb pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0354 / PENDING** — item_ascended_sovereign_bkb charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0355 / PENDING** — item_ascended_sovereign_bkb sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0356 / PENDING** — item_ascended_sovereign_bkb satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0357 / PENDING** — item_ascended_sovereign_bkb ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0358 / PENDING** — item_ascended_sovereign_bkb adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0359 / PENDING** — item_ascended_chrono_disk yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0360 / PENDING** — item_ascended_chrono_disk temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0361 / PENDING** — item_ascended_chrono_disk pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0362 / PENDING** — item_ascended_chrono_disk charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0363 / PENDING** — item_ascended_chrono_disk sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0364 / PENDING** — item_ascended_chrono_disk satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0365 / PENDING** — item_ascended_chrono_disk ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0366 / PENDING** — item_ascended_chrono_disk adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0367 / PENDING** — item_ascended_astral_sphere yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0368 / PENDING** — item_ascended_astral_sphere temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0369 / PENDING** — item_ascended_astral_sphere pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0370 / PENDING** — item_ascended_astral_sphere charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0371 / PENDING** — item_ascended_astral_sphere sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0372 / PENDING** — item_ascended_astral_sphere satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0373 / PENDING** — item_ascended_astral_sphere ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0374 / PENDING** — item_ascended_astral_sphere adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0375 / PENDING** — item_ascended_worldheart yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0376 / PENDING** — item_ascended_worldheart temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0377 / PENDING** — item_ascended_worldheart pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0378 / PENDING** — item_ascended_worldheart charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0379 / PENDING** — item_ascended_worldheart sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0380 / PENDING** — item_ascended_worldheart satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0381 / PENDING** — item_ascended_worldheart ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0382 / PENDING** — item_ascended_worldheart adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0383 / PENDING** — item_ascended_abyssal_dominion yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0384 / PENDING** — item_ascended_abyssal_dominion temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0385 / PENDING** — item_ascended_abyssal_dominion pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0386 / PENDING** — item_ascended_abyssal_dominion charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0387 / PENDING** — item_ascended_abyssal_dominion sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0388 / PENDING** — item_ascended_abyssal_dominion satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0389 / PENDING** — item_ascended_abyssal_dominion ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0390 / PENDING** — item_ascended_abyssal_dominion adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0391 / PENDING** — item_ascended_blood_oath yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0392 / PENDING** — item_ascended_blood_oath temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0393 / PENDING** — item_ascended_blood_oath pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0394 / PENDING** — item_ascended_blood_oath charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0395 / PENDING** — item_ascended_blood_oath sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0396 / PENDING** — item_ascended_blood_oath satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0397 / PENDING** — item_ascended_blood_oath ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0398 / PENDING** — item_ascended_blood_oath adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0399 / PENDING** — item_ascended_starforged_daedalus yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0400 / PENDING** — item_ascended_starforged_daedalus temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0401 / PENDING** — item_ascended_starforged_daedalus pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0402 / PENDING** — item_ascended_starforged_daedalus charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0403 / PENDING** — item_ascended_starforged_daedalus sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0404 / PENDING** — item_ascended_starforged_daedalus satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0405 / PENDING** — item_ascended_starforged_daedalus ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0406 / PENDING** — item_ascended_starforged_daedalus adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0407 / PENDING** — item_ascended_phantomwing yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0408 / PENDING** — item_ascended_phantomwing temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0409 / PENDING** — item_ascended_phantomwing pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0410 / PENDING** — item_ascended_phantomwing charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0411 / PENDING** — item_ascended_phantomwing sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0412 / PENDING** — item_ascended_phantomwing satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0413 / PENDING** — item_ascended_phantomwing ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0414 / PENDING** — item_ascended_phantomwing adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0415 / PENDING** — item_ascended_heavenpiercer yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0416 / PENDING** — item_ascended_heavenpiercer temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0417 / PENDING** — item_ascended_heavenpiercer pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0418 / PENDING** — item_ascended_heavenpiercer charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0419 / PENDING** — item_ascended_heavenpiercer sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0420 / PENDING** — item_ascended_heavenpiercer satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0421 / PENDING** — item_ascended_heavenpiercer ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0422 / PENDING** — item_ascended_heavenpiercer adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0423 / PENDING** — item_ascended_stormfather yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0424 / PENDING** — item_ascended_stormfather temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0425 / PENDING** — item_ascended_stormfather pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0426 / PENDING** — item_ascended_stormfather charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0427 / PENDING** — item_ascended_stormfather sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0428 / PENDING** — item_ascended_stormfather satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0429 / PENDING** — item_ascended_stormfather ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0430 / PENDING** — item_ascended_stormfather adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0431 / PENDING** — item_ascended_chronocore yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0432 / PENDING** — item_ascended_chronocore temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0433 / PENDING** — item_ascended_chronocore pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0434 / PENDING** — item_ascended_chronocore charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0435 / PENDING** — item_ascended_chronocore sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0436 / PENDING** — item_ascended_chronocore satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0437 / PENDING** — item_ascended_chronocore ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0438 / PENDING** — item_ascended_chronocore adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0439 / PENDING** — item_ascended_arc_bloodstone yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0440 / PENDING** — item_ascended_arc_bloodstone temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0441 / PENDING** — item_ascended_arc_bloodstone pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0442 / PENDING** — item_ascended_arc_bloodstone charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0443 / PENDING** — item_ascended_arc_bloodstone sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0444 / PENDING** — item_ascended_arc_bloodstone satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0445 / PENDING** — item_ascended_arc_bloodstone ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0446 / PENDING** — item_ascended_arc_bloodstone adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0447 / PENDING** — item_ascended_eternity_orb yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0448 / PENDING** — item_ascended_eternity_orb temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0449 / PENDING** — item_ascended_eternity_orb pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0450 / PENDING** — item_ascended_eternity_orb charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0451 / PENDING** — item_ascended_eternity_orb sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0452 / PENDING** — item_ascended_eternity_orb satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0453 / PENDING** — item_ascended_eternity_orb ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0454 / PENDING** — item_ascended_eternity_orb adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0455 / PENDING** — item_ascended_grand_vyse yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0456 / PENDING** — item_ascended_grand_vyse temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0457 / PENDING** — item_ascended_grand_vyse pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0458 / PENDING** — item_ascended_grand_vyse charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0459 / PENDING** — item_ascended_grand_vyse sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0460 / PENDING** — item_ascended_grand_vyse satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0461 / PENDING** — item_ascended_grand_vyse ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0462 / PENDING** — item_ascended_grand_vyse adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0463 / PENDING** — item_ascended_legion_cuirass yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0464 / PENDING** — item_ascended_legion_cuirass temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0465 / PENDING** — item_ascended_legion_cuirass pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0466 / PENDING** — item_ascended_legion_cuirass charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0467 / PENDING** — item_ascended_legion_cuirass sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0468 / PENDING** — item_ascended_legion_cuirass satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0469 / PENDING** — item_ascended_legion_cuirass ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0470 / PENDING** — item_ascended_legion_cuirass adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0471 / PENDING** — item_ascended_absolute_zero yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0472 / PENDING** — item_ascended_absolute_zero temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0473 / PENDING** — item_ascended_absolute_zero pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0474 / PENDING** — item_ascended_absolute_zero charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0475 / PENDING** — item_ascended_absolute_zero sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0476 / PENDING** — item_ascended_absolute_zero satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0477 / PENDING** — item_ascended_absolute_zero ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0478 / PENDING** — item_ascended_absolute_zero adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0479 / PENDING** — item_ascended_eye_of_deep_winter yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0480 / PENDING** — item_ascended_eye_of_deep_winter temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0481 / PENDING** — item_ascended_eye_of_deep_winter pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0482 / PENDING** — item_ascended_eye_of_deep_winter charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0483 / PENDING** — item_ascended_eye_of_deep_winter sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0484 / PENDING** — item_ascended_eye_of_deep_winter satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0485 / PENDING** — item_ascended_eye_of_deep_winter ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0486 / PENDING** — item_ascended_eye_of_deep_winter adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0487 / PENDING** — item_ascended_world_chain yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0488 / PENDING** — item_ascended_world_chain temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0489 / PENDING** — item_ascended_world_chain pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0490 / PENDING** — item_ascended_world_chain charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0491 / PENDING** — item_ascended_world_chain sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0492 / PENDING** — item_ascended_world_chain satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0493 / PENDING** — item_ascended_world_chain ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0494 / PENDING** — item_ascended_world_chain adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0495 / PENDING** — item_ascended_tempest_waker yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0496 / PENDING** — item_ascended_tempest_waker temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0497 / PENDING** — item_ascended_tempest_waker pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0498 / PENDING** — item_ascended_tempest_waker charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0499 / PENDING** — item_ascended_tempest_waker sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0500 / PENDING** — item_ascended_tempest_waker satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0501 / PENDING** — item_ascended_tempest_waker ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0502 / PENDING** — item_ascended_tempest_waker adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0503 / PENDING** — item_ascended_soulpiercer yükseltmesi doğru temel eşyayı tüketip doğru Gold/Lumber bedelini alıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0504 / PENDING** — item_ascended_soulpiercer temel eşyanın aktif etkisi (varsa) çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0505 / PENDING** — item_ascended_soulpiercer pasif bonusları ve güçlendirilmiş değerleri gerçek kahraman istatistiklerine yansıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0506 / PENDING** — item_ascended_soulpiercer charge ve ortak bekleme sürelerini doğru koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0507 / PENDING** — item_ascended_soulpiercer sırt çantası ve stash içinde etkileri doğru devre dışı kalıp geri taşınınca doğru dönüyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0508 / PENDING** — item_ascended_soulpiercer satış/iade ve yeniden yükseltme doğru miktar ve eşya durumunu koruyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0509 / PENDING** — item_ascended_soulpiercer ikinci kopya, başka eşya ve Boss etkileşimlerinde izin verilmeyen bonus yığılması oluşmuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0510 / PENDING** — item_ascended_soulpiercer adı, ikonu ve tooltip değerleri oyundaki gerçek etkiyle uyuşuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0511 / PENDING** — Blade Mail gibi reçeteli normal bir eşya, mağaza platformunda malzemeler ve reçeteyle birleşiyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0512 / PENDING** — Reçeteli eşya kurye tesliminden sonra da doğru birleşiyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0513 / PENDING** — Kuryeler her oyuncu için doğru oluşup eşya alım ve teslimini yapıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0514 / PENDING** — Tome eşyaları maç başlangıcından itibaren satın alınıp doğru stat/XP veriyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0515 / PENDING** — Normal Shard/Scepter/Blessing satın alma ve tüketme akışı kahramanın beklenen yükseltmesini uyguluyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0516 / PENDING** — TP eşyaları ve normal mağaza akışı güncel maçta sorunsuz çalışıyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0517 / PENDING** — normal dalga sırasında bağlantıyı kesip dönünce maç durumu ve arayüz, kayıp veya çift işlem olmadan geri geliyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0518 / PENDING** — Boss savaşı sırasında bağlantıyı kesip dönünce maç durumu ve arayüz, kayıp veya çift işlem olmadan geri geliyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0519 / PENDING** — Boon oylaması sırasında bağlantıyı kesip dönünce maç durumu ve arayüz, kayıp veya çift işlem olmadan geri geliyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0520 / PENDING** — Ascended satın alma sırasında bağlantıyı kesip dönünce maç durumu ve arayüz, kayıp veya çift işlem olmadan geri geliyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0521 / PENDING** — Spellbringer bekleme süresi sırasında bağlantıyı kesip dönünce maç durumu ve arayüz, kayıp veya çift işlem olmadan geri geliyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0522 / PENDING** — teslim olma sırasında bağlantıyı kesip dönünce maç durumu ve arayüz, kayıp veya çift işlem olmadan geri geliyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0523 / PENDING** — Endless geçişi sırasında bağlantıyı kesip dönünce maç durumu ve arayüz, kayıp veya çift işlem olmadan geri geliyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0524 / PENDING** — Türkçe dilinde yetenek/eşya açıklamaları ve HUD okunuyor mu; boş metin, LOCFAIL, kesilme veya yanlış satır kayması var mı?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0525 / PENDING** — İngilizce dilinde yetenek/eşya açıklamaları ve HUD okunuyor mu; boş metin, LOCFAIL, kesilme veya yanlış satır kayması var mı?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0526 / PENDING** — Rusça dilinde yetenek/eşya açıklamaları ve HUD okunuyor mu; boş metin, LOCFAIL, kesilme veya yanlış satır kayması var mı?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0527 / PENDING** — Basitleştirilmiş Çince dilinde yetenek/eşya açıklamaları ve HUD okunuyor mu; boş metin, LOCFAIL, kesilme veya yanlış satır kayması var mı?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0528 / PENDING** — Beş oyuncu, çok çağrı ve yoğun efektlerle uzun maçta takılma veya giderek artan eski birim/efekt birikmesi oluyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0529 / PENDING** — Oyuncu ayrılması ve Boss geçişlerinde eski çağrılar/thinkerlar temizlenip maç akışı korunuyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0530 / PENDING** — Yeni maç ve yoğun dalga sonrasında konsolda ERROR/FATAL, Lua traceback, eksik modifier/model/ses veya RESOURCE COMPILE ERROR kaydı var mı?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0531 / PENDING** — Kullandığın ekran çözünürlüklerinde HUD, mağaza ve yetenek panelleri birbirini kapatmadan kullanılabiliyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0532 / PENDING** — Kritik tehlikeler renk dışında ikon, şekil, yazı veya sesle de anlaşılabiliyor mu?
+  - Kaynak: docs/QA_BALANCE_RELEASE.md
+- **MT-0533 / PENDING** — abyssal_underlord — Q (enfos_underlord_firestorm) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:89
+- **MT-0534 / PENDING** — abyssal_underlord — Q (enfos_underlord_firestorm) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:90
+- **MT-0535 / PENDING** — abyssal_underlord — Q (enfos_underlord_firestorm) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:91
+- **MT-0536 / PENDING** — abyssal_underlord — Q (enfos_underlord_firestorm) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:92
+- **MT-0537 / PENDING** — abyssal_underlord — Q (enfos_underlord_firestorm) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:93
+- **MT-0538 / PENDING** — abyssal_underlord — Q (enfos_underlord_firestorm) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:94
+- **MT-0539 / PENDING** — abyssal_underlord — Q (enfos_underlord_firestorm) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:95
+- **MT-0540 / PENDING** — abyssal_underlord — Q (enfos_underlord_firestorm) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:96
+- **MT-0541 / PENDING** — abyssal_underlord — Q (enfos_underlord_firestorm) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:97
+- **MT-0542 / PENDING** — abyssal_underlord — Q (enfos_underlord_firestorm) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:98
+- **MT-0543 / PENDING** — abyssal_underlord — Q (enfos_underlord_firestorm) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:99
+- **MT-0544 / PENDING** — abyssal_underlord — Q (enfos_underlord_firestorm) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:100
+- **MT-0545 / PENDING** — abyssal_underlord — Q (enfos_underlord_firestorm) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:101
+- **MT-0546 / PENDING** — abyssal_underlord — Q (enfos_underlord_firestorm) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:102
+- **MT-0547 / PENDING** — abyssal_underlord — Q (enfos_underlord_firestorm) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:103
+- **MT-0548 / PENDING** — abyssal_underlord — W (enfos_underlord_pit_of_malice) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:132
+- **MT-0549 / PENDING** — abyssal_underlord — W (enfos_underlord_pit_of_malice) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:133
+- **MT-0550 / PENDING** — abyssal_underlord — W (enfos_underlord_pit_of_malice) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:134
+- **MT-0551 / PENDING** — abyssal_underlord — W (enfos_underlord_pit_of_malice) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:135
+- **MT-0552 / PENDING** — abyssal_underlord — W (enfos_underlord_pit_of_malice) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:136
+- **MT-0553 / PENDING** — abyssal_underlord — W (enfos_underlord_pit_of_malice) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:137
+- **MT-0554 / PENDING** — abyssal_underlord — W (enfos_underlord_pit_of_malice) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:138
+- **MT-0555 / PENDING** — abyssal_underlord — W (enfos_underlord_pit_of_malice) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:139
+- **MT-0556 / PENDING** — abyssal_underlord — W (enfos_underlord_pit_of_malice) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:140
+- **MT-0557 / PENDING** — abyssal_underlord — W (enfos_underlord_pit_of_malice) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:141
+- **MT-0558 / PENDING** — abyssal_underlord — W (enfos_underlord_pit_of_malice) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:142
+- **MT-0559 / PENDING** — abyssal_underlord — W (enfos_underlord_pit_of_malice) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:143
+- **MT-0560 / PENDING** — abyssal_underlord — W (enfos_underlord_pit_of_malice) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:144
+- **MT-0561 / PENDING** — abyssal_underlord — W (enfos_underlord_pit_of_malice) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:145
+- **MT-0562 / PENDING** — abyssal_underlord — W (enfos_underlord_pit_of_malice) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:146
+- **MT-0563 / PENDING** — abyssal_underlord — E (enfos_underlord_atrophy_aura) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:175
+- **MT-0564 / PENDING** — abyssal_underlord — E (enfos_underlord_atrophy_aura) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:176
+- **MT-0565 / PENDING** — abyssal_underlord — E (enfos_underlord_atrophy_aura) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:177
+- **MT-0566 / PENDING** — abyssal_underlord — E (enfos_underlord_atrophy_aura) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:178
+- **MT-0567 / PENDING** — abyssal_underlord — E (enfos_underlord_atrophy_aura) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:179
+- **MT-0568 / PENDING** — abyssal_underlord — E (enfos_underlord_atrophy_aura) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:180
+- **MT-0569 / PENDING** — abyssal_underlord — E (enfos_underlord_atrophy_aura) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:181
+- **MT-0570 / PENDING** — abyssal_underlord — E (enfos_underlord_atrophy_aura) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:182
+- **MT-0571 / PENDING** — abyssal_underlord — E (enfos_underlord_atrophy_aura) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:183
+- **MT-0572 / PENDING** — abyssal_underlord — E (enfos_underlord_atrophy_aura) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:184
+- **MT-0573 / PENDING** — abyssal_underlord — E (enfos_underlord_atrophy_aura) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:185
+- **MT-0574 / PENDING** — abyssal_underlord — E (enfos_underlord_atrophy_aura) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:186
+- **MT-0575 / PENDING** — abyssal_underlord — E (enfos_underlord_atrophy_aura) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:187
+- **MT-0576 / PENDING** — abyssal_underlord — E (enfos_underlord_atrophy_aura) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:188
+- **MT-0577 / PENDING** — abyssal_underlord — E (enfos_underlord_atrophy_aura) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:189
+- **MT-0578 / PENDING** — abyssal_underlord — R (enfos_underlord_dark_rift) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:218
+- **MT-0579 / PENDING** — abyssal_underlord — R (enfos_underlord_dark_rift) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:219
+- **MT-0580 / PENDING** — abyssal_underlord — R (enfos_underlord_dark_rift) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:220
+- **MT-0581 / PENDING** — abyssal_underlord — R (enfos_underlord_dark_rift) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:221
+- **MT-0582 / PENDING** — abyssal_underlord — R (enfos_underlord_dark_rift) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:222
+- **MT-0583 / PENDING** — abyssal_underlord — R (enfos_underlord_dark_rift) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:223
+- **MT-0584 / PENDING** — abyssal_underlord — R (enfos_underlord_dark_rift) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:224
+- **MT-0585 / PENDING** — abyssal_underlord — R (enfos_underlord_dark_rift) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:225
+- **MT-0586 / PENDING** — abyssal_underlord — R (enfos_underlord_dark_rift) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:226
+- **MT-0587 / PENDING** — abyssal_underlord — R (enfos_underlord_dark_rift) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:227
+- **MT-0588 / PENDING** — abyssal_underlord — R (enfos_underlord_dark_rift) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:228
+- **MT-0589 / PENDING** — abyssal_underlord — R (enfos_underlord_dark_rift) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:229
+- **MT-0590 / PENDING** — abyssal_underlord — R (enfos_underlord_dark_rift) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:230
+- **MT-0591 / PENDING** — abyssal_underlord — R (enfos_underlord_dark_rift) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:231
+- **MT-0592 / PENDING** — abyssal_underlord — R (enfos_underlord_dark_rift) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:232
+- **MT-0593 / PENDING** — abyssal_underlord — Enfos pasifi (enfos_underlord_abyssal_carapace) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:261
+- **MT-0594 / PENDING** — abyssal_underlord — Enfos pasifi (enfos_underlord_abyssal_carapace) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:262
+- **MT-0595 / PENDING** — abyssal_underlord — Enfos pasifi (enfos_underlord_abyssal_carapace) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:263
+- **MT-0596 / PENDING** — abyssal_underlord — Enfos pasifi (enfos_underlord_abyssal_carapace) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:264
+- **MT-0597 / PENDING** — abyssal_underlord — Enfos pasifi (enfos_underlord_abyssal_carapace) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:265
+- **MT-0598 / PENDING** — abyssal_underlord — Enfos pasifi (enfos_underlord_abyssal_carapace) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:266
+- **MT-0599 / PENDING** — abyssal_underlord — Enfos pasifi (enfos_underlord_abyssal_carapace) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:267
+- **MT-0600 / PENDING** — abyssal_underlord — Enfos pasifi (enfos_underlord_abyssal_carapace) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:268
+- **MT-0601 / PENDING** — abyssal_underlord — Enfos pasifi (enfos_underlord_abyssal_carapace) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:269
+- **MT-0602 / PENDING** — abyssal_underlord — Enfos pasifi (enfos_underlord_abyssal_carapace) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:270
+- **MT-0603 / PENDING** — abyssal_underlord — Enfos pasifi (enfos_underlord_abyssal_carapace) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:271
+- **MT-0604 / PENDING** — abyssal_underlord — Enfos pasifi (enfos_underlord_abyssal_carapace) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:272
+- **MT-0605 / PENDING** — abyssal_underlord — Enfos pasifi (enfos_underlord_abyssal_carapace) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:273
+- **MT-0606 / PENDING** — abyssal_underlord — Enfos pasifi (enfos_underlord_abyssal_carapace) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:274
+- **MT-0607 / PENDING** — abyssal_underlord — Enfos pasifi (enfos_underlord_abyssal_carapace) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/abyssal_underlord/ABILITIES.md:275
+- **MT-0608 / PENDING** — antimage — Q (enfos_am_mana_break) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:106
+- **MT-0609 / PENDING** — antimage — Q (enfos_am_mana_break) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:107
+- **MT-0610 / PENDING** — antimage — Q (enfos_am_mana_break) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:108
+- **MT-0611 / PENDING** — antimage — Q (enfos_am_mana_break) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:109
+- **MT-0612 / PENDING** — antimage — Q (enfos_am_mana_break) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:110
+- **MT-0613 / PENDING** — antimage — Q (enfos_am_mana_break) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:111
+- **MT-0614 / PENDING** — antimage — Q (enfos_am_mana_break) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:112
+- **MT-0615 / PENDING** — antimage — Q (enfos_am_mana_break) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:113
+- **MT-0616 / PENDING** — antimage — Q (enfos_am_mana_break) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:114
+- **MT-0617 / PENDING** — antimage — Q (enfos_am_mana_break) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:115
+- **MT-0618 / PENDING** — antimage — Q (enfos_am_mana_break) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:116
+- **MT-0619 / PENDING** — antimage — Q (enfos_am_mana_break) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:117
+- **MT-0620 / PENDING** — antimage — Q (enfos_am_mana_break) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:118
+- **MT-0621 / PENDING** — antimage — Q (enfos_am_mana_break) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:119
+- **MT-0622 / PENDING** — antimage — Q (enfos_am_mana_break) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:120
+- **MT-0623 / PENDING** — antimage — W (enfos_am_blink) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:149
+- **MT-0624 / PENDING** — antimage — W (enfos_am_blink) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:150
+- **MT-0625 / PENDING** — antimage — W (enfos_am_blink) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:151
+- **MT-0626 / PENDING** — antimage — W (enfos_am_blink) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:152
+- **MT-0627 / PENDING** — antimage — W (enfos_am_blink) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:153
+- **MT-0628 / PENDING** — antimage — W (enfos_am_blink) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:154
+- **MT-0629 / PENDING** — antimage — W (enfos_am_blink) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:155
+- **MT-0630 / PENDING** — antimage — W (enfos_am_blink) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:156
+- **MT-0631 / PENDING** — antimage — W (enfos_am_blink) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:157
+- **MT-0632 / PENDING** — antimage — W (enfos_am_blink) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:158
+- **MT-0633 / PENDING** — antimage — W (enfos_am_blink) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:159
+- **MT-0634 / PENDING** — antimage — W (enfos_am_blink) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:160
+- **MT-0635 / PENDING** — antimage — W (enfos_am_blink) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:161
+- **MT-0636 / PENDING** — antimage — W (enfos_am_blink) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:162
+- **MT-0637 / PENDING** — antimage — W (enfos_am_blink) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:163
+- **MT-0638 / PENDING** — antimage — E (enfos_am_counterspell) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:192
+- **MT-0639 / PENDING** — antimage — E (enfos_am_counterspell) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:193
+- **MT-0640 / PENDING** — antimage — E (enfos_am_counterspell) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:194
+- **MT-0641 / PENDING** — antimage — E (enfos_am_counterspell) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:195
+- **MT-0642 / PENDING** — antimage — E (enfos_am_counterspell) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:196
+- **MT-0643 / PENDING** — antimage — E (enfos_am_counterspell) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:197
+- **MT-0644 / PENDING** — antimage — E (enfos_am_counterspell) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:198
+- **MT-0645 / PENDING** — antimage — E (enfos_am_counterspell) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:199
+- **MT-0646 / PENDING** — antimage — E (enfos_am_counterspell) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:200
+- **MT-0647 / PENDING** — antimage — E (enfos_am_counterspell) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:201
+- **MT-0648 / PENDING** — antimage — E (enfos_am_counterspell) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:202
+- **MT-0649 / PENDING** — antimage — E (enfos_am_counterspell) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:203
+- **MT-0650 / PENDING** — antimage — E (enfos_am_counterspell) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:204
+- **MT-0651 / PENDING** — antimage — E (enfos_am_counterspell) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:205
+- **MT-0652 / PENDING** — antimage — E (enfos_am_counterspell) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:206
+- **MT-0653 / PENDING** — antimage — R (enfos_am_mana_void) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:235
+- **MT-0654 / PENDING** — antimage — R (enfos_am_mana_void) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:236
+- **MT-0655 / PENDING** — antimage — R (enfos_am_mana_void) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:237
+- **MT-0656 / PENDING** — antimage — R (enfos_am_mana_void) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:238
+- **MT-0657 / PENDING** — antimage — R (enfos_am_mana_void) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:239
+- **MT-0658 / PENDING** — antimage — R (enfos_am_mana_void) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:240
+- **MT-0659 / PENDING** — antimage — R (enfos_am_mana_void) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:241
+- **MT-0660 / PENDING** — antimage — R (enfos_am_mana_void) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:242
+- **MT-0661 / PENDING** — antimage — R (enfos_am_mana_void) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:243
+- **MT-0662 / PENDING** — antimage — R (enfos_am_mana_void) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:244
+- **MT-0663 / PENDING** — antimage — R (enfos_am_mana_void) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:245
+- **MT-0664 / PENDING** — antimage — R (enfos_am_mana_void) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:246
+- **MT-0665 / PENDING** — antimage — R (enfos_am_mana_void) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:247
+- **MT-0666 / PENDING** — antimage — R (enfos_am_mana_void) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:248
+- **MT-0667 / PENDING** — antimage — R (enfos_am_mana_void) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:249
+- **MT-0668 / PENDING** — antimage — Enfos pasifi (enfos_am_spellbreaker) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:278
+- **MT-0669 / PENDING** — antimage — Enfos pasifi (enfos_am_spellbreaker) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:279
+- **MT-0670 / PENDING** — antimage — Enfos pasifi (enfos_am_spellbreaker) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:280
+- **MT-0671 / PENDING** — antimage — Enfos pasifi (enfos_am_spellbreaker) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:281
+- **MT-0672 / PENDING** — antimage — Enfos pasifi (enfos_am_spellbreaker) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:282
+- **MT-0673 / PENDING** — antimage — Enfos pasifi (enfos_am_spellbreaker) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:283
+- **MT-0674 / PENDING** — antimage — Enfos pasifi (enfos_am_spellbreaker) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:284
+- **MT-0675 / PENDING** — antimage — Enfos pasifi (enfos_am_spellbreaker) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:285
+- **MT-0676 / PENDING** — antimage — Enfos pasifi (enfos_am_spellbreaker) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:286
+- **MT-0677 / PENDING** — antimage — Enfos pasifi (enfos_am_spellbreaker) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:287
+- **MT-0678 / PENDING** — antimage — Enfos pasifi (enfos_am_spellbreaker) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:288
+- **MT-0679 / PENDING** — antimage — Enfos pasifi (enfos_am_spellbreaker) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:289
+- **MT-0680 / PENDING** — antimage — Enfos pasifi (enfos_am_spellbreaker) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:290
+- **MT-0681 / PENDING** — antimage — Enfos pasifi (enfos_am_spellbreaker) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:291
+- **MT-0682 / PENDING** — antimage — Enfos pasifi (enfos_am_spellbreaker) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/antimage/ABILITIES.md:292
+- **MT-0683 / PENDING** — axe — Q (enfos_axe_berserkers_call) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:86, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0684 / PENDING** — axe — Q (enfos_axe_berserkers_call) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:87, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0685 / PENDING** — axe — Q (enfos_axe_berserkers_call) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:88, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0686 / PENDING** — axe — Q (enfos_axe_berserkers_call) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:89, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0687 / PENDING** — axe — Q (enfos_axe_berserkers_call) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:90, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0688 / PENDING** — axe — Q (enfos_axe_berserkers_call) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:91, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0689 / PENDING** — axe — Q (enfos_axe_berserkers_call) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:92, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0690 / PENDING** — axe — Q (enfos_axe_berserkers_call) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:93, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0691 / PENDING** — axe — Q (enfos_axe_berserkers_call) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:94, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0692 / PENDING** — axe — Q (enfos_axe_berserkers_call) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:95, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0693 / PENDING** — axe — Q (enfos_axe_berserkers_call) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:96, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0694 / PENDING** — axe — Q (enfos_axe_berserkers_call) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:97, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0695 / PENDING** — axe — Q (enfos_axe_berserkers_call) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:98, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0696 / PENDING** — axe — Q (enfos_axe_berserkers_call) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:99, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0697 / PENDING** — axe — Q (enfos_axe_berserkers_call) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:100, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0698 / PENDING** — axe — W (enfos_axe_battle_hunger) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:129, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0699 / PENDING** — axe — W (enfos_axe_battle_hunger) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:130, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0700 / PENDING** — axe — W (enfos_axe_battle_hunger) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:131, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0701 / PENDING** — axe — W (enfos_axe_battle_hunger) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:132, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0702 / PENDING** — axe — W (enfos_axe_battle_hunger) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:133, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0703 / PENDING** — axe — W (enfos_axe_battle_hunger) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:134, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0704 / PENDING** — axe — W (enfos_axe_battle_hunger) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:135, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0705 / PENDING** — axe — W (enfos_axe_battle_hunger) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:136, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0706 / PENDING** — axe — W (enfos_axe_battle_hunger) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:137, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0707 / PENDING** — axe — W (enfos_axe_battle_hunger) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:138, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0708 / PENDING** — axe — W (enfos_axe_battle_hunger) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:139, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0709 / PENDING** — axe — W (enfos_axe_battle_hunger) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:140, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0710 / PENDING** — axe — W (enfos_axe_battle_hunger) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:141, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0711 / PENDING** — axe — W (enfos_axe_battle_hunger) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:142, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0712 / PENDING** — axe — W (enfos_axe_battle_hunger) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:143, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0713 / PENDING** — axe — E (enfos_axe_counter_helix) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:172, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0714 / PENDING** — axe — E (enfos_axe_counter_helix) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:173, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0715 / PENDING** — axe — E (enfos_axe_counter_helix) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:174, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0716 / PENDING** — axe — E (enfos_axe_counter_helix) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:175, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0717 / PENDING** — axe — E (enfos_axe_counter_helix) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:176, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0718 / PENDING** — axe — E (enfos_axe_counter_helix) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:177, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0719 / PENDING** — axe — E (enfos_axe_counter_helix) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:178, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0720 / PENDING** — axe — E (enfos_axe_counter_helix) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:179, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0721 / PENDING** — axe — E (enfos_axe_counter_helix) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:180, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0722 / PENDING** — axe — E (enfos_axe_counter_helix) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:181, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0723 / PENDING** — axe — E (enfos_axe_counter_helix) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:182, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0724 / PENDING** — axe — E (enfos_axe_counter_helix) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:183, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0725 / PENDING** — axe — E (enfos_axe_counter_helix) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:184, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0726 / PENDING** — axe — E (enfos_axe_counter_helix) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:185, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0727 / PENDING** — axe — E (enfos_axe_counter_helix) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:186, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0728 / PENDING** — axe — R (enfos_axe_culling_blade) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:215, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0729 / PENDING** — axe — R (enfos_axe_culling_blade) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:216, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0730 / PENDING** — axe — R (enfos_axe_culling_blade) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:217, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0731 / PENDING** — axe — R (enfos_axe_culling_blade) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:218, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0732 / PENDING** — axe — R (enfos_axe_culling_blade) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:219, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0733 / PENDING** — axe — R (enfos_axe_culling_blade) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:220, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0734 / PENDING** — axe — R (enfos_axe_culling_blade) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:221, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0735 / PENDING** — axe — R (enfos_axe_culling_blade) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:222, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0736 / PENDING** — axe — R (enfos_axe_culling_blade) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:223, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0737 / PENDING** — axe — R (enfos_axe_culling_blade) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:224, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0738 / PENDING** — axe — R (enfos_axe_culling_blade) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:225, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0739 / PENDING** — axe — R (enfos_axe_culling_blade) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:226, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0740 / PENDING** — axe — R (enfos_axe_culling_blade) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:227, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0741 / PENDING** — axe — R (enfos_axe_culling_blade) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:228, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0742 / PENDING** — axe — R (enfos_axe_culling_blade) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:229, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0743 / PENDING** — axe — Enfos pasifi (enfos_axe_blood_armor) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:258, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0744 / PENDING** — axe — Enfos pasifi (enfos_axe_blood_armor) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:259, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0745 / PENDING** — axe — Enfos pasifi (enfos_axe_blood_armor) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:260, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0746 / PENDING** — axe — Enfos pasifi (enfos_axe_blood_armor) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:261, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0747 / PENDING** — axe — Enfos pasifi (enfos_axe_blood_armor) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:262, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0748 / PENDING** — axe — Enfos pasifi (enfos_axe_blood_armor) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:263, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0749 / PENDING** — axe — Enfos pasifi (enfos_axe_blood_armor) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:264, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0750 / PENDING** — axe — Enfos pasifi (enfos_axe_blood_armor) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:265, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0751 / PENDING** — axe — Enfos pasifi (enfos_axe_blood_armor) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:266, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0752 / PENDING** — axe — Enfos pasifi (enfos_axe_blood_armor) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:267, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0753 / PENDING** — axe — Enfos pasifi (enfos_axe_blood_armor) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:268, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0754 / PENDING** — axe — Enfos pasifi (enfos_axe_blood_armor) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:269, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0755 / PENDING** — axe — Enfos pasifi (enfos_axe_blood_armor) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:270, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0756 / PENDING** — axe — Enfos pasifi (enfos_axe_blood_armor) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:271, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0757 / PENDING** — axe — Enfos pasifi (enfos_axe_blood_armor) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/axe/ABILITIES.md:272, docs/audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-0758 / PENDING** — bristleback — Q (enfos_bb_viscous_nasal_goo) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:86
+- **MT-0759 / PENDING** — bristleback — Q (enfos_bb_viscous_nasal_goo) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:87
+- **MT-0760 / PENDING** — bristleback — Q (enfos_bb_viscous_nasal_goo) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:88
+- **MT-0761 / PENDING** — bristleback — Q (enfos_bb_viscous_nasal_goo) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:89
+- **MT-0762 / PENDING** — bristleback — Q (enfos_bb_viscous_nasal_goo) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:90
+- **MT-0763 / PENDING** — bristleback — Q (enfos_bb_viscous_nasal_goo) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:91
+- **MT-0764 / PENDING** — bristleback — Q (enfos_bb_viscous_nasal_goo) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:92
+- **MT-0765 / PENDING** — bristleback — Q (enfos_bb_viscous_nasal_goo) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:93
+- **MT-0766 / PENDING** — bristleback — Q (enfos_bb_viscous_nasal_goo) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:94
+- **MT-0767 / PENDING** — bristleback — Q (enfos_bb_viscous_nasal_goo) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:95
+- **MT-0768 / PENDING** — bristleback — Q (enfos_bb_viscous_nasal_goo) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:96
+- **MT-0769 / PENDING** — bristleback — Q (enfos_bb_viscous_nasal_goo) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:97
+- **MT-0770 / PENDING** — bristleback — Q (enfos_bb_viscous_nasal_goo) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:98
+- **MT-0771 / PENDING** — bristleback — Q (enfos_bb_viscous_nasal_goo) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:99
+- **MT-0772 / PENDING** — bristleback — Q (enfos_bb_viscous_nasal_goo) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:100
+- **MT-0773 / PENDING** — bristleback — W (enfos_bb_quill_spray) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:131
+- **MT-0774 / PENDING** — bristleback — W (enfos_bb_quill_spray) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:132
+- **MT-0775 / PENDING** — bristleback — W (enfos_bb_quill_spray) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:133
+- **MT-0776 / PENDING** — bristleback — W (enfos_bb_quill_spray) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:134
+- **MT-0777 / PENDING** — bristleback — W (enfos_bb_quill_spray) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:135
+- **MT-0778 / PENDING** — bristleback — W (enfos_bb_quill_spray) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:136
+- **MT-0779 / PENDING** — bristleback — W (enfos_bb_quill_spray) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:137
+- **MT-0780 / PENDING** — bristleback — W (enfos_bb_quill_spray) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:138
+- **MT-0781 / PENDING** — bristleback — W (enfos_bb_quill_spray) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:139
+- **MT-0782 / PENDING** — bristleback — W (enfos_bb_quill_spray) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:140
+- **MT-0783 / PENDING** — bristleback — W (enfos_bb_quill_spray) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:141
+- **MT-0784 / PENDING** — bristleback — W (enfos_bb_quill_spray) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:142
+- **MT-0785 / PENDING** — bristleback — W (enfos_bb_quill_spray) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:143
+- **MT-0786 / PENDING** — bristleback — W (enfos_bb_quill_spray) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:144
+- **MT-0787 / PENDING** — bristleback — W (enfos_bb_quill_spray) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:145
+- **MT-0788 / PENDING** — bristleback — E (enfos_bb_bristleback) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:174
+- **MT-0789 / PENDING** — bristleback — E (enfos_bb_bristleback) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:175
+- **MT-0790 / PENDING** — bristleback — E (enfos_bb_bristleback) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:176
+- **MT-0791 / PENDING** — bristleback — E (enfos_bb_bristleback) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:177
+- **MT-0792 / PENDING** — bristleback — E (enfos_bb_bristleback) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:178
+- **MT-0793 / PENDING** — bristleback — E (enfos_bb_bristleback) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:179
+- **MT-0794 / PENDING** — bristleback — E (enfos_bb_bristleback) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:180
+- **MT-0795 / PENDING** — bristleback — E (enfos_bb_bristleback) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:181
+- **MT-0796 / PENDING** — bristleback — E (enfos_bb_bristleback) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:182
+- **MT-0797 / PENDING** — bristleback — E (enfos_bb_bristleback) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:183
+- **MT-0798 / PENDING** — bristleback — E (enfos_bb_bristleback) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:184
+- **MT-0799 / PENDING** — bristleback — E (enfos_bb_bristleback) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:185
+- **MT-0800 / PENDING** — bristleback — E (enfos_bb_bristleback) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:186
+- **MT-0801 / PENDING** — bristleback — E (enfos_bb_bristleback) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:187
+- **MT-0802 / PENDING** — bristleback — E (enfos_bb_bristleback) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:188
+- **MT-0803 / PENDING** — bristleback — Enfos pasifi (enfos_bb_warpath) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:217
+- **MT-0804 / PENDING** — bristleback — Enfos pasifi (enfos_bb_warpath) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:218
+- **MT-0805 / PENDING** — bristleback — Enfos pasifi (enfos_bb_warpath) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:219
+- **MT-0806 / PENDING** — bristleback — Enfos pasifi (enfos_bb_warpath) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:220
+- **MT-0807 / PENDING** — bristleback — Enfos pasifi (enfos_bb_warpath) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:221
+- **MT-0808 / PENDING** — bristleback — Enfos pasifi (enfos_bb_warpath) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:222
+- **MT-0809 / PENDING** — bristleback — Enfos pasifi (enfos_bb_warpath) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:223
+- **MT-0810 / PENDING** — bristleback — Enfos pasifi (enfos_bb_warpath) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:224
+- **MT-0811 / PENDING** — bristleback — Enfos pasifi (enfos_bb_warpath) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:225
+- **MT-0812 / PENDING** — bristleback — Enfos pasifi (enfos_bb_warpath) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:226
+- **MT-0813 / PENDING** — bristleback — Enfos pasifi (enfos_bb_warpath) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:227
+- **MT-0814 / PENDING** — bristleback — Enfos pasifi (enfos_bb_warpath) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:228
+- **MT-0815 / PENDING** — bristleback — Enfos pasifi (enfos_bb_warpath) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:229
+- **MT-0816 / PENDING** — bristleback — Enfos pasifi (enfos_bb_warpath) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:230
+- **MT-0817 / PENDING** — bristleback — Enfos pasifi (enfos_bb_warpath) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:231
+- **MT-0818 / PENDING** — bristleback — R (enfos_bb_hairball) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:260
+- **MT-0819 / PENDING** — bristleback — R (enfos_bb_hairball) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:261
+- **MT-0820 / PENDING** — bristleback — R (enfos_bb_hairball) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:262
+- **MT-0821 / PENDING** — bristleback — R (enfos_bb_hairball) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:263
+- **MT-0822 / PENDING** — bristleback — R (enfos_bb_hairball) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:264
+- **MT-0823 / PENDING** — bristleback — R (enfos_bb_hairball) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:265
+- **MT-0824 / PENDING** — bristleback — R (enfos_bb_hairball) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:266
+- **MT-0825 / PENDING** — bristleback — R (enfos_bb_hairball) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:267
+- **MT-0826 / PENDING** — bristleback — R (enfos_bb_hairball) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:268
+- **MT-0827 / PENDING** — bristleback — R (enfos_bb_hairball) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:269
+- **MT-0828 / PENDING** — bristleback — R (enfos_bb_hairball) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:270
+- **MT-0829 / PENDING** — bristleback — R (enfos_bb_hairball) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:271
+- **MT-0830 / PENDING** — bristleback — R (enfos_bb_hairball) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:272
+- **MT-0831 / PENDING** — bristleback — R (enfos_bb_hairball) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:273
+- **MT-0832 / PENDING** — bristleback — R (enfos_bb_hairball) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/bristleback/ABILITIES.md:274
+- **MT-0833 / PENDING** — centaur — Q (enfos_centaur_hoof_stomp) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:86
+- **MT-0834 / PENDING** — centaur — Q (enfos_centaur_hoof_stomp) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:87
+- **MT-0835 / PENDING** — centaur — Q (enfos_centaur_hoof_stomp) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:88
+- **MT-0836 / PENDING** — centaur — Q (enfos_centaur_hoof_stomp) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:89
+- **MT-0837 / PENDING** — centaur — Q (enfos_centaur_hoof_stomp) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:90
+- **MT-0838 / PENDING** — centaur — Q (enfos_centaur_hoof_stomp) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:91
+- **MT-0839 / PENDING** — centaur — Q (enfos_centaur_hoof_stomp) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:92
+- **MT-0840 / PENDING** — centaur — Q (enfos_centaur_hoof_stomp) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:93
+- **MT-0841 / PENDING** — centaur — Q (enfos_centaur_hoof_stomp) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:94
+- **MT-0842 / PENDING** — centaur — Q (enfos_centaur_hoof_stomp) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:95
+- **MT-0843 / PENDING** — centaur — Q (enfos_centaur_hoof_stomp) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:96
+- **MT-0844 / PENDING** — centaur — Q (enfos_centaur_hoof_stomp) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:97
+- **MT-0845 / PENDING** — centaur — Q (enfos_centaur_hoof_stomp) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:98
+- **MT-0846 / PENDING** — centaur — Q (enfos_centaur_hoof_stomp) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:99
+- **MT-0847 / PENDING** — centaur — Q (enfos_centaur_hoof_stomp) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:100
+- **MT-0848 / PENDING** — centaur — W (enfos_centaur_double_edge) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:128
+- **MT-0849 / PENDING** — centaur — W (enfos_centaur_double_edge) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:129
+- **MT-0850 / PENDING** — centaur — W (enfos_centaur_double_edge) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:130
+- **MT-0851 / PENDING** — centaur — W (enfos_centaur_double_edge) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:131
+- **MT-0852 / PENDING** — centaur — W (enfos_centaur_double_edge) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:132
+- **MT-0853 / PENDING** — centaur — W (enfos_centaur_double_edge) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:133
+- **MT-0854 / PENDING** — centaur — W (enfos_centaur_double_edge) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:134
+- **MT-0855 / PENDING** — centaur — W (enfos_centaur_double_edge) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:135
+- **MT-0856 / PENDING** — centaur — W (enfos_centaur_double_edge) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:136
+- **MT-0857 / PENDING** — centaur — W (enfos_centaur_double_edge) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:137
+- **MT-0858 / PENDING** — centaur — W (enfos_centaur_double_edge) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:138
+- **MT-0859 / PENDING** — centaur — W (enfos_centaur_double_edge) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:139
+- **MT-0860 / PENDING** — centaur — W (enfos_centaur_double_edge) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:140
+- **MT-0861 / PENDING** — centaur — W (enfos_centaur_double_edge) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:141
+- **MT-0862 / PENDING** — centaur — W (enfos_centaur_double_edge) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:142
+- **MT-0863 / PENDING** — centaur — E (enfos_centaur_return) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:170
+- **MT-0864 / PENDING** — centaur — E (enfos_centaur_return) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:171
+- **MT-0865 / PENDING** — centaur — E (enfos_centaur_return) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:172
+- **MT-0866 / PENDING** — centaur — E (enfos_centaur_return) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:173
+- **MT-0867 / PENDING** — centaur — E (enfos_centaur_return) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:174
+- **MT-0868 / PENDING** — centaur — E (enfos_centaur_return) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:175
+- **MT-0869 / PENDING** — centaur — E (enfos_centaur_return) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:176
+- **MT-0870 / PENDING** — centaur — E (enfos_centaur_return) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:177
+- **MT-0871 / PENDING** — centaur — E (enfos_centaur_return) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:178
+- **MT-0872 / PENDING** — centaur — E (enfos_centaur_return) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:179
+- **MT-0873 / PENDING** — centaur — E (enfos_centaur_return) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:180
+- **MT-0874 / PENDING** — centaur — E (enfos_centaur_return) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:181
+- **MT-0875 / PENDING** — centaur — E (enfos_centaur_return) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:182
+- **MT-0876 / PENDING** — centaur — E (enfos_centaur_return) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:183
+- **MT-0877 / PENDING** — centaur — E (enfos_centaur_return) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:184
+- **MT-0878 / PENDING** — centaur — R (enfos_centaur_stampede) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:214
+- **MT-0879 / PENDING** — centaur — R (enfos_centaur_stampede) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:215
+- **MT-0880 / PENDING** — centaur — R (enfos_centaur_stampede) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:216
+- **MT-0881 / PENDING** — centaur — R (enfos_centaur_stampede) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:217
+- **MT-0882 / PENDING** — centaur — R (enfos_centaur_stampede) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:218
+- **MT-0883 / PENDING** — centaur — R (enfos_centaur_stampede) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:219
+- **MT-0884 / PENDING** — centaur — R (enfos_centaur_stampede) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:220
+- **MT-0885 / PENDING** — centaur — R (enfos_centaur_stampede) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:221
+- **MT-0886 / PENDING** — centaur — R (enfos_centaur_stampede) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:222
+- **MT-0887 / PENDING** — centaur — R (enfos_centaur_stampede) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:223
+- **MT-0888 / PENDING** — centaur — R (enfos_centaur_stampede) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:224
+- **MT-0889 / PENDING** — centaur — R (enfos_centaur_stampede) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:225
+- **MT-0890 / PENDING** — centaur — R (enfos_centaur_stampede) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:226
+- **MT-0891 / PENDING** — centaur — R (enfos_centaur_stampede) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:227
+- **MT-0892 / PENDING** — centaur — R (enfos_centaur_stampede) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:228
+- **MT-0893 / PENDING** — centaur — Enfos pasifi (enfos_centaur_colossal_hide) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:257
+- **MT-0894 / PENDING** — centaur — Enfos pasifi (enfos_centaur_colossal_hide) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:258
+- **MT-0895 / PENDING** — centaur — Enfos pasifi (enfos_centaur_colossal_hide) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:259
+- **MT-0896 / PENDING** — centaur — Enfos pasifi (enfos_centaur_colossal_hide) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:260
+- **MT-0897 / PENDING** — centaur — Enfos pasifi (enfos_centaur_colossal_hide) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:261
+- **MT-0898 / PENDING** — centaur — Enfos pasifi (enfos_centaur_colossal_hide) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:262
+- **MT-0899 / PENDING** — centaur — Enfos pasifi (enfos_centaur_colossal_hide) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:263
+- **MT-0900 / PENDING** — centaur — Enfos pasifi (enfos_centaur_colossal_hide) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:264
+- **MT-0901 / PENDING** — centaur — Enfos pasifi (enfos_centaur_colossal_hide) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:265
+- **MT-0902 / PENDING** — centaur — Enfos pasifi (enfos_centaur_colossal_hide) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:266
+- **MT-0903 / PENDING** — centaur — Enfos pasifi (enfos_centaur_colossal_hide) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:267
+- **MT-0904 / PENDING** — centaur — Enfos pasifi (enfos_centaur_colossal_hide) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:268
+- **MT-0905 / PENDING** — centaur — Enfos pasifi (enfos_centaur_colossal_hide) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:269
+- **MT-0906 / PENDING** — centaur — Enfos pasifi (enfos_centaur_colossal_hide) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:270
+- **MT-0907 / PENDING** — centaur — Enfos pasifi (enfos_centaur_colossal_hide) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/centaur/ABILITIES.md:271
+- **MT-0908 / PENDING** — chaos_knight — Q (enfos_ck_chaos_bolt) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:89
+- **MT-0909 / PENDING** — chaos_knight — Q (enfos_ck_chaos_bolt) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:90
+- **MT-0910 / PENDING** — chaos_knight — Q (enfos_ck_chaos_bolt) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:91
+- **MT-0911 / PENDING** — chaos_knight — Q (enfos_ck_chaos_bolt) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:92
+- **MT-0912 / PENDING** — chaos_knight — Q (enfos_ck_chaos_bolt) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:93
+- **MT-0913 / PENDING** — chaos_knight — Q (enfos_ck_chaos_bolt) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:94
+- **MT-0914 / PENDING** — chaos_knight — Q (enfos_ck_chaos_bolt) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:95
+- **MT-0915 / PENDING** — chaos_knight — Q (enfos_ck_chaos_bolt) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:96
+- **MT-0916 / PENDING** — chaos_knight — Q (enfos_ck_chaos_bolt) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:97
+- **MT-0917 / PENDING** — chaos_knight — Q (enfos_ck_chaos_bolt) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:98
+- **MT-0918 / PENDING** — chaos_knight — Q (enfos_ck_chaos_bolt) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:99
+- **MT-0919 / PENDING** — chaos_knight — Q (enfos_ck_chaos_bolt) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:100
+- **MT-0920 / PENDING** — chaos_knight — Q (enfos_ck_chaos_bolt) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:101
+- **MT-0921 / PENDING** — chaos_knight — Q (enfos_ck_chaos_bolt) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:102
+- **MT-0922 / PENDING** — chaos_knight — Q (enfos_ck_chaos_bolt) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:103
+- **MT-0923 / PENDING** — chaos_knight — W (enfos_ck_reality_rift) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:132
+- **MT-0924 / PENDING** — chaos_knight — W (enfos_ck_reality_rift) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:133
+- **MT-0925 / PENDING** — chaos_knight — W (enfos_ck_reality_rift) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:134
+- **MT-0926 / PENDING** — chaos_knight — W (enfos_ck_reality_rift) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:135
+- **MT-0927 / PENDING** — chaos_knight — W (enfos_ck_reality_rift) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:136
+- **MT-0928 / PENDING** — chaos_knight — W (enfos_ck_reality_rift) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:137
+- **MT-0929 / PENDING** — chaos_knight — W (enfos_ck_reality_rift) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:138
+- **MT-0930 / PENDING** — chaos_knight — W (enfos_ck_reality_rift) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:139
+- **MT-0931 / PENDING** — chaos_knight — W (enfos_ck_reality_rift) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:140
+- **MT-0932 / PENDING** — chaos_knight — W (enfos_ck_reality_rift) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:141
+- **MT-0933 / PENDING** — chaos_knight — W (enfos_ck_reality_rift) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:142
+- **MT-0934 / PENDING** — chaos_knight — W (enfos_ck_reality_rift) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:143
+- **MT-0935 / PENDING** — chaos_knight — W (enfos_ck_reality_rift) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:144
+- **MT-0936 / PENDING** — chaos_knight — W (enfos_ck_reality_rift) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:145
+- **MT-0937 / PENDING** — chaos_knight — W (enfos_ck_reality_rift) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:146
+- **MT-0938 / PENDING** — chaos_knight — E (enfos_ck_chaos_strike) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:175
+- **MT-0939 / PENDING** — chaos_knight — E (enfos_ck_chaos_strike) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:176
+- **MT-0940 / PENDING** — chaos_knight — E (enfos_ck_chaos_strike) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:177
+- **MT-0941 / PENDING** — chaos_knight — E (enfos_ck_chaos_strike) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:178
+- **MT-0942 / PENDING** — chaos_knight — E (enfos_ck_chaos_strike) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:179
+- **MT-0943 / PENDING** — chaos_knight — E (enfos_ck_chaos_strike) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:180
+- **MT-0944 / PENDING** — chaos_knight — E (enfos_ck_chaos_strike) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:181
+- **MT-0945 / PENDING** — chaos_knight — E (enfos_ck_chaos_strike) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:182
+- **MT-0946 / PENDING** — chaos_knight — E (enfos_ck_chaos_strike) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:183
+- **MT-0947 / PENDING** — chaos_knight — E (enfos_ck_chaos_strike) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:184
+- **MT-0948 / PENDING** — chaos_knight — E (enfos_ck_chaos_strike) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:185
+- **MT-0949 / PENDING** — chaos_knight — E (enfos_ck_chaos_strike) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:186
+- **MT-0950 / PENDING** — chaos_knight — E (enfos_ck_chaos_strike) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:187
+- **MT-0951 / PENDING** — chaos_knight — E (enfos_ck_chaos_strike) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:188
+- **MT-0952 / PENDING** — chaos_knight — E (enfos_ck_chaos_strike) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:189
+- **MT-0953 / PENDING** — chaos_knight — R (enfos_ck_phantasm) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:218
+- **MT-0954 / PENDING** — chaos_knight — R (enfos_ck_phantasm) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:219
+- **MT-0955 / PENDING** — chaos_knight — R (enfos_ck_phantasm) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:220
+- **MT-0956 / PENDING** — chaos_knight — R (enfos_ck_phantasm) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:221
+- **MT-0957 / PENDING** — chaos_knight — R (enfos_ck_phantasm) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:222
+- **MT-0958 / PENDING** — chaos_knight — R (enfos_ck_phantasm) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:223
+- **MT-0959 / PENDING** — chaos_knight — R (enfos_ck_phantasm) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:224
+- **MT-0960 / PENDING** — chaos_knight — R (enfos_ck_phantasm) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:225
+- **MT-0961 / PENDING** — chaos_knight — R (enfos_ck_phantasm) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:226
+- **MT-0962 / PENDING** — chaos_knight — R (enfos_ck_phantasm) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:227
+- **MT-0963 / PENDING** — chaos_knight — R (enfos_ck_phantasm) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:228
+- **MT-0964 / PENDING** — chaos_knight — R (enfos_ck_phantasm) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:229
+- **MT-0965 / PENDING** — chaos_knight — R (enfos_ck_phantasm) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:230
+- **MT-0966 / PENDING** — chaos_knight — R (enfos_ck_phantasm) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:231
+- **MT-0967 / PENDING** — chaos_knight — R (enfos_ck_phantasm) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:232
+- **MT-0968 / PENDING** — chaos_knight — Enfos pasifi (enfos_ck_entropy) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:261
+- **MT-0969 / PENDING** — chaos_knight — Enfos pasifi (enfos_ck_entropy) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:262
+- **MT-0970 / PENDING** — chaos_knight — Enfos pasifi (enfos_ck_entropy) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:263
+- **MT-0971 / PENDING** — chaos_knight — Enfos pasifi (enfos_ck_entropy) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:264
+- **MT-0972 / PENDING** — chaos_knight — Enfos pasifi (enfos_ck_entropy) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:265
+- **MT-0973 / PENDING** — chaos_knight — Enfos pasifi (enfos_ck_entropy) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:266
+- **MT-0974 / PENDING** — chaos_knight — Enfos pasifi (enfos_ck_entropy) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:267
+- **MT-0975 / PENDING** — chaos_knight — Enfos pasifi (enfos_ck_entropy) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:268
+- **MT-0976 / PENDING** — chaos_knight — Enfos pasifi (enfos_ck_entropy) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:269
+- **MT-0977 / PENDING** — chaos_knight — Enfos pasifi (enfos_ck_entropy) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:270
+- **MT-0978 / PENDING** — chaos_knight — Enfos pasifi (enfos_ck_entropy) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:271
+- **MT-0979 / PENDING** — chaos_knight — Enfos pasifi (enfos_ck_entropy) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:272
+- **MT-0980 / PENDING** — chaos_knight — Enfos pasifi (enfos_ck_entropy) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:273
+- **MT-0981 / PENDING** — chaos_knight — Enfos pasifi (enfos_ck_entropy) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:274
+- **MT-0982 / PENDING** — chaos_knight — Enfos pasifi (enfos_ck_entropy) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/chaos_knight/ABILITIES.md:275
+- **MT-0983 / PENDING** — crystal_maiden — Q (enfos_cm_crystal_nova) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:88
+- **MT-0984 / PENDING** — crystal_maiden — Q (enfos_cm_crystal_nova) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:89
+- **MT-0985 / PENDING** — crystal_maiden — Q (enfos_cm_crystal_nova) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:90
+- **MT-0986 / PENDING** — crystal_maiden — Q (enfos_cm_crystal_nova) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:91
+- **MT-0987 / PENDING** — crystal_maiden — Q (enfos_cm_crystal_nova) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:92
+- **MT-0988 / PENDING** — crystal_maiden — Q (enfos_cm_crystal_nova) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:93
+- **MT-0989 / PENDING** — crystal_maiden — Q (enfos_cm_crystal_nova) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:94
+- **MT-0990 / PENDING** — crystal_maiden — Q (enfos_cm_crystal_nova) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:95
+- **MT-0991 / PENDING** — crystal_maiden — Q (enfos_cm_crystal_nova) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:96
+- **MT-0992 / PENDING** — crystal_maiden — Q (enfos_cm_crystal_nova) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:97
+- **MT-0993 / PENDING** — crystal_maiden — Q (enfos_cm_crystal_nova) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:98
+- **MT-0994 / PENDING** — crystal_maiden — Q (enfos_cm_crystal_nova) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:99
+- **MT-0995 / PENDING** — crystal_maiden — Q (enfos_cm_crystal_nova) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:100
+- **MT-0996 / PENDING** — crystal_maiden — Q (enfos_cm_crystal_nova) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:101
+- **MT-0997 / PENDING** — crystal_maiden — Q (enfos_cm_crystal_nova) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:102
+- **MT-0998 / PENDING** — crystal_maiden — W (enfos_cm_frostbite) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:130
+- **MT-0999 / PENDING** — crystal_maiden — W (enfos_cm_frostbite) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:131
+- **MT-1000 / PENDING** — crystal_maiden — W (enfos_cm_frostbite) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:132
+- **MT-1001 / PENDING** — crystal_maiden — W (enfos_cm_frostbite) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:133
+- **MT-1002 / PENDING** — crystal_maiden — W (enfos_cm_frostbite) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:134
+- **MT-1003 / PENDING** — crystal_maiden — W (enfos_cm_frostbite) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:135
+- **MT-1004 / PENDING** — crystal_maiden — W (enfos_cm_frostbite) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:136
+- **MT-1005 / PENDING** — crystal_maiden — W (enfos_cm_frostbite) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:137
+- **MT-1006 / PENDING** — crystal_maiden — W (enfos_cm_frostbite) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:138
+- **MT-1007 / PENDING** — crystal_maiden — W (enfos_cm_frostbite) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:139
+- **MT-1008 / PENDING** — crystal_maiden — W (enfos_cm_frostbite) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:140
+- **MT-1009 / PENDING** — crystal_maiden — W (enfos_cm_frostbite) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:141
+- **MT-1010 / PENDING** — crystal_maiden — W (enfos_cm_frostbite) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:142
+- **MT-1011 / PENDING** — crystal_maiden — W (enfos_cm_frostbite) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:143
+- **MT-1012 / PENDING** — crystal_maiden — W (enfos_cm_frostbite) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:144
+- **MT-1013 / PENDING** — crystal_maiden — E (enfos_cm_arcane_aura) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:172
+- **MT-1014 / PENDING** — crystal_maiden — E (enfos_cm_arcane_aura) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:173
+- **MT-1015 / PENDING** — crystal_maiden — E (enfos_cm_arcane_aura) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:174
+- **MT-1016 / PENDING** — crystal_maiden — E (enfos_cm_arcane_aura) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:175
+- **MT-1017 / PENDING** — crystal_maiden — E (enfos_cm_arcane_aura) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:176
+- **MT-1018 / PENDING** — crystal_maiden — E (enfos_cm_arcane_aura) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:177
+- **MT-1019 / PENDING** — crystal_maiden — E (enfos_cm_arcane_aura) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:178
+- **MT-1020 / PENDING** — crystal_maiden — E (enfos_cm_arcane_aura) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:179
+- **MT-1021 / PENDING** — crystal_maiden — E (enfos_cm_arcane_aura) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:180
+- **MT-1022 / PENDING** — crystal_maiden — E (enfos_cm_arcane_aura) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:181
+- **MT-1023 / PENDING** — crystal_maiden — E (enfos_cm_arcane_aura) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:182
+- **MT-1024 / PENDING** — crystal_maiden — E (enfos_cm_arcane_aura) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:183
+- **MT-1025 / PENDING** — crystal_maiden — E (enfos_cm_arcane_aura) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:184
+- **MT-1026 / PENDING** — crystal_maiden — E (enfos_cm_arcane_aura) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:185
+- **MT-1027 / PENDING** — crystal_maiden — E (enfos_cm_arcane_aura) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:186
+- **MT-1028 / PENDING** — crystal_maiden — R (enfos_cm_freezing_field) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:216
+- **MT-1029 / PENDING** — crystal_maiden — R (enfos_cm_freezing_field) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:217
+- **MT-1030 / PENDING** — crystal_maiden — R (enfos_cm_freezing_field) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:218
+- **MT-1031 / PENDING** — crystal_maiden — R (enfos_cm_freezing_field) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:219
+- **MT-1032 / PENDING** — crystal_maiden — R (enfos_cm_freezing_field) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:220
+- **MT-1033 / PENDING** — crystal_maiden — R (enfos_cm_freezing_field) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:221
+- **MT-1034 / PENDING** — crystal_maiden — R (enfos_cm_freezing_field) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:222
+- **MT-1035 / PENDING** — crystal_maiden — R (enfos_cm_freezing_field) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:223
+- **MT-1036 / PENDING** — crystal_maiden — R (enfos_cm_freezing_field) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:224
+- **MT-1037 / PENDING** — crystal_maiden — R (enfos_cm_freezing_field) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:225
+- **MT-1038 / PENDING** — crystal_maiden — R (enfos_cm_freezing_field) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:226
+- **MT-1039 / PENDING** — crystal_maiden — R (enfos_cm_freezing_field) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:227
+- **MT-1040 / PENDING** — crystal_maiden — R (enfos_cm_freezing_field) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:228
+- **MT-1041 / PENDING** — crystal_maiden — R (enfos_cm_freezing_field) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:229
+- **MT-1042 / PENDING** — crystal_maiden — R (enfos_cm_freezing_field) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:230
+- **MT-1043 / PENDING** — crystal_maiden — Enfos pasifi (enfos_cm_glacial_mastery) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:259
+- **MT-1044 / PENDING** — crystal_maiden — Enfos pasifi (enfos_cm_glacial_mastery) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:260
+- **MT-1045 / PENDING** — crystal_maiden — Enfos pasifi (enfos_cm_glacial_mastery) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:261
+- **MT-1046 / PENDING** — crystal_maiden — Enfos pasifi (enfos_cm_glacial_mastery) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:262
+- **MT-1047 / PENDING** — crystal_maiden — Enfos pasifi (enfos_cm_glacial_mastery) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:263
+- **MT-1048 / PENDING** — crystal_maiden — Enfos pasifi (enfos_cm_glacial_mastery) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:264
+- **MT-1049 / PENDING** — crystal_maiden — Enfos pasifi (enfos_cm_glacial_mastery) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:265
+- **MT-1050 / PENDING** — crystal_maiden — Enfos pasifi (enfos_cm_glacial_mastery) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:266
+- **MT-1051 / PENDING** — crystal_maiden — Enfos pasifi (enfos_cm_glacial_mastery) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:267
+- **MT-1052 / PENDING** — crystal_maiden — Enfos pasifi (enfos_cm_glacial_mastery) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:268
+- **MT-1053 / PENDING** — crystal_maiden — Enfos pasifi (enfos_cm_glacial_mastery) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:269
+- **MT-1054 / PENDING** — crystal_maiden — Enfos pasifi (enfos_cm_glacial_mastery) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:270
+- **MT-1055 / PENDING** — crystal_maiden — Enfos pasifi (enfos_cm_glacial_mastery) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:271
+- **MT-1056 / PENDING** — crystal_maiden — Enfos pasifi (enfos_cm_glacial_mastery) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:272
+- **MT-1057 / PENDING** — crystal_maiden — Enfos pasifi (enfos_cm_glacial_mastery) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/crystal_maiden/ABILITIES.md:273
+- **MT-1058 / PENDING** — dazzle — Q (enfos_dazzle_poison_touch) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:88
+- **MT-1059 / PENDING** — dazzle — Q (enfos_dazzle_poison_touch) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:89
+- **MT-1060 / PENDING** — dazzle — Q (enfos_dazzle_poison_touch) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:90
+- **MT-1061 / PENDING** — dazzle — Q (enfos_dazzle_poison_touch) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:91
+- **MT-1062 / PENDING** — dazzle — Q (enfos_dazzle_poison_touch) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:92
+- **MT-1063 / PENDING** — dazzle — Q (enfos_dazzle_poison_touch) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:93
+- **MT-1064 / PENDING** — dazzle — Q (enfos_dazzle_poison_touch) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:94
+- **MT-1065 / PENDING** — dazzle — Q (enfos_dazzle_poison_touch) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:95
+- **MT-1066 / PENDING** — dazzle — Q (enfos_dazzle_poison_touch) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:96
+- **MT-1067 / PENDING** — dazzle — Q (enfos_dazzle_poison_touch) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:97
+- **MT-1068 / PENDING** — dazzle — Q (enfos_dazzle_poison_touch) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:98
+- **MT-1069 / PENDING** — dazzle — Q (enfos_dazzle_poison_touch) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:99
+- **MT-1070 / PENDING** — dazzle — Q (enfos_dazzle_poison_touch) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:100
+- **MT-1071 / PENDING** — dazzle — Q (enfos_dazzle_poison_touch) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:101
+- **MT-1072 / PENDING** — dazzle — Q (enfos_dazzle_poison_touch) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:102
+- **MT-1073 / PENDING** — dazzle — W (enfos_dazzle_shallow_grave) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:130
+- **MT-1074 / PENDING** — dazzle — W (enfos_dazzle_shallow_grave) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:131
+- **MT-1075 / PENDING** — dazzle — W (enfos_dazzle_shallow_grave) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:132
+- **MT-1076 / PENDING** — dazzle — W (enfos_dazzle_shallow_grave) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:133
+- **MT-1077 / PENDING** — dazzle — W (enfos_dazzle_shallow_grave) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:134
+- **MT-1078 / PENDING** — dazzle — W (enfos_dazzle_shallow_grave) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:135
+- **MT-1079 / PENDING** — dazzle — W (enfos_dazzle_shallow_grave) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:136
+- **MT-1080 / PENDING** — dazzle — W (enfos_dazzle_shallow_grave) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:137
+- **MT-1081 / PENDING** — dazzle — W (enfos_dazzle_shallow_grave) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:138
+- **MT-1082 / PENDING** — dazzle — W (enfos_dazzle_shallow_grave) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:139
+- **MT-1083 / PENDING** — dazzle — W (enfos_dazzle_shallow_grave) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:140
+- **MT-1084 / PENDING** — dazzle — W (enfos_dazzle_shallow_grave) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:141
+- **MT-1085 / PENDING** — dazzle — W (enfos_dazzle_shallow_grave) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:142
+- **MT-1086 / PENDING** — dazzle — W (enfos_dazzle_shallow_grave) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:143
+- **MT-1087 / PENDING** — dazzle — W (enfos_dazzle_shallow_grave) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:144
+- **MT-1088 / PENDING** — dazzle — E (enfos_dazzle_shadow_wave) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:172
+- **MT-1089 / PENDING** — dazzle — E (enfos_dazzle_shadow_wave) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:173
+- **MT-1090 / PENDING** — dazzle — E (enfos_dazzle_shadow_wave) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:174
+- **MT-1091 / PENDING** — dazzle — E (enfos_dazzle_shadow_wave) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:175
+- **MT-1092 / PENDING** — dazzle — E (enfos_dazzle_shadow_wave) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:176
+- **MT-1093 / PENDING** — dazzle — E (enfos_dazzle_shadow_wave) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:177
+- **MT-1094 / PENDING** — dazzle — E (enfos_dazzle_shadow_wave) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:178
+- **MT-1095 / PENDING** — dazzle — E (enfos_dazzle_shadow_wave) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:179
+- **MT-1096 / PENDING** — dazzle — E (enfos_dazzle_shadow_wave) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:180
+- **MT-1097 / PENDING** — dazzle — E (enfos_dazzle_shadow_wave) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:181
+- **MT-1098 / PENDING** — dazzle — E (enfos_dazzle_shadow_wave) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:182
+- **MT-1099 / PENDING** — dazzle — E (enfos_dazzle_shadow_wave) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:183
+- **MT-1100 / PENDING** — dazzle — E (enfos_dazzle_shadow_wave) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:184
+- **MT-1101 / PENDING** — dazzle — E (enfos_dazzle_shadow_wave) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:185
+- **MT-1102 / PENDING** — dazzle — E (enfos_dazzle_shadow_wave) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:186
+- **MT-1103 / PENDING** — dazzle — R (enfos_dazzle_bad_juju) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:215
+- **MT-1104 / PENDING** — dazzle — R (enfos_dazzle_bad_juju) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:216
+- **MT-1105 / PENDING** — dazzle — R (enfos_dazzle_bad_juju) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:217
+- **MT-1106 / PENDING** — dazzle — R (enfos_dazzle_bad_juju) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:218
+- **MT-1107 / PENDING** — dazzle — R (enfos_dazzle_bad_juju) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:219
+- **MT-1108 / PENDING** — dazzle — R (enfos_dazzle_bad_juju) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:220
+- **MT-1109 / PENDING** — dazzle — R (enfos_dazzle_bad_juju) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:221
+- **MT-1110 / PENDING** — dazzle — R (enfos_dazzle_bad_juju) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:222
+- **MT-1111 / PENDING** — dazzle — R (enfos_dazzle_bad_juju) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:223
+- **MT-1112 / PENDING** — dazzle — R (enfos_dazzle_bad_juju) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:224
+- **MT-1113 / PENDING** — dazzle — R (enfos_dazzle_bad_juju) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:225
+- **MT-1114 / PENDING** — dazzle — R (enfos_dazzle_bad_juju) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:226
+- **MT-1115 / PENDING** — dazzle — R (enfos_dazzle_bad_juju) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:227
+- **MT-1116 / PENDING** — dazzle — R (enfos_dazzle_bad_juju) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:228
+- **MT-1117 / PENDING** — dazzle — R (enfos_dazzle_bad_juju) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:229
+- **MT-1118 / PENDING** — dazzle — Enfos pasifi (enfos_dazzle_nothl_weave) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:258
+- **MT-1119 / PENDING** — dazzle — Enfos pasifi (enfos_dazzle_nothl_weave) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:259
+- **MT-1120 / PENDING** — dazzle — Enfos pasifi (enfos_dazzle_nothl_weave) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:260
+- **MT-1121 / PENDING** — dazzle — Enfos pasifi (enfos_dazzle_nothl_weave) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:261
+- **MT-1122 / PENDING** — dazzle — Enfos pasifi (enfos_dazzle_nothl_weave) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:262
+- **MT-1123 / PENDING** — dazzle — Enfos pasifi (enfos_dazzle_nothl_weave) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:263
+- **MT-1124 / PENDING** — dazzle — Enfos pasifi (enfos_dazzle_nothl_weave) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:264
+- **MT-1125 / PENDING** — dazzle — Enfos pasifi (enfos_dazzle_nothl_weave) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:265
+- **MT-1126 / PENDING** — dazzle — Enfos pasifi (enfos_dazzle_nothl_weave) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:266
+- **MT-1127 / PENDING** — dazzle — Enfos pasifi (enfos_dazzle_nothl_weave) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:267
+- **MT-1128 / PENDING** — dazzle — Enfos pasifi (enfos_dazzle_nothl_weave) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:268
+- **MT-1129 / PENDING** — dazzle — Enfos pasifi (enfos_dazzle_nothl_weave) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:269
+- **MT-1130 / PENDING** — dazzle — Enfos pasifi (enfos_dazzle_nothl_weave) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:270
+- **MT-1131 / PENDING** — dazzle — Enfos pasifi (enfos_dazzle_nothl_weave) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:271
+- **MT-1132 / PENDING** — dazzle — Enfos pasifi (enfos_dazzle_nothl_weave) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/dazzle/ABILITIES.md:272
+- **MT-1133 / PENDING** — dragon_knight — Q (enfos_dk_breathe_fire) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:97
+- **MT-1134 / PENDING** — dragon_knight — Q (enfos_dk_breathe_fire) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:98
+- **MT-1135 / PENDING** — dragon_knight — Q (enfos_dk_breathe_fire) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:99
+- **MT-1136 / PENDING** — dragon_knight — Q (enfos_dk_breathe_fire) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:100
+- **MT-1137 / PENDING** — dragon_knight — Q (enfos_dk_breathe_fire) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:101
+- **MT-1138 / PENDING** — dragon_knight — Q (enfos_dk_breathe_fire) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:102
+- **MT-1139 / PENDING** — dragon_knight — Q (enfos_dk_breathe_fire) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:103
+- **MT-1140 / PENDING** — dragon_knight — Q (enfos_dk_breathe_fire) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:104
+- **MT-1141 / PENDING** — dragon_knight — Q (enfos_dk_breathe_fire) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:105
+- **MT-1142 / PENDING** — dragon_knight — Q (enfos_dk_breathe_fire) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:106
+- **MT-1143 / PENDING** — dragon_knight — Q (enfos_dk_breathe_fire) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:107
+- **MT-1144 / PENDING** — dragon_knight — Q (enfos_dk_breathe_fire) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:108
+- **MT-1145 / PENDING** — dragon_knight — Q (enfos_dk_breathe_fire) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:109
+- **MT-1146 / PENDING** — dragon_knight — Q (enfos_dk_breathe_fire) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:110
+- **MT-1147 / PENDING** — dragon_knight — Q (enfos_dk_breathe_fire) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:111
+- **MT-1148 / PENDING** — dragon_knight — W (enfos_dk_dragon_tail) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:140
+- **MT-1149 / PENDING** — dragon_knight — W (enfos_dk_dragon_tail) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:141
+- **MT-1150 / PENDING** — dragon_knight — W (enfos_dk_dragon_tail) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:142
+- **MT-1151 / PENDING** — dragon_knight — W (enfos_dk_dragon_tail) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:143
+- **MT-1152 / PENDING** — dragon_knight — W (enfos_dk_dragon_tail) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:144
+- **MT-1153 / PENDING** — dragon_knight — W (enfos_dk_dragon_tail) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:145
+- **MT-1154 / PENDING** — dragon_knight — W (enfos_dk_dragon_tail) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:146
+- **MT-1155 / PENDING** — dragon_knight — W (enfos_dk_dragon_tail) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:147
+- **MT-1156 / PENDING** — dragon_knight — W (enfos_dk_dragon_tail) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:148
+- **MT-1157 / PENDING** — dragon_knight — W (enfos_dk_dragon_tail) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:149
+- **MT-1158 / PENDING** — dragon_knight — W (enfos_dk_dragon_tail) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:150
+- **MT-1159 / PENDING** — dragon_knight — W (enfos_dk_dragon_tail) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:151
+- **MT-1160 / PENDING** — dragon_knight — W (enfos_dk_dragon_tail) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:152
+- **MT-1161 / PENDING** — dragon_knight — W (enfos_dk_dragon_tail) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:153
+- **MT-1162 / PENDING** — dragon_knight — W (enfos_dk_dragon_tail) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:154
+- **MT-1163 / PENDING** — dragon_knight — E (enfos_dk_dragon_blood) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:183
+- **MT-1164 / PENDING** — dragon_knight — E (enfos_dk_dragon_blood) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:184
+- **MT-1165 / PENDING** — dragon_knight — E (enfos_dk_dragon_blood) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:185
+- **MT-1166 / PENDING** — dragon_knight — E (enfos_dk_dragon_blood) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:186
+- **MT-1167 / PENDING** — dragon_knight — E (enfos_dk_dragon_blood) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:187
+- **MT-1168 / PENDING** — dragon_knight — E (enfos_dk_dragon_blood) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:188
+- **MT-1169 / PENDING** — dragon_knight — E (enfos_dk_dragon_blood) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:189
+- **MT-1170 / PENDING** — dragon_knight — E (enfos_dk_dragon_blood) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:190
+- **MT-1171 / PENDING** — dragon_knight — E (enfos_dk_dragon_blood) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:191
+- **MT-1172 / PENDING** — dragon_knight — E (enfos_dk_dragon_blood) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:192
+- **MT-1173 / PENDING** — dragon_knight — E (enfos_dk_dragon_blood) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:193
+- **MT-1174 / PENDING** — dragon_knight — E (enfos_dk_dragon_blood) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:194
+- **MT-1175 / PENDING** — dragon_knight — E (enfos_dk_dragon_blood) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:195
+- **MT-1176 / PENDING** — dragon_knight — E (enfos_dk_dragon_blood) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:196
+- **MT-1177 / PENDING** — dragon_knight — E (enfos_dk_dragon_blood) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:197
+- **MT-1178 / PENDING** — dragon_knight — R (enfos_dk_elder_dragon_form) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:226
+- **MT-1179 / PENDING** — dragon_knight — R (enfos_dk_elder_dragon_form) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:227
+- **MT-1180 / PENDING** — dragon_knight — R (enfos_dk_elder_dragon_form) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:228
+- **MT-1181 / PENDING** — dragon_knight — R (enfos_dk_elder_dragon_form) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:229
+- **MT-1182 / PENDING** — dragon_knight — R (enfos_dk_elder_dragon_form) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:230
+- **MT-1183 / PENDING** — dragon_knight — R (enfos_dk_elder_dragon_form) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:231
+- **MT-1184 / PENDING** — dragon_knight — R (enfos_dk_elder_dragon_form) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:232
+- **MT-1185 / PENDING** — dragon_knight — R (enfos_dk_elder_dragon_form) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:233
+- **MT-1186 / PENDING** — dragon_knight — R (enfos_dk_elder_dragon_form) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:234
+- **MT-1187 / PENDING** — dragon_knight — R (enfos_dk_elder_dragon_form) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:235
+- **MT-1188 / PENDING** — dragon_knight — R (enfos_dk_elder_dragon_form) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:236
+- **MT-1189 / PENDING** — dragon_knight — R (enfos_dk_elder_dragon_form) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:237
+- **MT-1190 / PENDING** — dragon_knight — R (enfos_dk_elder_dragon_form) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:238
+- **MT-1191 / PENDING** — dragon_knight — R (enfos_dk_elder_dragon_form) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:239
+- **MT-1192 / PENDING** — dragon_knight — R (enfos_dk_elder_dragon_form) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:240
+- **MT-1193 / PENDING** — dragon_knight — Enfos pasifi (enfos_dk_wyrm_vigor) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:269
+- **MT-1194 / PENDING** — dragon_knight — Enfos pasifi (enfos_dk_wyrm_vigor) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:270
+- **MT-1195 / PENDING** — dragon_knight — Enfos pasifi (enfos_dk_wyrm_vigor) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:271
+- **MT-1196 / PENDING** — dragon_knight — Enfos pasifi (enfos_dk_wyrm_vigor) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:272
+- **MT-1197 / PENDING** — dragon_knight — Enfos pasifi (enfos_dk_wyrm_vigor) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:273
+- **MT-1198 / PENDING** — dragon_knight — Enfos pasifi (enfos_dk_wyrm_vigor) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:274
+- **MT-1199 / PENDING** — dragon_knight — Enfos pasifi (enfos_dk_wyrm_vigor) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:275
+- **MT-1200 / PENDING** — dragon_knight — Enfos pasifi (enfos_dk_wyrm_vigor) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:276
+- **MT-1201 / PENDING** — dragon_knight — Enfos pasifi (enfos_dk_wyrm_vigor) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:277
+- **MT-1202 / PENDING** — dragon_knight — Enfos pasifi (enfos_dk_wyrm_vigor) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:278
+- **MT-1203 / PENDING** — dragon_knight — Enfos pasifi (enfos_dk_wyrm_vigor) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:279
+- **MT-1204 / PENDING** — dragon_knight — Enfos pasifi (enfos_dk_wyrm_vigor) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:280
+- **MT-1205 / PENDING** — dragon_knight — Enfos pasifi (enfos_dk_wyrm_vigor) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:281
+- **MT-1206 / PENDING** — dragon_knight — Enfos pasifi (enfos_dk_wyrm_vigor) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:282
+- **MT-1207 / PENDING** — dragon_knight — Enfos pasifi (enfos_dk_wyrm_vigor) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/dragon_knight/ABILITIES.md:283
+- **MT-1208 / PENDING** — drow_ranger — Q (enfos_drow_frost_arrows) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:153
+- **MT-1209 / PENDING** — drow_ranger — Q (enfos_drow_frost_arrows) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:154
+- **MT-1210 / PENDING** — drow_ranger — Q (enfos_drow_frost_arrows) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:155
+- **MT-1211 / PENDING** — drow_ranger — Q (enfos_drow_frost_arrows) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:156
+- **MT-1212 / PENDING** — drow_ranger — Q (enfos_drow_frost_arrows) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:157
+- **MT-1213 / PENDING** — drow_ranger — Q (enfos_drow_frost_arrows) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:158
+- **MT-1214 / PENDING** — drow_ranger — Q (enfos_drow_frost_arrows) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:159
+- **MT-1215 / PENDING** — drow_ranger — Q (enfos_drow_frost_arrows) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:160
+- **MT-1216 / PENDING** — drow_ranger — Q (enfos_drow_frost_arrows) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:161
+- **MT-1217 / PENDING** — drow_ranger — Q (enfos_drow_frost_arrows) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:162
+- **MT-1218 / PENDING** — drow_ranger — Q (enfos_drow_frost_arrows) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:163
+- **MT-1219 / PENDING** — drow_ranger — Q (enfos_drow_frost_arrows) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:164
+- **MT-1220 / PENDING** — drow_ranger — Q (enfos_drow_frost_arrows) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:165
+- **MT-1221 / PENDING** — drow_ranger — Q (enfos_drow_frost_arrows) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:166
+- **MT-1222 / PENDING** — drow_ranger — Q (enfos_drow_frost_arrows) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:167
+- **MT-1223 / PENDING** — drow_ranger — W (enfos_drow_gust) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:196
+- **MT-1224 / PENDING** — drow_ranger — W (enfos_drow_gust) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:197
+- **MT-1225 / PENDING** — drow_ranger — W (enfos_drow_gust) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:198
+- **MT-1226 / PENDING** — drow_ranger — W (enfos_drow_gust) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:199
+- **MT-1227 / PENDING** — drow_ranger — W (enfos_drow_gust) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:200
+- **MT-1228 / PENDING** — drow_ranger — W (enfos_drow_gust) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:201
+- **MT-1229 / PENDING** — drow_ranger — W (enfos_drow_gust) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:202
+- **MT-1230 / PENDING** — drow_ranger — W (enfos_drow_gust) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:203
+- **MT-1231 / PENDING** — drow_ranger — W (enfos_drow_gust) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:204
+- **MT-1232 / PENDING** — drow_ranger — W (enfos_drow_gust) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:205
+- **MT-1233 / PENDING** — drow_ranger — W (enfos_drow_gust) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:206
+- **MT-1234 / PENDING** — drow_ranger — W (enfos_drow_gust) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:207
+- **MT-1235 / PENDING** — drow_ranger — W (enfos_drow_gust) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:208
+- **MT-1236 / PENDING** — drow_ranger — W (enfos_drow_gust) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:209
+- **MT-1237 / PENDING** — drow_ranger — W (enfos_drow_gust) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:210
+- **MT-1238 / PENDING** — drow_ranger — E (enfos_drow_multishot) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:239
+- **MT-1239 / PENDING** — drow_ranger — E (enfos_drow_multishot) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:240
+- **MT-1240 / PENDING** — drow_ranger — E (enfos_drow_multishot) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:241
+- **MT-1241 / PENDING** — drow_ranger — E (enfos_drow_multishot) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:242
+- **MT-1242 / PENDING** — drow_ranger — E (enfos_drow_multishot) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:243
+- **MT-1243 / PENDING** — drow_ranger — E (enfos_drow_multishot) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:244
+- **MT-1244 / PENDING** — drow_ranger — E (enfos_drow_multishot) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:245
+- **MT-1245 / PENDING** — drow_ranger — E (enfos_drow_multishot) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:246
+- **MT-1246 / PENDING** — drow_ranger — E (enfos_drow_multishot) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:247
+- **MT-1247 / PENDING** — drow_ranger — E (enfos_drow_multishot) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:248
+- **MT-1248 / PENDING** — drow_ranger — E (enfos_drow_multishot) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:249
+- **MT-1249 / PENDING** — drow_ranger — E (enfos_drow_multishot) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:250
+- **MT-1250 / PENDING** — drow_ranger — E (enfos_drow_multishot) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:251
+- **MT-1251 / PENDING** — drow_ranger — E (enfos_drow_multishot) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:252
+- **MT-1252 / PENDING** — drow_ranger — E (enfos_drow_multishot) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:253
+- **MT-1253 / PENDING** — drow_ranger — R (enfos_drow_marksmanship) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:282
+- **MT-1254 / PENDING** — drow_ranger — R (enfos_drow_marksmanship) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:283
+- **MT-1255 / PENDING** — drow_ranger — R (enfos_drow_marksmanship) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:284
+- **MT-1256 / PENDING** — drow_ranger — R (enfos_drow_marksmanship) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:285
+- **MT-1257 / PENDING** — drow_ranger — R (enfos_drow_marksmanship) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:286
+- **MT-1258 / PENDING** — drow_ranger — R (enfos_drow_marksmanship) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:287
+- **MT-1259 / PENDING** — drow_ranger — R (enfos_drow_marksmanship) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:288
+- **MT-1260 / PENDING** — drow_ranger — R (enfos_drow_marksmanship) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:289
+- **MT-1261 / PENDING** — drow_ranger — R (enfos_drow_marksmanship) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:290
+- **MT-1262 / PENDING** — drow_ranger — R (enfos_drow_marksmanship) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:291
+- **MT-1263 / PENDING** — drow_ranger — R (enfos_drow_marksmanship) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:292
+- **MT-1264 / PENDING** — drow_ranger — R (enfos_drow_marksmanship) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:293
+- **MT-1265 / PENDING** — drow_ranger — R (enfos_drow_marksmanship) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:294
+- **MT-1266 / PENDING** — drow_ranger — R (enfos_drow_marksmanship) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:295
+- **MT-1267 / PENDING** — drow_ranger — R (enfos_drow_marksmanship) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:296
+- **MT-1268 / PENDING** — drow_ranger — Enfos pasifi (enfos_drow_precision_aura) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:325
+- **MT-1269 / PENDING** — drow_ranger — Enfos pasifi (enfos_drow_precision_aura) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:326
+- **MT-1270 / PENDING** — drow_ranger — Enfos pasifi (enfos_drow_precision_aura) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:327
+- **MT-1271 / PENDING** — drow_ranger — Enfos pasifi (enfos_drow_precision_aura) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:328
+- **MT-1272 / PENDING** — drow_ranger — Enfos pasifi (enfos_drow_precision_aura) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:329
+- **MT-1273 / PENDING** — drow_ranger — Enfos pasifi (enfos_drow_precision_aura) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:330
+- **MT-1274 / PENDING** — drow_ranger — Enfos pasifi (enfos_drow_precision_aura) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:331
+- **MT-1275 / PENDING** — drow_ranger — Enfos pasifi (enfos_drow_precision_aura) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:332
+- **MT-1276 / PENDING** — drow_ranger — Enfos pasifi (enfos_drow_precision_aura) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:333
+- **MT-1277 / PENDING** — drow_ranger — Enfos pasifi (enfos_drow_precision_aura) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:334
+- **MT-1278 / PENDING** — drow_ranger — Enfos pasifi (enfos_drow_precision_aura) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:335
+- **MT-1279 / PENDING** — drow_ranger — Enfos pasifi (enfos_drow_precision_aura) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:336
+- **MT-1280 / PENDING** — drow_ranger — Enfos pasifi (enfos_drow_precision_aura) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:337
+- **MT-1281 / PENDING** — drow_ranger — Enfos pasifi (enfos_drow_precision_aura) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:338
+- **MT-1282 / PENDING** — drow_ranger — Enfos pasifi (enfos_drow_precision_aura) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/drow_ranger/ABILITIES.md:339
+- **MT-1283 / PENDING** — faceless_void — Q (enfos_void_time_walk) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:93
+- **MT-1284 / PENDING** — faceless_void — Q (enfos_void_time_walk) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:94
+- **MT-1285 / PENDING** — faceless_void — Q (enfos_void_time_walk) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:95
+- **MT-1286 / PENDING** — faceless_void — Q (enfos_void_time_walk) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:96
+- **MT-1287 / PENDING** — faceless_void — Q (enfos_void_time_walk) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:97
+- **MT-1288 / PENDING** — faceless_void — Q (enfos_void_time_walk) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:98
+- **MT-1289 / PENDING** — faceless_void — Q (enfos_void_time_walk) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:99
+- **MT-1290 / PENDING** — faceless_void — Q (enfos_void_time_walk) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:100
+- **MT-1291 / PENDING** — faceless_void — Q (enfos_void_time_walk) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:101
+- **MT-1292 / PENDING** — faceless_void — Q (enfos_void_time_walk) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:102
+- **MT-1293 / PENDING** — faceless_void — Q (enfos_void_time_walk) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:103
+- **MT-1294 / PENDING** — faceless_void — Q (enfos_void_time_walk) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:104
+- **MT-1295 / PENDING** — faceless_void — Q (enfos_void_time_walk) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:105
+- **MT-1296 / PENDING** — faceless_void — Q (enfos_void_time_walk) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:106
+- **MT-1297 / PENDING** — faceless_void — Q (enfos_void_time_walk) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:107
+- **MT-1298 / PENDING** — faceless_void — W (enfos_void_time_dilation) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:136
+- **MT-1299 / PENDING** — faceless_void — W (enfos_void_time_dilation) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:137
+- **MT-1300 / PENDING** — faceless_void — W (enfos_void_time_dilation) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:138
+- **MT-1301 / PENDING** — faceless_void — W (enfos_void_time_dilation) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:139
+- **MT-1302 / PENDING** — faceless_void — W (enfos_void_time_dilation) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:140
+- **MT-1303 / PENDING** — faceless_void — W (enfos_void_time_dilation) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:141
+- **MT-1304 / PENDING** — faceless_void — W (enfos_void_time_dilation) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:142
+- **MT-1305 / PENDING** — faceless_void — W (enfos_void_time_dilation) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:143
+- **MT-1306 / PENDING** — faceless_void — W (enfos_void_time_dilation) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:144
+- **MT-1307 / PENDING** — faceless_void — W (enfos_void_time_dilation) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:145
+- **MT-1308 / PENDING** — faceless_void — W (enfos_void_time_dilation) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:146
+- **MT-1309 / PENDING** — faceless_void — W (enfos_void_time_dilation) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:147
+- **MT-1310 / PENDING** — faceless_void — W (enfos_void_time_dilation) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:148
+- **MT-1311 / PENDING** — faceless_void — W (enfos_void_time_dilation) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:149
+- **MT-1312 / PENDING** — faceless_void — W (enfos_void_time_dilation) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:150
+- **MT-1313 / PENDING** — faceless_void — E (enfos_void_time_lock) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:179
+- **MT-1314 / PENDING** — faceless_void — E (enfos_void_time_lock) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:180
+- **MT-1315 / PENDING** — faceless_void — E (enfos_void_time_lock) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:181
+- **MT-1316 / PENDING** — faceless_void — E (enfos_void_time_lock) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:182
+- **MT-1317 / PENDING** — faceless_void — E (enfos_void_time_lock) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:183
+- **MT-1318 / PENDING** — faceless_void — E (enfos_void_time_lock) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:184
+- **MT-1319 / PENDING** — faceless_void — E (enfos_void_time_lock) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:185
+- **MT-1320 / PENDING** — faceless_void — E (enfos_void_time_lock) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:186
+- **MT-1321 / PENDING** — faceless_void — E (enfos_void_time_lock) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:187
+- **MT-1322 / PENDING** — faceless_void — E (enfos_void_time_lock) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:188
+- **MT-1323 / PENDING** — faceless_void — E (enfos_void_time_lock) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:189
+- **MT-1324 / PENDING** — faceless_void — E (enfos_void_time_lock) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:190
+- **MT-1325 / PENDING** — faceless_void — E (enfos_void_time_lock) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:191
+- **MT-1326 / PENDING** — faceless_void — E (enfos_void_time_lock) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:192
+- **MT-1327 / PENDING** — faceless_void — E (enfos_void_time_lock) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:193
+- **MT-1328 / PENDING** — faceless_void — R (enfos_void_chronosphere) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:222
+- **MT-1329 / PENDING** — faceless_void — R (enfos_void_chronosphere) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:223
+- **MT-1330 / PENDING** — faceless_void — R (enfos_void_chronosphere) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:224
+- **MT-1331 / PENDING** — faceless_void — R (enfos_void_chronosphere) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:225
+- **MT-1332 / PENDING** — faceless_void — R (enfos_void_chronosphere) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:226
+- **MT-1333 / PENDING** — faceless_void — R (enfos_void_chronosphere) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:227
+- **MT-1334 / PENDING** — faceless_void — R (enfos_void_chronosphere) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:228
+- **MT-1335 / PENDING** — faceless_void — R (enfos_void_chronosphere) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:229
+- **MT-1336 / PENDING** — faceless_void — R (enfos_void_chronosphere) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:230
+- **MT-1337 / PENDING** — faceless_void — R (enfos_void_chronosphere) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:231
+- **MT-1338 / PENDING** — faceless_void — R (enfos_void_chronosphere) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:232
+- **MT-1339 / PENDING** — faceless_void — R (enfos_void_chronosphere) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:233
+- **MT-1340 / PENDING** — faceless_void — R (enfos_void_chronosphere) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:234
+- **MT-1341 / PENDING** — faceless_void — R (enfos_void_chronosphere) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:235
+- **MT-1342 / PENDING** — faceless_void — R (enfos_void_chronosphere) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:236
+- **MT-1343 / PENDING** — faceless_void — Enfos pasifi (enfos_void_backtrack) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:265
+- **MT-1344 / PENDING** — faceless_void — Enfos pasifi (enfos_void_backtrack) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:266
+- **MT-1345 / PENDING** — faceless_void — Enfos pasifi (enfos_void_backtrack) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:267
+- **MT-1346 / PENDING** — faceless_void — Enfos pasifi (enfos_void_backtrack) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:268
+- **MT-1347 / PENDING** — faceless_void — Enfos pasifi (enfos_void_backtrack) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:269
+- **MT-1348 / PENDING** — faceless_void — Enfos pasifi (enfos_void_backtrack) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:270
+- **MT-1349 / PENDING** — faceless_void — Enfos pasifi (enfos_void_backtrack) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:271
+- **MT-1350 / PENDING** — faceless_void — Enfos pasifi (enfos_void_backtrack) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:272
+- **MT-1351 / PENDING** — faceless_void — Enfos pasifi (enfos_void_backtrack) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:273
+- **MT-1352 / PENDING** — faceless_void — Enfos pasifi (enfos_void_backtrack) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:274
+- **MT-1353 / PENDING** — faceless_void — Enfos pasifi (enfos_void_backtrack) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:275
+- **MT-1354 / PENDING** — faceless_void — Enfos pasifi (enfos_void_backtrack) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:276
+- **MT-1355 / PENDING** — faceless_void — Enfos pasifi (enfos_void_backtrack) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:277
+- **MT-1356 / PENDING** — faceless_void — Enfos pasifi (enfos_void_backtrack) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:278
+- **MT-1357 / PENDING** — faceless_void — Enfos pasifi (enfos_void_backtrack) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/faceless_void/ABILITIES.md:279
+- **MT-1358 / PENDING** — invoker — Q (enfos_invoker_chaos_meteor) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:87
+- **MT-1359 / PENDING** — invoker — Q (enfos_invoker_chaos_meteor) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:88
+- **MT-1360 / PENDING** — invoker — Q (enfos_invoker_chaos_meteor) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:89
+- **MT-1361 / PENDING** — invoker — Q (enfos_invoker_chaos_meteor) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:90
+- **MT-1362 / PENDING** — invoker — Q (enfos_invoker_chaos_meteor) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:91
+- **MT-1363 / PENDING** — invoker — Q (enfos_invoker_chaos_meteor) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:92
+- **MT-1364 / PENDING** — invoker — Q (enfos_invoker_chaos_meteor) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:93
+- **MT-1365 / PENDING** — invoker — Q (enfos_invoker_chaos_meteor) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:94
+- **MT-1366 / PENDING** — invoker — Q (enfos_invoker_chaos_meteor) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:95
+- **MT-1367 / PENDING** — invoker — Q (enfos_invoker_chaos_meteor) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:96
+- **MT-1368 / PENDING** — invoker — Q (enfos_invoker_chaos_meteor) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:97
+- **MT-1369 / PENDING** — invoker — Q (enfos_invoker_chaos_meteor) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:98
+- **MT-1370 / PENDING** — invoker — Q (enfos_invoker_chaos_meteor) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:99
+- **MT-1371 / PENDING** — invoker — Q (enfos_invoker_chaos_meteor) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:100
+- **MT-1372 / PENDING** — invoker — Q (enfos_invoker_chaos_meteor) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:101
+- **MT-1373 / PENDING** — invoker — W (enfos_invoker_sun_strike) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:123
+- **MT-1374 / PENDING** — invoker — W (enfos_invoker_sun_strike) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:124
+- **MT-1375 / PENDING** — invoker — W (enfos_invoker_sun_strike) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:125
+- **MT-1376 / PENDING** — invoker — W (enfos_invoker_sun_strike) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:126
+- **MT-1377 / PENDING** — invoker — W (enfos_invoker_sun_strike) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:127
+- **MT-1378 / PENDING** — invoker — W (enfos_invoker_sun_strike) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:128
+- **MT-1379 / PENDING** — invoker — W (enfos_invoker_sun_strike) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:129
+- **MT-1380 / PENDING** — invoker — W (enfos_invoker_sun_strike) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:130
+- **MT-1381 / PENDING** — invoker — W (enfos_invoker_sun_strike) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:131
+- **MT-1382 / PENDING** — invoker — W (enfos_invoker_sun_strike) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:132
+- **MT-1383 / PENDING** — invoker — W (enfos_invoker_sun_strike) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:133
+- **MT-1384 / PENDING** — invoker — W (enfos_invoker_sun_strike) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:134
+- **MT-1385 / PENDING** — invoker — W (enfos_invoker_sun_strike) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:135
+- **MT-1386 / PENDING** — invoker — W (enfos_invoker_sun_strike) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:136
+- **MT-1387 / PENDING** — invoker — W (enfos_invoker_sun_strike) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:137
+- **MT-1388 / PENDING** — invoker — E (enfos_invoker_deafening_blast) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:153
+- **MT-1389 / PENDING** — invoker — E (enfos_invoker_deafening_blast) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:154
+- **MT-1390 / PENDING** — invoker — E (enfos_invoker_deafening_blast) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:155
+- **MT-1391 / PENDING** — invoker — E (enfos_invoker_deafening_blast) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:156
+- **MT-1392 / PENDING** — invoker — E (enfos_invoker_deafening_blast) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:157
+- **MT-1393 / PENDING** — invoker — E (enfos_invoker_deafening_blast) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:158
+- **MT-1394 / PENDING** — invoker — E (enfos_invoker_deafening_blast) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:159
+- **MT-1395 / PENDING** — invoker — E (enfos_invoker_deafening_blast) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:160
+- **MT-1396 / PENDING** — invoker — E (enfos_invoker_deafening_blast) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:161
+- **MT-1397 / PENDING** — invoker — E (enfos_invoker_deafening_blast) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:162
+- **MT-1398 / PENDING** — invoker — E (enfos_invoker_deafening_blast) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:163
+- **MT-1399 / PENDING** — invoker — E (enfos_invoker_deafening_blast) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:164
+- **MT-1400 / PENDING** — invoker — E (enfos_invoker_deafening_blast) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:165
+- **MT-1401 / PENDING** — invoker — E (enfos_invoker_deafening_blast) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:166
+- **MT-1402 / PENDING** — invoker — E (enfos_invoker_deafening_blast) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:167
+- **MT-1403 / PENDING** — invoker — R (enfos_invoker_emp) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:183
+- **MT-1404 / PENDING** — invoker — R (enfos_invoker_emp) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:184
+- **MT-1405 / PENDING** — invoker — R (enfos_invoker_emp) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:185
+- **MT-1406 / PENDING** — invoker — R (enfos_invoker_emp) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:186
+- **MT-1407 / PENDING** — invoker — R (enfos_invoker_emp) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:187
+- **MT-1408 / PENDING** — invoker — R (enfos_invoker_emp) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:188
+- **MT-1409 / PENDING** — invoker — R (enfos_invoker_emp) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:189
+- **MT-1410 / PENDING** — invoker — R (enfos_invoker_emp) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:190
+- **MT-1411 / PENDING** — invoker — R (enfos_invoker_emp) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:191
+- **MT-1412 / PENDING** — invoker — R (enfos_invoker_emp) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:192
+- **MT-1413 / PENDING** — invoker — R (enfos_invoker_emp) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:193
+- **MT-1414 / PENDING** — invoker — R (enfos_invoker_emp) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:194
+- **MT-1415 / PENDING** — invoker — R (enfos_invoker_emp) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:195
+- **MT-1416 / PENDING** — invoker — R (enfos_invoker_emp) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:196
+- **MT-1417 / PENDING** — invoker — R (enfos_invoker_emp) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:197
+- **MT-1418 / PENDING** — invoker — Enfos pasifi (enfos_invoker_alacrity) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:213
+- **MT-1419 / PENDING** — invoker — Enfos pasifi (enfos_invoker_alacrity) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:214
+- **MT-1420 / PENDING** — invoker — Enfos pasifi (enfos_invoker_alacrity) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:215
+- **MT-1421 / PENDING** — invoker — Enfos pasifi (enfos_invoker_alacrity) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:216
+- **MT-1422 / PENDING** — invoker — Enfos pasifi (enfos_invoker_alacrity) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:217
+- **MT-1423 / PENDING** — invoker — Enfos pasifi (enfos_invoker_alacrity) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:218
+- **MT-1424 / PENDING** — invoker — Enfos pasifi (enfos_invoker_alacrity) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:219
+- **MT-1425 / PENDING** — invoker — Enfos pasifi (enfos_invoker_alacrity) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:220
+- **MT-1426 / PENDING** — invoker — Enfos pasifi (enfos_invoker_alacrity) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:221
+- **MT-1427 / PENDING** — invoker — Enfos pasifi (enfos_invoker_alacrity) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:222
+- **MT-1428 / PENDING** — invoker — Enfos pasifi (enfos_invoker_alacrity) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:223
+- **MT-1429 / PENDING** — invoker — Enfos pasifi (enfos_invoker_alacrity) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:224
+- **MT-1430 / PENDING** — invoker — Enfos pasifi (enfos_invoker_alacrity) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:225
+- **MT-1431 / PENDING** — invoker — Enfos pasifi (enfos_invoker_alacrity) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:226
+- **MT-1432 / PENDING** — invoker — Enfos pasifi (enfos_invoker_alacrity) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/invoker/ABILITIES.md:227
+- **MT-1433 / PENDING** — jakiro — Q (enfos_jakiro_dual_breath) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:89
+- **MT-1434 / PENDING** — jakiro — Q (enfos_jakiro_dual_breath) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:90
+- **MT-1435 / PENDING** — jakiro — Q (enfos_jakiro_dual_breath) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:91
+- **MT-1436 / PENDING** — jakiro — Q (enfos_jakiro_dual_breath) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:92
+- **MT-1437 / PENDING** — jakiro — Q (enfos_jakiro_dual_breath) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:93
+- **MT-1438 / PENDING** — jakiro — Q (enfos_jakiro_dual_breath) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:94
+- **MT-1439 / PENDING** — jakiro — Q (enfos_jakiro_dual_breath) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:95
+- **MT-1440 / PENDING** — jakiro — Q (enfos_jakiro_dual_breath) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:96
+- **MT-1441 / PENDING** — jakiro — Q (enfos_jakiro_dual_breath) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:97
+- **MT-1442 / PENDING** — jakiro — Q (enfos_jakiro_dual_breath) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:98
+- **MT-1443 / PENDING** — jakiro — Q (enfos_jakiro_dual_breath) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:99
+- **MT-1444 / PENDING** — jakiro — Q (enfos_jakiro_dual_breath) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:100
+- **MT-1445 / PENDING** — jakiro — Q (enfos_jakiro_dual_breath) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:101
+- **MT-1446 / PENDING** — jakiro — Q (enfos_jakiro_dual_breath) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:102
+- **MT-1447 / PENDING** — jakiro — Q (enfos_jakiro_dual_breath) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:103
+- **MT-1448 / PENDING** — jakiro — W (enfos_jakiro_ice_path) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:145
+- **MT-1449 / PENDING** — jakiro — W (enfos_jakiro_ice_path) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:146
+- **MT-1450 / PENDING** — jakiro — W (enfos_jakiro_ice_path) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:147
+- **MT-1451 / PENDING** — jakiro — W (enfos_jakiro_ice_path) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:148
+- **MT-1452 / PENDING** — jakiro — W (enfos_jakiro_ice_path) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:149
+- **MT-1453 / PENDING** — jakiro — W (enfos_jakiro_ice_path) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:150
+- **MT-1454 / PENDING** — jakiro — W (enfos_jakiro_ice_path) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:151
+- **MT-1455 / PENDING** — jakiro — W (enfos_jakiro_ice_path) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:152
+- **MT-1456 / PENDING** — jakiro — W (enfos_jakiro_ice_path) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:153
+- **MT-1457 / PENDING** — jakiro — W (enfos_jakiro_ice_path) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:154
+- **MT-1458 / PENDING** — jakiro — W (enfos_jakiro_ice_path) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:155
+- **MT-1459 / PENDING** — jakiro — W (enfos_jakiro_ice_path) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:156
+- **MT-1460 / PENDING** — jakiro — W (enfos_jakiro_ice_path) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:157
+- **MT-1461 / PENDING** — jakiro — W (enfos_jakiro_ice_path) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:158
+- **MT-1462 / PENDING** — jakiro — W (enfos_jakiro_ice_path) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:159
+- **MT-1463 / PENDING** — jakiro — E (enfos_jakiro_liquid_fire) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:188
+- **MT-1464 / PENDING** — jakiro — E (enfos_jakiro_liquid_fire) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:189
+- **MT-1465 / PENDING** — jakiro — E (enfos_jakiro_liquid_fire) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:190
+- **MT-1466 / PENDING** — jakiro — E (enfos_jakiro_liquid_fire) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:191
+- **MT-1467 / PENDING** — jakiro — E (enfos_jakiro_liquid_fire) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:192
+- **MT-1468 / PENDING** — jakiro — E (enfos_jakiro_liquid_fire) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:193
+- **MT-1469 / PENDING** — jakiro — E (enfos_jakiro_liquid_fire) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:194
+- **MT-1470 / PENDING** — jakiro — E (enfos_jakiro_liquid_fire) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:195
+- **MT-1471 / PENDING** — jakiro — E (enfos_jakiro_liquid_fire) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:196
+- **MT-1472 / PENDING** — jakiro — E (enfos_jakiro_liquid_fire) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:197
+- **MT-1473 / PENDING** — jakiro — E (enfos_jakiro_liquid_fire) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:198
+- **MT-1474 / PENDING** — jakiro — E (enfos_jakiro_liquid_fire) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:199
+- **MT-1475 / PENDING** — jakiro — E (enfos_jakiro_liquid_fire) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:200
+- **MT-1476 / PENDING** — jakiro — E (enfos_jakiro_liquid_fire) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:201
+- **MT-1477 / PENDING** — jakiro — E (enfos_jakiro_liquid_fire) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:202
+- **MT-1478 / PENDING** — jakiro — R (enfos_jakiro_macropyre) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:231
+- **MT-1479 / PENDING** — jakiro — R (enfos_jakiro_macropyre) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:232
+- **MT-1480 / PENDING** — jakiro — R (enfos_jakiro_macropyre) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:233
+- **MT-1481 / PENDING** — jakiro — R (enfos_jakiro_macropyre) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:234
+- **MT-1482 / PENDING** — jakiro — R (enfos_jakiro_macropyre) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:235
+- **MT-1483 / PENDING** — jakiro — R (enfos_jakiro_macropyre) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:236
+- **MT-1484 / PENDING** — jakiro — R (enfos_jakiro_macropyre) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:237
+- **MT-1485 / PENDING** — jakiro — R (enfos_jakiro_macropyre) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:238
+- **MT-1486 / PENDING** — jakiro — R (enfos_jakiro_macropyre) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:239
+- **MT-1487 / PENDING** — jakiro — R (enfos_jakiro_macropyre) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:240
+- **MT-1488 / PENDING** — jakiro — R (enfos_jakiro_macropyre) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:241
+- **MT-1489 / PENDING** — jakiro — R (enfos_jakiro_macropyre) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:242
+- **MT-1490 / PENDING** — jakiro — R (enfos_jakiro_macropyre) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:243
+- **MT-1491 / PENDING** — jakiro — R (enfos_jakiro_macropyre) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:244
+- **MT-1492 / PENDING** — jakiro — R (enfos_jakiro_macropyre) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:245
+- **MT-1493 / PENDING** — jakiro — Enfos pasifi (enfos_jakiro_double_trouble) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:274
+- **MT-1494 / PENDING** — jakiro — Enfos pasifi (enfos_jakiro_double_trouble) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:275
+- **MT-1495 / PENDING** — jakiro — Enfos pasifi (enfos_jakiro_double_trouble) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:276
+- **MT-1496 / PENDING** — jakiro — Enfos pasifi (enfos_jakiro_double_trouble) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:277
+- **MT-1497 / PENDING** — jakiro — Enfos pasifi (enfos_jakiro_double_trouble) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:278
+- **MT-1498 / PENDING** — jakiro — Enfos pasifi (enfos_jakiro_double_trouble) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:279
+- **MT-1499 / PENDING** — jakiro — Enfos pasifi (enfos_jakiro_double_trouble) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:280
+- **MT-1500 / PENDING** — jakiro — Enfos pasifi (enfos_jakiro_double_trouble) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:281
+- **MT-1501 / PENDING** — jakiro — Enfos pasifi (enfos_jakiro_double_trouble) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:282
+- **MT-1502 / PENDING** — jakiro — Enfos pasifi (enfos_jakiro_double_trouble) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:283
+- **MT-1503 / PENDING** — jakiro — Enfos pasifi (enfos_jakiro_double_trouble) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:284
+- **MT-1504 / PENDING** — jakiro — Enfos pasifi (enfos_jakiro_double_trouble) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:285
+- **MT-1505 / PENDING** — jakiro — Enfos pasifi (enfos_jakiro_double_trouble) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:286
+- **MT-1506 / PENDING** — jakiro — Enfos pasifi (enfos_jakiro_double_trouble) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:287
+- **MT-1507 / PENDING** — jakiro — Enfos pasifi (enfos_jakiro_double_trouble) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/jakiro/ABILITIES.md:288
+- **MT-1508 / PENDING** — juggernaut — Q (enfos_juggernaut_blade_fury) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:132, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1509 / PENDING** — juggernaut — Q (enfos_juggernaut_blade_fury) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:133, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1510 / PENDING** — juggernaut — Q (enfos_juggernaut_blade_fury) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:134, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1511 / PENDING** — juggernaut — Q (enfos_juggernaut_blade_fury) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:135, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1512 / PENDING** — juggernaut — Q (enfos_juggernaut_blade_fury) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:136, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1513 / PENDING** — juggernaut — Q (enfos_juggernaut_blade_fury) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:137, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1514 / PENDING** — juggernaut — Q (enfos_juggernaut_blade_fury) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:138, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1515 / PENDING** — juggernaut — Q (enfos_juggernaut_blade_fury) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:139, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1516 / PENDING** — juggernaut — Q (enfos_juggernaut_blade_fury) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:140, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1517 / PENDING** — juggernaut — Q (enfos_juggernaut_blade_fury) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:141, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1518 / PENDING** — juggernaut — Q (enfos_juggernaut_blade_fury) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:142, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1519 / PENDING** — juggernaut — Q (enfos_juggernaut_blade_fury) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:143, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1520 / PENDING** — juggernaut — Q (enfos_juggernaut_blade_fury) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:144, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1521 / PENDING** — juggernaut — Q (enfos_juggernaut_blade_fury) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:145, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1522 / PENDING** — juggernaut — Q (enfos_juggernaut_blade_fury) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:146, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1523 / PENDING** — juggernaut — W (enfos_juggernaut_healing_ward) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:175, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1524 / PENDING** — juggernaut — W (enfos_juggernaut_healing_ward) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:176, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1525 / PENDING** — juggernaut — W (enfos_juggernaut_healing_ward) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:177, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1526 / PENDING** — juggernaut — W (enfos_juggernaut_healing_ward) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:178, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1527 / PENDING** — juggernaut — W (enfos_juggernaut_healing_ward) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:179, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1528 / PENDING** — juggernaut — W (enfos_juggernaut_healing_ward) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:180, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1529 / PENDING** — juggernaut — W (enfos_juggernaut_healing_ward) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:181, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1530 / PENDING** — juggernaut — W (enfos_juggernaut_healing_ward) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:182, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1531 / PENDING** — juggernaut — W (enfos_juggernaut_healing_ward) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:183, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1532 / PENDING** — juggernaut — W (enfos_juggernaut_healing_ward) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:184, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1533 / PENDING** — juggernaut — W (enfos_juggernaut_healing_ward) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:185, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1534 / PENDING** — juggernaut — W (enfos_juggernaut_healing_ward) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:186, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1535 / PENDING** — juggernaut — W (enfos_juggernaut_healing_ward) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:187, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1536 / PENDING** — juggernaut — W (enfos_juggernaut_healing_ward) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:188, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1537 / PENDING** — juggernaut — W (enfos_juggernaut_healing_ward) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:189, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1538 / PENDING** — juggernaut — E (enfos_juggernaut_blade_dance) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:218, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1539 / PENDING** — juggernaut — E (enfos_juggernaut_blade_dance) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:219, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1540 / PENDING** — juggernaut — E (enfos_juggernaut_blade_dance) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:220, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1541 / PENDING** — juggernaut — E (enfos_juggernaut_blade_dance) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:221, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1542 / PENDING** — juggernaut — E (enfos_juggernaut_blade_dance) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:222, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1543 / PENDING** — juggernaut — E (enfos_juggernaut_blade_dance) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:223, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1544 / PENDING** — juggernaut — E (enfos_juggernaut_blade_dance) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:224, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1545 / PENDING** — juggernaut — E (enfos_juggernaut_blade_dance) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:225, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1546 / PENDING** — juggernaut — E (enfos_juggernaut_blade_dance) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:226, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1547 / PENDING** — juggernaut — E (enfos_juggernaut_blade_dance) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:227, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1548 / PENDING** — juggernaut — E (enfos_juggernaut_blade_dance) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:228, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1549 / PENDING** — juggernaut — E (enfos_juggernaut_blade_dance) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:229, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1550 / PENDING** — juggernaut — E (enfos_juggernaut_blade_dance) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:230, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1551 / PENDING** — juggernaut — E (enfos_juggernaut_blade_dance) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:231, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1552 / PENDING** — juggernaut — E (enfos_juggernaut_blade_dance) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:232, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1553 / PENDING** — juggernaut — R (enfos_juggernaut_omni_slash) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:261, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1554 / PENDING** — juggernaut — R (enfos_juggernaut_omni_slash) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:262, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1555 / PENDING** — juggernaut — R (enfos_juggernaut_omni_slash) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:263, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1556 / PENDING** — juggernaut — R (enfos_juggernaut_omni_slash) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:264, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1557 / PENDING** — juggernaut — R (enfos_juggernaut_omni_slash) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:265, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1558 / PENDING** — juggernaut — R (enfos_juggernaut_omni_slash) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:266, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1559 / PENDING** — juggernaut — R (enfos_juggernaut_omni_slash) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:267, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1560 / PENDING** — juggernaut — R (enfos_juggernaut_omni_slash) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:268, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1561 / PENDING** — juggernaut — R (enfos_juggernaut_omni_slash) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:269, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1562 / PENDING** — juggernaut — R (enfos_juggernaut_omni_slash) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:270, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1563 / PENDING** — juggernaut — R (enfos_juggernaut_omni_slash) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:271, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1564 / PENDING** — juggernaut — R (enfos_juggernaut_omni_slash) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:272, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1565 / PENDING** — juggernaut — R (enfos_juggernaut_omni_slash) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:273, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1566 / PENDING** — juggernaut — R (enfos_juggernaut_omni_slash) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:274, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1567 / PENDING** — juggernaut — R (enfos_juggernaut_omni_slash) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:275, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1568 / PENDING** — juggernaut — Enfos pasifi (enfos_juggernaut_duelist) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:304, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1569 / PENDING** — juggernaut — Enfos pasifi (enfos_juggernaut_duelist) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:305, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1570 / PENDING** — juggernaut — Enfos pasifi (enfos_juggernaut_duelist) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:306, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1571 / PENDING** — juggernaut — Enfos pasifi (enfos_juggernaut_duelist) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:307, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1572 / PENDING** — juggernaut — Enfos pasifi (enfos_juggernaut_duelist) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:308, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1573 / PENDING** — juggernaut — Enfos pasifi (enfos_juggernaut_duelist) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:309, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1574 / PENDING** — juggernaut — Enfos pasifi (enfos_juggernaut_duelist) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:310, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1575 / PENDING** — juggernaut — Enfos pasifi (enfos_juggernaut_duelist) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:311, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1576 / PENDING** — juggernaut — Enfos pasifi (enfos_juggernaut_duelist) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:312, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1577 / PENDING** — juggernaut — Enfos pasifi (enfos_juggernaut_duelist) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:313, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1578 / PENDING** — juggernaut — Enfos pasifi (enfos_juggernaut_duelist) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:314, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1579 / PENDING** — juggernaut — Enfos pasifi (enfos_juggernaut_duelist) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:315, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1580 / PENDING** — juggernaut — Enfos pasifi (enfos_juggernaut_duelist) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:316, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1581 / PENDING** — juggernaut — Enfos pasifi (enfos_juggernaut_duelist) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:317, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1582 / PENDING** — juggernaut — Enfos pasifi (enfos_juggernaut_duelist) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/juggernaut/ABILITIES.md:318, docs/audit/JUGGERNAUT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1583 / PENDING** — legion_commander — Q (enfos_legion_overwhelming_odds) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:85
+- **MT-1584 / PENDING** — legion_commander — Q (enfos_legion_overwhelming_odds) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:86
+- **MT-1585 / PENDING** — legion_commander — Q (enfos_legion_overwhelming_odds) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:87
+- **MT-1586 / PENDING** — legion_commander — Q (enfos_legion_overwhelming_odds) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:88
+- **MT-1587 / PENDING** — legion_commander — Q (enfos_legion_overwhelming_odds) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:89
+- **MT-1588 / PENDING** — legion_commander — Q (enfos_legion_overwhelming_odds) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:90
+- **MT-1589 / PENDING** — legion_commander — Q (enfos_legion_overwhelming_odds) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:91
+- **MT-1590 / PENDING** — legion_commander — Q (enfos_legion_overwhelming_odds) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:92
+- **MT-1591 / PENDING** — legion_commander — Q (enfos_legion_overwhelming_odds) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:93
+- **MT-1592 / PENDING** — legion_commander — Q (enfos_legion_overwhelming_odds) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:94
+- **MT-1593 / PENDING** — legion_commander — Q (enfos_legion_overwhelming_odds) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:95
+- **MT-1594 / PENDING** — legion_commander — Q (enfos_legion_overwhelming_odds) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:96
+- **MT-1595 / PENDING** — legion_commander — Q (enfos_legion_overwhelming_odds) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:97
+- **MT-1596 / PENDING** — legion_commander — Q (enfos_legion_overwhelming_odds) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:98
+- **MT-1597 / PENDING** — legion_commander — Q (enfos_legion_overwhelming_odds) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:99
+- **MT-1598 / PENDING** — legion_commander — W (enfos_legion_press_the_attack) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:128
+- **MT-1599 / PENDING** — legion_commander — W (enfos_legion_press_the_attack) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:129
+- **MT-1600 / PENDING** — legion_commander — W (enfos_legion_press_the_attack) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:130
+- **MT-1601 / PENDING** — legion_commander — W (enfos_legion_press_the_attack) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:131
+- **MT-1602 / PENDING** — legion_commander — W (enfos_legion_press_the_attack) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:132
+- **MT-1603 / PENDING** — legion_commander — W (enfos_legion_press_the_attack) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:133
+- **MT-1604 / PENDING** — legion_commander — W (enfos_legion_press_the_attack) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:134
+- **MT-1605 / PENDING** — legion_commander — W (enfos_legion_press_the_attack) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:135
+- **MT-1606 / PENDING** — legion_commander — W (enfos_legion_press_the_attack) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:136
+- **MT-1607 / PENDING** — legion_commander — W (enfos_legion_press_the_attack) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:137
+- **MT-1608 / PENDING** — legion_commander — W (enfos_legion_press_the_attack) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:138
+- **MT-1609 / PENDING** — legion_commander — W (enfos_legion_press_the_attack) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:139
+- **MT-1610 / PENDING** — legion_commander — W (enfos_legion_press_the_attack) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:140
+- **MT-1611 / PENDING** — legion_commander — W (enfos_legion_press_the_attack) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:141
+- **MT-1612 / PENDING** — legion_commander — W (enfos_legion_press_the_attack) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:142
+- **MT-1613 / PENDING** — legion_commander — E (enfos_legion_moment_of_courage) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:171
+- **MT-1614 / PENDING** — legion_commander — E (enfos_legion_moment_of_courage) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:172
+- **MT-1615 / PENDING** — legion_commander — E (enfos_legion_moment_of_courage) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:173
+- **MT-1616 / PENDING** — legion_commander — E (enfos_legion_moment_of_courage) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:174
+- **MT-1617 / PENDING** — legion_commander — E (enfos_legion_moment_of_courage) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:175
+- **MT-1618 / PENDING** — legion_commander — E (enfos_legion_moment_of_courage) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:176
+- **MT-1619 / PENDING** — legion_commander — E (enfos_legion_moment_of_courage) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:177
+- **MT-1620 / PENDING** — legion_commander — E (enfos_legion_moment_of_courage) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:178
+- **MT-1621 / PENDING** — legion_commander — E (enfos_legion_moment_of_courage) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:179
+- **MT-1622 / PENDING** — legion_commander — E (enfos_legion_moment_of_courage) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:180
+- **MT-1623 / PENDING** — legion_commander — E (enfos_legion_moment_of_courage) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:181
+- **MT-1624 / PENDING** — legion_commander — E (enfos_legion_moment_of_courage) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:182
+- **MT-1625 / PENDING** — legion_commander — E (enfos_legion_moment_of_courage) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:183
+- **MT-1626 / PENDING** — legion_commander — E (enfos_legion_moment_of_courage) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:184
+- **MT-1627 / PENDING** — legion_commander — E (enfos_legion_moment_of_courage) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:185
+- **MT-1628 / PENDING** — legion_commander — R (enfos_legion_duel) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:214
+- **MT-1629 / PENDING** — legion_commander — R (enfos_legion_duel) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:215
+- **MT-1630 / PENDING** — legion_commander — R (enfos_legion_duel) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:216
+- **MT-1631 / PENDING** — legion_commander — R (enfos_legion_duel) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:217
+- **MT-1632 / PENDING** — legion_commander — R (enfos_legion_duel) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:218
+- **MT-1633 / PENDING** — legion_commander — R (enfos_legion_duel) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:219
+- **MT-1634 / PENDING** — legion_commander — R (enfos_legion_duel) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:220
+- **MT-1635 / PENDING** — legion_commander — R (enfos_legion_duel) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:221
+- **MT-1636 / PENDING** — legion_commander — R (enfos_legion_duel) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:222
+- **MT-1637 / PENDING** — legion_commander — R (enfos_legion_duel) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:223
+- **MT-1638 / PENDING** — legion_commander — R (enfos_legion_duel) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:224
+- **MT-1639 / PENDING** — legion_commander — R (enfos_legion_duel) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:225
+- **MT-1640 / PENDING** — legion_commander — R (enfos_legion_duel) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:226
+- **MT-1641 / PENDING** — legion_commander — R (enfos_legion_duel) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:227
+- **MT-1642 / PENDING** — legion_commander — R (enfos_legion_duel) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:228
+- **MT-1643 / PENDING** — legion_commander — Enfos pasifi (enfos_legion_commanders_banner) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:257
+- **MT-1644 / PENDING** — legion_commander — Enfos pasifi (enfos_legion_commanders_banner) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:258
+- **MT-1645 / PENDING** — legion_commander — Enfos pasifi (enfos_legion_commanders_banner) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:259
+- **MT-1646 / PENDING** — legion_commander — Enfos pasifi (enfos_legion_commanders_banner) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:260
+- **MT-1647 / PENDING** — legion_commander — Enfos pasifi (enfos_legion_commanders_banner) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:261
+- **MT-1648 / PENDING** — legion_commander — Enfos pasifi (enfos_legion_commanders_banner) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:262
+- **MT-1649 / PENDING** — legion_commander — Enfos pasifi (enfos_legion_commanders_banner) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:263
+- **MT-1650 / PENDING** — legion_commander — Enfos pasifi (enfos_legion_commanders_banner) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:264
+- **MT-1651 / PENDING** — legion_commander — Enfos pasifi (enfos_legion_commanders_banner) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:265
+- **MT-1652 / PENDING** — legion_commander — Enfos pasifi (enfos_legion_commanders_banner) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:266
+- **MT-1653 / PENDING** — legion_commander — Enfos pasifi (enfos_legion_commanders_banner) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:267
+- **MT-1654 / PENDING** — legion_commander — Enfos pasifi (enfos_legion_commanders_banner) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:268
+- **MT-1655 / PENDING** — legion_commander — Enfos pasifi (enfos_legion_commanders_banner) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:269
+- **MT-1656 / PENDING** — legion_commander — Enfos pasifi (enfos_legion_commanders_banner) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:270
+- **MT-1657 / PENDING** — legion_commander — Enfos pasifi (enfos_legion_commanders_banner) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/legion_commander/ABILITIES.md:271
+- **MT-1658 / PENDING** — leshrac — Q (enfos_leshrac_split_earth) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:76
+- **MT-1659 / PENDING** — leshrac — Q (enfos_leshrac_split_earth) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:77
+- **MT-1660 / PENDING** — leshrac — Q (enfos_leshrac_split_earth) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:78
+- **MT-1661 / PENDING** — leshrac — Q (enfos_leshrac_split_earth) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:79
+- **MT-1662 / PENDING** — leshrac — Q (enfos_leshrac_split_earth) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:80
+- **MT-1663 / PENDING** — leshrac — Q (enfos_leshrac_split_earth) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:81
+- **MT-1664 / PENDING** — leshrac — Q (enfos_leshrac_split_earth) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:82
+- **MT-1665 / PENDING** — leshrac — Q (enfos_leshrac_split_earth) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:83
+- **MT-1666 / PENDING** — leshrac — Q (enfos_leshrac_split_earth) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:84
+- **MT-1667 / PENDING** — leshrac — Q (enfos_leshrac_split_earth) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:85
+- **MT-1668 / PENDING** — leshrac — Q (enfos_leshrac_split_earth) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:86
+- **MT-1669 / PENDING** — leshrac — Q (enfos_leshrac_split_earth) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:87
+- **MT-1670 / PENDING** — leshrac — Q (enfos_leshrac_split_earth) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:88
+- **MT-1671 / PENDING** — leshrac — Q (enfos_leshrac_split_earth) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:89
+- **MT-1672 / PENDING** — leshrac — Q (enfos_leshrac_split_earth) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:90
+- **MT-1673 / PENDING** — leshrac — W (enfos_leshrac_diabolic_edict) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:108
+- **MT-1674 / PENDING** — leshrac — W (enfos_leshrac_diabolic_edict) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:109
+- **MT-1675 / PENDING** — leshrac — W (enfos_leshrac_diabolic_edict) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:110
+- **MT-1676 / PENDING** — leshrac — W (enfos_leshrac_diabolic_edict) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:111
+- **MT-1677 / PENDING** — leshrac — W (enfos_leshrac_diabolic_edict) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:112
+- **MT-1678 / PENDING** — leshrac — W (enfos_leshrac_diabolic_edict) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:113
+- **MT-1679 / PENDING** — leshrac — W (enfos_leshrac_diabolic_edict) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:114
+- **MT-1680 / PENDING** — leshrac — W (enfos_leshrac_diabolic_edict) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:115
+- **MT-1681 / PENDING** — leshrac — W (enfos_leshrac_diabolic_edict) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:116
+- **MT-1682 / PENDING** — leshrac — W (enfos_leshrac_diabolic_edict) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:117
+- **MT-1683 / PENDING** — leshrac — W (enfos_leshrac_diabolic_edict) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:118
+- **MT-1684 / PENDING** — leshrac — W (enfos_leshrac_diabolic_edict) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:119
+- **MT-1685 / PENDING** — leshrac — W (enfos_leshrac_diabolic_edict) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:120
+- **MT-1686 / PENDING** — leshrac — W (enfos_leshrac_diabolic_edict) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:121
+- **MT-1687 / PENDING** — leshrac — W (enfos_leshrac_diabolic_edict) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:122
+- **MT-1688 / PENDING** — leshrac — E (enfos_leshrac_lightning_storm) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:138
+- **MT-1689 / PENDING** — leshrac — E (enfos_leshrac_lightning_storm) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:139
+- **MT-1690 / PENDING** — leshrac — E (enfos_leshrac_lightning_storm) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:140
+- **MT-1691 / PENDING** — leshrac — E (enfos_leshrac_lightning_storm) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:141
+- **MT-1692 / PENDING** — leshrac — E (enfos_leshrac_lightning_storm) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:142
+- **MT-1693 / PENDING** — leshrac — E (enfos_leshrac_lightning_storm) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:143
+- **MT-1694 / PENDING** — leshrac — E (enfos_leshrac_lightning_storm) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:144
+- **MT-1695 / PENDING** — leshrac — E (enfos_leshrac_lightning_storm) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:145
+- **MT-1696 / PENDING** — leshrac — E (enfos_leshrac_lightning_storm) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:146
+- **MT-1697 / PENDING** — leshrac — E (enfos_leshrac_lightning_storm) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:147
+- **MT-1698 / PENDING** — leshrac — E (enfos_leshrac_lightning_storm) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:148
+- **MT-1699 / PENDING** — leshrac — E (enfos_leshrac_lightning_storm) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:149
+- **MT-1700 / PENDING** — leshrac — E (enfos_leshrac_lightning_storm) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:150
+- **MT-1701 / PENDING** — leshrac — E (enfos_leshrac_lightning_storm) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:151
+- **MT-1702 / PENDING** — leshrac — E (enfos_leshrac_lightning_storm) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:152
+- **MT-1703 / PENDING** — leshrac — R (enfos_leshrac_pulse_nova) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:168
+- **MT-1704 / PENDING** — leshrac — R (enfos_leshrac_pulse_nova) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:169
+- **MT-1705 / PENDING** — leshrac — R (enfos_leshrac_pulse_nova) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:170
+- **MT-1706 / PENDING** — leshrac — R (enfos_leshrac_pulse_nova) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:171
+- **MT-1707 / PENDING** — leshrac — R (enfos_leshrac_pulse_nova) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:172
+- **MT-1708 / PENDING** — leshrac — R (enfos_leshrac_pulse_nova) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:173
+- **MT-1709 / PENDING** — leshrac — R (enfos_leshrac_pulse_nova) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:174
+- **MT-1710 / PENDING** — leshrac — R (enfos_leshrac_pulse_nova) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:175
+- **MT-1711 / PENDING** — leshrac — R (enfos_leshrac_pulse_nova) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:176
+- **MT-1712 / PENDING** — leshrac — R (enfos_leshrac_pulse_nova) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:177
+- **MT-1713 / PENDING** — leshrac — R (enfos_leshrac_pulse_nova) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:178
+- **MT-1714 / PENDING** — leshrac — R (enfos_leshrac_pulse_nova) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:179
+- **MT-1715 / PENDING** — leshrac — R (enfos_leshrac_pulse_nova) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:180
+- **MT-1716 / PENDING** — leshrac — R (enfos_leshrac_pulse_nova) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:181
+- **MT-1717 / PENDING** — leshrac — R (enfos_leshrac_pulse_nova) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:182
+- **MT-1718 / PENDING** — leshrac — Enfos pasifi (enfos_leshrac_defilement) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:198
+- **MT-1719 / PENDING** — leshrac — Enfos pasifi (enfos_leshrac_defilement) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:199
+- **MT-1720 / PENDING** — leshrac — Enfos pasifi (enfos_leshrac_defilement) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:200
+- **MT-1721 / PENDING** — leshrac — Enfos pasifi (enfos_leshrac_defilement) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:201
+- **MT-1722 / PENDING** — leshrac — Enfos pasifi (enfos_leshrac_defilement) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:202
+- **MT-1723 / PENDING** — leshrac — Enfos pasifi (enfos_leshrac_defilement) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:203
+- **MT-1724 / PENDING** — leshrac — Enfos pasifi (enfos_leshrac_defilement) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:204
+- **MT-1725 / PENDING** — leshrac — Enfos pasifi (enfos_leshrac_defilement) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:205
+- **MT-1726 / PENDING** — leshrac — Enfos pasifi (enfos_leshrac_defilement) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:206
+- **MT-1727 / PENDING** — leshrac — Enfos pasifi (enfos_leshrac_defilement) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:207
+- **MT-1728 / PENDING** — leshrac — Enfos pasifi (enfos_leshrac_defilement) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:208
+- **MT-1729 / PENDING** — leshrac — Enfos pasifi (enfos_leshrac_defilement) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:209
+- **MT-1730 / PENDING** — leshrac — Enfos pasifi (enfos_leshrac_defilement) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:210
+- **MT-1731 / PENDING** — leshrac — Enfos pasifi (enfos_leshrac_defilement) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:211
+- **MT-1732 / PENDING** — leshrac — Enfos pasifi (enfos_leshrac_defilement) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/leshrac/ABILITIES.md:212
+- **MT-1733 / PENDING** — lich — Q (enfos_lich_frost_blast) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:105
+- **MT-1734 / PENDING** — lich — Q (enfos_lich_frost_blast) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:106
+- **MT-1735 / PENDING** — lich — Q (enfos_lich_frost_blast) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:107
+- **MT-1736 / PENDING** — lich — Q (enfos_lich_frost_blast) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:108
+- **MT-1737 / PENDING** — lich — Q (enfos_lich_frost_blast) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:109
+- **MT-1738 / PENDING** — lich — Q (enfos_lich_frost_blast) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:110
+- **MT-1739 / PENDING** — lich — Q (enfos_lich_frost_blast) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:111
+- **MT-1740 / PENDING** — lich — Q (enfos_lich_frost_blast) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:112
+- **MT-1741 / PENDING** — lich — Q (enfos_lich_frost_blast) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:113
+- **MT-1742 / PENDING** — lich — Q (enfos_lich_frost_blast) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:114
+- **MT-1743 / PENDING** — lich — Q (enfos_lich_frost_blast) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:115
+- **MT-1744 / PENDING** — lich — Q (enfos_lich_frost_blast) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:116
+- **MT-1745 / PENDING** — lich — Q (enfos_lich_frost_blast) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:117
+- **MT-1746 / PENDING** — lich — Q (enfos_lich_frost_blast) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:118
+- **MT-1747 / PENDING** — lich — Q (enfos_lich_frost_blast) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:119
+- **MT-1748 / PENDING** — lich — W (enfos_lich_frost_shield) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:150
+- **MT-1749 / PENDING** — lich — W (enfos_lich_frost_shield) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:151
+- **MT-1750 / PENDING** — lich — W (enfos_lich_frost_shield) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:152
+- **MT-1751 / PENDING** — lich — W (enfos_lich_frost_shield) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:153
+- **MT-1752 / PENDING** — lich — W (enfos_lich_frost_shield) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:154
+- **MT-1753 / PENDING** — lich — W (enfos_lich_frost_shield) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:155
+- **MT-1754 / PENDING** — lich — W (enfos_lich_frost_shield) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:156
+- **MT-1755 / PENDING** — lich — W (enfos_lich_frost_shield) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:157
+- **MT-1756 / PENDING** — lich — W (enfos_lich_frost_shield) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:158
+- **MT-1757 / PENDING** — lich — W (enfos_lich_frost_shield) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:159
+- **MT-1758 / PENDING** — lich — W (enfos_lich_frost_shield) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:160
+- **MT-1759 / PENDING** — lich — W (enfos_lich_frost_shield) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:161
+- **MT-1760 / PENDING** — lich — W (enfos_lich_frost_shield) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:162
+- **MT-1761 / PENDING** — lich — W (enfos_lich_frost_shield) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:163
+- **MT-1762 / PENDING** — lich — W (enfos_lich_frost_shield) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:164
+- **MT-1763 / PENDING** — lich — E (enfos_lich_sinister_gaze) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:193
+- **MT-1764 / PENDING** — lich — E (enfos_lich_sinister_gaze) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:194
+- **MT-1765 / PENDING** — lich — E (enfos_lich_sinister_gaze) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:195
+- **MT-1766 / PENDING** — lich — E (enfos_lich_sinister_gaze) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:196
+- **MT-1767 / PENDING** — lich — E (enfos_lich_sinister_gaze) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:197
+- **MT-1768 / PENDING** — lich — E (enfos_lich_sinister_gaze) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:198
+- **MT-1769 / PENDING** — lich — E (enfos_lich_sinister_gaze) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:199
+- **MT-1770 / PENDING** — lich — E (enfos_lich_sinister_gaze) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:200
+- **MT-1771 / PENDING** — lich — E (enfos_lich_sinister_gaze) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:201
+- **MT-1772 / PENDING** — lich — E (enfos_lich_sinister_gaze) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:202
+- **MT-1773 / PENDING** — lich — E (enfos_lich_sinister_gaze) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:203
+- **MT-1774 / PENDING** — lich — E (enfos_lich_sinister_gaze) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:204
+- **MT-1775 / PENDING** — lich — E (enfos_lich_sinister_gaze) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:205
+- **MT-1776 / PENDING** — lich — E (enfos_lich_sinister_gaze) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:206
+- **MT-1777 / PENDING** — lich — E (enfos_lich_sinister_gaze) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:207
+- **MT-1778 / PENDING** — lich — R (enfos_lich_chain_frost) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:238
+- **MT-1779 / PENDING** — lich — R (enfos_lich_chain_frost) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:239
+- **MT-1780 / PENDING** — lich — R (enfos_lich_chain_frost) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:240
+- **MT-1781 / PENDING** — lich — R (enfos_lich_chain_frost) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:241
+- **MT-1782 / PENDING** — lich — R (enfos_lich_chain_frost) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:242
+- **MT-1783 / PENDING** — lich — R (enfos_lich_chain_frost) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:243
+- **MT-1784 / PENDING** — lich — R (enfos_lich_chain_frost) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:244
+- **MT-1785 / PENDING** — lich — R (enfos_lich_chain_frost) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:245
+- **MT-1786 / PENDING** — lich — R (enfos_lich_chain_frost) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:246
+- **MT-1787 / PENDING** — lich — R (enfos_lich_chain_frost) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:247
+- **MT-1788 / PENDING** — lich — R (enfos_lich_chain_frost) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:248
+- **MT-1789 / PENDING** — lich — R (enfos_lich_chain_frost) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:249
+- **MT-1790 / PENDING** — lich — R (enfos_lich_chain_frost) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:250
+- **MT-1791 / PENDING** — lich — R (enfos_lich_chain_frost) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:251
+- **MT-1792 / PENDING** — lich — R (enfos_lich_chain_frost) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:252
+- **MT-1793 / PENDING** — lich — Enfos pasifi (enfos_lich_ice_aura) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:281
+- **MT-1794 / PENDING** — lich — Enfos pasifi (enfos_lich_ice_aura) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:282
+- **MT-1795 / PENDING** — lich — Enfos pasifi (enfos_lich_ice_aura) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:283
+- **MT-1796 / PENDING** — lich — Enfos pasifi (enfos_lich_ice_aura) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:284
+- **MT-1797 / PENDING** — lich — Enfos pasifi (enfos_lich_ice_aura) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:285
+- **MT-1798 / PENDING** — lich — Enfos pasifi (enfos_lich_ice_aura) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:286
+- **MT-1799 / PENDING** — lich — Enfos pasifi (enfos_lich_ice_aura) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:287
+- **MT-1800 / PENDING** — lich — Enfos pasifi (enfos_lich_ice_aura) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:288
+- **MT-1801 / PENDING** — lich — Enfos pasifi (enfos_lich_ice_aura) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:289
+- **MT-1802 / PENDING** — lich — Enfos pasifi (enfos_lich_ice_aura) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:290
+- **MT-1803 / PENDING** — lich — Enfos pasifi (enfos_lich_ice_aura) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:291
+- **MT-1804 / PENDING** — lich — Enfos pasifi (enfos_lich_ice_aura) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:292
+- **MT-1805 / PENDING** — lich — Enfos pasifi (enfos_lich_ice_aura) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:293
+- **MT-1806 / PENDING** — lich — Enfos pasifi (enfos_lich_ice_aura) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:294
+- **MT-1807 / PENDING** — lich — Enfos pasifi (enfos_lich_ice_aura) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/lich/ABILITIES.md:295
+- **MT-1808 / PENDING** — lina — Q (enfos_lina_dragon_slave) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:144, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1809 / PENDING** — lina — Q (enfos_lina_dragon_slave) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:145, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1810 / PENDING** — lina — Q (enfos_lina_dragon_slave) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:146, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1811 / PENDING** — lina — Q (enfos_lina_dragon_slave) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:147, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1812 / PENDING** — lina — Q (enfos_lina_dragon_slave) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:148, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1813 / PENDING** — lina — Q (enfos_lina_dragon_slave) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:149, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1814 / PENDING** — lina — Q (enfos_lina_dragon_slave) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:150, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1815 / PENDING** — lina — Q (enfos_lina_dragon_slave) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:151, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1816 / PENDING** — lina — Q (enfos_lina_dragon_slave) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:152, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1817 / PENDING** — lina — Q (enfos_lina_dragon_slave) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:153, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1818 / PENDING** — lina — Q (enfos_lina_dragon_slave) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:154, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1819 / PENDING** — lina — Q (enfos_lina_dragon_slave) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:155, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1820 / PENDING** — lina — Q (enfos_lina_dragon_slave) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:156, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1821 / PENDING** — lina — Q (enfos_lina_dragon_slave) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:157, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1822 / PENDING** — lina — Q (enfos_lina_dragon_slave) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:158, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1823 / PENDING** — lina — W (enfos_lina_light_strike_array) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:187, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1824 / PENDING** — lina — W (enfos_lina_light_strike_array) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:188, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1825 / PENDING** — lina — W (enfos_lina_light_strike_array) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:189, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1826 / PENDING** — lina — W (enfos_lina_light_strike_array) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:190, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1827 / PENDING** — lina — W (enfos_lina_light_strike_array) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:191, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1828 / PENDING** — lina — W (enfos_lina_light_strike_array) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:192, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1829 / PENDING** — lina — W (enfos_lina_light_strike_array) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:193, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1830 / PENDING** — lina — W (enfos_lina_light_strike_array) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:194, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1831 / PENDING** — lina — W (enfos_lina_light_strike_array) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:195, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1832 / PENDING** — lina — W (enfos_lina_light_strike_array) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:196, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1833 / PENDING** — lina — W (enfos_lina_light_strike_array) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:197, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1834 / PENDING** — lina — W (enfos_lina_light_strike_array) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:198, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1835 / PENDING** — lina — W (enfos_lina_light_strike_array) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:199, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1836 / PENDING** — lina — W (enfos_lina_light_strike_array) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:200, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1837 / PENDING** — lina — W (enfos_lina_light_strike_array) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:201, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1838 / PENDING** — lina — E (enfos_lina_fiery_soul) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:230, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1839 / PENDING** — lina — E (enfos_lina_fiery_soul) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:231, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1840 / PENDING** — lina — E (enfos_lina_fiery_soul) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:232, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1841 / PENDING** — lina — E (enfos_lina_fiery_soul) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:233, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1842 / PENDING** — lina — E (enfos_lina_fiery_soul) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:234, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1843 / PENDING** — lina — E (enfos_lina_fiery_soul) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:235, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1844 / PENDING** — lina — E (enfos_lina_fiery_soul) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:236, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1845 / PENDING** — lina — E (enfos_lina_fiery_soul) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:237, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1846 / PENDING** — lina — E (enfos_lina_fiery_soul) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:238, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1847 / PENDING** — lina — E (enfos_lina_fiery_soul) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:239, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1848 / PENDING** — lina — E (enfos_lina_fiery_soul) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:240, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1849 / PENDING** — lina — E (enfos_lina_fiery_soul) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:241, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1850 / PENDING** — lina — E (enfos_lina_fiery_soul) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:242, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1851 / PENDING** — lina — E (enfos_lina_fiery_soul) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:243, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1852 / PENDING** — lina — E (enfos_lina_fiery_soul) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:244, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1853 / PENDING** — lina — R (enfos_lina_laguna_blade) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:273, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1854 / PENDING** — lina — R (enfos_lina_laguna_blade) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:274, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1855 / PENDING** — lina — R (enfos_lina_laguna_blade) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:275, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1856 / PENDING** — lina — R (enfos_lina_laguna_blade) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:276, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1857 / PENDING** — lina — R (enfos_lina_laguna_blade) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:277, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1858 / PENDING** — lina — R (enfos_lina_laguna_blade) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:278, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1859 / PENDING** — lina — R (enfos_lina_laguna_blade) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:279, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1860 / PENDING** — lina — R (enfos_lina_laguna_blade) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:280, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1861 / PENDING** — lina — R (enfos_lina_laguna_blade) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:281, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1862 / PENDING** — lina — R (enfos_lina_laguna_blade) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:282, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1863 / PENDING** — lina — R (enfos_lina_laguna_blade) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:283, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1864 / PENDING** — lina — R (enfos_lina_laguna_blade) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:284, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1865 / PENDING** — lina — R (enfos_lina_laguna_blade) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:285, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1866 / PENDING** — lina — R (enfos_lina_laguna_blade) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:286, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1867 / PENDING** — lina — R (enfos_lina_laguna_blade) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:287, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1868 / PENDING** — lina — Enfos pasifi (enfos_lina_combustion) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:316, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1869 / PENDING** — lina — Enfos pasifi (enfos_lina_combustion) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:317, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1870 / PENDING** — lina — Enfos pasifi (enfos_lina_combustion) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:318, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1871 / PENDING** — lina — Enfos pasifi (enfos_lina_combustion) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:319, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1872 / PENDING** — lina — Enfos pasifi (enfos_lina_combustion) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:320, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1873 / PENDING** — lina — Enfos pasifi (enfos_lina_combustion) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:321, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1874 / PENDING** — lina — Enfos pasifi (enfos_lina_combustion) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:322, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1875 / PENDING** — lina — Enfos pasifi (enfos_lina_combustion) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:323, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1876 / PENDING** — lina — Enfos pasifi (enfos_lina_combustion) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:324, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1877 / PENDING** — lina — Enfos pasifi (enfos_lina_combustion) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:325, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1878 / PENDING** — lina — Enfos pasifi (enfos_lina_combustion) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:326, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1879 / PENDING** — lina — Enfos pasifi (enfos_lina_combustion) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:327, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1880 / PENDING** — lina — Enfos pasifi (enfos_lina_combustion) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:328, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1881 / PENDING** — lina — Enfos pasifi (enfos_lina_combustion) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:329, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1882 / PENDING** — lina — Enfos pasifi (enfos_lina_combustion) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/lina/ABILITIES.md:330, docs/audit/LINA_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-1883 / PENDING** — lion — Q (enfos_lion_earth_spike) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:120
+- **MT-1884 / PENDING** — lion — Q (enfos_lion_earth_spike) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:121
+- **MT-1885 / PENDING** — lion — Q (enfos_lion_earth_spike) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:122
+- **MT-1886 / PENDING** — lion — Q (enfos_lion_earth_spike) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:123
+- **MT-1887 / PENDING** — lion — Q (enfos_lion_earth_spike) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:124
+- **MT-1888 / PENDING** — lion — Q (enfos_lion_earth_spike) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:125
+- **MT-1889 / PENDING** — lion — Q (enfos_lion_earth_spike) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:126
+- **MT-1890 / PENDING** — lion — Q (enfos_lion_earth_spike) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:127
+- **MT-1891 / PENDING** — lion — Q (enfos_lion_earth_spike) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:128
+- **MT-1892 / PENDING** — lion — Q (enfos_lion_earth_spike) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:129
+- **MT-1893 / PENDING** — lion — Q (enfos_lion_earth_spike) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:130
+- **MT-1894 / PENDING** — lion — Q (enfos_lion_earth_spike) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:131
+- **MT-1895 / PENDING** — lion — Q (enfos_lion_earth_spike) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:132
+- **MT-1896 / PENDING** — lion — Q (enfos_lion_earth_spike) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:133
+- **MT-1897 / PENDING** — lion — Q (enfos_lion_earth_spike) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:134
+- **MT-1898 / PENDING** — lion — W (enfos_lion_hex) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:165
+- **MT-1899 / PENDING** — lion — W (enfos_lion_hex) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:166
+- **MT-1900 / PENDING** — lion — W (enfos_lion_hex) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:167
+- **MT-1901 / PENDING** — lion — W (enfos_lion_hex) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:168
+- **MT-1902 / PENDING** — lion — W (enfos_lion_hex) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:169
+- **MT-1903 / PENDING** — lion — W (enfos_lion_hex) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:170
+- **MT-1904 / PENDING** — lion — W (enfos_lion_hex) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:171
+- **MT-1905 / PENDING** — lion — W (enfos_lion_hex) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:172
+- **MT-1906 / PENDING** — lion — W (enfos_lion_hex) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:173
+- **MT-1907 / PENDING** — lion — W (enfos_lion_hex) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:174
+- **MT-1908 / PENDING** — lion — W (enfos_lion_hex) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:175
+- **MT-1909 / PENDING** — lion — W (enfos_lion_hex) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:176
+- **MT-1910 / PENDING** — lion — W (enfos_lion_hex) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:177
+- **MT-1911 / PENDING** — lion — W (enfos_lion_hex) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:178
+- **MT-1912 / PENDING** — lion — W (enfos_lion_hex) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:179
+- **MT-1913 / PENDING** — lion — E (enfos_lion_mana_drain) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:208
+- **MT-1914 / PENDING** — lion — E (enfos_lion_mana_drain) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:209
+- **MT-1915 / PENDING** — lion — E (enfos_lion_mana_drain) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:210
+- **MT-1916 / PENDING** — lion — E (enfos_lion_mana_drain) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:211
+- **MT-1917 / PENDING** — lion — E (enfos_lion_mana_drain) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:212
+- **MT-1918 / PENDING** — lion — E (enfos_lion_mana_drain) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:213
+- **MT-1919 / PENDING** — lion — E (enfos_lion_mana_drain) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:214
+- **MT-1920 / PENDING** — lion — E (enfos_lion_mana_drain) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:215
+- **MT-1921 / PENDING** — lion — E (enfos_lion_mana_drain) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:216
+- **MT-1922 / PENDING** — lion — E (enfos_lion_mana_drain) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:217
+- **MT-1923 / PENDING** — lion — E (enfos_lion_mana_drain) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:218
+- **MT-1924 / PENDING** — lion — E (enfos_lion_mana_drain) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:219
+- **MT-1925 / PENDING** — lion — E (enfos_lion_mana_drain) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:220
+- **MT-1926 / PENDING** — lion — E (enfos_lion_mana_drain) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:221
+- **MT-1927 / PENDING** — lion — E (enfos_lion_mana_drain) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:222
+- **MT-1928 / PENDING** — lion — R (enfos_lion_finger_of_death) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:251
+- **MT-1929 / PENDING** — lion — R (enfos_lion_finger_of_death) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:252
+- **MT-1930 / PENDING** — lion — R (enfos_lion_finger_of_death) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:253
+- **MT-1931 / PENDING** — lion — R (enfos_lion_finger_of_death) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:254
+- **MT-1932 / PENDING** — lion — R (enfos_lion_finger_of_death) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:255
+- **MT-1933 / PENDING** — lion — R (enfos_lion_finger_of_death) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:256
+- **MT-1934 / PENDING** — lion — R (enfos_lion_finger_of_death) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:257
+- **MT-1935 / PENDING** — lion — R (enfos_lion_finger_of_death) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:258
+- **MT-1936 / PENDING** — lion — R (enfos_lion_finger_of_death) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:259
+- **MT-1937 / PENDING** — lion — R (enfos_lion_finger_of_death) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:260
+- **MT-1938 / PENDING** — lion — R (enfos_lion_finger_of_death) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:261
+- **MT-1939 / PENDING** — lion — R (enfos_lion_finger_of_death) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:262
+- **MT-1940 / PENDING** — lion — R (enfos_lion_finger_of_death) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:263
+- **MT-1941 / PENDING** — lion — R (enfos_lion_finger_of_death) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:264
+- **MT-1942 / PENDING** — lion — R (enfos_lion_finger_of_death) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:265
+- **MT-1943 / PENDING** — lion — Enfos pasifi (enfos_lion_demon_soul) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:294
+- **MT-1944 / PENDING** — lion — Enfos pasifi (enfos_lion_demon_soul) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:295
+- **MT-1945 / PENDING** — lion — Enfos pasifi (enfos_lion_demon_soul) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:296
+- **MT-1946 / PENDING** — lion — Enfos pasifi (enfos_lion_demon_soul) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:297
+- **MT-1947 / PENDING** — lion — Enfos pasifi (enfos_lion_demon_soul) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:298
+- **MT-1948 / PENDING** — lion — Enfos pasifi (enfos_lion_demon_soul) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:299
+- **MT-1949 / PENDING** — lion — Enfos pasifi (enfos_lion_demon_soul) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:300
+- **MT-1950 / PENDING** — lion — Enfos pasifi (enfos_lion_demon_soul) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:301
+- **MT-1951 / PENDING** — lion — Enfos pasifi (enfos_lion_demon_soul) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:302
+- **MT-1952 / PENDING** — lion — Enfos pasifi (enfos_lion_demon_soul) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:303
+- **MT-1953 / PENDING** — lion — Enfos pasifi (enfos_lion_demon_soul) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:304
+- **MT-1954 / PENDING** — lion — Enfos pasifi (enfos_lion_demon_soul) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:305
+- **MT-1955 / PENDING** — lion — Enfos pasifi (enfos_lion_demon_soul) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:306
+- **MT-1956 / PENDING** — lion — Enfos pasifi (enfos_lion_demon_soul) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:307
+- **MT-1957 / PENDING** — lion — Enfos pasifi (enfos_lion_demon_soul) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/lion/ABILITIES.md:308
+- **MT-1958 / PENDING** — luna — Q (enfos_luna_lucent_beam) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:88
+- **MT-1959 / PENDING** — luna — Q (enfos_luna_lucent_beam) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:89
+- **MT-1960 / PENDING** — luna — Q (enfos_luna_lucent_beam) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:90
+- **MT-1961 / PENDING** — luna — Q (enfos_luna_lucent_beam) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:91
+- **MT-1962 / PENDING** — luna — Q (enfos_luna_lucent_beam) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:92
+- **MT-1963 / PENDING** — luna — Q (enfos_luna_lucent_beam) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:93
+- **MT-1964 / PENDING** — luna — Q (enfos_luna_lucent_beam) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:94
+- **MT-1965 / PENDING** — luna — Q (enfos_luna_lucent_beam) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:95
+- **MT-1966 / PENDING** — luna — Q (enfos_luna_lucent_beam) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:96
+- **MT-1967 / PENDING** — luna — Q (enfos_luna_lucent_beam) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:97
+- **MT-1968 / PENDING** — luna — Q (enfos_luna_lucent_beam) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:98
+- **MT-1969 / PENDING** — luna — Q (enfos_luna_lucent_beam) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:99
+- **MT-1970 / PENDING** — luna — Q (enfos_luna_lucent_beam) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:100
+- **MT-1971 / PENDING** — luna — Q (enfos_luna_lucent_beam) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:101
+- **MT-1972 / PENDING** — luna — Q (enfos_luna_lucent_beam) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:102
+- **MT-1973 / PENDING** — luna — Enfos pasifi (enfos_luna_moon_glaives) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:131
+- **MT-1974 / PENDING** — luna — Enfos pasifi (enfos_luna_moon_glaives) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:132
+- **MT-1975 / PENDING** — luna — Enfos pasifi (enfos_luna_moon_glaives) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:133
+- **MT-1976 / PENDING** — luna — Enfos pasifi (enfos_luna_moon_glaives) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:134
+- **MT-1977 / PENDING** — luna — Enfos pasifi (enfos_luna_moon_glaives) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:135
+- **MT-1978 / PENDING** — luna — Enfos pasifi (enfos_luna_moon_glaives) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:136
+- **MT-1979 / PENDING** — luna — Enfos pasifi (enfos_luna_moon_glaives) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:137
+- **MT-1980 / PENDING** — luna — Enfos pasifi (enfos_luna_moon_glaives) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:138
+- **MT-1981 / PENDING** — luna — Enfos pasifi (enfos_luna_moon_glaives) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:139
+- **MT-1982 / PENDING** — luna — Enfos pasifi (enfos_luna_moon_glaives) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:140
+- **MT-1983 / PENDING** — luna — Enfos pasifi (enfos_luna_moon_glaives) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:141
+- **MT-1984 / PENDING** — luna — Enfos pasifi (enfos_luna_moon_glaives) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:142
+- **MT-1985 / PENDING** — luna — Enfos pasifi (enfos_luna_moon_glaives) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:143
+- **MT-1986 / PENDING** — luna — Enfos pasifi (enfos_luna_moon_glaives) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:144
+- **MT-1987 / PENDING** — luna — Enfos pasifi (enfos_luna_moon_glaives) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:145
+- **MT-1988 / PENDING** — luna — E (enfos_luna_lunar_blessing) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:174
+- **MT-1989 / PENDING** — luna — E (enfos_luna_lunar_blessing) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:175
+- **MT-1990 / PENDING** — luna — E (enfos_luna_lunar_blessing) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:176
+- **MT-1991 / PENDING** — luna — E (enfos_luna_lunar_blessing) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:177
+- **MT-1992 / PENDING** — luna — E (enfos_luna_lunar_blessing) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:178
+- **MT-1993 / PENDING** — luna — E (enfos_luna_lunar_blessing) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:179
+- **MT-1994 / PENDING** — luna — E (enfos_luna_lunar_blessing) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:180
+- **MT-1995 / PENDING** — luna — E (enfos_luna_lunar_blessing) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:181
+- **MT-1996 / PENDING** — luna — E (enfos_luna_lunar_blessing) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:182
+- **MT-1997 / PENDING** — luna — E (enfos_luna_lunar_blessing) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:183
+- **MT-1998 / PENDING** — luna — E (enfos_luna_lunar_blessing) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:184
+- **MT-1999 / PENDING** — luna — E (enfos_luna_lunar_blessing) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:185
+- **MT-2000 / PENDING** — luna — E (enfos_luna_lunar_blessing) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:186
+- **MT-2001 / PENDING** — luna — E (enfos_luna_lunar_blessing) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:187
+- **MT-2002 / PENDING** — luna — E (enfos_luna_lunar_blessing) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:188
+- **MT-2003 / PENDING** — luna — R (enfos_luna_eclipse) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:217
+- **MT-2004 / PENDING** — luna — R (enfos_luna_eclipse) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:218
+- **MT-2005 / PENDING** — luna — R (enfos_luna_eclipse) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:219
+- **MT-2006 / PENDING** — luna — R (enfos_luna_eclipse) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:220
+- **MT-2007 / PENDING** — luna — R (enfos_luna_eclipse) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:221
+- **MT-2008 / PENDING** — luna — R (enfos_luna_eclipse) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:222
+- **MT-2009 / PENDING** — luna — R (enfos_luna_eclipse) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:223
+- **MT-2010 / PENDING** — luna — R (enfos_luna_eclipse) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:224
+- **MT-2011 / PENDING** — luna — R (enfos_luna_eclipse) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:225
+- **MT-2012 / PENDING** — luna — R (enfos_luna_eclipse) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:226
+- **MT-2013 / PENDING** — luna — R (enfos_luna_eclipse) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:227
+- **MT-2014 / PENDING** — luna — R (enfos_luna_eclipse) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:228
+- **MT-2015 / PENDING** — luna — R (enfos_luna_eclipse) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:229
+- **MT-2016 / PENDING** — luna — R (enfos_luna_eclipse) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:230
+- **MT-2017 / PENDING** — luna — R (enfos_luna_eclipse) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:231
+- **MT-2018 / PENDING** — luna — W (enfos_luna_lunar_orbit) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:260
+- **MT-2019 / PENDING** — luna — W (enfos_luna_lunar_orbit) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:261
+- **MT-2020 / PENDING** — luna — W (enfos_luna_lunar_orbit) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:262
+- **MT-2021 / PENDING** — luna — W (enfos_luna_lunar_orbit) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:263
+- **MT-2022 / PENDING** — luna — W (enfos_luna_lunar_orbit) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:264
+- **MT-2023 / PENDING** — luna — W (enfos_luna_lunar_orbit) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:265
+- **MT-2024 / PENDING** — luna — W (enfos_luna_lunar_orbit) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:266
+- **MT-2025 / PENDING** — luna — W (enfos_luna_lunar_orbit) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:267
+- **MT-2026 / PENDING** — luna — W (enfos_luna_lunar_orbit) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:268
+- **MT-2027 / PENDING** — luna — W (enfos_luna_lunar_orbit) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:269
+- **MT-2028 / PENDING** — luna — W (enfos_luna_lunar_orbit) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:270
+- **MT-2029 / PENDING** — luna — W (enfos_luna_lunar_orbit) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:271
+- **MT-2030 / PENDING** — luna — W (enfos_luna_lunar_orbit) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:272
+- **MT-2031 / PENDING** — luna — W (enfos_luna_lunar_orbit) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:273
+- **MT-2032 / PENDING** — luna — W (enfos_luna_lunar_orbit) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/luna/ABILITIES.md:274
+- **MT-2033 / PENDING** — medusa — Q (enfos_medusa_split_shot) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:91
+- **MT-2034 / PENDING** — medusa — Q (enfos_medusa_split_shot) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:92
+- **MT-2035 / PENDING** — medusa — Q (enfos_medusa_split_shot) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:93
+- **MT-2036 / PENDING** — medusa — Q (enfos_medusa_split_shot) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:94
+- **MT-2037 / PENDING** — medusa — Q (enfos_medusa_split_shot) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:95
+- **MT-2038 / PENDING** — medusa — Q (enfos_medusa_split_shot) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:96
+- **MT-2039 / PENDING** — medusa — Q (enfos_medusa_split_shot) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:97
+- **MT-2040 / PENDING** — medusa — Q (enfos_medusa_split_shot) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:98
+- **MT-2041 / PENDING** — medusa — Q (enfos_medusa_split_shot) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:99
+- **MT-2042 / PENDING** — medusa — Q (enfos_medusa_split_shot) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:100
+- **MT-2043 / PENDING** — medusa — Q (enfos_medusa_split_shot) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:101
+- **MT-2044 / PENDING** — medusa — Q (enfos_medusa_split_shot) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:102
+- **MT-2045 / PENDING** — medusa — Q (enfos_medusa_split_shot) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:103
+- **MT-2046 / PENDING** — medusa — Q (enfos_medusa_split_shot) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:104
+- **MT-2047 / PENDING** — medusa — Q (enfos_medusa_split_shot) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:105
+- **MT-2048 / PENDING** — medusa — W (enfos_medusa_mystic_snake) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:134
+- **MT-2049 / PENDING** — medusa — W (enfos_medusa_mystic_snake) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:135
+- **MT-2050 / PENDING** — medusa — W (enfos_medusa_mystic_snake) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:136
+- **MT-2051 / PENDING** — medusa — W (enfos_medusa_mystic_snake) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:137
+- **MT-2052 / PENDING** — medusa — W (enfos_medusa_mystic_snake) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:138
+- **MT-2053 / PENDING** — medusa — W (enfos_medusa_mystic_snake) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:139
+- **MT-2054 / PENDING** — medusa — W (enfos_medusa_mystic_snake) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:140
+- **MT-2055 / PENDING** — medusa — W (enfos_medusa_mystic_snake) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:141
+- **MT-2056 / PENDING** — medusa — W (enfos_medusa_mystic_snake) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:142
+- **MT-2057 / PENDING** — medusa — W (enfos_medusa_mystic_snake) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:143
+- **MT-2058 / PENDING** — medusa — W (enfos_medusa_mystic_snake) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:144
+- **MT-2059 / PENDING** — medusa — W (enfos_medusa_mystic_snake) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:145
+- **MT-2060 / PENDING** — medusa — W (enfos_medusa_mystic_snake) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:146
+- **MT-2061 / PENDING** — medusa — W (enfos_medusa_mystic_snake) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:147
+- **MT-2062 / PENDING** — medusa — W (enfos_medusa_mystic_snake) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:148
+- **MT-2063 / PENDING** — medusa — E (enfos_medusa_mana_shield) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:177
+- **MT-2064 / PENDING** — medusa — E (enfos_medusa_mana_shield) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:178
+- **MT-2065 / PENDING** — medusa — E (enfos_medusa_mana_shield) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:179
+- **MT-2066 / PENDING** — medusa — E (enfos_medusa_mana_shield) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:180
+- **MT-2067 / PENDING** — medusa — E (enfos_medusa_mana_shield) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:181
+- **MT-2068 / PENDING** — medusa — E (enfos_medusa_mana_shield) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:182
+- **MT-2069 / PENDING** — medusa — E (enfos_medusa_mana_shield) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:183
+- **MT-2070 / PENDING** — medusa — E (enfos_medusa_mana_shield) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:184
+- **MT-2071 / PENDING** — medusa — E (enfos_medusa_mana_shield) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:185
+- **MT-2072 / PENDING** — medusa — E (enfos_medusa_mana_shield) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:186
+- **MT-2073 / PENDING** — medusa — E (enfos_medusa_mana_shield) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:187
+- **MT-2074 / PENDING** — medusa — E (enfos_medusa_mana_shield) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:188
+- **MT-2075 / PENDING** — medusa — E (enfos_medusa_mana_shield) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:189
+- **MT-2076 / PENDING** — medusa — E (enfos_medusa_mana_shield) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:190
+- **MT-2077 / PENDING** — medusa — E (enfos_medusa_mana_shield) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:191
+- **MT-2078 / PENDING** — medusa — R (enfos_medusa_stone_gaze) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:220
+- **MT-2079 / PENDING** — medusa — R (enfos_medusa_stone_gaze) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:221
+- **MT-2080 / PENDING** — medusa — R (enfos_medusa_stone_gaze) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:222
+- **MT-2081 / PENDING** — medusa — R (enfos_medusa_stone_gaze) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:223
+- **MT-2082 / PENDING** — medusa — R (enfos_medusa_stone_gaze) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:224
+- **MT-2083 / PENDING** — medusa — R (enfos_medusa_stone_gaze) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:225
+- **MT-2084 / PENDING** — medusa — R (enfos_medusa_stone_gaze) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:226
+- **MT-2085 / PENDING** — medusa — R (enfos_medusa_stone_gaze) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:227
+- **MT-2086 / PENDING** — medusa — R (enfos_medusa_stone_gaze) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:228
+- **MT-2087 / PENDING** — medusa — R (enfos_medusa_stone_gaze) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:229
+- **MT-2088 / PENDING** — medusa — R (enfos_medusa_stone_gaze) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:230
+- **MT-2089 / PENDING** — medusa — R (enfos_medusa_stone_gaze) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:231
+- **MT-2090 / PENDING** — medusa — R (enfos_medusa_stone_gaze) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:232
+- **MT-2091 / PENDING** — medusa — R (enfos_medusa_stone_gaze) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:233
+- **MT-2092 / PENDING** — medusa — R (enfos_medusa_stone_gaze) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:234
+- **MT-2093 / PENDING** — medusa — Enfos pasifi (enfos_medusa_gorgon_gaze) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:263
+- **MT-2094 / PENDING** — medusa — Enfos pasifi (enfos_medusa_gorgon_gaze) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:264
+- **MT-2095 / PENDING** — medusa — Enfos pasifi (enfos_medusa_gorgon_gaze) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:265
+- **MT-2096 / PENDING** — medusa — Enfos pasifi (enfos_medusa_gorgon_gaze) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:266
+- **MT-2097 / PENDING** — medusa — Enfos pasifi (enfos_medusa_gorgon_gaze) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:267
+- **MT-2098 / PENDING** — medusa — Enfos pasifi (enfos_medusa_gorgon_gaze) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:268
+- **MT-2099 / PENDING** — medusa — Enfos pasifi (enfos_medusa_gorgon_gaze) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:269
+- **MT-2100 / PENDING** — medusa — Enfos pasifi (enfos_medusa_gorgon_gaze) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:270
+- **MT-2101 / PENDING** — medusa — Enfos pasifi (enfos_medusa_gorgon_gaze) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:271
+- **MT-2102 / PENDING** — medusa — Enfos pasifi (enfos_medusa_gorgon_gaze) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:272
+- **MT-2103 / PENDING** — medusa — Enfos pasifi (enfos_medusa_gorgon_gaze) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:273
+- **MT-2104 / PENDING** — medusa — Enfos pasifi (enfos_medusa_gorgon_gaze) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:274
+- **MT-2105 / PENDING** — medusa — Enfos pasifi (enfos_medusa_gorgon_gaze) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:275
+- **MT-2106 / PENDING** — medusa — Enfos pasifi (enfos_medusa_gorgon_gaze) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:276
+- **MT-2107 / PENDING** — medusa — Enfos pasifi (enfos_medusa_gorgon_gaze) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/medusa/ABILITIES.md:277
+- **MT-2108 / PENDING** — monkey_king — Q (enfos_mk_boundless_strike) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:92
+- **MT-2109 / PENDING** — monkey_king — Q (enfos_mk_boundless_strike) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:93
+- **MT-2110 / PENDING** — monkey_king — Q (enfos_mk_boundless_strike) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:94
+- **MT-2111 / PENDING** — monkey_king — Q (enfos_mk_boundless_strike) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:95
+- **MT-2112 / PENDING** — monkey_king — Q (enfos_mk_boundless_strike) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:96
+- **MT-2113 / PENDING** — monkey_king — Q (enfos_mk_boundless_strike) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:97
+- **MT-2114 / PENDING** — monkey_king — Q (enfos_mk_boundless_strike) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:98
+- **MT-2115 / PENDING** — monkey_king — Q (enfos_mk_boundless_strike) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:99
+- **MT-2116 / PENDING** — monkey_king — Q (enfos_mk_boundless_strike) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:100
+- **MT-2117 / PENDING** — monkey_king — Q (enfos_mk_boundless_strike) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:101
+- **MT-2118 / PENDING** — monkey_king — Q (enfos_mk_boundless_strike) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:102
+- **MT-2119 / PENDING** — monkey_king — Q (enfos_mk_boundless_strike) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:103
+- **MT-2120 / PENDING** — monkey_king — Q (enfos_mk_boundless_strike) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:104
+- **MT-2121 / PENDING** — monkey_king — Q (enfos_mk_boundless_strike) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:105
+- **MT-2122 / PENDING** — monkey_king — Q (enfos_mk_boundless_strike) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:106
+- **MT-2123 / PENDING** — monkey_king — W (enfos_mk_primal_spring) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:135
+- **MT-2124 / PENDING** — monkey_king — W (enfos_mk_primal_spring) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:136
+- **MT-2125 / PENDING** — monkey_king — W (enfos_mk_primal_spring) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:137
+- **MT-2126 / PENDING** — monkey_king — W (enfos_mk_primal_spring) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:138
+- **MT-2127 / PENDING** — monkey_king — W (enfos_mk_primal_spring) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:139
+- **MT-2128 / PENDING** — monkey_king — W (enfos_mk_primal_spring) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:140
+- **MT-2129 / PENDING** — monkey_king — W (enfos_mk_primal_spring) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:141
+- **MT-2130 / PENDING** — monkey_king — W (enfos_mk_primal_spring) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:142
+- **MT-2131 / PENDING** — monkey_king — W (enfos_mk_primal_spring) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:143
+- **MT-2132 / PENDING** — monkey_king — W (enfos_mk_primal_spring) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:144
+- **MT-2133 / PENDING** — monkey_king — W (enfos_mk_primal_spring) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:145
+- **MT-2134 / PENDING** — monkey_king — W (enfos_mk_primal_spring) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:146
+- **MT-2135 / PENDING** — monkey_king — W (enfos_mk_primal_spring) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:147
+- **MT-2136 / PENDING** — monkey_king — W (enfos_mk_primal_spring) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:148
+- **MT-2137 / PENDING** — monkey_king — W (enfos_mk_primal_spring) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:149
+- **MT-2138 / PENDING** — monkey_king — E (enfos_mk_jingu_mastery) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:178
+- **MT-2139 / PENDING** — monkey_king — E (enfos_mk_jingu_mastery) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:179
+- **MT-2140 / PENDING** — monkey_king — E (enfos_mk_jingu_mastery) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:180
+- **MT-2141 / PENDING** — monkey_king — E (enfos_mk_jingu_mastery) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:181
+- **MT-2142 / PENDING** — monkey_king — E (enfos_mk_jingu_mastery) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:182
+- **MT-2143 / PENDING** — monkey_king — E (enfos_mk_jingu_mastery) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:183
+- **MT-2144 / PENDING** — monkey_king — E (enfos_mk_jingu_mastery) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:184
+- **MT-2145 / PENDING** — monkey_king — E (enfos_mk_jingu_mastery) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:185
+- **MT-2146 / PENDING** — monkey_king — E (enfos_mk_jingu_mastery) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:186
+- **MT-2147 / PENDING** — monkey_king — E (enfos_mk_jingu_mastery) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:187
+- **MT-2148 / PENDING** — monkey_king — E (enfos_mk_jingu_mastery) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:188
+- **MT-2149 / PENDING** — monkey_king — E (enfos_mk_jingu_mastery) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:189
+- **MT-2150 / PENDING** — monkey_king — E (enfos_mk_jingu_mastery) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:190
+- **MT-2151 / PENDING** — monkey_king — E (enfos_mk_jingu_mastery) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:191
+- **MT-2152 / PENDING** — monkey_king — E (enfos_mk_jingu_mastery) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:192
+- **MT-2153 / PENDING** — monkey_king — R (enfos_mk_wukongs_command) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:221
+- **MT-2154 / PENDING** — monkey_king — R (enfos_mk_wukongs_command) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:222
+- **MT-2155 / PENDING** — monkey_king — R (enfos_mk_wukongs_command) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:223
+- **MT-2156 / PENDING** — monkey_king — R (enfos_mk_wukongs_command) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:224
+- **MT-2157 / PENDING** — monkey_king — R (enfos_mk_wukongs_command) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:225
+- **MT-2158 / PENDING** — monkey_king — R (enfos_mk_wukongs_command) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:226
+- **MT-2159 / PENDING** — monkey_king — R (enfos_mk_wukongs_command) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:227
+- **MT-2160 / PENDING** — monkey_king — R (enfos_mk_wukongs_command) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:228
+- **MT-2161 / PENDING** — monkey_king — R (enfos_mk_wukongs_command) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:229
+- **MT-2162 / PENDING** — monkey_king — R (enfos_mk_wukongs_command) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:230
+- **MT-2163 / PENDING** — monkey_king — R (enfos_mk_wukongs_command) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:231
+- **MT-2164 / PENDING** — monkey_king — R (enfos_mk_wukongs_command) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:232
+- **MT-2165 / PENDING** — monkey_king — R (enfos_mk_wukongs_command) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:233
+- **MT-2166 / PENDING** — monkey_king — R (enfos_mk_wukongs_command) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:234
+- **MT-2167 / PENDING** — monkey_king — R (enfos_mk_wukongs_command) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:235
+- **MT-2168 / PENDING** — monkey_king — Enfos pasifi (enfos_mk_mischief) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:264
+- **MT-2169 / PENDING** — monkey_king — Enfos pasifi (enfos_mk_mischief) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:265
+- **MT-2170 / PENDING** — monkey_king — Enfos pasifi (enfos_mk_mischief) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:266
+- **MT-2171 / PENDING** — monkey_king — Enfos pasifi (enfos_mk_mischief) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:267
+- **MT-2172 / PENDING** — monkey_king — Enfos pasifi (enfos_mk_mischief) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:268
+- **MT-2173 / PENDING** — monkey_king — Enfos pasifi (enfos_mk_mischief) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:269
+- **MT-2174 / PENDING** — monkey_king — Enfos pasifi (enfos_mk_mischief) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:270
+- **MT-2175 / PENDING** — monkey_king — Enfos pasifi (enfos_mk_mischief) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:271
+- **MT-2176 / PENDING** — monkey_king — Enfos pasifi (enfos_mk_mischief) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:272
+- **MT-2177 / PENDING** — monkey_king — Enfos pasifi (enfos_mk_mischief) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:273
+- **MT-2178 / PENDING** — monkey_king — Enfos pasifi (enfos_mk_mischief) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:274
+- **MT-2179 / PENDING** — monkey_king — Enfos pasifi (enfos_mk_mischief) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:275
+- **MT-2180 / PENDING** — monkey_king — Enfos pasifi (enfos_mk_mischief) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:276
+- **MT-2181 / PENDING** — monkey_king — Enfos pasifi (enfos_mk_mischief) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:277
+- **MT-2182 / PENDING** — monkey_king — Enfos pasifi (enfos_mk_mischief) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/monkey_king/ABILITIES.md:278
+- **MT-2183 / PENDING** — nevermore — Q (enfos_sf_shadowraze) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:92
+- **MT-2184 / PENDING** — nevermore — Q (enfos_sf_shadowraze) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:93
+- **MT-2185 / PENDING** — nevermore — Q (enfos_sf_shadowraze) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:94
+- **MT-2186 / PENDING** — nevermore — Q (enfos_sf_shadowraze) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:95
+- **MT-2187 / PENDING** — nevermore — Q (enfos_sf_shadowraze) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:96
+- **MT-2188 / PENDING** — nevermore — Q (enfos_sf_shadowraze) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:97
+- **MT-2189 / PENDING** — nevermore — Q (enfos_sf_shadowraze) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:98
+- **MT-2190 / PENDING** — nevermore — Q (enfos_sf_shadowraze) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:99
+- **MT-2191 / PENDING** — nevermore — Q (enfos_sf_shadowraze) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:100
+- **MT-2192 / PENDING** — nevermore — Q (enfos_sf_shadowraze) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:101
+- **MT-2193 / PENDING** — nevermore — Q (enfos_sf_shadowraze) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:102
+- **MT-2194 / PENDING** — nevermore — Q (enfos_sf_shadowraze) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:103
+- **MT-2195 / PENDING** — nevermore — Q (enfos_sf_shadowraze) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:104
+- **MT-2196 / PENDING** — nevermore — Q (enfos_sf_shadowraze) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:105
+- **MT-2197 / PENDING** — nevermore — Q (enfos_sf_shadowraze) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:106
+- **MT-2198 / PENDING** — nevermore — W (enfos_sf_necromastery) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:135
+- **MT-2199 / PENDING** — nevermore — W (enfos_sf_necromastery) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:136
+- **MT-2200 / PENDING** — nevermore — W (enfos_sf_necromastery) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:137
+- **MT-2201 / PENDING** — nevermore — W (enfos_sf_necromastery) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:138
+- **MT-2202 / PENDING** — nevermore — W (enfos_sf_necromastery) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:139
+- **MT-2203 / PENDING** — nevermore — W (enfos_sf_necromastery) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:140
+- **MT-2204 / PENDING** — nevermore — W (enfos_sf_necromastery) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:141
+- **MT-2205 / PENDING** — nevermore — W (enfos_sf_necromastery) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:142
+- **MT-2206 / PENDING** — nevermore — W (enfos_sf_necromastery) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:143
+- **MT-2207 / PENDING** — nevermore — W (enfos_sf_necromastery) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:144
+- **MT-2208 / PENDING** — nevermore — W (enfos_sf_necromastery) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:145
+- **MT-2209 / PENDING** — nevermore — W (enfos_sf_necromastery) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:146
+- **MT-2210 / PENDING** — nevermore — W (enfos_sf_necromastery) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:147
+- **MT-2211 / PENDING** — nevermore — W (enfos_sf_necromastery) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:148
+- **MT-2212 / PENDING** — nevermore — W (enfos_sf_necromastery) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:149
+- **MT-2213 / PENDING** — nevermore — E (enfos_sf_presence_of_the_dark_lord) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:178
+- **MT-2214 / PENDING** — nevermore — E (enfos_sf_presence_of_the_dark_lord) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:179
+- **MT-2215 / PENDING** — nevermore — E (enfos_sf_presence_of_the_dark_lord) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:180
+- **MT-2216 / PENDING** — nevermore — E (enfos_sf_presence_of_the_dark_lord) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:181
+- **MT-2217 / PENDING** — nevermore — E (enfos_sf_presence_of_the_dark_lord) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:182
+- **MT-2218 / PENDING** — nevermore — E (enfos_sf_presence_of_the_dark_lord) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:183
+- **MT-2219 / PENDING** — nevermore — E (enfos_sf_presence_of_the_dark_lord) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:184
+- **MT-2220 / PENDING** — nevermore — E (enfos_sf_presence_of_the_dark_lord) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:185
+- **MT-2221 / PENDING** — nevermore — E (enfos_sf_presence_of_the_dark_lord) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:186
+- **MT-2222 / PENDING** — nevermore — E (enfos_sf_presence_of_the_dark_lord) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:187
+- **MT-2223 / PENDING** — nevermore — E (enfos_sf_presence_of_the_dark_lord) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:188
+- **MT-2224 / PENDING** — nevermore — E (enfos_sf_presence_of_the_dark_lord) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:189
+- **MT-2225 / PENDING** — nevermore — E (enfos_sf_presence_of_the_dark_lord) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:190
+- **MT-2226 / PENDING** — nevermore — E (enfos_sf_presence_of_the_dark_lord) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:191
+- **MT-2227 / PENDING** — nevermore — E (enfos_sf_presence_of_the_dark_lord) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:192
+- **MT-2228 / PENDING** — nevermore — R (enfos_sf_requiem_of_souls) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:221
+- **MT-2229 / PENDING** — nevermore — R (enfos_sf_requiem_of_souls) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:222
+- **MT-2230 / PENDING** — nevermore — R (enfos_sf_requiem_of_souls) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:223
+- **MT-2231 / PENDING** — nevermore — R (enfos_sf_requiem_of_souls) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:224
+- **MT-2232 / PENDING** — nevermore — R (enfos_sf_requiem_of_souls) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:225
+- **MT-2233 / PENDING** — nevermore — R (enfos_sf_requiem_of_souls) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:226
+- **MT-2234 / PENDING** — nevermore — R (enfos_sf_requiem_of_souls) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:227
+- **MT-2235 / PENDING** — nevermore — R (enfos_sf_requiem_of_souls) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:228
+- **MT-2236 / PENDING** — nevermore — R (enfos_sf_requiem_of_souls) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:229
+- **MT-2237 / PENDING** — nevermore — R (enfos_sf_requiem_of_souls) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:230
+- **MT-2238 / PENDING** — nevermore — R (enfos_sf_requiem_of_souls) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:231
+- **MT-2239 / PENDING** — nevermore — R (enfos_sf_requiem_of_souls) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:232
+- **MT-2240 / PENDING** — nevermore — R (enfos_sf_requiem_of_souls) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:233
+- **MT-2241 / PENDING** — nevermore — R (enfos_sf_requiem_of_souls) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:234
+- **MT-2242 / PENDING** — nevermore — R (enfos_sf_requiem_of_souls) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:235
+- **MT-2243 / PENDING** — nevermore — Enfos pasifi (enfos_sf_feast_of_souls) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:264
+- **MT-2244 / PENDING** — nevermore — Enfos pasifi (enfos_sf_feast_of_souls) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:265
+- **MT-2245 / PENDING** — nevermore — Enfos pasifi (enfos_sf_feast_of_souls) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:266
+- **MT-2246 / PENDING** — nevermore — Enfos pasifi (enfos_sf_feast_of_souls) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:267
+- **MT-2247 / PENDING** — nevermore — Enfos pasifi (enfos_sf_feast_of_souls) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:268
+- **MT-2248 / PENDING** — nevermore — Enfos pasifi (enfos_sf_feast_of_souls) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:269
+- **MT-2249 / PENDING** — nevermore — Enfos pasifi (enfos_sf_feast_of_souls) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:270
+- **MT-2250 / PENDING** — nevermore — Enfos pasifi (enfos_sf_feast_of_souls) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:271
+- **MT-2251 / PENDING** — nevermore — Enfos pasifi (enfos_sf_feast_of_souls) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:272
+- **MT-2252 / PENDING** — nevermore — Enfos pasifi (enfos_sf_feast_of_souls) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:273
+- **MT-2253 / PENDING** — nevermore — Enfos pasifi (enfos_sf_feast_of_souls) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:274
+- **MT-2254 / PENDING** — nevermore — Enfos pasifi (enfos_sf_feast_of_souls) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:275
+- **MT-2255 / PENDING** — nevermore — Enfos pasifi (enfos_sf_feast_of_souls) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:276
+- **MT-2256 / PENDING** — nevermore — Enfos pasifi (enfos_sf_feast_of_souls) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:277
+- **MT-2257 / PENDING** — nevermore — Enfos pasifi (enfos_sf_feast_of_souls) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/nevermore/ABILITIES.md:278
+- **MT-2258 / PENDING** — omniknight — Q (enfos_omni_purification) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:153, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2259 / PENDING** — omniknight — Q (enfos_omni_purification) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:154, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2260 / PENDING** — omniknight — Q (enfos_omni_purification) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:155, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2261 / PENDING** — omniknight — Q (enfos_omni_purification) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:156, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2262 / PENDING** — omniknight — Q (enfos_omni_purification) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:157, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2263 / PENDING** — omniknight — Q (enfos_omni_purification) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:158, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2264 / PENDING** — omniknight — Q (enfos_omni_purification) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:159, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2265 / PENDING** — omniknight — Q (enfos_omni_purification) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:160, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2266 / PENDING** — omniknight — Q (enfos_omni_purification) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:161, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2267 / PENDING** — omniknight — Q (enfos_omni_purification) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:162, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2268 / PENDING** — omniknight — Q (enfos_omni_purification) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:163, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2269 / PENDING** — omniknight — Q (enfos_omni_purification) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:164, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2270 / PENDING** — omniknight — Q (enfos_omni_purification) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:165, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2271 / PENDING** — omniknight — Q (enfos_omni_purification) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:166, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2272 / PENDING** — omniknight — Q (enfos_omni_purification) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:167, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2273 / PENDING** — omniknight — W (enfos_omni_repel) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:196, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2274 / PENDING** — omniknight — W (enfos_omni_repel) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:197, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2275 / PENDING** — omniknight — W (enfos_omni_repel) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:198, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2276 / PENDING** — omniknight — W (enfos_omni_repel) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:199, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2277 / PENDING** — omniknight — W (enfos_omni_repel) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:200, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2278 / PENDING** — omniknight — W (enfos_omni_repel) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:201, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2279 / PENDING** — omniknight — W (enfos_omni_repel) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:202, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2280 / PENDING** — omniknight — W (enfos_omni_repel) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:203, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2281 / PENDING** — omniknight — W (enfos_omni_repel) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:204, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2282 / PENDING** — omniknight — W (enfos_omni_repel) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:205, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2283 / PENDING** — omniknight — W (enfos_omni_repel) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:206, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2284 / PENDING** — omniknight — W (enfos_omni_repel) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:207, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2285 / PENDING** — omniknight — W (enfos_omni_repel) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:208, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2286 / PENDING** — omniknight — W (enfos_omni_repel) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:209, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2287 / PENDING** — omniknight — W (enfos_omni_repel) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:210, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2288 / PENDING** — omniknight — E (enfos_omni_degen_aura) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:239, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2289 / PENDING** — omniknight — E (enfos_omni_degen_aura) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:240, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2290 / PENDING** — omniknight — E (enfos_omni_degen_aura) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:241, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2291 / PENDING** — omniknight — E (enfos_omni_degen_aura) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:242, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2292 / PENDING** — omniknight — E (enfos_omni_degen_aura) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:243, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2293 / PENDING** — omniknight — E (enfos_omni_degen_aura) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:244, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2294 / PENDING** — omniknight — E (enfos_omni_degen_aura) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:245, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2295 / PENDING** — omniknight — E (enfos_omni_degen_aura) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:246, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2296 / PENDING** — omniknight — E (enfos_omni_degen_aura) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:247, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2297 / PENDING** — omniknight — E (enfos_omni_degen_aura) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:248, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2298 / PENDING** — omniknight — E (enfos_omni_degen_aura) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:249, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2299 / PENDING** — omniknight — E (enfos_omni_degen_aura) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:250, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2300 / PENDING** — omniknight — E (enfos_omni_degen_aura) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:251, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2301 / PENDING** — omniknight — E (enfos_omni_degen_aura) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:252, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2302 / PENDING** — omniknight — E (enfos_omni_degen_aura) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:253, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2303 / PENDING** — omniknight — R (enfos_omni_guardian_angel) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:282, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2304 / PENDING** — omniknight — R (enfos_omni_guardian_angel) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:283, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2305 / PENDING** — omniknight — R (enfos_omni_guardian_angel) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:284, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2306 / PENDING** — omniknight — R (enfos_omni_guardian_angel) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:285, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2307 / PENDING** — omniknight — R (enfos_omni_guardian_angel) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:286, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2308 / PENDING** — omniknight — R (enfos_omni_guardian_angel) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:287, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2309 / PENDING** — omniknight — R (enfos_omni_guardian_angel) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:288, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2310 / PENDING** — omniknight — R (enfos_omni_guardian_angel) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:289, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2311 / PENDING** — omniknight — R (enfos_omni_guardian_angel) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:290, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2312 / PENDING** — omniknight — R (enfos_omni_guardian_angel) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:291, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2313 / PENDING** — omniknight — R (enfos_omni_guardian_angel) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:292, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2314 / PENDING** — omniknight — R (enfos_omni_guardian_angel) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:293, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2315 / PENDING** — omniknight — R (enfos_omni_guardian_angel) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:294, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2316 / PENDING** — omniknight — R (enfos_omni_guardian_angel) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:295, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2317 / PENDING** — omniknight — R (enfos_omni_guardian_angel) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:296, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2318 / PENDING** — omniknight — Enfos pasifi (enfos_omni_hammer_of_purity) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:325, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2319 / PENDING** — omniknight — Enfos pasifi (enfos_omni_hammer_of_purity) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:326, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2320 / PENDING** — omniknight — Enfos pasifi (enfos_omni_hammer_of_purity) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:327, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2321 / PENDING** — omniknight — Enfos pasifi (enfos_omni_hammer_of_purity) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:328, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2322 / PENDING** — omniknight — Enfos pasifi (enfos_omni_hammer_of_purity) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:329, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2323 / PENDING** — omniknight — Enfos pasifi (enfos_omni_hammer_of_purity) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:330, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2324 / PENDING** — omniknight — Enfos pasifi (enfos_omni_hammer_of_purity) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:331, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2325 / PENDING** — omniknight — Enfos pasifi (enfos_omni_hammer_of_purity) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:332, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2326 / PENDING** — omniknight — Enfos pasifi (enfos_omni_hammer_of_purity) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:333, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2327 / PENDING** — omniknight — Enfos pasifi (enfos_omni_hammer_of_purity) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:334, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2328 / PENDING** — omniknight — Enfos pasifi (enfos_omni_hammer_of_purity) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:335, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2329 / PENDING** — omniknight — Enfos pasifi (enfos_omni_hammer_of_purity) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:336, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2330 / PENDING** — omniknight — Enfos pasifi (enfos_omni_hammer_of_purity) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:337, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2331 / PENDING** — omniknight — Enfos pasifi (enfos_omni_hammer_of_purity) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:338, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2332 / PENDING** — omniknight — Enfos pasifi (enfos_omni_hammer_of_purity) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/omniknight/ABILITIES.md:339, docs/audit/OMNIKNIGHT_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2333 / PENDING** — phantom_assassin — Q (enfos_pa_stifling_dagger) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:101
+- **MT-2334 / PENDING** — phantom_assassin — Q (enfos_pa_stifling_dagger) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:102
+- **MT-2335 / PENDING** — phantom_assassin — Q (enfos_pa_stifling_dagger) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:103
+- **MT-2336 / PENDING** — phantom_assassin — Q (enfos_pa_stifling_dagger) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:104
+- **MT-2337 / PENDING** — phantom_assassin — Q (enfos_pa_stifling_dagger) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:105
+- **MT-2338 / PENDING** — phantom_assassin — Q (enfos_pa_stifling_dagger) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:106
+- **MT-2339 / PENDING** — phantom_assassin — Q (enfos_pa_stifling_dagger) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:107
+- **MT-2340 / PENDING** — phantom_assassin — Q (enfos_pa_stifling_dagger) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:108
+- **MT-2341 / PENDING** — phantom_assassin — Q (enfos_pa_stifling_dagger) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:109
+- **MT-2342 / PENDING** — phantom_assassin — Q (enfos_pa_stifling_dagger) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:110
+- **MT-2343 / PENDING** — phantom_assassin — Q (enfos_pa_stifling_dagger) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:111
+- **MT-2344 / PENDING** — phantom_assassin — Q (enfos_pa_stifling_dagger) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:112
+- **MT-2345 / PENDING** — phantom_assassin — Q (enfos_pa_stifling_dagger) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:113
+- **MT-2346 / PENDING** — phantom_assassin — Q (enfos_pa_stifling_dagger) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:114
+- **MT-2347 / PENDING** — phantom_assassin — Q (enfos_pa_stifling_dagger) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:115
+- **MT-2348 / PENDING** — phantom_assassin — W (enfos_pa_phantom_strike) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:144
+- **MT-2349 / PENDING** — phantom_assassin — W (enfos_pa_phantom_strike) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:145
+- **MT-2350 / PENDING** — phantom_assassin — W (enfos_pa_phantom_strike) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:146
+- **MT-2351 / PENDING** — phantom_assassin — W (enfos_pa_phantom_strike) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:147
+- **MT-2352 / PENDING** — phantom_assassin — W (enfos_pa_phantom_strike) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:148
+- **MT-2353 / PENDING** — phantom_assassin — W (enfos_pa_phantom_strike) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:149
+- **MT-2354 / PENDING** — phantom_assassin — W (enfos_pa_phantom_strike) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:150
+- **MT-2355 / PENDING** — phantom_assassin — W (enfos_pa_phantom_strike) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:151
+- **MT-2356 / PENDING** — phantom_assassin — W (enfos_pa_phantom_strike) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:152
+- **MT-2357 / PENDING** — phantom_assassin — W (enfos_pa_phantom_strike) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:153
+- **MT-2358 / PENDING** — phantom_assassin — W (enfos_pa_phantom_strike) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:154
+- **MT-2359 / PENDING** — phantom_assassin — W (enfos_pa_phantom_strike) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:155
+- **MT-2360 / PENDING** — phantom_assassin — W (enfos_pa_phantom_strike) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:156
+- **MT-2361 / PENDING** — phantom_assassin — W (enfos_pa_phantom_strike) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:157
+- **MT-2362 / PENDING** — phantom_assassin — W (enfos_pa_phantom_strike) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:158
+- **MT-2363 / PENDING** — phantom_assassin — E (enfos_pa_blur) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:187
+- **MT-2364 / PENDING** — phantom_assassin — E (enfos_pa_blur) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:188
+- **MT-2365 / PENDING** — phantom_assassin — E (enfos_pa_blur) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:189
+- **MT-2366 / PENDING** — phantom_assassin — E (enfos_pa_blur) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:190
+- **MT-2367 / PENDING** — phantom_assassin — E (enfos_pa_blur) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:191
+- **MT-2368 / PENDING** — phantom_assassin — E (enfos_pa_blur) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:192
+- **MT-2369 / PENDING** — phantom_assassin — E (enfos_pa_blur) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:193
+- **MT-2370 / PENDING** — phantom_assassin — E (enfos_pa_blur) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:194
+- **MT-2371 / PENDING** — phantom_assassin — E (enfos_pa_blur) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:195
+- **MT-2372 / PENDING** — phantom_assassin — E (enfos_pa_blur) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:196
+- **MT-2373 / PENDING** — phantom_assassin — E (enfos_pa_blur) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:197
+- **MT-2374 / PENDING** — phantom_assassin — E (enfos_pa_blur) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:198
+- **MT-2375 / PENDING** — phantom_assassin — E (enfos_pa_blur) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:199
+- **MT-2376 / PENDING** — phantom_assassin — E (enfos_pa_blur) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:200
+- **MT-2377 / PENDING** — phantom_assassin — E (enfos_pa_blur) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:201
+- **MT-2378 / PENDING** — phantom_assassin — R (enfos_pa_coup_de_grace) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:230
+- **MT-2379 / PENDING** — phantom_assassin — R (enfos_pa_coup_de_grace) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:231
+- **MT-2380 / PENDING** — phantom_assassin — R (enfos_pa_coup_de_grace) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:232
+- **MT-2381 / PENDING** — phantom_assassin — R (enfos_pa_coup_de_grace) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:233
+- **MT-2382 / PENDING** — phantom_assassin — R (enfos_pa_coup_de_grace) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:234
+- **MT-2383 / PENDING** — phantom_assassin — R (enfos_pa_coup_de_grace) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:235
+- **MT-2384 / PENDING** — phantom_assassin — R (enfos_pa_coup_de_grace) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:236
+- **MT-2385 / PENDING** — phantom_assassin — R (enfos_pa_coup_de_grace) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:237
+- **MT-2386 / PENDING** — phantom_assassin — R (enfos_pa_coup_de_grace) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:238
+- **MT-2387 / PENDING** — phantom_assassin — R (enfos_pa_coup_de_grace) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:239
+- **MT-2388 / PENDING** — phantom_assassin — R (enfos_pa_coup_de_grace) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:240
+- **MT-2389 / PENDING** — phantom_assassin — R (enfos_pa_coup_de_grace) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:241
+- **MT-2390 / PENDING** — phantom_assassin — R (enfos_pa_coup_de_grace) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:242
+- **MT-2391 / PENDING** — phantom_assassin — R (enfos_pa_coup_de_grace) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:243
+- **MT-2392 / PENDING** — phantom_assassin — R (enfos_pa_coup_de_grace) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:244
+- **MT-2393 / PENDING** — phantom_assassin — Enfos pasifi (enfos_pa_immaterial) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:273
+- **MT-2394 / PENDING** — phantom_assassin — Enfos pasifi (enfos_pa_immaterial) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:274
+- **MT-2395 / PENDING** — phantom_assassin — Enfos pasifi (enfos_pa_immaterial) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:275
+- **MT-2396 / PENDING** — phantom_assassin — Enfos pasifi (enfos_pa_immaterial) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:276
+- **MT-2397 / PENDING** — phantom_assassin — Enfos pasifi (enfos_pa_immaterial) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:277
+- **MT-2398 / PENDING** — phantom_assassin — Enfos pasifi (enfos_pa_immaterial) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:278
+- **MT-2399 / PENDING** — phantom_assassin — Enfos pasifi (enfos_pa_immaterial) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:279
+- **MT-2400 / PENDING** — phantom_assassin — Enfos pasifi (enfos_pa_immaterial) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:280
+- **MT-2401 / PENDING** — phantom_assassin — Enfos pasifi (enfos_pa_immaterial) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:281
+- **MT-2402 / PENDING** — phantom_assassin — Enfos pasifi (enfos_pa_immaterial) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:282
+- **MT-2403 / PENDING** — phantom_assassin — Enfos pasifi (enfos_pa_immaterial) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:283
+- **MT-2404 / PENDING** — phantom_assassin — Enfos pasifi (enfos_pa_immaterial) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:284
+- **MT-2405 / PENDING** — phantom_assassin — Enfos pasifi (enfos_pa_immaterial) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:285
+- **MT-2406 / PENDING** — phantom_assassin — Enfos pasifi (enfos_pa_immaterial) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:286
+- **MT-2407 / PENDING** — phantom_assassin — Enfos pasifi (enfos_pa_immaterial) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/phantom_assassin/ABILITIES.md:287
+- **MT-2408 / PENDING** — puck — Q (enfos_puck_illusory_orb) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:78
+- **MT-2409 / PENDING** — puck — Q (enfos_puck_illusory_orb) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:79
+- **MT-2410 / PENDING** — puck — Q (enfos_puck_illusory_orb) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:80
+- **MT-2411 / PENDING** — puck — Q (enfos_puck_illusory_orb) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:81
+- **MT-2412 / PENDING** — puck — Q (enfos_puck_illusory_orb) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:82
+- **MT-2413 / PENDING** — puck — Q (enfos_puck_illusory_orb) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:83
+- **MT-2414 / PENDING** — puck — Q (enfos_puck_illusory_orb) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:84
+- **MT-2415 / PENDING** — puck — Q (enfos_puck_illusory_orb) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:85
+- **MT-2416 / PENDING** — puck — Q (enfos_puck_illusory_orb) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:86
+- **MT-2417 / PENDING** — puck — Q (enfos_puck_illusory_orb) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:87
+- **MT-2418 / PENDING** — puck — Q (enfos_puck_illusory_orb) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:88
+- **MT-2419 / PENDING** — puck — Q (enfos_puck_illusory_orb) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:89
+- **MT-2420 / PENDING** — puck — Q (enfos_puck_illusory_orb) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:90
+- **MT-2421 / PENDING** — puck — Q (enfos_puck_illusory_orb) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:91
+- **MT-2422 / PENDING** — puck — Q (enfos_puck_illusory_orb) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:92
+- **MT-2423 / PENDING** — puck — W (enfos_puck_waning_rift) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:110
+- **MT-2424 / PENDING** — puck — W (enfos_puck_waning_rift) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:111
+- **MT-2425 / PENDING** — puck — W (enfos_puck_waning_rift) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:112
+- **MT-2426 / PENDING** — puck — W (enfos_puck_waning_rift) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:113
+- **MT-2427 / PENDING** — puck — W (enfos_puck_waning_rift) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:114
+- **MT-2428 / PENDING** — puck — W (enfos_puck_waning_rift) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:115
+- **MT-2429 / PENDING** — puck — W (enfos_puck_waning_rift) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:116
+- **MT-2430 / PENDING** — puck — W (enfos_puck_waning_rift) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:117
+- **MT-2431 / PENDING** — puck — W (enfos_puck_waning_rift) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:118
+- **MT-2432 / PENDING** — puck — W (enfos_puck_waning_rift) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:119
+- **MT-2433 / PENDING** — puck — W (enfos_puck_waning_rift) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:120
+- **MT-2434 / PENDING** — puck — W (enfos_puck_waning_rift) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:121
+- **MT-2435 / PENDING** — puck — W (enfos_puck_waning_rift) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:122
+- **MT-2436 / PENDING** — puck — W (enfos_puck_waning_rift) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:123
+- **MT-2437 / PENDING** — puck — W (enfos_puck_waning_rift) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:124
+- **MT-2438 / PENDING** — puck — E (enfos_puck_phase_shift) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:140
+- **MT-2439 / PENDING** — puck — E (enfos_puck_phase_shift) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:141
+- **MT-2440 / PENDING** — puck — E (enfos_puck_phase_shift) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:142
+- **MT-2441 / PENDING** — puck — E (enfos_puck_phase_shift) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:143
+- **MT-2442 / PENDING** — puck — E (enfos_puck_phase_shift) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:144
+- **MT-2443 / PENDING** — puck — E (enfos_puck_phase_shift) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:145
+- **MT-2444 / PENDING** — puck — E (enfos_puck_phase_shift) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:146
+- **MT-2445 / PENDING** — puck — E (enfos_puck_phase_shift) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:147
+- **MT-2446 / PENDING** — puck — E (enfos_puck_phase_shift) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:148
+- **MT-2447 / PENDING** — puck — E (enfos_puck_phase_shift) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:149
+- **MT-2448 / PENDING** — puck — E (enfos_puck_phase_shift) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:150
+- **MT-2449 / PENDING** — puck — E (enfos_puck_phase_shift) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:151
+- **MT-2450 / PENDING** — puck — E (enfos_puck_phase_shift) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:152
+- **MT-2451 / PENDING** — puck — E (enfos_puck_phase_shift) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:153
+- **MT-2452 / PENDING** — puck — E (enfos_puck_phase_shift) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:154
+- **MT-2453 / PENDING** — puck — R (enfos_puck_dream_coil) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:170
+- **MT-2454 / PENDING** — puck — R (enfos_puck_dream_coil) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:171
+- **MT-2455 / PENDING** — puck — R (enfos_puck_dream_coil) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:172
+- **MT-2456 / PENDING** — puck — R (enfos_puck_dream_coil) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:173
+- **MT-2457 / PENDING** — puck — R (enfos_puck_dream_coil) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:174
+- **MT-2458 / PENDING** — puck — R (enfos_puck_dream_coil) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:175
+- **MT-2459 / PENDING** — puck — R (enfos_puck_dream_coil) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:176
+- **MT-2460 / PENDING** — puck — R (enfos_puck_dream_coil) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:177
+- **MT-2461 / PENDING** — puck — R (enfos_puck_dream_coil) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:178
+- **MT-2462 / PENDING** — puck — R (enfos_puck_dream_coil) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:179
+- **MT-2463 / PENDING** — puck — R (enfos_puck_dream_coil) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:180
+- **MT-2464 / PENDING** — puck — R (enfos_puck_dream_coil) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:181
+- **MT-2465 / PENDING** — puck — R (enfos_puck_dream_coil) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:182
+- **MT-2466 / PENDING** — puck — R (enfos_puck_dream_coil) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:183
+- **MT-2467 / PENDING** — puck — R (enfos_puck_dream_coil) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:184
+- **MT-2468 / PENDING** — puck — Enfos pasifi (enfos_puck_faerie_magic) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:200
+- **MT-2469 / PENDING** — puck — Enfos pasifi (enfos_puck_faerie_magic) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:201
+- **MT-2470 / PENDING** — puck — Enfos pasifi (enfos_puck_faerie_magic) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:202
+- **MT-2471 / PENDING** — puck — Enfos pasifi (enfos_puck_faerie_magic) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:203
+- **MT-2472 / PENDING** — puck — Enfos pasifi (enfos_puck_faerie_magic) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:204
+- **MT-2473 / PENDING** — puck — Enfos pasifi (enfos_puck_faerie_magic) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:205
+- **MT-2474 / PENDING** — puck — Enfos pasifi (enfos_puck_faerie_magic) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:206
+- **MT-2475 / PENDING** — puck — Enfos pasifi (enfos_puck_faerie_magic) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:207
+- **MT-2476 / PENDING** — puck — Enfos pasifi (enfos_puck_faerie_magic) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:208
+- **MT-2477 / PENDING** — puck — Enfos pasifi (enfos_puck_faerie_magic) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:209
+- **MT-2478 / PENDING** — puck — Enfos pasifi (enfos_puck_faerie_magic) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:210
+- **MT-2479 / PENDING** — puck — Enfos pasifi (enfos_puck_faerie_magic) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:211
+- **MT-2480 / PENDING** — puck — Enfos pasifi (enfos_puck_faerie_magic) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:212
+- **MT-2481 / PENDING** — puck — Enfos pasifi (enfos_puck_faerie_magic) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:213
+- **MT-2482 / PENDING** — puck — Enfos pasifi (enfos_puck_faerie_magic) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/puck/ABILITIES.md:214
+- **MT-2483 / PENDING** — pudge — Q (enfos_pudge_meat_hook) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:98
+- **MT-2484 / PENDING** — pudge — Q (enfos_pudge_meat_hook) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:99
+- **MT-2485 / PENDING** — pudge — Q (enfos_pudge_meat_hook) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:100
+- **MT-2486 / PENDING** — pudge — Q (enfos_pudge_meat_hook) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:101
+- **MT-2487 / PENDING** — pudge — Q (enfos_pudge_meat_hook) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:102
+- **MT-2488 / PENDING** — pudge — Q (enfos_pudge_meat_hook) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:103
+- **MT-2489 / PENDING** — pudge — Q (enfos_pudge_meat_hook) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:104
+- **MT-2490 / PENDING** — pudge — Q (enfos_pudge_meat_hook) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:105
+- **MT-2491 / PENDING** — pudge — Q (enfos_pudge_meat_hook) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:106
+- **MT-2492 / PENDING** — pudge — Q (enfos_pudge_meat_hook) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:107
+- **MT-2493 / PENDING** — pudge — Q (enfos_pudge_meat_hook) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:108
+- **MT-2494 / PENDING** — pudge — Q (enfos_pudge_meat_hook) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:109
+- **MT-2495 / PENDING** — pudge — Q (enfos_pudge_meat_hook) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:110
+- **MT-2496 / PENDING** — pudge — Q (enfos_pudge_meat_hook) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:111
+- **MT-2497 / PENDING** — pudge — Q (enfos_pudge_meat_hook) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:112
+- **MT-2498 / PENDING** — pudge — W (enfos_pudge_rot) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:141
+- **MT-2499 / PENDING** — pudge — W (enfos_pudge_rot) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:142
+- **MT-2500 / PENDING** — pudge — W (enfos_pudge_rot) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:143
+- **MT-2501 / PENDING** — pudge — W (enfos_pudge_rot) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:144
+- **MT-2502 / PENDING** — pudge — W (enfos_pudge_rot) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:145
+- **MT-2503 / PENDING** — pudge — W (enfos_pudge_rot) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:146
+- **MT-2504 / PENDING** — pudge — W (enfos_pudge_rot) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:147
+- **MT-2505 / PENDING** — pudge — W (enfos_pudge_rot) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:148
+- **MT-2506 / PENDING** — pudge — W (enfos_pudge_rot) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:149
+- **MT-2507 / PENDING** — pudge — W (enfos_pudge_rot) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:150
+- **MT-2508 / PENDING** — pudge — W (enfos_pudge_rot) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:151
+- **MT-2509 / PENDING** — pudge — W (enfos_pudge_rot) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:152
+- **MT-2510 / PENDING** — pudge — W (enfos_pudge_rot) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:153
+- **MT-2511 / PENDING** — pudge — W (enfos_pudge_rot) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:154
+- **MT-2512 / PENDING** — pudge — W (enfos_pudge_rot) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:155
+- **MT-2513 / PENDING** — pudge — E (enfos_pudge_flesh_heap) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:184
+- **MT-2514 / PENDING** — pudge — E (enfos_pudge_flesh_heap) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:185
+- **MT-2515 / PENDING** — pudge — E (enfos_pudge_flesh_heap) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:186
+- **MT-2516 / PENDING** — pudge — E (enfos_pudge_flesh_heap) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:187
+- **MT-2517 / PENDING** — pudge — E (enfos_pudge_flesh_heap) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:188
+- **MT-2518 / PENDING** — pudge — E (enfos_pudge_flesh_heap) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:189
+- **MT-2519 / PENDING** — pudge — E (enfos_pudge_flesh_heap) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:190
+- **MT-2520 / PENDING** — pudge — E (enfos_pudge_flesh_heap) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:191
+- **MT-2521 / PENDING** — pudge — E (enfos_pudge_flesh_heap) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:192
+- **MT-2522 / PENDING** — pudge — E (enfos_pudge_flesh_heap) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:193
+- **MT-2523 / PENDING** — pudge — E (enfos_pudge_flesh_heap) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:194
+- **MT-2524 / PENDING** — pudge — E (enfos_pudge_flesh_heap) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:195
+- **MT-2525 / PENDING** — pudge — E (enfos_pudge_flesh_heap) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:196
+- **MT-2526 / PENDING** — pudge — E (enfos_pudge_flesh_heap) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:197
+- **MT-2527 / PENDING** — pudge — E (enfos_pudge_flesh_heap) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:198
+- **MT-2528 / PENDING** — pudge — R (enfos_pudge_dismember) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:227
+- **MT-2529 / PENDING** — pudge — R (enfos_pudge_dismember) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:228
+- **MT-2530 / PENDING** — pudge — R (enfos_pudge_dismember) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:229
+- **MT-2531 / PENDING** — pudge — R (enfos_pudge_dismember) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:230
+- **MT-2532 / PENDING** — pudge — R (enfos_pudge_dismember) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:231
+- **MT-2533 / PENDING** — pudge — R (enfos_pudge_dismember) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:232
+- **MT-2534 / PENDING** — pudge — R (enfos_pudge_dismember) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:233
+- **MT-2535 / PENDING** — pudge — R (enfos_pudge_dismember) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:234
+- **MT-2536 / PENDING** — pudge — R (enfos_pudge_dismember) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:235
+- **MT-2537 / PENDING** — pudge — R (enfos_pudge_dismember) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:236
+- **MT-2538 / PENDING** — pudge — R (enfos_pudge_dismember) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:237
+- **MT-2539 / PENDING** — pudge — R (enfos_pudge_dismember) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:238
+- **MT-2540 / PENDING** — pudge — R (enfos_pudge_dismember) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:239
+- **MT-2541 / PENDING** — pudge — R (enfos_pudge_dismember) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:240
+- **MT-2542 / PENDING** — pudge — R (enfos_pudge_dismember) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:241
+- **MT-2543 / PENDING** — pudge — Enfos pasifi (enfos_pudge_meat_shield) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:270
+- **MT-2544 / PENDING** — pudge — Enfos pasifi (enfos_pudge_meat_shield) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:271
+- **MT-2545 / PENDING** — pudge — Enfos pasifi (enfos_pudge_meat_shield) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:272
+- **MT-2546 / PENDING** — pudge — Enfos pasifi (enfos_pudge_meat_shield) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:273
+- **MT-2547 / PENDING** — pudge — Enfos pasifi (enfos_pudge_meat_shield) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:274
+- **MT-2548 / PENDING** — pudge — Enfos pasifi (enfos_pudge_meat_shield) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:275
+- **MT-2549 / PENDING** — pudge — Enfos pasifi (enfos_pudge_meat_shield) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:276
+- **MT-2550 / PENDING** — pudge — Enfos pasifi (enfos_pudge_meat_shield) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:277
+- **MT-2551 / PENDING** — pudge — Enfos pasifi (enfos_pudge_meat_shield) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:278
+- **MT-2552 / PENDING** — pudge — Enfos pasifi (enfos_pudge_meat_shield) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:279
+- **MT-2553 / PENDING** — pudge — Enfos pasifi (enfos_pudge_meat_shield) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:280
+- **MT-2554 / PENDING** — pudge — Enfos pasifi (enfos_pudge_meat_shield) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:281
+- **MT-2555 / PENDING** — pudge — Enfos pasifi (enfos_pudge_meat_shield) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:282
+- **MT-2556 / PENDING** — pudge — Enfos pasifi (enfos_pudge_meat_shield) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:283
+- **MT-2557 / PENDING** — pudge — Enfos pasifi (enfos_pudge_meat_shield) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/pudge/ABILITIES.md:284
+- **MT-2558 / PENDING** — shadow_shaman — Q (enfos_ss_ether_shock) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:91
+- **MT-2559 / PENDING** — shadow_shaman — Q (enfos_ss_ether_shock) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:92
+- **MT-2560 / PENDING** — shadow_shaman — Q (enfos_ss_ether_shock) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:93
+- **MT-2561 / PENDING** — shadow_shaman — Q (enfos_ss_ether_shock) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:94
+- **MT-2562 / PENDING** — shadow_shaman — Q (enfos_ss_ether_shock) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:95
+- **MT-2563 / PENDING** — shadow_shaman — Q (enfos_ss_ether_shock) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:96
+- **MT-2564 / PENDING** — shadow_shaman — Q (enfos_ss_ether_shock) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:97
+- **MT-2565 / PENDING** — shadow_shaman — Q (enfos_ss_ether_shock) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:98
+- **MT-2566 / PENDING** — shadow_shaman — Q (enfos_ss_ether_shock) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:99
+- **MT-2567 / PENDING** — shadow_shaman — Q (enfos_ss_ether_shock) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:100
+- **MT-2568 / PENDING** — shadow_shaman — Q (enfos_ss_ether_shock) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:101
+- **MT-2569 / PENDING** — shadow_shaman — Q (enfos_ss_ether_shock) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:102
+- **MT-2570 / PENDING** — shadow_shaman — Q (enfos_ss_ether_shock) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:103
+- **MT-2571 / PENDING** — shadow_shaman — Q (enfos_ss_ether_shock) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:104
+- **MT-2572 / PENDING** — shadow_shaman — Q (enfos_ss_ether_shock) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:105
+- **MT-2573 / PENDING** — shadow_shaman — W (enfos_ss_hex) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:134
+- **MT-2574 / PENDING** — shadow_shaman — W (enfos_ss_hex) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:135
+- **MT-2575 / PENDING** — shadow_shaman — W (enfos_ss_hex) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:136
+- **MT-2576 / PENDING** — shadow_shaman — W (enfos_ss_hex) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:137
+- **MT-2577 / PENDING** — shadow_shaman — W (enfos_ss_hex) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:138
+- **MT-2578 / PENDING** — shadow_shaman — W (enfos_ss_hex) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:139
+- **MT-2579 / PENDING** — shadow_shaman — W (enfos_ss_hex) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:140
+- **MT-2580 / PENDING** — shadow_shaman — W (enfos_ss_hex) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:141
+- **MT-2581 / PENDING** — shadow_shaman — W (enfos_ss_hex) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:142
+- **MT-2582 / PENDING** — shadow_shaman — W (enfos_ss_hex) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:143
+- **MT-2583 / PENDING** — shadow_shaman — W (enfos_ss_hex) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:144
+- **MT-2584 / PENDING** — shadow_shaman — W (enfos_ss_hex) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:145
+- **MT-2585 / PENDING** — shadow_shaman — W (enfos_ss_hex) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:146
+- **MT-2586 / PENDING** — shadow_shaman — W (enfos_ss_hex) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:147
+- **MT-2587 / PENDING** — shadow_shaman — W (enfos_ss_hex) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:148
+- **MT-2588 / PENDING** — shadow_shaman — E (enfos_ss_shackles) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:177
+- **MT-2589 / PENDING** — shadow_shaman — E (enfos_ss_shackles) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:178
+- **MT-2590 / PENDING** — shadow_shaman — E (enfos_ss_shackles) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:179
+- **MT-2591 / PENDING** — shadow_shaman — E (enfos_ss_shackles) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:180
+- **MT-2592 / PENDING** — shadow_shaman — E (enfos_ss_shackles) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:181
+- **MT-2593 / PENDING** — shadow_shaman — E (enfos_ss_shackles) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:182
+- **MT-2594 / PENDING** — shadow_shaman — E (enfos_ss_shackles) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:183
+- **MT-2595 / PENDING** — shadow_shaman — E (enfos_ss_shackles) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:184
+- **MT-2596 / PENDING** — shadow_shaman — E (enfos_ss_shackles) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:185
+- **MT-2597 / PENDING** — shadow_shaman — E (enfos_ss_shackles) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:186
+- **MT-2598 / PENDING** — shadow_shaman — E (enfos_ss_shackles) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:187
+- **MT-2599 / PENDING** — shadow_shaman — E (enfos_ss_shackles) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:188
+- **MT-2600 / PENDING** — shadow_shaman — E (enfos_ss_shackles) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:189
+- **MT-2601 / PENDING** — shadow_shaman — E (enfos_ss_shackles) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:190
+- **MT-2602 / PENDING** — shadow_shaman — E (enfos_ss_shackles) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:191
+- **MT-2603 / PENDING** — shadow_shaman — R (enfos_ss_mass_serpent_ward) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:220
+- **MT-2604 / PENDING** — shadow_shaman — R (enfos_ss_mass_serpent_ward) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:221
+- **MT-2605 / PENDING** — shadow_shaman — R (enfos_ss_mass_serpent_ward) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:222
+- **MT-2606 / PENDING** — shadow_shaman — R (enfos_ss_mass_serpent_ward) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:223
+- **MT-2607 / PENDING** — shadow_shaman — R (enfos_ss_mass_serpent_ward) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:224
+- **MT-2608 / PENDING** — shadow_shaman — R (enfos_ss_mass_serpent_ward) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:225
+- **MT-2609 / PENDING** — shadow_shaman — R (enfos_ss_mass_serpent_ward) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:226
+- **MT-2610 / PENDING** — shadow_shaman — R (enfos_ss_mass_serpent_ward) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:227
+- **MT-2611 / PENDING** — shadow_shaman — R (enfos_ss_mass_serpent_ward) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:228
+- **MT-2612 / PENDING** — shadow_shaman — R (enfos_ss_mass_serpent_ward) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:229
+- **MT-2613 / PENDING** — shadow_shaman — R (enfos_ss_mass_serpent_ward) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:230
+- **MT-2614 / PENDING** — shadow_shaman — R (enfos_ss_mass_serpent_ward) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:231
+- **MT-2615 / PENDING** — shadow_shaman — R (enfos_ss_mass_serpent_ward) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:232
+- **MT-2616 / PENDING** — shadow_shaman — R (enfos_ss_mass_serpent_ward) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:233
+- **MT-2617 / PENDING** — shadow_shaman — R (enfos_ss_mass_serpent_ward) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:234
+- **MT-2618 / PENDING** — shadow_shaman — Enfos pasifi (enfos_ss_fowl_play) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:263
+- **MT-2619 / PENDING** — shadow_shaman — Enfos pasifi (enfos_ss_fowl_play) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:264
+- **MT-2620 / PENDING** — shadow_shaman — Enfos pasifi (enfos_ss_fowl_play) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:265
+- **MT-2621 / PENDING** — shadow_shaman — Enfos pasifi (enfos_ss_fowl_play) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:266
+- **MT-2622 / PENDING** — shadow_shaman — Enfos pasifi (enfos_ss_fowl_play) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:267
+- **MT-2623 / PENDING** — shadow_shaman — Enfos pasifi (enfos_ss_fowl_play) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:268
+- **MT-2624 / PENDING** — shadow_shaman — Enfos pasifi (enfos_ss_fowl_play) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:269
+- **MT-2625 / PENDING** — shadow_shaman — Enfos pasifi (enfos_ss_fowl_play) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:270
+- **MT-2626 / PENDING** — shadow_shaman — Enfos pasifi (enfos_ss_fowl_play) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:271
+- **MT-2627 / PENDING** — shadow_shaman — Enfos pasifi (enfos_ss_fowl_play) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:272
+- **MT-2628 / PENDING** — shadow_shaman — Enfos pasifi (enfos_ss_fowl_play) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:273
+- **MT-2629 / PENDING** — shadow_shaman — Enfos pasifi (enfos_ss_fowl_play) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:274
+- **MT-2630 / PENDING** — shadow_shaman — Enfos pasifi (enfos_ss_fowl_play) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:275
+- **MT-2631 / PENDING** — shadow_shaman — Enfos pasifi (enfos_ss_fowl_play) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:276
+- **MT-2632 / PENDING** — shadow_shaman — Enfos pasifi (enfos_ss_fowl_play) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/shadow_shaman/ABILITIES.md:277
+- **MT-2633 / PENDING** — skeleton_king — Q (enfos_wk_wraithfire_blast) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:116
+- **MT-2634 / PENDING** — skeleton_king — Q (enfos_wk_wraithfire_blast) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:117
+- **MT-2635 / PENDING** — skeleton_king — Q (enfos_wk_wraithfire_blast) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:118
+- **MT-2636 / PENDING** — skeleton_king — Q (enfos_wk_wraithfire_blast) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:119
+- **MT-2637 / PENDING** — skeleton_king — Q (enfos_wk_wraithfire_blast) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:120
+- **MT-2638 / PENDING** — skeleton_king — Q (enfos_wk_wraithfire_blast) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:121
+- **MT-2639 / PENDING** — skeleton_king — Q (enfos_wk_wraithfire_blast) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:122
+- **MT-2640 / PENDING** — skeleton_king — Q (enfos_wk_wraithfire_blast) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:123
+- **MT-2641 / PENDING** — skeleton_king — Q (enfos_wk_wraithfire_blast) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:124
+- **MT-2642 / PENDING** — skeleton_king — Q (enfos_wk_wraithfire_blast) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:125
+- **MT-2643 / PENDING** — skeleton_king — Q (enfos_wk_wraithfire_blast) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:126
+- **MT-2644 / PENDING** — skeleton_king — Q (enfos_wk_wraithfire_blast) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:127
+- **MT-2645 / PENDING** — skeleton_king — Q (enfos_wk_wraithfire_blast) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:128
+- **MT-2646 / PENDING** — skeleton_king — Q (enfos_wk_wraithfire_blast) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:129
+- **MT-2647 / PENDING** — skeleton_king — Q (enfos_wk_wraithfire_blast) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:130
+- **MT-2648 / PENDING** — skeleton_king — Enfos pasifi (enfos_wk_vampiric_aura) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:159
+- **MT-2649 / PENDING** — skeleton_king — Enfos pasifi (enfos_wk_vampiric_aura) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:160
+- **MT-2650 / PENDING** — skeleton_king — Enfos pasifi (enfos_wk_vampiric_aura) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:161
+- **MT-2651 / PENDING** — skeleton_king — Enfos pasifi (enfos_wk_vampiric_aura) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:162
+- **MT-2652 / PENDING** — skeleton_king — Enfos pasifi (enfos_wk_vampiric_aura) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:163
+- **MT-2653 / PENDING** — skeleton_king — Enfos pasifi (enfos_wk_vampiric_aura) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:164
+- **MT-2654 / PENDING** — skeleton_king — Enfos pasifi (enfos_wk_vampiric_aura) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:165
+- **MT-2655 / PENDING** — skeleton_king — Enfos pasifi (enfos_wk_vampiric_aura) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:166
+- **MT-2656 / PENDING** — skeleton_king — Enfos pasifi (enfos_wk_vampiric_aura) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:167
+- **MT-2657 / PENDING** — skeleton_king — Enfos pasifi (enfos_wk_vampiric_aura) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:168
+- **MT-2658 / PENDING** — skeleton_king — Enfos pasifi (enfos_wk_vampiric_aura) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:169
+- **MT-2659 / PENDING** — skeleton_king — Enfos pasifi (enfos_wk_vampiric_aura) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:170
+- **MT-2660 / PENDING** — skeleton_king — Enfos pasifi (enfos_wk_vampiric_aura) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:171
+- **MT-2661 / PENDING** — skeleton_king — Enfos pasifi (enfos_wk_vampiric_aura) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:172
+- **MT-2662 / PENDING** — skeleton_king — Enfos pasifi (enfos_wk_vampiric_aura) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:173
+- **MT-2663 / PENDING** — skeleton_king — E (enfos_wk_mortal_strike) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:202
+- **MT-2664 / PENDING** — skeleton_king — E (enfos_wk_mortal_strike) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:203
+- **MT-2665 / PENDING** — skeleton_king — E (enfos_wk_mortal_strike) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:204
+- **MT-2666 / PENDING** — skeleton_king — E (enfos_wk_mortal_strike) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:205
+- **MT-2667 / PENDING** — skeleton_king — E (enfos_wk_mortal_strike) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:206
+- **MT-2668 / PENDING** — skeleton_king — E (enfos_wk_mortal_strike) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:207
+- **MT-2669 / PENDING** — skeleton_king — E (enfos_wk_mortal_strike) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:208
+- **MT-2670 / PENDING** — skeleton_king — E (enfos_wk_mortal_strike) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:209
+- **MT-2671 / PENDING** — skeleton_king — E (enfos_wk_mortal_strike) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:210
+- **MT-2672 / PENDING** — skeleton_king — E (enfos_wk_mortal_strike) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:211
+- **MT-2673 / PENDING** — skeleton_king — E (enfos_wk_mortal_strike) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:212
+- **MT-2674 / PENDING** — skeleton_king — E (enfos_wk_mortal_strike) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:213
+- **MT-2675 / PENDING** — skeleton_king — E (enfos_wk_mortal_strike) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:214
+- **MT-2676 / PENDING** — skeleton_king — E (enfos_wk_mortal_strike) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:215
+- **MT-2677 / PENDING** — skeleton_king — E (enfos_wk_mortal_strike) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:216
+- **MT-2678 / PENDING** — skeleton_king — R (enfos_wk_reincarnation) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:245
+- **MT-2679 / PENDING** — skeleton_king — R (enfos_wk_reincarnation) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:246
+- **MT-2680 / PENDING** — skeleton_king — R (enfos_wk_reincarnation) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:247
+- **MT-2681 / PENDING** — skeleton_king — R (enfos_wk_reincarnation) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:248
+- **MT-2682 / PENDING** — skeleton_king — R (enfos_wk_reincarnation) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:249
+- **MT-2683 / PENDING** — skeleton_king — R (enfos_wk_reincarnation) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:250
+- **MT-2684 / PENDING** — skeleton_king — R (enfos_wk_reincarnation) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:251
+- **MT-2685 / PENDING** — skeleton_king — R (enfos_wk_reincarnation) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:252
+- **MT-2686 / PENDING** — skeleton_king — R (enfos_wk_reincarnation) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:253
+- **MT-2687 / PENDING** — skeleton_king — R (enfos_wk_reincarnation) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:254
+- **MT-2688 / PENDING** — skeleton_king — R (enfos_wk_reincarnation) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:255
+- **MT-2689 / PENDING** — skeleton_king — R (enfos_wk_reincarnation) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:256
+- **MT-2690 / PENDING** — skeleton_king — R (enfos_wk_reincarnation) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:257
+- **MT-2691 / PENDING** — skeleton_king — R (enfos_wk_reincarnation) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:258
+- **MT-2692 / PENDING** — skeleton_king — R (enfos_wk_reincarnation) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:259
+- **MT-2693 / PENDING** — skeleton_king — W (enfos_wk_skeleton_army) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:288
+- **MT-2694 / PENDING** — skeleton_king — W (enfos_wk_skeleton_army) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:289
+- **MT-2695 / PENDING** — skeleton_king — W (enfos_wk_skeleton_army) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:290
+- **MT-2696 / PENDING** — skeleton_king — W (enfos_wk_skeleton_army) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:291
+- **MT-2697 / PENDING** — skeleton_king — W (enfos_wk_skeleton_army) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:292
+- **MT-2698 / PENDING** — skeleton_king — W (enfos_wk_skeleton_army) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:293
+- **MT-2699 / PENDING** — skeleton_king — W (enfos_wk_skeleton_army) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:294
+- **MT-2700 / PENDING** — skeleton_king — W (enfos_wk_skeleton_army) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:295
+- **MT-2701 / PENDING** — skeleton_king — W (enfos_wk_skeleton_army) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:296
+- **MT-2702 / PENDING** — skeleton_king — W (enfos_wk_skeleton_army) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:297
+- **MT-2703 / PENDING** — skeleton_king — W (enfos_wk_skeleton_army) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:298
+- **MT-2704 / PENDING** — skeleton_king — W (enfos_wk_skeleton_army) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:299
+- **MT-2705 / PENDING** — skeleton_king — W (enfos_wk_skeleton_army) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:300
+- **MT-2706 / PENDING** — skeleton_king — W (enfos_wk_skeleton_army) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:301
+- **MT-2707 / PENDING** — skeleton_king — W (enfos_wk_skeleton_army) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/skeleton_king/ABILITIES.md:302
+- **MT-2708 / PENDING** — slark — Q (enfos_slark_dark_pact) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:97
+- **MT-2709 / PENDING** — slark — Q (enfos_slark_dark_pact) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:98
+- **MT-2710 / PENDING** — slark — Q (enfos_slark_dark_pact) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:99
+- **MT-2711 / PENDING** — slark — Q (enfos_slark_dark_pact) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:100
+- **MT-2712 / PENDING** — slark — Q (enfos_slark_dark_pact) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:101
+- **MT-2713 / PENDING** — slark — Q (enfos_slark_dark_pact) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:102
+- **MT-2714 / PENDING** — slark — Q (enfos_slark_dark_pact) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:103
+- **MT-2715 / PENDING** — slark — Q (enfos_slark_dark_pact) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:104
+- **MT-2716 / PENDING** — slark — Q (enfos_slark_dark_pact) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:105
+- **MT-2717 / PENDING** — slark — Q (enfos_slark_dark_pact) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:106
+- **MT-2718 / PENDING** — slark — Q (enfos_slark_dark_pact) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:107
+- **MT-2719 / PENDING** — slark — Q (enfos_slark_dark_pact) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:108
+- **MT-2720 / PENDING** — slark — Q (enfos_slark_dark_pact) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:109
+- **MT-2721 / PENDING** — slark — Q (enfos_slark_dark_pact) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:110
+- **MT-2722 / PENDING** — slark — Q (enfos_slark_dark_pact) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:111
+- **MT-2723 / PENDING** — slark — W (enfos_slark_pounce) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:140
+- **MT-2724 / PENDING** — slark — W (enfos_slark_pounce) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:141
+- **MT-2725 / PENDING** — slark — W (enfos_slark_pounce) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:142
+- **MT-2726 / PENDING** — slark — W (enfos_slark_pounce) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:143
+- **MT-2727 / PENDING** — slark — W (enfos_slark_pounce) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:144
+- **MT-2728 / PENDING** — slark — W (enfos_slark_pounce) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:145
+- **MT-2729 / PENDING** — slark — W (enfos_slark_pounce) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:146
+- **MT-2730 / PENDING** — slark — W (enfos_slark_pounce) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:147
+- **MT-2731 / PENDING** — slark — W (enfos_slark_pounce) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:148
+- **MT-2732 / PENDING** — slark — W (enfos_slark_pounce) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:149
+- **MT-2733 / PENDING** — slark — W (enfos_slark_pounce) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:150
+- **MT-2734 / PENDING** — slark — W (enfos_slark_pounce) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:151
+- **MT-2735 / PENDING** — slark — W (enfos_slark_pounce) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:152
+- **MT-2736 / PENDING** — slark — W (enfos_slark_pounce) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:153
+- **MT-2737 / PENDING** — slark — W (enfos_slark_pounce) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:154
+- **MT-2738 / PENDING** — slark — E (enfos_slark_essence_shift) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:183
+- **MT-2739 / PENDING** — slark — E (enfos_slark_essence_shift) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:184
+- **MT-2740 / PENDING** — slark — E (enfos_slark_essence_shift) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:185
+- **MT-2741 / PENDING** — slark — E (enfos_slark_essence_shift) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:186
+- **MT-2742 / PENDING** — slark — E (enfos_slark_essence_shift) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:187
+- **MT-2743 / PENDING** — slark — E (enfos_slark_essence_shift) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:188
+- **MT-2744 / PENDING** — slark — E (enfos_slark_essence_shift) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:189
+- **MT-2745 / PENDING** — slark — E (enfos_slark_essence_shift) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:190
+- **MT-2746 / PENDING** — slark — E (enfos_slark_essence_shift) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:191
+- **MT-2747 / PENDING** — slark — E (enfos_slark_essence_shift) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:192
+- **MT-2748 / PENDING** — slark — E (enfos_slark_essence_shift) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:193
+- **MT-2749 / PENDING** — slark — E (enfos_slark_essence_shift) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:194
+- **MT-2750 / PENDING** — slark — E (enfos_slark_essence_shift) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:195
+- **MT-2751 / PENDING** — slark — E (enfos_slark_essence_shift) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:196
+- **MT-2752 / PENDING** — slark — E (enfos_slark_essence_shift) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:197
+- **MT-2753 / PENDING** — slark — R (enfos_slark_shadow_dance) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:226
+- **MT-2754 / PENDING** — slark — R (enfos_slark_shadow_dance) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:227
+- **MT-2755 / PENDING** — slark — R (enfos_slark_shadow_dance) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:228
+- **MT-2756 / PENDING** — slark — R (enfos_slark_shadow_dance) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:229
+- **MT-2757 / PENDING** — slark — R (enfos_slark_shadow_dance) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:230
+- **MT-2758 / PENDING** — slark — R (enfos_slark_shadow_dance) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:231
+- **MT-2759 / PENDING** — slark — R (enfos_slark_shadow_dance) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:232
+- **MT-2760 / PENDING** — slark — R (enfos_slark_shadow_dance) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:233
+- **MT-2761 / PENDING** — slark — R (enfos_slark_shadow_dance) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:234
+- **MT-2762 / PENDING** — slark — R (enfos_slark_shadow_dance) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:235
+- **MT-2763 / PENDING** — slark — R (enfos_slark_shadow_dance) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:236
+- **MT-2764 / PENDING** — slark — R (enfos_slark_shadow_dance) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:237
+- **MT-2765 / PENDING** — slark — R (enfos_slark_shadow_dance) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:238
+- **MT-2766 / PENDING** — slark — R (enfos_slark_shadow_dance) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:239
+- **MT-2767 / PENDING** — slark — R (enfos_slark_shadow_dance) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:240
+- **MT-2768 / PENDING** — slark — Enfos pasifi (enfos_slark_fish_bait) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:269
+- **MT-2769 / PENDING** — slark — Enfos pasifi (enfos_slark_fish_bait) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:270
+- **MT-2770 / PENDING** — slark — Enfos pasifi (enfos_slark_fish_bait) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:271
+- **MT-2771 / PENDING** — slark — Enfos pasifi (enfos_slark_fish_bait) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:272
+- **MT-2772 / PENDING** — slark — Enfos pasifi (enfos_slark_fish_bait) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:273
+- **MT-2773 / PENDING** — slark — Enfos pasifi (enfos_slark_fish_bait) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:274
+- **MT-2774 / PENDING** — slark — Enfos pasifi (enfos_slark_fish_bait) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:275
+- **MT-2775 / PENDING** — slark — Enfos pasifi (enfos_slark_fish_bait) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:276
+- **MT-2776 / PENDING** — slark — Enfos pasifi (enfos_slark_fish_bait) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:277
+- **MT-2777 / PENDING** — slark — Enfos pasifi (enfos_slark_fish_bait) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:278
+- **MT-2778 / PENDING** — slark — Enfos pasifi (enfos_slark_fish_bait) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:279
+- **MT-2779 / PENDING** — slark — Enfos pasifi (enfos_slark_fish_bait) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:280
+- **MT-2780 / PENDING** — slark — Enfos pasifi (enfos_slark_fish_bait) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:281
+- **MT-2781 / PENDING** — slark — Enfos pasifi (enfos_slark_fish_bait) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:282
+- **MT-2782 / PENDING** — slark — Enfos pasifi (enfos_slark_fish_bait) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/slark/ABILITIES.md:283
+- **MT-2783 / PENDING** — sniper — Q (enfos_sniper_shrapnel) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:85
+- **MT-2784 / PENDING** — sniper — Q (enfos_sniper_shrapnel) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:86
+- **MT-2785 / PENDING** — sniper — Q (enfos_sniper_shrapnel) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:87
+- **MT-2786 / PENDING** — sniper — Q (enfos_sniper_shrapnel) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:88
+- **MT-2787 / PENDING** — sniper — Q (enfos_sniper_shrapnel) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:89
+- **MT-2788 / PENDING** — sniper — Q (enfos_sniper_shrapnel) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:90
+- **MT-2789 / PENDING** — sniper — Q (enfos_sniper_shrapnel) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:91
+- **MT-2790 / PENDING** — sniper — Q (enfos_sniper_shrapnel) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:92
+- **MT-2791 / PENDING** — sniper — Q (enfos_sniper_shrapnel) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:93
+- **MT-2792 / PENDING** — sniper — Q (enfos_sniper_shrapnel) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:94
+- **MT-2793 / PENDING** — sniper — Q (enfos_sniper_shrapnel) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:95
+- **MT-2794 / PENDING** — sniper — Q (enfos_sniper_shrapnel) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:96
+- **MT-2795 / PENDING** — sniper — Q (enfos_sniper_shrapnel) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:97
+- **MT-2796 / PENDING** — sniper — Q (enfos_sniper_shrapnel) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:98
+- **MT-2797 / PENDING** — sniper — Q (enfos_sniper_shrapnel) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:99
+- **MT-2798 / PENDING** — sniper — W (enfos_sniper_headshot) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:128
+- **MT-2799 / PENDING** — sniper — W (enfos_sniper_headshot) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:129
+- **MT-2800 / PENDING** — sniper — W (enfos_sniper_headshot) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:130
+- **MT-2801 / PENDING** — sniper — W (enfos_sniper_headshot) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:131
+- **MT-2802 / PENDING** — sniper — W (enfos_sniper_headshot) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:132
+- **MT-2803 / PENDING** — sniper — W (enfos_sniper_headshot) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:133
+- **MT-2804 / PENDING** — sniper — W (enfos_sniper_headshot) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:134
+- **MT-2805 / PENDING** — sniper — W (enfos_sniper_headshot) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:135
+- **MT-2806 / PENDING** — sniper — W (enfos_sniper_headshot) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:136
+- **MT-2807 / PENDING** — sniper — W (enfos_sniper_headshot) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:137
+- **MT-2808 / PENDING** — sniper — W (enfos_sniper_headshot) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:138
+- **MT-2809 / PENDING** — sniper — W (enfos_sniper_headshot) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:139
+- **MT-2810 / PENDING** — sniper — W (enfos_sniper_headshot) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:140
+- **MT-2811 / PENDING** — sniper — W (enfos_sniper_headshot) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:141
+- **MT-2812 / PENDING** — sniper — W (enfos_sniper_headshot) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:142
+- **MT-2813 / PENDING** — sniper — E (enfos_sniper_take_aim) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:171
+- **MT-2814 / PENDING** — sniper — E (enfos_sniper_take_aim) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:172
+- **MT-2815 / PENDING** — sniper — E (enfos_sniper_take_aim) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:173
+- **MT-2816 / PENDING** — sniper — E (enfos_sniper_take_aim) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:174
+- **MT-2817 / PENDING** — sniper — E (enfos_sniper_take_aim) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:175
+- **MT-2818 / PENDING** — sniper — E (enfos_sniper_take_aim) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:176
+- **MT-2819 / PENDING** — sniper — E (enfos_sniper_take_aim) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:177
+- **MT-2820 / PENDING** — sniper — E (enfos_sniper_take_aim) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:178
+- **MT-2821 / PENDING** — sniper — E (enfos_sniper_take_aim) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:179
+- **MT-2822 / PENDING** — sniper — E (enfos_sniper_take_aim) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:180
+- **MT-2823 / PENDING** — sniper — E (enfos_sniper_take_aim) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:181
+- **MT-2824 / PENDING** — sniper — E (enfos_sniper_take_aim) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:182
+- **MT-2825 / PENDING** — sniper — E (enfos_sniper_take_aim) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:183
+- **MT-2826 / PENDING** — sniper — E (enfos_sniper_take_aim) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:184
+- **MT-2827 / PENDING** — sniper — E (enfos_sniper_take_aim) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:185
+- **MT-2828 / PENDING** — sniper — R (enfos_sniper_assassinate) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:214
+- **MT-2829 / PENDING** — sniper — R (enfos_sniper_assassinate) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:215
+- **MT-2830 / PENDING** — sniper — R (enfos_sniper_assassinate) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:216
+- **MT-2831 / PENDING** — sniper — R (enfos_sniper_assassinate) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:217
+- **MT-2832 / PENDING** — sniper — R (enfos_sniper_assassinate) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:218
+- **MT-2833 / PENDING** — sniper — R (enfos_sniper_assassinate) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:219
+- **MT-2834 / PENDING** — sniper — R (enfos_sniper_assassinate) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:220
+- **MT-2835 / PENDING** — sniper — R (enfos_sniper_assassinate) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:221
+- **MT-2836 / PENDING** — sniper — R (enfos_sniper_assassinate) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:222
+- **MT-2837 / PENDING** — sniper — R (enfos_sniper_assassinate) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:223
+- **MT-2838 / PENDING** — sniper — R (enfos_sniper_assassinate) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:224
+- **MT-2839 / PENDING** — sniper — R (enfos_sniper_assassinate) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:225
+- **MT-2840 / PENDING** — sniper — R (enfos_sniper_assassinate) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:226
+- **MT-2841 / PENDING** — sniper — R (enfos_sniper_assassinate) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:227
+- **MT-2842 / PENDING** — sniper — R (enfos_sniper_assassinate) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:228
+- **MT-2843 / PENDING** — sniper — Enfos pasifi (enfos_sniper_keen_eye) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:257
+- **MT-2844 / PENDING** — sniper — Enfos pasifi (enfos_sniper_keen_eye) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:258
+- **MT-2845 / PENDING** — sniper — Enfos pasifi (enfos_sniper_keen_eye) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:259
+- **MT-2846 / PENDING** — sniper — Enfos pasifi (enfos_sniper_keen_eye) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:260
+- **MT-2847 / PENDING** — sniper — Enfos pasifi (enfos_sniper_keen_eye) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:261
+- **MT-2848 / PENDING** — sniper — Enfos pasifi (enfos_sniper_keen_eye) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:262
+- **MT-2849 / PENDING** — sniper — Enfos pasifi (enfos_sniper_keen_eye) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:263
+- **MT-2850 / PENDING** — sniper — Enfos pasifi (enfos_sniper_keen_eye) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:264
+- **MT-2851 / PENDING** — sniper — Enfos pasifi (enfos_sniper_keen_eye) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:265
+- **MT-2852 / PENDING** — sniper — Enfos pasifi (enfos_sniper_keen_eye) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:266
+- **MT-2853 / PENDING** — sniper — Enfos pasifi (enfos_sniper_keen_eye) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:267
+- **MT-2854 / PENDING** — sniper — Enfos pasifi (enfos_sniper_keen_eye) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:268
+- **MT-2855 / PENDING** — sniper — Enfos pasifi (enfos_sniper_keen_eye) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:269
+- **MT-2856 / PENDING** — sniper — Enfos pasifi (enfos_sniper_keen_eye) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:270
+- **MT-2857 / PENDING** — sniper — Enfos pasifi (enfos_sniper_keen_eye) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/sniper/ABILITIES.md:271
+- **MT-2858 / PENDING** — storm_spirit — Q (enfos_storm_static_remnant) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:77
+- **MT-2859 / PENDING** — storm_spirit — Q (enfos_storm_static_remnant) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:78
+- **MT-2860 / PENDING** — storm_spirit — Q (enfos_storm_static_remnant) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:79
+- **MT-2861 / PENDING** — storm_spirit — Q (enfos_storm_static_remnant) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:80
+- **MT-2862 / PENDING** — storm_spirit — Q (enfos_storm_static_remnant) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:81
+- **MT-2863 / PENDING** — storm_spirit — Q (enfos_storm_static_remnant) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:82
+- **MT-2864 / PENDING** — storm_spirit — Q (enfos_storm_static_remnant) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:83
+- **MT-2865 / PENDING** — storm_spirit — Q (enfos_storm_static_remnant) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:84
+- **MT-2866 / PENDING** — storm_spirit — Q (enfos_storm_static_remnant) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:85
+- **MT-2867 / PENDING** — storm_spirit — Q (enfos_storm_static_remnant) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:86
+- **MT-2868 / PENDING** — storm_spirit — Q (enfos_storm_static_remnant) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:87
+- **MT-2869 / PENDING** — storm_spirit — Q (enfos_storm_static_remnant) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:88
+- **MT-2870 / PENDING** — storm_spirit — Q (enfos_storm_static_remnant) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:89
+- **MT-2871 / PENDING** — storm_spirit — Q (enfos_storm_static_remnant) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:90
+- **MT-2872 / PENDING** — storm_spirit — Q (enfos_storm_static_remnant) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:91
+- **MT-2873 / PENDING** — storm_spirit — W (enfos_storm_electric_vortex) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:109
+- **MT-2874 / PENDING** — storm_spirit — W (enfos_storm_electric_vortex) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:110
+- **MT-2875 / PENDING** — storm_spirit — W (enfos_storm_electric_vortex) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:111
+- **MT-2876 / PENDING** — storm_spirit — W (enfos_storm_electric_vortex) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:112
+- **MT-2877 / PENDING** — storm_spirit — W (enfos_storm_electric_vortex) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:113
+- **MT-2878 / PENDING** — storm_spirit — W (enfos_storm_electric_vortex) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:114
+- **MT-2879 / PENDING** — storm_spirit — W (enfos_storm_electric_vortex) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:115
+- **MT-2880 / PENDING** — storm_spirit — W (enfos_storm_electric_vortex) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:116
+- **MT-2881 / PENDING** — storm_spirit — W (enfos_storm_electric_vortex) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:117
+- **MT-2882 / PENDING** — storm_spirit — W (enfos_storm_electric_vortex) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:118
+- **MT-2883 / PENDING** — storm_spirit — W (enfos_storm_electric_vortex) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:119
+- **MT-2884 / PENDING** — storm_spirit — W (enfos_storm_electric_vortex) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:120
+- **MT-2885 / PENDING** — storm_spirit — W (enfos_storm_electric_vortex) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:121
+- **MT-2886 / PENDING** — storm_spirit — W (enfos_storm_electric_vortex) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:122
+- **MT-2887 / PENDING** — storm_spirit — W (enfos_storm_electric_vortex) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:123
+- **MT-2888 / PENDING** — storm_spirit — E (enfos_storm_overload) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:139
+- **MT-2889 / PENDING** — storm_spirit — E (enfos_storm_overload) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:140
+- **MT-2890 / PENDING** — storm_spirit — E (enfos_storm_overload) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:141
+- **MT-2891 / PENDING** — storm_spirit — E (enfos_storm_overload) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:142
+- **MT-2892 / PENDING** — storm_spirit — E (enfos_storm_overload) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:143
+- **MT-2893 / PENDING** — storm_spirit — E (enfos_storm_overload) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:144
+- **MT-2894 / PENDING** — storm_spirit — E (enfos_storm_overload) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:145
+- **MT-2895 / PENDING** — storm_spirit — E (enfos_storm_overload) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:146
+- **MT-2896 / PENDING** — storm_spirit — E (enfos_storm_overload) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:147
+- **MT-2897 / PENDING** — storm_spirit — E (enfos_storm_overload) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:148
+- **MT-2898 / PENDING** — storm_spirit — E (enfos_storm_overload) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:149
+- **MT-2899 / PENDING** — storm_spirit — E (enfos_storm_overload) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:150
+- **MT-2900 / PENDING** — storm_spirit — E (enfos_storm_overload) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:151
+- **MT-2901 / PENDING** — storm_spirit — E (enfos_storm_overload) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:152
+- **MT-2902 / PENDING** — storm_spirit — E (enfos_storm_overload) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:153
+- **MT-2903 / PENDING** — storm_spirit — R (enfos_storm_ball_lightning) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:169
+- **MT-2904 / PENDING** — storm_spirit — R (enfos_storm_ball_lightning) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:170
+- **MT-2905 / PENDING** — storm_spirit — R (enfos_storm_ball_lightning) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:171
+- **MT-2906 / PENDING** — storm_spirit — R (enfos_storm_ball_lightning) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:172
+- **MT-2907 / PENDING** — storm_spirit — R (enfos_storm_ball_lightning) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:173
+- **MT-2908 / PENDING** — storm_spirit — R (enfos_storm_ball_lightning) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:174
+- **MT-2909 / PENDING** — storm_spirit — R (enfos_storm_ball_lightning) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:175
+- **MT-2910 / PENDING** — storm_spirit — R (enfos_storm_ball_lightning) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:176
+- **MT-2911 / PENDING** — storm_spirit — R (enfos_storm_ball_lightning) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:177
+- **MT-2912 / PENDING** — storm_spirit — R (enfos_storm_ball_lightning) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:178
+- **MT-2913 / PENDING** — storm_spirit — R (enfos_storm_ball_lightning) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:179
+- **MT-2914 / PENDING** — storm_spirit — R (enfos_storm_ball_lightning) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:180
+- **MT-2915 / PENDING** — storm_spirit — R (enfos_storm_ball_lightning) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:181
+- **MT-2916 / PENDING** — storm_spirit — R (enfos_storm_ball_lightning) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:182
+- **MT-2917 / PENDING** — storm_spirit — R (enfos_storm_ball_lightning) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:183
+- **MT-2918 / PENDING** — storm_spirit — Enfos pasifi (enfos_storm_galvanic_core) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:199
+- **MT-2919 / PENDING** — storm_spirit — Enfos pasifi (enfos_storm_galvanic_core) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:200
+- **MT-2920 / PENDING** — storm_spirit — Enfos pasifi (enfos_storm_galvanic_core) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:201
+- **MT-2921 / PENDING** — storm_spirit — Enfos pasifi (enfos_storm_galvanic_core) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:202
+- **MT-2922 / PENDING** — storm_spirit — Enfos pasifi (enfos_storm_galvanic_core) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:203
+- **MT-2923 / PENDING** — storm_spirit — Enfos pasifi (enfos_storm_galvanic_core) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:204
+- **MT-2924 / PENDING** — storm_spirit — Enfos pasifi (enfos_storm_galvanic_core) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:205
+- **MT-2925 / PENDING** — storm_spirit — Enfos pasifi (enfos_storm_galvanic_core) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:206
+- **MT-2926 / PENDING** — storm_spirit — Enfos pasifi (enfos_storm_galvanic_core) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:207
+- **MT-2927 / PENDING** — storm_spirit — Enfos pasifi (enfos_storm_galvanic_core) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:208
+- **MT-2928 / PENDING** — storm_spirit — Enfos pasifi (enfos_storm_galvanic_core) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:209
+- **MT-2929 / PENDING** — storm_spirit — Enfos pasifi (enfos_storm_galvanic_core) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:210
+- **MT-2930 / PENDING** — storm_spirit — Enfos pasifi (enfos_storm_galvanic_core) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:211
+- **MT-2931 / PENDING** — storm_spirit — Enfos pasifi (enfos_storm_galvanic_core) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:212
+- **MT-2932 / PENDING** — storm_spirit — Enfos pasifi (enfos_storm_galvanic_core) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/storm_spirit/ABILITIES.md:213
+- **MT-2933 / PENDING** — sven — Q (bulwark_shield_slam) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:146, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2934 / PENDING** — sven — Q (bulwark_shield_slam) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:147, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2935 / PENDING** — sven — Q (bulwark_shield_slam) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:148, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2936 / PENDING** — sven — Q (bulwark_shield_slam) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:149, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2937 / PENDING** — sven — Q (bulwark_shield_slam) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:150, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2938 / PENDING** — sven — Q (bulwark_shield_slam) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:151, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2939 / PENDING** — sven — Q (bulwark_shield_slam) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:152, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2940 / PENDING** — sven — Q (bulwark_shield_slam) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:153, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2941 / PENDING** — sven — Q (bulwark_shield_slam) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:154, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2942 / PENDING** — sven — Q (bulwark_shield_slam) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:155, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2943 / PENDING** — sven — Q (bulwark_shield_slam) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:156, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2944 / PENDING** — sven — Q (bulwark_shield_slam) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:157, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2945 / PENDING** — sven — Q (bulwark_shield_slam) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:158, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2946 / PENDING** — sven — Q (bulwark_shield_slam) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:159, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2947 / PENDING** — sven — W (bulwark_challenge) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:190, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2948 / PENDING** — sven — W (bulwark_challenge) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:191, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2949 / PENDING** — sven — W (bulwark_challenge) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:192, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2950 / PENDING** — sven — W (bulwark_challenge) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:193, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2951 / PENDING** — sven — W (bulwark_challenge) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:194, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2952 / PENDING** — sven — W (bulwark_challenge) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:195, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2953 / PENDING** — sven — W (bulwark_challenge) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:196, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2954 / PENDING** — sven — W (bulwark_challenge) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:197, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2955 / PENDING** — sven — W (bulwark_challenge) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:198, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2956 / PENDING** — sven — W (bulwark_challenge) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:199, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2957 / PENDING** — sven — W (bulwark_challenge) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:200, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2958 / PENDING** — sven — W (bulwark_challenge) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:201, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2959 / PENDING** — sven — W (bulwark_challenge) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:202, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2960 / PENDING** — sven — W (bulwark_challenge) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:203, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2961 / PENDING** — sven — E (bulwark_iron_guard) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:234, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2962 / PENDING** — sven — E (bulwark_iron_guard) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:235, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2963 / PENDING** — sven — E (bulwark_iron_guard) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:236, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2964 / PENDING** — sven — E (bulwark_iron_guard) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:237, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2965 / PENDING** — sven — E (bulwark_iron_guard) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:238, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2966 / PENDING** — sven — E (bulwark_iron_guard) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:239, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2967 / PENDING** — sven — E (bulwark_iron_guard) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:240, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2968 / PENDING** — sven — E (bulwark_iron_guard) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:241, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2969 / PENDING** — sven — E (bulwark_iron_guard) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:242, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2970 / PENDING** — sven — E (bulwark_iron_guard) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:243, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2971 / PENDING** — sven — E (bulwark_iron_guard) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:244, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2972 / PENDING** — sven — E (bulwark_iron_guard) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:245, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2973 / PENDING** — sven — E (bulwark_iron_guard) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:246, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2974 / PENDING** — sven — E (bulwark_iron_guard) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:247, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2975 / PENDING** — sven — R (bulwark_fortress) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:280, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2976 / PENDING** — sven — R (bulwark_fortress) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:281, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2977 / PENDING** — sven — R (bulwark_fortress) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:282, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2978 / PENDING** — sven — R (bulwark_fortress) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:283, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2979 / PENDING** — sven — R (bulwark_fortress) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:284, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2980 / PENDING** — sven — R (bulwark_fortress) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:285, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2981 / PENDING** — sven — R (bulwark_fortress) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:286, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2982 / PENDING** — sven — R (bulwark_fortress) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:287, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2983 / PENDING** — sven — R (bulwark_fortress) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:288, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2984 / PENDING** — sven — R (bulwark_fortress) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:289, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2985 / PENDING** — sven — R (bulwark_fortress) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:290, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2986 / PENDING** — sven — R (bulwark_fortress) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:291, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2987 / PENDING** — sven — R (bulwark_fortress) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:292, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2988 / PENDING** — sven — R (bulwark_fortress) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:293, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2989 / PENDING** — sven — R (bulwark_fortress) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:294, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2990 / PENDING** — sven — Enfos pasifi (bulwark_unbreakable) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:343, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2991 / PENDING** — sven — Enfos pasifi (bulwark_unbreakable) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:344, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2992 / PENDING** — sven — Enfos pasifi (bulwark_unbreakable) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:345, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2993 / PENDING** — sven — Enfos pasifi (bulwark_unbreakable) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:346, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2994 / PENDING** — sven — Enfos pasifi (bulwark_unbreakable) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:347, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2995 / PENDING** — sven — Enfos pasifi (bulwark_unbreakable) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:348, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2996 / PENDING** — sven — Enfos pasifi (bulwark_unbreakable) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:349, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2997 / PENDING** — sven — Enfos pasifi (bulwark_unbreakable) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:350, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2998 / PENDING** — sven — Enfos pasifi (bulwark_unbreakable) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:351, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-2999 / PENDING** — sven — Enfos pasifi (bulwark_unbreakable) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:352, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-3000 / PENDING** — sven — Enfos pasifi (bulwark_unbreakable) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:353, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-3001 / PENDING** — sven — Enfos pasifi (bulwark_unbreakable) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:354, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-3002 / PENDING** — sven — Enfos pasifi (bulwark_unbreakable) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:355, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-3003 / PENDING** — sven — Enfos pasifi (bulwark_unbreakable) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:356, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-3004 / PENDING** — sven — Enfos pasifi (bulwark_unbreakable) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/sven/ABILITIES.md:357, docs/audit/SVEN_INDIVIDUAL_REVIEW_2026-10-01.md
+- **MT-3005 / PENDING** — terrorblade — Q (enfos_tb_reflection) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:77
+- **MT-3006 / PENDING** — terrorblade — Q (enfos_tb_reflection) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:78
+- **MT-3007 / PENDING** — terrorblade — Q (enfos_tb_reflection) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:79
+- **MT-3008 / PENDING** — terrorblade — Q (enfos_tb_reflection) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:80
+- **MT-3009 / PENDING** — terrorblade — Q (enfos_tb_reflection) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:81
+- **MT-3010 / PENDING** — terrorblade — Q (enfos_tb_reflection) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:82
+- **MT-3011 / PENDING** — terrorblade — Q (enfos_tb_reflection) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:83
+- **MT-3012 / PENDING** — terrorblade — Q (enfos_tb_reflection) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:84
+- **MT-3013 / PENDING** — terrorblade — Q (enfos_tb_reflection) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:85
+- **MT-3014 / PENDING** — terrorblade — Q (enfos_tb_reflection) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:86
+- **MT-3015 / PENDING** — terrorblade — Q (enfos_tb_reflection) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:87
+- **MT-3016 / PENDING** — terrorblade — Q (enfos_tb_reflection) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:88
+- **MT-3017 / PENDING** — terrorblade — Q (enfos_tb_reflection) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:89
+- **MT-3018 / PENDING** — terrorblade — Q (enfos_tb_reflection) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:90
+- **MT-3019 / PENDING** — terrorblade — Q (enfos_tb_reflection) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:91
+- **MT-3020 / PENDING** — terrorblade — W (enfos_tb_conjure_image) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:107
+- **MT-3021 / PENDING** — terrorblade — W (enfos_tb_conjure_image) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:108
+- **MT-3022 / PENDING** — terrorblade — W (enfos_tb_conjure_image) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:109
+- **MT-3023 / PENDING** — terrorblade — W (enfos_tb_conjure_image) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:110
+- **MT-3024 / PENDING** — terrorblade — W (enfos_tb_conjure_image) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:111
+- **MT-3025 / PENDING** — terrorblade — W (enfos_tb_conjure_image) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:112
+- **MT-3026 / PENDING** — terrorblade — W (enfos_tb_conjure_image) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:113
+- **MT-3027 / PENDING** — terrorblade — W (enfos_tb_conjure_image) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:114
+- **MT-3028 / PENDING** — terrorblade — W (enfos_tb_conjure_image) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:115
+- **MT-3029 / PENDING** — terrorblade — W (enfos_tb_conjure_image) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:116
+- **MT-3030 / PENDING** — terrorblade — W (enfos_tb_conjure_image) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:117
+- **MT-3031 / PENDING** — terrorblade — W (enfos_tb_conjure_image) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:118
+- **MT-3032 / PENDING** — terrorblade — W (enfos_tb_conjure_image) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:119
+- **MT-3033 / PENDING** — terrorblade — W (enfos_tb_conjure_image) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:120
+- **MT-3034 / PENDING** — terrorblade — W (enfos_tb_conjure_image) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:121
+- **MT-3035 / PENDING** — terrorblade — E (enfos_tb_metamorphosis) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:137
+- **MT-3036 / PENDING** — terrorblade — E (enfos_tb_metamorphosis) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:138
+- **MT-3037 / PENDING** — terrorblade — E (enfos_tb_metamorphosis) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:139
+- **MT-3038 / PENDING** — terrorblade — E (enfos_tb_metamorphosis) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:140
+- **MT-3039 / PENDING** — terrorblade — E (enfos_tb_metamorphosis) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:141
+- **MT-3040 / PENDING** — terrorblade — E (enfos_tb_metamorphosis) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:142
+- **MT-3041 / PENDING** — terrorblade — E (enfos_tb_metamorphosis) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:143
+- **MT-3042 / PENDING** — terrorblade — E (enfos_tb_metamorphosis) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:144
+- **MT-3043 / PENDING** — terrorblade — E (enfos_tb_metamorphosis) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:145
+- **MT-3044 / PENDING** — terrorblade — E (enfos_tb_metamorphosis) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:146
+- **MT-3045 / PENDING** — terrorblade — E (enfos_tb_metamorphosis) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:147
+- **MT-3046 / PENDING** — terrorblade — E (enfos_tb_metamorphosis) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:148
+- **MT-3047 / PENDING** — terrorblade — E (enfos_tb_metamorphosis) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:149
+- **MT-3048 / PENDING** — terrorblade — E (enfos_tb_metamorphosis) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:150
+- **MT-3049 / PENDING** — terrorblade — E (enfos_tb_metamorphosis) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:151
+- **MT-3050 / PENDING** — terrorblade — R (enfos_tb_sunder) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:167
+- **MT-3051 / PENDING** — terrorblade — R (enfos_tb_sunder) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:168
+- **MT-3052 / PENDING** — terrorblade — R (enfos_tb_sunder) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:169
+- **MT-3053 / PENDING** — terrorblade — R (enfos_tb_sunder) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:170
+- **MT-3054 / PENDING** — terrorblade — R (enfos_tb_sunder) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:171
+- **MT-3055 / PENDING** — terrorblade — R (enfos_tb_sunder) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:172
+- **MT-3056 / PENDING** — terrorblade — R (enfos_tb_sunder) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:173
+- **MT-3057 / PENDING** — terrorblade — R (enfos_tb_sunder) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:174
+- **MT-3058 / PENDING** — terrorblade — R (enfos_tb_sunder) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:175
+- **MT-3059 / PENDING** — terrorblade — R (enfos_tb_sunder) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:176
+- **MT-3060 / PENDING** — terrorblade — R (enfos_tb_sunder) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:177
+- **MT-3061 / PENDING** — terrorblade — R (enfos_tb_sunder) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:178
+- **MT-3062 / PENDING** — terrorblade — R (enfos_tb_sunder) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:179
+- **MT-3063 / PENDING** — terrorblade — R (enfos_tb_sunder) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:180
+- **MT-3064 / PENDING** — terrorblade — R (enfos_tb_sunder) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:181
+- **MT-3065 / PENDING** — terrorblade — Enfos pasifi (enfos_tb_demon_zeal) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:197
+- **MT-3066 / PENDING** — terrorblade — Enfos pasifi (enfos_tb_demon_zeal) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:198
+- **MT-3067 / PENDING** — terrorblade — Enfos pasifi (enfos_tb_demon_zeal) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:199
+- **MT-3068 / PENDING** — terrorblade — Enfos pasifi (enfos_tb_demon_zeal) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:200
+- **MT-3069 / PENDING** — terrorblade — Enfos pasifi (enfos_tb_demon_zeal) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:201
+- **MT-3070 / PENDING** — terrorblade — Enfos pasifi (enfos_tb_demon_zeal) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:202
+- **MT-3071 / PENDING** — terrorblade — Enfos pasifi (enfos_tb_demon_zeal) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:203
+- **MT-3072 / PENDING** — terrorblade — Enfos pasifi (enfos_tb_demon_zeal) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:204
+- **MT-3073 / PENDING** — terrorblade — Enfos pasifi (enfos_tb_demon_zeal) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:205
+- **MT-3074 / PENDING** — terrorblade — Enfos pasifi (enfos_tb_demon_zeal) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:206
+- **MT-3075 / PENDING** — terrorblade — Enfos pasifi (enfos_tb_demon_zeal) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:207
+- **MT-3076 / PENDING** — terrorblade — Enfos pasifi (enfos_tb_demon_zeal) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:208
+- **MT-3077 / PENDING** — terrorblade — Enfos pasifi (enfos_tb_demon_zeal) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:209
+- **MT-3078 / PENDING** — terrorblade — Enfos pasifi (enfos_tb_demon_zeal) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:210
+- **MT-3079 / PENDING** — terrorblade — Enfos pasifi (enfos_tb_demon_zeal) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/terrorblade/ABILITIES.md:211
+- **MT-3080 / PENDING** — tidehunter — Q (enfos_tide_gush) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:88
+- **MT-3081 / PENDING** — tidehunter — Q (enfos_tide_gush) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:89
+- **MT-3082 / PENDING** — tidehunter — Q (enfos_tide_gush) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:90
+- **MT-3083 / PENDING** — tidehunter — Q (enfos_tide_gush) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:91
+- **MT-3084 / PENDING** — tidehunter — Q (enfos_tide_gush) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:92
+- **MT-3085 / PENDING** — tidehunter — Q (enfos_tide_gush) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:93
+- **MT-3086 / PENDING** — tidehunter — Q (enfos_tide_gush) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:94
+- **MT-3087 / PENDING** — tidehunter — Q (enfos_tide_gush) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:95
+- **MT-3088 / PENDING** — tidehunter — Q (enfos_tide_gush) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:96
+- **MT-3089 / PENDING** — tidehunter — Q (enfos_tide_gush) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:97
+- **MT-3090 / PENDING** — tidehunter — Q (enfos_tide_gush) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:98
+- **MT-3091 / PENDING** — tidehunter — Q (enfos_tide_gush) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:99
+- **MT-3092 / PENDING** — tidehunter — Q (enfos_tide_gush) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:100
+- **MT-3093 / PENDING** — tidehunter — Q (enfos_tide_gush) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:101
+- **MT-3094 / PENDING** — tidehunter — Q (enfos_tide_gush) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:102
+- **MT-3095 / PENDING** — tidehunter — W (enfos_tide_kraken_shell) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:148
+- **MT-3096 / PENDING** — tidehunter — W (enfos_tide_kraken_shell) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:149
+- **MT-3097 / PENDING** — tidehunter — W (enfos_tide_kraken_shell) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:150
+- **MT-3098 / PENDING** — tidehunter — W (enfos_tide_kraken_shell) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:151
+- **MT-3099 / PENDING** — tidehunter — W (enfos_tide_kraken_shell) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:152
+- **MT-3100 / PENDING** — tidehunter — W (enfos_tide_kraken_shell) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:153
+- **MT-3101 / PENDING** — tidehunter — W (enfos_tide_kraken_shell) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:154
+- **MT-3102 / PENDING** — tidehunter — W (enfos_tide_kraken_shell) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:155
+- **MT-3103 / PENDING** — tidehunter — W (enfos_tide_kraken_shell) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:156
+- **MT-3104 / PENDING** — tidehunter — W (enfos_tide_kraken_shell) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:157
+- **MT-3105 / PENDING** — tidehunter — W (enfos_tide_kraken_shell) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:158
+- **MT-3106 / PENDING** — tidehunter — W (enfos_tide_kraken_shell) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:159
+- **MT-3107 / PENDING** — tidehunter — W (enfos_tide_kraken_shell) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:160
+- **MT-3108 / PENDING** — tidehunter — W (enfos_tide_kraken_shell) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:161
+- **MT-3109 / PENDING** — tidehunter — W (enfos_tide_kraken_shell) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:162
+- **MT-3110 / PENDING** — tidehunter — E (enfos_tide_anchor_smash) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:191
+- **MT-3111 / PENDING** — tidehunter — E (enfos_tide_anchor_smash) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:192
+- **MT-3112 / PENDING** — tidehunter — E (enfos_tide_anchor_smash) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:193
+- **MT-3113 / PENDING** — tidehunter — E (enfos_tide_anchor_smash) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:194
+- **MT-3114 / PENDING** — tidehunter — E (enfos_tide_anchor_smash) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:195
+- **MT-3115 / PENDING** — tidehunter — E (enfos_tide_anchor_smash) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:196
+- **MT-3116 / PENDING** — tidehunter — E (enfos_tide_anchor_smash) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:197
+- **MT-3117 / PENDING** — tidehunter — E (enfos_tide_anchor_smash) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:198
+- **MT-3118 / PENDING** — tidehunter — E (enfos_tide_anchor_smash) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:199
+- **MT-3119 / PENDING** — tidehunter — E (enfos_tide_anchor_smash) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:200
+- **MT-3120 / PENDING** — tidehunter — E (enfos_tide_anchor_smash) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:201
+- **MT-3121 / PENDING** — tidehunter — E (enfos_tide_anchor_smash) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:202
+- **MT-3122 / PENDING** — tidehunter — E (enfos_tide_anchor_smash) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:203
+- **MT-3123 / PENDING** — tidehunter — E (enfos_tide_anchor_smash) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:204
+- **MT-3124 / PENDING** — tidehunter — E (enfos_tide_anchor_smash) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:205
+- **MT-3125 / PENDING** — tidehunter — R (enfos_tide_ravage) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:234
+- **MT-3126 / PENDING** — tidehunter — R (enfos_tide_ravage) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:235
+- **MT-3127 / PENDING** — tidehunter — R (enfos_tide_ravage) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:236
+- **MT-3128 / PENDING** — tidehunter — R (enfos_tide_ravage) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:237
+- **MT-3129 / PENDING** — tidehunter — R (enfos_tide_ravage) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:238
+- **MT-3130 / PENDING** — tidehunter — R (enfos_tide_ravage) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:239
+- **MT-3131 / PENDING** — tidehunter — R (enfos_tide_ravage) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:240
+- **MT-3132 / PENDING** — tidehunter — R (enfos_tide_ravage) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:241
+- **MT-3133 / PENDING** — tidehunter — R (enfos_tide_ravage) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:242
+- **MT-3134 / PENDING** — tidehunter — R (enfos_tide_ravage) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:243
+- **MT-3135 / PENDING** — tidehunter — R (enfos_tide_ravage) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:244
+- **MT-3136 / PENDING** — tidehunter — R (enfos_tide_ravage) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:245
+- **MT-3137 / PENDING** — tidehunter — R (enfos_tide_ravage) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:246
+- **MT-3138 / PENDING** — tidehunter — R (enfos_tide_ravage) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:247
+- **MT-3139 / PENDING** — tidehunter — R (enfos_tide_ravage) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:248
+- **MT-3140 / PENDING** — tidehunter — Enfos pasifi (enfos_tide_colossal_presence) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:277
+- **MT-3141 / PENDING** — tidehunter — Enfos pasifi (enfos_tide_colossal_presence) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:278
+- **MT-3142 / PENDING** — tidehunter — Enfos pasifi (enfos_tide_colossal_presence) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:279
+- **MT-3143 / PENDING** — tidehunter — Enfos pasifi (enfos_tide_colossal_presence) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:280
+- **MT-3144 / PENDING** — tidehunter — Enfos pasifi (enfos_tide_colossal_presence) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:281
+- **MT-3145 / PENDING** — tidehunter — Enfos pasifi (enfos_tide_colossal_presence) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:282
+- **MT-3146 / PENDING** — tidehunter — Enfos pasifi (enfos_tide_colossal_presence) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:283
+- **MT-3147 / PENDING** — tidehunter — Enfos pasifi (enfos_tide_colossal_presence) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:284
+- **MT-3148 / PENDING** — tidehunter — Enfos pasifi (enfos_tide_colossal_presence) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:285
+- **MT-3149 / PENDING** — tidehunter — Enfos pasifi (enfos_tide_colossal_presence) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:286
+- **MT-3150 / PENDING** — tidehunter — Enfos pasifi (enfos_tide_colossal_presence) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:287
+- **MT-3151 / PENDING** — tidehunter — Enfos pasifi (enfos_tide_colossal_presence) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:288
+- **MT-3152 / PENDING** — tidehunter — Enfos pasifi (enfos_tide_colossal_presence) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:289
+- **MT-3153 / PENDING** — tidehunter — Enfos pasifi (enfos_tide_colossal_presence) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:290
+- **MT-3154 / PENDING** — tidehunter — Enfos pasifi (enfos_tide_colossal_presence) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/tidehunter/ABILITIES.md:291
+- **MT-3155 / PENDING** — troll_warlord — Q (enfos_troll_berserkers_rage) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:89
+- **MT-3156 / PENDING** — troll_warlord — Q (enfos_troll_berserkers_rage) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:90
+- **MT-3157 / PENDING** — troll_warlord — Q (enfos_troll_berserkers_rage) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:91
+- **MT-3158 / PENDING** — troll_warlord — Q (enfos_troll_berserkers_rage) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:92
+- **MT-3159 / PENDING** — troll_warlord — Q (enfos_troll_berserkers_rage) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:93
+- **MT-3160 / PENDING** — troll_warlord — Q (enfos_troll_berserkers_rage) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:94
+- **MT-3161 / PENDING** — troll_warlord — Q (enfos_troll_berserkers_rage) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:95
+- **MT-3162 / PENDING** — troll_warlord — Q (enfos_troll_berserkers_rage) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:96
+- **MT-3163 / PENDING** — troll_warlord — Q (enfos_troll_berserkers_rage) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:97
+- **MT-3164 / PENDING** — troll_warlord — Q (enfos_troll_berserkers_rage) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:98
+- **MT-3165 / PENDING** — troll_warlord — Q (enfos_troll_berserkers_rage) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:99
+- **MT-3166 / PENDING** — troll_warlord — Q (enfos_troll_berserkers_rage) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:100
+- **MT-3167 / PENDING** — troll_warlord — Q (enfos_troll_berserkers_rage) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:101
+- **MT-3168 / PENDING** — troll_warlord — Q (enfos_troll_berserkers_rage) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:102
+- **MT-3169 / PENDING** — troll_warlord — Q (enfos_troll_berserkers_rage) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:103
+- **MT-3170 / PENDING** — troll_warlord — W (enfos_troll_whirling_axes) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:132
+- **MT-3171 / PENDING** — troll_warlord — W (enfos_troll_whirling_axes) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:133
+- **MT-3172 / PENDING** — troll_warlord — W (enfos_troll_whirling_axes) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:134
+- **MT-3173 / PENDING** — troll_warlord — W (enfos_troll_whirling_axes) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:135
+- **MT-3174 / PENDING** — troll_warlord — W (enfos_troll_whirling_axes) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:136
+- **MT-3175 / PENDING** — troll_warlord — W (enfos_troll_whirling_axes) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:137
+- **MT-3176 / PENDING** — troll_warlord — W (enfos_troll_whirling_axes) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:138
+- **MT-3177 / PENDING** — troll_warlord — W (enfos_troll_whirling_axes) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:139
+- **MT-3178 / PENDING** — troll_warlord — W (enfos_troll_whirling_axes) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:140
+- **MT-3179 / PENDING** — troll_warlord — W (enfos_troll_whirling_axes) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:141
+- **MT-3180 / PENDING** — troll_warlord — W (enfos_troll_whirling_axes) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:142
+- **MT-3181 / PENDING** — troll_warlord — W (enfos_troll_whirling_axes) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:143
+- **MT-3182 / PENDING** — troll_warlord — W (enfos_troll_whirling_axes) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:144
+- **MT-3183 / PENDING** — troll_warlord — W (enfos_troll_whirling_axes) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:145
+- **MT-3184 / PENDING** — troll_warlord — W (enfos_troll_whirling_axes) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:146
+- **MT-3185 / PENDING** — troll_warlord — E (enfos_troll_fervor) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:175
+- **MT-3186 / PENDING** — troll_warlord — E (enfos_troll_fervor) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:176
+- **MT-3187 / PENDING** — troll_warlord — E (enfos_troll_fervor) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:177
+- **MT-3188 / PENDING** — troll_warlord — E (enfos_troll_fervor) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:178
+- **MT-3189 / PENDING** — troll_warlord — E (enfos_troll_fervor) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:179
+- **MT-3190 / PENDING** — troll_warlord — E (enfos_troll_fervor) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:180
+- **MT-3191 / PENDING** — troll_warlord — E (enfos_troll_fervor) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:181
+- **MT-3192 / PENDING** — troll_warlord — E (enfos_troll_fervor) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:182
+- **MT-3193 / PENDING** — troll_warlord — E (enfos_troll_fervor) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:183
+- **MT-3194 / PENDING** — troll_warlord — E (enfos_troll_fervor) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:184
+- **MT-3195 / PENDING** — troll_warlord — E (enfos_troll_fervor) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:185
+- **MT-3196 / PENDING** — troll_warlord — E (enfos_troll_fervor) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:186
+- **MT-3197 / PENDING** — troll_warlord — E (enfos_troll_fervor) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:187
+- **MT-3198 / PENDING** — troll_warlord — E (enfos_troll_fervor) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:188
+- **MT-3199 / PENDING** — troll_warlord — E (enfos_troll_fervor) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:189
+- **MT-3200 / PENDING** — troll_warlord — R (enfos_troll_battle_trance) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:218
+- **MT-3201 / PENDING** — troll_warlord — R (enfos_troll_battle_trance) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:219
+- **MT-3202 / PENDING** — troll_warlord — R (enfos_troll_battle_trance) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:220
+- **MT-3203 / PENDING** — troll_warlord — R (enfos_troll_battle_trance) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:221
+- **MT-3204 / PENDING** — troll_warlord — R (enfos_troll_battle_trance) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:222
+- **MT-3205 / PENDING** — troll_warlord — R (enfos_troll_battle_trance) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:223
+- **MT-3206 / PENDING** — troll_warlord — R (enfos_troll_battle_trance) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:224
+- **MT-3207 / PENDING** — troll_warlord — R (enfos_troll_battle_trance) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:225
+- **MT-3208 / PENDING** — troll_warlord — R (enfos_troll_battle_trance) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:226
+- **MT-3209 / PENDING** — troll_warlord — R (enfos_troll_battle_trance) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:227
+- **MT-3210 / PENDING** — troll_warlord — R (enfos_troll_battle_trance) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:228
+- **MT-3211 / PENDING** — troll_warlord — R (enfos_troll_battle_trance) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:229
+- **MT-3212 / PENDING** — troll_warlord — R (enfos_troll_battle_trance) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:230
+- **MT-3213 / PENDING** — troll_warlord — R (enfos_troll_battle_trance) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:231
+- **MT-3214 / PENDING** — troll_warlord — R (enfos_troll_battle_trance) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:232
+- **MT-3215 / PENDING** — troll_warlord — Enfos pasifi (enfos_troll_rampage) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:261
+- **MT-3216 / PENDING** — troll_warlord — Enfos pasifi (enfos_troll_rampage) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:262
+- **MT-3217 / PENDING** — troll_warlord — Enfos pasifi (enfos_troll_rampage) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:263
+- **MT-3218 / PENDING** — troll_warlord — Enfos pasifi (enfos_troll_rampage) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:264
+- **MT-3219 / PENDING** — troll_warlord — Enfos pasifi (enfos_troll_rampage) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:265
+- **MT-3220 / PENDING** — troll_warlord — Enfos pasifi (enfos_troll_rampage) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:266
+- **MT-3221 / PENDING** — troll_warlord — Enfos pasifi (enfos_troll_rampage) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:267
+- **MT-3222 / PENDING** — troll_warlord — Enfos pasifi (enfos_troll_rampage) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:268
+- **MT-3223 / PENDING** — troll_warlord — Enfos pasifi (enfos_troll_rampage) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:269
+- **MT-3224 / PENDING** — troll_warlord — Enfos pasifi (enfos_troll_rampage) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:270
+- **MT-3225 / PENDING** — troll_warlord — Enfos pasifi (enfos_troll_rampage) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:271
+- **MT-3226 / PENDING** — troll_warlord — Enfos pasifi (enfos_troll_rampage) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:272
+- **MT-3227 / PENDING** — troll_warlord — Enfos pasifi (enfos_troll_rampage) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:273
+- **MT-3228 / PENDING** — troll_warlord — Enfos pasifi (enfos_troll_rampage) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:274
+- **MT-3229 / PENDING** — troll_warlord — Enfos pasifi (enfos_troll_rampage) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/troll_warlord/ABILITIES.md:275
+- **MT-3230 / PENDING** — ursa — Q (enfos_ursa_earthshock) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:87
+- **MT-3231 / PENDING** — ursa — Q (enfos_ursa_earthshock) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:88
+- **MT-3232 / PENDING** — ursa — Q (enfos_ursa_earthshock) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:89
+- **MT-3233 / PENDING** — ursa — Q (enfos_ursa_earthshock) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:90
+- **MT-3234 / PENDING** — ursa — Q (enfos_ursa_earthshock) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:91
+- **MT-3235 / PENDING** — ursa — Q (enfos_ursa_earthshock) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:92
+- **MT-3236 / PENDING** — ursa — Q (enfos_ursa_earthshock) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:93
+- **MT-3237 / PENDING** — ursa — Q (enfos_ursa_earthshock) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:94
+- **MT-3238 / PENDING** — ursa — Q (enfos_ursa_earthshock) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:95
+- **MT-3239 / PENDING** — ursa — Q (enfos_ursa_earthshock) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:96
+- **MT-3240 / PENDING** — ursa — Q (enfos_ursa_earthshock) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:97
+- **MT-3241 / PENDING** — ursa — Q (enfos_ursa_earthshock) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:98
+- **MT-3242 / PENDING** — ursa — Q (enfos_ursa_earthshock) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:99
+- **MT-3243 / PENDING** — ursa — Q (enfos_ursa_earthshock) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:100
+- **MT-3244 / PENDING** — ursa — Q (enfos_ursa_earthshock) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:101
+- **MT-3245 / PENDING** — ursa — W (enfos_ursa_overpower) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:130
+- **MT-3246 / PENDING** — ursa — W (enfos_ursa_overpower) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:131
+- **MT-3247 / PENDING** — ursa — W (enfos_ursa_overpower) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:132
+- **MT-3248 / PENDING** — ursa — W (enfos_ursa_overpower) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:133
+- **MT-3249 / PENDING** — ursa — W (enfos_ursa_overpower) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:134
+- **MT-3250 / PENDING** — ursa — W (enfos_ursa_overpower) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:135
+- **MT-3251 / PENDING** — ursa — W (enfos_ursa_overpower) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:136
+- **MT-3252 / PENDING** — ursa — W (enfos_ursa_overpower) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:137
+- **MT-3253 / PENDING** — ursa — W (enfos_ursa_overpower) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:138
+- **MT-3254 / PENDING** — ursa — W (enfos_ursa_overpower) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:139
+- **MT-3255 / PENDING** — ursa — W (enfos_ursa_overpower) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:140
+- **MT-3256 / PENDING** — ursa — W (enfos_ursa_overpower) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:141
+- **MT-3257 / PENDING** — ursa — W (enfos_ursa_overpower) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:142
+- **MT-3258 / PENDING** — ursa — W (enfos_ursa_overpower) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:143
+- **MT-3259 / PENDING** — ursa — W (enfos_ursa_overpower) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:144
+- **MT-3260 / PENDING** — ursa — E (enfos_ursa_fury_swipes) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:173
+- **MT-3261 / PENDING** — ursa — E (enfos_ursa_fury_swipes) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:174
+- **MT-3262 / PENDING** — ursa — E (enfos_ursa_fury_swipes) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:175
+- **MT-3263 / PENDING** — ursa — E (enfos_ursa_fury_swipes) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:176
+- **MT-3264 / PENDING** — ursa — E (enfos_ursa_fury_swipes) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:177
+- **MT-3265 / PENDING** — ursa — E (enfos_ursa_fury_swipes) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:178
+- **MT-3266 / PENDING** — ursa — E (enfos_ursa_fury_swipes) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:179
+- **MT-3267 / PENDING** — ursa — E (enfos_ursa_fury_swipes) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:180
+- **MT-3268 / PENDING** — ursa — E (enfos_ursa_fury_swipes) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:181
+- **MT-3269 / PENDING** — ursa — E (enfos_ursa_fury_swipes) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:182
+- **MT-3270 / PENDING** — ursa — E (enfos_ursa_fury_swipes) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:183
+- **MT-3271 / PENDING** — ursa — E (enfos_ursa_fury_swipes) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:184
+- **MT-3272 / PENDING** — ursa — E (enfos_ursa_fury_swipes) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:185
+- **MT-3273 / PENDING** — ursa — E (enfos_ursa_fury_swipes) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:186
+- **MT-3274 / PENDING** — ursa — E (enfos_ursa_fury_swipes) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:187
+- **MT-3275 / PENDING** — ursa — R (enfos_ursa_enrage) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:216
+- **MT-3276 / PENDING** — ursa — R (enfos_ursa_enrage) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:217
+- **MT-3277 / PENDING** — ursa — R (enfos_ursa_enrage) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:218
+- **MT-3278 / PENDING** — ursa — R (enfos_ursa_enrage) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:219
+- **MT-3279 / PENDING** — ursa — R (enfos_ursa_enrage) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:220
+- **MT-3280 / PENDING** — ursa — R (enfos_ursa_enrage) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:221
+- **MT-3281 / PENDING** — ursa — R (enfos_ursa_enrage) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:222
+- **MT-3282 / PENDING** — ursa — R (enfos_ursa_enrage) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:223
+- **MT-3283 / PENDING** — ursa — R (enfos_ursa_enrage) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:224
+- **MT-3284 / PENDING** — ursa — R (enfos_ursa_enrage) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:225
+- **MT-3285 / PENDING** — ursa — R (enfos_ursa_enrage) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:226
+- **MT-3286 / PENDING** — ursa — R (enfos_ursa_enrage) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:227
+- **MT-3287 / PENDING** — ursa — R (enfos_ursa_enrage) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:228
+- **MT-3288 / PENDING** — ursa — R (enfos_ursa_enrage) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:229
+- **MT-3289 / PENDING** — ursa — R (enfos_ursa_enrage) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:230
+- **MT-3290 / PENDING** — ursa — Enfos pasifi (enfos_ursa_ursa_minor) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:259
+- **MT-3291 / PENDING** — ursa — Enfos pasifi (enfos_ursa_ursa_minor) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:260
+- **MT-3292 / PENDING** — ursa — Enfos pasifi (enfos_ursa_ursa_minor) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:261
+- **MT-3293 / PENDING** — ursa — Enfos pasifi (enfos_ursa_ursa_minor) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:262
+- **MT-3294 / PENDING** — ursa — Enfos pasifi (enfos_ursa_ursa_minor) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:263
+- **MT-3295 / PENDING** — ursa — Enfos pasifi (enfos_ursa_ursa_minor) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:264
+- **MT-3296 / PENDING** — ursa — Enfos pasifi (enfos_ursa_ursa_minor) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:265
+- **MT-3297 / PENDING** — ursa — Enfos pasifi (enfos_ursa_ursa_minor) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:266
+- **MT-3298 / PENDING** — ursa — Enfos pasifi (enfos_ursa_ursa_minor) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:267
+- **MT-3299 / PENDING** — ursa — Enfos pasifi (enfos_ursa_ursa_minor) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:268
+- **MT-3300 / PENDING** — ursa — Enfos pasifi (enfos_ursa_ursa_minor) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:269
+- **MT-3301 / PENDING** — ursa — Enfos pasifi (enfos_ursa_ursa_minor) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:270
+- **MT-3302 / PENDING** — ursa — Enfos pasifi (enfos_ursa_ursa_minor) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:271
+- **MT-3303 / PENDING** — ursa — Enfos pasifi (enfos_ursa_ursa_minor) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:272
+- **MT-3304 / PENDING** — ursa — Enfos pasifi (enfos_ursa_ursa_minor) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/ursa/ABILITIES.md:273
+- **MT-3305 / PENDING** — vengefulspirit — Q (enfos_vs_magic_missile) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:89
+- **MT-3306 / PENDING** — vengefulspirit — Q (enfos_vs_magic_missile) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:90
+- **MT-3307 / PENDING** — vengefulspirit — Q (enfos_vs_magic_missile) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:91
+- **MT-3308 / PENDING** — vengefulspirit — Q (enfos_vs_magic_missile) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:92
+- **MT-3309 / PENDING** — vengefulspirit — Q (enfos_vs_magic_missile) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:93
+- **MT-3310 / PENDING** — vengefulspirit — Q (enfos_vs_magic_missile) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:94
+- **MT-3311 / PENDING** — vengefulspirit — Q (enfos_vs_magic_missile) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:95
+- **MT-3312 / PENDING** — vengefulspirit — Q (enfos_vs_magic_missile) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:96
+- **MT-3313 / PENDING** — vengefulspirit — Q (enfos_vs_magic_missile) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:97
+- **MT-3314 / PENDING** — vengefulspirit — Q (enfos_vs_magic_missile) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:98
+- **MT-3315 / PENDING** — vengefulspirit — Q (enfos_vs_magic_missile) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:99
+- **MT-3316 / PENDING** — vengefulspirit — Q (enfos_vs_magic_missile) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:100
+- **MT-3317 / PENDING** — vengefulspirit — Q (enfos_vs_magic_missile) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:101
+- **MT-3318 / PENDING** — vengefulspirit — Q (enfos_vs_magic_missile) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:102
+- **MT-3319 / PENDING** — vengefulspirit — Q (enfos_vs_magic_missile) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:103
+- **MT-3320 / PENDING** — vengefulspirit — W (enfos_vs_wave_of_terror) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:142
+- **MT-3321 / PENDING** — vengefulspirit — W (enfos_vs_wave_of_terror) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:143
+- **MT-3322 / PENDING** — vengefulspirit — W (enfos_vs_wave_of_terror) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:144
+- **MT-3323 / PENDING** — vengefulspirit — W (enfos_vs_wave_of_terror) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:145
+- **MT-3324 / PENDING** — vengefulspirit — W (enfos_vs_wave_of_terror) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:146
+- **MT-3325 / PENDING** — vengefulspirit — W (enfos_vs_wave_of_terror) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:147
+- **MT-3326 / PENDING** — vengefulspirit — W (enfos_vs_wave_of_terror) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:148
+- **MT-3327 / PENDING** — vengefulspirit — W (enfos_vs_wave_of_terror) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:149
+- **MT-3328 / PENDING** — vengefulspirit — W (enfos_vs_wave_of_terror) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:150
+- **MT-3329 / PENDING** — vengefulspirit — W (enfos_vs_wave_of_terror) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:151
+- **MT-3330 / PENDING** — vengefulspirit — W (enfos_vs_wave_of_terror) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:152
+- **MT-3331 / PENDING** — vengefulspirit — W (enfos_vs_wave_of_terror) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:153
+- **MT-3332 / PENDING** — vengefulspirit — W (enfos_vs_wave_of_terror) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:154
+- **MT-3333 / PENDING** — vengefulspirit — W (enfos_vs_wave_of_terror) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:155
+- **MT-3334 / PENDING** — vengefulspirit — W (enfos_vs_wave_of_terror) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:156
+- **MT-3335 / PENDING** — vengefulspirit — E (enfos_vs_vengeance_aura) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:185
+- **MT-3336 / PENDING** — vengefulspirit — E (enfos_vs_vengeance_aura) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:186
+- **MT-3337 / PENDING** — vengefulspirit — E (enfos_vs_vengeance_aura) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:187
+- **MT-3338 / PENDING** — vengefulspirit — E (enfos_vs_vengeance_aura) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:188
+- **MT-3339 / PENDING** — vengefulspirit — E (enfos_vs_vengeance_aura) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:189
+- **MT-3340 / PENDING** — vengefulspirit — E (enfos_vs_vengeance_aura) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:190
+- **MT-3341 / PENDING** — vengefulspirit — E (enfos_vs_vengeance_aura) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:191
+- **MT-3342 / PENDING** — vengefulspirit — E (enfos_vs_vengeance_aura) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:192
+- **MT-3343 / PENDING** — vengefulspirit — E (enfos_vs_vengeance_aura) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:193
+- **MT-3344 / PENDING** — vengefulspirit — E (enfos_vs_vengeance_aura) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:194
+- **MT-3345 / PENDING** — vengefulspirit — E (enfos_vs_vengeance_aura) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:195
+- **MT-3346 / PENDING** — vengefulspirit — E (enfos_vs_vengeance_aura) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:196
+- **MT-3347 / PENDING** — vengefulspirit — E (enfos_vs_vengeance_aura) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:197
+- **MT-3348 / PENDING** — vengefulspirit — E (enfos_vs_vengeance_aura) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:198
+- **MT-3349 / PENDING** — vengefulspirit — E (enfos_vs_vengeance_aura) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:199
+- **MT-3350 / PENDING** — vengefulspirit — R (enfos_vs_nether_swap) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:228
+- **MT-3351 / PENDING** — vengefulspirit — R (enfos_vs_nether_swap) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:229
+- **MT-3352 / PENDING** — vengefulspirit — R (enfos_vs_nether_swap) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:230
+- **MT-3353 / PENDING** — vengefulspirit — R (enfos_vs_nether_swap) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:231
+- **MT-3354 / PENDING** — vengefulspirit — R (enfos_vs_nether_swap) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:232
+- **MT-3355 / PENDING** — vengefulspirit — R (enfos_vs_nether_swap) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:233
+- **MT-3356 / PENDING** — vengefulspirit — R (enfos_vs_nether_swap) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:234
+- **MT-3357 / PENDING** — vengefulspirit — R (enfos_vs_nether_swap) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:235
+- **MT-3358 / PENDING** — vengefulspirit — R (enfos_vs_nether_swap) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:236
+- **MT-3359 / PENDING** — vengefulspirit — R (enfos_vs_nether_swap) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:237
+- **MT-3360 / PENDING** — vengefulspirit — R (enfos_vs_nether_swap) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:238
+- **MT-3361 / PENDING** — vengefulspirit — R (enfos_vs_nether_swap) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:239
+- **MT-3362 / PENDING** — vengefulspirit — R (enfos_vs_nether_swap) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:240
+- **MT-3363 / PENDING** — vengefulspirit — R (enfos_vs_nether_swap) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:241
+- **MT-3364 / PENDING** — vengefulspirit — R (enfos_vs_nether_swap) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:242
+- **MT-3365 / PENDING** — vengefulspirit — Enfos pasifi (enfos_vs_retribution) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:271
+- **MT-3366 / PENDING** — vengefulspirit — Enfos pasifi (enfos_vs_retribution) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:272
+- **MT-3367 / PENDING** — vengefulspirit — Enfos pasifi (enfos_vs_retribution) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:273
+- **MT-3368 / PENDING** — vengefulspirit — Enfos pasifi (enfos_vs_retribution) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:274
+- **MT-3369 / PENDING** — vengefulspirit — Enfos pasifi (enfos_vs_retribution) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:275
+- **MT-3370 / PENDING** — vengefulspirit — Enfos pasifi (enfos_vs_retribution) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:276
+- **MT-3371 / PENDING** — vengefulspirit — Enfos pasifi (enfos_vs_retribution) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:277
+- **MT-3372 / PENDING** — vengefulspirit — Enfos pasifi (enfos_vs_retribution) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:278
+- **MT-3373 / PENDING** — vengefulspirit — Enfos pasifi (enfos_vs_retribution) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:279
+- **MT-3374 / PENDING** — vengefulspirit — Enfos pasifi (enfos_vs_retribution) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:280
+- **MT-3375 / PENDING** — vengefulspirit — Enfos pasifi (enfos_vs_retribution) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:281
+- **MT-3376 / PENDING** — vengefulspirit — Enfos pasifi (enfos_vs_retribution) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:282
+- **MT-3377 / PENDING** — vengefulspirit — Enfos pasifi (enfos_vs_retribution) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:283
+- **MT-3378 / PENDING** — vengefulspirit — Enfos pasifi (enfos_vs_retribution) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:284
+- **MT-3379 / PENDING** — vengefulspirit — Enfos pasifi (enfos_vs_retribution) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/vengefulspirit/ABILITIES.md:285
+- **MT-3380 / PENDING** — witch_doctor — Q (enfos_wd_paralyzing_cask) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:104
+- **MT-3381 / PENDING** — witch_doctor — Q (enfos_wd_paralyzing_cask) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:105
+- **MT-3382 / PENDING** — witch_doctor — Q (enfos_wd_paralyzing_cask) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:106
+- **MT-3383 / PENDING** — witch_doctor — Q (enfos_wd_paralyzing_cask) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:107
+- **MT-3384 / PENDING** — witch_doctor — Q (enfos_wd_paralyzing_cask) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:108
+- **MT-3385 / PENDING** — witch_doctor — Q (enfos_wd_paralyzing_cask) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:109
+- **MT-3386 / PENDING** — witch_doctor — Q (enfos_wd_paralyzing_cask) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:110
+- **MT-3387 / PENDING** — witch_doctor — Q (enfos_wd_paralyzing_cask) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:111
+- **MT-3388 / PENDING** — witch_doctor — Q (enfos_wd_paralyzing_cask) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:112
+- **MT-3389 / PENDING** — witch_doctor — Q (enfos_wd_paralyzing_cask) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:113
+- **MT-3390 / PENDING** — witch_doctor — Q (enfos_wd_paralyzing_cask) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:114
+- **MT-3391 / PENDING** — witch_doctor — Q (enfos_wd_paralyzing_cask) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:115
+- **MT-3392 / PENDING** — witch_doctor — Q (enfos_wd_paralyzing_cask) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:116
+- **MT-3393 / PENDING** — witch_doctor — Q (enfos_wd_paralyzing_cask) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:117
+- **MT-3394 / PENDING** — witch_doctor — Q (enfos_wd_paralyzing_cask) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:118
+- **MT-3395 / PENDING** — witch_doctor — W (enfos_wd_voodoo_restoration) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:147
+- **MT-3396 / PENDING** — witch_doctor — W (enfos_wd_voodoo_restoration) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:148
+- **MT-3397 / PENDING** — witch_doctor — W (enfos_wd_voodoo_restoration) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:149
+- **MT-3398 / PENDING** — witch_doctor — W (enfos_wd_voodoo_restoration) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:150
+- **MT-3399 / PENDING** — witch_doctor — W (enfos_wd_voodoo_restoration) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:151
+- **MT-3400 / PENDING** — witch_doctor — W (enfos_wd_voodoo_restoration) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:152
+- **MT-3401 / PENDING** — witch_doctor — W (enfos_wd_voodoo_restoration) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:153
+- **MT-3402 / PENDING** — witch_doctor — W (enfos_wd_voodoo_restoration) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:154
+- **MT-3403 / PENDING** — witch_doctor — W (enfos_wd_voodoo_restoration) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:155
+- **MT-3404 / PENDING** — witch_doctor — W (enfos_wd_voodoo_restoration) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:156
+- **MT-3405 / PENDING** — witch_doctor — W (enfos_wd_voodoo_restoration) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:157
+- **MT-3406 / PENDING** — witch_doctor — W (enfos_wd_voodoo_restoration) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:158
+- **MT-3407 / PENDING** — witch_doctor — W (enfos_wd_voodoo_restoration) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:159
+- **MT-3408 / PENDING** — witch_doctor — W (enfos_wd_voodoo_restoration) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:160
+- **MT-3409 / PENDING** — witch_doctor — W (enfos_wd_voodoo_restoration) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:161
+- **MT-3410 / PENDING** — witch_doctor — E (enfos_wd_maledict) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:190
+- **MT-3411 / PENDING** — witch_doctor — E (enfos_wd_maledict) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:191
+- **MT-3412 / PENDING** — witch_doctor — E (enfos_wd_maledict) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:192
+- **MT-3413 / PENDING** — witch_doctor — E (enfos_wd_maledict) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:193
+- **MT-3414 / PENDING** — witch_doctor — E (enfos_wd_maledict) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:194
+- **MT-3415 / PENDING** — witch_doctor — E (enfos_wd_maledict) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:195
+- **MT-3416 / PENDING** — witch_doctor — E (enfos_wd_maledict) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:196
+- **MT-3417 / PENDING** — witch_doctor — E (enfos_wd_maledict) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:197
+- **MT-3418 / PENDING** — witch_doctor — E (enfos_wd_maledict) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:198
+- **MT-3419 / PENDING** — witch_doctor — E (enfos_wd_maledict) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:199
+- **MT-3420 / PENDING** — witch_doctor — E (enfos_wd_maledict) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:200
+- **MT-3421 / PENDING** — witch_doctor — E (enfos_wd_maledict) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:201
+- **MT-3422 / PENDING** — witch_doctor — E (enfos_wd_maledict) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:202
+- **MT-3423 / PENDING** — witch_doctor — E (enfos_wd_maledict) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:203
+- **MT-3424 / PENDING** — witch_doctor — E (enfos_wd_maledict) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:204
+- **MT-3425 / PENDING** — witch_doctor — R (enfos_wd_death_ward) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:233
+- **MT-3426 / PENDING** — witch_doctor — R (enfos_wd_death_ward) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:234
+- **MT-3427 / PENDING** — witch_doctor — R (enfos_wd_death_ward) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:235
+- **MT-3428 / PENDING** — witch_doctor — R (enfos_wd_death_ward) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:236
+- **MT-3429 / PENDING** — witch_doctor — R (enfos_wd_death_ward) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:237
+- **MT-3430 / PENDING** — witch_doctor — R (enfos_wd_death_ward) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:238
+- **MT-3431 / PENDING** — witch_doctor — R (enfos_wd_death_ward) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:239
+- **MT-3432 / PENDING** — witch_doctor — R (enfos_wd_death_ward) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:240
+- **MT-3433 / PENDING** — witch_doctor — R (enfos_wd_death_ward) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:241
+- **MT-3434 / PENDING** — witch_doctor — R (enfos_wd_death_ward) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:242
+- **MT-3435 / PENDING** — witch_doctor — R (enfos_wd_death_ward) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:243
+- **MT-3436 / PENDING** — witch_doctor — R (enfos_wd_death_ward) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:244
+- **MT-3437 / PENDING** — witch_doctor — R (enfos_wd_death_ward) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:245
+- **MT-3438 / PENDING** — witch_doctor — R (enfos_wd_death_ward) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:246
+- **MT-3439 / PENDING** — witch_doctor — R (enfos_wd_death_ward) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:247
+- **MT-3440 / PENDING** — witch_doctor — Enfos pasifi (enfos_wd_gris_gris) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:277
+- **MT-3441 / PENDING** — witch_doctor — Enfos pasifi (enfos_wd_gris_gris) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:278
+- **MT-3442 / PENDING** — witch_doctor — Enfos pasifi (enfos_wd_gris_gris) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:279
+- **MT-3443 / PENDING** — witch_doctor — Enfos pasifi (enfos_wd_gris_gris) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:280
+- **MT-3444 / PENDING** — witch_doctor — Enfos pasifi (enfos_wd_gris_gris) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:281
+- **MT-3445 / PENDING** — witch_doctor — Enfos pasifi (enfos_wd_gris_gris) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:282
+- **MT-3446 / PENDING** — witch_doctor — Enfos pasifi (enfos_wd_gris_gris) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:283
+- **MT-3447 / PENDING** — witch_doctor — Enfos pasifi (enfos_wd_gris_gris) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:284
+- **MT-3448 / PENDING** — witch_doctor — Enfos pasifi (enfos_wd_gris_gris) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:285
+- **MT-3449 / PENDING** — witch_doctor — Enfos pasifi (enfos_wd_gris_gris) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:286
+- **MT-3450 / PENDING** — witch_doctor — Enfos pasifi (enfos_wd_gris_gris) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:287
+- **MT-3451 / PENDING** — witch_doctor — Enfos pasifi (enfos_wd_gris_gris) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:288
+- **MT-3452 / PENDING** — witch_doctor — Enfos pasifi (enfos_wd_gris_gris) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:289
+- **MT-3453 / PENDING** — witch_doctor — Enfos pasifi (enfos_wd_gris_gris) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:290
+- **MT-3454 / PENDING** — witch_doctor — Enfos pasifi (enfos_wd_gris_gris) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/witch_doctor/ABILITIES.md:291
+- **MT-3455 / PENDING** — zuus — Q (enfos_zeus_arc_lightning) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:86
+- **MT-3456 / PENDING** — zuus — Q (enfos_zeus_arc_lightning) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:87
+- **MT-3457 / PENDING** — zuus — Q (enfos_zeus_arc_lightning) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:88
+- **MT-3458 / PENDING** — zuus — Q (enfos_zeus_arc_lightning) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:89
+- **MT-3459 / PENDING** — zuus — Q (enfos_zeus_arc_lightning) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:90
+- **MT-3460 / PENDING** — zuus — Q (enfos_zeus_arc_lightning) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:91
+- **MT-3461 / PENDING** — zuus — Q (enfos_zeus_arc_lightning) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:92
+- **MT-3462 / PENDING** — zuus — Q (enfos_zeus_arc_lightning) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:93
+- **MT-3463 / PENDING** — zuus — Q (enfos_zeus_arc_lightning) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:94
+- **MT-3464 / PENDING** — zuus — Q (enfos_zeus_arc_lightning) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:95
+- **MT-3465 / PENDING** — zuus — Q (enfos_zeus_arc_lightning) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:96
+- **MT-3466 / PENDING** — zuus — Q (enfos_zeus_arc_lightning) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:97
+- **MT-3467 / PENDING** — zuus — Q (enfos_zeus_arc_lightning) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:98
+- **MT-3468 / PENDING** — zuus — Q (enfos_zeus_arc_lightning) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:99
+- **MT-3469 / PENDING** — zuus — Q (enfos_zeus_arc_lightning) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:100
+- **MT-3470 / PENDING** — zuus — W (enfos_zeus_lightning_bolt) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:131
+- **MT-3471 / PENDING** — zuus — W (enfos_zeus_lightning_bolt) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:132
+- **MT-3472 / PENDING** — zuus — W (enfos_zeus_lightning_bolt) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:133
+- **MT-3473 / PENDING** — zuus — W (enfos_zeus_lightning_bolt) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:134
+- **MT-3474 / PENDING** — zuus — W (enfos_zeus_lightning_bolt) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:135
+- **MT-3475 / PENDING** — zuus — W (enfos_zeus_lightning_bolt) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:136
+- **MT-3476 / PENDING** — zuus — W (enfos_zeus_lightning_bolt) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:137
+- **MT-3477 / PENDING** — zuus — W (enfos_zeus_lightning_bolt) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:138
+- **MT-3478 / PENDING** — zuus — W (enfos_zeus_lightning_bolt) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:139
+- **MT-3479 / PENDING** — zuus — W (enfos_zeus_lightning_bolt) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:140
+- **MT-3480 / PENDING** — zuus — W (enfos_zeus_lightning_bolt) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:141
+- **MT-3481 / PENDING** — zuus — W (enfos_zeus_lightning_bolt) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:142
+- **MT-3482 / PENDING** — zuus — W (enfos_zeus_lightning_bolt) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:143
+- **MT-3483 / PENDING** — zuus — W (enfos_zeus_lightning_bolt) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:144
+- **MT-3484 / PENDING** — zuus — W (enfos_zeus_lightning_bolt) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:145
+- **MT-3485 / PENDING** — zuus — E (enfos_zeus_heavenly_jump) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:174
+- **MT-3486 / PENDING** — zuus — E (enfos_zeus_heavenly_jump) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:175
+- **MT-3487 / PENDING** — zuus — E (enfos_zeus_heavenly_jump) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:176
+- **MT-3488 / PENDING** — zuus — E (enfos_zeus_heavenly_jump) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:177
+- **MT-3489 / PENDING** — zuus — E (enfos_zeus_heavenly_jump) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:178
+- **MT-3490 / PENDING** — zuus — E (enfos_zeus_heavenly_jump) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:179
+- **MT-3491 / PENDING** — zuus — E (enfos_zeus_heavenly_jump) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:180
+- **MT-3492 / PENDING** — zuus — E (enfos_zeus_heavenly_jump) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:181
+- **MT-3493 / PENDING** — zuus — E (enfos_zeus_heavenly_jump) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:182
+- **MT-3494 / PENDING** — zuus — E (enfos_zeus_heavenly_jump) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:183
+- **MT-3495 / PENDING** — zuus — E (enfos_zeus_heavenly_jump) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:184
+- **MT-3496 / PENDING** — zuus — E (enfos_zeus_heavenly_jump) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:185
+- **MT-3497 / PENDING** — zuus — E (enfos_zeus_heavenly_jump) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:186
+- **MT-3498 / PENDING** — zuus — E (enfos_zeus_heavenly_jump) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:187
+- **MT-3499 / PENDING** — zuus — E (enfos_zeus_heavenly_jump) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:188
+- **MT-3500 / PENDING** — zuus — R (enfos_zeus_thundergods_wrath) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:217
+- **MT-3501 / PENDING** — zuus — R (enfos_zeus_thundergods_wrath) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:218
+- **MT-3502 / PENDING** — zuus — R (enfos_zeus_thundergods_wrath) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:219
+- **MT-3503 / PENDING** — zuus — R (enfos_zeus_thundergods_wrath) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:220
+- **MT-3504 / PENDING** — zuus — R (enfos_zeus_thundergods_wrath) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:221
+- **MT-3505 / PENDING** — zuus — R (enfos_zeus_thundergods_wrath) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:222
+- **MT-3506 / PENDING** — zuus — R (enfos_zeus_thundergods_wrath) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:223
+- **MT-3507 / PENDING** — zuus — R (enfos_zeus_thundergods_wrath) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:224
+- **MT-3508 / PENDING** — zuus — R (enfos_zeus_thundergods_wrath) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:225
+- **MT-3509 / PENDING** — zuus — R (enfos_zeus_thundergods_wrath) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:226
+- **MT-3510 / PENDING** — zuus — R (enfos_zeus_thundergods_wrath) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:227
+- **MT-3511 / PENDING** — zuus — R (enfos_zeus_thundergods_wrath) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:228
+- **MT-3512 / PENDING** — zuus — R (enfos_zeus_thundergods_wrath) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:229
+- **MT-3513 / PENDING** — zuus — R (enfos_zeus_thundergods_wrath) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:230
+- **MT-3514 / PENDING** — zuus — R (enfos_zeus_thundergods_wrath) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:231
+- **MT-3515 / PENDING** — zuus — Enfos pasifi (enfos_zeus_static_field) beklenen hasar/iyileştirme ve diğer oyun etkilerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:260
+- **MT-3516 / PENDING** — zuus — Enfos pasifi (enfos_zeus_static_field) geçerli hedeflerde çalışıp geçersiz/ölü/kaybolan hedefleri doğru ele alıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:261
+- **MT-3517 / PENDING** — zuus — Enfos pasifi (enfos_zeus_static_field) 1–10 rütbelerde doğru değer, öğrenme seviyesi ve HUD gösterimiyle çalışıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:262
+- **MT-3518 / PENDING** — zuus — Enfos pasifi (enfos_zeus_static_field) kullanım, mermi, isabet ve kalıcı görselleri doğru konum/boyut/süreyle gösteriyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:263
+- **MT-3519 / PENDING** — zuus — Enfos pasifi (enfos_zeus_static_field) beklenen kullanım/isabet/loop seslerini duyurup bitişte doğru susturuyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:264
+- **MT-3520 / PENDING** — zuus — Enfos pasifi (enfos_zeus_static_field) beklenen kullanım veya saldırı animasyonunu gösterip hareket/saldırıya düzgün dönüyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:265
+- **MT-3521 / PENDING** — zuus — Enfos pasifi (enfos_zeus_static_field) buff/debuff, yenileme, stack, Break, dispel, ölüm ve illüzyon kurallarını doğru uyguluyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:266
+- **MT-3522 / PENDING** — zuus — Enfos pasifi (enfos_zeus_static_field) tam yeniden başlatılmış maçta eksik kaynak olmadan ilk kullanımda çalışıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:267
+- **MT-3523 / PENDING** — zuus — Enfos pasifi (enfos_zeus_static_field) tekrarlı kullanım, ölüm ve süre sonunda modifier/particle/sesleri temizliyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:268
+- **MT-3524 / PENDING** — zuus — Enfos pasifi (enfos_zeus_static_field) Boss üzerindeki hasar, kontrol sınırı, bağışıklık ve direnç etkileşimlerini doğru uyguluyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:269
+- **MT-3525 / PENDING** — zuus — Enfos pasifi (enfos_zeus_static_field) Shard/Scepter/Blessing alma, çıkarma, tüketme ve ilgili eşya etkileşimlerinde doğru davranıyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:270
+- **MT-3526 / PENDING** — zuus — Enfos pasifi (enfos_zeus_static_field) adı, ikonu ve tooltip metni gerçek değerlerle uyumlu ve okunur görünüyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:271
+- **MT-3527 / PENDING** — zuus — Enfos pasifi (enfos_zeus_static_field) kalabalık dalgada tekrar kullanıldığında belirgin takılma veya sınırsız efekt üretmiyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:272
+- **MT-3528 / PENDING** — zuus — Enfos pasifi (enfos_zeus_static_field) bağlantı kesilip dönünce rütbe, modifier ve aktif durumu doğru korunuyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:273
+- **MT-3529 / PENDING** — zuus — Enfos pasifi (enfos_zeus_static_field) kullanılırken konsolda yeni hata veya kaynak uyarısı oluşturmuyor mu?
+  - Kaynak: docs/heroes/zuus/ABILITIES.md:274
