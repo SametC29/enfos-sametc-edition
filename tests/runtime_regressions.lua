@@ -101,7 +101,7 @@ test('all eight portals teleport only their team and suppress bounce',function()
   assert(not P:TryTeleport(hero(p.team==2 and 3 or 2,p.from),20))
  end
 end)
-test('solo empowers heroes without reducing enemies or removing power in later waves',function()
+test('solo softens opening enemies and retains hero empowerment while difficulty ramps',function()
  local B=require('waves/balance_config');local cfg=B.Snapshot('normal',1,0)
  local unit={hp=280,lo=18,hi=24}
  function unit:GetMaxHealth() return self.hp end
@@ -113,8 +113,9 @@ test('solo empowers heroes without reducing enemies or removing power in later w
  function unit:SetBaseDamageMin(v) self.lo=v end
  function unit:SetBaseDamageMax(v) self.hi=v end
  B.Apply(unit,cfg,1)
- assert(unit.hp==280 and unit.currentHP==280 and unit.lo==18 and unit.hi==24)
- for wave=1,60 do local h,d=B.Multipliers(cfg,wave);assert(h==1 and d==1) end
+ assert(unit.hp==210 and unit.currentHP==210 and unit.lo==12 and unit.hi==16)
+ local h,d=B.Multipliers(cfg,30);assert(h==1 and d==1)
+ for wave=1,60 do local hp,dmg=B.Multipliers(cfg,wave);assert(hp>=0.75 and hp<=1 and dmg>=0.70 and dmg<=1) end
  assert(cfg.heroPower.health==600 and cfg.heroPower.spellAmp==15 and cfg.heroPower.cooldown==10)
 end)
 test('solo support is symmetric and never applies to two-player coop or PvPvE',function()

@@ -51,6 +51,17 @@ local R = {
 }
 local Roster = {}
 function Roster.Get(wave) return R[wave] end
+function Roster.ResourcePlan(wave)
+ local plan,seen={},{}
+ local function add(entry)
+  if not entry then return end
+  for _,name in ipairs({entry.native,entry.unit}) do
+   if not seen[name] then plan[#plan+1]={unit_name=name};seen[name]=true end
+  end
+ end
+ add(R[wave]);add(Roster.Future(wave))
+ return plan
+end
 function Roster.Future(wave)
  local target=math.min(59,math.max(1,wave+5))
  -- Boss slots provide the preceding normal creep, never a player hero summon.

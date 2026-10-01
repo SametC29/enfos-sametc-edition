@@ -1,0 +1,637 @@
+{
+  "records": [
+    {
+      "name": "forest_troll_high_priest_heal",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK | DOTA_ABILITY_BEHAVIOR_AUTOCAST",
+        "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_FRIENDLY",
+        "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+        "AbilityCastRange": "350 375 400 450",
+        "AbilityCastPoint": "0.5",
+        "AbilityCooldown": "10 9 8 6",
+        "AbilityManaCost": "60",
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1",
+        "AbilityValues": {
+          "health": {
+            "value": "100"
+          }
+        }
+      }
+    },
+    {
+      "name": "berserker_troll_break",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+        "AbilityCooldown": "10 9 8 6",
+        "IsBreakable": "1",
+        "AbilityValues": {
+          "duration": {
+            "value": "3"
+          }
+        }
+      }
+    },
+    {
+      "name": "gnoll_assassin_envenomed_weapon",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+        "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+        "SpellDispellableType": "SPELL_DISPELLABLE_YES",
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1",
+        "IsBreakable": "1",
+        "AbilityValues": {
+          "damage_per_second": {
+            "value": "0 20 40 80"
+          },
+          "non_hero_duration": {
+            "value": "20"
+          },
+          "hero_duration": {
+            "value": "2"
+          },
+          "regen_reduction": {
+            "value": "75 80 85 90"
+          }
+        }
+      }
+    },
+    {
+      "name": "fel_beast_haunt",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+        "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+        "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+        "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+        "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+        "AbilityCastRange": "600",
+        "AbilityCooldown": "15 13 11 7",
+        "AbilityManaCost": "75",
+        "AbilityValues": {
+          "projectile_speed": "500 600 700 800",
+          "duration": "3"
+        },
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_2"
+      }
+    },
+    {
+      "name": "harpy_storm_chain_lightning",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+        "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+        "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+        "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+        "AbilityCastRange": "900",
+        "AbilityCastPoint": "0.3",
+        "AbilityCooldown": "4.0",
+        "AbilityManaCost": "60",
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1",
+        "AbilityValues": {
+          "initial_damage": {
+            "value": "120 170 220 270"
+          },
+          "jump_range": {
+            "value": "500"
+          },
+          "jump_delay": {
+            "value": "0.25"
+          },
+          "damage_percent_loss": {
+            "value": "25.0 20.0 15.0 10.0"
+          },
+          "max_targets": {
+            "value": "4"
+          }
+        }
+      }
+    },
+    {
+      "name": "necronomicon_archer_mana_burn",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+        "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+        "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+        "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+        "IsBreakable": "1",
+        "AbilityCastRange": "600",
+        "AbilityCastPoint": "0.5 0.5 0.5",
+        "AbilityCooldown": "7",
+        "AbilityManaCost": "0 0 0",
+        "AbilityValues": {
+          "burn_amount": {
+            "value": "125 175 225"
+          },
+          "burn_as_damage_tooltip": {
+            "value": "100"
+          }
+        }
+      }
+    },
+    {
+      "name": "giant_wolf_intimidate",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+        "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+        "SpellDispellableType": "SPELL_DISPELLABLE_YES_STRONG",
+        "AbilityCastPoint": "0.2",
+        "AbilityCooldown": "16.0",
+        "AbilityManaCost": "50",
+        "AbilityValues": {
+          "radius": {
+            "value": "300 350 400 500",
+            "affected_by_aoe_increase": "1"
+          },
+          "damage_reduction": "60",
+          "duration": "4.0"
+        },
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_2"
+      }
+    },
+    {
+      "name": "alpha_wolf_critical_strike",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1",
+        "IsBreakable": "1",
+        "AbilityValues": {
+          "crit_chance": {
+            "value": "20"
+          },
+          "crit_mult": {
+            "value": "200 225 250 300"
+          }
+        }
+      }
+    },
+    {
+      "name": "alpha_wolf_command_aura",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+        "IsBreakable": "1",
+        "AbilityValues": {
+          "bonus_damage_pct": "20",
+          "radius": {
+            "value": "1200",
+            "affected_by_aoe_increase": "1"
+          }
+        },
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_2"
+      }
+    },
+    {
+      "name": "satyr_trickster_purge",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+        "SpellDispellableType": "SPELL_DISPELLABLE_YES",
+        "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_BOTH",
+        "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+        "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+        "AbilityCastRange": "350 400 450 550",
+        "AbilityCastPoint": "0.2",
+        "AbilityCooldown": "3.0",
+        "AbilityManaCost": "120 115 110 100",
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1",
+        "AbilityValues": {
+          "purge_rate": {
+            "value": "5"
+          },
+          "duration": {
+            "value": "5"
+          },
+          "summon_damage": {
+            "value": "400"
+          }
+        }
+      }
+    },
+    {
+      "name": "satyr_soulstealer_mana_burn",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+        "Modelscale": ".85",
+        "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+        "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+        "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+        "AbilityCastRange": "600",
+        "AbilityCastPoint": "0.3",
+        "AbilityCooldown": "18.0",
+        "AbilityManaCost": "50",
+        "AbilityValues": {
+          "burn_amount": "20 25 30 35",
+          "int_multiplier": "1 1.5 2 2.5"
+        },
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1"
+      }
+    },
+    {
+      "name": "ogre_bruiser_ogre_smash",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CAN_SELF_CAST | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT",
+        "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+        "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+        "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+        "SpellDispellableType": "SPELL_DISPELLABLE_YES_STRONG",
+        "AbilityCastPoint": "2.8",
+        "AbilityCooldown": "12.0",
+        "AbilityManaCost": "0",
+        "AbilityValues": {
+          "radius": {
+            "value": "200 210 220 230",
+            "affected_by_aoe_increase": "1"
+          },
+          "damage": "200 250 300 400",
+          "damage_pct": "8",
+          "hero_stun_duration": "2.4"
+        },
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_2"
+      }
+    },
+    {
+      "name": "mudgolem_cloak_aura",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1",
+        "IsBreakable": "1",
+        "AbilityValues": {
+          "bonus_magical_armor": {
+            "value": "10 12 14 16"
+          },
+          "bonus_magical_armor_creeps": {
+            "value": "20 24 28 32"
+          },
+          "radius": {
+            "value": "1200",
+            "affected_by_aoe_increase": "1"
+          }
+        }
+      }
+    },
+    {
+      "name": "centaur_khan_war_stomp",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+        "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+        "SpellDispellableType": "SPELL_DISPELLABLE_YES_STRONG",
+        "AbilityCastPoint": "0.4",
+        "AbilityCooldown": "12.0",
+        "AbilityDamage": "25 50 75 150",
+        "AbilityManaCost": "50",
+        "AbilityValues": {
+          "radius": {
+            "value": "250",
+            "affected_by_aoe_increase": "1"
+          },
+          "non_hero_stun_duration": "3.0",
+          "hero_stun_duration": "1.6"
+        },
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1"
+      }
+    },
+    {
+      "name": "satyr_hellcaller_shockwave",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_POINT",
+        "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+        "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+        "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP",
+        "AbilityCastRange": "700",
+        "AbilityCastPoint": "0.5",
+        "AbilityCooldown": "8.0",
+        "AbilityDamage": "140 160 180 200",
+        "AbilityManaCost": "100",
+        "AbilityValues": {
+          "speed": "900",
+          "radius_start": {
+            "value": "180",
+            "affected_by_aoe_increase": "1"
+          },
+          "radius_end": {
+            "value": "200",
+            "affected_by_aoe_increase": "1"
+          },
+          "distance": "1380"
+        },
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1"
+      }
+    },
+    {
+      "name": "warpine_raider_seed_shot",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING ",
+        "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+        "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+        "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP",
+        "AbilityCooldown": "15",
+        "AbilityCastRange": "575",
+        "AbilityCastPoint": "0.2",
+        "AbilityManaCost": "100",
+        "AbilityValues": {
+          "damage": "80 95 110 125",
+          "bounces": "4 6 8 12",
+          "bounce_range": "500",
+          "duration": "1",
+          "slow": "100",
+          "bounce_delay": "0.3"
+        },
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1"
+      }
+    },
+    {
+      "name": "hill_troll_rally",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+        "IsBreakable": "1",
+        "AbilityValues": {
+          "radius": {
+            "value": "1200",
+            "affected_by_aoe_increase": "1"
+          },
+          "damage_bonus": {
+            "value": "2"
+          }
+        }
+      }
+    },
+    {
+      "name": "mud_golem_hurl_boulder",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+        "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+        "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP",
+        "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+        "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+        "SpellDispellableType": "SPELL_DISPELLABLE_YES_STRONG",
+        "MaxLevel": "1",
+        "AbilityCastRange": "800",
+        "AbilityCooldown": "30",
+        "AbilityCastPoint": "0.3",
+        "AbilityManaCost": "0",
+        "AbilityValues": {
+          "damage": "75",
+          "damage_creeps": "150",
+          "duration": "0.5",
+          "speed": "800"
+        },
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1"
+      }
+    },
+    {
+      "name": "necronomicon_warrior_mana_burn",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "AbilityType": "ABILITY_TYPE_BASIC",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+        "AbilityUnitDamageType": "DAMAGE_TYPE_PHYSICAL",
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1",
+        "IsBreakable": "1",
+        "AbilityValues": {
+          "burn_amount": {
+            "value": "30 40 50"
+          },
+          "burn_damage_conversion": {
+            "value": "50"
+          }
+        }
+      }
+    },
+    {
+      "name": "furbolg_enrage_attack_speed",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+        "IsBreakable": "1",
+        "AbilityValues": {
+          "bonus_aspd": {
+            "value": "120"
+          },
+          "duration": {
+            "value": "5"
+          },
+          "radius": {
+            "value": "700",
+            "affected_by_aoe_increase": "1"
+          }
+        }
+      }
+    },
+    {
+      "name": "polar_furbolg_ursa_warrior_thunder_clap",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+        "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+        "SpellDispellableType": "SPELL_DISPELLABLE_YES",
+        "AbilityCastPoint": "0.4",
+        "AbilityCooldown": "12.0 11.0 10.0 9.0",
+        "AbilityDamage": "150 200 250 350",
+        "AbilityManaCost": "50",
+        "AbilityValues": {
+          "radius": {
+            "value": "300",
+            "affected_by_aoe_increase": "1"
+          },
+          "movespeed_slow": "-25",
+          "attackspeed_slow": "-25",
+          "duration": "3.0"
+        },
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1"
+      }
+    },
+    {
+      "name": "enraged_wildkin_hurricane",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_VECTOR_TARGETING | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES",
+        "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_BOTH",
+        "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP",
+        "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+        "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+        "SpellDispellableType": "SPELL_DISPELLABLE_YES",
+        "AbilityCastRange": "400 500 600 750",
+        "AbilityCastPoint": "0",
+        "AbilityCooldown": "30.0 28.0 26.0 22.0",
+        "AbilityManaCost": "100",
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1",
+        "AbilityValues": {
+          "distance": {
+            "value": "400"
+          }
+        }
+      }
+    },
+    {
+      "name": "black_drake_magic_amplification_aura",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+        "IsBreakable": "1",
+        "AbilityValues": {
+          "spell_amp": "5 6 7 9",
+          "radius": {
+            "value": "1200",
+            "affected_by_aoe_increase": "1"
+          }
+        },
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_2"
+      }
+    },
+    {
+      "name": "ancient_rock_golem_weakening_aura",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+        "IsBreakable": "1",
+        "AbilityValues": {
+          "armor_reduction": "3 4 5 6",
+          "radius": {
+            "value": "1200",
+            "affected_by_aoe_increase": "1"
+          }
+        },
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_2"
+      }
+    },
+    {
+      "name": "big_thunder_lizard_slam",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+        "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+        "SpellDispellableType": "SPELL_DISPELLABLE_YES",
+        "AbilityCastPoint": "0.3",
+        "AbilityCooldown": "6.0",
+        "AbilityDamage": "250",
+        "AbilityManaCost": "150",
+        "AbilityValues": {
+          "radius": {
+            "value": "350",
+            "affected_by_aoe_increase": "1"
+          },
+          "movespeed_slow": "-60",
+          "attack_slow_tooltip": "-60",
+          "non_hero_duration": "4.0",
+          "hero_duration": "2.0 2.25 2.5 3.0"
+        },
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_3"
+      }
+    },
+    {
+      "name": "frostbitten_golem_time_warp_aura",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+        "IsBreakable": "1",
+        "AbilityValues": {
+          "bonus_cdr": "8 9 10 11",
+          "radius": {
+            "value": "1200",
+            "affected_by_aoe_increase": "1"
+          }
+        },
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_2"
+      }
+    },
+    {
+      "name": "spawnlord_aura",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1",
+        "IsBreakable": "1",
+        "AbilityValues": {
+          "lifesteal": {
+            "value": "9 10 11 12"
+          },
+          "hp_regen": {
+            "value": "9 10 11 12"
+          },
+          "radius": {
+            "value": "1200",
+            "affected_by_aoe_increase": "1"
+          }
+        }
+      }
+    },
+    {
+      "name": "black_dragon_splash_attack",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "MaxLevel": "1",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+        "IsBreakable": "1",
+        "AbilityValues": {
+          "range": {
+            "value": "250",
+            "affected_by_aoe_increase": "1"
+          },
+          "damage_percent": "100"
+        },
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_2"
+      }
+    },
+    {
+      "name": "ice_shaman_incendiary_bomb",
+      "source": "scripts/npc/npc_abilities.txt",
+      "value": {
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+        "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+        "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_BUILDING",
+        "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+        "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+        "SpellDispellableType": "SPELL_DISPELLABLE_YES",
+        "FightRecapLevel": "1",
+        "AbilitySound": "Hero_OgreMagi.Ignite.Cast",
+        "AbilityCastRange": "700 725 750 800",
+        "AbilityCastPoint": "0.35",
+        "AbilityCooldown": "30",
+        "AbilityManaCost": "100 95 90 80",
+        "AbilityValues": {
+          "duration": "8",
+          "burn_damage": "50",
+          "building_damage_pct": "25"
+        },
+        "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1"
+      }
+    }
+  ]
+}

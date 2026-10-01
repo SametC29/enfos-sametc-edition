@@ -109,7 +109,31 @@ end
 --------------------------------------------------------------------------------
 -- Attach AI to Unit
 --------------------------------------------------------------------------------
-function CreepAI:Attach(unit, defendingTeam, laneName, onLeakCallback)
+function CreepAI:RouteFromPosition(defendingTeam, laneName, startPos)
+	local teamRoutes = CreepAI.ROUTES[defendingTeam]
+	local baseRoute = teamRoutes and (teamRoutes[laneName] or teamRoutes.left)
+	if not baseRoute or #baseRoute == 0 or not startPos then return nil end
+
+	-- Point-targeted summons begin where the player clicked. Continue from the
+	-- nearest authored waypoint instead of ordering them back to lane waypoint 1.
+	local nearestIndex, nearestDistance = 1, math.huge
+	for index, waypoint in ipairs(baseRoute) do
+		local dx, dy = startPos.x - waypoint.x, startPos.y - waypoint.y
+		local distance = dx * dx + dy * dy
+		if distance < nearestDistance then
+			nearestIndex, nearestDistance = index, distance
+		end
+	end
+
+	local route = { startPos }
+	for index = nearestIndex + 1, #baseRoute do
+		route[#route + 1] = baseRoute[index]
+	end
+	if #route == 1 then route[#route + 1] = baseRoute[#baseRoute] end
+	return route
+end
+
+function CreepAI:Attach(unit, defendingTeam, laneName, onLeakCallback, customRoute)
 	if not unit or unit:IsNull() then return nil end
 
 	local teamRoutes = CreepAI.ROUTES[defendingTeam]
@@ -118,7 +142,7 @@ function CreepAI:Attach(unit, defendingTeam, laneName, onLeakCallback)
 		return nil
 	end
 
-	local route = teamRoutes[laneName] or teamRoutes.left
+	local route = customRoute or teamRoutes[laneName] or teamRoutes.left
 	if not route or #route == 0 then
 		Log:Error("creep_ai", "No route found for team %s lane %s", tostring(defendingTeam), tostring(laneName))
 		return nil
@@ -203,6 +227,11 @@ function CreepAI:OnThink(state)
 			state.onLeakCallback(unit, state.defendingTeam)
 		end
 		return nil
+	end
+
+	if unit.enfosSpecials and require("waves/special_creeps").TryCast(unit,state.defendingTeam) then
+		state.stuckTimer=0
+		return THINK_INTERVAL
 	end
 
 	-- Distance to current waypoint

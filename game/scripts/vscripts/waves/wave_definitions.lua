@@ -5,6 +5,7 @@
 --------------------------------------------------------------------------------
 
 local WaveDefinitions = {}
+local NativeRoster = require("waves/native_roster")
 
 WaveDefinitions.TOTAL_WAVES = 60
 WaveDefinitions.STARTING_LIFE = 100
@@ -961,7 +962,12 @@ local WAVES = {
 --------------------------------------------------------------------------------
 
 function WaveDefinitions:GetWave(waveNumber)
-	return WAVES[waveNumber]
+	local wave = WAVES[waveNumber]
+	local visual = NativeRoster.Get(waveNumber)
+	if wave and visual then
+		wave.creeps = {{unit_name=visual.unit,count_per_player=1,lane="both"}}
+	end
+	return wave
 end
 
 function WaveDefinitions:GetTotalWaves()

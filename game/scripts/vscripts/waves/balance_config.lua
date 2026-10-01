@@ -1,6 +1,7 @@
 -- Versioned onboarding seed; snapshot once before the first wave.
 local Power = require("heroes/power_config")
-local Config = {VERSION="2026-09-28-uncapped-hostiles-1"}
+local Curve = require("waves/difficulty_curve")
+local Config = {VERSION="2026-10-01-progressive-waves-3"}
 local DIFFICULTY = {
     casual={hp=0.75,damage=0.80}, normal={hp=1,damage=1},
     hard={hp=1.25,damage=1.10}, nightmare={hp=1.5,damage=1.20}, hell={hp=2,damage=1.35},
@@ -14,11 +15,16 @@ function Config.Snapshot(difficulty, radiant, dire)
         soloPreparation=20,normalPreparation=15,soloBatchInterval=5}
 end
 function Config.Multipliers(snapshot,wave)
-    -- Difficulty still affects enemies. Solo empowerment lives on the hero.
-    return snapshot.hp,snapshot.damage
+    local hp,damage=1,1
+    if snapshot.solo then hp,damage=Curve.Solo(wave) end
+    return snapshot.hp*hp,snapshot.damage*damage
 end
 function Config.Apply(unit,snapshot,wave)
     local hpMult,damageMult=Config.Multipliers(snapshot,wave)
+    if unit.isBoss then
+        local bossHP,bossDamage=Curve.Boss(wave)
+        hpMult,damageMult=hpMult*bossHP,damageMult*bossDamage
+    end
     local hp=math.max(1,math.floor(unit:GetMaxHealth()*hpMult))
     unit:SetBaseMaxHealth(hp);unit:SetMaxHealth(hp);unit:SetHealth(hp)
     unit:SetBaseDamageMin(math.max(1,math.floor(unit:GetBaseDamageMin()*damageMult)))

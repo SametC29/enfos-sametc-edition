@@ -4,6 +4,17 @@
 
 "DOTAAbilities"
 {
+	"enfos_wave_raise"
+	{
+		"BaseClass" "ability_lua"
+		"ScriptFile" "waves/special_creeps"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName" "undying_tombstone"
+		"AbilityCooldown" "18"
+		"AbilityManaCost" "75"
+		"AbilityCastPoint" "0.4"
+		"MaxLevel" "1"
+	}
 	// =========================================================================
 	// Bulwark Abilities
 	// =========================================================================

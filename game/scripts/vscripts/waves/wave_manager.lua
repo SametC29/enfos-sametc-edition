@@ -16,6 +16,7 @@ local EconomyManager = require("economy/economy_manager")
 local BoonManager = require("boons/boon_manager")
 local BalanceConfig = require("waves/balance_config")
 local BossResources = require("bosses/resource_gate")
+local SpecialCreeps = require("waves/special_creeps")
 
 local WaveManager = {}
 WaveManager.__index = WaveManager
@@ -45,6 +46,7 @@ end
 -- Initialize Wave Manager
 --------------------------------------------------------------------------------
 function WaveManager:Init()
+	SpecialCreeps.Reset()
 	self.currentWave = 0
 	self.matchConfig = nil
 	self.state = WaveManager.STATE_IDLE
@@ -58,6 +60,9 @@ function WaveManager:Init()
 	self.wavePlayers = {}
 	self.batchSpawnTimer = 0
 	self.bossResources = BossResources.New()
+	-- A bounded, match-local warmup also covers dynamically attached native skills.
+	local roster=require("waves/native_roster")
+	for wave=1,60 do self.bossResources:RequestPlan(roster.ResourcePlan(wave)) end
 	self.bossResourcePlan = nil
 	self.bossResourceWait = 0
 
@@ -279,7 +284,12 @@ function WaveManager:StartWave(waveNumber)
 	self.pendingBatches = {}
 
 	local isBoss = WaveDefinitions:IsBossWave(waveNumber)
-	self.bossResourcePlan = isBoss and WaveDefinitions:GetSpawnPlan(waveNumber, 1) or nil
+	self.bossResourcePlan = require("waves/native_roster").ResourcePlan(waveNumber)
+	if isBoss then
+		for _,entry in ipairs(WaveDefinitions:GetSpawnPlan(waveNumber,1)) do
+			self.bossResourcePlan[#self.bossResourcePlan+1]=entry
+		end
+	end
 	self.bossResourceWait = 0
 	if self.bossResourcePlan then self.bossResources:RequestPlan(self.bossResourcePlan) end
 	Log:Info("wave_manager", "Starting Wave %d [Type: %s, Batches: %d]",
@@ -415,6 +425,7 @@ function WaveManager:SpawnCreepEntity(unitName, defendingTeam, lane, isBoss, act
 	end
 
 	BalanceConfig.Apply(creep,self:EnsureMatchConfig(),self.currentWave)
+	if not isBoss then SpecialCreeps.Configure(creep,self.currentWave,defendingTeam,false) end
 	-- A Boss without its native roster kit must not enter the live wave as an
 	-- unarmed legacy unit. Register before indexing it as active.
 	if isBoss and not BossFramework:RegisterBoss(creep, creep.bossRewardName or unitName, self.currentWave, activePlayers, defendingTeam) then

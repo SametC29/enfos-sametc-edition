@@ -21,6 +21,13 @@ for wave=1,60 do
  local expected=math.min(59,wave+5)
  if expected%5==0 then expected=expected-1 end
  assert(future.wave==expected)
+ local plan=Roster.ResourcePlan(wave)
+ local names={}
+ for _,resource in ipairs(plan) do
+  assert(not names[resource.unit_name]);names[resource.unit_name]=true
+ end
+ assert(names[future.unit] and names[future.native])
+ if entry then assert(names[entry.unit] and names[entry.native]) end
 end
 assert(count==48)
 local hp,damage=Curve.Solo(1);assert(hp==0.75 and damage==0.70)

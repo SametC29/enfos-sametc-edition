@@ -65,5 +65,5 @@ if (process.argv.includes('--write')) {
     throw new Error('Wave pressure audit is stale; run node tools/wave_pressure.mjs --write');
   }
 }
-console.log('PASS: 52 normal waves measured; count, raw health and raw base attack output rise across all six acts.');
+console.log('PASS: 48 normal waves measured; count, raw health and raw base attack output rise across all six acts.');
 for (const act of acts) console.log(`Act ${act.act}: ${act.average_scheduled_units.toFixed(1)} units, ${act.average_raw_total_health.toFixed(0)} raw HP, ${act.average_raw_base_attack_output_per_second.toFixed(0)} raw attack output/s`);
