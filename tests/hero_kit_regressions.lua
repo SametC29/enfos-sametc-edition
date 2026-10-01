@@ -1499,7 +1499,9 @@ test('Axe Blood Armor stacks only from configured enemy kills and caps armor/reg
         local values = { stack_cap = 2, creep_kills_per_stack = 2, armor_per_stack = 3, health_regen_per_stack = 4, bonus_armor = 8, bonus_health_regen = 20 }
         return values[key] or 0
     end
-    local mod = setmetatable({ GetParent = function() return axe end, GetAbility = function() return ability end, SetStackCount = function(self, n) self.stack_count = n end }, modifier_enfos_axe_blood_armor_passive)
+    local mod = setmetatable({ GetParent = function() return axe end, GetAbility = function() return ability end,
+        SetStackCount = function(self, n) self.stack_count = n end,
+        GetStackCount = function(self) return self.stack_count or 0 end }, modifier_enfos_axe_blood_armor_passive)
     mod:OnDeath({ attacker = axe, unit = ally })
     assert((mod.stacks or 0) == 0, 'Allied deaths must not grant stacks')
     for _ = 1, 6 do mod:OnDeath({ attacker = axe, unit = creep }) end
@@ -5775,6 +5777,27 @@ test('Axe non-execute Culling sparks bind CP4 to the impact position before leth
     ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex,ApplyDamage,PATTACH_WORLDORIGIN=oldCreate,oldControl,oldRelease,oldDamage,oldWorld
     assert(atDamage and controls[0] and controls[0].x==1600 and controls[4].z==128,'Both positional CPs must bind before damage moves/removes the target')
     assert(attachment==912 and owner==axe and released,'Finite impact must use world coordinates and release its index')
+end)
+
+test('Axe Blood Armor properties use replicated stacks on the client and remain Break-aware', function()
+    local axe=create_mock_unit('npc_dota_hero_axe',2,Vector(0,0,0))
+    local a=enfos_axe_blood_armor();a.GetSpecialValueFor=function(_,k)
+        return ({bonus_armor=8,bonus_health_regen=20,armor_per_stack=3,health_regen_per_stack=4})[k] or 0
+    end
+    local m=modifier_enfos_axe_blood_armor_passive()
+    m.GetParent=function() return axe end;m.GetAbility=function() return a end
+    local replicated=2;m.GetStackCount=function() return replicated end
+    m:OnCreated()
+    local oldServer=IsServer;IsServer=function() return false end
+    local armor,regen=m:GetModifierPhysicalArmorBonus(),m:GetModifierConstantHealthRegen()
+    replicated=4
+    local updatedArmor,updatedRegen=m:GetModifierPhysicalArmorBonus(),m:GetModifierConstantHealthRegen()
+    axe.PassivesDisabled=function() return true end
+    local brokenArmor,brokenRegen=m:GetModifierPhysicalArmorBonus(),m:GetModifierConstantHealthRegen()
+    IsServer=oldServer
+    assert(armor==14 and regen==28,'Client has replicated stacks, not the server-only kill accumulator')
+    assert(updatedArmor==20 and updatedRegen==36,'Client must read live synchronized stack changes')
+    assert(brokenArmor==0 and brokenRegen==0,'Break must suppress both client properties')
 end)
 
 print(passed .. ' hero kit regression tests passed (mock engine).')

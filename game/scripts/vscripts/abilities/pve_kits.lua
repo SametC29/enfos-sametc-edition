@@ -2115,13 +2115,13 @@ function modifier_enfos_axe_blood_armor_passive:GetModifierPhysicalArmorBonus()
     local c = self:GetParent()
     if c.PassivesDisabled and c:PassivesDisabled() then return 0 end
     local base = (self.GetAbility and value(self:GetAbility(), 'bonus_armor')) or 8
-    return base + (self.stacks or 0) * value(self:GetAbility(), 'armor_per_stack')
+    return base + self:GetStackCount() * value(self:GetAbility(), 'armor_per_stack')
 end
 function modifier_enfos_axe_blood_armor_passive:GetModifierConstantHealthRegen()
     local c = self:GetParent()
     if c.PassivesDisabled and c:PassivesDisabled() then return 0 end
     local base = (self.GetAbility and value(self:GetAbility(), 'bonus_health_regen')) or 20
-    return base + (self.stacks or 0) * value(self:GetAbility(), 'health_regen_per_stack')
+    return base + self:GetStackCount() * value(self:GetAbility(), 'health_regen_per_stack')
 end
 function modifier_enfos_axe_blood_armor_passive:OnDeath(params)
     if not IsServer() then return end
