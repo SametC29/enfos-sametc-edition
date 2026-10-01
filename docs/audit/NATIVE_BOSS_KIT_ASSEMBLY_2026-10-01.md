@@ -55,3 +55,17 @@ now includes the twelve-kit audit. Mocks model rank maxima; they do not certify
 actual engine ranks, innate/sub-ability dependencies, VFX/SFX, Shard/Scepter,
 bot intelligence or item effects. Local runtime acceptance remains pending the
 owner, particularly Boss waves 25, 40 and 55. No game launch or upload occurred.
+
+## Native toggle AI follow-up
+
+The generic AI used to skip every TOGGLE ability. It now issues one native
+no-target toggle order when combat presence changes. A dedicated hostile lookup
+prevents a friendly self-target from keeping a heal toggle on forever. Enabling
+obeys IsFullyCastable; disabling an active toggle is still attempted with low
+mana. This preserves the native spell's effect and resource behavior rather
+than replacing it. Verified VScript metadata exposes GetToggleState.
+
+The standard audit also runs tests/native_boss_toggles.lua: it verifies resource
+gating, enable/stable/disable orders, and that a friendly spell's self-target is
+not treated as a nearby defender. Actual Voodoo Restoration healing, animation,
+sound and mana drain remain pending owner engine tests (Boss wave 50).

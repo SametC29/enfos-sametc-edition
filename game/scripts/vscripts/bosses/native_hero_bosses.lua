@@ -232,6 +232,7 @@ function NativeBosses:Prepare(unit, heroName, waveNumber, defendingTeam, rewardT
 end
 
 local function nearbyDefenders(unit, state, ability)
+	ability = ability or {} -- nil asks for combat presence, not a friendly spell target.
 	local targetTeam = ability.GetAbilityTargetTeam and ability:GetAbilityTargetTeam() or DOTA_UNIT_TARGET_TEAM_ENEMY
 	if targetTeam == DOTA_UNIT_TARGET_TEAM_FRIENDLY then return { unit } end
 	local targetType = ability.GetAbilityTargetType and ability:GetAbilityTargetType()
@@ -272,14 +273,24 @@ end
 
 local function tryAbility(unit, state, ability)
 	if not ability or ability:IsNull() or ability:IsHidden() or ability:IsPassive()
-		or ability:GetLevel() <= 0 or not ability:IsActivated() or not ability:IsFullyCastable()
+		or ability:GetLevel() <= 0 or not ability:IsActivated()
 		or (ability.IsInAbilityPhase and ability:IsInAbilityPhase()) then return false end
 	local behavior = ability:GetBehaviorInt()
 	if hasBehavior(ability, DOTA_ABILITY_BEHAVIOR_AUTOCAST) then
 		enableAutocast(ability)
 		return false -- Auto-cast + attack-behavior skills ride the lane attack order.
 	end
-	if hasBehavior(ability, DOTA_ABILITY_BEHAVIOR_TOGGLE) then return false end
+	if hasBehavior(ability, DOTA_ABILITY_BEHAVIOR_TOGGLE) then
+		-- Friendly toggles (e.g. Voodoo Restoration) still require an actual
+		-- nearby defender, not the self-target returned by friendly cast lookup.
+		local shouldEnable = #nearbyDefenders(unit, state, nil) > 0
+		if ability:GetToggleState() ~= shouldEnable
+			and (not shouldEnable or ability:IsFullyCastable()) then
+			return issueCast(unit, ability, DOTA_UNIT_ORDER_CAST_NO_TARGET)
+		end
+		return false
+	end
+	if not ability:IsFullyCastable() then return false end
 
 	if hasBehavior(ability, DOTA_ABILITY_BEHAVIOR_UNIT_TARGET) then
 		local targets = nearbyDefenders(unit, state, ability)

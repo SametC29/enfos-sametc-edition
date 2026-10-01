@@ -65,3 +65,7 @@ const result=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-
 if(result.status!==0 || result.stderr || !result.stdout.includes('PASS: all 12'))
   throw new Error(result.stderr || result.stdout || 'Native Boss kit audit failed');
 console.log(result.stdout.trim().split(/\r?\n/).at(-1));
+const toggles=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','tests/native_boss_toggles.lua'],{encoding:'utf8'});
+if(toggles.status!==0 || toggles.stderr || !toggles.stdout.includes('PASS: native Boss toggle'))
+  throw new Error(toggles.stderr || toggles.stdout || 'Native Boss toggle audit failed');
+console.log(toggles.stdout.trim());
