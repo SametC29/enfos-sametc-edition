@@ -1,9 +1,9 @@
 {
   "appid": "570",
   "publishedfileid": "3809160125",
-  "version": "1.0.7",
-  "title": "Enfos Team Survival - SametC Edition V1.0.7",
-  "changenote": "V1.0.7 - All 12 native hero Bosses now spawn at twice their normal model scale without compounding on repeated preparation. Includes Lina fixes: Dragon Slave burns respect Break, Fiery Soul attack stacks require hostile targets, and stack-controlled flame effects. Automated checks passed; owner in-game verification and full hero review remain ongoing.",
+  "version": "1.0.9",
+  "title": "Enfos Team Survival - SametC Edition V1.0.9",
+  "changenote": "V1.0.9 - Suppresses the native talent level-up frame, tree drawer and talent hotkey while keeping normal ability learning. Wave Bosses no longer automatically respawn; death retires Boss AI/registry state and prevents repeated rewards. Player spawn initialization excludes neutral Boss heroes; Boss safety modifier links on both Lua sides. Retains normal waves in former Elite slots, native Boss resource loading, defensive Reveal corrections and previous hero fixes. Automated checks and package verification passed; owner in-game verification remains pending.",
   "visibility": "0",
   "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3809160125"
 }
