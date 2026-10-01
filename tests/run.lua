@@ -192,6 +192,7 @@ end)
 -- =========================================================================
 -- Life Core Tests
 local vecMeta = {
+    __index = { Length2D = function(self) return math.sqrt((self.x or 0)^2 + (self.y or 0)^2) end },
     __add = function(a, b) return Vector((a.x or 0) + (b.x or 0), (a.y or 0) + (b.y or 0), (a.z or 0) + (b.z or 0)) end,
     __sub = function(a, b) return Vector((a.x or 0) - (b.x or 0), (a.y or 0) - (b.y or 0), (a.z or 0) - (b.z or 0)) end,
 }
@@ -577,7 +578,122 @@ LinkLuaModifier = LinkLuaModifier or function() end
 IsServer = function() return true end
 local BossFramework = require("bosses/boss_framework")
 
-test("boss base modifier enforces CC, reflect, and %-HP damage caps", function()
+test("native Boss preparation builds Valve QWER, tracks team level, and fills wave 60", function()
+	local oldLoadKeyValues = LoadKeyValues
+	local oldHero = PlayerResource.heroes[0]
+	local oldBit, oldAutocastFlag = bit, DOTA_ABILITY_BEHAVIOR_AUTOCAST
+	local blockedAbility
+	local function mockAbility(name)
+		local a = { name = name, level = 0, maxLevel = 4, behavior = name == "drow_ranger_frost_arrows" and 4 or 0, autocast = false }
+		function a:IsNull() return false end
+		function a:GetAbilityName() return self.name end
+		function a:GetMaxLevel() return self.maxLevel end
+		function a:GetLevel() return self.level end
+		function a:GetHeroLevelRequiredToUpgrade() return self.name==blockedAbility and 100 or 1 end
+		function a:SetLevel(value) self.level = value end
+		function a:GetBehaviorInt() return self.behavior end
+		function a:GetAutoCastState() return self.autocast end
+		function a:ToggleAutoCast() self.autocast = not self.autocast end
+		return a
+	end
+	local botBuild = {}
+	local buildSequence = { "sven_storm_bolt", "sven_great_cleave", "sven_warcry", "sven_gods_strength" }
+	for index = 1, 16 do botBuild[tostring(index)] = buildSequence[math.floor((index - 1) / 4) + 1] end
+	LoadKeyValues = function(path)
+		if path == "scripts/npc/heroes/npc_dota_hero_lina.txt" then
+			return { DOTAHeroes = { npc_dota_hero_lina = {
+				AbilityDraftAbilities = { Ability1="lina_dragon_slave", Ability2="lina_light_strike_array", Ability3="lina_fiery_soul", Ability6="lina_laguna_blade" },
+				Bot={Build={["1"]="lina_light_strike_array",["2"]="lina_dragon_slave",["4"]="lina_fiery_soul",["6"]="lina_laguna_blade"}},
+			} } }
+		end
+		if path == "scripts/npc/heroes/npc_dota_hero_crystal_maiden.txt" then
+			return { DOTAHeroes = { npc_dota_hero_crystal_maiden = {
+				Ability1="crystal_maiden_crystal_nova",Ability2="crystal_maiden_frostbite",Ability3="crystal_maiden_brilliance_aura",Ability6="crystal_maiden_freezing_field",
+				AbilityDraftAbilities={Ability1="crystal_maiden_crystal_nova",Ability2="crystal_maiden_frostbite",Ability3="crystal_maiden_freezing_field"},
+				Bot={Build={["1"]="crystal_maiden_frostbite",["2"]="crystal_maiden_brilliance_aura",["6"]="crystal_maiden_freezing_field",["11"]="crystal_maiden_crystal_nova"}},
+			} } }
+		end
+		if path == "scripts/npc/heroes/npc_dota_hero_sven.txt" then
+			return { DOTAHeroes = { npc_dota_hero_sven = {
+				AbilityDraftAbilities = { Ability1 = "sven_storm_bolt", Ability2 = "sven_great_cleave", Ability3 = "sven_warcry", Ability4 = "sven_gods_strength" },
+				Bot = { Build = botBuild },
+			} } }
+		end
+		if path == "scripts/npc/heroes/npc_dota_hero_drow_ranger.txt" then
+			return { DOTAHeroes = { npc_dota_hero_drow_ranger = {
+				AbilityDraftAbilities = { Ability1 = "drow_ranger_frost_arrows", Ability2 = "drow_ranger_wave_of_silence", Ability3 = "drow_ranger_multishot", Ability4 = "drow_ranger_marksmanship" },
+				Bot = { Build = { ["1"] = "drow_ranger_multishot" } },
+			} } }
+		end
+		if path == "scripts/npc/npc_units_custom.txt" then
+			return { DOTAUnits = {
+				enfos_boss_stonebreaker = { StatusHealth = "4000", AttackDamageMin = "150", AttackDamageMax = "180" },
+				enfos_boss_frost_warden = { StatusHealth = "4500", AttackDamageMin = "160", AttackDamageMax = "190" },
+			} }
+		end
+		return {}
+	end
+	PlayerResource.heroes[0] = { IsNull = function() return false end, IsAlive = function() return true end, GetLevel = function() return 20 end }
+	local boss = { abilities = { mockAbility("old_custom_ability") }, items = {}, level = 1, hp = 1000, baseHP = 1000, minDamage = 50, maxDamage = 60 }
+	function boss:IsNull() return false end
+	function boss:IsHero() return true end
+	function boss:GetModelScale() return self.modelScale or 0.8 end
+	function boss:SetModelScale(value) self.modelScale = value end
+	function boss:GetAbilityCount() return #self.abilities end
+	function boss:GetAbilityByIndex(index) return self.abilities[index + 1] end
+	function boss:RemoveAbility(name) for i, a in ipairs(self.abilities) do if a.name == name then table.remove(self.abilities, i); return end end end
+	function boss:AddAbility(name) local a = mockAbility(name); self.abilities[#self.abilities + 1] = a; return a end
+	function boss:FindAbilityByName(name) for _, a in ipairs(self.abilities) do if a.name == name then return a end end end
+	function boss:GetLevel() return self.level end
+	function boss:HeroLevelUp() self.level = self.level + 1 end
+	function boss:SetAbilityPoints(value) self.abilityPoints = value end
+	function boss:GetBaseDamageMin() return self.minDamage end
+	function boss:GetBaseDamageMax() return self.maxDamage end
+	function boss:SetBaseDamageMin(value) self.minDamage = value end
+	function boss:SetBaseDamageMax(value) self.maxDamage = value end
+	function boss:GetMaxHealth() return self.hp end
+	function boss:SetBaseMaxHealth(value) self.baseHP = value end
+	function boss:SetMaxHealth(value) self.hp = value end
+	function boss:SetHealth(value) self.hp = value end
+	function boss:AddItemByName(name) self.items[#self.items + 1] = name; return {} end
+	boss.bossRewardName = "enfos_boss_stonebreaker"
+	assert(BossFramework:PrepareBoss(boss, "npc_dota_hero_sven", 60, 2) == true)
+	assert(boss.nativeBossHero == "npc_dota_hero_sven" and boss.level == 50)
+	assert(boss.modelScale == 1.6, "Boss must be twice its own normal model scale")
+	assert(#boss.abilities == 4 and boss.abilities[1].name == "sven_storm_bolt" and boss.abilities[4].name == "sven_gods_strength")
+	for _, a in ipairs(boss.abilities) do assert(a.level == 4, "Valve bot skill order should upgrade each native QWER to its cap") end
+	assert(#boss.items == 6 and boss.hp == 4000 and boss.minDamage == 150 and boss.maxDamage == 180)
+	assert(boss.abilityPoints == 0)
+	boss.abilities, boss.items, boss.level, boss.hp, boss.baseHP = { mockAbility("old_custom_ability") }, {}, 1, 1000, 1000
+	boss.minDamage, boss.maxDamage, boss.nativeBossHero = 50, 60, nil
+	assert(BossFramework:PrepareBoss(boss, "npc_dota_hero_sven", 5, 2) == true)
+	assert(boss.level == 20 and #boss.items == 2, "Early Boss must follow the defending team's current level and item milestone")
+	assert(boss.modelScale == 1.6, "Repeated preparation must not double Boss size again")
+	bit = { band = function(value, flag) return value == flag and flag or 0 end }
+	DOTA_ABILITY_BEHAVIOR_AUTOCAST = 4
+	boss.abilities, boss.items, boss.level, boss.hp, boss.baseHP = { mockAbility("old_custom_ability") }, {}, 1, 1000, 1000
+	boss.minDamage, boss.maxDamage, boss.nativeBossHero = 50, 60, nil
+	boss.bossRewardName = "enfos_boss_frost_warden"
+	assert(BossFramework:PrepareBoss(boss, "npc_dota_hero_drow_ranger", 5, 2) == true)
+	assert(boss:FindAbilityByName("drow_ranger_frost_arrows"):GetAutoCastState(), "Native Drow Frost Arrows must be enabled for lane attacks")
+	for _, heroName in ipairs({"npc_dota_hero_lina", "npc_dota_hero_crystal_maiden"}) do
+		blockedAbility=heroName=="npc_dota_hero_lina" and "lina_fiery_soul" or nil
+		boss.abilities,boss.items,boss.level={mockAbility("old_custom_ability")},{},1
+		assert(BossFramework:PrepareBoss(boss,heroName,60,2),"noncontiguous native kit must prepare: "..heroName)
+		assert(#boss.abilities==4 and boss.abilities[4].level>0,"native ultimate must be present and trained")
+		if blockedAbility then
+			assert(boss:FindAbilityByName(blockedAbility):GetLevel()==1,
+				"unused-rank fallback must respect the next native hero-level gate")
+		end
+	end
+	assert(boss.abilities[3].name=="crystal_maiden_brilliance_aura",
+		"CM's native bot-trained aura must fill the omitted Draft slot")
+	LoadKeyValues = oldLoadKeyValues
+	PlayerResource.heroes[0] = oldHero
+	bit, DOTA_ABILITY_BEHAVIOR_AUTOCAST = oldBit, oldAutocastFlag
+end)
+
+test("boss base modifier resists control and caps reflect without health gates", function()
     BossFramework:Init()
 
     local dummyBoss = {
@@ -605,83 +721,185 @@ test("boss base modifier enforces CC, reflect, and %-HP damage caps", function()
     -- Total damage was 500, cap is 150, so blocked portion is 500 - 150 = 350
     assert(reflectBlock == 350, "Reflect damage above 150 must be blocked, got blocked: " .. tostring(reflectBlock))
 
-    -- 3. %-HP damage is capped at 4% max HP (4% of 10000 = 400)
-    local giantDamageBlock = mod:GetModifierTotal_ConstantBlock({
+	-- Large damage instances remain unblocked and bosses have no minimum-health phase gate.
+	local giantDamageBlock = mod:GetModifierTotal_ConstantBlock({
         damage = 2500,
         damage_flags = 0,
     })
-    -- Max allowed is 400, so blocked portion is 2500 - 400 = 2100
-    assert(giantDamageBlock == 2100, "%-HP damage above 4% max HP must be blocked, got: " .. tostring(giantDamageBlock))
+	assert(giantDamageBlock == 0, "Boss damage must not be capped by a health phase")
+	assert(mod.GetMinHealth == nil, "Bosses must not receive a phase-based minimum-health gate")
 end)
 
-test("boss ground telegraph executes callback and notifies warning", function()
-    BossFramework:Init()
-    local callbackExecuted = false
-    local testPos = Vector(100, 200, 0)
-    BossFramework:CreateTelegraph(testPos, 450, 1.5, function(pos, radius)
-        callbackExecuted = true
-        assert(pos.x == 100 and pos.y == 200)
-        assert(radius == 450)
-    end)
-    assert(callbackExecuted == true, "Telegraph callback must execute")
-end)
-
-test("bosses have no health-threshold phase or phase-triggered adds", function()
-    BossFramework:Init()
-
-    -- Stonebreaker
-    local stonebreaker = {
+test("unprepared legacy Bosses are rejected instead of receiving custom signature AI", function()
+    assert(BossFramework.CreateTelegraph == nil and BossFramework.ThinkSignatureBoss == nil
+        and BossFramework.ThinkStonebreaker == nil and BossFramework.ThinkBroodMatron == nil
+        and BossFramework.ThinkBloodfangAlpha == nil,
+        "retired custom Boss attacks and phase telegraphs must not remain callable")
+    local legacy = {
         IsNull = function() return false end,
-        IsAlive = function() return true end,
-        maxHp = 3000,
-        hp = 800, -- 800/3000 = 26.6% (<30%)
-        GetMaxHealth = function(self) return self.maxHp end,
-        GetHealth = function(self) return self.hp end,
-        AddNewModifier = function(self, caster, ability, name) self.enragedMod = name end,
-        EmitSound = function() end,
-        GetTeamNumber = function() return 4 end,
-        GetAbsOrigin = function() return Vector(0,0,0) end,
-        SetContextThink = function() end,
+        AddNewModifier = function() error("unprepared Boss must not receive runtime modifiers") end,
+        SetContextThink = function() error("unprepared Boss must not start a custom AI thinker") end,
         entindex = function() return 1001 end,
     }
+    assert(BossFramework:RegisterBoss(legacy, "enfos_boss_stonebreaker", 5, 1) == false)
+    assert(legacy.bossState == nil)
+end)
 
-	BossFramework:RegisterBoss(stonebreaker, "enfos_boss_stonebreaker", 5, 1)
-	assert(stonebreaker.bossState.phase == nil, "Boss state must not track health phases")
-	BossFramework:ThinkStonebreaker(stonebreaker, stonebreaker.bossState)
-	assert(stonebreaker.bossState.isEnraged == nil, "Stonebreaker must not gain a health-threshold phase")
-
-    -- Brood Matron
-    local broodMatron = {
-        IsNull = function() return false end,
-        IsAlive = function() return true end,
-        maxHp = 5500,
-        hp = 2500, -- 2500/5500 = 45.4% (<50%)
-        GetMaxHealth = function(self) return self.maxHp end,
-        GetHealth = function(self) return self.hp end,
-        AddNewModifier = function() end,
-        EmitSound = function() end,
-        GetTeamNumber = function() return 4 end,
-        GetAbsOrigin = function() return Vector(0,0,0) end,
-        SetContextThink = function() end,
-        entindex = function() return 1002 end,
+test("native Boss AI finds the defended team as friendlies and issues a native target cast", function()
+    local saved = {
+        bit=bit, FindUnitsInRadius=FindUnitsInRadius, ExecuteOrderFromTable=ExecuteOrderFromTable,
+        UNIT_TARGET_TEAM_FRIENDLY=DOTA_UNIT_TARGET_TEAM_FRIENDLY, UNIT_TARGET_TEAM_ENEMY=DOTA_UNIT_TARGET_TEAM_ENEMY,
+        UNIT_TARGET_HERO=DOTA_UNIT_TARGET_HERO, UNIT_TARGET_BASIC=DOTA_UNIT_TARGET_BASIC,
+        UNIT_TARGET_FLAG_NONE=DOTA_UNIT_TARGET_FLAG_NONE, UNIT_TARGET_FLAG_NO_INVIS=DOTA_UNIT_TARGET_FLAG_NO_INVIS,
+        ABILITY_UNIT_TARGET=DOTA_ABILITY_BEHAVIOR_UNIT_TARGET,
+        ABILITY_POINT=DOTA_ABILITY_BEHAVIOR_POINT,
+        ABILITY_NO_TARGET=DOTA_ABILITY_BEHAVIOR_NO_TARGET,
+        ABILITY_TOGGLE=DOTA_ABILITY_BEHAVIOR_TOGGLE,
+        ORDER_CAST_TARGET=DOTA_UNIT_ORDER_CAST_TARGET,
+        ORDER_CAST_POSITION=DOTA_UNIT_ORDER_CAST_POSITION, ORDER_CAST_NO_TARGET=DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        FIND_CLOSEST=FIND_CLOSEST,
     }
-
-    local spawnedAdds = 0
-    local originalCreate = CreateUnitByName
-    CreateUnitByName = function(name, pos, bFind, caster, owner, team)
-        if name == "enfos_creep_spiderling" then
-            spawnedAdds = spawnedAdds + 1
-        end
-        return { SetIdleAcquire = function() end, SetAcquisitionRange = function() end }
+    DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_TEAM_ENEMY = 1, 2
+    DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_BASIC = 1, 2
+    DOTA_UNIT_TARGET_FLAG_NONE, DOTA_UNIT_TARGET_FLAG_NO_INVIS = 0, 16
+    DOTA_ABILITY_BEHAVIOR_UNIT_TARGET = 4
+    DOTA_ABILITY_BEHAVIOR_POINT, DOTA_ABILITY_BEHAVIOR_NO_TARGET = 8, 16
+    DOTA_ABILITY_BEHAVIOR_TOGGLE = 32
+    DOTA_UNIT_ORDER_CAST_TARGET, DOTA_UNIT_ORDER_CAST_POSITION, DOTA_UNIT_ORDER_CAST_NO_TARGET = 5, 6, 7
+    FIND_CLOSEST = 1
+    bit = {
+        band=function(value,flag) return math.floor(value/flag)%2==1 and flag or 0 end,
+        bor=function(a,b) return a+b end,
+    }
+    local defender = {GetTeamNumber=function() return 2 end,IsNull=function() return false end,
+        IsAlive=function() return true end,GetAbsOrigin=function() return Vector(250,0,0) end,
+        entindex=function() return 411 end}
+    local unrelated = {GetTeamNumber=function() return 3 end,IsNull=function() return false end,
+        IsAlive=function() return true end,GetAbsOrigin=function() return Vector(200,0,0) end,
+        entindex=function() return 412 end}
+    local queriedTeam, queriedFilter, issued
+    local behavior = DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
+    FindUnitsInRadius=function(team,_,_,_,filter)
+        queriedTeam,queriedFilter=team,filter
+        return {unrelated,defender}
     end
-
-	BossFramework:RegisterBoss(broodMatron, "enfos_boss_brood_matron", 10, 1)
-	assert(broodMatron.bossState.phase == nil, "Boss state must not track health phases")
-	BossFramework:ThinkBroodMatron(broodMatron, broodMatron.bossState)
-	assert(broodMatron.bossState.addsSpawned == nil, "Brood Matron must not track a health-triggered adds phase")
-	assert(spawnedAdds == 0, "Boss phases must not create threshold-triggered adds")
-
-    CreateUnitByName = originalCreate
+    ExecuteOrderFromTable=function(order) issued=order end
+    local ability={}
+    local fullyCastable,toggleOn=true,false
+    function ability:IsNull() return false end
+    function ability:IsHidden() return false end
+    function ability:IsPassive() return false end
+    function ability:GetLevel() return 1 end
+    function ability:IsActivated() return true end
+    function ability:IsFullyCastable() return fullyCastable end
+    function ability:GetToggleState() return toggleOn end
+    function ability:IsInAbilityPhase() return false end
+    function ability:GetBehaviorInt() return behavior end
+    function ability:GetAbilityTargetTeam() return DOTA_UNIT_TARGET_TEAM_ENEMY end
+    function ability:GetAbilityTargetType() return DOTA_UNIT_TARGET_HERO end
+    function ability:GetAbilityTargetFlags() return DOTA_UNIT_TARGET_FLAG_NONE end
+    function ability:GetCastRange() return 600 end
+    function ability:entindex() return 77 end
+    local boss={}
+    function boss:IsNull() return false end
+    function boss:IsAlive() return true end
+    function boss:IsStunned() return false end
+    local silenced,muted=false,false
+    function boss:IsSilenced() return silenced end
+    function boss:IsMuted() return muted end
+    function boss:IsChanneling() return false end
+    local castInProgress=false
+    function boss:GetCurrentActiveAbility()
+        if not castInProgress then return nil end
+        return {IsNull=function() return false end,IsInAbilityPhase=function() return true end}
+    end
+    function boss:GetTeamNumber() return 4 end
+    function boss:GetAbsOrigin() return Vector(0,0,0) end
+    function boss:GetAbilityByIndex(slot) return slot==0 and ability or nil end
+    local inventory={}
+    function boss:GetItemInSlot(slot) return inventory[slot] end
+    function boss:entindex() return 999 end
+    boss.bossState={nativeHero=true,defendingTeam=2}
+    assert(BossFramework:OnBossThink(boss)==0.4)
+    assert(queriedTeam==2 and queriedFilter==DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+        "neutral Boss target search must query its defending team rather than neutral-relative ENEMY units")
+    assert(issued and issued.OrderType==DOTA_UNIT_ORDER_CAST_TARGET and issued.TargetIndex==411 and issued.AbilityIndex==77)
+    behavior = DOTA_ABILITY_BEHAVIOR_POINT
+    issued = nil
+    assert(BossFramework:OnBossThink(boss)==0.4)
+    assert(issued and issued.OrderType==DOTA_UNIT_ORDER_CAST_POSITION
+        and issued.Position.x==250 and issued.Position.y==0,
+        "point-target native skills must be issued at the defending hero position")
+    behavior = DOTA_ABILITY_BEHAVIOR_NO_TARGET
+    issued = nil
+    assert(BossFramework:OnBossThink(boss)==0.4)
+    assert(issued and issued.OrderType==DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        "no-target native skills must be issued when defenders are in range")
+    local combatLookup=FindUnitsInRadius
+    behavior=DOTA_ABILITY_BEHAVIOR_NO_TARGET+DOTA_ABILITY_BEHAVIOR_TOGGLE
+    function ability:GetAbilityTargetTeam() return DOTA_UNIT_TARGET_TEAM_FRIENDLY end
+    fullyCastable=false;issued=nil
+    BossFramework:OnBossThink(boss)
+    assert(issued==nil,'a toggle cannot enable without its native mana/cooldown requirements')
+    fullyCastable=true
+    BossFramework:OnBossThink(boss)
+    assert(issued and issued.AbilityIndex==77,'native friendly toggle must enable in combat')
+    toggleOn=true;issued=nil
+    BossFramework:OnBossThink(boss)
+    assert(issued==nil,'an active toggle must remain on without repeated toggling')
+    FindUnitsInRadius=function() return {} end
+    fullyCastable=false
+    BossFramework:OnBossThink(boss)
+    assert(issued and issued.AbilityIndex==77,'toggle must disable out of combat even with insufficient mana')
+    toggleOn=false;issued=nil
+    BossFramework:OnBossThink(boss)
+    assert(issued==nil,'friendly self-target must not count as an enemy in combat-presence lookup')
+    FindUnitsInRadius=combatLookup
+    fullyCastable=true
+    behavior=DOTA_ABILITY_BEHAVIOR_NO_TARGET
+    function ability:GetAbilityTargetTeam() return DOTA_UNIT_TARGET_TEAM_ENEMY end
+    castInProgress=true
+    issued=nil
+    assert(BossFramework:OnBossThink(boss)==0.4)
+    assert(issued==nil,'another native cast must not interrupt an active cast point')
+    castInProgress=false
+    silenced=true
+    local function mockItem(name,index)
+        return {IsNull=function() return false end,IsFullyCastable=function() return true end,
+            GetAbilityName=function() return name end,
+            GetBehaviorInt=function() return DOTA_ABILITY_BEHAVIOR_NO_TARGET end,
+            entindex=function() return index end}
+    end
+    inventory[0]=mockItem('item_power_treads',80)
+    inventory[1]=mockItem('item_black_king_bar',81)
+    assert(BossFramework:OnBossThink(boss)==0.4)
+    assert(issued and issued.AbilityIndex==81,'silence must allow BKB and Treads must not starve later items')
+    muted=true;issued=nil
+    assert(BossFramework:OnBossThink(boss)==0.4)
+    assert(issued==nil,'mute must prevent item orders')
+    muted=false
+    local armletOn=false
+    inventory[1]=mockItem('item_armlet',82)
+    local armlet=inventory[1]
+    function armlet:GetBehaviorInt() return DOTA_ABILITY_BEHAVIOR_NO_TARGET+DOTA_ABILITY_BEHAVIOR_TOGGLE end
+    function armlet:GetToggleState() return armletOn end
+    assert(BossFramework:OnBossThink(boss)==0.4)
+    assert(issued and issued.AbilityIndex==82,'Armlet must enable when a defender is nearby')
+    armletOn=true;issued=nil
+    assert(BossFramework:OnBossThink(boss)==0.4)
+    assert(issued==nil,'an enabled Armlet must not toggle repeatedly in combat')
+    FindUnitsInRadius=function() return {} end
+    assert(BossFramework:OnBossThink(boss)==0.4)
+    assert(issued and issued.AbilityIndex==82,'Armlet must disable when combat ends')
+    bit,FindUnitsInRadius,ExecuteOrderFromTable=saved.bit,saved.FindUnitsInRadius,saved.ExecuteOrderFromTable
+    DOTA_UNIT_TARGET_TEAM_FRIENDLY,DOTA_UNIT_TARGET_TEAM_ENEMY=saved.UNIT_TARGET_TEAM_FRIENDLY,saved.UNIT_TARGET_TEAM_ENEMY
+    DOTA_UNIT_TARGET_HERO,DOTA_UNIT_TARGET_BASIC=saved.UNIT_TARGET_HERO,saved.UNIT_TARGET_BASIC
+    DOTA_UNIT_TARGET_FLAG_NONE,DOTA_UNIT_TARGET_FLAG_NO_INVIS=saved.UNIT_TARGET_FLAG_NONE,saved.UNIT_TARGET_FLAG_NO_INVIS
+    DOTA_ABILITY_BEHAVIOR_UNIT_TARGET=saved.ABILITY_UNIT_TARGET
+    DOTA_ABILITY_BEHAVIOR_POINT,DOTA_ABILITY_BEHAVIOR_NO_TARGET=saved.ABILITY_POINT,saved.ABILITY_NO_TARGET
+    DOTA_ABILITY_BEHAVIOR_TOGGLE=saved.ABILITY_TOGGLE
+    DOTA_UNIT_ORDER_CAST_TARGET,DOTA_UNIT_ORDER_CAST_POSITION,DOTA_UNIT_ORDER_CAST_NO_TARGET=saved.ORDER_CAST_TARGET,saved.ORDER_CAST_POSITION,saved.ORDER_CAST_NO_TARGET
+    FIND_CLOSEST=saved.FIND_CLOSEST
 end)
 
 -- =========================================================================
@@ -1029,207 +1247,6 @@ test("boon stack caps enforce 3 max for ordinary and 1 max for unique, and emerg
 end)
 
 -- =========================================================================
--- Progression & Hero Mastery Tests (Phase 10)
--- =========================================================================
-local StorageAdapter = require("progression/storage_adapter")
-local ProgressionCurves = require("progression/progression_curves")
-local ProgressionManager = require("progression/progression_manager")
-
-test("account xp leveling curve awards legacy points up to level 48 (max 24 points)", function()
-    local profile = StorageAdapter.CreateDefaultProfile("test_user_1")
-    assert(profile.accountLevel == 1)
-    assert(profile.unspentLegacyPoints == 0)
-
-    -- Level 1 -> 2: requires 500 XP
-    ProgressionCurves.AddAccountXP(profile, 500)
-    assert(profile.accountLevel == 2, "Must reach level 2")
-    assert(profile.unspentLegacyPoints == 1, "Must gain 1 Legacy point on level 2")
-
-    -- Add enough XP to level up through 48
-    -- Level 48 should have earned exactly 24 points (48 / 2)
-    for lvl = 2, 47 do
-        local req = ProgressionCurves.GetAccountLevelXPRequired(profile.accountLevel)
-        ProgressionCurves.AddAccountXP(profile, req)
-    end
-    assert(profile.accountLevel == 48, "Must reach level 48, got: " .. profile.accountLevel)
-    assert(profile.unspentLegacyPoints == 24, "Must have 24 legacy points at level 48, got: " .. profile.unspentLegacyPoints)
-
-    -- Levels beyond 48 do not award raw Legacy points (capped at 24)
-    local req48 = ProgressionCurves.GetAccountLevelXPRequired(48)
-    local req49 = ProgressionCurves.GetAccountLevelXPRequired(49)
-    ProgressionCurves.AddAccountXP(profile, req48 + req49)
-    assert(profile.accountLevel == 50, "Must reach level 50")
-    assert(profile.unspentLegacyPoints == 24, "Legacy points must remain capped at 24, got: " .. profile.unspentLegacyPoints)
-end)
-
-test("legacy allocation, branch caps, free respec, and pvevp 50% normalization", function()
-    local profile = StorageAdapter.CreateDefaultProfile("test_user_2")
-    profile.unspentLegacyPoints = 5
-
-    -- Allocate 3 to offense, 2 to defense
-    assert(ProgressionCurves.AllocateLegacyRank(profile, "offense") == true)
-    assert(ProgressionCurves.AllocateLegacyRank(profile, "offense") == true)
-    assert(ProgressionCurves.AllocateLegacyRank(profile, "offense") == true)
-    assert(profile.legacy.offense == 3)
-    assert(profile.unspentLegacyPoints == 2)
-
-    assert(ProgressionCurves.AllocateLegacyRank(profile, "defense") == true)
-    assert(ProgressionCurves.AllocateLegacyRank(profile, "defense") == true)
-    assert(profile.legacy.defense == 2)
-    assert(profile.unspentLegacyPoints == 0)
-
-    -- Insufficient points check
-    local okFail, reason = ProgressionCurves.AllocateLegacyRank(profile, "economy")
-    assert(okFail == false)
-    assert(reason == "insufficient_points")
-
-    -- PvEvP 50% normalization check
-    -- Co-op: 100% effectiveness
-    local coopBonuses = ProgressionCurves.GetLegacyBonuses(profile, false)
-    assert(coopBonuses.effectiveness == 1.0)
-    assert(math.abs(coopBonuses.offenseDamageMultiplier - 0.015) < 0.0001, "Co-op offense should be 3 * 0.005 * 1.0 = +1.5%")
-    assert(math.abs(coopBonuses.defenseMaxHpMultiplier - 0.010) < 0.0001, "Co-op defense should be 2 * 0.005 * 1.0 = +1.0%")
-
-    -- Standard PvEvP: 50% effectiveness
-    local pvevpBonuses = ProgressionCurves.GetLegacyBonuses(profile, true)
-    assert(pvevpBonuses.effectiveness == 0.5)
-    assert(math.abs(pvevpBonuses.offenseDamageMultiplier - 0.0075) < 0.0001, "PvEvP offense should be 3 * 0.005 * 0.5 = +0.75%")
-    assert(math.abs(pvevpBonuses.defenseMaxHpMultiplier - 0.0050) < 0.0001, "PvEvP defense should be 2 * 0.005 * 0.5 = +0.5%")
-
-    -- Free Respec
-    local okRespec, refunded = ProgressionCurves.RespecLegacy(profile)
-    assert(okRespec == true)
-    assert(refunded == 5, "Must refund 5 spent points")
-    assert(profile.legacy.offense == 0 and profile.legacy.defense == 0)
-    assert(profile.unspentLegacyPoints == 5)
-end)
-
-test("hero mastery ranking, passive points, and milestone build unlocks at 5/10/15/20", function()
-    local heroData = { rank = 1, xp = 0, passivePoints = 0, buildUnlocks = {} }
-
-    -- Rank 1 -> 2: requires 100 XP
-    ProgressionCurves.AddHeroMasteryXP(heroData, 100)
-    assert(heroData.rank == 2)
-    assert(heroData.passivePoints == 1, "Even rank must award +1 Hero Passive point")
-
-    -- Advance to rank 5
-    for r = 2, 4 do
-        local req = ProgressionCurves.GetHeroMasteryXPRequired(heroData.rank)
-        ProgressionCurves.AddHeroMasteryXP(heroData, req)
-    end
-    assert(heroData.rank == 5)
-    assert(heroData.buildUnlocks["5"] == true, "Mastery 5 must unlock milestone build choice")
-
-    -- Advance to rank 20
-    for r = 5, 19 do
-        local req = ProgressionCurves.GetHeroMasteryXPRequired(heroData.rank)
-        ProgressionCurves.AddHeroMasteryXP(heroData, req)
-    end
-    assert(heroData.rank == 20)
-    assert(heroData.passivePoints == 10, "Rank 20 must have 10 Hero Passive points total (20 / 2)")
-    assert(heroData.buildUnlocks["20"] == true, "Mastery 20 must unlock milestone build choice")
-end)
-
-test("match reward calculation covers win, loss, surrender, abandon, clear bonus, and endless checkpoints", function()
-    -- 1. Full Clear Normal (Wave 60, Win)
-    local winRewards = ProgressionCurves.CalculateMatchRewards({
-        completedWaves = 60,
-        isFullClear = true,
-        difficulty = "normal",
-        outcome = "win",
-    })
-    -- Base Account: 1200 + 300 = 1500; with Win (+15%): 1725
-    -- Base Hero: 400 + 100 = 500; with Win (+15%): 575
-    assert(winRewards.accountXp == 1725, "Win Account XP should be 1725, got: " .. winRewards.accountXp)
-    assert(winRewards.heroXp == 575, "Win Hero XP should be 575, got: " .. winRewards.heroXp)
-    assert(winRewards.isFullClear == true)
-
-    -- 2. Loss at Wave 30 (Normal difficulty)
-    local lossRewards = ProgressionCurves.CalculateMatchRewards({
-        completedWaves = 30,
-        isFullClear = false,
-        difficulty = "normal",
-        outcome = "loss",
-    })
-    assert(lossRewards.accountXp > 400 and lossRewards.accountXp < 600, "Loss must provide legitimate partial progress")
-    assert(lossRewards.heroXp > 100 and lossRewards.heroXp < 250)
-
-    -- 3. Abandon at Wave 30 (Receives 50% of earned progress)
-    local abandonRewards = ProgressionCurves.CalculateMatchRewards({
-        completedWaves = 30,
-        isFullClear = false,
-        difficulty = "normal",
-        outcome = "abandon",
-    })
-    assert(math.abs(abandonRewards.accountXp - math.floor(lossRewards.accountXp * 0.50 + 0.5)) <= 1,
-        "Abandon must receive 50% of legitimate progress")
-
-    -- 4. Endless Checkpoints (Wave 60 + 3 checkpoints = Wave 75, Hard difficulty = 1.15x)
-    local endlessRewards = ProgressionCurves.CalculateMatchRewards({
-        completedWaves = 60,
-        isFullClear = true,
-        difficulty = "hard",
-        outcome = "loss",
-        endlessCheckpoints = 3,
-    })
-    -- Base Account = (1200 + 300) * 1.15 = 1725 + (3 * 80 * 1.15 = 276) = 2001
-    assert(endlessRewards.accountXp == 2001, "Endless Hard Account XP should be 2001, got: " .. endlessRewards.accountXp)
-end)
-
-test("progression manager coordinates profile, idempotent rewards, difficulty unlock, and storage migration", function()
-    local localAdapter = StorageAdapter.LocalStorageAdapter.New()
-    ProgressionManager:Init(localAdapter, nil, nil)
-
-    -- Mock player 0 hero
-    local heroMock = {
-        IsNull = function() return false end,
-        GetUnitName = function() return "npc_dota_hero_juggernaut" end,
-    }
-    PlayerResource.heroes[0] = heroMock
-
-    -- Load player 0
-    local profile = ProgressionManager:LoadPlayer(0, "steam_76561198000000001")
-    assert(profile ~= nil)
-    assert(profile.highestDifficultyUnlocked == "normal")
-
-    -- 1. Award rewards for Match 101 (Full clear Normal, Win)
-    local summary1, err1 = ProgressionManager:AwardMatchRewards(0, "match_101", {
-        completedWaves = 60,
-        isFullClear = true,
-        difficulty = "normal",
-        outcome = "win",
-        heroId = "npc_dota_hero_juggernaut",
-    })
-    assert(summary1 ~= nil, "First award must succeed")
-    assert(summary1.accountXpEarned == 1725)
-    assert(profile.highestDifficultyUnlocked == "hard", "Full clear on Normal must unlock Hard difficulty")
-    assert(profile.processedMatchIds["match_101"] == true)
-
-    -- 2. Idempotency test: duplicate award for Match 101 must be rejected
-    local summary2, err2 = ProgressionManager:AwardMatchRewards(0, "match_101", {
-        completedWaves = 60,
-        isFullClear = true,
-        difficulty = "normal",
-        outcome = "win",
-    })
-    assert(summary2 == nil, "Duplicate reward must be rejected")
-    assert(err2 == "duplicate_match", "Error must be duplicate_match")
-
-    -- 3. Storage schema migration test
-    local legacyRawProfile = {
-        schemaVersion = 0,
-        steamId = "legacy_steam_user",
-        accountLevel = 10,
-        accountXp = 100,
-        legacy = { offense = 8, defense = 8, economy = 8, spellbringer = 8 }, -- corrupted 32 points (>5 points for lvl 10)
-    }
-    local migrated = StorageAdapter.MigrateProfile(legacyRawProfile)
-    assert(migrated.schemaVersion == 1, "Must migrate to schema v1")
-    assert(migrated.unspentLegacyPoints == 5, "Must reset corrupted points to max earned (10 / 2 = 5)")
-    assert(migrated.legacy.offense == 0, "Corrupted branch allocations must be safely reset")
-end)
-
--- =========================================================================
 -- Hero Roster Tests (Phase 13 - 40 Heroes Milestone)
 -- =========================================================================
 test("forty heroes are authored with exactly 8 per role (Tank/Fighter/Carry/Mage/Support)", function()
@@ -1303,54 +1320,6 @@ test("setup manager handles difficulty, team assignment, same-team lock preventi
     EnfosSetupManager:OnStartGame({ PlayerID = 0 })
     assert(EnfosSetupManager.isSetupComplete == true)
     assert(finishCalled == true, "Must call FinishCustomGameSetup when host starts game")
-end)
-
--- =========================================================================
--- Evolution Milestone Manager Tests
--- =========================================================================
-local EvolutionManager = require("evolution/evolution_manager")
-
-test("evolution manager queues native talent milestones at 10/15/20/25", function()
-    EvolutionManager.initialized = false
-    EvolutionManager:Init()
-
-    local dummyHero = {
-        maxHp = 1000,
-        hp = 1000,
-        maxMana = 500,
-        mana = 500,
-        level = 3,
-        str = 20, agi = 20, int = 20,
-        GetMaxHealth = function(self) return self.maxHp end,
-        SetMaxHealth = function(self, val) self.maxHp = val end,
-        GetHealth = function(self) return self.hp end,
-        SetHealth = function(self, val) self.hp = val end,
-        GetMaxMana = function(self) return self.maxMana end,
-        SetMaxMana = function(self, val) self.maxMana = val end,
-        ModifyStrength = function(self, val) self.str = self.str + val end,
-        ModifyAgility = function(self, val) self.agi = self.agi + val end,
-        ModifyIntellect = function(self, val) self.int = self.int + val end,
-        GetUnitName = function() return 'npc_dota_hero_sven' end,
-        GetLevel = function(self) return self.level end,
-        FindModifierByName = function(self) return self.modifier end,
-        AddNewModifier = function(self)
-            self.modifier={stack=0,GetStackCount=function(m) return m.stack end,SetStackCount=function(m,v) m.stack=v end}
-            return self.modifier
-        end,
-        IsNull = function() return false end,
-    }
-    PlayerResource.heroes[0] = dummyHero
-
-    EvolutionManager:CheckHeroMilestones(0, dummyHero, 9)
-    assert(EvolutionManager:GetPendingCount(0) == 0, "Level 9 must not queue a native talent")
-    for index, level in ipairs({10, 15, 20, 25}) do
-        dummyHero.level = level
-        EvolutionManager:CheckHeroMilestones(0, dummyHero, level)
-        assert(EvolutionManager:GetPendingCount(0) == index, "Level " .. level .. " must queue one native talent")
-    end
-    dummyHero.level = 50
-    EvolutionManager:CheckHeroMilestones(0, dummyHero, 50)
-    assert(EvolutionManager:GetPendingCount(0) == 4, "No talent choices may be queued above level 25")
 end)
 
 -- =========================================================================
