@@ -78,6 +78,10 @@ Totals:
 - 8 Elite waves
 - 40 Normal waves
 
+Boss presentation uses twice the hero's normal model scale (owner decision,
+2026-10-01). Preparation preserves the original scale so repeated setup does
+not compound the enlargement. This does not change authored damage or HP.
+
 ### Boss-only rule
 Boss waves contain only the Boss. No normal wave budget spawns during that wave.
 

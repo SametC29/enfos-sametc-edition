@@ -23,6 +23,8 @@ for name,record in pairs(records) do
  local unit={level=1,abilities={},items={}}
  function unit:IsNull() return false end
  function unit:IsHero() return true end
+ function unit:GetModelScale() return self.modelScale or 1 end
+ function unit:SetModelScale(value) self.modelScale=value end
  function unit:GetAbilityCount() return #self.abilities end
  function unit:GetAbilityByIndex(i) return self.abilities[i+1] end
  function unit:RemoveAbility() error('fresh audit unit has no custom kit') end
@@ -43,6 +45,7 @@ for name,record in pairs(records) do
  function unit:AddItemByName(id) self.items[#self.items+1]=id;return {} end
  assert(Native:Prepare(unit,name,60,2,nil),name..': native kit failed preparation')
  assert(#unit.abilities==4 and unit.level==50 and #unit.items==6,name..': missing final kit/build')
+ assert(unit.modelScale==2,name..': Boss size must be double its normal model scale')
  for _,a in ipairs(unit.abilities) do
   assert(a.level>0,name..': untrained native ability '..a.name)
   local native=false

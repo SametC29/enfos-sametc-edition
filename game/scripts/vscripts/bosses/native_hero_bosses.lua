@@ -5,6 +5,7 @@ require("lib/log")
 
 local NativeBosses = {}
 NativeBosses.__index = NativeBosses
+NativeBosses.MODEL_SCALE_MULTIPLIER = 2
 
 local MAX_HERO_LEVEL = 50
 local THINK_INTERVAL = 0.4
@@ -221,6 +222,10 @@ function NativeBosses:Prepare(unit, heroName, waveNumber, defendingTeam, rewardT
 		end
 	end
 
+	-- Preserve each hero's normal model scale; repeated preparation must not
+	-- multiply an already enlarged Boss again.
+	unit.bossBaseModelScale = unit.bossBaseModelScale or unit:GetModelScale()
+	unit:SetModelScale(unit.bossBaseModelScale * self.MODEL_SCALE_MULTIPLIER)
 	unit.nativeBossHero = heroName
 	unit.bossRewardName = rewardTemplateName
 	unit.bossDefendingTeam = defendingTeam
