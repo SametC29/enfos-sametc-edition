@@ -1233,7 +1233,9 @@ test('Omniknight Guardian Angel applies bounded physical protection only to near
     assert(self_buff and ally_buff and self_buff:IsPurgable() == false)
     assert(self_buff:GetAbsoluteNoDamagePhysical() == 1 and self_buff:GetModifierConstantHealthRegen() == 30)
     assert(not enemy:FindModifierByName('modifier_enfos_pve_angel'), 'Guardian Angel must not affect enemies')
-    assert(ally_buff:GetEffectName():find('omniknight_guardian_angel_omni.vpcf', 1, true))
+    assert(self_buff:GetEffectName():find('omniknight_guardian_angel_omni.vpcf', 1, true))
+    assert(ally_buff:GetEffectName():find('omniknight_guardian_angel_ally.vpcf', 1, true))
+    assert(ally_buff:GetEffectAttachType() == PATTACH_ABSORIGIN_FOLLOW)
 end)
 
 test('Omniknight Hammer of Purity deals Pure damage with splash and heals caster', function()

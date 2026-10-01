@@ -1621,7 +1621,13 @@ function modifier_enfos_pve_angel:IsPurgable() return false end
 function modifier_enfos_pve_angel:IsDebuff() return false end
 function modifier_enfos_pve_angel:GetAbsoluteNoDamagePhysical() return 1 end
 function modifier_enfos_pve_angel:GetModifierConstantHealthRegen() return value(self:GetAbility(), 'bonus_hp_regen') end
-function modifier_enfos_pve_angel:GetEffectName() return 'particles/units/heroes/hero_omniknight/omniknight_guardian_angel_omni.vpcf' end
+function modifier_enfos_pve_angel:GetEffectName()
+    if self:GetParent() == self:GetCaster() then
+        return 'particles/units/heroes/hero_omniknight/omniknight_guardian_angel_omni.vpcf'
+    end
+    return 'particles/units/heroes/hero_omniknight/omniknight_guardian_angel_ally.vpcf'
+end
+function modifier_enfos_pve_angel:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 
 enfos_omni_hammer_of_purity=class({})
 function enfos_omni_hammer_of_purity:GetIntrinsicModifierName() return 'modifier_enfos_pve_hammer' end
