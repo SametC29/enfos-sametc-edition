@@ -32,3 +32,10 @@ New proven defect: Call's armor buff captured bonus_armor only in OnCreated. A r
 
 Owner engine acceptance remains PENDING: actual Call normal/running/Boss enemy attacks, magic-immune targets, overlapping taunts, expiry/purge, caster death, route resumption and armor refresh at a higher skill rank. Current taunt IsPurgable=true differs from native non-dispellable Call; this remains a separate source-review item, not silently declared accepted. Actual particles/audio/animation and VConsole were not observed in this work unit.
 `npm run check` after armor refresh: 229 hero behavior regressions, 200/200 ability and 223/223 modifier smoke cases, 0 failed checks. These are MOCK/STATIC PASS only; ENGINE/VConsole PENDING.
+
+## Culling non-execute impact position — 2026-10-02
+
+Full decoded installed `axe_culling_blade_hit_sparks.vpcf` (VRF19.2, build6942) uses C_INIT_RingWave and C_INIT_InitialVelocityNoise at CP4, an instantaneous64-particle emitter and C_OP_Decay with0.75–1.0second randomized lifetime. Preview metadata binds CP4 to a world position; no initializer/operator supplies CP4 internally. Generic effect helper only creates ABSORIGIN_FOLLOW and releases the index, supplying no CP4. This is a confirmed missing positional input, not a claim of observed rendering failure.
+
+Changed only the non-execute branch to a finite WORLDORIGIN impact owned by Axe, setting CP0 and CP4 to the target's captured position before damage, then releasing the index. Existing root already precached. No emitter loop or extra timer; damage, thresholds, cooldown reward and audio unchanged. Test fails on old helper because CP4 is absent; validates both positions before550pure damage can kill or relocate the target and verifies finite index release. Source API for SetParticleControl rechecked through MCP. No custom assets/code imported. Visible non-execute impact on normal/large Boss targets, orientation, cold-start precache, audio and VConsole remain ENGINE PENDING.
+`npm run check` after CP4 repair: 230 hero behavior regressions, 200/200 abilities, 223/223 modifiers and 0 failed checks. ENGINE/VConsole remains PENDING.

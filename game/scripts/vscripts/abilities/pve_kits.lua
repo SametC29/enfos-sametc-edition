@@ -2070,7 +2070,11 @@ function enfos_axe_culling_blade:OnSpellStart()
         end
     else
         t:EmitSound('Hero_Axe.Culling_Blade_Fail')
-        effect('particles/units/heroes/hero_axe/axe_culling_blade_hit_sparks.vpcf', t)
+        local hit_position = t:GetAbsOrigin()
+        local sparks = ParticleManager:CreateParticle('particles/units/heroes/hero_axe/axe_culling_blade_hit_sparks.vpcf', PATTACH_WORLDORIGIN, c)
+        ParticleManager:SetParticleControl(sparks, 0, hit_position)
+        ParticleManager:SetParticleControl(sparks, 4, hit_position)
+        ParticleManager:ReleaseParticleIndex(sparks)
         local base_dmg = value(self, 'damage')
         if base_dmg <= 0 then base_dmg = 350 end
     local str = get_str(c)

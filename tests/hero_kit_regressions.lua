@@ -5741,4 +5741,30 @@ test('Axe Call refresh replaces its armor snapshot when recast at a higher rank'
     armor=45;m:OnRefresh({});assert(m:GetModifierPhysicalArmorBonus()==45)
 end)
 
+test('Axe non-execute Culling sparks bind CP4 to the impact position before lethal damage', function()
+    local axe=create_mock_unit('npc_dota_hero_axe',2,Vector(1500,2300,128));axe.strength=100
+    local target=create_mock_unit('enfos_creep_melee',4,Vector(1600,2300,128))
+    target.max_hp=1000;target.hp=400
+    local a=enfos_axe_culling_blade();a.GetCaster=function() return axe end;a.GetCursorTarget=function() return target end
+    a.GetSpecialValueFor=function(_,k) return ({kill_threshold_pct=35,boss_kill_threshold_pct=15,damage=300,strength_damage_factor=2.5})[k] or 0 end
+    local oldCreate,oldControl,oldRelease,oldDamage,oldWorld=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex,ApplyDamage,PATTACH_WORLDORIGIN
+    PATTACH_WORLDORIGIN=912
+    local attachment,owner,controls,released,atDamage=nil,nil,{},false,false
+    ParticleManager.CreateParticle=function(_,path,attach,u)
+        assert(path=='particles/units/heroes/hero_axe/axe_culling_blade_hit_sparks.vpcf')
+        attachment,owner=attach,u;return 822
+    end
+    ParticleManager.SetParticleControl=function(_,id,cp,v) assert(id==822);controls[cp]=v end
+    ParticleManager.ReleaseParticleIndex=function(_,id) assert(id==822);released=true end
+    ApplyDamage=function(args)
+        atDamage=controls[4] and controls[4].x==1600 and controls[4].y==2300
+        assert(args.damage==550 and args.damage_type==DAMAGE_TYPE_PURE)
+        target.origin=Vector(0,0,0);return oldDamage(args)
+    end
+    a:OnSpellStart()
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex,ApplyDamage,PATTACH_WORLDORIGIN=oldCreate,oldControl,oldRelease,oldDamage,oldWorld
+    assert(atDamage and controls[0] and controls[0].x==1600 and controls[4].z==128,'Both positional CPs must bind before damage moves/removes the target')
+    assert(attachment==912 and owner==axe and released,'Finite impact must use world coordinates and release its index')
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')

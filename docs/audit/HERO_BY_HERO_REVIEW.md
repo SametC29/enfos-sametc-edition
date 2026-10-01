@@ -13,7 +13,7 @@ Per hero: read its instructions/dossier; compare installed native definitions; t
 | 3 | Drow Ranger | SOURCE REVIEW COMPLETE / ENGINE PENDING — Gust overlap, finite impact/precache, Q/R lethal-hit handling and passive Scepter text repaired; owner checklist in individual record |
 | 4 | Lina | SOURCE REVIEW COMPLETE / ENGINE PENDING — Break/hostile event guards, stack flames, W radius/CPs, captured corpse center, visible burn and four-locale tooltips repaired; shared-upgrade limits and owner checklist in individual record |
 | 5 | Omniknight | SOURCE REVIEW COMPLETE / ENGINE PENDING — Purification piercing/radius, Hammer lethal impact/splash, aura ownership, recipient effects, Scepter text and visible modifier identities repaired; individual record contains upgrade limits and owner tests |
-| 6 | Axe | IN PROGRESS — complete dossier/native definitions read; five-skill comparison and source trace recorded; Hunger continuous-effect ownership repair underway |
+| 6 | Axe | IN PROGRESS — five-skill comparison recorded; Hunger effect ownership, Call sound/target lifecycle/armor refresh and Culling impact CP4 repaired in source; animation, dispel and remaining acceptance audit ongoing; ENGINE PENDING |
 | 7 | Legion Commander | NOT STARTED |
 | 8 | Sniper | NOT STARTED |
 | 9 | Crystal Maiden | NOT STARTED |
