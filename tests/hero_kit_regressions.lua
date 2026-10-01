@@ -1177,6 +1177,23 @@ test('Omniknight Purification heals ally and deals matching Pure AoE damage to a
     assert(applied_damages[2].damage == 700 and applied_damages[2].damage_type == DAMAGE_TYPE_PURE)
 end)
 
+test('Omniknight Purification selects spell-immune hostiles without changing its allied heal target', function()
+    local c=create_mock_unit('npc_dota_hero_omniknight',2,Vector(0,0,0),1000)
+    c.strength=100
+    local ally=create_mock_unit('enfos_heal_target',2,Vector(100,0,0),1000);ally.hp=100
+    local boss=create_mock_unit('enfos_boss_immune',3,Vector(150,0,0),1000)
+    local a=enfos_omni_purification();a.GetCaster=function() return c end;a.GetCursorTarget=function() return ally end
+    a.GetSpecialValueFor=function(_,k) return ({heal_amount=180,strength_multiplier=2,radius=400})[k] or 0 end
+    local oldFind=FindUnitsInRadius
+    FindUnitsInRadius=function(team,point,cache,radius,targetTeam,targetType,flags)
+        assert(team==2 and point.x==100 and radius==400 and targetTeam==DOTA_UNIT_TARGET_TEAM_ENEMY)
+        return flags==DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES and {boss} or {}
+    end
+    applied_damages={};a:OnSpellStart();FindUnitsInRadius=oldFind
+    assert(ally.hp==480,'Purification must retain matching allied heal')
+    assert(#applied_damages==1 and applied_damages[1].victim==boss and applied_damages[1].damage==380 and applied_damages[1].damage_type==DAMAGE_TYPE_PURE,'Native piercing Purification must not drop immune Bosses at the radius search')
+end)
+
 test('Omniknight Repel grants unpurgable debuff immunity and rejects invalid or enemy targets', function()
     local omni = create_mock_unit('npc_dota_hero_omniknight', 2, Vector(0, 0, 0))
     local ally = create_mock_unit('ally', 2, Vector(20, 0, 0))

@@ -1536,7 +1536,7 @@ function enfos_omni_purification:OnSpellStart()
     ParticleManager:SetParticleControl(p, 1, Vector(radius, 0, 0))
     ParticleManager:ReleaseParticleIndex(p)
 
-    for _, u in ipairs(enemies(c, target:GetAbsOrigin(), radius)) do
+    for _, u in ipairs(enemies(c, target:GetAbsOrigin(), radius, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
         damage(self, u, amount, DAMAGE_TYPE_PURE)
     end
 end
