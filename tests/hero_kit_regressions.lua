@@ -1346,6 +1346,13 @@ test('Axe Counter Helix procs pure damage scaling with Strength on attacked', fu
     applied_damages = {}
     local axe = create_mock_unit('npc_dota_hero_axe', 2, Vector(0, 0, 0))
     axe.strength = 80
+    local oldActivity = ACT_DOTA_CAST_ABILITY_3
+    ACT_DOTA_CAST_ABILITY_3 = 913
+    local gestures = 0
+    axe.StartGesture = function(_, activity)
+        assert(activity == 913, 'Helix must use its verified native spin activity')
+        gestures = gestures + 1
+    end
     local creep1 = create_mock_unit('creep_1', 3, Vector(100, 0, 0))
     local creep2 = create_mock_unit('creep_2', 3, Vector(150, 0, 0))
     mock_world_units = { axe, creep1, creep2 }
@@ -1368,10 +1375,13 @@ test('Axe Counter Helix procs pure damage scaling with Strength on attacked', fu
 
     mod:OnAttacked({ attacker = creep1, target = axe })
     assert(#applied_damages == 0, 'Counter Helix must wait for its configured attack count')
+    assert(gestures == 0, 'Do not spin on a non-triggering attack')
     mod:OnAttacked({
         attacker = creep1,
         target = axe
     })
+    ACT_DOTA_CAST_ABILITY_3 = oldActivity
+    assert(gestures == 1, 'Each successful Helix proc must show the native spin')
 
     -- Damage: 200 + (80 * 1.0) = 280 pure
     assert(#applied_damages == 2, 'Helix should hit both creeps in 300 radius')

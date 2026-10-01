@@ -2026,6 +2026,7 @@ function modifier_enfos_axe_counter_helix_passive:OnAttacked(params)
     end
     self.attack_counter = 0
 
+    c:StartGesture(ACT_DOTA_CAST_ABILITY_3)
     c:EmitSound('Hero_Axe.CounterHelix')
     effect('particles/units/heroes/hero_axe/axe_counterhelix.vpcf', c)
 
