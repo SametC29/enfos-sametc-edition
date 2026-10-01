@@ -61,17 +61,43 @@
         var glyph = FindHudElement(root, "glyph");
         if (!glyph) return;
 
-        // Keep the recognizable Fortification control, but route its click to
-        // Spellbringer instead of invoking Dota's base fortification action.
-        glyph.ClearPanelEvent("onactivate");
-        glyph.ClearPanelEvent("onmouseover");
-        glyph.ClearPanelEvent("onmouseout");
-        glyph.SetPanelEvent("onactivate", ShowSpellbringer);
-        glyph.SetPanelEvent("onmouseover", function () {
-            $.DispatchEvent("DOTAShowTextTooltip", glyph, $.Localize("#enfos_spellbringer_title"));
-        });
-        glyph.SetPanelEvent("onmouseout", function () {
-            $.DispatchEvent("DOTAHideTextTooltip", glyph);
+        // Valve's compiled dota_hud_glyph layout binds native activation to
+        // NormalRoot, above GlyphButton. Bind once per root and let that root
+        // own hit testing: binding both levels could toggle twice on one click.
+        var buttons = [
+            FindHudElement(glyph, "NormalRoot"),
+            FindHudElement(glyph, "RadiantRoot"),
+            FindHudElement(glyph, "DireRoot"),
+        ].filter(function (button) { return !!button; });
+        if (buttons.length === 0) buttons = [
+            FindHudElement(root, "GlyphButton"),
+            FindHudElement(root, "RadiantGlyphButton"),
+            FindHudElement(root, "DireGlyphButton"),
+        ].filter(function (button) { return !!button; });
+        if (buttons.length === 0) buttons = [glyph];
+
+        // Fortification's cooldown can disable the native control before the
+        // replacement Spellbringer click handler receives input. This control
+        // is only an opener now, so keep its hit target active regardless of
+        // the native Glyph charge/cooldown state.
+        glyph.enabled = true;
+        glyph.hittest = true;
+        glyph.hittestchildren = true;
+
+        buttons.forEach(function (button) {
+            button.enabled = true;
+            button.hittest = true;
+            button.hittestchildren = false;
+            button.ClearPanelEvent("onactivate");
+            button.ClearPanelEvent("onmouseover");
+            button.ClearPanelEvent("onmouseout");
+            button.SetPanelEvent("onactivate", ShowSpellbringer);
+            button.SetPanelEvent("onmouseover", function () {
+                $.DispatchEvent("DOTAShowTextTooltip", button, $.Localize("#enfos_spellbringer_title"));
+            });
+            button.SetPanelEvent("onmouseout", function () {
+                $.DispatchEvent("DOTAHideTextTooltip", button);
+            });
         });
     }
 

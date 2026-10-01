@@ -11,7 +11,9 @@ test('native minimap controls retain only fortification, repurposed for Spellbri
   for (const id of ['RoshanTimerContainer', 'TormentorTimerContainer', 'RadarButton'])
     assert.match(script, new RegExp(`HidePanel\\(root, "${id}"\\)`));
   assert.match(script, /FindHudElement\(root, "glyph"\)/);
-  assert.match(script, /glyph\.SetPanelEvent\("onactivate", ShowSpellbringer\)/);
+  for (const id of ['GlyphButton', 'RadiantGlyphButton', 'DireGlyphButton'])
+    assert.match(script, new RegExp(`FindHudElement\\(root, "${id}"\\)`));
+  assert.match(script, /button\.SetPanelEvent\("onactivate", ShowSpellbringer\)/);
   assert.match(script, /SpellbringerHud/);
   assert.equal(fs.readFileSync(contentScript, 'utf8'), script);
 });
@@ -35,7 +37,13 @@ test('native HUD controller hides requested panels and toggles Spellbringer from
   const root = makePanel('DotaHud');
   for (const id of ['RoshanTimerContainer', 'TormentorTimerContainer', 'RadarButton',
     'StatBranch', 'inventory_neutral_slot_container', 'inventory_neutral_level_up',
-    'inventory_tpscroll_container', 'glyph', 'SpellbringerHud']) makePanel(id);
+    'inventory_tpscroll_container', 'glyph', 'NormalRoot', 'GlyphButton', 'SpellbringerHud']) makePanel(id);
+  // Simulate native Glyph cooldown: Valve may disable its button, but the
+  // repurposed control must still open Spellbringer.
+  panels.get('glyph').enabled = false;
+  panels.get('GlyphButton').enabled = false;
+  panels.get('NormalRoot').enabled = false;
+  panels.get('NormalRoot').events.onactivate = () => { throw new Error('native Fortification must not fire'); };
   const $ = selector => panels.get(selector.slice(1)) || null;
   Object.assign($, {
     GetContextPanel: () => root,
@@ -51,9 +59,13 @@ test('native HUD controller hides requested panels and toggles Spellbringer from
     'StatBranch', 'inventory_neutral_slot_container', 'inventory_neutral_level_up'])
     assert.equal(panels.get(id).visible, false, id);
   assert.equal(panels.get('inventory_tpscroll_container').visible, true);
-  panels.get('glyph').events.onactivate();
+  assert.equal(panels.get('glyph').enabled, true);
+  assert.equal(panels.get('NormalRoot').enabled, true);
+  assert.equal(panels.get('NormalRoot').hittestchildren, false);
+  assert.equal(panels.get('GlyphButton').events.onactivate, undefined,'only the real root handles clicks');
+  panels.get('NormalRoot').events.onactivate();
   assert(panels.get('SpellbringerHud').classes.has('Visible'));
-  panels.get('glyph').events.onactivate();
+  panels.get('NormalRoot').events.onactivate();
   assert(!panels.get('SpellbringerHud').classes.has('Visible'));
 });
 
