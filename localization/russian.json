@@ -423,7 +423,7 @@
     "DOTA_Tooltip_Ability_bulwark_unbreakable_shard_description": "+350 здоровья. Отражает 15% входящего вражеского урона физическим уроном.",
     "DOTA_Tooltip_Ability_enfos_juggernaut_omni_slash_scepter_description": "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%.",
     "DOTA_Tooltip_Ability_enfos_juggernaut_duelist_shard_description": "+35 скорости атаки. Атаки замедляют движение на 25% и атаки на 25 на 3 сек.",
-    "DOTA_Tooltip_Ability_enfos_drow_marksmanship_scepter_description": "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%.",
+    "DOTA_Tooltip_Ability_enfos_drow_marksmanship_scepter_description": "Дополнительный урон Marksmanship и урон осколков увеличены на 40%.",
     "DOTA_Tooltip_Ability_enfos_drow_precision_aura_shard_description": "+15% скорости передвижения. Атаки наносят дополнительно 12% чистого урона.",
     "DOTA_Tooltip_Ability_enfos_lina_laguna_blade_scepter_description": "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%.",
     "DOTA_Tooltip_Ability_enfos_lina_combustion_shard_description": "+15% усиления заклинаний.",

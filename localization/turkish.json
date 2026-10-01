@@ -1069,7 +1069,7 @@
     "DOTA_Tooltip_Ability_bulwark_unbreakable_shard_description": "Savaş Narası Sven'ın Azami Canının %25'i kadar kalkan verir ve süresince gelen fiziksel hasarın %40'ını yansıtır. Sven'ın canı %40 altına düştüğünde Kırılmaz İrade can yenilenmesi 2 katına çıkar.",
     "DOTA_Tooltip_Ability_enfos_juggernaut_omni_slash_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_juggernaut_duelist_shard_description": "+35 saldırı hızı. Saldırılar hedefin hareket hızını %25, saldırı hızını 25 azaltır (3 sn).",
-    "DOTA_Tooltip_Ability_enfos_drow_marksmanship_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
+    "DOTA_Tooltip_Ability_enfos_drow_marksmanship_scepter_description": "Marksmanship ilave hasarı ve parçalanma hasarı %40 artar.",
     "DOTA_Tooltip_Ability_enfos_drow_precision_aura_shard_description": "+%15 hareket hızı. Saldırılar hasarın %12’si kadar ek saf hasar verir.",
     "DOTA_Tooltip_Ability_enfos_lina_laguna_blade_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_lina_combustion_shard_description": "+%15 büyü hasarı.",

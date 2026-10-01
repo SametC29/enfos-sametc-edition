@@ -1,4 +1,4 @@
-# Drow Ranger individual review — in progress
+# Drow Ranger individual review — source review complete / engine pending
 
 Read hero AGENTS/complete ABILITIES, shared hero contract/development guideline, technical reference and research/runtime protocol. This extends the existing dossier and does not certify the placeholders in it. All five production implementations were traced. Current installed native AbilityDefinitions were reread directly from VPK on2026-10-01, ClientVersion6942 / SourceRevision11055158; source/hash in HERO_NATIVE_PRESENTATION_2026-10-01.json. Scratch extraction `enfos-drow-values.jsonl` is not the durable source of truth; production KV/Lua and the installed archive are.
 
@@ -53,3 +53,21 @@ R previously returned immediately when the primary was dead at OnAttackLanded, s
 Q regression explicitly dispatches OnDeath inside its bonus ApplyDamage and now observes one primary hit plus one nearby shatter. R regression delivers a dead hostile primary's landed event and observes only the live secondary hit, plus Break rejection. Both failed before their respective repairs; **217 hero behavior tests and full checks pass** after. Fixed a test assumption by overriding the actual mock PassivesDisabled method, rather than setting an unused field. Installed native source, MCP OnAttackLanded/OnDeath signatures and [ModDota event reference](https://moddota.com/abilities/ability-keyvalues) were checked; none establishes actual current-engine callback/death-modifier removal order, so that remains owner runtime pending.
 
 Reference-only MCP read: Boss Survival Adventure1571786267 `scripts/vscripts/heroes/hero_drow_ranger/drow_ranger_marksmanship_lua/drow_ranger_marksmanship_lua.lua` uses real PerformAttack for its secondary projectiles. That differs materially from this Enfos instant physical-spell conversion and was not imported. No license/version or engine acceptance was inferred. Current Sound bank ledger refreshed. Drow remains IN PROGRESS for upgrade text, control policy and final acceptance ledger.
+
+## Source review closure and owner acceptance checklist
+
+All five implementations, production KV, rank gates, four-locale descriptions, native build6942 definitions, decoded particles, sound bank, ability precache and shared Carry Shard/Scepter modifier paths have now been individually traced. Earlier sections are chronological findings; later repairs supersede their pending-repair statements. All five retain PVE-CONVERT classification. This closes the first source/code review, not engine acceptance or balance certification.
+
+The passive R has no cooldown. Its generic Scepter description therefore promised a cooldown benefit that does not exist. EN/TR/RU/zh-CN now describe the implemented40% amplification of Marksmanship bonus and secondary splinter damage. No numeric effect changed. Carry Shard adds12% of landed event damage as pure damage with NO_SPELL_AMPLIFICATION plus15% movement; it is distinct from native Glacier. Blessing uses the same shared Scepter modifier. Aura reads each recipient's base agility, preventing feedback from its own agility bonus; no intentional multi-Drow stacking change was introduced. Multishot uses the native channel cast animation and bounded emitted-arrow count; channel finish stops its verified looping sound.
+
+| Owner Dota/VConsole check | Exact acceptance concern |
+| --- | --- |
+| Q lethal hit / fresh slow / owned shatter | Confirm actual attack/death dispatch and modifier removal ordering after the reproduced Lua ordering repair. No new recursive shatter-chain policy was added. |
+| Q slow / shatter and E slow under resistance, dispel, Break | Attack slow is manually resistance-adjusted, shatter/E duration currently raw. Confirm engine duration behavior before adding an unproved second adjustment. Check existing primary immunity exclusions and secondary physical-immune targeting. |
+| W single cast, Refresher overlap, destination / cancellation | Independent directions/hit sets must serialize through ExtraData; normal destination retires its record. Verify engine cancellation also terminates callbacks/records and terrain push uses valid placement. Boss gets30% control duration and no push. |
+| E channel, interrupt, death, late flying arrows | At most configured12–24 arrows; no new emissions/audio after interruption; already flying arrow hits and cold-start visuals/audio need actual engine observation. |
+| R lethal primary / live splinters / Scepter | At most3 instant physical-spell splinters, no corpse damage, no native attack procs implied. Confirm armor-ignore primary flag, immunity,40% upgrade and finite impact expiry. |
+| Fifth aura / level50 / free passive | Test aura radius/linger/Break, melee/summon range, duplicate Drow recipients, respawn/reconnect, ten ranks and49 ordinary skill points. |
+| All five presentation / dense waves | Verify icons/localized descriptions, sound audibility, cast/channel gesture, CP0/3 impact origin, shatter radius presentation, cold precache and no persistent particle/VConsole errors. |
+
+Source-reproduced defects repaired: Gust overlap state; post-hit flight-particle misuse and missing explicit impact/shatter precache ownership; Q fresh slow installation order; R lethal-primary suppression; passive R misleading Scepter cooldown text. Relevant offline checks pass; actual engine/runtime rows remain **PENDING OWNER TEST**, not PASS. No talent, permanent progression, launch, remote push or Workshop upload.
