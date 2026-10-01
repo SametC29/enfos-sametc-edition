@@ -55,6 +55,8 @@ Do not load every doc for trivial work.
 - Current user-directed progression target: match hero level 50; Q/W/E/R and the fifth Enfos passive each have 10 total ranks. This is a migration target, not implemented behavior. Free passive rank/point distribution, XP and unlock curves must be recorded explicitly before implementation; do not silently claim the old 30-level files implement this target.
 
 ## Git workflow
+Owner publication rule (2026-10-01): never deploy/live-promote or upload to Workshop without a new explicit owner request. Passing checks, commits/pushes and gameplay-test success do not authorize publication. Earlier standing publish authorization is revoked.
+
 For each coherent logical work unit:
 - inspect `git status`,
 - preserve contributor work,

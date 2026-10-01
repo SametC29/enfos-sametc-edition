@@ -131,10 +131,16 @@ May change without reopening core design:
 - Tome same-type price growth ~10%,
 - difficulty stat multipliers,
 - XP formulas/amounts,
-- respawn ~5–20 sec,
 - Boon numbers,
 - Spellbringer costs,
 - creep threat costs.
+
+## Owner respawn and publication decision — 2026-10-01
+Owner decision (2026-10-01): player hero normal death respawn starts at 30 seconds
+at match start level 6, rises linearly with level (rounded to nearest second),
+and caps at 50 seconds at level 50. Native Aegis/Reincarnation are preserved;
+neutral Bosses never receive player respawn timers. Supersedes the old 5–20s seed.
+Live/Workshop publication now requires a new explicit owner instruction.
 
 ## BLOCKED PENDING WATCHER ZIP
 Do not finalize:

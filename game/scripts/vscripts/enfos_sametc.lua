@@ -29,6 +29,7 @@ function EnfosSametC:InitGameMode()
 	local gameMode = GameRules:GetGameModeEntity()
 	-- Hero levels and ability ranks belong to this match only.
 	require("heroes/match_levels"):Configure(gameMode)
+	require("heroes/respawn"):Init()
 	self.initializedHeroAbilityPoints = {}
 	-- Install native team markers before the engine creates selected heroes.
 	require("map/hero_spawns"):Init()
