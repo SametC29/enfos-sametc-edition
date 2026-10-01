@@ -257,7 +257,7 @@
     "DOTA_Tooltip_Ability_enfos_drow_precision_aura_Description": "Grants Drow {{bonus_agility_pct}}% of her base agility and {{bonus_range}} attack range. Affects Drow only.",
     "DOTA_Tooltip_Ability_enfos_lina_fiery_soul_Description": "Each non-item cast adds a stack for {{fiery_soul_stack_duration}} seconds, up to {{fiery_soul_max_stacks}}. Each stack grants {{fiery_soul_attack_speed_bonus}} attack speed and {{fiery_soul_move_speed_bonus}}% movement speed.",
     "DOTA_Tooltip_Ability_enfos_lina_laguna_blade_Description": "Deals {{damage}} magic damage to the target. Other enemies within {{overflow_radius}} take {{overflow_damage_pct}}% of this damage.",
-    "DOTA_Tooltip_Ability_enfos_lina_combustion_Description": "Grants {{spell_amp}}% spell amplification. Ability damage burns targets for {{burn_dps}} magic DPS over {{burn_duration}} seconds. Further hits refresh duration; burn cannot trigger itself.",
+    "DOTA_Tooltip_Ability_enfos_lina_combustion_Description": "获得 {{spell_amp}}% 技能增强。技能伤害使目标燃烧 {{burn_duration}} 秒，每秒造成 {{burn_dps}} + {{burn_int_pct}}% 智力的魔法伤害。敌人在莉娜的燃烧效果持续期间死亡时会爆炸，在 {{corpse_burst_radius}} 半径内造成 {{corpse_burst_base}} 基础魔法伤害，加上其最大生命值的 {{corpse_burst_hp_pct}}%。生命值部分的额外伤害上限为 {{corpse_burst_hp_cap}}，基础伤害另行相加。",
     "DOTA_Tooltip_Ability_enfos_omni_guardian_angel_Description": "Grants allies within {{radius}} physical damage immunity and {{bonus_hp_regen}} HP regeneration for {{duration}} seconds.",
     "enfos_storage_session_only": "仅限当前会话：关闭游戏后不会保存进度。",
     "npc_dota_hero_axe": "Axe",

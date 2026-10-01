@@ -289,7 +289,7 @@
     "DOTA_Tooltip_Ability_enfos_lina_laguna_blade": "Laguna Bıçağı",
     "DOTA_Tooltip_Ability_enfos_lina_laguna_blade_Description": "Hedefe {{damage}} büyü hasarı verir. {{overflow_radius}} yarıçapındaki diğer düşmanlar bu hasarın %{{overflow_damage_pct}} kadarını alır.",
     "DOTA_Tooltip_Ability_enfos_lina_combustion": "Tutuşma",
-    "DOTA_Tooltip_Ability_enfos_lina_combustion_Description": "+%{{spell_amp}} büyü güçlendirmesi. Yetenek hasarı hedefi {{burn_duration}} saniye yakar; saniyede {{burn_dps}} büyü hasarı. Yeni vuruş süreyi yeniler; yanma kendisini tetiklemez.",
+    "DOTA_Tooltip_Ability_enfos_lina_combustion_Description": "+%{{spell_amp}} büyü güçlendirmesi. Yetenek hasarı hedefi {{burn_duration}} saniye yakar; saniyede {{burn_dps}} + Zekânın %{{burn_int_pct}}’i kadar büyü hasarı verir. Lina’nın yanması üzerindeyken ölen düşman patlar; {{corpse_burst_radius}} yarıçapında {{corpse_burst_base}} taban hasar + azami canının %{{corpse_burst_hp_pct}}’i kadar büyü hasarı verir. Cana bağlı ek hasarın üst sınırı {{corpse_burst_hp_cap}}; taban hasar ayrıca eklenir.",
     "DOTA_Tooltip_Ability_enfos_omni_purification": "Kutsal Arınma",
     "DOTA_Tooltip_Ability_enfos_omni_purification_Description": "Dost birimi anında {{heal_amount}} can iyileştirir ve etrafındaki {{radius}} menzildeki düşmanlara {{damage}} saf hasar verir.",
     "DOTA_Tooltip_Ability_enfos_omni_repel": "Cennet Lütfu",
