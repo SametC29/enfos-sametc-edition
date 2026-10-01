@@ -8,7 +8,7 @@
     "luaparse": "0.3.1"
   },
   "scripts": {
-    "check": "node tools/checks.mjs",
+    "check": "node tools/checks.mjs && node tools/wave_pressure.mjs",
     "localize": "node tools/localization.mjs"
   }
 }
