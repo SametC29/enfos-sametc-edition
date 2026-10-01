@@ -547,6 +547,35 @@ test('Drow Frost Arrows scales with Agility and shatters on creep death', functi
     assert(#applied_damages == 0, 'A different caster must not receive this Drow passive shatter')
 end)
 
+test('Drow Frost slow exists before its bonus damage triggers synchronous death',function()
+ local c=create_mock_unit('npc_dota_hero_drow_ranger',2,Vector(0,0,0))
+ local t=create_mock_unit('enfos_creep',3,Vector(200,0,0));local near=create_mock_unit('enfos_creep2',3,Vector(220,0,0));mock_world_units={c,t,near}
+ local a=enfos_drow_frost_arrows();a.GetCaster=function() return c end
+ a.GetSpecialValueFor=function(_,k) return ({bonus_damage=60,agility_factor=0,duration=3,shatter_base_damage=80,shatter_agility_factor=0,shatter_radius=325,shatter_slow_duration=2})[k] or 0 end
+ local m=setmetatable({GetParent=function() return c end,GetAbility=function() return a end},modifier_enfos_pve_frost)
+ local oldDamage=ApplyDamage;local events={}
+ ApplyDamage=function(event)
+  events[#events+1]=event
+  if event.victim==t then t.alive=false;m:OnDeath({unit=t,attacker=c}) end
+ end
+ m:OnAttackLanded({attacker=c,target=t});ApplyDamage=oldDamage
+ assert(#events==2 and events[1].victim==t and events[2].victim==near and events[2].damage==80,
+  'the first Frost bonus killing a fresh target must not miss its own death shatter')
+end)
+
+test('Drow Marksmanship lethal landed target still splinters without damaging a corpse',function()
+ local c=create_mock_unit('npc_dota_hero_drow_ranger',2,Vector(0,0,0))
+ local t=create_mock_unit('enfos_creep',3,Vector(200,0,0));t.alive=false
+ local near=create_mock_unit('enfos_creep2',3,Vector(220,0,0));mock_world_units={c,t,near}
+ local a=enfos_drow_marksmanship();a.GetCaster=function() return c end
+ a.GetSpecialValueFor=function(_,k) return ({proc_chance=100,bonus_damage=80,agility_factor=0,splinter_count=3,splinter_radius=450,splinter_damage_pct=60})[k] or 0 end
+ local m=setmetatable({GetParent=function() return c end,GetAbility=function() return a end},modifier_enfos_pve_marksmanship)
+ applied_damages={};m:OnAttackLanded({attacker=c,target=t})
+ assert(#applied_damages==1 and applied_damages[1].victim==near and applied_damages[1].damage==60,
+  'a killing primary attack keeps its bounded secondary proc; no corpse damage')
+ c.PassivesDisabled=function() return true end;applied_damages={};m:OnAttackLanded({attacker=c,target=t});assert(#applied_damages==0)
+end)
+
 test('Drow Marksmanship procs armor-piercing bonus and splinters to 3 targets', function()
     applied_damages = {}
     local drow = create_mock_unit('npc_dota_hero_drow_ranger', 2, Vector(0, 0, 0))

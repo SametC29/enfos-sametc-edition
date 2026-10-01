@@ -1065,11 +1065,12 @@ function modifier_enfos_pve_frost:OnAttackLanded(e)
         or e.attacker ~= c or c:PassivesDisabled() or c:IsIllusion() or target:GetTeamNumber() == c:GetTeamNumber() then return end
     local agi = get_agi(c)
     local hit_position = target:GetAbsOrigin()
-    damage(a, target, value(a, 'bonus_damage') + (agi * value(a, 'agility_factor')), DAMAGE_TYPE_PHYSICAL)
     local status_res = target.GetStatusResistance and target:GetStatusResistance() or 0
     target:AddNewModifier(c, a, 'modifier_enfos_pve_slow', { duration = value(a, 'duration') * (1 - status_res) })
-    drow_impact('particles/units/heroes/hero_drow/drow_frost_arrow_explosion.vpcf', hit_position)
     target:EmitSound('Hero_DrowRanger.FrostArrows')
+    -- A lethal bonus hit may dispatch OnDeath synchronously; establish ownership first.
+    damage(a, target, value(a, 'bonus_damage') + (agi * value(a, 'agility_factor')), DAMAGE_TYPE_PHYSICAL)
+    drow_impact('particles/units/heroes/hero_drow/drow_frost_arrow_explosion.vpcf', hit_position)
 end
 function modifier_enfos_pve_frost:OnDeath(e)
     if not IsServer() or not e or not e.unit or (e.unit.IsNull and e.unit:IsNull()) then return end
@@ -1239,7 +1240,7 @@ function modifier_enfos_pve_marksmanship:DeclareFunctions() return { MODIFIER_EV
 function modifier_enfos_pve_marksmanship:OnAttackLanded(e)
     local c = self:GetParent()
     local target = e and e.target
-    if not IsServer() or not target or (target.IsNull and target:IsNull()) or not target:IsAlive()
+    if not IsServer() or not target or (target.IsNull and target:IsNull())
         or e.attacker ~= c or c:PassivesDisabled() or c:IsIllusion() or target:GetTeamNumber() == c:GetTeamNumber() then return end
     if RollPercentage(value(self:GetAbility(), 'proc_chance')) then
     local agi = get_agi(c)
