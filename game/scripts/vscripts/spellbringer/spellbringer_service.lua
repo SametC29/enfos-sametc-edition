@@ -471,9 +471,7 @@ function SpellbringerService:CastWarStandard(casterTeam, opponentTeam, def, targ
 	local pos = targetPos or self:GetDefaultLanePos(opponentTeam)
 	local standard = CreateUnitByName("enfos_spellbringer_war_standard", pos, true, nil, nil, DOTA_TEAM_NEUTRALS or 4)
 	if standard then
-		standard.defendingTeam = opponentTeam
-		standard.is_spellbringer_summon = true
-		standard.enfosNoReward = true
+		self:RegisterSummon(standard, opponentTeam)
 		standard:AddNewModifier(standard, nil, "modifier_spellbringer_war_standard_aura", {})
 		standard:AddNewModifier(standard, nil, "modifier_kill", { duration = def.duration })
 		standard:EmitSound("Hero_LegionCommander.Duel.Cast")
@@ -489,9 +487,7 @@ function SpellbringerService:CastThornIdol(casterTeam, opponentTeam, def, target
 	local pos = targetPos or self:GetDefaultLanePos(opponentTeam)
 	local idol = CreateUnitByName("enfos_spellbringer_thorn_idol", pos, true, nil, nil, DOTA_TEAM_NEUTRALS or 4)
 	if idol then
-		idol.defendingTeam = opponentTeam
-		idol.is_spellbringer_summon = true
-		idol.enfosNoReward = true
+		self:RegisterSummon(idol, opponentTeam)
 		idol:AddNewModifier(idol, nil, "modifier_spellbringer_thorn_idol_aura", {})
 		idol:AddNewModifier(idol, nil, "modifier_kill", { duration = def.duration })
 		idol:EmitSound("DOTA_Item.BladeMail.Activate")
@@ -512,13 +508,12 @@ function SpellbringerService:CastRiftSurge(casterTeam, opponentTeam, def, target
 		local unit = CreateUnitByName(def.unit_name, spawnPos + Vector(RandomFloat(-50, 50), RandomFloat(-50, 50), 0), true, nil, nil, DOTA_TEAM_NEUTRALS or 4)
 		if unit then
 			created=created+1
-			unit.is_spellbringer_summon = true
-			unit.enfosNoReward = true
-			unit.defendingTeam = opponentTeam
+			self:RegisterSummon(unit, opponentTeam)
 			unit:SetIdleAcquire(true)
 			unit:SetAcquisitionRange(650)
 			unit:AddNewModifier(unit,nil,"modifier_kill",{duration=30})
-			CreepAI:Attach(unit,opponentTeam,"center",function(u) u:ForceKill(false) end)
+			local route = CreepAI:RouteFromPosition(opponentTeam, "center", unit:GetAbsOrigin())
+			CreepAI:Attach(unit,opponentTeam,"center",function(u) u:ForceKill(false) end,route)
 		end
 	end
 	EmitGlobalSound("Hero_Enigma.DemonicConversion")
@@ -564,11 +559,15 @@ end
 --------------------------------------------------------------------------------
 function SpellbringerService:CastReveal(casterTeam, def, targetPos)
 	local pos = targetPos or self:GetDefaultLanePos(casterTeam)
+	-- Reveal is defensive: detect the neutral hostiles attacking the caster's
+	-- lanes, matching CanCast's own-side target validation.
+	local defendingTeam = casterTeam
 	if CreateModifierThinker then
 		CreateModifierThinker(nil, nil, "modifier_spellbringer_reveal_thinker", {
 			duration = def.duration,
 			radius = def.radius,
 			team = casterTeam,
+			defending_team = defendingTeam,
 		}, pos, casterTeam, false)
 	end
 	EmitGlobalSound("DOTA_Item.DustOfAppearance.Activate")
@@ -657,13 +656,53 @@ end
 --------------------------------------------------------------------------------
 -- Helpers
 --------------------------------------------------------------------------------
-function SpellbringerService:GetActiveHostiles(defendingTeam)
-	if self.waveManager and self.waveManager.activeCreeps and self.waveManager.activeCreeps[defendingTeam] then
-		return self.waveManager.activeCreeps[defendingTeam]
+function SpellbringerService:RegisterSummon(unit, defendingTeam)
+	if not unit or unit:IsNull() then return false end
+	unit.defendingTeam = defendingTeam
+	unit.is_spellbringer_summon = true
+	unit.enfosNoReward = true
+	self.summons = self.summons or { [2] = {}, [3] = {} }
+	self.summons[defendingTeam] = self.summons[defendingTeam] or {}
+	self.summons[defendingTeam][unit:entindex()] = unit
+	return true
+end
+
+-- Wave creeps and Spellbringer summons use DOTA_TEAM_NEUTRALS in the engine;
+-- `ENEMY` relative to a player therefore misses them. `defendingTeam` is the
+-- authoritative team relationship for this mode and is used for all area casts.
+function SpellbringerService:GetActiveHostiles(defendingTeam, center, radius)
+	local found, seen = {}, {}
+	local function consider(unit)
+		if not unit or unit:IsNull() or not unit:IsAlive() or unit.defendingTeam ~= defendingTeam then return end
+		if center and radius then
+			local delta = unit:GetAbsOrigin() - center
+			if delta:Length2D() > radius then return end
+		end
+		local id = unit:entindex()
+		if not seen[id] then
+			seen[id] = true
+			found[#found + 1] = unit
+		end
 	end
-	local center = self:GetDefaultLanePos(defendingTeam)
-	return FindUnitsInRadius(defendingTeam, center, nil, 3000, DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
+
+	local active = self.waveManager and self.waveManager.activeCreeps and self.waveManager.activeCreeps[defendingTeam]
+	if active then for _, unit in pairs(active) do consider(unit) end end
+	local summons = self.summons and self.summons[defendingTeam]
+	if summons then
+		for id, unit in pairs(summons) do
+			if not unit or unit:IsNull() or not unit:IsAlive() then summons[id] = nil
+			else consider(unit) end
+		end
+	end
+
+	if active == nil and FindUnitsInRadius then
+		local searchCenter = center or self:GetDefaultLanePos(defendingTeam)
+		local units = FindUnitsInRadius(DOTA_TEAM_NEUTRALS or 4, searchCenter, nil, radius or 3000,
+			DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+			DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
+		for _, unit in ipairs(units) do consider(unit) end
+	end
+	return found
 end
 
 function SpellbringerService:GetDefaultLanePos(team)
@@ -780,6 +819,7 @@ function modifier_spellbringer_reveal_thinker:OnCreated(kv)
 	if not (IsServer and IsServer()) then return end
 	self.radius = kv.radius or 900
 	self.team = kv.team or (DOTA_TEAM_GOODGUYS or 2)
+	self.defendingTeam = kv.defending_team or self.team
 	if AddFOWViewer then
 		AddFOWViewer(self.team, self:GetParent():GetAbsOrigin(), self.radius, kv.duration or 15, false)
 	end
@@ -787,10 +827,9 @@ function modifier_spellbringer_reveal_thinker:OnCreated(kv)
 end
 function modifier_spellbringer_reveal_thinker:OnIntervalThink()
 	local pos = self:GetParent():GetAbsOrigin()
-	local enemies = FindUnitsInRadius(self.team, pos, nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
+	local enemies = SpellbringerService:GetActiveHostiles(self.defendingTeam, pos, self.radius)
 	for _, unit in ipairs(enemies) do
-		unit:AddNewModifier(self:GetParent(), nil, "modifier_truesight", { duration = 0.6 })
+		unit:AddNewModifier(self:GetParent(), nil, "modifier_truesight", { duration = 0.75 })
 	end
 end
 
