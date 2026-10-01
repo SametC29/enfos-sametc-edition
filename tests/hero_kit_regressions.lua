@@ -593,6 +593,43 @@ test('Drow Marksmanship procs armor-piercing bonus and splinters to 3 targets', 
         'Marksmanship splash target search must match its native spell-immunity behavior')
 end)
 
+test('Drow instant hits use finite native impact roots at captured target positions',function()
+ local c=create_mock_unit('npc_dota_hero_drow_ranger',2,Vector(0,0,0))
+ local primary=create_mock_unit('enfos_creep',3,Vector(200,40,0))
+ local secondary=create_mock_unit('enfos_creep2',3,Vector(240,40,0));mock_world_units={c,primary,secondary}
+ local a=enfos_drow_marksmanship();a.GetCaster=function() return c end
+ a.GetSpecialValueFor=function(_,k) return ({proc_chance=100,bonus_damage=80,agility_factor=0.5,splinter_count=3,splinter_radius=450,splinter_damage_pct=60})[k] or 0 end
+ local m=setmetatable({GetParent=function() return c end,GetAbility=function() return a end},modifier_enfos_pve_marksmanship)
+ local oldCreate,oldControl,oldRelease,oldDamage=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex,ApplyDamage
+ local entries={}
+ ParticleManager.CreateParticle=function(_,path,attach,owner)
+  assert(attach==PATTACH_WORLDORIGIN and owner==nil);entries[#entries+1]={path=path,cp={}};return #entries
+ end
+ ParticleManager.SetParticleControl=function(_,id,cp,v) entries[id].cp[cp]=v end
+ ParticleManager.ReleaseParticleIndex=function(_,id) entries[id].released=true end
+ ApplyDamage=function(event) event.victim:SetAbsOrigin(Vector(999,999,0)) end
+ m:OnAttackLanded({attacker=c,target=primary})
+ local q=enfos_drow_frost_arrows();q.GetCaster=function() return c end;q.GetSpecialValueFor=function() return 1 end
+ local qm=setmetatable({GetParent=function() return c end,GetAbility=function() return q end},modifier_enfos_pve_frost)
+ primary:SetAbsOrigin(Vector(300,40,0));qm:OnAttackLanded({attacker=c,target=primary})
+ ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex,ApplyDamage=oldCreate,oldControl,oldRelease,oldDamage
+ assert(#entries==3 and entries[1].path:find('drow_frost_arrow_explosion.vpcf',1,true)
+  and entries[2].path:find('drow_base_attack_explosion_flash.vpcf',1,true)
+  and entries[3].path:find('drow_frost_arrow_explosion.vpcf',1,true))
+ for i,x in ipairs({200,240,300}) do
+  assert(entries[i].cp[0].x==x and entries[i].cp[3].x==x and entries[i].released,
+   'impact position must be captured before ApplyDamage changes/removes the target')
+ end
+end)
+
+test('Drow impact and cross-hero shatter resources have explicit ability precache owners',function()
+ local old=PrecacheResource;local seen={};PrecacheResource=function(kind,path,context) assert(kind=='particle' and context=='drow-test');seen[path]=true end
+ enfos_drow_frost_arrows():Precache('drow-test');enfos_drow_marksmanship():Precache('drow-test');PrecacheResource=old
+ assert(seen['particles/units/heroes/hero_drow/drow_frost_arrow_explosion.vpcf']
+  and seen['particles/units/heroes/hero_drow/drow_base_attack_explosion_flash.vpcf']
+  and seen['particles/units/heroes/hero_ancient_apparition/ancient_apparition_ice_blast_explode.vpcf'])
+end)
+
 test('Drow Gust defaults a zero cursor to forward and only applies once per target', function()
     local drow = create_mock_unit('npc_dota_hero_drow_ranger', 2, Vector(0, 0, 0))
     drow.forward = Vector(0, 1, 0)

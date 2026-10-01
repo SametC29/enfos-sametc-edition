@@ -1038,7 +1038,19 @@ end
 -- DROW RANGER (CARRY)
 -- =========================================================================
 
+local function drow_impact(path, position)
+    local particle = ParticleManager:CreateParticle(path, PATTACH_WORLDORIGIN, nil)
+    -- Native endcap impact roots/children emit at CP3; their attractors use CP0.
+    ParticleManager:SetParticleControl(particle, 0, position)
+    ParticleManager:SetParticleControl(particle, 3, position)
+    ParticleManager:ReleaseParticleIndex(particle)
+end
+
 enfos_drow_frost_arrows=class({})
+function enfos_drow_frost_arrows:Precache(context)
+    PrecacheResource('particle', 'particles/units/heroes/hero_drow/drow_frost_arrow_explosion.vpcf', context)
+    PrecacheResource('particle', 'particles/units/heroes/hero_ancient_apparition/ancient_apparition_ice_blast_explode.vpcf', context)
+end
 function enfos_drow_frost_arrows:GetIntrinsicModifierName() return 'modifier_enfos_pve_frost' end
 
 function modifier_enfos_pve_frost:IsPurgable() return false end
@@ -1052,10 +1064,11 @@ function modifier_enfos_pve_frost:OnAttackLanded(e)
     if not IsServer() or not target or (target.IsNull and target:IsNull()) or not target:IsAlive()
         or e.attacker ~= c or c:PassivesDisabled() or c:IsIllusion() or target:GetTeamNumber() == c:GetTeamNumber() then return end
     local agi = get_agi(c)
+    local hit_position = target:GetAbsOrigin()
     damage(a, target, value(a, 'bonus_damage') + (agi * value(a, 'agility_factor')), DAMAGE_TYPE_PHYSICAL)
     local status_res = target.GetStatusResistance and target:GetStatusResistance() or 0
     target:AddNewModifier(c, a, 'modifier_enfos_pve_slow', { duration = value(a, 'duration') * (1 - status_res) })
-    effect('particles/units/heroes/hero_drow/drow_frost_arrow.vpcf', target)
+    drow_impact('particles/units/heroes/hero_drow/drow_frost_arrow_explosion.vpcf', hit_position)
     target:EmitSound('Hero_DrowRanger.FrostArrows')
 end
 function modifier_enfos_pve_frost:OnDeath(e)
@@ -1213,6 +1226,10 @@ function enfos_drow_multishot:OnChannelFinish()
 end
 
 enfos_drow_marksmanship=class({})
+function enfos_drow_marksmanship:Precache(context)
+    PrecacheResource('particle', 'particles/units/heroes/hero_drow/drow_frost_arrow_explosion.vpcf', context)
+    PrecacheResource('particle', 'particles/units/heroes/hero_drow/drow_base_attack_explosion_flash.vpcf', context)
+end
 function enfos_drow_marksmanship:GetIntrinsicModifierName() return 'modifier_enfos_pve_marksmanship' end
 
 function modifier_enfos_pve_marksmanship:IsHidden() return true end
@@ -1228,15 +1245,17 @@ function modifier_enfos_pve_marksmanship:OnAttackLanded(e)
     local agi = get_agi(c)
         local ability = self:GetAbility()
         local bonus_dmg = value(ability, 'bonus_damage') + (agi * value(ability, 'agility_factor'))
+        local hit_position = target:GetAbsOrigin()
         damage(ability, target, bonus_dmg, DAMAGE_TYPE_PHYSICAL, DOTA_DAMAGE_FLAG_IGNORES_PHYSICAL_ARMOR)
-        effect('particles/units/heroes/hero_drow/drow_marksmanship_frost_arrow.vpcf', target)
+        drow_impact('particles/units/heroes/hero_drow/drow_frost_arrow_explosion.vpcf', hit_position)
 
         -- Arrow Splinters to up to 3 nearby creeps
         local count = 0
-        for _, u in ipairs(enemies(c, target:GetAbsOrigin(), value(ability, 'splinter_radius'), DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
+        for _, u in ipairs(enemies(c, hit_position, value(ability, 'splinter_radius'), DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
             if u ~= target and count < value(ability, 'splinter_count') then
+                local splinter_position = u:GetAbsOrigin()
                 damage(ability, u, get_atk(c, u) * value(ability, 'splinter_damage_pct') / 100, DAMAGE_TYPE_PHYSICAL)
-                effect('particles/units/heroes/hero_drow/drow_base_attack.vpcf', u)
+                drow_impact('particles/units/heroes/hero_drow/drow_base_attack_explosion_flash.vpcf', splinter_position)
                 count = count + 1
             end
         end
