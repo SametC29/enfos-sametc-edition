@@ -1,9 +1,9 @@
 {
   "appid": "570",
   "publishedfileid": "3809160125",
-  "version": "1.0.5",
-  "title": "Enfos Team Survival - SametC Edition V1.0.5",
-  "changenote": "V1.0.5 - Boss phase health floors now advance immediately when damage reaches the threshold, preventing the Wave 5 boss from remaining stuck at 70% HP. Lobby configuration is restricted to the host. Automated checks passed; in-game verification remains pending.",
+  "version": "1.0.6",
+  "title": "Enfos Team Survival - SametC Edition V1.0.6",
+  "changenote": "V1.0.6 - Current development snapshot: match-only level 50 and ten skill ranks; talent/account progression removal; wave, Boss, Spellbringer and HUD revisions; focused Sven, Juggernaut and Drow ability fixes, effects and localization. Automated checks passed. Full roster audit and owner in-game acceptance remain ongoing.",
   "visibility": "0",
   "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3809160125"
 }
