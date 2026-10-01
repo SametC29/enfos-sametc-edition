@@ -1624,16 +1624,19 @@ function modifier_enfos_pve_hammer:OnAttackLanded(e)
     local a = self:GetAbility()
     local target = e and e.target
     if not IsServer() or not e or not c or (c.IsNull and c:IsNull()) or e.attacker ~= c or c:PassivesDisabled()
-        or not target or (target.IsNull and target:IsNull()) or not target:IsAlive() or target:GetTeamNumber() == c:GetTeamNumber() then return end
+        or not target or (target.IsNull and target:IsNull()) or target:GetTeamNumber() == c:GetTeamNumber() then return end
+    local position = target:GetAbsOrigin()
     local str = get_str(c)
     local dmg = value(a, 'bonus_pure_damage') + (str * value(a, 'strength_multiplier'))
     damage(a, target, dmg, DAMAGE_TYPE_PURE)
-    target:AddNewModifier(c, a, 'modifier_enfos_pve_slow', { duration = value(a, 'slow_duration') })
+    if not (target.IsNull and target:IsNull()) and target:IsAlive() then
+        target:AddNewModifier(c, a, 'modifier_enfos_pve_slow', { duration = value(a, 'slow_duration') })
+        effect('particles/units/heroes/hero_omniknight/omniknight_hammer_of_purity_detonation.vpcf', target)
+    end
     if c.Heal then c:Heal(dmg * value(a, 'lifesteal_pct') / 100, a) end
-    for _, u in ipairs(enemies(c, target:GetAbsOrigin(), value(a, 'splash_radius'))) do
+    for _, u in ipairs(enemies(c, position, value(a, 'splash_radius'))) do
         if u ~= target then damage(a, u, dmg * value(a, 'splash_damage_pct') / 100, DAMAGE_TYPE_PURE) end
     end
-    effect('particles/units/heroes/hero_omniknight/omniknight_hammer_of_purity_detonation.vpcf', target)
 end
 
 -- =========================================================================

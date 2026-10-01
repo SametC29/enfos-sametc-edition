@@ -5589,4 +5589,37 @@ test('Lina Combustion presents its captured corpse explosion center and radius w
     ApplyDamage,ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex=oldDamage,oldCreate,oldControl,oldRelease
 end)
 
+
+test('Omniknight Hammer retains splash and sustain on lethal landed attacks without modifying the corpse', function()
+    local c=create_mock_unit('npc_dota_hero_omniknight',2,Vector(0,0,0),1000)
+    c.hp=300;c.strength=100
+    local corpse=create_mock_unit('enfos_hammer_corpse',3,Vector(100,0,0),1000)
+    corpse.alive=false
+    local neighbor=create_mock_unit('enfos_hammer_neighbor',3,Vector(120,0,0),1000)
+    mock_world_units={corpse,neighbor}
+    local a=enfos_omni_hammer_of_purity()
+    a.GetCaster=function() return c end
+    a.GetSpecialValueFor=function(_,k) return ({bonus_pure_damage=80,strength_multiplier=1.2,lifesteal_pct=50,splash_radius=275,splash_damage_pct=50,slow_duration=2})[k] or 0 end
+    local m=modifier_enfos_pve_hammer()
+    m.GetParent=function() return c end;m.GetAbility=function() return a end
+    applied_damages={}
+    m:OnAttackLanded({attacker=c,target=corpse})
+    assert(#applied_damages==1 and applied_damages[1].victim==neighbor and applied_damages[1].damage==100,'Lethal landed attack must still trigger Hammer splash')
+    assert(c.hp==400,'Lethal landed attack must retain configured sustain')
+    assert(not corpse:HasModifier('modifier_enfos_pve_slow'),'Never apply slow to the already dead primary target')
+    -- Bonus damage can itself kill/relocate the primary before splash or slow runs.
+    corpse.alive=true;c.hp=300;applied_damages={}
+    local oldDamage=ApplyDamage
+    ApplyDamage=function(info)
+        local result=oldDamage(info)
+        if info.victim==corpse then corpse.alive=false;corpse:SetAbsOrigin(Vector(999,999,0)) end
+        return result
+    end
+    m:OnAttackLanded({attacker=c,target=corpse})
+    ApplyDamage=oldDamage
+    assert(#applied_damages==2 and applied_damages[2].victim==neighbor and applied_damages[2].damage==100,'Bonus lethal hit must retain splash at captured center')
+    assert(not corpse:HasModifier('modifier_enfos_pve_slow'),'Bonus lethal hit must not add slow to the corpse')
+    assert(c.hp==400,'Bonus lethal hit must retain configured sustain')
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')
