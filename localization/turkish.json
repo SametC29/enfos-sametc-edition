@@ -267,7 +267,7 @@
     "DOTA_Tooltip_Ability_enfos_juggernaut_blade_dance": "Kılıç Dansı",
     "DOTA_Tooltip_Ability_enfos_juggernaut_blade_dance_Description": "Her saldırıda %{{crit_chance}} ihtimalle %{{crit_mult}} kritik hasar verme şansı sağlar.",
     "DOTA_Tooltip_Ability_enfos_juggernaut_omni_slash": "Kutsal Kılıç Akını",
-    "DOTA_Tooltip_Ability_enfos_juggernaut_omni_slash_Description": "Düşman birimler arasında {{duration}} saniye boyunca sıçrayarak dokunulmazlık kazanır ve her vuruşta +{{bonus_damage}} bonus fiziksel hasar indirir.",
+    "DOTA_Tooltip_Ability_enfos_juggernaut_omni_slash_Description": "{{duration}} saniye dokunulmaz olur ve yakındaki düşmanlar arasında sıçrar. Her {{slash_interval}} saniyede bir saldırı hasarı + {{bonus_damage}} fiziksel hasar verir. Bittiğinde başlangıç konumuna döner. Bu vuruşlar saldırı etkilerini tetiklemez.",
     "DOTA_Tooltip_Ability_enfos_juggernaut_duelist": "Düellocu Çevikliği",
     "DOTA_Tooltip_Ability_enfos_juggernaut_duelist_Description": "Doğuştan gelen savaş ustalığıyla pasif olarak +{{bonus_attack_speed}} saldırı hızı ve %{{bonus_ms_pct}} hareket hızı kazanır.",
     "DOTA_Tooltip_Ability_enfos_drow_frost_arrows": "Buzul Oklar",

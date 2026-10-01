@@ -1065,6 +1065,7 @@
     "enfos_evo_stat_cleave_pct": "Damage",
     "enfos_evo_stat_cleave_distance": "Range",
     "DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally": "God's Strength — Ally",
-    "DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally_Description": "Grants +50% base attack damage and +10 armor. Sven's shockwaves refresh this buff for 1.8s."
+    "DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally_Description": "Grants +50% base attack damage and +10 armor. Sven's shockwaves refresh this buff for 1.8s.",
+    "DOTA_Tooltip_Ability_enfos_juggernaut_omni_slash_Description": "Becomes invulnerable and slashes between nearby enemies for {{duration}} seconds. Each slash deals attack damage + {{bonus_damage}} physical damage, once every {{slash_interval}} seconds. Returns to the starting position when finished. Slash damage does not trigger attack effects."
   }
 }

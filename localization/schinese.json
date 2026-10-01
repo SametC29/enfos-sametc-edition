@@ -1003,6 +1003,7 @@
     "enfos_evo_stat_cleave_pct": "伤害",
     "enfos_evo_stat_cleave_distance": "距离",
     "DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally": "神之力量 — 友军",
-    "DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally_Description": "基础攻击力提高50%，护甲提高10点。斯温的冲击波会将此增益的持续时间刷新为1.8秒。"
+    "DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally_Description": "基础攻击力提高50%，护甲提高10点。斯温的冲击波会将此增益的持续时间刷新为1.8秒。",
+    "DOTA_Tooltip_Ability_enfos_juggernaut_omni_slash_Description": "获得无敌状态并在附近敌人间跳跃，持续{{duration}}秒。每{{slash_interval}}秒造成攻击伤害 + {{bonus_damage}}点物理伤害。结束时返回起始位置。这些斩击不会触发攻击特效。"
   }
 }

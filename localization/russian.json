@@ -1003,6 +1003,7 @@
     "enfos_evo_stat_cleave_pct": "Урон",
     "enfos_evo_stat_cleave_distance": "Дальность",
     "DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally": "Божественная сила — союзник",
-    "DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally_Description": "Даёт +50% базового урона от атаки и 10 брони. Ударные волны Свена обновляют усиление на 1,8 сек."
+    "DOTA_Tooltip_modifier_bulwark_fortress_scepter_ally_Description": "Даёт +50% базового урона от атаки и 10 брони. Ударные волны Свена обновляют усиление на 1,8 сек.",
+    "DOTA_Tooltip_Ability_enfos_juggernaut_omni_slash_Description": "Становится неуязвимым и прыгает между ближайшими врагами в течение {{duration}} сек. Каждые {{slash_interval}} сек. наносит физический урон: урон атаки + {{bonus_damage}}. По окончании возвращается в исходную точку. Удары не активируют эффекты атак."
   }
 }
