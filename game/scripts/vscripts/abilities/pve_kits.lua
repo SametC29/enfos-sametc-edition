@@ -1908,7 +1908,7 @@ function modifier_enfos_axe_call_buff:GetModifierPhysicalArmorBonus() return sel
 
 modifier_enfos_axe_call_taunt=class({})
 function modifier_enfos_axe_call_taunt:IsDebuff() return true end
-function modifier_enfos_axe_call_taunt:IsPurgable() return true end
+function modifier_enfos_axe_call_taunt:IsPurgable() return false end
 function modifier_enfos_axe_call_taunt:DeclareFunctions() return { MODIFIER_EVENT_ON_DEATH } end
 function modifier_enfos_axe_call_taunt:OnCreated()
     if not IsServer() then return end

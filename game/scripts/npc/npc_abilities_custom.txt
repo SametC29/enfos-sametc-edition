@@ -1394,6 +1394,8 @@
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"		"axe_berserkers_call"
+		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_YES"
+		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
 		"AbilityCastAnimation" "ACT_DOTA_OVERRIDE_ABILITY_1"
 		"RequiredLevel"	"1"
 		"LevelsBetweenUpgrades"	"1"
