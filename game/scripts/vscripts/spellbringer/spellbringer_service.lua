@@ -127,8 +127,11 @@ if IsServer and IsServer() then
 	LinkLuaModifier("modifier_spellbringer_war_standard_buff", "spellbringer/spellbringer_service", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_spellbringer_thorn_idol_aura", "spellbringer/spellbringer_service", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_spellbringer_thorn_idol_buff", "spellbringer/spellbringer_service", LUA_MODIFIER_MOTION_NONE)
-	LinkLuaModifier("modifier_spellbringer_reveal_thinker", "spellbringer/spellbringer_service", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_spellbringer_reinforcement_timed_life", "spellbringer/spellbringer_service", LUA_MODIFIER_MOTION_NONE)
+end
+-- Reveal is an engine aura: its source must also be registered on the client.
+if LinkLuaModifier then
+	LinkLuaModifier("modifier_spellbringer_reveal_thinker", "spellbringer/spellbringer_service", LUA_MODIFIER_MOTION_NONE)
 end
 
 --------------------------------------------------------------------------------
@@ -431,7 +434,7 @@ function SpellbringerService:CastSpell(playerID, abilityName, targetPos, targetE
 	elseif abilityName == "spellbringer_whole_displacement" then
 		ok = self:CastWholeDisplacement(casterTeam, def, targetPos)
 	elseif abilityName == "spellbringer_reveal" then
-		ok = self:CastReveal(casterTeam, def, targetPos)
+		ok = self:CastReveal(casterTeam, def, targetPos, playerID)
 	elseif abilityName == "spellbringer_purification" then
 		ok = self:CastPurification(casterTeam, def, targetPos)
 	elseif abilityName == "spellbringer_future_reinforcements" then
@@ -557,19 +560,28 @@ end
 -- Ability 6: Reveal (Defensive)
 -- Reveals invisible enemies and grants True Sight in an area for 15s
 --------------------------------------------------------------------------------
-function SpellbringerService:CastReveal(casterTeam, def, targetPos)
+function SpellbringerService:CastReveal(casterTeam, def, targetPos, playerID)
 	local pos = targetPos or self:GetDefaultLanePos(casterTeam)
 	-- Reveal is defensive: detect the neutral hostiles attacking the caster's
 	-- lanes, matching CanCast's own-side target validation.
 	local defendingTeam = casterTeam
-	if CreateModifierThinker then
-		CreateModifierThinker(nil, nil, "modifier_spellbringer_reveal_thinker", {
+	local caster = playerID ~= nil and PlayerResource and PlayerResource:GetSelectedHeroEntity(playerID)
+	if not caster or caster:IsNull() or caster:GetTeamNumber() ~= casterTeam or not CreateModifierThinker then
+		Log:Warn("spellbringer", "Reveal failed: valid caster/source unavailable for team %d", casterTeam)
+		return false
+	end
+	local thinker = CreateModifierThinker(caster, nil, "modifier_spellbringer_reveal_thinker", {
 			duration = def.duration,
 			radius = def.radius,
 			team = casterTeam,
 			defending_team = defendingTeam,
 		}, pos, casterTeam, false)
+	if not thinker or thinker:IsNull() or not thinker:FindModifierByName("modifier_spellbringer_reveal_thinker") then
+		if thinker and not thinker:IsNull() then UTIL_Remove(thinker) end
+		Log:Error("spellbringer", "Reveal failed: detection aura was not created for team %d", casterTeam)
+		return false
 	end
+	Log:Info("spellbringer", "Reveal active: team=%d x=%.0f y=%.0f radius=%.0f duration=%.1f", casterTeam, pos.x, pos.y, def.radius, def.duration)
 	EmitGlobalSound("DOTA_Item.DustOfAppearance.Activate")
 	return true
 end
@@ -816,21 +828,30 @@ end
 -- 4. Reveal Thinker
 modifier_spellbringer_reveal_thinker = class({})
 function modifier_spellbringer_reveal_thinker:OnCreated(kv)
+	self.radius = tonumber(kv.radius) or 900
+	self.team = tonumber(kv.team) or self:GetParent():GetTeamNumber()
+	self.defendingTeam = tonumber(kv.defending_team) or self.team
 	if not (IsServer and IsServer()) then return end
-	self.radius = kv.radius or 900
-	self.team = kv.team or (DOTA_TEAM_GOODGUYS or 2)
-	self.defendingTeam = kv.defending_team or self.team
 	if AddFOWViewer then
-		AddFOWViewer(self.team, self:GetParent():GetAbsOrigin(), self.radius, kv.duration or 15, false)
+		AddFOWViewer(self.team, self:GetParent():GetAbsOrigin(), self.radius, tonumber(kv.duration) or 15, false)
 	end
-	self:StartIntervalThink(0.5)
 end
-function modifier_spellbringer_reveal_thinker:OnIntervalThink()
-	local pos = self:GetParent():GetAbsOrigin()
-	local enemies = SpellbringerService:GetActiveHostiles(self.defendingTeam, pos, self.radius)
-	for _, unit in ipairs(enemies) do
-		unit:AddNewModifier(self:GetParent(), nil, "modifier_truesight", { duration = 0.75 })
-	end
+function modifier_spellbringer_reveal_thinker:IsHidden() return true end
+function modifier_spellbringer_reveal_thinker:IsPurgable() return false end
+function modifier_spellbringer_reveal_thinker:IsAura() return true end
+function modifier_spellbringer_reveal_thinker:GetAuraRadius() return self.radius or 900 end
+function modifier_spellbringer_reveal_thinker:GetAuraDuration() return 0.75 end
+function modifier_spellbringer_reveal_thinker:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_BOTH end
+function modifier_spellbringer_reveal_thinker:GetAuraSearchType() return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end
+function modifier_spellbringer_reveal_thinker:GetAuraSearchFlags() return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES end
+function modifier_spellbringer_reveal_thinker:GetModifierAura() return "modifier_truesight" end
+function modifier_spellbringer_reveal_thinker:GetAuraEntityReject(unit)
+	return not unit or unit:IsNull() or not unit:IsAlive() or unit.defendingTeam ~= self.defendingTeam
+end
+function modifier_spellbringer_reveal_thinker:OnDestroy()
+	if not (IsServer and IsServer()) then return end
+	local parent = self:GetParent()
+	if parent and not parent:IsNull() then UTIL_Remove(parent) end
 end
 
 -- 5. Future Reinforcements Timed Life

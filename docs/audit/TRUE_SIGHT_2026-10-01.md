@@ -2,6 +2,11 @@
 
 Status: **IMPLEMENTED BUT NOT ENGINE-VERIFIED**.
 
+Latest owner retest still failed. The manual tick application below is now
+superseded by an engine-managed native aura. See
+[Reveal native aura follow-up](REVEAL_NATIVE_AURA_2026-10-01.md) for current
+implementation, evidence, tests and pending engine acceptance.
+
 ## Follow-up: confirmed defensive-team routing regression
 
 The previous static conclusion below was incorrect. `CanCast` validates Reveal
