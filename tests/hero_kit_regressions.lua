@@ -369,6 +369,15 @@ test('Sven Great Cleave damages only enemies inside its widening cone', function
     assert(applied_damages[1].damage_type == DAMAGE_TYPE_PHYSICAL, 'Great Cleave keeps physical attack damage type')
     assert(cleaveParticle == 'particles/units/heroes/hero_sven/sven_spell_great_cleave.vpcf', 'Use Sven Great Cleave impact visual')
     assert(type(mod.OnTakeDamage) == 'nil', 'Great Cleave no longer carries the unrelated armor/block/reflection package')
+    primary.alive = false -- OnAttackLanded may arrive after the lethal primary hit.
+    applied_damages = {}
+    mod:OnAttackLanded({ attacker = sven, target = primary, original_damage = 200 })
+    assert(#applied_damages == 1 and applied_damages[1].victim == side,
+        'A lethal primary attack must still cleave living secondary enemies')
+    sven.PassivesDisabled = function() return true end
+    applied_damages = {}
+    mod:OnAttackLanded({ attacker = sven, target = primary, original_damage = 200 })
+    assert(#applied_damages == 0, 'Break still disables lethal-hit cleave')
 end)
 
 test('Luna Moon Glaives bounces across consecutive targets with 15% falloff', function()
@@ -5014,6 +5023,24 @@ test('Sven Warcry barrier absorbs, refreshes and reflects only physical damage w
  assert(#applied_damages==0)
  m:OnTakeDamage({unit=sven,attacker=enemy,damage=100,damage_type=DAMAGE_TYPE_PHYSICAL});assert(#applied_damages==1 and applied_damages[1].damage==40)
  m:OnTakeDamage({unit=sven,attacker=enemy,damage=100,damage_type=DAMAGE_TYPE_PHYSICAL,damage_flags=DOTA_DAMAGE_FLAG_REFLECTION});assert(#applied_damages==1)
+ local friend=create_mock_unit('npc_dota_hero_axe',2,Vector(100,0,0))
+ m:OnTakeDamage({unit=sven,attacker=friend,damage=100,damage_type=DAMAGE_TYPE_PHYSICAL})
+ enemy.alive=false
+ m:OnTakeDamage({unit=sven,attacker=enemy,damage=100,damage_type=DAMAGE_TYPE_PHYSICAL})
+ assert(#applied_damages==1, 'Warcry must not reflect onto allies or dead attackers')
+end)
+test('Sven Warcry announces each recipient barrier and Gods Strength resists dispel',function()
+ local sven=create_mock_unit('npc_dota_hero_sven',2,Vector(0,0,0))
+ local ally=create_mock_unit('npc_dota_hero_axe',2,Vector(100,0,0))
+ local a=bulwark_challenge();a.GetSpecialValueFor=function(_,k) return k=='barrier_hp' and 100 or 0 end
+ local m=ally:AddNewModifier(sven,a,'modifier_enfos_pve_warcry',{})
+ local oldMessage,oldAlert=SendOverheadEventMessage,OVERHEAD_ALERT_BLOCK
+ local recipient;OVERHEAD_ALERT_BLOCK=1
+ SendOverheadEventMessage=function(_,_,unit) recipient=unit end
+ m:OnCreated()
+ SendOverheadEventMessage,OVERHEAD_ALERT_BLOCK=oldMessage,oldAlert
+ assert(recipient==ally, 'Show the ally barrier on the ally, not repeatedly on Sven')
+ assert(modifier_bulwark_fortress:IsPurgable()==false, 'Native Gods Strength is non-dispellable')
 end)
 test('Sven taunt starts an attack order and releases it on expiry',function()
  local sven=create_mock_unit('npc_dota_hero_sven',2,Vector(0,0,0));local enemy=create_mock_unit('enfos_creep_melee',4,Vector(100,0,0))

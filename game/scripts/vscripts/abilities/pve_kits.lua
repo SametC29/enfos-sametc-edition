@@ -555,7 +555,7 @@ function modifier_enfos_pve_warcry:OnCreated()
     end
     if IsServer() and self.SetStackCount then self:SetStackCount(math.ceil(self.barrier)) end
     if IsServer() and c and SendOverheadEventMessage and OVERHEAD_ALERT_BLOCK then
-        SendOverheadEventMessage(nil, OVERHEAD_ALERT_BLOCK, c, math.ceil(self.barrier), nil)
+        SendOverheadEventMessage(nil, OVERHEAD_ALERT_BLOCK, self:GetParent(), math.ceil(self.barrier), nil)
     end
 end
 function modifier_enfos_pve_warcry:OnTooltip() return value(self:GetAbility(), 'bonus_armor') end
@@ -575,6 +575,7 @@ end
 function modifier_enfos_pve_warcry:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_pve_warcry:OnTakeDamage(e)
     if not IsServer() or e.unit ~= self:GetParent() or not e.attacker or e.attacker:IsNull() or e.attacker == e.unit then return end
+    if not e.attacker:IsAlive() or e.attacker:GetTeamNumber() == e.unit:GetTeamNumber() then return end
     if e.damage_flags and bit and bit.band(e.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION or 16) ~= 0 then return end
     -- Shard: 40% physical damage reflection during Warcry
     local c = self:GetCaster()
@@ -622,7 +623,7 @@ function modifier_bulwark_iron_guard:OnAttackLanded(e)
     local primary = e and e.target
     if not IsServer() or not e or e.attacker ~= c or c:PassivesDisabled()
         or (c.IsIllusion and c:IsIllusion()) or not primary
-        or (primary.IsNull and primary:IsNull()) or not primary:IsAlive()
+        or (primary.IsNull and primary:IsNull())
         or primary:GetTeamNumber() == c:GetTeamNumber() then return end
 
     local direction = (primary:GetAbsOrigin() - c:GetAbsOrigin()):Normalized()
@@ -688,6 +689,7 @@ end
 
 modifier_bulwark_fortress=class({})
 function modifier_bulwark_fortress:IsHidden() return false end
+function modifier_bulwark_fortress:IsPurgable() return false end
 function modifier_bulwark_fortress:GetTexture() return 'sven_gods_strength' end
 function modifier_bulwark_fortress:GetEffectName() return 'particles/units/heroes/hero_sven/sven_gods_strength_hero_effect.vpcf' end
 function modifier_bulwark_fortress:DeclareFunctions()
