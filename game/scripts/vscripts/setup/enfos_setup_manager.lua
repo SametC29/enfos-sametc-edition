@@ -3,7 +3,6 @@
 -- Handles team assignment, difficulty selection, countdowns, and hero picking.
 
 require("lib/log")
-local ProgressionCurves = require("progression/progression_curves")
 
 local EnfosSetupManager = {}
 EnfosSetupManager.__index = EnfosSetupManager
@@ -19,9 +18,8 @@ EnfosSetupManager.DIFFICULTIES = {
 -- One authoritative roster shared with Aghanim and validation.
 EnfosSetupManager.HERO_ROSTER = require("heroes/roster")
 
-function EnfosSetupManager:Init(waveManager, progressionManager)
+function EnfosSetupManager:Init(waveManager)
 	self.waveManager = waveManager
-	self.progressionManager = progressionManager
 	self.selectedDifficulty = "normal"
 	self.setupRemainingTime = 45.0
 	self.heroSelectionRemainingTime = 90.0

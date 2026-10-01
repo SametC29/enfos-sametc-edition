@@ -9,8 +9,6 @@
         "economy_state",
         "ascended_shop",
         "boon_state",
-        "progression_state",
-        "evolution_state",
         "player_stats"
     ]
 }

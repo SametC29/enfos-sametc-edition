@@ -27,7 +27,7 @@ function EnfosSametC:InitGameMode()
 	Log:Info("system", "========================================")
 
 	local gameMode = GameRules:GetGameModeEntity()
-	-- In-match hero progression is separate from persistent account/mastery XP.
+	-- Hero levels and ability ranks belong to this match only.
 	require("heroes/match_levels"):Configure(gameMode)
 	self.initializedHeroAbilityPoints = {}
 	-- Install native team markers before the engine creates selected heroes.
@@ -204,11 +204,6 @@ function EnfosSametC:OnNPCSpawned(event)
 		local playerId = spawnedUnit:GetPlayerID()
 		if playerId and playerId >= 0 then
 			self.playerHeroes[playerId] = spawnedUnit
-			require("evolution/evolution_manager"):RestoreHero(playerId, spawnedUnit)
-			local progression = require("progression/progression_manager")
-			if progression.initialized and not progression:GetProfile(playerId) then
-				progression:LoadPlayer(playerId, PlayerResource:GetSteamAccountID(playerId))
-			end
 		end
 	end
 end
