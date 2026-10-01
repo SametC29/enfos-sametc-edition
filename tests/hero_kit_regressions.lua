@@ -65,6 +65,7 @@ MODIFIER_STATE_INVISIBLE = 59
 MODIFIER_STATE_TRUESIGHT_IMMUNE = 60
 MODIFIER_EVENT_ON_DEATH = 4
 MODIFIER_EVENT_ON_ATTACK_LANDED = 5
+MODIFIER_EVENT_ON_ATTACK_RECORD_DESTROY = 101
 MODIFIER_EVENT_ON_ATTACKED = 6
 MODIFIER_EVENT_ON_TAKEDAMAGE = 7
 MODIFIER_EVENT_ON_ABILITY_FULLY_CAST = 8
@@ -729,19 +730,45 @@ test('Juggernaut critical splash is tied to the landed critical and respects Bre
     local modifier = setmetatable({ GetParent = function() return jugg end, GetAbility = function() return ability end }, modifier_enfos_pve_crit)
     local oldRoll = RollPercentage
     RollPercentage = function() return true end
-    assert(modifier:GetModifierPreAttack_CriticalStrike({ target = target }) == 300)
+    assert(modifier:GetModifierPreAttack_CriticalStrike({ attacker = jugg, target = target, record = 11 }) == 300)
     applied_damages = {}
-    modifier:OnAttackLanded({ attacker = jugg, target = target })
-    assert(#applied_damages == 1 and applied_damages[1].victim == neighbor and applied_damages[1].damage == 60)
-    modifier.is_crit = true
     local other = create_mock_unit('enfos_other_attacker', 2, Vector(0, 0, 0))
-    modifier:OnAttackLanded({ attacker = other, target = target })
+    modifier:OnAttackLanded({ attacker = other, target = target, record = 12 })
+    modifier:OnAttackLanded({ attacker = jugg, target = target, record = 11 })
+    assert(#applied_damages == 1 and applied_damages[1].victim == neighbor and applied_damages[1].damage == 60)
     applied_damages = {}
-    modifier:OnAttackLanded({ attacker = jugg, target = target })
+    modifier:OnAttackLanded({ attacker = jugg, target = target, record = 11 })
     assert(#applied_damages == 0, 'a stale critical flag must not splash on the next attack')
     jugg.PassivesDisabled = function() return true end
     assert(modifier:GetModifierPreAttack_CriticalStrike({ target = target }) == nil)
     RollPercentage = oldRoll
+end)
+test('Juggernaut critical records survive overlap, cache rolls and clean up cancelled attacks', function()
+    local c=create_mock_unit('npc_dota_hero_juggernaut',2,Vector(0,0,0))
+    local t=create_mock_unit('enfos_creep_target',3,Vector(100,0,0))
+    local n=create_mock_unit('enfos_creep_neighbor',3,Vector(150,0,0));mock_world_units={c,t,n}
+    local a=enfos_juggernaut_blade_dance();a.GetCaster=function() return c end
+    a.GetSpecialValueFor=function(_,k) return ({crit_chance=50,crit_mult=300,crit_splash_pct=60,crit_splash_radius=350})[k] or 0 end
+    local m=setmetatable({GetParent=function() return c end,GetAbility=function() return a end},modifier_enfos_pve_crit)
+    local oldRoll=RollPercentage;local rolls=0
+    RollPercentage=function() rolls=rolls+1;return rolls==1 end
+    assert(m:GetModifierPreAttack_CriticalStrike({attacker=c,target=t,record=21})==300)
+    assert(m:GetModifierPreAttack_CriticalStrike({attacker=c,target=t,record=21})==300 and rolls==1)
+    assert(m:GetModifierPreAttack_CriticalStrike({attacker=c,target=t,record=22})==nil)
+    assert(m:GetModifierPreAttack_CriticalStrike({attacker=c,target=t,record=22})==nil and rolls==2)
+    applied_damages={};m:OnAttackLanded({attacker=c,target=t,record=22});assert(#applied_damages==0)
+    m:OnAttackLanded({attacker=c,target=t,record=21});assert(#applied_damages==1)
+    assert(next(m.critRecords)==nil, 'Landed records must be consumed')
+    RollPercentage=function() return true end
+    m:GetModifierPreAttack_CriticalStrike({attacker=c,target=t,record=23})
+    m:OnAttackRecordDestroy({attacker=c,record=23});assert(next(m.critRecords)==nil)
+    m:OnAttackLanded({attacker=c,target=t,record=23});assert(#applied_damages==1)
+    m:GetModifierPreAttack_CriticalStrike({attacker=c,target=t,record=24})
+    c.PassivesDisabled=function() return true end
+    m:OnAttackLanded({attacker=c,target=t,record=24});assert(#applied_damages==1 and next(m.critRecords)==nil)
+    c.PassivesDisabled=function() return false end
+    m:GetModifierPreAttack_CriticalStrike({attacker=c,target=t,record=25});m:OnDestroy();assert(m.critRecords==nil)
+    RollPercentage=oldRoll
 end)
 test('Juggernaut Omni Slash selects a fresh nearby enemy after the current target', function()
     local jugg = create_mock_unit('npc_dota_hero_juggernaut', 2, Vector(0, 0, 0))

@@ -845,24 +845,32 @@ enfos_juggernaut_blade_dance=class({})
 function enfos_juggernaut_blade_dance:GetIntrinsicModifierName() return 'modifier_enfos_pve_crit' end
 
 function modifier_enfos_pve_crit:IsHidden() return true end
-function modifier_enfos_pve_crit:DeclareFunctions() return { MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE, MODIFIER_EVENT_ON_ATTACK_LANDED } end
+function modifier_enfos_pve_crit:DeclareFunctions()
+    return { MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE, MODIFIER_EVENT_ON_ATTACK_LANDED, MODIFIER_EVENT_ON_ATTACK_RECORD_DESTROY }
+end
 function modifier_enfos_pve_crit:GetModifierPreAttack_CriticalStrike(event)
     if not IsServer() then return end
-    self.is_crit = false
     local parent = self:GetParent()
     if not parent or parent:IsNull() or parent:PassivesDisabled() or not event or not event.target
+        or (event.attacker and event.attacker ~= parent) or event.target:IsNull()
         or event.target:GetTeamNumber() == parent:GetTeamNumber() then return end
-    if RollPercentage(value(self:GetAbility(), 'crit_chance')) then
-        self.is_crit = true
-        return value(self:GetAbility(), 'crit_mult')
+    self.critRecords = self.critRecords or {}
+    local record = event.record
+    local saved = record ~= nil and self.critRecords[record] or nil
+    if saved then return saved.multiplier > 0 and saved.multiplier or nil end
+    local multiplier = RollPercentage(value(self:GetAbility(), 'crit_chance')) and value(self:GetAbility(), 'crit_mult') or 0
+    if record ~= nil then
+        self.critRecords[record] = { target = event.target, multiplier = multiplier }
     end
+    return multiplier > 0 and multiplier or nil
 end
 function modifier_enfos_pve_crit:OnAttackLanded(event)
     if not IsServer() then return end
-    local wasCrit = self.is_crit
-    self.is_crit = false
     local c = self:GetParent()
-    if not event or event.attacker ~= c or not wasCrit or c:PassivesDisabled() then return end
+    if not event or event.attacker ~= c or event.record == nil then return end
+    local saved = self.critRecords and self.critRecords[event.record]
+    if self.critRecords then self.critRecords[event.record] = nil end
+    if not saved or saved.multiplier <= 0 or saved.target ~= event.target or c:PassivesDisabled() then return end
     local a = self:GetAbility()
     if not event.target or event.target:IsNull() then return end
     local dmg = get_atk(c, event.target) * value(a, 'crit_splash_pct') / 100
@@ -871,6 +879,12 @@ function modifier_enfos_pve_crit:OnAttackLanded(event)
     end
     effect('particles/units/heroes/hero_juggernaut/jugg_crit_blur.vpcf', event.target)
 end
+function modifier_enfos_pve_crit:OnAttackRecordDestroy(event)
+    if IsServer() and event and event.attacker == self:GetParent() and event.record ~= nil and self.critRecords then
+        self.critRecords[event.record] = nil
+    end
+end
+function modifier_enfos_pve_crit:OnDestroy() self.critRecords = nil end
 
 enfos_juggernaut_omni_slash=class({})
 function enfos_juggernaut_omni_slash:OnSpellStart()

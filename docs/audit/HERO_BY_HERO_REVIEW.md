@@ -9,7 +9,7 @@ Per hero: read its instructions/dossier; compare installed native definitions; t
 | Order | Hero | Individual review status |
 | --- | --- | --- |
 | 1 | Sven | SOURCE REVIEW COMPLETE / ENGINE PENDING — native cleave, lethal-hit fix, W cast feedback, reflection/recipient/R dispel and upgrade text repaired; see individual record for runtime questions |
-| 2 | Juggernaut | NOT STARTED |
+| 2 | Juggernaut | IN PROGRESS — five implementations traced; Blade Dance attack-record bug repaired; see individual record |
 | 3 | Drow Ranger | NOT STARTED |
 | 4 | Lina | NOT STARTED |
 | 5 | Omniknight | NOT STARTED |

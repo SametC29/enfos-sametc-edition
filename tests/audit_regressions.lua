@@ -137,7 +137,7 @@ test('Juggernaut crit chance can fail and succeeds with configured multiplier',f
  local a={GetSpecialValueFor=function(_,k) return k=='crit_chance' and 25 or 200 end}
  local p={IsNull=function() return false end,PassivesDisabled=function() return false end,GetTeamNumber=function() return 2 end}
  local m=setmetatable({GetParent=function() return p end,GetAbility=function() return a end},{__index=modifier_enfos_pve_crit})
- local e={target={GetTeamNumber=function() return 4 end}}
+ local e={target={IsNull=function() return false end,GetTeamNumber=function() return 4 end}}
  RollPercentage=function() return false end;assert(m:GetModifierPreAttack_CriticalStrike(e)==nil)
  RollPercentage=function() return true end;assert(m:GetModifierPreAttack_CriticalStrike(e)==200)
 end)
