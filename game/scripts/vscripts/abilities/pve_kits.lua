@@ -1882,7 +1882,9 @@ function enfos_axe_berserkers_call:OnSpellStart()
     if armor <= 0 then armor = 30 end
 
     c:EmitSound('Hero_Axe.Berserkers_Call')
-    effect('particles/units/heroes/hero_axe/axe_beserkers_call_owner.vpcf', c)
+    local shout = ParticleManager:CreateParticle('particles/units/heroes/hero_axe/axe_beserkers_call_owner.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:SetParticleControlEnt(shout, 1, c, PATTACH_POINT_FOLLOW, 'attach_mouth', c:GetAbsOrigin(), true)
+    ParticleManager:ReleaseParticleIndex(shout)
 
     c:AddNewModifier(c, self, 'modifier_enfos_axe_call_buff', { duration = dur, bonus_armor = armor })
 

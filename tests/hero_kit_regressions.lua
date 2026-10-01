@@ -5800,4 +5800,25 @@ test('Axe Blood Armor properties use replicated stacks on the client and remain 
     assert(brokenArmor==0 and brokenRegen==0,'Break must suppress both client properties')
 end)
 
+test('Axe Call binds the shout CP1 to its verified mouth attachment before releasing the effect', function()
+    local axe=create_mock_unit('npc_dota_hero_axe',2,Vector(1800,2700,128))
+    mock_world_units={axe}
+    local a=enfos_axe_berserkers_call();a.GetCaster=function() return axe end
+    a.GetSpecialValueFor=function(_,k) return ({radius=400,duration=3,bonus_armor=30,boss_taunt_pct=25})[k] or 0 end
+    local oldCreate,oldEnt,oldRelease,oldPoint=ParticleManager.CreateParticle,ParticleManager.SetParticleControlEnt,ParticleManager.ReleaseParticleIndex,PATTACH_POINT_FOLLOW
+    PATTACH_POINT_FOLLOW=914
+    local bound,released=false,false
+    ParticleManager.CreateParticle=function(_,path,attachment,owner)
+        assert(path=='particles/units/heroes/hero_axe/axe_beserkers_call_owner.vpcf' and attachment==PATTACH_ABSORIGIN_FOLLOW and owner==axe)
+        return 823
+    end
+    ParticleManager.SetParticleControlEnt=function(_,id,cp,unit,attachment,name,offset,orientation)
+        bound=id==823 and cp==1 and unit==axe and attachment==914 and name=='attach_mouth' and offset.x==1800 and offset.y==2700 and orientation==true
+    end
+    ParticleManager.ReleaseParticleIndex=function(_,id) released=id==823 and bound end
+    a:OnSpellStart()
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControlEnt,ParticleManager.ReleaseParticleIndex,PATTACH_POINT_FOLLOW=oldCreate,oldEnt,oldRelease,oldPoint
+    assert(bound and released,'Call shout requires CP1 mouth position/orientation, not just origin attachment')
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')
