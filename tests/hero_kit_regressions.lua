@@ -5731,4 +5731,14 @@ test('Axe Call orders attacks, refreshes the target and safely releases it on ex
     m:OnCreated();assert(enemy.forced==nil, 'Never force attacks on a dead caster')
 end)
 
+test('Axe Call refresh replaces its armor snapshot when recast at a higher rank', function()
+    local a=enfos_axe_berserkers_call()
+    local armor=30;a.GetSpecialValueFor=function(_,k) return k=='bonus_armor' and armor or 0 end
+    local m=modifier_enfos_axe_call_buff();m.GetAbility=function() return a end
+    m:OnCreated({bonus_armor=30});assert(m:GetModifierPhysicalArmorBonus()==30)
+    assert(type(m.OnRefresh)=='function', 'Recasting Call must not retain the old armor snapshot')
+    armor=60;m:OnRefresh({bonus_armor=60});assert(m:GetModifierPhysicalArmorBonus()==60)
+    armor=45;m:OnRefresh({});assert(m:GetModifierPhysicalArmorBonus()==45)
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')

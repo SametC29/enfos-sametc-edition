@@ -1903,6 +1903,7 @@ function modifier_enfos_axe_call_buff:DeclareFunctions() return { MODIFIER_PROPE
 function modifier_enfos_axe_call_buff:OnCreated(kv)
     self.bonus_armor = (kv and kv.bonus_armor) or (self.GetAbility and value(self:GetAbility(), 'bonus_armor')) or 30
 end
+function modifier_enfos_axe_call_buff:OnRefresh(kv) self:OnCreated(kv) end
 function modifier_enfos_axe_call_buff:GetModifierPhysicalArmorBonus() return self.bonus_armor end
 
 modifier_enfos_axe_call_taunt=class({})
