@@ -118,6 +118,14 @@
             talentButton.ClearPanelEvent("onactivate");
             HidePanel(root, "StatBranch");
         }
+        // Valve's level-stats frame owns a separate '+' tab which opens the
+        // stat branch again when ordinary skill points are available. Hide its
+        // tab, not the ability rank-up controls or their learn-mode button.
+        var talentTab = FindHudElement(root, "LevelUpTab");
+        if (talentTab) {
+            talentTab.ClearPanelEvent("onactivate");
+            HidePanel(root, "LevelUpTab");
+        }
 
         // Keep the Town Portal Scroll control while removing only the neutral
         // item slot and its level-up affordance/label.

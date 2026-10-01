@@ -36,7 +36,7 @@ test('native HUD controller hides requested panels and toggles Spellbringer from
   }
   const root = makePanel('DotaHud');
   for (const id of ['RoshanTimerContainer', 'TormentorTimerContainer', 'RadarButton',
-    'StatBranch', 'inventory_neutral_slot_container', 'inventory_neutral_level_up',
+    'StatBranch', 'LevelUpTab', 'AbilityLevelUpButton', 'inventory_neutral_slot_container', 'inventory_neutral_level_up',
     'inventory_tpscroll_container', 'glyph', 'NormalRoot', 'GlyphButton', 'SpellbringerHud']) makePanel(id);
   // Simulate native Glyph cooldown: Valve may disable its button, but the
   // repurposed control must still open Spellbringer.
@@ -45,9 +45,11 @@ test('native HUD controller hides requested panels and toggles Spellbringer from
   panels.get('NormalRoot').enabled = false;
   panels.get('NormalRoot').events.onactivate = () => { throw new Error('native Fortification must not fire'); };
   const $ = selector => panels.get(selector.slice(1)) || null;
+  let retry;
+  panels.get('LevelUpTab').events.onactivate = () => { throw new Error('talent tab must not open'); };
   Object.assign($, {
     GetContextPanel: () => root,
-    Schedule: () => {},
+    Schedule: (_, callback) => { retry = callback; },
     Localize: key => key,
     DispatchEvent: () => {},
   });
@@ -56,8 +58,16 @@ test('native HUD controller hides requested panels and toggles Spellbringer from
   });
 
   for (const id of ['RoshanTimerContainer', 'TormentorTimerContainer', 'RadarButton',
-    'StatBranch', 'inventory_neutral_slot_container', 'inventory_neutral_level_up'])
+    'StatBranch', 'LevelUpTab', 'inventory_neutral_slot_container', 'inventory_neutral_level_up'])
     assert.equal(panels.get(id).visible, false, id);
+  assert.equal(panels.get('LevelUpTab').events.onactivate, undefined);
+  assert.equal(panels.get('AbilityLevelUpButton').visible, true);
+  // A level-up/HUD rebuild can restore native visibility. The next refresh
+  // must suppress the talent tab while leaving ordinary rank controls alone.
+  panels.get('LevelUpTab').visible = true;
+  retry();
+  assert.equal(panels.get('LevelUpTab').visible, false);
+  assert.equal(panels.get('AbilityLevelUpButton').visible, true);
   assert.equal(panels.get('inventory_tpscroll_container').visible, true);
   assert.equal(panels.get('glyph').enabled, true);
   assert.equal(panels.get('NormalRoot').enabled, true);
