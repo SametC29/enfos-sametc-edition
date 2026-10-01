@@ -4977,6 +4977,7 @@
 		"evo_transcendence_desc" "+35 всех атрибутов; перезарядка ультимейта -30%."
 		"evo_wave_clear" "Волнорез"
 		"evo_wave_clear_desc" "+25% урона заклинаний с областью. Атаки наносят 40% урона другим врагам в радиусе 350."
+		"npc_dota_custom_fountain" "Фонтан восстановления"
 		"npc_dota_hero_abyssal_underlord" "Underlord"
 		"npc_dota_hero_antimage" "Anti-Mage"
 		"npc_dota_hero_axe" "Axe"

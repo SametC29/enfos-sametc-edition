@@ -1,6 +1,7 @@
 {
   "Language": "SChinese",
   "Tokens": {
+    "npc_dota_custom_fountain": "恢复泉水",
     "enfos_sametc_addon_title": "恩佛斯团队生存 — SametC版",
     "enfos_sametc_addon_description": "一款受经典Enfo启发的现代PvEvP生存自定义游戏。",
     "enfos_sametc_mode_pvevp": "标准PvEvP",

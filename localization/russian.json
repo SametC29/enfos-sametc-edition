@@ -1,6 +1,7 @@
 {
   "Language": "Russian",
   "Tokens": {
+    "npc_dota_custom_fountain": "Фонтан восстановления",
     "enfos_sametc_addon_title": "Enfos Team Survival — Издание SametC",
     "enfos_sametc_addon_description": "Современная PvEvP игра на выживание в духе классического Enfo's.",
     "enfos_sametc_mode_pvevp": "Стандартный PvEvP",

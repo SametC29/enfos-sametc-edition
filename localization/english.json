@@ -1,6 +1,7 @@
 {
   "Language": "English",
   "Tokens": {
+    "npc_dota_custom_fountain": "Recovery Fountain",
     "enfos_sametc_addon_title": "Enfos Team Survival — SametC Edition",
     "enfos_sametc_addon_description": "A modern Enfo-inspired PvEvP survival custom game.",
     "enfos_sametc_mode_pvevp": "Standard PvEvP",

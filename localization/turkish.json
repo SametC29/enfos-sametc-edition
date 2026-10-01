@@ -1,6 +1,7 @@
 {
   "Language": "Turkish",
   "Tokens": {
+    "npc_dota_custom_fountain": "Yenilenme Çeşmesi",
     "enfos_sametc_addon_title": "Enfos Team Survival — SametC Sürümü",
     "enfos_sametc_addon_description": "Enfo's esintili, modern bir PvEvP hayatta kalma özel oyunu.",
     "enfos_sametc_mode_pvevp": "Standart PvEvP",

@@ -5,6 +5,33 @@
 
 "DOTAUnits"
 {
+	// Compiled Survival map references this exact name at its two team bases.
+	// Use Valve's native fountain class; do not import the reference game's Lua aura.
+	// Team is assigned by the map's m_iTeamNum (Radiant 2 / Dire 3).
+	"npc_dota_custom_fountain"
+	{
+		"BaseClass" "ent_dota_fountain"
+		"Model" "models/props_structures/muerta_minigame_effigy.vmdl"
+		"SoundSet" "dota_fountain"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed" "0"
+		"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK"
+		"HasInventory" "0"
+		"BountyXP" "0"
+		"BountyGoldMin" "0"
+		"BountyGoldMax" "0"
+		"StatusHealth" "500"
+		"StatusHealthRegen" "0"
+		"StatusMana" "0"
+		"StatusManaRegen" "0"
+		"TeamName" "DOTA_TEAM_GOODGUYS"
+		"UnitRelationshipClass" "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
+		"VisionDaytimeRange" "1800"
+		"VisionNighttimeRange" "1800"
+		"RingRadius" "220"
+		"BoundsHullName" "DOTA_HULL_SIZE_TOWER"
+	}
+
 	// =========================================================================
 	// BASELINE NORMAL CREEP ARCHETYPES (1–17)
 	// =========================================================================

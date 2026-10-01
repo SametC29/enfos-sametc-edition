@@ -3034,6 +3034,7 @@
 		"evo_transcendence_desc" "全属性+35，终极技能冷却减少30%。"
 		"evo_wave_clear" "破浪者"
 		"evo_wave_clear_desc" "范围法术伤害+25%。攻击对目标周围350范围的其他敌人造成40%伤害。"
+		"npc_dota_custom_fountain" "恢复泉水"
 		"npc_dota_hero_abyssal_underlord" "Underlord"
 		"npc_dota_hero_antimage" "Anti-Mage"
 		"npc_dota_hero_axe" "Axe"

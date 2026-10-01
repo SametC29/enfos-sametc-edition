@@ -4975,6 +4975,7 @@
 		"evo_transcendence_desc" "Tüm temel özellikler +35 artar ve nihai yeteneğin bekleme süresi -%30 kısalır."
 		"evo_wave_clear" "Dalga Biçici"
 		"evo_wave_clear_desc" "Alan büyüsü hasarı +%25. Saldırılar hedefin 350 çevresindeki diğer düşmanlara %40 fiziksel hasar verir."
+		"npc_dota_custom_fountain" "Yenilenme Çeşmesi"
 		"npc_dota_hero_abyssal_underlord" "Underlord"
 		"npc_dota_hero_antimage" "Anti-Mage"
 		"npc_dota_hero_axe" "Axe"

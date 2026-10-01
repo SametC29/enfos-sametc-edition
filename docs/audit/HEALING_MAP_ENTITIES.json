@@ -1,0 +1,31 @@
+{
+  "map": "game/maps/enfos.vpk",
+  "mapSha256": "b1fa84fd3d14becfd0fc29e6fec16e0ca6115837090bc72bf6bca2f06ba4fa51",
+  "entityResource": "maps/enfos/entities/default_ents.vents_c",
+  "entityDumpSha256": "5a30cf2b18348d85f013ecbd82307b88ddf16b7921fc1e1eee71c17b3e2d36c9",
+  "extractionTool": "Source2Viewer-CLI 19.2",
+  "entities": [
+    {
+      "classname": "npc_dota_base",
+      "unit": "npc_dota_custom_fountain",
+      "team": 3,
+      "origin": [
+        -7768.491211,
+        -2388.374023,
+        128.000122
+      ],
+      "hammerId": "171"
+    },
+    {
+      "classname": "npc_dota_base",
+      "unit": "npc_dota_custom_fountain",
+      "team": 2,
+      "origin": [
+        7716.493164,
+        -2386.61792,
+        128.339386
+      ],
+      "hammerId": "170"
+    }
+  ]
+}

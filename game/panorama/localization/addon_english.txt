@@ -4977,6 +4977,7 @@
 		"evo_transcendence_desc" "+35 All Attributes and -30% Ultimate Cooldown."
 		"evo_wave_clear" "Wave Sweeper"
 		"evo_wave_clear_desc" "+25% area spell damage. Attacks splash 40% physical damage to other enemies within 350 of the target."
+		"npc_dota_custom_fountain" "Recovery Fountain"
 		"npc_dota_hero_abyssal_underlord" "Underlord"
 		"npc_dota_hero_antimage" "Anti-Mage"
 		"npc_dota_hero_axe" "Axe"

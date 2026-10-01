@@ -1,56 +1,62 @@
 # Health and mana refill zones — 2026-10-01
 
-Status: **DIAGNOSIS INCOMPLETE — NO GAMEPLAY FIX CLAIMED**.
+Status: **MISSING MAP UNIT DEFINITION REPAIRED — OWNER RUNTIME CHECK PENDING**.
 
-## Request
+## Diagnosis and evidence
 
-Make the map's health and mana recovery locations work for living heroes.
+The active compiled map uses two npc_dota_base entities with MapUnitName
+`npc_dota_custom_fountain`. That ID had no definition in this addon. The
+reference map supplies a custom creature plus its own Lua aura; importing the
+map alone did not import those dependencies. This proves a missing dependency;
+it does not prove that no other runtime issue exists.
 
-## Evidence gathered
+Source2Viewer-CLI 19.2 extracted `maps/enfos/entities/default_ents.vents_c`
+directly from `game/maps/enfos.vpk`. The active dump matches the historical
+reference dump byte for byte (SHA256
+`5a30cf2b18348d85f013ecbd82307b88ddf16b7921fc1e1eee71c17b3e2d36c9`).
+The small evidence snapshot is [HEALING_MAP_ENTITIES.json](HEALING_MAP_ENTITIES.json).
 
-- The addon's active map is `enfos`; `addoninfo.txt` points to it. MCP reports
-  `game/dota_addons/enfos_sametc/maps/enfos.vpk` is compiled, but its editable
-  `content/maps/enfos.vmap` source is missing. The quarantined `.vmap.disabled`
-  prototypes are retired placeholder maps and are not safe substitutes.
-- The project scripts contain hero-specific regeneration and the separate
-  Spellbringer mana loop, but no map recovery-zone manager or authored recovery
-  trigger definitions were found. Hero regeneration values do not prove that
-  map zones restore health/mana.
-- The current MCP entity catalog lists `ent_dota_fountain` as the team fountain
-  heal/regen entity with a `teamnumber` key. Valve's Dota-style map guide says
-  its fountain prefab works when its team is set to Good Guys and its unit name
-  is `dota_fountain` ([Valve Developer Community: Creating a Dota-Style Map](https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Level_Design/Creating_A_Dota-Style_Map)).
-- A downloaded Dota Run reference had no Lua handling for `ent_dota_fountain`,
-  `GiveMana`, or `modifier_fountain_aura`; it therefore did not provide a
-  reusable implementation for this project's unknown custom refill points.
-- A local Tools launch was attempted. Dota opened a modal “Oyun Başlatılamadı”
-  dialog reporting `NVAPI_ACCESS_DENIED` and then exited. The actual Windows
-  account reports the RTX 3060 Ti and driver status `OK`, `nvidia-smi` reports
-  driver 617.14, and the requested temporary DRS write/remove test succeeds.
-  This rules out a simple DRS-directory write failure but does not explain the
-  driver's profile API denial.
+| Team | Authored origin | Hammer ID |
+|---|---|---|
+| Dire (3) | -7768.491211, -2388.374023, 128.000122 | 171 |
+| Radiant (2) | 7716.493164, -2386.61792, 128.339386 | 170 |
 
-## Root cause and limit
+The earlier claim that missing editable .vmap prevented a static entity audit
+was incorrect: the compiled VPK can be decompiled without launching Dota.
+Editable source remains missing; archived broken flat-map prototypes must not
+be restored. No map, geometry, coordinates, materials or team assignments changed.
 
-The gameplay root cause is **not yet proven**. Without a running game, the
-compiled map's actual fountain/trigger classnames, positions, teams, and hero
-heal/mana deltas cannot be observed. The missing map source also prevents a
-reliable static entity audit. Guessing coordinates or overriding native fountain
-behavior would risk healing the wrong area/team, so no such change was made.
+## Native-first repair and provenance
 
-## Verification
+Added the exact missing unit ID using Valve's current `ent_dota_fountain`
+class. Current installed native `dota_fountain` KV provided class/structure
+fields; the installed VPK resolves the effigy model already used by the map's
+reference fountain. Native class supplies recovery behavior; no custom Lua aura,
+new regeneration manager, duplicated fountain or guessed location was added.
+The compatibility unit cannot attack, move or grant kill rewards. The authored
+map team assignment is expected to override its default Radiant team.
 
-- `npm run check`: PASS (automated/static/mocked checks only; no zone behavior
-  is covered by this result).
-- MCP addon audit: PASS, 34 VScript and 11 Panorama files, zero findings.
-- Engine acceptance: **BLOCKED** by the NVIDIA modal; no map was rendered and
-  no runtime entity query or VConsole gameplay log was available.
+[Valve's map guide](https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Level_Design/Creating_A_Dota-Style_Map)
+uses team-bound native fountains. The alias's initialization and correct
+team-specific healing still need actual engine verification.
 
-## Required next evidence
+Reference: Enfos Survival Workshop 3591082091, NPC unit definition inspected
+only to identify the missing dependency. Code license unresolved:
+**REFERENCE_ONLY**, no reference aura/implementation copied. Existing owner
+permission covers reused map placement. Effigy is a current Valve asset.
+Visible unit name added in EN/TR/RU/zh-CN.
 
-Provide a Tools launch that reaches the map, or restore the authoritative
-`enfos.vmap` source. Then enumerate `ent_dota_fountain` and custom trigger
-entities with team and origin, stand a damaged/mana-depleted living hero inside
-each intended zone, and confirm both current health and mana increase while
-outside heroes and enemies do not receive the refill. Keep this item open until
-those tests pass.
+## Verification and owner acceptance
+
+- Content contract checks both map teams, exact unit dependency resolution,
+  native class, non-attacking behavior, model path, localization and active map
+  SHA256. This is static verification, not a regeneration simulation.
+- All 84 content tests pass; all ten approved map/theme files match their hashes.
+- Dota was not launched or controlled, per owner instruction.
+
+In a fresh match after restarting for KV reload, test each team separately:
+stand a living damaged/mana-depleted hero beside its authored effigy, record
+health and mana before/after, leave the zone, and repeat using the opposite
+team. Require both resources to increase only in the intended allied area.
+Check VConsole for missing-unit/class errors. If either effigy is absent or
+both spawn on Radiant, report that before adding any alternative aura.
