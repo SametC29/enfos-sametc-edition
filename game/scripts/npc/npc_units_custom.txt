@@ -331,7 +331,7 @@
 	"enfos_creep_silencer"
 	{
 		"BaseClass"					"npc_dota_creature"
-		"Model"						"models/creeps/neutral_creeps/n_creep_wildkin/n_creep_wildkin.vmdl"
+		"Model"						"models/creeps/neutral_creeps/n_creep_vulture_b/n_creep_vulture_b.vmdl"
 		"ModelScale"				"1.0"
 		"Level"						"2"
 		"HealthBarOffset"			"165"
@@ -1183,7 +1183,6 @@
 		"BountyGoldMin"				"0"
 		"BountyGoldMax"				"0"
 	}
-
 
 
 

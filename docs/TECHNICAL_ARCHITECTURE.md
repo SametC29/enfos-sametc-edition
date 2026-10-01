@@ -8,7 +8,7 @@ Adapt concrete paths/API calls to the actual repository and current Workshop Too
 - Stable internal IDs are separate from localized names.
 - Gameplay logic does not depend on Panorama implementation.
 - UI sends requests; server validates and broadcasts authoritative state.
-- Persistent storage is an adapter, never a direct dependency spread across gameplay code.
+- No player profile or cross-match progression service is loaded; all game progression is match-local.
 - Runtime config is versioned and snapshotted at match start.
 - Reference-map analysis never becomes a source-code dependency.
 - Balance values live in config/data rather than scattered constants.
@@ -23,7 +23,7 @@ Adapt concrete paths/API calls to the actual repository and current Workshop Too
 - threat budget,
 - batching,
 - scheduling,
-- Boss incoming cleanup.
+- Boss incoming transition without removing prior scheduled hostiles.
 
 `UnitCapService`
 - counts active hostiles,
@@ -42,12 +42,8 @@ Adapt concrete paths/API calls to the actual repository and current Workshop Too
 `CreepAIService`
 - waypoints,
 - aggro/leash,
-- Runner,
+- flying mana-drain and ground control variants,
 - stuck recovery.
-
-`EliteService`
-- Elite definitions/modifiers,
-- difficulty augmentation.
 
 `BossDirector`
 - phases,
@@ -101,21 +97,7 @@ Adapt concrete paths/API calls to the actual repository and current Workshop Too
 - respawn,
 - authoritative per-match resources.
 
-`ProgressionService`
-- Account XP,
-- Mastery XP,
-- difficulty unlock,
-- hero unlocks,
-- reward IDs/idempotency.
-
-`ProgressionStorage`
-- interface only.
-Adapters:
-  - Mock/local dev
-  - production backend if available
-  - unavailable/disabled safe mode
-
-No gameplay service calls raw HTTP for progression.
+Progression and rewards are match-scoped. Do not load account profiles, store permanent unlocks, or apply cross-match stat bonuses.
 
 `LocalizationPipeline`
 - key registry,
@@ -143,16 +125,13 @@ Prefer structured definitions for:
 - heroes/role tags,
 - abilities/Innates,
 - in-match build choices,
-- Mastery tree,
 - waves,
 - creep archetypes,
-- Elites,
 - Bosses,
 - difficulty modifiers,
 - Spellbringer abilities,
 - Boons/Pacts,
 - Ascended items,
-- progression curves,
 - localization keys.
 
 Example stable IDs:
@@ -246,50 +225,22 @@ Profile crowded lanes in the engine before release.
 
 ## 9. Boss transition
 
-Before Boss:
-- cancel remaining prior-wave scheduling,
-- transition timer,
-- resolve remaining leakable scheduled units once,
-- remove/expire non-leakable temporary entities,
-- assert prior scheduled wave cleared,
-- then spawn Boss.
+Before Boss, stop scheduling the prior wave and show the transition timer.
+Existing scheduled hostiles remain tracked and alive while the Boss spawns.
+Neither the transition nor a wave deadline removes hostiles or charges Life;
+only the physical Core leak callback resolves a scheduled hostile and applies
+its Life penalty. Temporary summons retain their independent expiry rules.
 
 Test:
-- full cap,
-- huge backlog,
+- surviving prior-wave hostiles during Boss spawn,
+- hostiles remaining alive after a wave deadline,
 - player disconnect,
 - simultaneous Spellbringer cast,
 - summoned minions,
-- Life reaches zero during cleanup.
+- Life reaches zero through actual Core leaks.
 
 ## 10. Persistence model
-
-### Account
-- schema version,
-- Account XP/Level,
-- Legacy allocation,
-- difficulty unlocks,
-- hero tokens/unlocked heroes,
-- relevant durable settings.
-
-### Hero Mastery
-- stable hero ID,
-- XP/rank,
-- Passive Tree allocation,
-- unlocked build-choice alternatives.
-
-Requirements:
-- explicit schema migrations,
-- removed node safely refunds point,
-- idempotent reward IDs,
-- same match/checkpoint cannot grant twice.
-
-If backend unavailable:
-- match still runs,
-- do not claim permanent save succeeded,
-- show localized status,
-- retry only within guarantees that cannot duplicate rewards,
-- log failure.
+No account or hero progression is persisted. Match reconnect uses server-authoritative in-memory state; it must not create permanent profiles, rewards or unlocks.
 
 ## 11. Reconnect
 
@@ -300,7 +251,7 @@ On reconnect rebuild from authoritative state:
 - courier,
 - Gold/Lumber,
 - Spellbringer mana/cooldowns,
-- queued build choices,
+- queued match choices,
 - team Boons,
 - wave/Boss state,
 - UI model.
@@ -319,7 +270,6 @@ Suggested:
 - `ability.*`
 - `wave.*`
 - `creep.*`
-- `elite.*`
 - `boss.*`
 - `spellbringer.*`
 - `boon.*`
@@ -416,7 +366,7 @@ Visible error is localized and concise.
 Development-only commands:
 - jump to wave,
 - set Life,
-- spawn creep/Elite/Boss,
+- spawn creep/Boss,
 - set difficulty,
 - add Gold/Lumber,
 - grant Ascended,

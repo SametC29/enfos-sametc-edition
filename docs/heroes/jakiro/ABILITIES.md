@@ -5,22 +5,22 @@ This dossier starts UNASSESSED/PENDING. It is a work reference, not proof that t
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
 
-Hero: `npc_dota_hero_jakiro`; role: Support. Production target: hero level 50 / all five abilities 10 total ranks; not implemented by this dossier.
+Hero: `npc_dota_hero_jakiro`; role: Support. Progression target: hero level 50 / all five abilities 10 total ranks; the KV rank inventory below and runtime unlock acceptance are tracked separately.
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_jakiro_dual_breath` | 4 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/pve_kits | jakiro_dual_breath |
-| 2 | `enfos_jakiro_ice_path` | 4 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/pve_kits | jakiro_ice_path |
-| 3 | `enfos_jakiro_liquid_fire` | 4 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_AUTOCAST | abilities/pve_kits | jakiro_liquid_fire |
-| 4 | `enfos_jakiro_macropyre` | 3 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/pve_kits | jakiro_macropyre |
-| 5 | `enfos_jakiro_double_trouble` | 1 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | jakiro_liquid_fire |
+| 1 | `enfos_jakiro_dual_breath` | 10 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/pve_kits | jakiro_dual_breath |
+| 2 | `enfos_jakiro_ice_path` | 10 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/pve_kits | jakiro_ice_path |
+| 3 | `enfos_jakiro_liquid_fire` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_AUTOCAST | abilities/pve_kits | jakiro_liquid_fire |
+| 4 | `enfos_jakiro_macropyre` | 10 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/pve_kits | jakiro_macropyre |
+| 5 | `enfos_jakiro_double_trouble` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | jakiro_liquid_fire |
 
 Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
 Source: `scripts/npc/heroes/npc_dota_hero_jakiro.txt`; status: FILE_VERIFIED; SHA256: `da0a519bfad3795e143cd0f8e595d83ed20ea1354a8391beed27400aadcc0f34`.
-Installed build: ClientVersion=6941; SourceRevision=11041083; Sep 25 2026. Snapshot observation UTC: 2026-09-28T21:16:02.562Z.
+Installed build: ClientVersion=6941; SourceRevision=11041083; Sep 25 2026. Snapshot observation UTC: 2026-09-29T20:43:45.203Z.
 Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT.json). Re-read installed resources after a patch.
 
 | Native field | Observed value |
@@ -48,20 +48,24 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 ### Per-ability review leads
 
 - `enfos_jakiro_dual_breath`: world position, travel/impact timing and radius alignment.
-- `enfos_jakiro_ice_path`: world position, travel/impact timing and radius alignment; static unreferenced-special candidates: path_delay (not confirmed defects).
+- `enfos_jakiro_ice_path`: world position, travel/impact timing and radius alignment.
 - `enfos_jakiro_liquid_fire`: manual/autocast parity, attack proc and duplicate events; target flags, immunity, spell block/reflect if applicable, target loss.
-- `enfos_jakiro_macropyre`: world position, travel/impact timing and radius alignment; ultimate unlock curve, Scepter/Blessing and boss burst; static unreferenced-special candidates: length, duration (not confirmed defects).
+- `enfos_jakiro_macropyre`: world position, travel/impact timing and radius alignment; ultimate unlock curve, Scepter/Blessing and boss burst.
 - `enfos_jakiro_double_trouble`: Enfos passive free starting rank, native innate separation, respawn/point budget; intrinsic modifier, Break/illusion behavior, live rank refresh.
 
 <!-- END GENERATED INVENTORY -->
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-09-30 level-50 migration: Q/W/E/Enfos passive gates start at level 1 with interval 1; R starts at level 5 with interval 5. Static contract test added; point/HUD and gameplay acceptance remain pending for owner live test.
+
+2026-09-30 Double Trouble passive repair: the fifth-slot Intelligence and attack-speed bonuses now honor Break and are not inherited by illusions. KV marks the custom passive breakable; a mock regression covers both stats under normal, Broken and illusion states. Modifier lifecycle and live Dota behavior remain PENDING.
+
 ## Slot 1: `enfos_jakiro_dual_breath`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `jakiro_dual_breath` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
+Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
@@ -84,7 +88,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -98,14 +102,27 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record: all five abilities now expose ten KV ranks; the complete 200-ability Lua mock suite passes. This confirms static/mock behavior only; in-match Dota VFX, SFX, rank-up HUD, boss and VConsole acceptance remain PENDING.
+
+Change/test record (2026-09-30): all five Jakiro skill value blocks now use named `AbilityValues` keys consumed by Lua; ten-rank curves are unchanged. A five-slot static contract test was added. In-game damage/timing, auto-cast, VFX, SFX, modifier cleanup, boss and upgrade checks remain PENDING for the user.
+
+Follow-up review (2026-09-30): Ice Path's configured 0.5-second `path_delay` was not read, so damage and stun occurred before the warning completed. The implementation now snapshots the cast origin/direction and applies its ranked hit and shortened boss stun after that delay. Mock regression passes; VFX/SFX, actual timing and cleanup remain pending for the user’s Dota test.
+
+Follow-up static audit (2026-09-30): rechecked Dual Breath, Liquid Fire,
+Macropyre and Double Trouble against their ten-rank KV values, EN/TR/RU/zh-CN
+tooltips, evolution choices, shared Aghanim handling and targeted mocks. Liquid
+Fire's manual and autocast paths both route through the same effect implementation;
+Macropyre's line filtering and per-cast boss cap have regression coverage. No
+additional code defect was confirmed in this pass. In-game cast/attack behavior,
+rank scaling, particle controls, audio, channel/effect cleanup and upgrades remain
+pending the owner's live Dota test.
 
 ## Slot 2: `enfos_jakiro_ice_path`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `jakiro_ice_path` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
+Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
+Expected behavior: Preserve the cast-time point and caster origin, show the ice path warning immediately, then after the configured 0.5-second delay apply ranked damage and stun along the path; boss stun remains at 35% duration.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
@@ -125,9 +142,9 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PASS | Mock regression confirms no early hit, delayed damage and stun, cast-origin snapshot, and shortened boss stun; engine timing remains unverified. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -141,13 +158,13 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record: all five abilities now expose ten KV ranks; the complete 200-ability Lua mock suite passes. This confirms static/mock behavior only; in-match Dota VFX, SFX, rank-up HUD, boss and VConsole acceptance remain PENDING.
 
 ## Slot 3: `enfos_jakiro_liquid_fire`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `jakiro_liquid_fire` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
+Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
@@ -170,7 +187,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -184,13 +201,13 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record: all five abilities now expose ten KV ranks; the complete 200-ability Lua mock suite passes. This confirms static/mock behavior only; in-match Dota VFX, SFX, rank-up HUD, boss and VConsole acceptance remain PENDING.
 
 ## Slot 4: `enfos_jakiro_macropyre`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `jakiro_macropyre` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
+Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
@@ -213,7 +230,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -227,13 +244,13 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record: all five abilities now expose ten KV ranks; the complete 200-ability Lua mock suite passes. This confirms static/mock behavior only; in-match Dota VFX, SFX, rank-up HUD, boss and VConsole acceptance remain PENDING.
 
 ## Slot 5: `enfos_jakiro_double_trouble`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: REPLACE
+Native counterpart: `Project-specific Enfos passive; native Jakiro innate remains distinct` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
+Decision and PvE identity rationale: REPLACE because this fifth ability is an Enfos-authored passive with no direct native counterpart; its hero identity comes from the adjacent Dota kit.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
@@ -256,11 +273,11 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
+| Modifiers | PENDING | MOCK_PASS: Double Trouble's two bonuses are checked for Break/illusion suppression; engine modifier and Break presentation remain unverified. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
 | Boss | PENDING | Not evaluated in this dossier setup. |
@@ -270,4 +287,4 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record: all five abilities now expose ten KV ranks; the complete 200-ability Lua mock suite passes. This confirms static/mock behavior only; in-match Dota VFX, SFX, rank-up HUD, boss and VConsole acceptance remain PENDING.

@@ -96,17 +96,21 @@ var EnfosSetup = (function () {
 		// Always show exactly 5 slots per team (matching original Enfos screen)
 		for (var r = 0; r < 5; r++) {
 			var rSlot = $.CreatePanel("Panel", radiantContainer, "RadiantSlot_" + r);
+			rSlot.hittest = false;
 			rSlot.AddClass("PlayerSlot");
 			if (r < radiantPlayers.length) {
 				var rp = radiantPlayers[r];
 				var rAvatar = $.CreatePanel("DOTAAvatarImage", rSlot, "");
+				rAvatar.hittest = false;
 				rAvatar.AddClass("PlayerAvatar");
 				rAvatar.steamid = Game.GetPlayerInfo(rp.player_id) ? Game.GetPlayerInfo(rp.player_id).player_steamid : "";
 				var rName = $.CreatePanel("Label", rSlot, "");
+				rName.hittest = false;
 				rName.AddClass("PlayerName");
 				rName.text = rp.name;
 			} else {
 				var rEmpty = $.CreatePanel("Label", rSlot, "");
+				rEmpty.hittest = false;
 				rEmpty.AddClass("EmptySlotName");
 				rEmpty.text = "---";
 			}
@@ -114,17 +118,21 @@ var EnfosSetup = (function () {
 
 		for (var d = 0; d < 5; d++) {
 			var dSlot = $.CreatePanel("Panel", direContainer, "DireSlot_" + d);
+			dSlot.hittest = false;
 			dSlot.AddClass("PlayerSlot");
 			if (d < direPlayers.length) {
 				var dp = direPlayers[d];
 				var dAvatar = $.CreatePanel("DOTAAvatarImage", dSlot, "");
+				dAvatar.hittest = false;
 				dAvatar.AddClass("PlayerAvatar");
 				dAvatar.steamid = Game.GetPlayerInfo(dp.player_id) ? Game.GetPlayerInfo(dp.player_id).player_steamid : "";
 				var dName = $.CreatePanel("Label", dSlot, "");
+				dName.hittest = false;
 				dName.AddClass("PlayerName");
 				dName.text = dp.name;
 			} else {
 				var dEmpty = $.CreatePanel("Label", dSlot, "");
+				dEmpty.hittest = false;
 				dEmpty.AddClass("EmptySlotName");
 				dEmpty.text = "---";
 			}
@@ -142,6 +150,7 @@ var EnfosSetup = (function () {
 	}
 
 	function ToggleDifficultyDropdown() {
+		$.Msg("[SETUP_UI] difficulty dropdown click");
 		var menu = $("#DifficultyOptions");
 		if (!menu) return;
 		isDropdownOpen = !isDropdownOpen;
@@ -153,6 +162,7 @@ var EnfosSetup = (function () {
 	}
 
 	function SelectDifficulty(diffKey) {
+		$.Msg("[SETUP_UI] difficulty click: " + diffKey);
 		isDropdownOpen = false;
 		var menu = $("#DifficultyOptions");
 		if (menu) menu.RemoveClass("ShowMenu");
@@ -163,12 +173,14 @@ var EnfosSetup = (function () {
 	}
 
 	function JoinTeam(teamId) {
+		$.Msg("[SETUP_UI] team click: " + teamId);
 		GameEvents.SendCustomGameEventToServer("enfos_setup_join_team", {
 			team: teamId
 		});
 	}
 
 	function StartGame() {
+		$.Msg("[SETUP_UI] start click");
 		GameEvents.SendCustomGameEventToServer("enfos_setup_start_game", {});
 	}
 

@@ -35,9 +35,11 @@ The Centaur Conqueror stomps, Mud/Frost-Earth golems throw boulders and the
 stone Familiar uses a bounded stomp adaptation. Dark Troll summoning is REPLACE
 with a bounded no-target ability instead of an unverified native summon ID.
 
-Only two specialists per defended team/wave receive most skills. One quarter
-of Ghost wave 11 and Lycan wave 21 units receive invisibility. Per-ability casts
-share a three-second team/wave gate. Attack silence/root last 1.5 seconds and
+Owner screenshot re-audit superseded the original specialist distribution:
+every authored creep now receives its wave kit, including invisibility on all
+wave 11/21/49 creeps. The invisible kind uses synchronized modifier stacks and
+an invisibility-level property. See `WAVE_SPECIAL_REAUDIT_2026-10-01.md`.
+Per-ability casts share a three-second team/wave gate. Attack silence/root last 1.5 seconds and
 have a seven-second per-target gate, preventing mass repeated control.
 Reflection is 20%, capped at 75 per event, and does not reflect reflection.
 Allied Spellbringer future units receive the corresponding special kit.

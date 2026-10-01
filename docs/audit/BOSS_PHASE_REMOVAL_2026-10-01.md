@@ -1,6 +1,6 @@
 # Boss health lock and phase removal — 2026-10-01
 
-Status: **IMPLEMENTED, NOT ENGINE-VERIFIED; native hero boss replacement remains open**.
+Status: **HEALTH PHASES REMOVED; native hero Boss candidate implemented; OWNER TEST PENDING**.
 
 ## Root cause
 
@@ -18,21 +18,20 @@ lock at 2,800 HP when maximum health was 4,000.
 - Removed the general per-hit damage cap; the 150-point reflection safety cap
   and 60% boss status resistance remain.
 - Removed phase values from the wave status net table.
-- Existing signature attack strength and target count now scale modestly with
-  wave number, so encounter pressure progresses without health lock phases.
-
-This does not yet convert custom bosses into native hero units, give them four
-native abilities, or apply player-level scaling and item builds. Those parts of
-Desktop update item 7 remain incomplete.
+- The later item-7 pass now maps all twelve Boss waves to distinct roster heroes,
+  installs each hero's native QWER and Valve bot build, scales to defending-team
+  level, and removes the old themed telegraph/attack implementation entirely.
+  Native targeting has mock coverage, but model, ability casts, builds and
+  movement still need the owner's in-game verification.
 
 ## Verification
 
 - `npm run check`: PASS; mock regression tests verify the old health floors and
   ordinary damage cap are gone. This is not a gameplay simulation.
 - MCP addon audit: PASS; 34 VScript and 11 Panorama files scanned, zero findings.
-- Dota Tools/VConsole: unavailable. Launch is blocked by `NVAPI_ACCESS_DENIED`,
-  so the boss damage, deaths, and logs have not been observed in-engine.
+- Dota runtime checks are **PENDING OWNER TEST**. Per owner direction, Codex
+  must not launch or interact with Dota.
 
-Required engine check: spawn a boss with 4,000 maximum health, deal a hit above
-2,800, verify health goes below 2,800 and the boss can die; then inspect VConsole
-for Lua errors and verify the wave HUD has no phase data dependency.
+Required owner check: spawn each native Boss, confirm ordinary damage can take it
+through its full health range without a phase lock, then verify native QWER casts,
+build progression, death/reward behavior, and absence of new VConsole errors.

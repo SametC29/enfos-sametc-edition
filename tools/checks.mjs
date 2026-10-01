@@ -3,6 +3,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import luaparse from 'luaparse';
 import { parseKV } from './lib/kv.mjs';
+import { getAbilityValues } from './lib/ability_values.mjs';
 import { generateLocalization, root, languages } from './localization.mjs';
 
 process.chdir(root);
@@ -25,23 +26,107 @@ for (const file of walk('game/scripts/vscripts').filter(f => f.endsWith('.lua'))
   check(`Lua syntax ${file}`, () => luaparse.parse(fs.readFileSync(file, 'utf8'), { luaVersion: '5.1' }));
 }
 check('localization values and mirror files', () => generateLocalization(true));
-check('Sven Q and W define ten-rank combat curves', () => {
+check('Sven and Juggernaut expose ten-rank combat curves', () => {
   const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
-  for (const [id, keys] of Object.entries({
+  const curves = {
     bulwark_shield_slam: ['radius', 'damage', 'stun_duration'],
     bulwark_challenge: ['bonus_armor', 'duration', 'bonus_ms_pct', 'barrier_hp'],
     bulwark_iron_guard: ['cleave_pct', 'cleave_ending_width', 'cleave_distance'],
-  })) {
+    enfos_juggernaut_blade_fury: ['damage_per_sec'],
+    enfos_juggernaut_healing_ward: ['heal_pct'],
+    enfos_juggernaut_blade_dance: ['crit_chance', 'crit_mult'],
+    enfos_juggernaut_omni_slash: ['duration', 'bonus_damage'],
+    enfos_juggernaut_duelist: ['bonus_attack_speed', 'bonus_ms_pct'],
+  };
+  for (const [id, keys] of Object.entries(curves)) {
     const ability = abilities[id];
     if (Number(ability.MaxLevel) !== 10) throw new Error(`${id}: MaxLevel must be 10`);
-    const specials = Object.assign({}, ...Object.values(ability.AbilitySpecial));
+    const specials = getAbilityValues(ability);
     for (const key of keys) {
       if ((specials[key] || '').trim().split(/\s+/).length !== 10) throw new Error(`${id}.${key}: expected exactly 10 ranks`);
     }
-    if (id !== 'bulwark_iron_guard' && (ability.AbilityCooldown.trim().split(/\s+/).length !== 10 || ability.AbilityManaCost.trim().split(/\s+/).length !== 10)) {
+    if (['bulwark_shield_slam', 'bulwark_challenge', 'enfos_juggernaut_blade_fury',
+      'enfos_juggernaut_healing_ward', 'enfos_juggernaut_omni_slash'].includes(id)
+      && ability.AbilityManaCost.trim().split(/\s+/).length !== 10) {
       throw new Error(`${id}: cooldown and mana curves must each define ten rank values`);
     }
   }
+  if (!abilities.enfos_juggernaut_healing_ward.AbilityBehavior.includes('POINT')) {
+    throw new Error('Healing Ward reads a cursor point but is not a point-target ability');
+  }
+});
+check('Drow exposes five ten-rank abilities without mislabeling the Enfos passive as Dota innate', () => {
+  const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
+  const curves = {
+    enfos_drow_frost_arrows: ['slow_pct', 'bonus_damage', 'agility_factor'],
+    enfos_drow_gust: ['silence_duration'],
+    enfos_drow_multishot: ['arrow_count', 'arrow_damage_pct'],
+    enfos_drow_marksmanship: ['proc_chance', 'bonus_damage'],
+    enfos_drow_precision_aura: ['bonus_agility_pct', 'bonus_range'],
+  };
+  for (const [id, keys] of Object.entries(curves)) {
+    const ability = abilities[id];
+    if (Number(ability.MaxLevel) !== 10) throw new Error(`${id}: MaxLevel must be 10`);
+    const specials = getAbilityValues(ability);
+    for (const key of keys) {
+      if ((specials[key] || '').trim().split(/\s+/).length !== 10) throw new Error(`${id}.${key}: expected exactly 10 ranks`);
+    }
+  }
+  if (abilities.enfos_drow_multishot.AbilityManaCost.trim().split(/\s+/).length !== 10) {
+    throw new Error('Drow Multishot mana curve must define ten ranks');
+  }
+  if (abilities.enfos_drow_precision_aura.Innate) throw new Error('The Enfos passive must not be marked as a Dota innate ability');
+  if (!abilities.enfos_drow_multishot.AbilityUnitTargetFlags.includes('MAGIC_IMMUNE_ENEMIES')
+      || abilities.enfos_drow_multishot.SpellImmunityType !== 'SPELL_IMMUNITY_ENEMIES_YES') {
+    throw new Error('Drow Multishot must preserve native magic-immunity targeting');
+  }
+});
+check('Lina exposes five ten-rank abilities, delayed Light Strike Array and a separate Enfos passive', () => {
+  const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
+  const curves = {
+    enfos_lina_dragon_slave: ['damage'],
+    enfos_lina_light_strike_array: ['damage', 'stun_duration'],
+    enfos_lina_fiery_soul: ['fiery_soul_attack_speed_bonus', 'fiery_soul_max_stacks'],
+    enfos_lina_laguna_blade: ['damage'],
+    enfos_lina_combustion: ['spell_amp', 'burn_dps'],
+  };
+  for (const [id, keys] of Object.entries(curves)) {
+    const ability = abilities[id];
+    if (Number(ability.MaxLevel) !== 10) throw new Error(`${id}: MaxLevel must be 10`);
+    const specials = getAbilityValues(ability);
+    for (const key of keys) {
+      if ((specials[key] || '').trim().split(/\s+/).length !== 10) throw new Error(`${id}.${key}: expected exactly 10 ranks`);
+    }
+  }
+  if (abilities.enfos_lina_combustion.Innate) throw new Error('The Enfos fifth-slot passive must not be marked as a Dota innate');
+  const strike = getAbilityValues(abilities.enfos_lina_light_strike_array);
+  if (Number(strike.light_strike_array_delay_time) !== 0.5) throw new Error('Light Strike Array must delay impact by 0.5 seconds');
+  if (Number(getAbilityValues(abilities.enfos_lina_dragon_slave).dragon_slave_speed) !== 1200) throw new Error('Dragon Slave projectile speed must match the verified native speed');
+  if (Number(getAbilityValues(abilities.enfos_lina_combustion).burn_int_pct) !== 30) throw new Error('Combustion Intelligence burn scaling must be explicitly configured');
+});
+check('Omniknight exposes five ten-rank abilities and keeps the Enfos passive outside Dota innate metadata', () => {
+  const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
+  const curves = {
+    enfos_omni_purification: ['heal_amount'],
+    enfos_omni_repel: ['bonus_hp_regen', 'bonus_strength', 'bonus_armor'],
+    enfos_omni_degen_aura: ['slow_pct', 'attack_slow'],
+    enfos_omni_guardian_angel: ['duration', 'bonus_hp_regen'],
+    enfos_omni_hammer_of_purity: ['bonus_pure_damage', 'slow_pct'],
+  };
+  for (const [id, keys] of Object.entries(curves)) {
+    const ability = abilities[id];
+    if (Number(ability.MaxLevel) !== 10) throw new Error(`${id}: MaxLevel must be 10`);
+    const specials = getAbilityValues(ability);
+    for (const key of keys) {
+      if ((specials[key] || '').trim().split(/\s+/).length !== 10) throw new Error(`${id}.${key}: expected exactly 10 ranks`);
+    }
+  }
+  for (const id of ['enfos_omni_purification', 'enfos_omni_repel', 'enfos_omni_guardian_angel']) {
+    for (const field of ['AbilityCooldown', 'AbilityManaCost']) {
+      if ((abilities[id][field] || '').trim().split(/\s+/).length !== 10) throw new Error(`${id}.${field}: expected exactly 10 ranks`);
+    }
+  }
+  if (abilities.enfos_omni_hammer_of_purity.Innate) throw new Error('The Enfos fifth-slot passive must not use Dota innate metadata');
 });
 check('localization tokens do not conflict after engine case folding', () => {
   for (const lang of languages) {
@@ -156,7 +241,13 @@ check('Panorama source mirrors and overview mapping', () => {
       if (!registered.has(match[1])) throw new Error(`${file}: unregistered nettable ${match[1]}`);
     }
   }
-  for (const lang of languages) if (!fs.readFileSync(`game/resource/addon_${lang}.txt`, 'utf8').startsWith('\uFEFF')) throw new Error('Localization needs a Unicode BOM for Source 2');
+  for (const dir of ['game/resource', 'game/panorama/localization', 'content/panorama/localization']) {
+    for (const lang of languages) {
+      if (!fs.readFileSync(`${dir}/addon_${lang}.txt`, 'utf8').startsWith('\uFEFF')) {
+        throw new Error(`${dir}/addon_${lang}.txt needs a Unicode BOM for Source 2`);
+      }
+    }
+  }
   for (const file of walk('content/panorama')) {
     if (fs.readFileSync(file, 'utf8') !== fs.readFileSync(file.replace(/^content/, 'game'), 'utf8')) throw new Error(`Stale runtime UI: ${file}`);
   }
@@ -187,6 +278,11 @@ check('match hero level progression',()=>{
 check('Lua ability entrypoints and authoritative hero references', () => {
   const abilities=kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
   const roster=kv('game/scripts/npc/npc_heroes_custom.txt').DOTAHeroes;
+  if (abilities.bulwark_shield_slam?.AbilitySound!=='Hero_Sven.StormBolt'
+      || abilities.bulwark_challenge?.AbilitySound!=='Hero_Sven.WarCry'
+      || abilities.bulwark_shield_slam.AbilitySound===abilities.bulwark_challenge.AbilitySound) {
+    throw new Error('Sven Q/W need distinct engine-level cast sound events');
+  }
   const bootstrap=fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua','utf8');
   if (!bootstrap.includes('require("abilities/pve_kits")')
       || !bootstrap.includes('assertAbilityCallback("bulwark_shield_slam", "OnSpellStart")')

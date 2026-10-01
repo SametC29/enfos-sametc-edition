@@ -10,7 +10,7 @@ Maintain a top-level command/script that runs applicable:
 - localization coverage/placeholders,
 - wave schedule validation,
 - Ascended parent validation,
-- progression schema validation,
+- regression check that no account/hero progression service or talent tree is loaded,
 - economy simulation,
 - deterministic logic tests.
 
@@ -20,8 +20,9 @@ Assert:
 - exactly 60 waves,
 - Boss exactly every 5,
 - Boss wave has no ordinary spawn budget,
-- Elite exactly every 6 excluding Boss overlaps,
-- all referenced creep/Boss/Elite IDs valid,
+- No Elite runtime framework, NPC definitions, rewards, or waves; former Elite slots contain normal creep compositions,
+- all non-Boss wave compositions are distinct and waves 31–60 have distinct localized theme names/descriptions matching their creep roles,
+- all referenced active creep/Boss IDs valid; no retired Elite IDs or scheduler hooks remain,
 - threat budget sane,
 - no impossible spawn.
 
@@ -33,7 +34,7 @@ Assert:
 - localization keys,
 - Shard/Scepter,
 - build-choice data,
-- Mastery data when finalized,
+
 - explicit solo-clear design path.
 
 ## 4. Ascended validator
@@ -60,7 +61,7 @@ Inputs:
 - normal item spending assumptions,
 - Tome spending,
 - Ascended tiers,
-- Boon/Legacy economy modifiers.
+- Boon economy modifiers.
 
 Outputs:
 - Gold/player by wave,
@@ -73,9 +74,10 @@ Outputs:
 - runaway cases.
 
 Targets:
-- normal 1–2 Ascended,
-- economy 2–3,
-- 6 mainly deep Endless.
+- every wave-60 player can afford four distinct Ascended purchases (including
+  base-item Gold costs and any Gold→Lumber conversion),
+- record Lumber and Gold by wave for solo and team sizes 2–5,
+- deep Endless may support additional upgrades.
 
 ## 6. Combat benchmarks
 Per hero/build measure:
@@ -100,15 +102,17 @@ Test every Boss:
 - spell-heavy,
 - high sustain,
 - high control,
-- low/high persistent progression,
+- wave-scaled team levels,
 - relevant Ascended interactions.
 
 Assert:
 - no permanent CC lock,
 - no reflect suicide loop,
-- no HP-percent trivialization,
-- readable telegraph,
-- add cap,
+- no custom health-phase gates or signature-attack fallback,
+- each of the 12 Bosses is the mapped native roster hero with its native Q/W/E/R kit,
+- native hero build and item milestones scale to the current wave/team level,
+- native ability orders select defenders on the opposing team and cast only when legal,
+- Boss wave contains only its Boss,
 - no path skip,
 - one leak resolution.
 
@@ -123,7 +127,7 @@ For each:
 - target dies mid-cast,
 - simultaneous casts,
 - Purification counter,
-- Future Reinforcements no Boss/Elite,
+- Future Reinforcements no Boss and no Life-leaking route,
 - no Gold/XP farming.
 
 ## 9. Unit-cap stress
@@ -144,22 +148,10 @@ Watch:
 
 No steadily increasing stale entity/thinker count.
 
-## 10. Progression tests
-Cases:
-- new account,
-- max account,
-- partial,
-- loss,
-- win,
-- surrender,
-- abandon,
-- Endless,
-- duplicate reward,
-- backend timeout,
-- schema migration,
-- removed Passive node refund,
-- hero unlock consistency,
-- Standard PvEvP reduced numerical effectiveness.
+## 10. Match-only progression tests
+Assert that no account profile, permanent bonus, talent tree, unlock, or post-match
+reward is loaded or granted. Match hero XP/levels, skill points, Gold and Boons
+must continue to work within the current match.
 
 ## 11. Reconnect tests
 Reconnect during:

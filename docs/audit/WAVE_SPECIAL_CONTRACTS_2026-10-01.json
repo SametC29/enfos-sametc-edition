@@ -1,0 +1,689 @@
+{
+  "evidence": "Static definitions and production kit inventory; engine execution pending",
+  "normalWaves": 48,
+  "specialWaves": 44,
+  "basicOpeningWaves": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "records": [
+    {
+      "wave": 1,
+      "distribution": "basic opening",
+      "skills": []
+    },
+    {
+      "wave": 2,
+      "distribution": "basic opening",
+      "skills": []
+    },
+    {
+      "wave": 3,
+      "distribution": "basic opening",
+      "skills": []
+    },
+    {
+      "wave": 4,
+      "distribution": "basic opening",
+      "skills": []
+    },
+    {
+      "wave": 6,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "forest_troll_high_priest_heal",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK | DOTA_ABILITY_BEHAVIOR_AUTOCAST",
+          "targetTeam": "DOTA_UNIT_TARGET_TEAM_FRIENDLY",
+          "targetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 7,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "berserker_troll_break",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 8,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "gnoll_assassin_envenomed_weapon",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": [
+            "Installed rank-1 damage_per_second=0; regeneration reduction remains 75%. Do not claim damage-over-time."
+          ]
+        }
+      ]
+    },
+    {
+      "wave": 9,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "fel_beast_haunt",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "targetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+          "targetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 11,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "invisible",
+          "implementation": "synchronized Lua modifier"
+        }
+      ]
+    },
+    {
+      "wave": 12,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "silence",
+          "implementation": "synchronized Lua modifier"
+        }
+      ]
+    },
+    {
+      "wave": 13,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "harpy_storm_chain_lightning",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "targetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+          "targetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 14,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "necronomicon_archer_mana_burn",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "targetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+          "targetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 16,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "gnoll_assassin_envenomed_weapon",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": [
+            "Installed rank-1 damage_per_second=0; regeneration reduction remains 75%. Do not claim damage-over-time."
+          ]
+        }
+      ]
+    },
+    {
+      "wave": 17,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "enfos_creep_shieldbearer_carapace",
+          "implementation": "ability_datadriven",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 18,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "giant_wolf_intimidate",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 19,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "alpha_wolf_critical_strike",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        },
+        {
+          "id": "alpha_wolf_command_aura",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 21,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "invisible",
+          "implementation": "synchronized Lua modifier"
+        }
+      ]
+    },
+    {
+      "wave": 22,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "satyr_trickster_purge",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "targetTeam": "DOTA_UNIT_TARGET_TEAM_BOTH",
+          "targetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 23,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "satyr_soulstealer_mana_burn",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "targetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+          "targetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 24,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "ogre_bruiser_ogre_smash",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CAN_SELF_CAST | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT",
+          "targetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+          "targetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 26,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "enfos_creep_frostguard_aura",
+          "implementation": "ability_datadriven",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 27,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "enfos_creep_spellguard_ward",
+          "implementation": "ability_datadriven",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 28,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "enfos_creep_mindstealer_burn",
+          "implementation": "ability_datadriven",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 29,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "mudgolem_cloak_aura",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 31,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "centaur_khan_war_stomp",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 32,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "satyr_hellcaller_shockwave",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_POINT",
+          "targetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+          "targetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 33,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "warpine_raider_seed_shot",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING ",
+          "targetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+          "targetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 34,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "root",
+          "implementation": "synchronized Lua modifier"
+        }
+      ]
+    },
+    {
+      "wave": 36,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "root",
+          "implementation": "synchronized Lua modifier"
+        },
+        {
+          "id": "enfos_wave_raise",
+          "implementation": "ability_lua",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 37,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "hill_troll_rally",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 38,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "mud_golem_hurl_boulder",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "targetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+          "targetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 39,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "necronomicon_warrior_mana_burn",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 41,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "furbolg_enrage_attack_speed",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 42,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "polar_furbolg_ursa_warrior_thunder_clap",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 43,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "enfos_creep_spellguard_ward",
+          "implementation": "ability_datadriven",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 44,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "enraged_wildkin_hurricane",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_VECTOR_TARGETING | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES",
+          "targetTeam": "DOTA_UNIT_TARGET_TEAM_BOTH",
+          "targetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 46,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "enfos_creep_venomous_poison",
+          "implementation": "ability_datadriven",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 47,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "centaur_khan_war_stomp",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 48,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "mud_golem_hurl_boulder",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "targetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+          "targetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 49,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "invisible",
+          "implementation": "synchronized Lua modifier"
+        }
+      ]
+    },
+    {
+      "wave": 51,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "enfos_creep_exploder_burst",
+          "implementation": "ability_datadriven",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 52,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "black_drake_magic_amplification_aura",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 53,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "ancient_rock_golem_weakening_aura",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 54,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "big_thunder_lizard_slam",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 56,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "frostbitten_golem_time_warp_aura",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 57,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "spawnlord_aura",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        },
+        {
+          "id": "reflect",
+          "implementation": "synchronized Lua modifier"
+        }
+      ]
+    },
+    {
+      "wave": 58,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "black_dragon_splash_attack",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+          "targetTeam": "not specified",
+          "targetType": "not specified",
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "wave": 59,
+      "distribution": "every authored creep",
+      "skills": [
+        {
+          "id": "ice_shaman_incendiary_bomb",
+          "implementation": "native Valve ability",
+          "rank": 1,
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "targetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+          "targetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_BUILDING",
+          "warnings": []
+        }
+      ]
+    }
+  ]
+}

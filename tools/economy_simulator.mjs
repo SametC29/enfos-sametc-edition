@@ -42,35 +42,22 @@ function getUnitBounty(unitName) {
   };
 }
 
-// Boss Lumber award formula: 5 + floor(wave / 5)
+// Boss Lumber award formula: 9 + floor(wave / 5), matching runtime.
 function getBossLumber(wave) {
-  return 5 + Math.floor(wave / 5);
+  return 9 + Math.floor(wave / 5);
 }
 
 // Wave creep counts and composition estimator
 function getWaveCreepBudget(wave) {
   const isBoss = wave % 5 === 0;
-  const isElite = wave % 6 === 0 && !isBoss;
 
   if (isBoss) {
     return {
       type: 'boss',
       creepsPerPlayer: 0,
       bossCount: 1,
-      eliteCount: 0,
       waveGoldBounty: 150 + wave * 5,
       waveXpBounty: 200 + wave * 10,
-    };
-  }
-
-  if (isElite) {
-    return {
-      type: 'elite',
-      creepsPerPlayer: 18,
-      bossCount: 0,
-      eliteCount: 2,
-      waveGoldBounty: 60 + wave * 2,
-      waveXpBounty: 80 + wave * 3,
     };
   }
 
@@ -78,7 +65,6 @@ function getWaveCreepBudget(wave) {
     type: 'normal',
     creepsPerPlayer: 20,
     bossCount: 0,
-    eliteCount: 0,
     waveGoldBounty: 40 + wave * 2,
     waveXpBounty: 60 + wave * 3,
   };
@@ -106,9 +92,6 @@ export function simulateMatch(playerCount = 5, difficultyKey = 'normal', strateg
     const totalCreeps = budget.creepsPerPlayer * playerCount;
     const totalCreepGold = totalCreeps * creepBaseGold;
 
-    // Elite gold
-    const totalEliteGold = budget.eliteCount * (60 + wave * 2) * diff.goldMult;
-
     // Boss gold
     const totalBossGold = budget.bossCount * (300 + wave * 10) * diff.goldMult;
 
@@ -116,7 +99,7 @@ export function simulateMatch(playerCount = 5, difficultyKey = 'normal', strateg
     const clearGold = budget.waveGoldBounty * diff.goldMult;
 
     // Team gold total
-    const totalTeamWaveGold = totalCreepGold + totalEliteGold + totalBossGold;
+    const totalTeamWaveGold = totalCreepGold + totalBossGold;
     // Equal distribution + killer bonus (20% bonus to killer, averaged out across all players)
     // Average gold per player from creep kills = (teamGold / playerCount) * 1.04
     const playerCreepShare = (totalTeamWaveGold / playerCount) * 1.04;

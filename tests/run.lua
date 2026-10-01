@@ -157,13 +157,21 @@ end)
 
 test("boss waves are exactly every 5th wave and contain only the Boss", function()
     local expectedBosses = {5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60}
+    local selectedHeroes = {}
     for _, wave in ipairs(expectedBosses) do
         assert(WaveDefs:IsBossWave(wave), "Wave " .. wave .. " should be a boss wave")
         local def = WaveDefs:GetWave(wave)
         assert(def.wave_type == "boss", "Wave " .. wave .. " type should be boss")
         assert(#def.creeps == 1, "Boss wave " .. wave .. " must contain only the Boss")
         assert(def.creeps[1].is_boss == true, "Wave " .. wave .. " creep must have is_boss=true")
+        local plan = WaveDefs:GetSpawnPlan(wave, 1)
+        assert(#plan == 1 and plan[1].count == 1, "Boss wave must schedule exactly one Boss")
+        assert(plan[1].unit_name:match("^npc_dota_hero_"), "Boss must spawn as a roster hero")
+        assert(plan[1].boss_reward_name == def.boss_name, "Themed Boss template must remain attached for rewards")
+        assert(not selectedHeroes[plan[1].unit_name], "Each authored Boss must use a distinct roster hero")
+        selectedHeroes[plan[1].unit_name] = true
     end
+    assert(selectedHeroes["npc_dota_hero_dragon_knight"], "Wave 60 must use a roster hero")
 end)
 
 test("every authored non-Boss wave is normal and no Elite units are scheduled", function()
@@ -192,9 +200,9 @@ end)
 -- =========================================================================
 -- Life Core Tests
 local vecMeta = {
-    __index = { Length2D = function(self) return math.sqrt((self.x or 0)^2 + (self.y or 0)^2) end },
     __add = function(a, b) return Vector((a.x or 0) + (b.x or 0), (a.y or 0) + (b.y or 0), (a.z or 0) + (b.z or 0)) end,
     __sub = function(a, b) return Vector((a.x or 0) - (b.x or 0), (a.y or 0) - (b.y or 0), (a.z or 0) - (b.z or 0)) end,
+    __index = { Length2D = function(self) return math.sqrt((self.x or 0)^2 + (self.y or 0)^2) end },
 }
 function Vector(x, y, z)
     return setmetatable({x = x or 0, y = y or 0, z = z or 0}, vecMeta)
@@ -328,6 +336,17 @@ test("rewards distribute shared gold and award killer bonus, leak gives zero", f
     }
     local leakResolved = Rewards:OnKill(leakedUnit, nil)
     assert(leakResolved == false)
+end)
+
+test("native hero Boss plans retain themed bounty estimates", function()
+    Rewards.units = {
+        enfos_boss_stonebreaker = { BountyGoldMin = "500", BountyGoldMax = "700", BountyXP = "900" },
+    }
+    local estimate = Rewards:Estimate({
+        { unit_name = "npc_dota_hero_sven", boss_reward_name = "enfos_boss_stonebreaker", count = 1 },
+    })
+    assert(estimate.count == 1 and estimate.goldMin == 500 and estimate.goldMax == 700 and estimate.xp == 900,
+        "Boss estimate must use the preserved themed reward template")
 end)
 
 -- =========================================================================
@@ -464,6 +483,9 @@ test("purification dispels spellbringer buffs and destroys summons", function()
         IsNull = function() return false end,
         IsAlive = function() return true end,
         GetUnitName = function() return "enfos_creep_soldier" end,
+        GetAbsOrigin = function() return Vector(7504,-1357,136) end,
+        entindex = function() return 901 end,
+        defendingTeam = 2,
         is_spellbringer_summon = false,
         RemoveModifierByName = function(self, mod) removedModifiers[mod] = true end,
     }
@@ -472,9 +494,16 @@ test("purification dispels spellbringer buffs and destroys summons", function()
         IsNull = function() return false end,
         IsAlive = function() return true end,
         GetUnitName = function() return "enfos_spellbringer_war_standard" end,
+        GetAbsOrigin = function() return Vector(7504,-1357,136) end,
+        entindex = function() return 902 end,
+        defendingTeam = 2,
         is_spellbringer_summon = true,
         RemoveModifierByName = function() end,
     }
+
+    -- Wave hostiles are neutral-team engine units. Area spells resolve them
+    -- from the authoritative defender registry rather than ENEMY team flags.
+    SpellbringerService.waveManager = { activeCreeps = { [2] = { hostileCreep, hostileSummon } } }
 
     local alliedHero = {
         IsNull = function() return false end,
@@ -577,7 +606,7 @@ test("future reinforcements summons exactly 5 allied fighters with wave scaling 
 end)
 
 -- =========================================================================
--- Boss Framework Tests (Phase 6)
+-- Elite & Boss Framework Tests (Phase 6)
 -- =========================================================================
 LinkLuaModifier = LinkLuaModifier or function() end
 IsServer = function() return true end
@@ -911,6 +940,8 @@ end)
 -- Economy Manager Tests (Phase 7)
 -- =========================================================================
 local EconomyManager = require("economy/economy_manager")
+local BalanceConfig = require("waves/balance_config")
+local WaveDefinitions = require("waves/wave_definitions")
 PlayerResource.SpendGold=function(self,id,amount,reason) self:ModifyGold(id,-amount,true,reason) end
 PlayerResource.gold = {}
 PlayerResource.GetGold = function(self, id) return self.gold[id] or 0 end
@@ -1006,17 +1037,33 @@ test("boss lumber award scales by wave and distributes to active teammates", fun
     PlayerResource.GetConnectionState = function(_, id) return 2 end
     PlayerResource.IsValidPlayerID = function(_, id) return id >= 0 and id <= 3 end
 
-    -- Wave 5 Boss: 5 + floor(5/5) = 6 Lumber
+    -- Wave 5 Boss: 9 + floor(5/5) = 10 Lumber
     local w5Lumber = EconomyManager:AwardBossLumber(2, 5)
-    assert(w5Lumber == 6, "Wave 5 Boss must award 6 Lumber")
-    assert(EconomyManager:GetLumber(0) == 6, "Player 0 must receive 6 Lumber")
-    assert(EconomyManager:GetLumber(1) == 6, "Player 1 must receive 6 Lumber")
+    assert(w5Lumber == 10, "Wave 5 Boss must award 10 Lumber")
+    assert(EconomyManager:GetLumber(0) == 10, "Player 0 must receive 10 Lumber")
+    assert(EconomyManager:GetLumber(1) == 10, "Player 1 must receive 10 Lumber")
     assert(EconomyManager:GetLumber(2) == 0, "Opponent Team 3 must receive 0 Lumber")
 
-    -- Wave 20 Boss: 5 + floor(20/5) = 9 Lumber
+    -- Wave 20 Boss: 9 + floor(20/5) = 13 Lumber
     local w20Lumber = EconomyManager:AwardBossLumber(2, 20)
-    assert(w20Lumber == 9, "Wave 20 Boss must award 9 Lumber")
-    assert(EconomyManager:GetLumber(0) == 15, "Player 0 total lumber must be 15")
+    assert(w20Lumber == 13, "Wave 20 Boss must award 13 Lumber")
+    assert(EconomyManager:GetLumber(0) == 23, "Player 0 total lumber must be 23")
+
+    local cumulative = 0
+    for wave = 5, 60, 5 do
+        cumulative = cumulative + EconomyManager:AwardBossLumber(2, wave)
+    end
+    assert(cumulative == 186, "All twelve bosses must award 186 Lumber per active player")
+    assert(EconomyManager:GetLumber(0) == 209, "Player 0 includes the two sampled awards plus the complete 12-boss run")
+end)
+
+test("every boss wave is configured to offer its Boon vote", function()
+    local snapshot = BalanceConfig.Snapshot("normal", 2, 0)
+    assert(snapshot.boonEvery == 5, "Boon cadence must match the 5-wave Boss cadence")
+    for wave = 5, 60, 5 do
+        assert(WaveDefinitions:IsBossWave(wave), "Expected a Boss at wave " .. wave)
+        assert(wave % snapshot.boonEvery == 0, "Expected a Boon vote after Boss wave " .. wave)
+    end
 end)
 
 test("tome purchase escalates cost by 10% and increases hero attributes permanently", function()

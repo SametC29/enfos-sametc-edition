@@ -9,7 +9,7 @@
 --   Log:Debug("boss", "Phase transition to %d", phase)
 --
 -- Log levels: ERROR > WARN > INFO > DEBUG
--- Subsystems: system, wave, boss, elite, economy, spellbringer, hero, creep,
+-- Subsystems: system, wave, boss, economy, spellbringer, hero, creep,
 --             boon, progression, ui, persistence, telemetry
 --------------------------------------------------------------------------------
 

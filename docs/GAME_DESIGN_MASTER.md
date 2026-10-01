@@ -9,20 +9,21 @@ wave-wait assumptions: no courier (direct inventory delivery); ordinary waves ha
 `(20 + 2*(wave-1))*players` scheduled units, and advance on a deadline even if uncleared.
 Boss-only transition Life rules remain; population overflow Life loss was removed on 2026-09-28. Gold/XP payouts are on kills;
 the extra wave-completion award is removed. Systems stay, but baseline offensive
-bonuses and Boon/Pact frequency are reduced (vote every second Boss).
-Hero-specific trees must replace shared Evolution choices rather than stack on top.
+bonus magnitude is reduced. Boss Boon votes occur after every Boss (every fifth
+wave). Hero trees and persistent progression were subsequently removed by owner
+direction.
 Provisional timing, implementation boundaries and engine acceptance:
 [40-wave follow-up](audit/PLAYTEST_40_WAVES_2026-09-27.md).
 
 ## 1. Product vision
 
-Create an original Dota 2 Custom Game centered on authored PvE survival, team composition, itemization, strategic PvEvP interference through Spellbringer, readable Boss/Elite encounters, and long-term account/hero progression.
+Create an original Dota 2 Custom Game centered on authored PvE survival, team composition, itemization, strategic PvEvP interference through Spellbringer, readable Boss encounters, and match-only hero levels, skill ranks, items and team choices; no persistent account or hero progression.
 
 Reference inspirations such as Enfo's, Watcher of Samsara, Aghanim's Labyrinth and other successful custom maps may inform mechanics and pacing. Since the owner's 2026-09-29 update, code reuse is permitted with verified source, license, compatibility and notices under REFERENCE_ANALYSIS_POLICY.md. Custom assets and other authored material require separately established rights; existing map authorization remains specific.
 
 Long-term product target:
 - release with 40 heroes,
-- grow to 100 heroes,
+- grow to 100 heroes without account-level or hero-mastery unlocks,
 - maintain four mandatory languages,
 - support a real recurring player base,
 - balance through telemetry plus playtest,
@@ -70,13 +71,9 @@ Normal run:
 Boss waves:
 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60
 
-Elite waves:
-6, 12, 18, 24, 36, 42, 48, 54
-
 Totals:
 - 12 Boss waves
-- 8 Elite waves
-- 40 Normal waves
+- 48 Normal waves
 
 Boss presentation uses twice the hero's normal model scale (owner decision,
 2026-10-01). Preparation preserves the original scale so repeated setup does
@@ -85,15 +82,35 @@ not compound the enlargement. This does not change authored damage or HP.
 ### Boss-only rule
 Boss waves contain only the Boss. No normal wave budget spawns during that wave.
 
-Before Boss spawn:
-1. show a short `BOSS INCOMING` transition,
-2. stop scheduling the prior wave,
-3. resolve remaining leakable scheduled prior-wave units once,
-4. apply normal Life loss to those unresolved leakable units,
-5. clean non-leakable temporary units without Life loss,
-6. begin Boss on a clean battlefield.
+Before Boss spawn, show a short `BOSS INCOMING` transition and stop scheduling
+the prior wave. Existing scheduled creeps remain alive and attackable through
+the Boss wave. Wave deadlines and Boss transitions never remove creeps or deduct
+Life; scheduled hostiles cost Life only when they physically reach the Core.
 
-This keeps Boss fights readable and prevents leftover-wave chaos.
+### Boss identities and current implementation
+
+The authored themed identity remains the wave's reward and durability template.
+The spawned Boss is a distinct hero from the release roster and uses its current
+Valve-native QWER ability order and bot skill build. Boss level follows the
+defending team's active hero levels; wave 60 is level 50 with all six Valve bot
+core-item milestones. Custom health phases, phase invulnerability and signature
+attacks are removed. This is a code-level implementation; native hero spawn,
+ability casts, AI, items and balance still require a live-engine playtest.
+
+| Wave | Theme/reward template | Spawned roster hero |
+|---:|---|---|
+| 5 | Stonebreaker | Sven |
+| 10 | Brood Matron | Axe |
+| 15 | Bloodfang Alpha | Juggernaut |
+| 20 | Frost Warden | Drow Ranger |
+| 25 | Mind Devourer | Lina |
+| 30 | Iron Colossus | Omniknight |
+| 35 | Gravecaller | Sniper |
+| 40 | Storm Tyrant | Crystal Maiden |
+| 45 | Shadow Huntress | Dazzle |
+| 50 | Plague Behemoth | Witch Doctor |
+| 55 | Rift Lord | Luna |
+| 60 | Ascendant Gatekeeper | Dragon Knight |
 
 ## 4. Map
 
@@ -126,7 +143,6 @@ Starting Life: 100
 
 Starting leak values:
 - normal scheduled creep: -1
-- Elite: -2
 - Boss: -5
 
 Late Endless may increase leak severity.
@@ -140,13 +156,13 @@ Do not require every special wave to contain exactly 20 physical entities per pl
 
 Example conceptual costs:
 - basic melee/ranged: 1.0
-- Runner/simple special: 1.1–1.4
+- simple special: 1.1–1.4
 - defensive/support special: 1.5–2.0
 - Summoner/controller/high-impact special: 2.0–2.5
 
 This controls entity count while preserving difficulty.
 
-Spawn normal/Elite waves in multiple batches over roughly 12–15 seconds.
+Spawn normal waves in multiple batches over roughly 12–15 seconds.
 
 ### Scheduled hostile population (2026-09-28 user revision)
 Scheduled wave units have no simultaneous population cap. Every scheduled unit
@@ -168,11 +184,6 @@ Standard creep:
 2. attack eligible hero entering acquisition range,
 3. return to route when target invalid/leaves leash.
 
-Runner:
-- ignores heroes,
-- heads directly toward Core,
-- Taunt immune.
-
 Most standard creeps can be Taunted.
 
 Implement anti-block/path recovery:
@@ -186,18 +197,20 @@ Implement anti-block/path recovery:
 Initial set:
 1. Soldier — baseline melee.
 2. Archer — baseline ranged.
-3. Runner — ignores heroes, rushes Core.
-4. Assassin — invisibility identity.
-5. Mindstealer — mana pressure.
-6. Frostguard — defensive/armor support.
-7. Conqueror — telegraphed short control.
-8. Summoner — strictly limited temporary adds.
-9. Shieldbearer — physical durability.
-10. Spellguard — magic resistance.
-11. Bloodbeast — lifesteal/regeneration.
-12. Reflector — controlled damage reflection.
-13. Venomous — stacking poison/DoT.
-14. Healer — heals nearby hostiles.
+3. Runner — ignores defenders and Taunt, rushes Core; reserved for Wave 8.
+4. Skyraker — flying ranged creep that burns mana on attack and follows its lane.
+5. Assassin — invisibility identity.
+6. Mindstealer — mana pressure.
+7. Frostguard — defensive/armor support.
+8. Conqueror — telegraphed short stun.
+9. Silencer — ranged attacks briefly silence defenders.
+10. Summoner — strictly limited temporary adds.
+11. Shieldbearer — physical durability.
+12. Spellguard — magic resistance.
+13. Bloodbeast — lifesteal/regeneration.
+14. Reflector — controlled damage reflection.
+15. Venomous — stacking poison/DoT.
+16. Healer — heals nearby hostiles.
 
 Possible later types:
 - Splitter
@@ -222,74 +235,74 @@ Exact percentages and stats are tuning data. This table defines teaching/pacing.
 ### 1–10: onboarding
 1. Soldier + Archer
 2. stronger ranged mix
-3. simple fast assault
+3. Conqueror introduces stun control
 4. Frostguard/support introduction
 5. Boss — Stonebreaker
-6. Runner + Elite Vanguard/Runner
+6. Skyraker + Shieldbearer
 7. Venomous
-8. Healer + basics
+8. Runner + support
 9. mechanically simple durable wave
 10. Boss — Brood Matron
 
 ### 11–20: control/resource pressure
 11. Invisible Assassin
-12. Assassin + Elite Assassin
+12. Assassin pack
 13. Mindstealer
 14. Conqueror
 15. Boss — Bloodfang Alpha
 16. simple high-stat recovery wave
-17. Shieldbearer
-18. Summoner + Elite Necromancer/Summoner
-19. Runner + Archer
+17. Conqueror stun + Frostguard slow
+18. Summoner pack
+19. Assassin + Archer
 20. Boss — Frost Warden
 
 ### 21–30: build checks
-21. physical/projectile-defense theme
-22. Spellguard
+21. Shieldbearer + Soldier
+22. Silencer + Spellguard
 23. Healer + durable melee
-24. Reflector + Elite Reflector
+24. Mindstealer + Reflector
 25. Boss — Mind Devourer
 26. Venomous pressure
-27. Curse/dispel-style caster
-28. Splitter
-29. Runner + Shieldbearer
+27. Flying Skyraker + Archer
+28. Splitter + Soldier
+29. Venomous + Shieldbearer
 30. Boss — Iron Colossus
 
 ### 31–40: combinations
-31. Invisible + Runner
-32. Summoner + Mindstealer
-33. Shieldbearer + Healer
-34. Exploder
-35. Boss — Gravecaller
-36. ranged burst + Elite Stormcaster
-37. simple high-stat recovery wave
-38. Conqueror + fast creeps
-39. Reflector + Mindstealer
-40. Boss — Storm Tyrant
+31. Frostshadow Ambush — Assassin + Frostguard
+32. Mana-Raising Dead — Summoner + Mindstealer
+33. Splintered Bulwark — Shieldbearer + Splitter
+34. Volatile Breach — Exploder + Soldier
+35. Boss — Gravecaller; interrupt summons, then resume boss damage
+36. Storm Barrage — Skyraker + Archer
+37. Rally and Ruin — Exploder + Healer
+38. Stunning Blast — Conqueror + Exploder
+39. Mirror Ward — Reflector + Healer
+40. Boss — Storm Tyrant; spread from separately marked lightning targets
 
 ### 41–50: coordination
-41. regeneration + Spellguard
-42. Invisible + Poison + Elite Assassin
-43. Runner + Frostguard
-44. Summoner + Shieldbearer
-45. Boss — Shadow Huntress
-46. simple strong melee/ranged recovery wave
-47. Curse + armor reduction
-48. Splitter/Exploder + Elite Bomber
-49. Runner + Mindstealer + Shieldbearer
-50. Boss — Plague Behemoth
+41. Blood Pact — Bloodbeast + Spellguard
+42. Venomous Infiltration — Invisible Assassin + Venomous
+43. Hushed Frostfront — Silencer + Frostguard
+44. Shielded Revival — Summoner + Shieldbearer
+45. Boss — Shadow Huntress; marked strikes focus the farthest heroes
+46. Stalk and Stagger — Assassin + Conqueror
+47. Hexbound Vanguard — Curse Caster + Soldier
+48. Shatterstorm — Exploder + Splitter
+49. Withering Covenant — Curse Caster + Mindstealer + Shieldbearer
+50. Boss — Plague Behemoth; leave marked plague zones
 
 ### 51–60: final exam
-51. Invisible + Runner
-52. Armored + Spellguard
-53. Healer + Summoner
-54. Conqueror + Mindstealer + Elite Controller
-55. Boss — Rift Lord
-56. fast basic assault
-57. Reflector + Venomous
-58. Runner + Invisible + Mindstealer + Healer
-59. Shieldbearer + Summoner + Spellguard
-60. Final Boss — Ascendant Gatekeeper
+51. Pursued and Restored — Assassin + Healer
+52. Runic Rampart — Shieldbearer + Spellguard
+53. Endless Reinforcements — Healer + Summoner
+54. Controller's Grasp — Conqueror + Mindstealer
+55. Boss — Rift Lord; escape the inward pull from the center
+56. Frozen Bloodhunt — Frostguard + Bloodbeast
+57. Venomous Mirrors — Reflector + Venomous
+58. Fourfold Assault — Spellguard + Assassin + Mindstealer + Healer
+59. Last Bastion — Shieldbearer + Summoner + Spellguard
+60. Final Boss — Ascendant Gatekeeper; evade expanding rings through safe gaps
 
 Rhythm goals:
 - early game teaches one idea at a time,
@@ -297,124 +310,57 @@ Rhythm goals:
 - deliberate recovery waves reduce fatigue,
 - late game combines learned mechanics rather than endlessly adding gimmicks.
 
-## 9. Elite system
+Every scheduled wave uses a unique composition or encounter identity; special
+mechanic introductions are Wave 8 Runner, Waves 11–12 invisibility, Wave 17 stun,
+Wave 22 silence, and Wave 27 flying lane-followers.
 
-Elite is not "same creep with more HP."
+## 9. Elite units (removed)
 
-Elite has:
-- clear special nameplate/health presentation,
-- one meaningful mechanic augmentation,
-- normal leak penalty -2.
-
-Examples:
-- Elite Assassin — invisibility plus limited ally movement support.
-- Elite Mindstealer — telegraphed AoE mana pressure.
-- Elite Summoner — limited periodic adds.
-- Elite Bloodbeast — localized lifesteal aura.
-- Elite Conqueror — stronger readable control.
-- Elite Reflector — capped reflect.
-- Elite Bomber — delayed visible explosions.
-
-Nightmare/Torment can add another modifier carefully, never unreadable stacks.
+Owner-directed on 2026-10-01: no Elite units or Elite waves spawn. Former Elite
+slots 6, 12, 18, 24, 36, 42, 48 and 54 use normal creep compositions; the game
+now has 48 normal waves and 12 Boss-only waves. Elite unit definitions, runtime
+framework, rewards, and wave modifiers have been removed. Do not restore this
+system without a new owner decision. Historical ability and item notes that
+mention Elites are not evidence that these units remain active.
 
 ## 10. Boss system
 
-Bosses enter through the central Boss lane.
-
-General:
-- one Boss per team,
-- Boss-only wave,
-- HP scales with active player count,
-- strong readable telegraphs,
-- avoid long hard-invulnerability periods,
-- prefer shields/damage reduction/vulnerability windows,
-- Boss CC is reduced/capped rather than completely invalidating Tank/control heroes,
-- HP-percent damage, reflect and hard control have Boss-specific caps.
+Bosses enter through the central Boss lane. Each Boss-only wave spawns one
+roster hero per active defending team, uses native QWER and bot build data, and
+keeps the authored themed unit as its reward/durability template. Boss level is
+team-level based, with the final wave fixed at level 50 and six core items.
+Custom phase attacks and health gates are removed. Boss HP scales with active
+player count; reflect and hard-control safety limits remain. Native casting,
+pathing, item use, kill rewards and multiplayer behavior await engine testing.
 
 Initial HP scaling seed:
 `1 + 0.75 × (players - 1)`
 
-### Working Boss identities
-5 — Stonebreaker
-- large telegraphed Ground Slam
-- teaches movement/telegraph
+### Boss identities
 
-10 — Brood Matron
-- lays eggs/adds
-- teaches add priority
-
-15 — Bloodfang Alpha
-- lifesteal
-- low-HP enrage
-- teaches burst timing
-
-20 — Frost Warden
-- frost zones
-- defensive support effect
-- teaches positioning/priority
-
-25 — Mind Devourer
-- mana-drain zones
-- telegraphed high-mana-target attack
-- teaches resource positioning
-
-30 — Iron Colossus
-- physical reflect/damage-reduction phase
-- teaches attack restraint/timing
-
-35 — Gravecaller
-- raises strictly capped temporary fallen minions
-- teaches boss/add split attention
-
-40 — Storm Tyrant
-- Chain Lightning spacing
-- delayed charged ground zones
-
-45 — Shadow Huntress
-- brief stealth/reposition
-- marks hero before heavy strike
-- detection has value
-
-50 — Plague Behemoth
-- temporary poison zones
-- capped poison stacks
-
-55 — Rift Lord
-- opens side portals
-- creates limited lane pressure
-- uses the two-lane geometry
-
-60 — Ascendant Gatekeeper
-Three-phase final exam:
-1. clear telegraph/slam foundation,
-2. portals/adds plus shield/vulnerability,
-3. selected earlier mechanics in authored sequence,
-4. low-HP final enrage.
-
-Names are working titles. Final visual identity and lore must be original.
+The theme/reward names and native roster mapping are defined in the Boss
+identity table above. Historical signature-attack concepts are not active
+mechanics. Final visual identity and lore must be original.
 
 ## 11. Difficulty
 
 Five tiers:
-Easy / Normal / Hard / Nightmare / Torment
+Casual / Normal / Hard / Nightmare / Hell
 
-Sequential unlock.
-
-Standard PvEvP difficulty is voted; do not force a player into a difficulty they have not unlocked. The selectable maximum is constrained by the lowest relevant unlock.
+All difficulty tiers are selectable per match; difficulty does not unlock through account progression.
 
 Difficulty changes mechanics, not just stats.
 
-Seed multipliers:
-- Easy ~0.75 HP / 0.80 damage / simplified mechanics
+Current enemy multipliers:
+- Casual 0.75 HP / 0.80 damage
 - Normal 1.00
-- Hard ~1.30 HP / 1.10 damage + more special pressure
-- Nightmare ~1.70 HP / 1.20 damage + enhanced Elite/Boss behavior
-- Torment ~2.20 HP / 1.35 damage + advanced readable mechanics
+- Hard 1.25 HP / 1.10 damage
+- Nightmare 1.50 HP / 1.20 damage
+- Hell 2.00 HP / 1.35 damage
 
 Higher tiers may:
 - enable extra Boss behavior,
 - shift threat budget toward specials,
-- augment Elites,
 - shorten safe windows.
 
 Never make high difficulty unreadable particle spam.
@@ -452,7 +398,6 @@ Defensive:
 
 Future Reinforcements:
 - no Boss,
-- no Elite,
 - safe reinforcement pool or safely adapted normal archetypes,
 - defend/fight, never leak,
 - no economy exploit.
@@ -475,7 +420,7 @@ Long-term:
 - 20 per role
 - 100 total
 
-Future 60 may be progression-unlocked.
+All heroes are available; future heroes arrive through game updates.
 
 Selection:
 - no ban phase,
@@ -513,45 +458,16 @@ still granted separately at rank 1. This is a temporary testability baseline;
 the level-50 cap and XP thresholds remain unchanged. The level and point grant
 occur once per player and do not repeat on respawn or reconnect.
 
-The current automatic free passive rank is separate from spent points. Five skills
-at rank10 require 49 purchased ranks. The proposed allocation preserves the free
-passive at hero level1 and uses the 49 points from levels2–50. With the level-6
-testing start, five points are granted immediately and 44 remain across levels
-7–50. The match XP curve and starting-level point budget are implemented in
-`heroes/match_levels.lua`, but
-still need in-engine confirmation. Ten-rank ability definitions, rank unlocks and
-native UI/tooltip behavior remain migration work. Special talents and Shard/Scepter
-remain separate systems. See DECISIONS_OPEN_ITEMS and HERO_ABILITY_REFERENCE for
-the migration acceptance contract.
+The fifth Enfos passive's first rank is free; its remaining nine ranks and the four Q/W/E/R skills at ten ranks require exactly 49 paid skill ranks. Levels 2–50 grant 49 ordinary ability points. Dota talent slots Ability10–Ability17, Ability19 and Ability25 are hidden for every hero; no talent tree or extra talent points are granted. With the level-6 test start, five points are available immediately and the remaining 44 arrive at levels 7–50. Attribute Tomes remain the stat source.
 
 Manual skill points.
 
 Use Dota-style STR/AGI/INT baseline; role and primary attribute are separate. Universal can be supported when appropriate.
 
-### Important consolidation rule
-Do not ship two overlapping in-match talent/card systems.
+### Progression boundary
+Only match-local hero levels, skill ranks, Gold/Lumber, items, Boons and match choices persist during a match. No account XP, Legacy, Hero Mastery, persistent passive tree, hero unlock, permanent stat bonus or post-match power reward is supported.
 
-The current Evolution Card concept and Watcher-style in-match Talent Tree must be compared after Watcher files arrive and unified into one coherent in-match build-choice system.
-
-Persistent Hero Mastery Passive Tree remains separate.
-
-## 15. Evolution / build-choice requirements
-
-Current milestone targets:
-levels 4 / 7 / 10 / 13 / 16 / 19
-
-At each:
-- present 2 hero-specific choices,
-- match never pauses,
-- no forced random timeout,
-- player may defer; choices queue,
-- no skill-point cost,
-- choices alter build direction,
-- choices are not tied rigidly to "Q then W then E".
-
-Mastery can unlock additional alternatives into the candidate pool while each choice remains manageable.
-
-## 16. Shard and Scepter
+## 15. Shard and Scepter
 
 Every hero ultimately gets:
 - unique Aghanim's Shard mechanic,
@@ -721,10 +637,12 @@ Rules:
 - team-wide debuffs use explicit cap/highest-value stacking rules,
 - sellback ≈90% underlying Gold and ≈90% Lumber.
 
-Economy targets:
-- typical wave-60 player: 1–2 Ascended,
-- economy focus: 2–3,
-- deep Endless: eventually 6.
+Economy targets (owner update 2026-10-01):
+- every player who reaches wave 60 should be able to purchase four Ascended items,
+- the 100 Gold → 1 Lumber conversion remains available to cover tier and build
+  preferences after Boss Lumber rewards,
+- deep Endless may support further upgrades; do not tune the 60-wave target around
+  permanent/account progression.
 
 ### Initial 30
 1. Heart of Tarrasque → Worldheart — burst threshold grants capped max-HP shield.
@@ -769,7 +687,7 @@ Prices are simulator/playtest variables.
 
 Every Boss kill gives:
 - automatic Lumber to each active team member,
-- a 2-card team Boon vote.
+- a 2-card team Boon vote after every Boss wave (every 5 waves).
 
 Vote:
 - ~10 seconds,
@@ -790,27 +708,26 @@ Initial Boons:
 2 Quickening — attack speed
 3 Arcane Knowledge — spell damage
 4 Execution Training — low-HP normal creep damage
-5 Elite Hunters — Elite damage
-6 Boss Slayers — Boss damage
-7 Battle Rhythm — early-wave burst, Unique
-8 Vitality — max HP
-9 Reinforced Armor — armor
-10 Arcane Protection — magic resistance
-11 Recovery — end-wave HP/Mana restoration
-12 Second Wind — respawn reduction
-13 Emergency Seal — restore Team Life, Unique
-14 Resilience — shorter harmful effects
-15 Prosperity — creep Gold
-16 Boss Dividend — Boss Lumber
-17 Efficient Exchange — Gold→Lumber efficiency
-18 Tome Knowledge — slower Tome price growth, Unique
-19 Merchant's Favor — better sellback, Unique
-20 Mana Spring — Spellbringer regen
-21 Deep Reservoir — max Spellbringer mana
-22 Efficient Invocation — Spellbringer cost reduction
-23 Reinforcement Mastery — Future Reinforcements +1 ally, Unique
-24 Swift Response — movement speed
-25 Field Medicine — healing/regeneration effectiveness
+5 Boss Slayers — Boss damage
+6 Battle Rhythm — early-wave burst, Unique
+7 Vitality — max HP
+8 Reinforced Armor — armor
+9 Arcane Protection — magic resistance
+10 Recovery — end-wave HP/Mana restoration
+11 Second Wind — respawn reduction
+12 Emergency Seal — restore Team Life, Unique
+13 Resilience — shorter harmful effects
+14 Prosperity — creep Gold
+15 Boss Dividend — Boss Lumber
+16 Efficient Exchange — Gold→Lumber efficiency
+17 Tome Knowledge — slower Tome price growth, Unique
+18 Merchant's Favor — better sellback, Unique
+19 Mana Spring — Spellbringer regen
+20 Deep Reservoir — max Spellbringer mana
+21 Efficient Invocation — Spellbringer cost reduction
+22 Reinforcement Mastery — Future Reinforcements +1 ally, Unique
+23 Swift Response — movement speed
+24 Field Medicine — healing/regeneration effectiveness
 
 Pacts remain.
 
@@ -834,7 +751,7 @@ Penalty is lost defensive uptime and resulting leaks.
 Surrender:
 - normally after wave 20,
 - target ~75% team approval,
-- partial legitimate progression remains.
+- match-local Gold and XP remain available after partial runs.
 
 If confirmed abandonment makes Standard PvEvP structurally unfair, early surrender may be unlocked for disadvantaged team.
 
@@ -860,95 +777,11 @@ Reconnect restores:
 - current match/UI state,
 without duplication.
 
-## 27. Persistent progression
+## 27. Persistent progression — removed
+There is no account profile, Account XP/Level, Legacy Tree, Hero Mastery, permanent passive allocation, hero unlock, or persistent numerical advantage. Difficulty is selected per match and is not account-unlocked.
 
-Systems:
-1. Account XP / Level
-2. Legacy Tree
-3. Hero Mastery XP / Rank
-4. Persistent Hero Passive Tree
-5. future hero unlocks
-
-Avoid unnecessary extra currencies by default.
-
-### Account Level
-1–100.
-
-Starting XP curve:
-`next XP = 500 + 35 × (current level - 1)`
-
-Raw account-power growth stops around Level 48; later levels focus more on unlock/prestige.
-
-### Legacy
-Starting:
-- ~1 point every 2 Account Levels through ~48
-- ~24 spendable points
-- four branches, ~12 ranks each
-- free respec outside matches
-
-Branches:
-Offense / Defense / Economy / Spellbringer
-
-Reference rank scaling:
-- Offense: ~0.5% PvE damage/rank plus milestones.
-- Defense: ~0.5% max HP/rank plus armor/MR/respawn/shield milestones.
-- Economy: intentionally conservative Gold/exchange/Boss-Lumber/Tome efficiency.
-- Spellbringer: regen/max/start mana/cost efficiency/duration.
-
-### PvEvP normalization
-Co-op/Endless: numerical Legacy/Mastery bonuses at 100%.
-Standard PvEvP: numerical persistent bonuses at about 50%.
-
-Unlocked build options remain fully available.
-
-### Hero Mastery
-Per hero 1–20.
-
-Starting XP curve:
-`100 + 35 × (current mastery rank - 1)`
-
-Starting rewards:
-- every even rank +1 Persistent Hero Passive Point,
-- ~10 points by rank 20,
-- Mastery 5/10/15/20 unlock extra in-match build-choice alternatives.
-
-Shard/Scepter not Mastery-gated.
-
-Persistent Hero Passive Tree final nodes are BLOCKED pending Watcher reference analysis.
-
-Combined raw persistent power budget:
-- ~20–25% equivalent max in full Co-op context,
-- Standard PvEvP numerical advantage roughly halved,
-- build choice unlocks can add flexibility without raw stat inflation.
-
-## 28. Match rewards
-
-Starting full Normal wave-60 clear target:
-- ~1500 Account XP
-- ~500 Hero Mastery XP
-
-Partial starting concepts:
-Account:
-`1200 × (completed waves/60)^1.30` plus clear bonus.
-
-Hero:
-`400 × (completed waves/60)^1.20` plus clear bonus.
-
-Difficulty XP:
-Easy .85
-Normal 1.00
-Hard 1.15
-Nightmare 1.35
-Torment 1.60
-
-PvEvP winner:
-+15% Account XP
-+15% Hero Mastery XP
-
-Loser still earns legitimate progression.
-
-Surrender gets partial progression.
-Abandon gets reduced legitimate progress only and never gains later team progress.
+## 28. Match rewards — match-only
+Kills grant the authored in-match Gold and XP. Wave/boss rewards and Boons are match-local. Match completion does not grant persistent XP, currency, unlocks, or permanent power.
 
 ## 29. Endless
 
@@ -957,9 +790,7 @@ Co-op:
 - checkpoint every 5 waves.
 
 Seed checkpoint:
-+80 Account XP
-+30 Hero XP
-× difficulty
+Match-only Gold/XP as authored for the checkpoint; no account or hero profile reward.
 
 Deep Endless may diminish after ~100.
 
@@ -968,18 +799,8 @@ PvEvP:
 - scaling rises until defeat,
 - may increase HP, damage, movement, special share and later leak severity to avoid infinite stalemate.
 
-## 30. Future hero unlocks
-
-First 40 open.
-
-Future 60 may use transparent Hero Unlock Tokens:
-- player chooses hero,
-- no random unlock,
-- token sources can include Account milestones, first difficulty clears and broad account-wide Mastery achievements.
-
-Cadence must ultimately permit all 60 without one mandatory grind route.
-
-Locked heroes can be tested in Training Mode before unlock.
+## 30. Roster availability
+All authored heroes are available to every player. Additional heroes are added through game updates, never account unlocks.
 
 ## 31. Localization
 

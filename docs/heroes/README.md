@@ -2,9 +2,9 @@
 
 Her skill görevinde ilgili kahramanın **AGENTS.md** ve **ABILITIES.md** dosyalarını, ardından [ortak teknik rehberin](../HERO_ABILITY_REFERENCE.md) ilgili bölümünü oku. Root AGENTS.md bu okuma yükümlülüğünü paylaşılan Lua/KV/precache/localization değişiklikleri için de açıkça uygular.
 
-40 kahraman / 200 skill için envanter ve ayrı kabul kayıtları hazırlandı. UNASSESSED/PENDING başlangıç durumu bilinçlidir: varlıkların bulunması ve mock testler, oyunda doğru çalışma iddiası değildir. Native yuvalar kurulu Valve kaynağından; özel skill counterpart eşlemeleri ayrı doğrulanacaktır.
+40 kahraman / 200 skill için envanter ve ayrı kabul kayıtları hazır. Native yuvalar kurulu Valve kaynağından çıkarıldı; her özel skill eşlemesi ve çalışma kanıtı ilgili dossier'de tutulur. PENDING oyun içi kayıtlar bilinçlidir: kaynak dosyası, VPK varlığı ve mock test, oyunda doğru çalışma iddiası değildir.
 
-Ürün hedefi: maç içinde 50 seviye ve beş yeteneğin her birinde 10 toplam rütbe. Mevcut dosya değerleri ile hedef birbirinden ayrıdır. Bu paket oyun mekaniklerini değiştirmez.
+İlerleme hedefi için ortak seviye-50 XP/başlangıç sistemi ve 40 kahramanın tümünde beş yuvaya ait KV rütbe kapıları uygulandı. Q/W/E/pasif 1. seviyede açılır ve her seviyede rütbe kazanır; R 5. seviyede açılır ve her beş seviyede rütbe kazanır. Oyuncu puanı/HUD ve beceri davranışlarının Dota motorundaki kabulü canlı test bekler.
 
 | Kahraman | Proje rolü | Çalışma talimatı | Skill referansı ve kabul kayıtları |
 | --- | --- | --- | --- |

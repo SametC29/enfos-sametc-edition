@@ -1,10 +1,35 @@
+## 2026-09-30 owner decision — remove talent tree and persistent progression (supersedes earlier decisions below)
+- Remove native/custom talent trees and all custom bonus talent slots for every hero. Keep Ability10–Ability17, Ability19 and Ability25 hidden. Do not award talent-gate ability points. The match level 2–50 budget of 49 points funds 49 paid Enfos skill ranks; the fifth passive first rank remains free.
+- Remove account profiles, account XP, Legacy, Hero Mastery, permanent passive trees, unlocks, persistent rewards, profile storage and their HUD/localization. Keep match-local hero levels, kills/XP, Gold/Lumber, Boons, difficulty selection and match rewards that do not persist.
+- This supersedes prior “keep progression” and talent-tree decisions in this historical file.
+
 # DECISIONS AND OPEN ITEMS
+
+## 2026-10-01 balance update — first eight Desktop items
+- Every 5th wave Boss grants a Boon vote; the match snapshot cadence is 5 waves.
+- Increase Boss Lumber rewards and keep the Gold→Lumber exchange in the four
+  Ascended by wave 60 affordability target. Current implementation is a candidate;
+  local Dota playtest still owns balance acceptance.
+- Boss phases/signature attacks are removed in the native-hero Boss candidate.
+  The server selects a distinct roster hero, reads Valve-native QWER and bot
+  build data, scales level from defenders, and grants the final six-item
+  milestone. These paths are implemented but not engine-verified; native cast
+  usability, AI, item behavior and live late-wave pressure remain open.
+
+## Owner clarification — 2026-10-01, Desktop item 7
+
+Bosses retain their original native Q/W/E/R kit, including its passive abilities.
+The owner chose this explicitly over restricting Boss selection to heroes with
+four active spells. Do not invent active replacements for native passives.
+Ability Draft metadata is not guaranteed contiguous or complete: resolve native
+slots and bot-trained omissions from the installed hero record. Engine acceptance
+of Boss casts, passives and native items remains pending owner playtest.
 
 This file exists so Codex does not "helpfully" redesign locked decisions.
 
 ## 2026-09-27 live-test follow-up (provisional / blocked)
 - Latest 40-wave test supersedes the earlier general-easier request: keep progression
-  systems, reduce bonus magnitude/frequency; bosses must survive bursts and have phases.
+  systems, reduce bonus magnitude/frequency; bosses must survive bursts and use their mapped native hero abilities without custom health phases.
   Exact ordinary count is 20 + 2*(wave-1) per hero; timed overlapping normal waves,
   on-kill payouts, lane-head spawns and no courier. See
   [local candidate and unresolved content](audit/PLAYTEST_40_WAVES_2026-09-27.md).
@@ -22,11 +47,48 @@ This file exists so Codex does not "helpfully" redesign locked decisions.
 - Legacy compiled Survival map currently loads, but future compatibility is open.
   Retired flat VMAPs are not the correct rebuild source and must remain archived.
 
-## 2026-09-28 hero tree candidate
+## 2026-09-28 hero tree candidate (superseded)
 - 40 per-hero Evolution profiles replace shared global stat choices. Six distinct
   focuses per hero recur across six two-choice tiers; 480 offered choices total.
   Balance is provisional pending local gameplay; Shard/Scepter and distinct Ascended
   mechanics remain open. See [tree audit](audit/HERO_TREES_2026-09-28.md).
+
+## 2026-09-30 Native Enfos talent tree (superseded by removal decision above)
+- Historical decision: use the engine-owned talent panel with four paired tiers at levels 10/15/20/25.
+  Each hero offers eight options and the player chooses one from each pair, for
+  four picks total. This replaces the provisional six custom milestones.
+- Keep all six authored ability-focus effects per hero represented across the
+  four pairs using profile indices `[0,1]`, `[2,3]`, `[4,5]`, `[3,4]`. The last
+  pair repeats two effects so no distinct focus is lost. This yields 320 native
+  talent abilities across the 40-hero roster.
+- Bind each pair into native hero slots `Ability10`–`Ability17`; hide Dota's
+  attribute ability in `Ability25` (`generic_hidden`) because attribute Tomes
+  are sold in the Enfos shop. Keep legacy `Ability19` hidden as well. The
+  Evolution modifier remains
+  server-authoritative and applies the selected option when Dota reports the
+  learned talent ability. The custom Panorama drawer is not loaded.
+- Native talents spend ordinary ability points. The level-2-through-50 budget is
+  49; reaching rank 10 in all five skills uses 49 paid ranks because the fifth
+  Enfos passive's first rank is free. Grant one additional point at each native
+  talent gate, for 53 total points: 49 skill ranks plus four talent picks. Level
+  6 still starts with five spendable points. No points remain after the complete
+  build; players may spend in any order.
+- Automated KV, generator, localization, mock Lua and content-compile checks do
+  not establish engine behavior. The native talent UI, `Ability25` suppression,
+  point award timing, and four selected effects remain PENDING owner Dota testing.
+  Do not launch or restart Dota for this work.
+- Owner screenshots from the V1.0.3 live test show extra talent icons on the
+  regular ability bar, blank options in the native tree, and the `+2 all
+  attributes` control. Root cause confirmed for the extra icons: talent KV used
+  visible `PASSIVE`; generator now emits `PASSIVE | HIDDEN` and `MaxLevel 1` for
+  all 320 talent abilities. The `+2` control is Dota's newer `Ability25`
+  attribute ability (introduced in 7.29); the prior generator hid only legacy
+  `Ability19`, so it now sets both slots to `generic_hidden`. Offline tests and
+  content compilation pass. Installed VPK localization uses lowercase
+  `DOTA_Tooltip_ability_`; tests now assert all 320 title/description pairs in
+  all four resource and Panorama locales. Blank tree labels and attribute
+  suppression remain PENDING runtime retest; do not claim fixed until the owner
+  tests a fresh map using the local candidate.
 
 ## LOCKED
 
@@ -51,7 +113,7 @@ This file exists so Codex does not "helpfully" redesign locked decisions.
 ### Waves
 - Boss every 5 waves.
 - Boss wave = Boss only.
-- Elite every 6 waves excluding Boss overlap.
+- Elites were removed from scheduling, NPC definitions, runtime framework, and Boons; the eight former Elite slots are normal waves (owner-directed 2026-10-01).
 - 2026-09-28: scheduled hostiles are uncapped; population never directly costs Life.
 - Timed batches and temporary summon bounds remain; crowding requires engine performance testing.
 - Wave 1 starts immediately when the match enters `GAME_IN_PROGRESS`; later wave preparation remains.
@@ -96,17 +158,8 @@ This file exists so Codex does not "helpfully" redesign locked decisions.
 - prefer Dota native selection if technically viable.
 
 ### Progression
-- Account XP/Level.
-- Legacy.
-- Hero Mastery.
-- Persistent Hero Passive Tree.
-- sequential difficulty unlock.
-- permanent power exists.
-- Standard PvEvP uses roughly 50% numerical persistent-bonus effectiveness.
-- Co-op/Endless uses 100%.
-- loser still earns progression.
-- winner XP bonus target +15%.
-- free out-of-match respec.
+- Removed by the owner decision at the top of this file. Difficulty is per-match;
+  match XP, Gold and rewards do not persist after the match.
 
 ### Localization/live
 - English, Turkish, Russian, Simplified Chinese mandatory.
@@ -122,8 +175,8 @@ This file exists so Codex does not "helpfully" redesign locked decisions.
 - All hero skills may be replaced if justified; preserve identity, classify changes and validate pilots/hero rollout. No import or skill rewrite was performed by this policy update.
 
 ## PROVISIONAL BALANCE SEEDS
-May change without reopening core design:
-- leak normal -1 / Elite -2 / Boss -5,
+May change without reopening core design (legacy persistent XP formulas are retired):
+- leak normal -1 / Boss -5,
 - cap 30×player,
 - Boss HP formula 1+0.75*(players-1),
 - 1000G→10L and 10L→900G,
@@ -143,13 +196,8 @@ neutral Bosses never receive player respawn timers. Supersedes the old 5–20s s
 Live/Workshop publication now requires a new explicit owner instruction.
 
 ## BLOCKED PENDING WATCHER ZIP
-Do not finalize:
-1. exact unified Evolution/Talent framework,
-2. exact Persistent Hero Passive Tree architecture/nodes,
-3. whether provisional Attribute Bonus + Innate 30-point allocation remains,
-4. final revisions to the five reference hero skills,
-5. any additional courier progression/utility beyond flying delivery,
-6. any Watcher-inspired Shard/Scepter mechanic.
+Do not finalize remaining reference-led hero/Shard/Scepter work. Talent trees and
+persistent Hero Passive Trees were removed by the owner and are not open items.
 
 Analysis is clean-room concept extraction only.
 
@@ -164,8 +212,7 @@ Do not finalize:
 Prove early:
 1. can current Dota custom-game tooling reliably provide desired native hero-selection experience for 40–100 custom heroes?
 2. best integration of normal Dota Shop + six-slot/no-backpack intent + flying courier/minimal delivery buffer.
-3. production persistence backend availability/reliability.
-4. current Workshop APIs assumed by UI/shop/selection.
+3. current Workshop APIs assumed by UI/shop/selection.
 
 ## 2026-09-27 player feedback audit — provisional implementation
 
@@ -224,11 +271,15 @@ Prove early:
   beneath the current five-player full-clear estimate, so some missed kills do
   not automatically prevent reaching the cap, while early finishes remain below
   it. Revisit this candidate after match telemetry; do not add a wave award.
-- DESIGN DECISION: regular ranks become available in order at hero levels1–10;
-  ultimate ranks unlock at levels6,11,16,21,26,31,36,41,46,50. This preserves an
-  early ultimate identity while distributing ten ranks over the new cap. Rank
-  availability is separate from rank value curves; all200 curves still need
-  ability-specific design and tuning.
+- DESIGN DECISION: regular ranks become available at hero levels1–10. The Enfos
+  passive's free rank1 is granted at hero level1; its remaining ranks are
+  learnable from levels2–10. Ultimate ranks unlock at levels5,10,15,20,25,30,35,
+  40,45,50. This deliberately moves the first ultimate rank one level earlier
+  than native Dota's standard level6 so a uniform five-level KV interval can make
+  all ten ranks reachable by the level50 cap; starting heroes are level6, so the
+  first rank is already available when a match begins. The earlier 6,11,...,51
+  schedule was internally inconsistent with max level50 and is superseded.
+  Rank availability is separate from ability-specific rank values.
 - IMPLEMENTATION / ENGINE POC REQUIRED: confirm max-level50, custom XP threshold
   indexing, actual skill-point award at level1, ten-rank KV/UI behavior, custom
   `RequiredLevel`, initial free-passive sequencing, talent suppression and
@@ -250,13 +301,27 @@ Prove early:
 - IMPLEMENTATION IN PROGRESS: `heroes/match_levels.lua` defines the level-50
   cumulative XP curve and starts each player at level 6 with five spendable
   points once per player after granting the free Enfos passive.
-  `enfos_sametc.lua` installs it at game-mode startup and hero spawn. Actual
-  runtime level/point behavior remains PENDING;
-  ten-rank KV curves, unlock enforcement and HUD validation are not implemented.
-- REFERENCE READY / ENGINE ACCEPTANCE PENDING: docs/heroes contains40 instructions
-  and200 separate evidence ledgers. Native slots/models/SoundSet were extracted
-  from installed Dota build6941; custom skill counterpart/classification remain
-  UNASSESSED until per-skill evidence is collected. File presence is not runtime pass.
-- Proposed pilot: Sven first, then Lina/Juggernaut/Dazzle subject to actual kit
-  pattern coverage; no unrelated hero repair is authorized by this docs rollout.
+  `enfos_sametc.lua` installs it at game-mode startup and hero spawn. All 40
+  roster heroes now have KV gates for Q/W/E/Enfos passive (level 1, interval 1)
+  and R (level 5, interval 5); each has a focused contract test confirming rank
+  10 by level 50 and that slot 5 is not native innate metadata. Static content
+  checks pass. Runtime point behavior, free-passive point accounting, and the
+  10-rank HUD remain PENDING owner playtest.
+- SLOT 5 CONTRACT AUDIT: current KV inventory identifies three non-passive
+  fifth-slot kits: Wraith King Skeleton Army (passive charge + active summon),
+  Bristleback Hairball (active point cast) and Luna Lunar Orbit (active self-buff).
+  Keep these flagged while auditing; they do not yet satisfy the Enfos passive
+  slot contract, even though the separate start-rank grant is wired.
+  Wraith King's rank-10 count mismatch (KV 12 versus helper cap 8) is repaired;
+  the helper keeps its default cap for other summon callers and supports a
+  per-ability bound of at most 20. The passive-slot design question remains open.
+- REFERENCE READY / ENGINE ACCEPTANCE PENDING: docs/heroes contains 40 work
+  instructions and 200 separate evidence ledgers. Native slots/models/SoundSet
+  were extracted from installed Dota build 6941; per-skill classifications and
+  mapping evidence are recorded to varying depth and continue to be reviewed.
+  Static callbacks, modifiers, resources and PvE behavior are not uniformly
+  certified. File presence and mocks are not runtime pass.
+- All 40 heroes now have the level-50 KV rank gates and focused contract tests.
+  Continue the hero-by-hero static kit audit; keep every Dota gameplay, VFX, SFX,
+  HUD and VConsole acceptance item pending until owner live testing.
 - See audit/HERO_ABILITY_RESEARCH_2026-09-29.md and HERO_ABILITY_REFERENCE.md.

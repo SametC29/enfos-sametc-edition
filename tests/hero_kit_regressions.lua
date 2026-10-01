@@ -5711,4 +5711,24 @@ test('Omniknight Degen Aura owns one native radius-controlled ring across refres
     ParticleManager.CreateParticle,ParticleManager.SetParticleControl=oldCreate,oldControl
 end)
 
+test('Axe Call orders attacks, refreshes the target and safely releases it on expiry or caster death', function()
+    local axe = create_mock_unit('npc_dota_hero_axe', 2, Vector(0,0,0))
+    local enemy = create_mock_unit('enfos_creep_melee', 4, Vector(100,0,0))
+    local other = create_mock_unit('npc_dota_hero_sven', 2, Vector(0,100,0))
+    enemy.SetForceAttackTarget=function(self,u) self.forced=u end
+    enemy.GetForceAttackTarget=function(self) return self.forced end
+    enemy.MoveToTargetToAttack=function(self,u) self.ordered=u end
+    local m=modifier_enfos_axe_call_taunt()
+    m.GetParent=function() return enemy end;m.GetCaster=function() return axe end
+    assert(type(m.OnCreated)=='function', 'Taunt states alone do not assign an attack target')
+    m:OnCreated();assert(enemy.forced==axe and enemy.ordered==axe)
+    enemy.forced=other;m:OnDestroy();assert(enemy.forced==other, 'Do not erase another active forced target')
+    m:OnRefresh();assert(enemy.forced==axe and enemy.ordered==axe)
+    m:OnDestroy();assert(enemy.forced==nil, 'Release target when Call expires')
+    local destroyed=0;m.Destroy=function(self) destroyed=destroyed+1;self:OnDestroy() end
+    m:OnCreated();m:OnDeath({unit=other});assert(destroyed==0 and enemy.forced==axe)
+    axe.alive=false;m:OnDeath({unit=axe});assert(destroyed==1 and enemy.forced==nil)
+    m:OnCreated();assert(enemy.forced==nil, 'Never force attacks on a dead caster')
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')

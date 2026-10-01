@@ -44,22 +44,32 @@ local function unit()
  return u
 end
 S.Reset()
+for wave=1,4 do
+ local u=unit();S.Configure(u,wave,2,false)
+ assert(#u.mods==0 and #u.abilities==0 and u.enfosSpecials==nil)
+end
 local invisible=0
 for i=1,12 do local u=unit();S.Configure(u,11,2,false);invisible=invisible+#u.mods end
-assert(invisible==3,"Only one quarter of Ghosts should require detection")
-for _,wave in ipairs({12,31,36,49}) do
+assert(invisible==12,"Every Ghost in the authored invisible wave must be invisible")
+for wave,kit in pairs(S.KITS) do
  S.Reset()
  for i=1,6 do
   local u=unit();S.Configure(u,wave,2,false)
-  assert((u.enfosSpecials~=nil)==(i<=2),"Specialist cap")
+  assert(u.enfosSpecials~=nil,"Every creep must receive wave "..wave.." kit")
+  assert(#u.mods+#u.abilities==#kit,"Incomplete kit for wave "..wave)
  end
  local other=unit();S.Configure(other,wave,3,false);assert(other.enfosSpecials)
  local ally=unit();S.Configure(ally,wave,2,true);assert(ally.enfosSpecials)
 end
 MODIFIER_STATE_INVISIBLE=1
-local invisibleModifier=setmetatable({kind=1},{__index=modifier_enfos_wave_special})
+local invisibleModifier=setmetatable({stack=1,GetStackCount=function(self) return self.stack end},{__index=modifier_enfos_wave_special})
 assert(invisibleModifier:CheckState()[MODIFIER_STATE_INVISIBLE]==true)
-invisibleModifier.kind=2;assert(next(invisibleModifier:CheckState())==nil)
+assert(invisibleModifier:GetModifierInvisibilityLevel()==1)
+function IsServer() return false end
+invisibleModifier:OnCreated({}) -- Client receives no custom creation parameter.
+assert(invisibleModifier:CheckState()[MODIFIER_STATE_INVISIBLE]==true)
+invisibleModifier.stack=2;assert(next(invisibleModifier:CheckState())==nil)
+assert(invisibleModifier:GetModifierInvisibilityLevel()==0)
 function IsServer() return true end
 GameRules={GetGameTime=function() return 10 end}
 local source={}
@@ -70,7 +80,7 @@ function target:IsMagicImmune() return false end
 function target:AddNewModifier(_,_,name,kv)
  self.calls=self.calls+1;assert(name=="modifier_silence" and kv.duration==1.5)
 end
-local silence=setmetatable({kind=2,GetParent=function() return source end},{__index=modifier_enfos_wave_special})
+local silence=setmetatable({GetStackCount=function() return 2 end,GetParent=function() return source end},{__index=modifier_enfos_wave_special})
 silence:OnAttackLanded({attacker=source,target=target})
 silence:OnAttackLanded({attacker=source,target=target})
 assert(target.calls==1,"Repeated attacks must not chain silence")
@@ -78,6 +88,72 @@ GameRules.GetGameTime=function() return 17 end
 silence:OnAttackLanded({attacker=source,target=target});assert(target.calls==2)
 local child={is_wave_child=true}
 S.SpawnMinions(child) -- Must return before accessing unit APIs or spawning recursively.
+-- Exercise production target selection, rather than merely checking kit IDs.
+DOTA_ABILITY_BEHAVIOR_UNIT_TARGET=1;DOTA_ABILITY_BEHAVIOR_POINT=2
+DOTA_UNIT_TARGET_NONE=0;DOTA_UNIT_TARGET_HERO=1;DOTA_UNIT_TARGET_BASIC=2
+DOTA_UNIT_TARGET_TEAM_FRIENDLY=1;DOTA_UNIT_TARGET_FLAG_NONE=0;FIND_CLOSEST=0
+DOTA_UNIT_ORDER_CAST_TARGET=1;DOTA_UNIT_ORDER_CAST_POSITION=2;DOTA_UNIT_ORDER_CAST_NO_TARGET=3
+bit={band=function(a,b) return a & b end}
+local orders,queries={},0
+function ExecuteOrderFromTable(order) orders[#orders+1]=order end
+local candidate={defendingTeam=2,hp=100}
+function candidate:IsAlive() return true end
+function candidate:IsInvulnerable() return false end
+function candidate:GetHealth() return self.hp end
+function candidate:GetMaxHealth() return 100 end
+function candidate:GetTeamNumber() return 4 end
+function candidate:entindex() return 99 end
+function candidate:GetAbsOrigin() return 0 end
+local function casterWith(name,friendly,behavior)
+ local a={}
+ function a:GetAbilityName() return name end
+ function a:IsNull() return false end
+ function a:IsFullyCastable() return true end
+ function a:IsPassive() return false end
+ function a:GetBehaviorInt() return behavior or 1 end
+ function a:GetCastRange() return 600 end
+ function a:GetAOERadius() return 0 end
+ function a:GetAbilityTargetTeam() return friendly and 1 or 2 end
+ function a:GetAbilityTargetType() return 3 end
+ function a:entindex() return 5 end
+ local u={enfosSpecials={a},enfosSpecialWave=6}
+ function u:IsSilenced() return false end
+ function u:IsReincarnating() return false end
+ function u:GetAbsOrigin() return 0 end
+ function u:GetTeamNumber() return 4 end
+ function u:entindex() return 10 end
+ return u
+end
+function FindUnitsInRadius(team,_,_,range,_,types)
+ queries=queries+1;assert(types==3)
+ return {candidate}
+end
+S.Reset();orders={}
+assert(S.TryCast(casterWith('buff',true),2),'Full-health friendly buff must cast')
+S.Reset();orders={}
+local healer=casterWith('forest_troll_high_priest_heal',true)
+assert(not S.TryCast(healer,2),'Healing must not waste mana on full health')
+candidate.hp=50;GameRules.GetGameTime=function() return 18 end
+assert(S.TryCast(healer,2))
+S.Reset();orders={}
+assert(S.TryCast(casterWith('offensive',false),2),'Native target types include summons')
+assert(not S.TryCast(casterWith('offensive',false),2),'Team/wave cast gate must survive all-creep kits')
+S.Reset();orders={}
+local support=casterWith('enfos_wave_raise',false,0)
+local previousFind=FindUnitsInRadius
+function FindUnitsInRadius(team,pos,cache,range,flags,types) assert(range==750);return previousFind(team,pos,cache,range,flags,types) end
+assert(S.TryCast(support,2),'No-target support activates at the engagement distance')
+local beforeQueries=queries
+assert(not S.TryCast(support,2) and queries==beforeQueries,'Per-unit search throttle')
+local function audited(wave,invisible,loaded)
+ return {waveNumber=wave,IsNull=function() return false end,IsAlive=function() return true end,
+  IsInvisible=function() return invisible end,
+  FindModifierByName=function() return {IsNull=function() return false end,GetStackCount=function() return loaded and 1 or 0 end} end,
+  FindAbilityByName=function() return {IsNull=function() return false end,GetLevel=function() return loaded and 1 or 0 end} end}
+end
+local audit=S.Audit({activeCreeps={[2]={audited(49,true,true),audited(49,false,false),audited(13,false,false),audited(1,false,true)}}})
+assert(audit[2].alive==4 and audit[2].special==3)
+assert(audit[2].invisibleExpected==2 and audit[2].invisibleActual==1 and audit[2].missing==2,'Audit must report actual missing engine state')
 local spawned={}
 package.loaded["waves/wave_manager"]={activeCreeps={[2]={}}}
 local routes=0

@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { parseKV } from './lib/kv.mjs';
+import { getAbilityValues } from './lib/ability_values.mjs';
 
 const heroesKV = parseKV(fs.readFileSync('game/scripts/npc/npc_heroes_custom.txt', 'utf8')).DOTAHeroes;
 const abilitiesKV = parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.txt', 'utf8')).DOTAAbilities;
@@ -110,20 +111,15 @@ for (const [heroId, heroData] of Object.entries(heroesKV)) {
       }
 
       // Check special values consistency with KV
-      if (kvDef && kvDef.AbilitySpecial) {
-        const kvSpecials = new Set();
-        for (const spec of Object.values(kvDef.AbilitySpecial)) {
-          for (const k of Object.keys(spec)) {
-            if (k !== 'var_type' && k !== 'LinkedSpecialBonus') kvSpecials.add(k);
-          }
-        }
+      if (kvDef && (kvDef.AbilityValues || kvDef.AbilitySpecial)) {
+        const kvSpecials = new Set(Object.keys(getAbilityValues(kvDef)));
 
         // Find value(self, 'key') or value(a, 'key')
         const valMatches = abilityCode.matchAll(/value\([^,]+,\s*['"]([^'"]+)['"]\)/g);
         for (const vm of valMatches) {
           const valKey = vm[1];
           if (!kvSpecials.has(valKey)) {
-            abilityIssues.push({ level: 'WARN', msg: `Lua reads special value '${valKey}' but it is not in KV AbilitySpecial` });
+            abilityIssues.push({ level: 'WARN', msg: `Lua reads ability value '${valKey}' but it is not declared in ability KV values` });
           }
         }
       }

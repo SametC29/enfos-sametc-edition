@@ -44,3 +44,30 @@ Kalan 10 harita/tema dosyasının hash'i değişmedi; harita yeniden derlenmedi.
    bir kahraman seçip onayla. Gerekirse ikinci yeni maçta diğer geçiş yolunu dene.
 4. Doğru haritada doğduğunu, ilk dalganın başladığını ve reçete alınabildiğini kontrol et.
 5. Başarılı olduğunu bildirdikten sonra aynı Workshop kaydına güncelleme yapılabilir.
+
+## 30 Eylül 2026 — Kurulum ekranı tepkisizliği
+
+Kullanıcının yerel ve Workshop sürümünde takım/zorluk seçememe ve başlatamama
+bildirimi üzerine kaynak ve Dota tanısı karşılaştırıldı. `waves/creep_ai.lua`
+dosyasındaki `CreepAI:OnThink` fonksiyonuna fazladan bir `end` eklenmişti.
+`addon_game_mode.lua`, `Activate` çağrılmadan önce `waves/wave_manager` dosyasını
+yüklüyor; o da `creep_ai` dosyasını `require` ediyor. Lua sözdizim hatası oyun
+modu başlangıcını kesiyor, kurulum yöneticisinin event dinleyicileri/nettable
+durumu hiç kurulmuyor ve Panorama yalnızca yedek slotları ile statik
+`Auto-starting...` metnini gösteriyordu. Bu, önceki `SetSize` hatasından ayrı ve
+bu kez statik denetimle doğrulanmış kök nedendir.
+
+Fazla `end` kaldırıldı. `Activate` içinde kurulum yöneticisi artık dalga
+yöneticisinden hemen sonra başlatılıyor; sonraki sistemlerden biri hata verse bile
+kurulum ekranı ilk snapshot'ı ve giriş dinleyicilerini alıyor. Her başlangıç
+aşamasına `[ENFOS_BOOT]` kayıtları eklendi; kalan bir başlangıç hatası olursa son
+başarılı aşama kayıttan belirlenebilir.
+
+Doğrulama: iki ilgili Lua dosyasının sözdizimi geçti; Steam addon kopyasındaki
+`creep_ai.lua` SHA-256'sı çalışma ağacındakiyle eşleşti. `node tools/checks.mjs`
+artık bu Lua sözdizim hatasını vermiyor; kalan beş kontrol hatası bu düzeltmeden
+bağımsız mevcut çeviri, tooltip, dalga denetimi ve test beklentisi sorunları.
+Çalışan Dota sürecinde gizli `Stall Detected` penceresi de görüldü; bu süreç eski
+yüklü Lua'yı bellekte tuttuğundan düzeltmenin oyun içi davranışı henüz
+doğrulanmadı. Yayın yapılmadı. Yerel kabul için yeni Dota sürecinde takım geçişi,
+zorluk seçimi, sayaç ve Start Game denenmeli; bu kullanıcı testini bekliyor.

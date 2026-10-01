@@ -211,11 +211,13 @@ function CreepAI:OnThink(state)
 
 	local currentPos = unit:GetAbsOrigin()
 	local currentWaypoint = state.route[state.waypointIndex]
-	-- Preserve native Boss casts before movement, stuck recovery or leaks.
+	-- Native Boss casts share this route thinker. Attack/repath orders must
+	-- not cancel a cast before its cast point (channels are guarded below).
 	local activeAbility = unit.GetCurrentActiveAbility and unit:GetCurrentActiveAbility()
 	local casting = activeAbility and not activeAbility:IsNull() and activeAbility:IsInAbilityPhase()
 	if unit:IsStunned() or unit:IsRooted() or unit:IsChanneling()
 		or casting
+		or unit:HasModifier("modifier_enfos_axe_call_taunt")
 		or (not state.isRunner and unit:HasModifier("modifier_enfos_pve_taunt")) then
 		state.stuckTimer = 0
 		return THINK_INTERVAL
@@ -228,7 +230,6 @@ function CreepAI:OnThink(state)
 		end
 		return nil
 	end
-
 	if unit.enfosSpecials and require("waves/special_creeps").TryCast(unit,state.defendingTeam) then
 		state.stuckTimer=0
 		return THINK_INTERVAL

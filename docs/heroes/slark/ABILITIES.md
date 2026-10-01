@@ -5,22 +5,22 @@ This dossier starts UNASSESSED/PENDING. It is a work reference, not proof that t
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
 
-Hero: `npc_dota_hero_slark`; role: Fighter. Production target: hero level 50 / all five abilities 10 total ranks; not implemented by this dossier.
+Hero: `npc_dota_hero_slark`; role: Fighter. Progression target: hero level 50 / all five abilities 10 total ranks; the KV rank inventory below and runtime unlock acceptance are tracked separately.
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_slark_dark_pact` | 4 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | slark_dark_pact |
-| 2 | `enfos_slark_pounce` | 4 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | slark_pounce |
-| 3 | `enfos_slark_essence_shift` | 4 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | slark_essence_shift |
-| 4 | `enfos_slark_shadow_dance` | 3 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | slark_shadow_dance |
-| 5 | `enfos_slark_fish_bait` | 1 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | slark_fish_bait |
+| 1 | `enfos_slark_dark_pact` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | slark_dark_pact |
+| 2 | `enfos_slark_pounce` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | slark_pounce |
+| 3 | `enfos_slark_essence_shift` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | slark_essence_shift |
+| 4 | `enfos_slark_shadow_dance` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | slark_shadow_dance |
+| 5 | `enfos_slark_fish_bait` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | slark_fish_bait |
 
 Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
 Source: `scripts/npc/heroes/npc_dota_hero_slark.txt`; status: FILE_VERIFIED; SHA256: `c3bf34ff95deb386eaa918b14920ecd76b5a2a6060d7c07868ac39b8047cc752`.
-Installed build: ClientVersion=6941; SourceRevision=11041083; Sep 25 2026. Snapshot observation UTC: 2026-09-28T21:16:02.562Z.
+Installed build: ClientVersion=6941; SourceRevision=11041083; Sep 25 2026. Snapshot observation UTC: 2026-09-29T20:43:45.203Z.
 Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT.json). Re-read installed resources after a patch.
 
 | Native field | Observed value |
@@ -47,24 +47,36 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ### Per-ability review leads
 
-- `enfos_slark_dark_pact`: static unreferenced-special candidates: radius (not confirmed defects).
-- `enfos_slark_pounce`: static unreferenced-special candidates: pounce_distance (not confirmed defects).
-- `enfos_slark_essence_shift`: intrinsic modifier, Break/illusion behavior, live rank refresh; static unreferenced-special candidates: bonus_agi, duration (not confirmed defects).
+- `enfos_slark_dark_pact`: cast/impact/modifier contract and lifetime.
+- `enfos_slark_pounce`: cast/impact/modifier contract and lifetime.
+- `enfos_slark_essence_shift`: intrinsic modifier, Break/illusion behavior, live rank refresh.
 - `enfos_slark_shadow_dance`: ultimate unlock curve, Scepter/Blessing and boss burst.
-- `enfos_slark_fish_bait`: Enfos passive free starting rank, native innate separation, respawn/point budget; intrinsic modifier, Break/illusion behavior, live rank refresh; static unreferenced-special candidates: armor_reduction, cleave_pct (not confirmed defects).
+- `enfos_slark_fish_bait`: Enfos passive free starting rank, native innate separation, respawn/point budget; intrinsic modifier, Break/illusion behavior, live rank refresh.
 
 <!-- END GENERATED INVENTORY -->
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-09-30 implementation record: all five Enfos abilities now have ten KV ranks; Fish Bait is separated from Dota `Innate`. Installed source mapping: Dark Pact=`slark_dark_pact` (Ability1), Pounce=`slark_pounce` (Ability2), Essence Shift=`slark_essence_shift` (Ability5), Shadow Dance=`slark_shadow_dance` (Ability6), Fish Bait adapts `slark_saltwater_shiv` (Ability3). Dark Pact now uses KV pulse count/timing/radius and a verified Dota particle; Pounce now moves over timed 0.03-second steps instead of teleporting, uses start/trail/landing/leash effects and a true `MODIFIER_STATE_TETHERED` debuff; Essence Shift reads stack/agi/duration values and honors Break; Shadow Dance owns and cleans its persistent VFX; Fish Bait now reads its proc/cleave/armor values and applies capped armor stacks. Mock coverage passes for Q/W/Essence/Fish Bait. Eight used Slark particles are present in installed ClientVersion 6941 VPK. Live dash collision, particle CP/size, audio and PvE/boss balance remain PENDING.
+
+2026-09-30 static special-value repair: migrated all five abilities' Lua-read values from legacy numbered `AbilitySpecial` rows to named `AbilityValues`, preserving each ten-rank curve and scalar. This follows the project-specific ClientVersion 6941 Sven finding: legacy values returned zero in live Lua callbacks and the named layout returned configured values after migration. Added a roster contract preventing the Slark values from reverting to the legacy layout. `node tools/checks.mjs` validates KV, ten-rank values, mocks and localization; this is not a Slark engine playtest. User-owned gameplay/audio/VFX checks remain pending.
+
+2026-09-30 follow-up audit: Essence Shift's existing Agility stacks now stop
+granting stats under Break, and neither Essence Shift nor Fish Bait can proc
+from illusions. Both passive KV abilities now declare `IsBreakable 1`. Fish
+Bait's physical cleave includes magic-immune units, and EN/TR/RU/zh-CN
+descriptions now accurately describe the self-only Agility gain and Fish Bait
+proc chance/cleave/armor stack values. Mock regressions cover Break, illusion
+suppression and the target flag. In-engine behavior remains pending.
+
 ## Slot 1: `enfos_slark_dark_pact`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `slark_dark_pact` (installed Ability1).
+Decision and PvE identity rationale: preserve the self-purge and radial pulse pattern; distribute a rank-scaled total over configured pulses for PvE.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve: Dark Pact Q ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -84,7 +96,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Q gates levels 1–10 declared; HUD/point behavior remains PENDING engine verification. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -102,12 +114,12 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 2: `enfos_slark_pounce`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `slark_pounce` (installed Ability2).
+Decision and PvE identity rationale: preserve Slark's forward leap and leash while resolving the previous instant teleport and adding boss-limited tether duration.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve: Pounce W ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -127,7 +139,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | W gates levels 1–10 declared; HUD/point behavior remains PENDING engine verification. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -145,12 +157,12 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 3: `enfos_slark_essence_shift`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `slark_essence_shift` (installed Ability5).
+Decision and PvE identity rationale: keep attack-earned Agility stacks with rank-driven Agility, duration and cap; Break disables stack gain and benefits.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve: Essence Shift E ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -170,7 +182,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | E gates levels 1–10 declared; HUD/point behavior remains PENDING engine verification. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -188,12 +200,12 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 4: `enfos_slark_shadow_dance`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `slark_shadow_dance` (installed Ability6).
+Decision and PvE identity rationale: retain invisibility and sustain with rank-scaled duration, movement and regeneration plus modifier-owned visual cleanup.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve: Shadow Dance R ranks 1–10 are KV-gated at levels 5, 10, …, 50; ultimate UI and point behavior remain PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -211,15 +223,15 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Mock verifies the ranked duration, invisibility/truesight states, movement speed and regeneration; engine invisibility and regen behavior remain unverified. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | R gates levels 5–50 in five-level steps declared; ultimate HUD/point behavior remains PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
 | Modifiers | PENDING | Not evaluated in this dossier setup. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
+| Cleanup | PENDING | Mock verifies modifier destruction destroys/releases the persistent particle; repeated live casts and engine cleanup remain unverified. |
 | Boss | PENDING | Not evaluated in this dossier setup. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
 | Localization | PENDING | Not evaluated in this dossier setup. |
@@ -231,12 +243,12 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 5: `enfos_slark_fish_bait`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `slark_saltwater_shiv` (installed Ability3).
+Decision and PvE identity rationale: adapt the attack-proc identity as Enfos cleave and capped armor-reduction stacks, while keeping this fifth slot separate from Dota innate metadata.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve; free rank / point cost: ten ranks are defined; the Enfos passive rank 1 grant is separate from Dota innate metadata, ranks 2–10 are gated at levels 2–10; in-engine points remain pending.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -256,7 +268,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Separate passive rank 1 grant retained; ranks 2–10 gates declared; in-game HUD/point behavior remains PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -271,3 +283,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
 Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+
+2026-09-30 level-cap integration: all five Slark abilities now declare KV rank gates. Q/W/E and the Enfos passive use one rank per level; passive rank 1 remains a separate Enfos grant. Shadow Dance ranks 1–10 unlock on levels 5, 10, …, 50. Static KV contract passes; actual rank buttons, level-up points, ultimate badge and match-start level 6 remain PENDING for owner testing.
+
+2026-09-30 static regression follow-up: Shadow Dance now has mock coverage for its ranked timed modifier, invisibility/truesight states, movement/regen values, and persistent-particle destruction/release. Actual Dota state semantics, visibility, audio and repeated-cast cleanup remain PENDING owner testing.

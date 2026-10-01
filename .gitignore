@@ -61,3 +61,7 @@ enfos_sametc_reference_analysis_plan.txt
 
 # Local Workshop payload, generated IDs, manifests and upload logs
 /release/
+# Locally installed SteamCMD may contain Steam sign-in tokens; never commit it.
+/.steamcmd-runtime/
+# Local agent staging snapshots and temporary attachments
+/.codex-remote-attachments/

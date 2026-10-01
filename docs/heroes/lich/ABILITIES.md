@@ -5,22 +5,22 @@ This dossier starts UNASSESSED/PENDING. It is a work reference, not proof that t
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
 
-Hero: `npc_dota_hero_lich`; role: Support. Production target: hero level 50 / all five abilities 10 total ranks; not implemented by this dossier.
+Hero: `npc_dota_hero_lich`; role: Support. Progression target: hero level 50 / all five abilities 10 total ranks; the KV rank inventory below and runtime unlock acceptance are tracked separately.
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_lich_frost_blast` | 4 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | lich_frost_nova |
-| 2 | `enfos_lich_frost_shield` | 4 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | lich_frost_shield |
-| 3 | `enfos_lich_sinister_gaze` | 4 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_CHANNELLED | abilities/pve_kits | lich_sinister_gaze |
-| 4 | `enfos_lich_chain_frost` | 3 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | lich_chain_frost |
-| 5 | `enfos_lich_ice_aura` | 1 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | lich_frost_nova |
+| 1 | `enfos_lich_frost_blast` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | lich_frost_nova |
+| 2 | `enfos_lich_frost_shield` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | lich_frost_shield |
+| 3 | `enfos_lich_sinister_gaze` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_CHANNELLED | abilities/pve_kits | lich_sinister_gaze |
+| 4 | `enfos_lich_chain_frost` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | lich_chain_frost |
+| 5 | `enfos_lich_ice_aura` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | lich_frost_nova |
 
 Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
 Source: `scripts/npc/heroes/npc_dota_hero_lich.txt`; status: FILE_VERIFIED; SHA256: `b2ec9e1aa401185354c4f685e5db97994b00816a8a915bbf52f63dbe9128be75`.
-Installed build: ClientVersion=6941; SourceRevision=11041083; Sep 25 2026. Snapshot observation UTC: 2026-09-28T21:16:02.562Z.
+Installed build: ClientVersion=6941; SourceRevision=11041083; Sep 25 2026. Snapshot observation UTC: 2026-09-29T20:43:45.203Z.
 Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT.json). Re-read installed resources after a patch.
 
 | Native field | Observed value |
@@ -49,19 +49,39 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 - `enfos_lich_frost_blast`: target flags, immunity, spell block/reflect if applicable, target loss.
 - `enfos_lich_frost_shield`: target flags, immunity, spell block/reflect if applicable, target loss.
-- `enfos_lich_sinister_gaze`: channel tick, interrupt, looping audio and thinker expiry; target flags, immunity, spell block/reflect if applicable, target loss; static unreferenced-special candidates: mana_drain_pct (not confirmed defects).
-- `enfos_lich_chain_frost`: target flags, immunity, spell block/reflect if applicable, target loss; ultimate unlock curve, Scepter/Blessing and boss burst; static unreferenced-special candidates: slow_pct (not confirmed defects).
+- `enfos_lich_sinister_gaze`: channel tick, interrupt, looping audio and thinker expiry; target flags, immunity, spell block/reflect if applicable, target loss.
+- `enfos_lich_chain_frost`: target flags, immunity, spell block/reflect if applicable, target loss; ultimate unlock curve, Scepter/Blessing and boss burst.
 - `enfos_lich_ice_aura`: Enfos passive free starting rank, native innate separation, respawn/point budget; intrinsic modifier, Break/illusion behavior, live rank refresh.
 
 <!-- END GENERATED INVENTORY -->
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-09-30 modifier repair: `modifier_enfos_lich_ice_aura_buff` was returned by the slot-5 aura but missing from the shared `LinkLuaModifier` registry. Added the recipient link and a registry contract covering every local Enfos modifier class. The aura source also now shuts off while its caster is Broken. Lua/mock and static registration checks pass; in-game aura recipients, range, Break behavior and stat bonuses remain PENDING owner testing.
+
+2026-09-30 level-50 migration: Q/W/E/Enfos passive gates start at level 1 with interval 1; R starts at level 5 with interval 5. Static contract test added; point/HUD and gameplay acceptance remain pending for owner live test.
+
+Follow-up static audit (2026-09-30): Sinister Gaze's debuff pulled and drained
+mana but did not restrict the target's actions, despite its description promising
+that it leaves the target helpless. Its debuff now stuns the target and ends the
+engine channel if the caster or target becomes invalid. Normal KV channel times
+now match the configured effect durations; the Lua channel-time override also
+shortens boss channels to the same 35% duration as the control effect (upper KV
+ranks previously channeled after their effect expired). Mock regressions cover
+target control, rank timing and channel interruption. Runtime behavior, rank
+timing, audio, VFX and boss handling remain pending owner testing.
+
+The same audit found Frost Blast applied its slow only in the splash loop, which
+explicitly excluded the primary target. The primary target now receives the
+ranked movement slow and boss-adjusted duration too; the fixed attack-speed slow
+is represented by a named KV value. Added a regression for primary and splash
+targets. Engine status resistance, VFX/SFX and live targeting remain pending.
+
 ## Slot 1: `enfos_lich_frost_blast`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `lich_frost_nova` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
+Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
@@ -84,7 +104,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -98,13 +118,15 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record: all five abilities now expose ten KV ranks; the complete 200-ability Lua mock suite passes. This confirms static/mock behavior only; in-match Dota VFX, SFX, rank-up HUD, boss and VConsole acceptance remain PENDING.
+
+Change/test record (2026-09-30): Lich’s five Enfos ability definitions now expose their Lua-read values via named `AbilityValues` keys; all ten-rank curves are retained and checked by a per-hero static contract. Live gameplay, channel interruption, VFX, SFX, cleanup, boss and upgrade behavior remain pending for user testing.
 
 ## Slot 2: `enfos_lich_frost_shield`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `lich_frost_shield` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
+Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
@@ -127,7 +149,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -141,13 +163,13 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record: all five abilities now expose ten KV ranks; the complete 200-ability Lua mock suite passes. This confirms static/mock behavior only; in-match Dota VFX, SFX, rank-up HUD, boss and VConsole acceptance remain PENDING.
 
 ## Slot 3: `enfos_lich_sinister_gaze`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `lich_sinister_gaze` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
+Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
@@ -170,7 +192,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -184,14 +206,16 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record: all five abilities now expose ten KV ranks; the complete 200-ability Lua mock suite passes. This confirms static/mock behavior only; in-match Dota VFX, SFX, rank-up HUD, boss and VConsole acceptance remain PENDING.
+
+Follow-up review (2026-09-30): Chain Frost's Lua applied the declared multi-hit count by alternating between already-hit units and never used its `slow_pct`. It now visits each unit at most once per cast and applies a configurable move/attack slow; bosses receive a shortened slow. Existing KV set the slow to 50%, and the 2.5-second duration follows the native mechanic documented in the [7.31c patch history](https://steamdb.info/patchnotes/8679596/); exact current-build native values and engine behavior remain unverified. Regression confirms two available enemies are hit once each and both receive the configured slow.
 
 ## Slot 4: `enfos_lich_chain_frost`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `lich_chain_frost` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
+Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
+Expected behavior: Chain to up to `jump_count` distinct enemies within 600 units, hit each at most once per cast, and apply ranked damage plus a 50% move/attack slow for 2.5 seconds. Boss slow duration is reduced to 35%.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
@@ -211,9 +235,9 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PASS | Mock regression confirms distinct-target cap and configured move/attack slow; current-build bounce timing, engine damage and boss interaction remain unverified. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -227,16 +251,16 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record: all five abilities now expose ten KV ranks; the complete 200-ability Lua mock suite passes. This confirms static/mock behavior only; in-match Dota VFX, SFX, rank-up HUD, boss and VConsole acceptance remain PENDING.
 
 ## Slot 5: `enfos_lich_ice_aura`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Classification: REPLACE
+Native counterpart: `Project-specific Enfos passive; native Lich innates remain distinct` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
+Decision and PvE identity rationale: REPLACE because this fifth ability is an Enfos-authored passive with no direct native counterpart; its hero identity comes from the adjacent Dota kit.
+Expected cast/travel/impact/ongoing/cleanup behavior: The intrinsic aura grants nearby allies configured armor and mana regeneration; its source and recipient modifiers are linked, and Break disables the source aura.
+Normal creep / elite / boss, immunity / dispel / resistance rules: Friendly heroes and basics only; exact Dota aura refresh and Break removal timing remain for engine verification.
+Current versus target rank curve; free rank / point cost: ten KV ranks, with Enfos passive rank 1 granted separately and later ranks gated by hero levels 2–10; engine HUD/point behavior remains pending.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -256,11 +280,11 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
+| Modifiers | PENDING | Source and recipient are in the shared LinkLuaModifier registry; regression confirms Break disables the source aura. Owner must verify aura attachment, recipient stats and Break removal in Dota. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
 | Boss | PENDING | Not evaluated in this dossier setup. |
@@ -270,4 +294,6 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record: all five abilities now expose ten KV ranks; the complete 200-ability Lua mock suite passes. This confirms static/mock behavior only; in-match Dota VFX, SFX, rank-up HUD, boss and VConsole acceptance remain PENDING.
+
+2026-09-30 global Break metadata audit: Added KV `IsBreakable 1` to `enfos_lich_ice_aura` because its linked Lua passive implementation check `PassivesDisabled()`. Automated content validation now rejects this metadata mismatch. Actual Dota Break behavior remains PENDING.

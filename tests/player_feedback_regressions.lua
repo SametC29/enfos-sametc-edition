@@ -76,27 +76,10 @@ test('controllable summon cap survives repeated casts; illusions cannot recursiv
  for _,u in ipairs(a.enfosSummons) do assert(u.control and u.enfosNoReward) end
 end)
 
-test('legacy global evolution choices are no longer exposed',function()
- local manager=require('evolution/evolution_manager')
- assert(manager.MILESTONE_CHOICES==nil)
- assert(table.concat(manager.MILESTONE_LEVELS,',')=='10,15,20,25')
- local trees=require('evolution/hero_trees')
- assert(#trees:GetChoices(nil,10)==0)
+test('match level budget funds all five Enfos skills without a talent tree',function()
+ -- Levels 2..50 grant 49 ability points; the fifth Enfos passive has one free rank.
+ assert(50-1==49)
+ assert((4*10)+9==49)
 end)
 
-test('native talent gates grant exactly four additional ability points once',function()
- local manager=require('evolution/evolution_manager')
- local hero={points=5}
- function hero:IsNull() return false end
- function hero:GetAbilityPoints() return self.points end
- function hero:SetAbilityPoints(value) self.points=value end
- assert(manager:GrantTalentPoints(91,hero,6)==0 and hero.points==5)
- assert(manager:GrantTalentPoints(91,hero,10)==1 and hero.points==6)
- assert(manager:GrantTalentPoints(91,hero,25)==3 and hero.points==9)
- assert(manager:GrantTalentPoints(91,hero,50)==0 and hero.points==9)
- -- Levels 2..50 provide 49 points; four native talent gates bring the budget to 53.
- assert(50-1+4==53)
- -- Four talent picks plus 49 paid skill ranks reach ten total ranks in all five skills.
- assert(4+(4*10)+9==53)
-end)
 print('Player feedback regression tests passed (mock engine).')

@@ -44,7 +44,7 @@ Build functional not final art:
 Add CreepAI:
 - route,
 - aggro/leash,
-- Runner,
+- Skyraker and Silencer control variants,
 - stuck recovery.
 
 Gate:
@@ -58,8 +58,8 @@ Implement:
 - batching,
 - uncapped scheduled hostile spawning,
 - no population-based Life loss,
-- Normal/Elite/Boss scheduler,
-- Boss transition cleanup,
+- Normal/Boss scheduler; Elite content is removed by owner direction,
+- Boss transition with prior-wave hostiles retained,
 - Endless skeleton.
 
 Tests:
@@ -68,7 +68,7 @@ Tests:
 - summons no Life,
 - Boss exemption,
 - disconnect cap recalculation,
-- old-wave Boss cleanup.
+- no automatic cleanup or Life charge on wave/Boss deadlines.
 
 Gate:
 - accelerated 30+ wave cycles without unbounded entity growth.
@@ -103,16 +103,18 @@ Test:
 - Future Reinforcements safe pool,
 - no reward exploit.
 
-## Phase 6 — Elite/Boss framework
-Implement reusable:
-- Elite modifiers,
-- Boss phases/telegraphs,
-- CC/reflect/HP-percent caps,
-- first 3 Bosses + 2 Elites,
-- Boss-only transition.
+## Phase 6 — Boss framework
+Implemented candidate for all twelve Boss waves:
+- one distinct release-roster hero per Boss wave, preserving the themed reward
+  template,
+- native Valve QWER and bot skill build, team-level scaling, and six core-item
+  milestones at wave 60,
+- no custom phase state, phase invulnerability or signature attack kit,
+- bounded server AI, Boss-only scheduling and player-count health scaling.
 
-Gate:
-- new Boss does not require rewriting core match state.
+Acceptance gate remains open until a live Tools match proves hero/model spawn,
+native ability casts, target selection, item use, movement, rewards, Boon cadence,
+and wave-60 level/item milestones without new VConsole errors.
 
 ## Phase 7 — Economy/courier
 Implement:
@@ -158,22 +160,8 @@ Implement:
 Gate:
 - reconnect-safe, no repeat vote/invalid stack.
 
-## Phase 10 — Progression
-Implement:
-- Account XP/Level,
-- Legacy,
-- Hero Mastery,
-- difficulty unlocks,
-- hero-token structure,
-- Standard PvEvP 50% numerical effectiveness,
-- idempotent rewards,
-- storage adapters,
-- migrations.
-
-Do not finalize Watcher-dependent Hero Passive nodes yet.
-
-Gate:
-- clear/loss/win/surrender/abandon/Endless/backend-failure cases tested.
+## Phase 10 — Persistent progression removed
+Account XP, Legacy, Hero Mastery, permanent passive trees, account unlocks and post-match progression rewards are out of scope by owner decision (2026-09-30). Match-local hero levels, skills, economy and choices remain. Add a regression gate that no profile service or talent UI is loaded.
 
 ## Phase 11 — Localization foundation
 Before content explosion:
@@ -206,8 +194,7 @@ Never copy their code/assets.
 
 ## Phase 13 — Full 60-wave content
 Implement:
-- 40 Normal,
-- 8 Elite,
+- 48 Normal,
 - 12 Boss,
 - five difficulties,
 - transitions and Endless escalation.
@@ -228,10 +215,9 @@ Every hero checklist:
 - QWER + final Innate/skill model,
 - unified in-match choices,
 - Shard/Scepter,
-- Mastery tree,
-- EN/TR/RU/ZH-CN,
+- - EN/TR/RU/ZH-CN,
 - Ascended interaction tests,
-- Boss/Elite tests,
+- Boss tests,
 - performance benchmark.
 
 Release gate:

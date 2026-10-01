@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "observedAt": "2026-09-28T21:16:02.562Z",
+  "observedAt": "2026-09-29T20:43:45.203Z",
   "build": {
     "ClientVersion": "6941",
     "ServerVersion": "6941",
@@ -1135,7 +1135,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5092
+          "line": 5358
         }
       ]
     },
@@ -1146,7 +1146,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 18
+          "line": 37
         }
       ]
     },
@@ -1157,7 +1157,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 105
+          "line": 127
         }
       ]
     },
@@ -1168,7 +1168,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 875
+          "line": 1003
         }
       ]
     },
@@ -1179,11 +1179,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4209
+          "line": 4475
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 56
+          "line": 78
         }
       ]
     },
@@ -1194,11 +1194,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4203
+          "line": 4469
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 55
+          "line": 77
         }
       ]
     },
@@ -1209,7 +1209,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4189
+          "line": 4455
         }
       ]
     },
@@ -1220,11 +1220,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4240
+          "line": 4506
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 57
+          "line": 79
         }
       ]
     },
@@ -1235,11 +1235,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1531
+          "line": 1670
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 108
+          "line": 129
         }
       ]
     },
@@ -1250,11 +1250,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1472
+          "line": 1611
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 107
+          "line": 128
         }
       ]
     },
@@ -1265,11 +1265,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1585
+          "line": 1730
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 109
+          "line": 130
         }
       ]
     },
@@ -1280,11 +1280,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1613
+          "line": 1759
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 110
+          "line": 131
         }
       ]
     },
@@ -1295,11 +1295,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2607
+          "line": 2788
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 139
+          "line": 164
         }
       ]
     },
@@ -1310,7 +1310,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 140
+          "line": 165
         }
       ]
     },
@@ -1321,11 +1321,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1746
+          "line": 1903
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 126
+          "line": 147
         }
       ]
     },
@@ -1336,11 +1336,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1793
+          "line": 1956
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 127
+          "line": 148
         }
       ]
     },
@@ -1351,7 +1351,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 128
+          "line": 149
         }
       ]
     },
@@ -1362,11 +1362,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1719
+          "line": 1876
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 125
+          "line": 146
         }
       ]
     },
@@ -1377,11 +1377,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5212
+          "line": 5478
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 53
+          "line": 75
         }
       ]
     },
@@ -1392,7 +1392,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5291
+          "line": 5557
         }
       ]
     },
@@ -1403,11 +1403,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5229
+          "line": 5495
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 54
+          "line": 76
         }
       ]
     },
@@ -1418,15 +1418,15 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2209
+          "line": 2376
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2362
+          "line": 2535
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 117
+          "line": 138
         }
       ]
     },
@@ -1437,11 +1437,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2322
+          "line": 2493
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 119
+          "line": 140
         }
       ]
     },
@@ -1452,11 +1452,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2246
+          "line": 2413
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 118
+          "line": 139
         }
       ]
     },
@@ -1467,11 +1467,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2388
+          "line": 2566
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 120
+          "line": 141
         }
       ]
     },
@@ -1482,11 +1482,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2471
+          "line": 2664
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 122
+          "line": 143
         }
       ]
     },
@@ -1497,11 +1497,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2429
+          "line": 2618
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 121
+          "line": 142
         }
       ]
     },
@@ -1512,11 +1512,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3487
+          "line": 3753
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 41
+          "line": 63
         }
       ]
     },
@@ -1527,7 +1527,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3515
+          "line": 3781
         }
       ]
     },
@@ -1538,7 +1538,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 42
+          "line": 64
         }
       ]
     },
@@ -1549,7 +1549,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3562
+          "line": 3828
         }
       ]
     },
@@ -1560,7 +1560,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1005
+          "line": 1137
         }
       ]
     },
@@ -1571,11 +1571,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 859
+          "line": 985
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 92
+          "line": 114
         }
       ]
     },
@@ -1586,11 +1586,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 997
+          "line": 1130
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 95
+          "line": 117
         }
       ]
     },
@@ -1601,11 +1601,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 954
+          "line": 1086
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 94
+          "line": 116
         }
       ]
     },
@@ -1616,7 +1616,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 96
+          "line": 118
         }
       ]
     },
@@ -1627,11 +1627,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 894
+          "line": 1022
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 93
+          "line": 115
         }
       ]
     },
@@ -1642,11 +1642,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4341
+          "line": 4607
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 59
+          "line": 81
         }
       ]
     },
@@ -1657,11 +1657,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4275
+          "line": 4541
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 58
+          "line": 80
         }
       ]
     },
@@ -1672,11 +1672,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5748
+          "line": 6014
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 69
+          "line": 91
         }
       ]
     },
@@ -1687,11 +1687,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5804
+          "line": 6070
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 71
+          "line": 93
         }
       ]
     },
@@ -1702,11 +1702,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5834
+          "line": 6100
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 72
+          "line": 94
         }
       ]
     },
@@ -1717,11 +1717,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5785
+          "line": 6051
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 70
+          "line": 92
         }
       ]
     },
@@ -1732,11 +1732,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5973
+          "line": 6239
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 80
+          "line": 102
         }
       ]
     },
@@ -1747,11 +1747,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6003
+          "line": 6269
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 81
+          "line": 103
         }
       ]
     },
@@ -1762,7 +1762,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6033
+          "line": 6299
         }
       ]
     },
@@ -1773,11 +1773,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6063
+          "line": 6329
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 82
+          "line": 104
         }
       ]
     },
@@ -1788,7 +1788,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 90
+          "line": 112
         }
       ]
     },
@@ -1799,15 +1799,15 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 723
+          "line": 824
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 770
+          "line": 875
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 88
+          "line": 110
         }
       ]
     },
@@ -1817,8 +1817,12 @@
       "present": true,
       "sources": [
         {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 845
+        },
+        {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 89
+          "line": 111
         }
       ]
     },
@@ -1829,11 +1833,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 803
+          "line": 908
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 91
+          "line": 113
         }
       ]
     },
@@ -1844,11 +1848,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1964
+          "line": 2130
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 113
+          "line": 134
         }
       ]
     },
@@ -1859,11 +1863,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2018
+          "line": 2184
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 114
+          "line": 135
         }
       ]
     },
@@ -1874,11 +1878,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1876
+          "line": 2042
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 111
+          "line": 132
         }
       ]
     },
@@ -1889,11 +1893,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1916
+          "line": 2082
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 112
+          "line": 133
         }
       ]
     },
@@ -1904,11 +1908,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5640
+          "line": 5906
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 67
+          "line": 89
         }
       ]
     },
@@ -1919,11 +1923,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5664
+          "line": 5930
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 68
+          "line": 90
         }
       ]
     },
@@ -1934,7 +1938,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5712
+          "line": 5978
         }
       ]
     },
@@ -1945,11 +1949,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5605
+          "line": 5871
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 66
+          "line": 88
         }
       ]
     },
@@ -1960,11 +1964,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6342
+          "line": 6608
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 87
+          "line": 109
         }
       ]
     },
@@ -1975,7 +1979,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6268
+          "line": 6534
         }
       ]
     },
@@ -1986,11 +1990,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6231
+          "line": 6497
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 86
+          "line": 108
         }
       ]
     },
@@ -2001,7 +2005,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6306
+          "line": 6572
         }
       ]
     },
@@ -2012,11 +2016,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1124
+          "line": 1260
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 99
+          "line": 121
         }
       ]
     },
@@ -2027,11 +2031,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1046
+          "line": 1178
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 97
+          "line": 119
         }
       ]
     },
@@ -2042,11 +2046,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1133
+          "line": 1269
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 100
+          "line": 122
         }
       ]
     },
@@ -2057,15 +2061,15 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1086
+          "line": 1218
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1172
+          "line": 1309
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 98
+          "line": 120
         }
       ]
     },
@@ -2076,11 +2080,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4843
+          "line": 5109
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 79
+          "line": 101
         }
       ]
     },
@@ -2091,7 +2095,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4759
+          "line": 5025
         }
       ]
     },
@@ -2102,7 +2106,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 76
+          "line": 98
         }
       ]
     },
@@ -2113,11 +2117,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4827
+          "line": 5093
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 78
+          "line": 100
         }
       ]
     },
@@ -2128,11 +2132,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4774
+          "line": 5040
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 77
+          "line": 99
         }
       ]
     },
@@ -2143,7 +2147,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1422
+          "line": 1561
         }
       ]
     },
@@ -2154,7 +2158,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1442
+          "line": 1581
         }
       ]
     },
@@ -2165,7 +2169,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1343
+          "line": 1482
         }
       ]
     },
@@ -2176,7 +2180,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 144
+          "line": 169
         }
       ]
     },
@@ -2187,19 +2191,19 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1299
+          "line": 1438
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1306
+          "line": 1445
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1405
+          "line": 1544
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 143
+          "line": 168
         }
       ]
     },
@@ -2210,7 +2214,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5358
+          "line": 5624
         }
       ]
     },
@@ -2221,7 +2225,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5389
+          "line": 5655
         }
       ]
     },
@@ -2232,7 +2236,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 60
+          "line": 82
         }
       ]
     },
@@ -2243,11 +2247,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5431
+          "line": 5697
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 61
+          "line": 83
         }
       ]
     },
@@ -2258,7 +2262,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5438
+          "line": 5704
         }
       ]
     },
@@ -2269,7 +2273,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4154
+          "line": 4420
         }
       ]
     },
@@ -2280,11 +2284,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4131
+          "line": 4397
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 14
+          "line": 33
         }
       ]
     },
@@ -2295,11 +2299,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4059
+          "line": 4325
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 50
+          "line": 72
         }
       ]
     },
@@ -2310,11 +2314,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4035
+          "line": 4301
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 49
+          "line": 71
         }
       ]
     },
@@ -2325,11 +2329,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4457
+          "line": 4723
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 146
+          "line": 171
         }
       ]
     },
@@ -2340,11 +2344,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4408
+          "line": 4674
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 145
+          "line": 170
         }
       ]
     },
@@ -2355,7 +2359,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 103
+          "line": 125
         }
       ]
     },
@@ -2366,11 +2370,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1262
+          "line": 1400
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 104
+          "line": 126
         }
       ]
     },
@@ -2381,7 +2385,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1281
+          "line": 1420
         }
       ]
     },
@@ -2392,11 +2396,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1200
+          "line": 1337
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 101
+          "line": 123
         }
       ]
     },
@@ -2407,11 +2411,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1224
+          "line": 1361
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 102
+          "line": 124
         }
       ]
     },
@@ -2422,11 +2426,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3145
+          "line": 3382
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 132
+          "line": 157
         }
       ]
     },
@@ -2437,7 +2441,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3084
+          "line": 3321
         }
       ]
     },
@@ -2448,7 +2452,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3081
+          "line": 3317
         }
       ]
     },
@@ -2459,15 +2463,15 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3021
+          "line": 3257
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3043
+          "line": 3279
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 131
+          "line": 156
         }
       ]
     },
@@ -2478,7 +2482,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5934
+          "line": 6200
         }
       ]
     },
@@ -2489,11 +2493,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5869
+          "line": 6135
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 73
+          "line": 95
         }
       ]
     },
@@ -2504,11 +2508,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5919
+          "line": 6185
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 75
+          "line": 97
         }
       ]
     },
@@ -2519,11 +2523,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5889
+          "line": 6155
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 74
+          "line": 96
         }
       ]
     },
@@ -2534,11 +2538,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3761
+          "line": 4027
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 45
+          "line": 67
         }
       ]
     },
@@ -2549,11 +2553,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3631
+          "line": 3897
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 43
+          "line": 65
         }
       ]
     },
@@ -2564,11 +2568,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3654
+          "line": 3920
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 44
+          "line": 66
         }
       ]
     },
@@ -2579,11 +2583,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4640
+          "line": 4906
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 147
+          "line": 172
         }
       ]
     },
@@ -2594,11 +2598,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4706
+          "line": 4972
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 148
+          "line": 173
         }
       ]
     },
@@ -2609,7 +2613,37 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4653
+          "line": 4919
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_skeletonking/skeletonking_hellfireblast_debuff.vpcf",
+      "compiledPath": "particles/units/heroes/hero_skeletonking/skeletonking_hellfireblast_debuff.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3088
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 152
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_skeletonking/skeletonking_hellfireblast_explosion.vpcf",
+      "compiledPath": "particles/units/heroes/hero_skeletonking/skeletonking_hellfireblast_explosion.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3062
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 151
         }
       ]
     },
@@ -2620,11 +2654,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2858
+          "line": 3045
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 129
+          "line": 150
         }
       ]
     },
@@ -2635,11 +2669,41 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2936
+          "line": 3150
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 130
+          "line": 153
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_skeletonking/skeletonking_reincarnation.vpcf",
+      "compiledPath": "particles/units/heroes/hero_skeletonking/skeletonking_reincarnation.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3182
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 154
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_skeletonking/wraith_king_vampiric_aura_lifesteal.vpcf",
+      "compiledPath": "particles/units/heroes/hero_skeletonking/wraith_king_vampiric_aura_lifesteal.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 3123
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 155
         }
       ]
     },
@@ -2650,7 +2714,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 141
+          "line": 166
         }
       ]
     },
@@ -2661,7 +2725,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 142
+          "line": 167
         }
       ]
     },
@@ -2672,11 +2736,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2153
+          "line": 2319
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 116
+          "line": 137
         }
       ]
     },
@@ -2687,11 +2751,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2074
+          "line": 2240
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 115
+          "line": 136
         }
       ]
     },
@@ -2702,11 +2766,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4598
+          "line": 4864
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 65
+          "line": 87
         }
       ]
     },
@@ -2717,7 +2781,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4541
+          "line": 4807
         }
       ]
     },
@@ -2728,11 +2792,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4502
+          "line": 4768
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 64
+          "line": 86
         }
       ]
     },
@@ -2743,15 +2807,15 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 597
+          "line": 680
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 38
+          "line": 60
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 124
+          "line": 145
         }
       ]
     },
@@ -2762,19 +2826,49 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 590
+          "line": 673
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 688
+          "line": 789
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 37
+          "line": 59
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 123
+          "line": 144
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_sven/sven_spell_great_cleave_gods_strength.vpcf",
+      "compiledPath": "particles/units/heroes/hero_sven/sven_spell_great_cleave_gods_strength.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 629
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 58
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_sven/sven_spell_great_cleave.vpcf",
+      "compiledPath": "particles/units/heroes/hero_sven/sven_spell_great_cleave.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 627
+        },
+        {
+          "file": "game/scripts/vscripts/addon_game_mode.lua",
+          "line": 57
         }
       ]
     },
@@ -2785,19 +2879,30 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 399
+          "line": 465
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 632
+          "line": 719
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 36
+          "line": 56
+        }
+      ]
+    },
+    {
+      "resource": "particles/units/heroes/hero_sven/sven_storm_bolt_projectile_trail.vpcf",
+      "compiledPath": "particles/units/heroes/hero_sven/sven_storm_bolt_projectile_trail.vpcf_c",
+      "present": true,
+      "sources": [
+        {
+          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
+          "line": 435
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 106
+          "line": 55
         }
       ]
     },
@@ -2808,19 +2913,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 434
-        },
-        {
-          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 444
-        },
-        {
-          "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 508
+          "line": 575
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 35
+          "line": 54
         }
       ]
     },
@@ -2831,7 +2928,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5533
+          "line": 5799
         }
       ]
     },
@@ -2842,7 +2939,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 63
+          "line": 85
         }
       ]
     },
@@ -2853,7 +2950,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5496
+          "line": 5762
         }
       ]
     },
@@ -2864,11 +2961,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5473
+          "line": 5739
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 62
+          "line": 84
         }
       ]
     },
@@ -2879,7 +2976,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5564
+          "line": 5830
         }
       ]
     },
@@ -2890,11 +2987,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2779
+          "line": 2960
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 13
+          "line": 32
         }
       ]
     },
@@ -2905,11 +3002,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2727
+          "line": 2908
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 39
+          "line": 61
         }
       ]
     },
@@ -2920,11 +3017,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2806
+          "line": 2987
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 40
+          "line": 62
         }
       ]
     },
@@ -2935,11 +3032,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5156
+          "line": 5422
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 52
+          "line": 74
         }
       ]
     },
@@ -2950,11 +3047,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5110
+          "line": 5376
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 51
+          "line": 73
         }
       ]
     },
@@ -2965,11 +3062,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3923
+          "line": 4189
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 46
+          "line": 68
         }
       ]
     },
@@ -2980,11 +3077,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4011
+          "line": 4277
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 48
+          "line": 70
         }
       ]
     },
@@ -2995,11 +3092,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3950
+          "line": 4216
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 47
+          "line": 69
         }
       ]
     },
@@ -3010,11 +3107,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6101
+          "line": 6367
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 83
+          "line": 105
         }
       ]
     },
@@ -3025,7 +3122,7 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6188
+          "line": 6454
         }
       ]
     },
@@ -3036,11 +3133,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6183
+          "line": 6449
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 85
+          "line": 107
         }
       ]
     },
@@ -3051,11 +3148,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6130
+          "line": 6396
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 84
+          "line": 106
         }
       ]
     },
@@ -3066,11 +3163,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3328
+          "line": 3567
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 136
+          "line": 161
         }
       ]
     },
@@ -3081,11 +3178,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3383
+          "line": 3630
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 137
+          "line": 162
         }
       ]
     },
@@ -3096,15 +3193,15 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3441
+          "line": 3688
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3470
+          "line": 3717
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 138
+          "line": 163
         }
       ]
     },
@@ -3115,15 +3212,15 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3188
+          "line": 3419
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3209
+          "line": 3440
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 133
+          "line": 158
         }
       ]
     },
@@ -3134,15 +3231,15 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3227
+          "line": 3458
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3272
+          "line": 3500
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 134
+          "line": 159
         }
       ]
     },
@@ -3153,11 +3250,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3263
+          "line": 3491
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 135
+          "line": 160
         }
       ]
     },
@@ -3168,11 +3265,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4999
+          "line": 5265
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 17
+          "line": 36
         }
       ]
     },
@@ -3183,11 +3280,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4895
+          "line": 5161
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 15
+          "line": 34
         }
       ]
     },
@@ -3198,11 +3295,11 @@
       "sources": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4933
+          "line": 5199
         },
         {
           "file": "game/scripts/vscripts/addon_game_mode.lua",
-          "line": 16
+          "line": 35
         }
       ]
     }

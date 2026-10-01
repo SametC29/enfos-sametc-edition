@@ -16,6 +16,7 @@ EconomyManager.__index = EconomyManager
 -- Conversion seeds (docs/GAME_DESIGN_MASTER.md § 21)
 EconomyManager.GOLD_TO_LUMBER_RATE = 100 -- 100 Gold = 1 Lumber (1000 Gold -> 10 Lumber)
 EconomyManager.LUMBER_TO_GOLD_RATE = 90  -- 1 Lumber = 90 Gold (10 Lumber -> 900 Gold, 10% loss)
+EconomyManager.BOSS_LUMBER_BASE = 9      -- 10..21 per boss (186 over 12 boss waves)
 
 -- Tome base configuration (docs/GAME_DESIGN_MASTER.md § 22)
 EconomyManager.TOME_BASE_COST = 500       -- Base Gold cost per tome
@@ -220,8 +221,8 @@ end
 function EconomyManager:AwardBossLumber(team, waveNumber)
 	if not team or not waveNumber then return end
 
-	-- Formula: 5 + floor(waveNumber / 5) (scales with wave depth)
-	local lumberAmount = 5 + math.floor(waveNumber / 5)
+	-- Formula: 9 + floor(waveNumber / 5) (10..21; 186 across all 12 bosses)
+	local lumberAmount = self.BOSS_LUMBER_BASE + math.floor(waveNumber / 5)
 	local awardedPlayers = {}
 
 	for id = 0, (DOTA_MAX_TEAM_PLAYERS or 24) - 1 do

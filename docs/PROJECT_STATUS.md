@@ -1,3 +1,55 @@
+# Current local direction — talent tree and permanent progression removed (2026-09-30)
+
+The owner directed removal of native/custom talent choices and all persistent
+account/hero progression. All hero talent and attribute bonus slots are hidden;
+the custom talent/progression panels, profile services, reward storage, and related
+localization have been removed. Match levels and 49 ordinary skill points remain.
+The older release notes below describe the previous candidate and are historical;
+this local change has not been published to Workshop.
+
+# Historical Workshop status — V1.0.4 submitted, delivery unverified (2026-09-30)
+
+## Local follow-up from owner screenshot — native talents / ability HUD
+
+The owner's live screenshots show extra passive icons in the regular ability bar,
+blank native talent choices, and the `+2 to all attributes` control. Source review
+found that generated `Ability10`–`Ability17` talent definitions used visible
+`PASSIVE` behavior. They now use `PASSIVE | HIDDEN` and `MaxLevel 1`, preserving
+the native talent slots while suppressing regular-HUD icons. Generator, 40-hero
+KV, all-locale tooltip, full automated checks, and Source 2 content compilation
+pass. The `+2` control uses Dota's newer `Ability25` attribute slot; the prior
+implementation hid only `Ability19`, so the generator now suppresses both.
+The corrected V1.0.4 package was submitted to the existing Workshop item. The
+upload log records new content manifest `8279123130043297897`; the public
+details API now shows the V1.0.4 title, 25,667,980-byte item, and update time
+17:45:54 Istanbul. However, a clean anonymous SteamCMD download still returned
+manifest `7445992684088480157`, the old V1.0.3 package. Steam's moderation queue
+is a possible cause; do not claim delivery until a fresh download matches the
+V1.0.4 candidate.
+
+V1.0.4 candidate is packaged separately at
+`release/workshop-candidate-v1.0.4/3809160125.vpk`; it contains 111 validated
+files, is 25,647,892 bytes, and has SHA-256
+`8fe4b012dac866db72f9ad34b50c8947707ba8be50471472c983fd9991029c54`.
+Independent archive verification passed against all source hashes and 10
+protected map files. Its archived KV has five intended ability slots on all 40
+heroes, hides slots 6–9 and both attribute bonus slots, and wires 320 localized
+talent choices. Steam's clean download is still old, so the Workshop upload has
+not yet been verified as delivered. The user's Dota runtime test remains pending.
+
+V1.0.3 is published to the existing public Workshop item **3809160125**. Steam's
+public details show the V1.0.3 title and 25,631,479-byte item; a clean anonymous
+SteamCMD download returned the matching 25,631,292-byte VPK with SHA-256
+`7e6c5e7d1a2149c2e32fd690a29074bce0130760713593a557a8d4880b2d0a87`.
+Automated checks and the 37-file Source 2 content compilation passed. The user
+still owns in-game acceptance for the native 10/15/20/25 talent tree, point timing,
+and hero visuals/behavior. No Dota game was launched. See [Workshop release record](WORKSHOP_YAYINLAMA.md).
+
+The 2026-09-28 publication hold was superseded for this V1.0.3 update only; future
+uploads still require a fresh explicit instruction.
+
+---
+
 # HUD / Sven release candidate — 2026-09-28
 
 **Publication hold:** on 2026-09-28 the user postponed all further live updates

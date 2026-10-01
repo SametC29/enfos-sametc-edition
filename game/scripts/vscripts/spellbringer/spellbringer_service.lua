@@ -13,6 +13,7 @@ local RandomFloat = _G.RandomFloat or function(a, b) return a + math.random() * 
 
 local SpellbringerService = {}
 SpellbringerService.__index = SpellbringerService
+local MAX_TARGET_COORDINATE = 12000
 local ICONS = {
 	spellbringer_arcane_barrier="abaddon_aphotic_shield", spellbringer_war_standard="legion_commander_press_the_attack",
 	spellbringer_thorn_idol="bristleback_bristleback", spellbringer_rift_surge="enigma_demonic_conversion",
@@ -141,6 +142,7 @@ function SpellbringerService:Init(waveManager)
 	self.waveManager = waveManager
 	self.modeInitialized = false
 	self.playerState = {} -- [playerID] = { mana, max_mana, regen, cooldowns = {} }
+	self.summons = { [DOTA_TEAM_GOODGUYS or 2] = {}, [DOTA_TEAM_BADGUYS or 3] = {} }
 	self.isCoop = false
 	if GameRules and GameRules.EnfosSametC and GameRules.EnfosSametC.isCoop then
 		self.isCoop = true
@@ -342,7 +344,8 @@ function SpellbringerService:CanCast(playerID, abilityName, targetPos)
 		local finite=require("lib/validation").Finite
 		if not finite(targetPos.x) or not finite(targetPos.y) or not finite(targetPos.z) then return false,"INVALID_TARGET" end
 		local targetTeam=def.is_offensive and (team==2 and 3 or 2) or team
-		if math.abs(targetPos.x)<3000 or math.abs(targetPos.x)>12000 or targetPos.y < -12000 or targetPos.y>4500
+		if math.abs(targetPos.x)>MAX_TARGET_COORDINATE
+			or targetPos.y < -MAX_TARGET_COORDINATE or targetPos.y > MAX_TARGET_COORDINATE
 			or (targetTeam==2 and targetPos.x<0) or (targetTeam==3 and targetPos.x>0) then return false,"INVALID_TARGET" end
 		if GridNav and (not GridNav:IsTraversable(targetPos) or GridNav:IsBlocked(targetPos)) then return false,"INVALID_TARGET" end
 	end
@@ -381,7 +384,8 @@ function SpellbringerService:OnCastRequest(userIdx, args)
 		local x,y,z=finite(args.target_x),finite(args.target_y),finite(args.target_z or 136)
 		if not x or not y or not z then return end
 		-- Reject pathological coordinates before passing them into an engine query.
-		if math.abs(x)>12000 or y< -12000 or y>4500 or z< -2048 or z>4096 then return end
+		if math.abs(x)>MAX_TARGET_COORDINATE or y < -MAX_TARGET_COORDINATE or y > MAX_TARGET_COORDINATE
+			or z < -2048 or z > 4096 then return end
 		targetPos = GetGroundPosition(Vector(x,y,z),nil)
 	end
 	-- UI casts always require an explicit ground target; never silently use Core.
@@ -538,14 +542,13 @@ function SpellbringerService:CastWholeDisplacement(casterTeam, def, targetPos)
 	local laneStart = CreepAI and CreepAI.ROUTES and CreepAI.ROUTES[casterTeam] and CreepAI.ROUTES[casterTeam].left and CreepAI.ROUTES[casterTeam].left[1]
 	if not laneStart then laneStart = self:GetSpawnPos(casterTeam) end
 
-	local units = FindUnitsInRadius(casterTeam, pos, nil, def.radius, DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
+	local units = self:GetActiveHostiles(casterTeam, pos, def.radius)
 
 	local displaced = 0
 	for _, unit in ipairs(units) do
 		local name = unit:GetUnitName()
-		-- Strictly non-Boss! Elites and regulars can be displaced
-		if unit.defendingTeam==casterTeam and not name:find("enfos_boss_", 1, true) then
+		-- Bosses cannot be displaced; regular wave creeps can be moved.
+		if unit.defendingTeam==casterTeam and not unit.isBoss and not name:find("enfos_boss_", 1, true) then
 			local destination=unit.creepState and unit.creepState.route[1] or laneStart
 			FindClearSpaceForUnit(unit, destination, true)
 			if unit.creepState then
@@ -599,8 +602,7 @@ function SpellbringerService:CastPurification(casterTeam, def, targetPos)
 	local pos = targetPos or self:GetDefaultLanePos(casterTeam)
 
 	-- 1. Remove hostile Spellbringer buffs and destroy Spellbringer summons in radius
-	local hostiles = FindUnitsInRadius(casterTeam, pos, nil, def.radius, DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
+	local hostiles = self:GetActiveHostiles(casterTeam, pos, def.radius)
 
 	for _, unit in ipairs(hostiles) do
 		-- Dispel Spellbringer buffs
@@ -802,6 +804,9 @@ function modifier_spellbringer_war_standard_aura:GetAuraRadius() return 800 end
 function modifier_spellbringer_war_standard_aura:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_FRIENDLY end
 function modifier_spellbringer_war_standard_aura:GetAuraSearchType() return DOTA_UNIT_TARGET_BASIC end
 function modifier_spellbringer_war_standard_aura:GetModifierAura() return "modifier_spellbringer_war_standard_buff" end
+function modifier_spellbringer_war_standard_aura:GetAuraEntityReject(target)
+	return not target or target.defendingTeam ~= self:GetParent().defendingTeam
+end
 
 modifier_spellbringer_war_standard_buff = class({})
 function modifier_spellbringer_war_standard_buff:IsPurgable() return true end
@@ -818,6 +823,9 @@ function modifier_spellbringer_thorn_idol_aura:GetAuraRadius() return 800 end
 function modifier_spellbringer_thorn_idol_aura:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_FRIENDLY end
 function modifier_spellbringer_thorn_idol_aura:GetAuraSearchType() return DOTA_UNIT_TARGET_BASIC end
 function modifier_spellbringer_thorn_idol_aura:GetModifierAura() return "modifier_spellbringer_thorn_idol_buff" end
+function modifier_spellbringer_thorn_idol_aura:GetAuraEntityReject(target)
+	return not target or target.defendingTeam ~= self:GetParent().defendingTeam
+end
 
 modifier_spellbringer_thorn_idol_buff = class({})
 function modifier_spellbringer_thorn_idol_buff:IsPurgable() return true end

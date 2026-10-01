@@ -21,6 +21,7 @@ end
 
 local function is_boss(target)
     if not target or (target.IsNull and target:IsNull()) then return false end
+    if target.isBoss == true then return true end
     local name = (target.GetUnitName and target:GetUnitName()) or ""
     return name:find("enfos_boss_", 1, true) ~= nil
 end
@@ -1907,6 +1908,23 @@ function modifier_enfos_axe_call_buff:GetModifierPhysicalArmorBonus() return sel
 modifier_enfos_axe_call_taunt=class({})
 function modifier_enfos_axe_call_taunt:IsDebuff() return true end
 function modifier_enfos_axe_call_taunt:IsPurgable() return true end
+function modifier_enfos_axe_call_taunt:DeclareFunctions() return { MODIFIER_EVENT_ON_DEATH } end
+function modifier_enfos_axe_call_taunt:OnCreated()
+    if not IsServer() then return end
+    local p, c = self:GetParent(), self:GetCaster()
+    if not p or p:IsNull() or not p:IsAlive() or not c or c:IsNull() or not c:IsAlive() then return end
+    p:SetForceAttackTarget(c)
+    p:MoveToTargetToAttack(c)
+end
+function modifier_enfos_axe_call_taunt:OnRefresh() self:OnCreated() end
+function modifier_enfos_axe_call_taunt:OnDeath(event)
+    if IsServer() and event and event.unit == self:GetCaster() then self:Destroy() end
+end
+function modifier_enfos_axe_call_taunt:OnDestroy()
+    if not IsServer() then return end
+    local p, c = self:GetParent(), self:GetCaster()
+    if p and not p:IsNull() and p:GetForceAttackTarget() == c then p:SetForceAttackTarget(nil) end
+end
 function modifier_enfos_axe_call_taunt:CheckState()
     return {
         [MODIFIER_STATE_COMMAND_RESTRICTED] = true,

@@ -9,6 +9,7 @@ This file stays concise. Detailed truth is under `docs/`.
 - `docs/QA_BALANCE_RELEASE.md` — tests, simulation, compatibility, release.
 - `docs/DECISIONS_OPEN_ITEMS.md` — locked/provisional/blocked decisions.
 - `docs/REFERENCE_ANALYSIS_POLICY.md` — external references, licensed reuse and provenance rules.
+- `docs/RESEARCH_AND_RUNTIME_VERIFICATION.md` — mandatory research, root-cause, reproduction, runtime/VConsole, regression and completion protocol for implementation and bug-fix work.
 - `docs/HERO_ABILITY_DEVELOPMENT_GUIDELINES.md` — required before hero/ability audits, repairs, PvE conversions, VFX/SFX, modifiers or precache changes.
 - `docs/heroes/README.md` — find the affected hero, then read its `AGENTS.md` and `ABILITIES.md`, plus `docs/HERO_ABILITY_REFERENCE.md`, before every skill change (including shared Lua/KV/precache changes). These dossiers are evidence ledgers, not runtime certification.
 
@@ -18,7 +19,7 @@ Do not load every doc for trivial work.
 - Dota 2 Custom Game; original modern Enfo-inspired PvEvP survival.
 - 60 authored waves; normal run target ~30 minutes.
 - Boss every 5th wave and Boss wave contains only the Boss.
-- Elite every 6th wave except Boss overlaps.
+- No Elite waves or Elite units spawn; the eight former Elite slots are normal waves.
 - Two normal lanes per team plus one shorter central Boss lane.
 - Team Life starts at 100.
 - Scheduled hostile waves have no population cap; population alone never costs Life.
@@ -38,7 +39,7 @@ Do not load every doc for trivial work.
 4. Inspect before adding duplicate managers/services.
 5. Performance: no unbounded units/summons/thinkers or per-frame global scans.
 6. Normal Dota items follow upstream Dota; audit patch compatibility instead of forking all items.
-7. Persistent progression behind an adapter; match works even if backend/HTTP is unavailable.
+7. No account profile or cross-match progression. Match-local state must work without backend/HTTP.
 8. No hard-coded visible strings.
 9. Structured logs/telemetry for balance-critical systems, no unnecessary PII.
 10. Critical danger is communicated with icon/shape/text/sound as well as color.
@@ -52,7 +53,8 @@ Do not load every doc for trivial work.
 - Audit globally, repair shared root causes, validate 2–4 representative pilot heroes, then proceed hero by hero. Do not perform blanket Lua rewrites.
 - Gameplay, VFX, SFX, modifiers, precache, cleanup and tooltips are one acceptance unit. Automated checks alone do not establish DONE; record actual Dota/VConsole verification or explicitly mark it pending.
 - Follow the detailed guideline contextually; its rollout workflow does not authorize unrelated hero changes during a documentation-only task.
-- Current user-directed progression target: match hero level 50; Q/W/E/R and the fifth Enfos passive each have 10 total ranks. This is a migration target, not implemented behavior. Free passive rank/point distribution, XP and unlock curves must be recorded explicitly before implementation; do not silently claim the old 30-level files implement this target.
+- Current user-directed progression: match hero level 50; Q/W/E/R and the fifth Enfos passive each have 10 total ranks. The shared level-50 XP curve, level-6 start, five initial spendable points, separate free Enfos passive rank, and all-40-hero KV gates are implemented. Gates use RequiredLevel 1 / interval 1 for Q/W/E/passive and RequiredLevel 5 / interval 5 for R. Engine rank-up HUD, point distribution and passive free-rank presentation remain pending owner Dota testing; do not claim runtime acceptance from KV or mocks.
+- Owner-directed removal (2026-09-30): no talent tree or persistent account/hero progression. Keep `Ability10`–`Ability17`, `Ability19`, and `Ability25` hidden for all heroes; grant no talent-gate points. Preserve match-only level 50 and its 49 ordinary skill points. Do not restore profile storage, Legacy, Hero Mastery, permanent bonuses, hero unlocks, or post-match progression rewards without a new owner decision.
 
 ## Git workflow
 Owner publication rule (2026-10-01): never deploy/live-promote or upload to Workshop without a new explicit owner request. Passing checks, commits/pushes and gameplay-test success do not authorize publication. Earlier standing publish authorization is revoked.

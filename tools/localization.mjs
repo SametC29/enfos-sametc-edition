@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseKV } from './lib/kv.mjs';
+import { getAbilityValues } from './lib/ability_values.mjs';
 
 export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -26,7 +27,7 @@ export function generateLocalization(check = false) {
     const id = abilityIdOverride ?? key.match(/^DOTA_Tooltip_[Aa]bility_(.+)_(?:Description|SummaryDescription|DesignDescription)$/)?.[1];
     const definition = abilities[id] ?? items[id];
     if (!definition) return rawValue;
-    const specials = Object.assign({}, ...Object.values(definition?.AbilitySpecial ?? {}));
+    const specials = getAbilityValues(definition);
     return rawValue.replace(/\{\{(\w+)(?:\|(\w+))?\}\}/g, (_, name, format) => {
       if (specials[name] === undefined) throw new Error(`${key}: unknown special ${name}`);
       const values = specials[name].split(/\s+/);

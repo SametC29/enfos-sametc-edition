@@ -11,7 +11,7 @@ function Config.Snapshot(difficulty, radiant, dire)
     local solo=radiant+dire==1 and (radiant==1 or dire==1)
     return {version=Config.VERSION,difficulty=difficulty,hp=d.hp,damage=d.damage,
         solo=solo,heroPower=Power.Values(solo),heroPowerVersion=Power.VERSION,
-        fullSupportThrough=10,boonEvery=10,hostileCapEnabled=false,heroEvolutionVersion="hero-evolution-1",
+        fullSupportThrough=10,boonEvery=5,hostileCapEnabled=false,heroEvolutionVersion="hero-evolution-1",
         soloPreparation=20,normalPreparation=15,soloBatchInterval=5}
 end
 function Config.Multipliers(snapshot,wave)

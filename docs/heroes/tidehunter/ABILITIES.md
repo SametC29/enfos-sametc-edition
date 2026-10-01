@@ -5,22 +5,22 @@ This dossier starts UNASSESSED/PENDING. It is a work reference, not proof that t
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
 
-Hero: `npc_dota_hero_tidehunter`; role: Tank. Production target: hero level 50 / all five abilities 10 total ranks; not implemented by this dossier.
+Hero: `npc_dota_hero_tidehunter`; role: Tank. Progression target: hero level 50 / all five abilities 10 total ranks; the KV rank inventory below and runtime unlock acceptance are tracked separately.
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_tide_gush` | 4 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | tidehunter_gush |
-| 2 | `enfos_tide_kraken_shell` | 4 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | tidehunter_kraken_shell |
-| 3 | `enfos_tide_anchor_smash` | 4 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | tidehunter_anchor_smash |
-| 4 | `enfos_tide_ravage` | 3 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | tidehunter_ravage |
-| 5 | `enfos_tide_colossal_presence` | 1 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | tidehunter_kraken_shell |
+| 1 | `enfos_tide_gush` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | tidehunter_gush |
+| 2 | `enfos_tide_kraken_shell` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | tidehunter_kraken_shell |
+| 3 | `enfos_tide_anchor_smash` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | tidehunter_anchor_smash |
+| 4 | `enfos_tide_ravage` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | tidehunter_ravage |
+| 5 | `enfos_tide_colossal_presence` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | tidehunter_kraken_shell |
 
 Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
 Source: `scripts/npc/heroes/npc_dota_hero_tidehunter.txt`; status: FILE_VERIFIED; SHA256: `8c96be768e85e8d845bc6ef04f99ad261c0f9bd5c0e45503aedb6ab4c5c78cda`.
-Installed build: ClientVersion=6941; SourceRevision=11041083; Sep 25 2026. Snapshot observation UTC: 2026-09-28T21:16:02.562Z.
+Installed build: ClientVersion=6941; SourceRevision=11041083; Sep 25 2026. Snapshot observation UTC: 2026-09-29T20:43:45.203Z.
 Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT.json). Re-read installed resources after a patch.
 
 | Native field | Observed value |
@@ -48,24 +48,26 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ### Per-ability review leads
 
-- `enfos_tide_gush`: target flags, immunity, spell block/reflect if applicable, target loss; static unreferenced-special candidates: gush_damage (not confirmed defects).
-- `enfos_tide_kraken_shell`: intrinsic modifier, Break/illusion behavior, live rank refresh; static unreferenced-special candidates: damage_reduction, bonus_hp_regen (not confirmed defects).
-- `enfos_tide_anchor_smash`: static unreferenced-special candidates: attack_damage_bonus (not confirmed defects).
+- `enfos_tide_gush`: target flags, immunity, spell block/reflect if applicable, target loss.
+- `enfos_tide_kraken_shell`: intrinsic modifier, Break/illusion behavior, live rank refresh.
+- `enfos_tide_anchor_smash`: cast/impact/modifier contract and lifetime.
 - `enfos_tide_ravage`: ultimate unlock curve, Scepter/Blessing and boss burst.
-- `enfos_tide_colossal_presence`: Enfos passive free starting rank, native innate separation, respawn/point budget; intrinsic modifier, Break/illusion behavior, live rank refresh; static unreferenced-special candidates: bonus_health, bonus_armor, radius (not confirmed defects).
+- `enfos_tide_colossal_presence`: Enfos passive free starting rank, native innate separation, respawn/point budget; intrinsic modifier, Break/illusion behavior, live rank refresh.
 
 <!-- END GENERATED INVENTORY -->
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-09-30 static special-value repair: converted all five Lua-driven Tidehunter abilities from legacy numbered `AbilitySpecial` entries to named `AbilityValues`, retaining the existing ten-rank curves and scalars. A content contract now guards the schema. This follows the project-specific Sven value-loading finding; no Tidehunter Dota playtest is claimed. Boss response, VFX/SFX and gameplay in the engine remain for the user to test.
+
 ## Slot 1: `enfos_tide_gush`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `tidehunter_gush` (native Ability1).
+Decision and PvE identity rationale: Keep the recognizable single-target Gush impact; convert PvP-only utility to wave damage and a short armor/movement slow. Native source mapping verified in the installed hero KV (ClientVersion 6941, SourceRevision 11041083).
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve: Gush Q ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -85,7 +87,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Q gate levels 1–10 are declared; in-game HUD and point behavior remain PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -99,16 +101,33 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record (2026-09-30): mapped native counterparts from the installed Tidehunter hero KV (ClientVersion 6941, SourceRevision 11041083); set all five Enfos slots to MaxLevel 10; added Gush spell-absorb/friendly-target guards and localization alignment; made Kraken Shell block/regen obey Break; made Anchor Smash read its documented bonus special while retaining attack and Strength damage; moved Ravage boss stun cap into KV; removed the false Dota Innate marker and made Colossal Presence values data-driven/Break-aware. Automated regression status: PASS — `node_modules/.bin/fengari tests/hero_kit_regressions.lua` (98 mock regressions) and `node tools/checks.mjs` (0 failed checks); all three particle paths exist in the installed Valve VPK. Dota/VConsole gameplay, visual/audio quality, particle control-point placement, live boss behavior, and cold-start precache verification remain PENDING; mocks are not ENGINE_PASS.
+
+2026-09-30 static follow-up: Kraken Shell's constant-health-regeneration callback was implemented but its property was missing from `DeclareFunctions`, so Dota would not request the callback. Registered `MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT` and strengthened the mock regression to require that engine property declaration. In-game health regeneration remains PENDING.
+
+2026-09-30 target-flag repair: Anchor Smash declares
+`SPELL_IMMUNITY_ENEMIES_YES`, but its Lua radius query used the default flags,
+which exclude spell-immune enemies. The query now explicitly includes
+`DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES`; its regression asserts the flag.
+Actual interaction with immune units and the debuff's engine behavior remain
+PENDING for owner testing.
+
+2026-09-30 value/tooltip repair: Gush and Anchor Smash now read their Strength
+coefficients from named KV specials; EN/TR/RU/zh-CN descriptions expose those
+formulas. Kraken Shell's existing 450 accumulated-damage dispel threshold is
+now a named KV value, described in all four languages, and covered by a
+threshold regression. The values and existing behavior are preserved. This
+does not certify the engine's damage event semantics or real spell-immunity
+interaction; both remain PENDING for owner testing.
 
 ## Slot 2: `enfos_tide_kraken_shell`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `tidehunter_kraken_shell` (native Ability2).
+Decision and PvE identity rationale: Keep the defensive shell identity; retain physical damage block, add the existing Enfos health-regeneration special, and make both obey Break. This is a focused passive implementation, not a native innate.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve: Kraken Shell W ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -126,9 +145,9 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Kraken Shell computes its configured HP regeneration, and its Lua modifier now declares the engine's constant-health-regen property so the engine can request it; a regression checks the declaration. Actual in-game regeneration still requires owner testing. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | W gate levels 1–10 are declared; in-game HUD and point behavior remain PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -142,16 +161,16 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record (2026-09-30): Included in the 98 passing hero-kit mock regressions and full repository checks. No real Dota/VConsole test has been performed; gameplay, VFX/SFX quality, modifier edge cases, and engine acceptance remain PENDING.
 
 ## Slot 3: `enfos_tide_anchor_smash`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `tidehunter_anchor_smash` (native Ability3).
+Decision and PvE identity rationale: Keep the close-range anchor sweep and attack-damage debuff; add Strength scaling for PvE and retain configured radius/duration. Both native identity and Enfos scaling are explicit.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve: Anchor Smash E ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -171,7 +190,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | E gate levels 1–10 are declared; in-game HUD and point behavior remain PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -189,12 +208,12 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 4: `enfos_tide_ravage`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `tidehunter_ravage` (native Ability6).
+Decision and PvE identity rationale: Keep Ravage area damage/stun; cap boss stun with a KV value so bosses cannot be locked for the full creep duration.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve: Ravage R ranks 1–10 are KV-gated at levels 5, 10, …, 50; ultimate UI and point behavior remain PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -214,7 +233,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | R gate levels 5–50 in five-level steps is declared; ultimate HUD and point behavior remain PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -232,12 +251,12 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 5: `enfos_tide_colossal_presence`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: REPLACE
+Native counterpart: No native counterpart — custom Enfos passive in slot 5.
+Decision and PvE identity rationale: Use the free-start Enfos passive system (heroes/innates.lua), entirely separate from Dota Innate metadata. Grants Tidehunter flat health/armor and weakens nearby enemies; Break disables the passive.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve: The Enfos passive rank 1 is granted separately; ranks 2–10 are KV-gated at levels 2–10; engine point/UI behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -257,7 +276,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | The separate passive rank 1 grant remains; ranks 2–10 gates are declared; in-game HUD and point behavior remain PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -272,3 +291,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
 Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+
+2026-09-30 level-cap integration: all five Tidehunter abilities now declare KV rank gates. Q/W/E and the Enfos passive use one rank per level; passive rank 1 remains a separate Enfos grant. Ravage ranks 1–10 unlock on levels 5, 10, …, 50. Static KV contract passes; actual rank buttons, level-up points, ultimate badge and match-start level 6 remain PENDING for owner testing.
+
+2026-09-30 global Break metadata audit: Added KV `IsBreakable 1` to `enfos_tide_kraken_shell`, `enfos_tide_colossal_presence` because its linked Lua passive implementation check `PassivesDisabled()`. Automated content validation now rejects this metadata mismatch. Actual Dota Break behavior remains PENDING.

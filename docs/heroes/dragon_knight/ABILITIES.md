@@ -5,22 +5,22 @@ This dossier starts UNASSESSED/PENDING. It is a work reference, not proof that t
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
 
-Hero: `npc_dota_hero_dragon_knight`; role: Tank. Production target: hero level 50 / all five abilities 10 total ranks; not implemented by this dossier.
+Hero: `npc_dota_hero_dragon_knight`; role: Tank. Progression target: hero level 50 / all five abilities 10 total ranks; the KV rank inventory below and runtime unlock acceptance are tracked separately.
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_dk_breathe_fire` | 4 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | abilities/pve_kits | dragon_knight_breathe_fire |
-| 2 | `enfos_dk_dragon_tail` | 4 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | dragon_knight_dragon_tail |
-| 3 | `enfos_dk_dragon_blood` | 4 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | dragon_knight_dragon_blood |
-| 4 | `enfos_dk_elder_dragon_form` | 3 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | dragon_knight_elder_dragon_form |
-| 5 | `enfos_dk_wyrm_vigor` | 1 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | dragon_knight_dragon_blood |
+| 1 | `enfos_dk_breathe_fire` | 10 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | abilities/pve_kits | dragon_knight_breathe_fire |
+| 2 | `enfos_dk_dragon_tail` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | dragon_knight_dragon_tail |
+| 3 | `enfos_dk_dragon_blood` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | dragon_knight_dragon_blood |
+| 4 | `enfos_dk_elder_dragon_form` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | dragon_knight_elder_dragon_form |
+| 5 | `enfos_dk_wyrm_vigor` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | dragon_knight_dragon_blood |
 
 Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
 Source: `scripts/npc/heroes/npc_dota_hero_dragon_knight.txt`; status: FILE_VERIFIED; SHA256: `3dcfc11fbe634effac91207ead048537ffdda6b22ad030c7c097c1d43b3b2043`.
-Installed build: ClientVersion=6941; SourceRevision=11041083; Sep 25 2026. Snapshot observation UTC: 2026-09-28T21:16:02.562Z.
+Installed build: ClientVersion=6941; SourceRevision=11041083; Sep 25 2026. Snapshot observation UTC: 2026-09-29T20:43:45.203Z.
 Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT.json). Re-read installed resources after a patch.
 
 | Native field | Observed value |
@@ -47,7 +47,7 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ### Per-ability review leads
 
-- `enfos_dk_breathe_fire`: world position, travel/impact timing and radius alignment; static unreferenced-special candidates: duration (not confirmed defects).
+- `enfos_dk_breathe_fire`: world position, travel/impact timing and radius alignment.
 - `enfos_dk_dragon_tail`: target flags, immunity, spell block/reflect if applicable, target loss.
 - `enfos_dk_dragon_blood`: intrinsic modifier, Break/illusion behavior, live rank refresh.
 - `enfos_dk_elder_dragon_form`: ultimate unlock curve, Scepter/Blessing and boss burst.
@@ -57,14 +57,26 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-09-30 implementation record: all five Enfos slots now have ten KV ranks and Wyrm Vigor is no longer marked as Dota `Innate`. Installed source mapping: Breathe Fire=`dragon_knight_breathe_fire` (Ability1), Dragon Tail=`dragon_knight_dragon_tail` (Ability2), Dragon Blood=`dragon_knight_dragon_blood` (Ability5), Elder Dragon Form=`dragon_knight_elder_dragon_form` (Ability6), Wyrm Vigor=`dragon_knight_wyrms_wrath` (Ability3). Q now queries a forward line with configured width/range and reads debuff duration; W rejects allies/spell block and reads boss cap from KV; passive bonuses honor Break; R reads rank-scaled form, range, splash and slow values and emits verified impact/transform particles. Six used particle assets were found in installed ClientVersion 6941 VPK; Q/W/R tests added. Live Dota visuals, audio, dragon model transformation, projectile display and 10-rank balance remain PENDING.
+
+2026-09-30 static special-value repair: migrated all five Lua-driven abilities from legacy numbered `AbilitySpecial` rows to named `AbilityValues`, preserving all rank arrays and scalar values. Added a contract for the five Enfos slots. This follows the confirmed Sven special-value loading defect; no Dragon Knight live test is claimed. Remaining gameplay, VFX, SFX, transformation and boss checks are for the user in Dota.
+
+2026-09-30 mock regression evidence: the current hero-kit suite passes Dragon Knight Breathe Fire line width, damage type and attack-damage debuff duration; Dragon Tail spell-block cancellation, boss stun cap and damage; Dragon Blood/Wyrm Vigor Break suppression and configured passive values; and Elder Dragon Form dragon-model application/restoration on modifier removal. These are mocked Lua behavior checks only. The KV rank gates and named-value inventory are structurally checked by the project suite; actual Dota cast behavior, 10-rank values, transformation/attack capability, particles, audio, boss effects and HUD/point behavior remain PENDING for owner testing.
+
+2026-09-30 follow-up audit: Dragon Blood and Wyrm Vigor now declare KV
+`IsBreakable 1`, matching their `PassivesDisabled` checks. Their armor, regen,
+magic resistance and Strength bonuses also suppress on illusions. Content and
+mock regressions cover both passive flags and illusion suppression. Runtime
+Break/illusion, VFX, SFX, transformation and boss checks remain pending.
+
 ## Slot 1: `enfos_dk_breathe_fire`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `dragon_knight_breathe_fire` (installed Ability1).
+Decision and PvE identity rationale: preserve the iconic breath attack and attack-damage debuff while applying it to a bounded forward line for wave play.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve: Breathe Fire Q ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -84,7 +96,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Q gates at levels 1–10 declared; in-game HUD/point behavior remains PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -102,12 +114,12 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 2: `enfos_dk_dragon_tail`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `dragon_knight_dragon_tail` (installed Ability2).
+Decision and PvE identity rationale: preserve the close-range stun and add rank-scaled damage; boss duration is capped by KV rather than a hidden constant.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve: Dragon Tail W ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -127,7 +139,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | W gates at levels 1–10 declared; in-game HUD/point behavior remains PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -145,12 +157,12 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 3: `enfos_dk_dragon_blood`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `dragon_knight_dragon_blood` (installed Ability5).
+Decision and PvE identity rationale: retain Dragon Knight's armor and regeneration identity as rank-scaled passive sustain; Break suppresses these passive values.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve: Dragon Blood E ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -170,7 +182,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | E gates at levels 1–10 declared; in-game HUD/point behavior remains PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -188,12 +200,12 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 4: `enfos_dk_elder_dragon_form`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `dragon_knight_elder_dragon_form` (installed Ability6).
+Decision and PvE identity rationale: preserve the signature transformation and ranged attack, with bounded rank-scaled splash/slow values.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve: Elder Dragon Form R ranks 1–10 are KV-gated at levels 5, 10, …, 50; ultimate UI and point behavior remain PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -213,7 +225,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | R gates at levels 5–50 in five-level steps declared; ultimate HUD/point behavior remains PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -231,12 +243,12 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 5: `enfos_dk_wyrm_vigor`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `dragon_knight_wyrms_wrath` (installed Ability3).
+Decision and PvE identity rationale: adapt the dragon's innate toughness identity as an Enfos separately granted fifth passive; Break suppresses its rank-scaled resistance and strength.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve; free rank / point cost: ten ranks are defined; the Enfos passive rank 1 grant is separate from Dota innate metadata, ranks 2–10 are KV-gated at levels 2–10; in-engine points remain pending.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -256,7 +268,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Passive rank 1 grant remains separate; ranks 2–10 gates declared; in-game HUD/point behavior remains PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
@@ -271,3 +283,5 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
 Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+
+2026-09-30 level-cap integration: all five Dragon Knight abilities now declare KV rank gates. Q/W/E and the Enfos passive use one rank per level; passive rank 1 remains a separate Enfos grant. Elder Dragon Form ranks 1–10 unlock on levels 5, 10, …, 50. Static KV contract passes; actual rank buttons, level-up points, ultimate badge and match-start level 6 remain PENDING for owner testing.

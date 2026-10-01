@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import {parseKV} from './lib/kv.mjs';
+import {getAbilityValues} from './lib/ability_values.mjs';
 import luaparse from 'luaparse';
 const abilities=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.txt','utf8')).DOTAAbilities;
 const source=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');
@@ -18,8 +19,7 @@ const ownerLua=Object.entries(owners).map(([k,v])=>`["${k}"]="${v}"`).join(',');
 const maxRank=Math.max(...Object.values(abilities).map(a=>Number(a.MaxLevel)||1));
 for(let rank=1;rank<=maxRank;rank++){
   const rows=Object.entries(abilities).map(([id,a])=>{
-    const specials=Object.assign({},...Object.values(a.AbilitySpecial||{}));
-    delete specials.var_type;
+    const specials=getAbilityValues(a);
     return `["${id}"]={${Object.entries(specials).map(([k,v])=>{
       const values=String(v).trim().split(/\s+/);
       const value=Number(values[Math.min(rank,Number(a.MaxLevel)||1,values.length)-1]);

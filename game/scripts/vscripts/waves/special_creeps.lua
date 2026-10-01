@@ -1,4 +1,4 @@
--- Native creep skills, with bounded casts and two specialists per team/wave.
+-- Every authored creep receives its wave kit; casts/control remain bounded.
 local S = {counts={},castAfter={}}
 local class = _G.class or function(t) return t end
 local KITS = {
@@ -21,6 +21,39 @@ local KITS = {
  [58]={"black_dragon_splash_attack"},[59]={"ice_shaman_incendiary_bomb"},
 }
 S.KITS=KITS
+-- Explicit, on-demand runtime audit. Never scans all units from a thinker.
+function S.Audit(manager)
+ local report={}
+ for team,units in pairs(manager.activeCreeps or {}) do
+  local row={alive=0,special=0,invisibleExpected=0,invisibleActual=0,missing=0}
+  report[team]=row
+  for _,unit in pairs(units) do
+   if not unit:IsNull() and unit:IsAlive() and not unit.is_wave_child then
+    row.alive=row.alive+1
+    local kit=KITS[unit.waveNumber]
+    if kit then
+     row.special=row.special+1
+     for _,name in ipairs(kit) do
+      local kind=name=="invisible" and 1 or name=="silence" and 2 or name=="root" and 3 or name=="reflect" and 4
+      if kind then
+       local modifier=unit:FindModifierByName("modifier_enfos_wave_special")
+       if not modifier or modifier:IsNull() or modifier:GetStackCount()~=kind then row.missing=row.missing+1 end
+       if kind==1 then
+        row.invisibleExpected=row.invisibleExpected+1
+        if unit:IsInvisible() then row.invisibleActual=row.invisibleActual+1 end
+       end
+      else
+       local ability=unit:FindAbilityByName(name)
+       if not ability or ability:IsNull() or ability:GetLevel()<1 then row.missing=row.missing+1 end
+      end
+     end
+    end
+   end
+  end
+  if Log then Log:Info("wave_specials_audit","team=%d alive=%d special=%d missing=%d invisible_expected=%d invisible_actual=%d",team,row.alive,row.special,row.missing,row.invisibleExpected,row.invisibleActual) end
+ end
+ return report
+end
 function S.SpawnMinions(caster)
  if caster.is_wave_child then return end
  caster.enfosWaveChildren=caster.enfosWaveChildren or {}
@@ -64,11 +97,6 @@ function S.Configure(unit,wave,team,allied)
  local kit=KITS[wave];if not kit then return end
  local key=tostring(team)..":"..tostring(wave)
  S.counts[key]=(S.counts[key] or 0)+ (allied and 0 or 1)
- -- One in four Ghost/Wolf units is invisible; other skills have two specialists.
- if not allied then
-  if wave==11 or wave==21 then if (S.counts[key]-1)%4~=0 then return end
-  elseif S.counts[key]>2 then return end
- end
  unit.enfosSpecials={};unit.enfosSpecialWave=wave
  for _,name in ipairs(kit) do
   if name=="invisible" or name=="silence" or name=="root" or name=="reflect" then
@@ -82,8 +110,10 @@ function S.Configure(unit,wave,team,allied)
  if #unit.enfosSpecials>0 then unit:SetMaxMana(300);unit:SetMana(300);unit:SetBaseManaRegen(3) end
 end
 function S.TryCast(unit,team)
- if not unit.enfosSpecials or unit:IsSilenced() or unit:IsReincarnating() then return false end
+ if not unit.enfosSpecials or #unit.enfosSpecials==0 or unit:IsSilenced() or unit:IsReincarnating() then return false end
  local now=GameRules:GetGameTime()
+ if now<(unit.enfosSpecialSearchAfter or 0) then return false end
+ unit.enfosSpecialSearchAfter=now+0.75
  for _,a in ipairs(unit.enfosSpecials) do
   local key=tostring(team)..":"..unit.enfosSpecialWave..":"..a:GetAbilityName()
   if not a:IsNull() and a:IsFullyCastable() and not a:IsPassive() and now>=(S.castAfter[key] or 0) then
@@ -91,17 +121,18 @@ function S.TryCast(unit,team)
    local isTarget=bit.band(behavior,DOTA_ABILITY_BEHAVIOR_UNIT_TARGET)~=0
    local isPoint=bit.band(behavior,DOTA_ABILITY_BEHAVIOR_POINT)~=0
    local range=a:GetCastRange(unit:GetAbsOrigin(),nil)
-   if not isTarget and not isPoint then range=a:GetAOERadius();if range<=0 then range=250 end end
+   if not isTarget and not isPoint then range=a:GetAOERadius();if range<=0 then range=750 end end
    range=math.max(128,math.min(1200,range))
    local friendly=a:GetAbilityTargetTeam()==DOTA_UNIT_TARGET_TEAM_FRIENDLY
-   local targets=FindUnitsInRadius(friendly and (DOTA_TEAM_NEUTRALS or 4) or team,unit:GetAbsOrigin(),nil,range,
-    DOTA_UNIT_TARGET_TEAM_FRIENDLY,friendly and DOTA_UNIT_TARGET_BASIC or DOTA_UNIT_TARGET_HERO,
+   local targets=FindUnitsInRadius(friendly and unit:GetTeamNumber() or team,unit:GetAbsOrigin(),nil,range,
+    DOTA_UNIT_TARGET_TEAM_FRIENDLY,a:GetAbilityTargetType()==DOTA_UNIT_TARGET_NONE and
+     (DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_BASIC) or a:GetAbilityTargetType(),
     DOTA_UNIT_TARGET_FLAG_NONE,FIND_CLOSEST,false)
    local target
    for _,candidate in ipairs(targets) do
     if candidate:IsAlive() and not candidate:IsInvulnerable()
-     and (not friendly or candidate.defendingTeam==team)
-     and (not friendly or candidate:GetHealth()<candidate:GetMaxHealth()) then target=candidate;break end
+     and (not friendly or candidate==unit or candidate.defendingTeam==team or (unit.is_allied_reinforcement and candidate:GetTeamNumber()==unit:GetTeamNumber()))
+     and (a:GetAbilityName()~="forest_troll_high_priest_heal" or candidate:GetHealth()<candidate:GetMaxHealth()) then target=candidate;break end
    end
    if target then
     local order={UnitIndex=unit:entindex(),AbilityIndex=a:entindex(),Queue=false}
@@ -118,14 +149,18 @@ end
 modifier_enfos_wave_special=class({})
 function modifier_enfos_wave_special:IsHidden() return true end
 function modifier_enfos_wave_special:IsPurgable() return false end
-function modifier_enfos_wave_special:OnCreated(kv) self.kind=tonumber(kv.kind) end
+function modifier_enfos_wave_special:OnCreated(kv)
+ if IsServer() then self:SetStackCount(tonumber(kv and kv.kind) or self:GetStackCount()) end
+end
+function modifier_enfos_wave_special:OnRefresh(kv) self:OnCreated(kv) end
 function modifier_enfos_wave_special:CheckState()
- if self.kind==1 then return {[MODIFIER_STATE_INVISIBLE]=true} end
+ if self:GetStackCount()==1 then return {[MODIFIER_STATE_INVISIBLE]=true} end
  return {}
 end
-function modifier_enfos_wave_special:DeclareFunctions() return {MODIFIER_EVENT_ON_ATTACK_LANDED,MODIFIER_EVENT_ON_TAKEDAMAGE} end
+function modifier_enfos_wave_special:DeclareFunctions() return {MODIFIER_EVENT_ON_ATTACK_LANDED,MODIFIER_EVENT_ON_TAKEDAMAGE,MODIFIER_PROPERTY_INVISIBILITY_LEVEL} end
+function modifier_enfos_wave_special:GetModifierInvisibilityLevel() return self:GetStackCount()==1 and 1 or 0 end
 function modifier_enfos_wave_special:OnTakeDamage(event)
- if not IsServer() or self.kind~=4 or event.unit~=self:GetParent() then return end
+ if not IsServer() or self:GetStackCount()~=4 or event.unit~=self:GetParent() then return end
  local attacker=event.attacker
  if not attacker or attacker:IsNull() or attacker:GetTeamNumber()==self:GetParent():GetTeamNumber()
   or bit.band(event.damage_flags or 0,DOTA_DAMAGE_FLAG_REFLECTION)~=0 then return end
@@ -133,13 +168,14 @@ function modifier_enfos_wave_special:OnTakeDamage(event)
   damage_type=DAMAGE_TYPE_PHYSICAL,damage_flags=DOTA_DAMAGE_FLAG_REFLECTION+DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION})
 end
 function modifier_enfos_wave_special:OnAttackLanded(event)
- if not IsServer() or (self.kind~=2 and self.kind~=3) or event.attacker~=self:GetParent() then return end
+ local kind=self:GetStackCount()
+ if not IsServer() or (kind~=2 and kind~=3) or event.attacker~=self:GetParent() then return end
  local target=event.target
  if not target or target:IsNull() or not target:IsRealHero() or target:IsMagicImmune() then return end
  local now=GameRules:GetGameTime()
- local key=self.kind==2 and "enfosWaveSilenceAfter" or "enfosWaveRootAfter"
+ local key=kind==2 and "enfosWaveSilenceAfter" or "enfosWaveRootAfter"
  if now<(target[key] or 0) then return end
  target[key]=now+7
- target:AddNewModifier(self:GetParent(),nil,self.kind==2 and "modifier_silence" or "modifier_rooted",{duration=1.5})
+ target:AddNewModifier(self:GetParent(),nil,kind==2 and "modifier_silence" or "modifier_rooted",{duration=1.5})
 end
 return S

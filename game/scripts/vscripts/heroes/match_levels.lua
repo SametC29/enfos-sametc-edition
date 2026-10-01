@@ -1,5 +1,5 @@
 -- Match-only hero level and starting skill-point budget.
--- Account level and Hero Mastery remain in progression/progression_curves.lua.
+-- All progression in this game is match-local; no account or hero profile is loaded.
 local MatchLevels = {}
 
 MatchLevels.MAX_LEVEL = 50

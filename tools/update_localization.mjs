@@ -49,8 +49,7 @@ const abilityTokens = {
 // Generate wave titles and descriptions (1..60)
 for (let i = 1; i <= 60; i++) {
   const isBoss = (i % 5 === 0);
-  const isElite = (i % 6 === 0) && !isBoss;
-  const title = isBoss ? `Boss Karşılaşması: Dalga ${i}` : isElite ? `Seçkin Tehdit: Dalga ${i}` : `Saldırı: Dalga ${i}`;
+  const title = isBoss ? `Boss Karşılaşması: Dalga ${i}` : `Saldırı: Dalga ${i}`;
   abilityTokens[`enfos_wave_title_${i}`] = title;
   abilityTokens[`enfos_wave_desc_${i}`] = title;
 }

@@ -180,7 +180,7 @@ gerekleri doğrulanır; mock engine sağlık çubuğunu çizmez.
 ## 9. 50 seviye / 10 rütbe hedefi
 
 Hedef 10 toplam rütbedir; öğrenme üstüne 10 ek upgrade anlamına gelmez.
-50 maç içi seviye, Account/Mastery'den ayrıdır. Beşinci Enfos pasifi ile Dota'nın
+50 maç içi seviye vardır; hesap/ustalık ilerlemesi yoktur. Talentsiz seviye 2–50 bütçesi 49 puandır.
 native innate'i ayrı tutulur. Ücretsiz pasif 1 ise 49 harcanabilir puan gerekir;
 başlangıç, son seviye ve XP eşikleri açık sözleşmeyle kurulmalıdır.
 

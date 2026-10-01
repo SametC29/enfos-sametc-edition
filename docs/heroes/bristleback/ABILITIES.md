@@ -5,22 +5,22 @@ This dossier starts UNASSESSED/PENDING. It is a work reference, not proof that t
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
 
-Hero: `npc_dota_hero_bristleback`; role: Tank. Production target: hero level 50 / all five abilities 10 total ranks; not implemented by this dossier.
+Hero: `npc_dota_hero_bristleback`; role: Tank. Progression target: hero level 50 / all five abilities 10 total ranks; the KV rank inventory below and runtime unlock acceptance are tracked separately.
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_bb_viscous_nasal_goo` | 4 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | bristleback_viscous_nasal_goo |
-| 2 | `enfos_bb_quill_spray` | 4 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | bristleback_quill_spray |
-| 3 | `enfos_bb_bristleback` | 4 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | bristleback_bristleback |
-| 4 | `enfos_bb_warpath` | 3 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | bristleback_warpath |
-| 5 | `enfos_bb_hairball` | 1 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_AOE | abilities/pve_kits | bristleback_hairball |
+| 1 | `enfos_bb_viscous_nasal_goo` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | bristleback_viscous_nasal_goo |
+| 2 | `enfos_bb_quill_spray` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | bristleback_quill_spray |
+| 3 | `enfos_bb_bristleback` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | bristleback_bristleback |
+| 4 | `enfos_bb_hairball` | 10 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_AOE | abilities/pve_kits | bristleback_hairball |
+| 5 | `enfos_bb_warpath` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | bristleback_warpath |
 
 Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
 Source: `scripts/npc/heroes/npc_dota_hero_bristleback.txt`; status: FILE_VERIFIED; SHA256: `2d8ca6edbae9a580a2faa49f798848d7beef87109dbac8c00e59f34bd68f7a34`.
-Installed build: ClientVersion=6941; SourceRevision=11041083; Sep 25 2026. Snapshot observation UTC: 2026-09-28T21:16:02.562Z.
+Installed build: ClientVersion=6941; SourceRevision=11041083; Sep 25 2026. Snapshot observation UTC: 2026-09-29T20:43:45.203Z.
 Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT.json). Re-read installed resources after a patch.
 
 | Native field | Observed value |
@@ -49,10 +49,10 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 ### Per-ability review leads
 
 - `enfos_bb_viscous_nasal_goo`: target flags, immunity, spell block/reflect if applicable, target loss.
-- `enfos_bb_quill_spray`: static unreferenced-special candidates: radius (not confirmed defects).
-- `enfos_bb_bristleback`: intrinsic modifier, Break/illusion behavior, live rank refresh; static unreferenced-special candidates: side_damage_reduction, back_damage_reduction (not confirmed defects).
-- `enfos_bb_warpath`: intrinsic modifier, Break/illusion behavior, live rank refresh; ultimate unlock curve, Scepter/Blessing and boss burst; static unreferenced-special candidates: damage_per_stack, ms_per_stack (not confirmed defects).
-- `enfos_bb_hairball`: Enfos passive free starting rank, native innate separation, respawn/point budget; world position, travel/impact timing and radius alignment; static unreferenced-special candidates: radius (not confirmed defects).
+- `enfos_bb_quill_spray`: cast/impact/modifier contract and lifetime.
+- `enfos_bb_bristleback`: intrinsic modifier, Break/illusion behavior, live rank refresh.
+- `enfos_bb_hairball`: world position, travel/impact timing and radius alignment; ultimate unlock curve, Scepter/Blessing and boss burst.
+- `enfos_bb_warpath`: Enfos passive free starting rank, native innate separation, respawn/point budget; intrinsic modifier, Break/illusion behavior, live rank refresh.
 
 <!-- END GENERATED INVENTORY -->
 
@@ -60,12 +60,12 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Slot 1: `enfos_bb_viscous_nasal_goo`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `bristleback_viscous_nasal_goo`, verified in installed native hero KV above. Retain target debuff, armor reduction and stacking slow; repair impact feedback and move its existing values into explicit KV.
+Decision and PvE identity rationale: Preserve the recognizable armor-breaking goo and stack pressure while avoiding assumptions that a cast icon creates a projectile or impact effect.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve: Q/W/E ranks 1–10 are KV-gated at levels 1–10; in-engine point/HUD behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -83,10 +83,10 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Goo duration, stack cap, armor reduction and slow formula are KV-driven; mock coverage confirms capped stack values. Target immunity/refresh behavior needs Dota verification. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Q ranks 1–10 are gated at hero levels 1–10; in-engine point/HUD behavior remains PENDING. |
+| VFX | PENDING | Goo impact particle is present in installed source snapshot and already precached; attachment and live appearance remain unverified. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
 | Modifiers | PENDING | Not evaluated in this dossier setup. |
@@ -94,21 +94,23 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
 | Boss | PENDING | Not evaluated in this dossier setup. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | EN/TR/RU/zh-CN descriptions now match configured formulas; engine rendering still needs review. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record (2026-09-30): classified all five abilities against installed native IDs. Goo now applies its precached impact particle and all stack/slow values are KV-backed; Quill Spray radius, formula and stack lifetime are KV-backed; Bristleback now distinguishes frontal/side/rear damage and triggers a rear-threshold spray; Warpath gains bounded stacks on ability casts; Hairball applies Goo stacks and Quill damage at the same cursor location. Added regressions for Goo values, directional reduction/retaliation, cast-driven Warpath, Quill damage and Hairball point alignment. Updated all five descriptions in EN/TR/RU/zh-CN. `node tools/checks.mjs` passes. Runtime Dota/VConsole, particle/audio presentation, target immunity, boss interactions and migration to level 50/10 ranks remain PENDING. A mock pass is not ENGINE_PASS.
+
+2026-09-30 Warpath visual repair: the timed stack buff now exposes the installed `particles/units/heroes/hero_bristleback/bristleback_warpath.vpcf` as its attached effect, following Bristleback for exactly the modifier lifetime. Added addon precache, VPK presence verification, and checks for the effect path and follow attachment. Particle appearance and live visibility remain pending Dota capture.
 
 ## Slot 2: `enfos_bb_quill_spray`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `bristleback_quill_spray`, verified in installed native hero KV above. Retain close-range physical area damage and escalating quill stacks, with explicit configured radius, cap and timing.
+Decision and PvE identity rationale: Preserve the close-range wave-clear role and link its effect values to KV.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve: Q/W/E ranks 1–10 are KV-gated at levels 1–10; in-engine point/HUD behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -126,10 +128,10 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Damage formula, radius, stack cap and duration are KV-driven; regression covers strength scaling and stack damage. Engine damage/immune-target behavior remains pending. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | W ranks 1–10 are gated at hero levels 1–10; in-engine point/HUD behavior remains PENDING. |
+| VFX | PENDING | Quill Spray particle is present and precached; used on Bristleback for Q and at the world point for Hairball. In-game CP/size still need capture. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
 | Modifiers | PENDING | Not evaluated in this dossier setup. |
@@ -137,21 +139,21 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
 | Boss | PENDING | Not evaluated in this dossier setup. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | EN/TR/RU/zh-CN descriptions now match configured formulas; engine rendering still needs review. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record (2026-09-30): all five Enfos slots now declare ten ranks, scaling Goo armor reduction, Quill damage, rear/side reduction, Warpath bonuses and Hairball radius/cooldown. Hairball is not marked as Dota Innate; it remains the Enfos fifth-slot active. Goo now validates enemies and respects spell block. Quill Spray includes spell-immune enemies as its KV already promised. Warpath stacks and bonuses honor Break; Bristleback rejects allied damage from its rear-damage counter. Two regressions cover Goo spell block and Warpath Break. Goo/Quill particles were already precached and are now part of the VPK existence audit. Dossier/tooltips describe Break. Mock/static and VPK checks are pending final rerun; Dota/VConsole audio/visual tests, boss balance and level-point schedule remain PENDING.
 
 ## Slot 3: `enfos_bb_bristleback`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `bristleback_bristleback`, verified in installed native hero KV above. Preserve front/side/rear distinction and rear-triggered Quill Spray; remove the current all-angle reduction behavior.
+Decision and PvE identity rationale: Directional defense and rear retaliation define the passive, so the flat reduction is a confirmed identity loss.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve: Q/W/E ranks 1–10 are KV-gated at levels 1–10; in-engine point/HUD behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -169,10 +171,10 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Regression covers front/side/rear reductions and rear threshold retaliation. 70° rear / 110° side angles are referenced from [Liquipedia](https://liquipedia.net/dota2/Bristleback); local-build/runtime semantics remain to verify. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | E ranks 1–10 are gated at hero levels 1–10; in-engine point/HUD behavior remains PENDING. |
+| VFX | PENDING | Rear proc now emits the existing Quill Spray particle; directional passive feedback and live attachment remain pending. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
 | Modifiers | PENDING | Not evaluated in this dossier setup. |
@@ -180,21 +182,64 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
 | Boss | PENDING | Not evaluated in this dossier setup. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | EN/TR/RU/zh-CN descriptions now match configured formulas; engine rendering still needs review. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
 Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
 
-## Slot 4: `enfos_bb_warpath`
+## Slot 5: `enfos_bb_warpath`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `bristleback_warpath`, verified in installed native hero KV above. Build bounded damage/speed stacks on non-item ability casts, including Goo and Hairball.
+Decision and PvE identity rationale: Preserve the cast-driven ramp-up identity, rather than granting stacks only from Quill Spray.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
+Current versus target rank curve: Warpath is the slot-5 Enfos passive; rank 1 is granted separately and ranks 2–10 are gated at hero levels 2–10. Point behavior remains PENDING in-engine validation.
+Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
+
+### Resource and implementation evidence
+
+- Native ability data source + build + hash/revision: PENDING.
+- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: timed Warpath buff attaches `particles/units/heroes/hero_bristleback/bristleback_warpath.vpcf` to the hero with `PATTACH_ABSORIGIN_FOLLOW`; path verified in installed VPK and precached. Exact particle appearance and any additional control-point needs remain pending live inspection.
+- Sound events + declaring banks + emission target + loop termination: PENDING.
+- Model/animation/gesture/icon evidence: PENDING.
+- Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.
+- Precache owner and cold-start test: PENDING.
+- One-shot/persistent cleanup owner and repeated-use test: PENDING.
+- Localization keys and generated mirrors: PENDING.
+
+### Acceptance ledger
+
+| Area | Status | Source/build/test evidence or N/A reason |
+| --- | --- | --- |
+| Gameplay | PENDING | Warpath now gains one capped, timed stack per non-item ability cast; mock verifies bonus values and item exclusion. Live event ordering and Scepter behavior remain pending. |
+| Targeting | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Warpath is the slot-5 Enfos passive: rank 1 is granted separately, and ranks 2–10 use the level 2–10 regular skill-point ladder. Hairball is the slot-4 ultimate with levels 5–50 gates. In-game HUD/point behavior remains PENDING. |
+| VFX | PENDING | Native Warpath buff particle is attached and precached; VPK/static checks pass, in-game appearance/attachment still needs capture. |
+| SFX | PENDING | Not evaluated in this dossier setup. |
+| Animation | PENDING | Not evaluated in this dossier setup. |
+| Modifiers | PENDING | Not evaluated in this dossier setup. |
+| Precache | PENDING | Not evaluated in this dossier setup. |
+| Cleanup | PENDING | Not evaluated in this dossier setup. |
+| Boss | PENDING | Not evaluated in this dossier setup. |
+| Upgrades | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | EN/TR/RU/zh-CN descriptions now match configured formulas; engine rendering still needs review. |
+| Performance | PENDING | Not evaluated in this dossier setup. |
+| Reconnect | PENDING | Not evaluated in this dossier setup. |
+| VConsole | PENDING | Not evaluated in this dossier setup. |
+
+Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+
+## Slot 4: `enfos_bb_hairball`
+
+Classification: PVE-CONVERT
+Native counterpart: `bristleback_hairball`, verified as native Ability4 in installed hero KV above. Apply Goo stacks and Quill Spray damage at the selected impact point.
+Decision and PvE identity rationale: Keep the point-target hybrid; correct the current mismatch where Goo uses the cursor area but Quill Spray incorrectly fires around the caster.
+Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
+Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
+Hairball is the active slot-4 ultimate, with ranks 1–10 gated at levels 5, 10, …, 50. Its Quill Spray impact shares Quill Spray values/stacks but records Hairball as the damage inflictor so the Enfos Scepter manager's ultimate spell amplification can recognize it. Engine amplification behavior remains pending.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
@@ -212,10 +257,10 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Regression confirms Goo applications and Quill Spray damage both use the selected point instead of splitting between cursor and caster; the physical damage event retains Hairball as inflictor for ultimate Scepter amplification. Projectile timing/immunity/boss and live Scepter behavior remain pending. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
+| Ranks | PENDING | Hairball ultimate ranks 1–10 are gated at levels 5–50 in five-level steps; engine HUD and point behavior need verification. |
+| VFX | PENDING | Uses the verified Quill Spray particle at the world impact point; Hairball-specific travel/impact presentation remains pending. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
 | Modifiers | PENDING | Not evaluated in this dossier setup. |
@@ -223,52 +268,17 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
 | Boss | PENDING | Not evaluated in this dossier setup. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | EN/TR/RU/zh-CN descriptions now match configured formulas; engine rendering still needs review. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
 Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
 
-## Slot 5: `enfos_bb_hairball`
+2026-09-30 level-cap integration and slot correction: Hairball is the active slot-4 ultimate, gated at levels 5, 10, …, 50; Warpath is the slot-5 Enfos passive and receives rank 1 through the separate Enfos grant. Static gates pass, while engine rank UI/point behavior remains PENDING. Hairball's Scepter damage amplification path remains under review because its damage is delegated to the Quill Spray handler.
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
+2026-09-30 static evidence correction: fixed the Warpath acceptance ledger, which incorrectly described the slot-5 Enfos passive as an ultimate with level 5–50 gates. Its actual KV uses the regular level 1–10 ladder with a separate free rank 1; Hairball is the slot-4 ultimate on the 5–50 ladder. Runtime rank buttons and point behavior remain PENDING owner testing.
 
-### Resource and implementation evidence
+2026-09-30 static Scepter correction: Hairball reused Quill Spray's damage helper, which also used Quill Spray as ApplyDamage's inflictor. The Enfos Scepter modifier only amplifies damage whose inflictor is an ultimate, so Hairball's shared impact damage bypassed that upgrade. The helper now keeps Quill Spray's configured values/stacks while reporting Hairball as the damage inflictor; the mock regression verifies this routing. Actual Scepter damage amplification remains PENDING in Dota.
 
-- Native ability data source + build + hash/revision: PENDING.
-- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
-- Sound events + declaring banks + emission target + loop termination: PENDING.
-- Model/animation/gesture/icon evidence: PENDING.
-- Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.
-- Precache owner and cold-start test: PENDING.
-- One-shot/persistent cleanup owner and repeated-use test: PENDING.
-- Localization keys and generated mirrors: PENDING.
-
-### Acceptance ledger
-
-| Area | Status | Source/build/test evidence or N/A reason |
-| --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
-| Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
-| Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
-| Performance | PENDING | Not evaluated in this dossier setup. |
-| Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | PENDING | Not evaluated in this dossier setup. |
-
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+2026-09-30 global Break metadata audit: Added KV `IsBreakable 1` to `enfos_bb_bristleback`, `enfos_bb_warpath` because its linked Lua passive implementation check `PassivesDisabled()`. Automated content validation now rejects this metadata mismatch. Actual Dota Break behavior remains PENDING.

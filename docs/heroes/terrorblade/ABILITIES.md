@@ -5,22 +5,22 @@ This dossier starts UNASSESSED/PENDING. It is a work reference, not proof that t
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
 
-Hero: `npc_dota_hero_terrorblade`; role: Carry. Production target: hero level 50 / all five abilities 10 total ranks; not implemented by this dossier.
+Hero: `npc_dota_hero_terrorblade`; role: Carry. Progression target: hero level 50 / all five abilities 10 total ranks; the KV rank inventory below and runtime unlock acceptance are tracked separately.
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_tb_reflection` | 4 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_AOE | abilities/pve_kits | terrorblade_reflection |
-| 2 | `enfos_tb_conjure_image` | 4 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | terrorblade_conjure_image |
-| 3 | `enfos_tb_metamorphosis` | 4 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | terrorblade_metamorphosis |
-| 4 | `enfos_tb_sunder` | 3 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | terrorblade_sunder |
-| 5 | `enfos_tb_demon_zeal` | 1 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | terrorblade_terror_wave |
+| 1 | `enfos_tb_reflection` | 10 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_AOE | abilities/pve_kits | terrorblade_reflection |
+| 2 | `enfos_tb_conjure_image` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | terrorblade_conjure_image |
+| 3 | `enfos_tb_metamorphosis` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | terrorblade_metamorphosis |
+| 4 | `enfos_tb_sunder` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | terrorblade_sunder |
+| 5 | `enfos_tb_demon_zeal` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | terrorblade_terror_wave |
 
 Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
 Source: `scripts/npc/heroes/npc_dota_hero_terrorblade.txt`; status: FILE_VERIFIED; SHA256: `4b597ba8251d4eed9cb1a3170e21e5708faec0a5018964010b384f99732343d5`.
-Installed build: ClientVersion=6941; SourceRevision=11041083; Sep 25 2026. Snapshot observation UTC: 2026-09-28T21:16:02.562Z.
+Installed build: ClientVersion=6941; SourceRevision=11041083; Sep 25 2026. Snapshot observation UTC: 2026-09-29T20:43:45.203Z.
 Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT.json). Re-read installed resources after a patch.
 
 | Native field | Observed value |
@@ -58,217 +58,158 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-09-30 level-50 migration: Q/W/E/Enfos passive gates start at level 1 with interval 1; R starts at level 5 with interval 5. Static contract test added; point/HUD and gameplay acceptance remain pending for owner live test.
+
+2026-09-30 static special-value repair: migrated all five Terrorblade abilities to named `AbilityValues`, preserving the existing ten-rank scalar/curve data, and added a five-slot schema contract. Native skill identities and Scepter/Shards remain as recorded; this schema fix does not validate illusion behavior, Sunder caps, VFX, audio or metamorphosis form in Dota. The user owns those live tests.
+
 ## Slot 1: `enfos_tb_reflection`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
-
-### Resource and implementation evidence
-
-- Native ability data source + build + hash/revision: PENDING.
-- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
-- Sound events + declaring banks + emission target + loop termination: PENDING.
-- Model/animation/gesture/icon evidence: PENDING.
-- Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.
-- Precache owner and cold-start test: PENDING.
-- One-shot/persistent cleanup owner and repeated-use test: PENDING.
-- Localization keys and generated mirrors: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `terrorblade_reflection (installed source Ability1)`.
+Decision and PvE identity rationale: Keeps Reflection slow identity and adds ranked periodic physical damage, with boss duration, slow and per-tick damage capped.
+Expected behavior: World-position area cast applies timed slow and damage, then cleans up on expiry or death.
+Rank target: 10 total ranks per Enfos slot within hero level 50. Skill-point/unlock curve is a separate system acceptance item.
 
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
-| Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
-| Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
-| Performance | PENDING | Not evaluated in this dossier setup. |
-| Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Targeting | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Ranks | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| VFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| SFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Animation | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Modifiers | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Precache | PASS | Particle paths found in installed Valve VPK and registered in addon precache; cold-start engine test pending. |
+| Cleanup | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Boss | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Upgrades | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Localization | PASS | Turkish source mirrored to EN/TR/RU/zh-CN; consistency check passed. |
+| Performance | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Reconnect | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| VConsole | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record (2026-09-30): rank 1-10 KV and Lua behavior updated; mock and static checks run. Engine playtest remains pending.
 
 ## Slot 2: `enfos_tb_conjure_image`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
-
-### Resource and implementation evidence
-
-- Native ability data source + build + hash/revision: PENDING.
-- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
-- Sound events + declaring banks + emission target + loop termination: PENDING.
-- Model/animation/gesture/icon evidence: PENDING.
-- Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.
-- Precache owner and cold-start test: PENDING.
-- One-shot/persistent cleanup owner and repeated-use test: PENDING.
-- Localization keys and generated mirrors: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `terrorblade_conjure_image (installed source Ability2)`.
+Decision and PvE identity rationale: Keeps Conjure Image identity through bounded summon service; ranks scale count, lifetime, outgoing damage and attack echo.
+Expected behavior: No-target cast creates bounded illusions and temporary attack buff; shared service owns summon cleanup.
+Rank target: 10 total ranks per Enfos slot within hero level 50. Skill-point/unlock curve is a separate system acceptance item.
 
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
-| Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
-| Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
-| Performance | PENDING | Not evaluated in this dossier setup. |
-| Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Targeting | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Ranks | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| VFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| SFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Animation | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Modifiers | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Precache | PASS | Particle paths found in installed Valve VPK and registered in addon precache; cold-start engine test pending. |
+| Cleanup | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Boss | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Upgrades | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Localization | PASS | Turkish source mirrored to EN/TR/RU/zh-CN; consistency check passed. |
+| Performance | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Reconnect | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| VConsole | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record (2026-09-30): rank 1-10 KV and Lua behavior updated; mock and static checks run. Engine playtest remains pending.
 
 ## Slot 3: `enfos_tb_metamorphosis`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
-
-### Resource and implementation evidence
-
-- Native ability data source + build + hash/revision: PENDING.
-- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
-- Sound events + declaring banks + emission target + loop termination: PENDING.
-- Model/animation/gesture/icon evidence: PENDING.
-- Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.
-- Precache owner and cold-start test: PENDING.
-- One-shot/persistent cleanup owner and repeated-use test: PENDING.
-- Localization keys and generated mirrors: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `terrorblade_metamorphosis (installed source Ability3)`.
+Decision and PvE identity rationale: Keeps ranged transformation identity; ranks scale duration, range and damage with agility scaling.
+Expected behavior: Timed transformation grants ranged capability/projectile and ranked bonuses; modifier end restores melee capability.
+Rank target: 10 total ranks per Enfos slot within hero level 50. Skill-point/unlock curve is a separate system acceptance item.
 
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
-| Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
-| Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
-| Performance | PENDING | Not evaluated in this dossier setup. |
-| Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Targeting | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Ranks | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| VFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| SFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Animation | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Modifiers | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Precache | PASS | Particle paths found in installed Valve VPK and registered in addon precache; cold-start engine test pending. |
+| Cleanup | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Boss | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Upgrades | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Localization | PASS | Turkish source mirrored to EN/TR/RU/zh-CN; consistency check passed. |
+| Performance | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Reconnect | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| VConsole | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record (2026-09-30): rank 1-10 KV and Lua behavior updated; mock and static checks run. Engine playtest remains pending.
 
 ## Slot 4: `enfos_tb_sunder`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
-
-### Resource and implementation evidence
-
-- Native ability data source + build + hash/revision: PENDING.
-- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
-- Sound events + declaring banks + emission target + loop termination: PENDING.
-- Model/animation/gesture/icon evidence: PENDING.
-- Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.
-- Precache owner and cold-start test: PENDING.
-- One-shot/persistent cleanup owner and repeated-use test: PENDING.
-- Localization keys and generated mirrors: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `terrorblade_sunder (installed source Ability6)`.
+Decision and PvE identity rationale: Keeps Sunder as focused finisher; Enfos version heals Terrorblade and deals equal pure damage, capped by boss max health percentage.
+Expected behavior: Enemy unit target respects spell block; heal uses base plus agility; boss pure damage is capped.
+Rank target: 10 total ranks per Enfos slot within hero level 50. Skill-point/unlock curve is a separate system acceptance item.
 
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
-| Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
-| Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
-| Performance | PENDING | Not evaluated in this dossier setup. |
-| Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Targeting | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Ranks | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| VFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| SFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Animation | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Modifiers | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Precache | PASS | Particle paths found in installed Valve VPK and registered in addon precache; cold-start engine test pending. |
+| Cleanup | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Boss | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Upgrades | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Localization | PASS | Turkish source mirrored to EN/TR/RU/zh-CN; consistency check passed. |
+| Performance | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Reconnect | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| VConsole | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record (2026-09-30): rank 1-10 KV and Lua behavior updated; mock and static checks run. Engine playtest remains pending.
 
 ## Slot 5: `enfos_tb_demon_zeal`
 
-Classification: UNASSESSED
-Native counterpart: PENDING — verify from current source; do not infer from icon/slot.
-Decision and PvE identity rationale: PENDING.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
-
-### Resource and implementation evidence
-
-- Native ability data source + build + hash/revision: PENDING.
-- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
-- Sound events + declaring banks + emission target + loop termination: PENDING.
-- Model/animation/gesture/icon evidence: PENDING.
-- Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.
-- Precache owner and cold-start test: PENDING.
-- One-shot/persistent cleanup owner and repeated-use test: PENDING.
-- Localization keys and generated mirrors: PENDING.
+Classification: TUNE
+Native counterpart: `terrorblade_demon_zeal (installed source Ability4)`.
+Decision and PvE identity rationale: Uses native attack/mobility passive identity for fifth Enfos passive; separate from Dota Innate metadata.
+Expected behavior: Ranked attack/movement speed passive; Break disables it and illusions do not receive it.
+Rank target: 10 total ranks per Enfos slot within hero level 50. Skill-point/unlock curve is a separate system acceptance item.
 
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Not evaluated in this dossier setup. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
-| Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
-| Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
-| Performance | PENDING | Not evaluated in this dossier setup. |
-| Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Targeting | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Ranks | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| VFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| SFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Animation | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Modifiers | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Precache | PASS | Particle paths found in installed Valve VPK and registered in addon precache; cold-start engine test pending. |
+| Cleanup | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Boss | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Upgrades | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Localization | PASS | Turkish source mirrored to EN/TR/RU/zh-CN; consistency check passed. |
+| Performance | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| Reconnect | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
+| VConsole | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record (2026-09-30): rank 1-10 KV and Lua behavior updated; mock and static checks run. Engine playtest remains pending.
+
+2026-09-30 global Break metadata audit: Added KV `IsBreakable 1` to `enfos_tb_demon_zeal` because its linked Lua passive implementation check `PassivesDisabled()`. Automated content validation now rejects this metadata mismatch. Actual Dota Break behavior remains PENDING.
