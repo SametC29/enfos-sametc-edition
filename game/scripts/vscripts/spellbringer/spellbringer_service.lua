@@ -183,7 +183,7 @@ function SpellbringerService:PublishMetadata()
 			is_offensive = def.is_offensive,
 			cost = def.cost,
 			cooldown = def.cooldown,
-			radius = def.radius or 0,
+			radius = def.radius or (id=="spellbringer_rift_surge" and 71 or 85),
 			duration = def.duration or 0,
 		}
 	end
@@ -448,6 +448,11 @@ function SpellbringerService:CastSpell(playerID, abilityName, targetPos, targetE
 		return false,"CAST_FAILED"
 	end
 	Log:Info("spellbringer", "Player %d (Team %d) successfully cast %s", playerID, casterTeam, abilityName)
+	if targetPos and CustomGameEventManager and CustomGameEventManager.Send_ServerToAllClients then
+		CustomGameEventManager:Send_ServerToAllClients("enfos_spellbringer_effect", {
+			ability=abilityName,team=casterTeam,x=targetPos.x,y=targetPos.y,z=targetPos.z,
+		})
+	end
 	return true, "OK"
 end
 
@@ -629,31 +634,43 @@ end
 
 --------------------------------------------------------------------------------
 -- Ability 8: Future Reinforcements (Defensive)
--- Summons exactly 5 allied fighters scaled to wave+4 power. Never leak, no bounty.
+-- Summons exactly 5 allied fighters from wave+5. Never leak, no bounty.
 --------------------------------------------------------------------------------
 function SpellbringerService:CastFutureReinforcements(casterTeam, def, targetPos, playerID)
 	local currentWave = (self.waveManager and self.waveManager.currentWave) or 1
-	local targetWave = currentWave + 4
+	local future, targetWave = require("waves/native_roster").Future(currentWave)
+	if self.waveManager and self.waveManager.bossResources then
+		local plan=require("waves/native_roster").ResourcePlan(currentWave)
+		self.waveManager.bossResources:RequestPlan(plan)
+		if not self.waveManager.bossResources:IsPlanReady(plan) then return false end
+	end
+	local stats = require("waves/difficulty_curve").Normal(targetWave)
 	local spawnPos = targetPos or self:GetReinforcementSpawnPos(casterTeam)
 	local owner=playerID and PlayerResource:GetSelectedHeroEntity(playerID) or nil
 	local created=0
 
 	for i = 1, def.count do
-		local unit = CreateUnitByName(def.unit_name, spawnPos + Vector(RandomFloat(-60, 60), RandomFloat(-60, 60), 0), true, owner, owner, casterTeam)
+		local unit = CreateUnitByName(future.unit, spawnPos + Vector(RandomFloat(-60, 60), RandomFloat(-60, 60), 0), true, owner, owner, casterTeam)
 		if unit then
 			created=created+1
 			if owner then unit:SetOwner(owner);unit:SetControllableByPlayer(playerID,true) end
 			unit.is_allied_reinforcement = true
 			unit.enfosNoReward = true
+			unit:SetMinimumGoldBounty(0);unit:SetMaximumGoldBounty(0);unit:SetDeathXP(0)
 
-			-- Wave-scaling stats: +25 HP and +3 DMG per wave level
-			local extraHp = targetWave * 25
-			local extraDmg = targetWave * 3
-			unit:SetBaseMaxHealth(unit:GetMaxHealth() + extraHp)
+			-- Same scheduled-wave stats; no additive legacy summon bonuses.
+			unit:SetBaseMaxHealth(stats.hp)
 			unit:SetMaxHealth(unit:GetBaseMaxHealth())
 			unit:SetHealth(unit:GetMaxHealth())
-			unit:SetBaseDamageMin(unit:GetBaseDamageMin() + extraDmg)
-			unit:SetBaseDamageMax(unit:GetBaseDamageMax() + extraDmg)
+			unit:SetBaseDamageMin(stats.damage)
+			unit:SetBaseDamageMax(math.ceil(stats.damage * 1.1))
+			unit.waveNumber = targetWave
+			unit:SetPhysicalArmorBaseValue(stats.armor)
+			unit:SetBaseMagicalResistanceValue(stats.magicResistance)
+			unit:SetBaseMoveSpeed(stats.speed)
+			require("waves/special_creeps").Configure(unit,future.wave,casterTeam,true)
+			local snapshot = self.waveManager and self.waveManager.EnsureMatchConfig and self.waveManager:EnsureMatchConfig()
+			if snapshot then require("waves/balance_config").Apply(unit,snapshot,targetWave) end
 
 			unit:SetIdleAcquire(true)
 			unit:SetAcquisitionRange(700)

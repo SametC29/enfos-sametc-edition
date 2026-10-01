@@ -541,6 +541,12 @@ test("future reinforcements summons exactly 5 allied fighters with wave scaling 
             SetBaseDamageMax = function() end,
             SetIdleAcquire = function() end,
             SetAcquisitionRange = function() end,
+            SetPhysicalArmorBaseValue = function() end,
+            SetBaseMagicalResistanceValue = function() end,
+            SetBaseMoveSpeed = function() end,
+            AddAbility = function() return {SetLevel=function() end} end,
+            SetMaxMana = function() end,SetMana = function() end,SetBaseManaRegen = function() end,
+            SetMinimumGoldBounty=function() end,SetMaximumGoldBounty=function() end,SetDeathXP=function() end,
             AddNewModifier = function(self, caster, ability, modName, kv) self.timedLife = kv.duration end,
         }
         spawnedUnits[#spawnedUnits+1] = u
@@ -553,13 +559,12 @@ test("future reinforcements summons exactly 5 allied fighters with wave scaling 
     assert(#spawnedUnits == 5, "Future reinforcements must summon exactly 5 fighters, got: " .. #spawnedUnits)
 
     for _, unit in ipairs(spawnedUnits) do
-        assert(unit.name == "enfos_spellbringer_reinforcement")
+        assert(unit.name == "enfos_wave_14")
         assert(unit.controller == 0 and unit.controlled == true, "Summons must be controlled by the casting player")
         assert(unit.is_allied_reinforcement == true)
         assert(unit.enfosNoReward == true)
         assert(unit.timedLife == 30.0, "Must have 30s timed life")
-        -- Wave 10 + 4 = 14 -> 14 * 25 = 350 bonus HP -> 550 + 350 = 900
-        assert(unit.maxHp == 900, "HP should scale to wave+4 power")
+        assert(unit.maxHp == require('waves/difficulty_curve').Normal(15).hp, "HP should match wave+5 power")
     end
 
     -- Verify leak penalty in wave definitions is 0

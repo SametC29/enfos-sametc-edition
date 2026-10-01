@@ -18,12 +18,41 @@ var OFFENSIVE_SPELLS = {
     spellbringer_rift_surge: true
 };
 var targetingSpell = null;
+var targetParticle = null, targetGeneration = 0;
+var activeCastEffects = [];
+var RANGE_PARTICLE = "particles/ui_mouseactions/range_display.vpcf";
+function DestroySpellParticle(id) {
+    if (id === null || id === undefined) return;
+    Particles.DestroyParticleEffect(id, true);
+    Particles.ReleaseParticleIndex(id);
+}
+function SpellRadius(name) { return Number(SpellDefinition(name).radius) || (name === "spellbringer_rift_surge" ? 71 : 85); }
+function CreateSpellParticle(name) {
+    return Particles.CreateParticle(name, ParticleAttachment_t.PATTACH_WORLDORIGIN,
+        Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer()));
+}
+function StartSpellAreaPreview() {
+    if (typeof Particles === "undefined" || !$.Schedule) return;
+    var generation = targetGeneration;
+    targetParticle = CreateSpellParticle(RANGE_PARTICLE);
+    function update() {
+        if (generation !== targetGeneration || !targetingSpell) return;
+        var position = GameUI.GetScreenWorldPosition(GameUI.GetCursorPosition());
+        Particles.SetParticleControl(targetParticle, 0, position || [0, 0, -10000]);
+        Particles.SetParticleControl(targetParticle, 1, [position ? SpellRadius(targetingSpell) : 0, 0, 0]);
+        $.Schedule(0.03, update);
+    }
+    update();
+}
 var pointerOverSpell = false;
 function SpellDefinition(name) {
     var metadata = CustomNetTables.GetTableValue("spellbringer_meta", "abilities") || {};
     return metadata[name] || { cost: SPELL_COSTS[name] || 0 };
 }
 function CancelSpellTarget() {
+    targetGeneration++;
+    DestroySpellParticle(targetParticle);
+    targetParticle = null;
     targetingSpell = null;
     $("#SpellTargetHint").text = "";
     for (var name in SPELL_COSTS) $("#btn_" + name).SetHasClass("Targeting", false);
@@ -71,6 +100,7 @@ function CastSpell(abilityName) {
     CancelSpellTarget();
     if (same) return;
     targetingSpell = abilityName;
+    StartSpellAreaPreview();
     $("#btn_" + abilityName).SetHasClass("Targeting", true);
     $("#SpellTargetHint").text = $.Localize(OFFENSIVE_SPELLS[abilityName] ? "#enfos_spell_target_enemy" : "#enfos_spell_target_ally");
 }
@@ -166,4 +196,30 @@ function HideTooltip() {
         });
     });
     updateSpellbringerUI();
+    GameEvents.Subscribe("enfos_spellbringer_effect", function(data) {
+        if (!data || Number(data.team) !== Players.GetTeam(Players.GetLocalPlayer()) || typeof Particles === "undefined") return;
+        var position = [Number(data.x), Number(data.y), Number(data.z)];
+        if (!position.every(isFinite) || !SPELL_COSTS[data.ability]) return;
+        var effect = { ring: CreateSpellParticle(RANGE_PARTICLE), burst: null };
+        Particles.SetParticleControl(effect.ring, 0, position);
+        Particles.SetParticleControl(effect.ring, 1, [SpellRadius(data.ability), 0, 0]);
+        var particle = data.ability === "spellbringer_reveal" ? "particles/items_fx/dust_of_appearance.vpcf"
+            : data.ability === "spellbringer_purification" ? "particles/units/heroes/hero_omniknight/omniknight_purification.vpcf"
+            : "particles/units/heroes/hero_enigma/enigma_demonic_conversion.vpcf";
+        effect.burst = CreateSpellParticle(particle);
+        Particles.SetParticleControl(effect.burst, 0, position);
+        if (data.ability === "spellbringer_reveal") Particles.SetParticleControl(effect.burst, 1, [SpellRadius(data.ability), 0, 0]);
+        function retire(value) {
+            if (value.retired) return;
+            value.retired = true;
+            DestroySpellParticle(value.ring); DestroySpellParticle(value.burst);
+            value.ring = null; value.burst = null;
+            var index = activeCastEffects.indexOf(value);
+            if (index >= 0) activeCastEffects.splice(index, 1);
+        }
+        activeCastEffects.push(effect);
+        if (activeCastEffects.length > 16) retire(activeCastEffects[0]);
+        $.Schedule(1.5, function() { DestroySpellParticle(effect.burst); effect.burst = null; });
+        $.Schedule(data.ability === "spellbringer_reveal" ? 15 : 2, function() { retire(effect); });
+    });
 })();

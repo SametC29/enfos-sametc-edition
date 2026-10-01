@@ -420,7 +420,7 @@
     "DOTA_Tooltip_spellbringer_whole_displacement_Description": "将选定区域中的敌方波次小兵送回各自路线起点。对首领无效。",
     "DOTA_Tooltip_spellbringer_reveal_Description": "在选定区域提供视野及真实视域，揭露隐形敌人。",
     "DOTA_Tooltip_spellbringer_purification_Description": "移除区域内敌方Spellbringer增益，对其敌方召唤物造成800纯粹伤害，并对友方英雄施加强驱散。",
-    "DOTA_Tooltip_spellbringer_future_reinforcements_Description": "在选定位置召唤5名可操控友方战士，持续30秒。强度按当前波次+4成长。",
+    "DOTA_Tooltip_spellbringer_future_reinforcements_Description": "召唤5个可操控友军，持续30秒，使用当前波次+5的实力和外观。首领波次使用前一个普通波次的生物；超过第60波后，实力上限为第60波，外观为第59波。友军不提供敌方奖励，也不会扣除团队生命。",
     "DOTA_Tooltip_Ability_bulwark_fortress_scepter_description": "神之力量持续时间延长5秒。斯温获得50%状态抗性。每次冲击波使900范围内的友方英雄获得自身基础攻击力50%的额外攻击力和10点护甲，持续1.8秒。",
     "DOTA_Tooltip_Ability_bulwark_unbreakable_shard_description": "+350生命，将15%敌方伤害以物理伤害反弹。",
     "DOTA_Tooltip_Ability_enfos_juggernaut_omni_slash_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
@@ -1070,6 +1070,8 @@
     "DOTA_Tooltip_Ability_enfos_wave_raise": "召唤助手",
     "DOTA_Tooltip_Ability_enfos_wave_raise_Description": "召唤最多2个助手，持续20秒。每个召唤者最多拥有4个存活助手。助手不能再次召唤、不提供奖励，也不会扣除团队生命。",
     "DOTA_Tooltip_ability_enfos_wave_raise": "召唤助手",
-    "DOTA_Tooltip_ability_enfos_wave_raise_Description": "召唤最多2个助手，持续20秒。每个召唤者最多拥有4个存活助手。助手不能再次召唤、不提供奖励，也不会扣除团队生命。"
+    "DOTA_Tooltip_ability_enfos_wave_raise_Description": "召唤最多2个助手，持续20秒。每个召唤者最多拥有4个存活助手。助手不能再次召唤、不提供奖励，也不会扣除团队生命。",
+    "DOTA_Tooltip_Ability_spellbringer_future_reinforcements_Description": "召唤5个可操控友军，持续30秒，使用当前波次+5的实力和外观。首领波次使用前一个普通波次的生物；超过第60波后，实力上限为第60波，外观为第59波。友军不提供敌方奖励，也不会扣除团队生命。",
+    "DOTA_Tooltip_ability_spellbringer_future_reinforcements_Description": "召唤5个可操控友军，持续30秒，使用当前波次+5的实力和外观。首领波次使用前一个普通波次的生物；超过第60波后，实力上限为第60波，外观为第59波。友军不提供敌方奖励，也不会扣除团队生命。"
   }
 }

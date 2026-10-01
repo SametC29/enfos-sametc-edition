@@ -27,6 +27,12 @@ print("[SVEN_ABILITY_BOOTSTRAP] Q/W/E Lua handlers registered")
 local WaveManager = require("waves/wave_manager")
 
 function Precache(context)
+    for _, particle in ipairs({
+        "particles/ui_mouseactions/range_display.vpcf",
+        "particles/items_fx/dust_of_appearance.vpcf",
+        "particles/units/heroes/hero_omniknight/omniknight_purification.vpcf",
+        "particles/units/heroes/hero_enigma/enigma_demonic_conversion.vpcf",
+    }) do PrecacheResource("particle", particle, context) end
     -- Validated replacements for resource names introduced in the hero refresh.
     for _,particle in ipairs({
         "particles/units/heroes/hero_tidehunter/tidehunter_anchor_hero.vpcf",
