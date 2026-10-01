@@ -1630,6 +1630,12 @@
     "DOTA_Tooltip_modifier_enfos_pve_burn": "Tutuşma Yanması",
     "DOTA_Tooltip_modifier_enfos_pve_burn_Description": "Lina’nın ateşi düzenli aralıklarla büyü hasarı verir. Bu düşman yanarken ölürse patlar ve yakındaki düşmanlara hasar verir. Patlama için Lina’nın pasifi etkin olmalıdır.",
     "DOTA_Tooltip_modifier_enfos_pve_fiery_stacks": "Ateşli Ruh",
-    "DOTA_Tooltip_modifier_enfos_pve_fiery_stacks_Description": "Her yük saldırı hızını, hareket hızını ve büyü güçlendirmesini artırır. Eşya dışı büyüler ve yük veren saldırılar tüm yüklerin ortak süresini yeniler. Pasifleri devre dışı bırakma bu bonusları kapatır."
+    "DOTA_Tooltip_modifier_enfos_pve_fiery_stacks_Description": "Her yük saldırı hızını, hareket hızını ve büyü güçlendirmesini artırır. Eşya dışı büyüler ve yük veren saldırılar tüm yüklerin ortak süresini yeniler. Pasifleri devre dışı bırakma bu bonusları kapatır.",
+    "DOTA_Tooltip_modifier_enfos_pve_repel": "Repel",
+    "DOTA_Tooltip_modifier_enfos_pve_repel_Description": "Zayıflatma bağışıklığı, can yenilenmesi, Kuvvet ve zırh sağlar. Etkisi dağıtılamaz.",
+    "DOTA_Tooltip_modifier_enfos_pve_degen_debuff": "Degen Aurası",
+    "DOTA_Tooltip_modifier_enfos_pve_degen_debuff_Description": "Hareket ve saldırı hızı azalır. Omniknight aurasının etkisindeyken her saniye saf hasar alır.",
+    "DOTA_Tooltip_modifier_enfos_pve_angel": "Koruyucu Melek",
+    "DOTA_Tooltip_modifier_enfos_pve_angel_Description": "Fiziksel hasara bağışıklık kazanır ve canı yenilenir. Etkisi dağıtılamaz."
   }
 }

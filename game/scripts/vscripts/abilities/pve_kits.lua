@@ -1553,6 +1553,7 @@ end
 
 modifier_enfos_pve_repel=class({})
 function modifier_enfos_pve_repel:IsPurgable() return false end
+function modifier_enfos_pve_repel:GetTexture() return 'omniknight_repel' end
 function modifier_enfos_pve_repel:IsDebuff() return false end
 function modifier_enfos_pve_repel:DeclareFunctions()
     return { MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT, MODIFIER_PROPERTY_STATS_STRENGTH_BONUS, MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS }
@@ -1591,6 +1592,7 @@ function modifier_enfos_pve_degen_aura:OnRefresh()
 end
 
 modifier_enfos_pve_degen_debuff=class({})
+function modifier_enfos_pve_degen_debuff:GetTexture() return 'omniknight_degen_aura' end
 function modifier_enfos_pve_degen_debuff:IsDebuff() return true end
 function modifier_enfos_pve_degen_debuff:IsPurgable() return true end
 function modifier_enfos_pve_degen_debuff:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT } end
@@ -1618,6 +1620,7 @@ end
 
 function modifier_enfos_pve_angel:DeclareFunctions() return { MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL, MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT } end
 function modifier_enfos_pve_angel:IsPurgable() return false end
+function modifier_enfos_pve_angel:GetTexture() return 'omniknight_guardian_angel' end
 function modifier_enfos_pve_angel:IsDebuff() return false end
 function modifier_enfos_pve_angel:GetAbsoluteNoDamagePhysical() return 1 end
 function modifier_enfos_pve_angel:GetModifierConstantHealthRegen() return value(self:GetAbility(), 'bonus_hp_regen') end

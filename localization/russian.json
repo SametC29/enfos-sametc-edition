@@ -1008,6 +1008,12 @@
     "DOTA_Tooltip_modifier_enfos_pve_burn": "Горение",
     "DOTA_Tooltip_modifier_enfos_pve_burn_Description": "Огонь Лины периодически наносит магический урон. Если этот враг погибает во время горения, он взрывается и наносит урон ближайшим врагам. Для взрыва пассивная способность Лины должна быть активна.",
     "DOTA_Tooltip_modifier_enfos_pve_fiery_stacks": "Огненная душа",
-    "DOTA_Tooltip_modifier_enfos_pve_fiery_stacks_Description": "Каждый заряд увеличивает скорость атаки, скорость передвижения и усиление заклинаний. Заклинания, кроме предметов, и атаки, дающие заряд, обновляют общее время действия зарядов. Истощение отключает эти бонусы."
+    "DOTA_Tooltip_modifier_enfos_pve_fiery_stacks_Description": "Каждый заряд увеличивает скорость атаки, скорость передвижения и усиление заклинаний. Заклинания, кроме предметов, и атаки, дающие заряд, обновляют общее время действия зарядов. Истощение отключает эти бонусы.",
+    "DOTA_Tooltip_modifier_enfos_pve_repel": "Отражение",
+    "DOTA_Tooltip_modifier_enfos_pve_repel_Description": "Даёт невосприимчивость к отрицательным эффектам, восстановление здоровья, силу и броню. Нельзя развеять.",
+    "DOTA_Tooltip_modifier_enfos_pve_degen_debuff": "Аура замедления",
+    "DOTA_Tooltip_modifier_enfos_pve_degen_debuff_Description": "Снижает скорость передвижения и атаки. Каждую секунду наносит чистый урон под действием ауры Omniknight.",
+    "DOTA_Tooltip_modifier_enfos_pve_angel": "Ангел-хранитель",
+    "DOTA_Tooltip_modifier_enfos_pve_angel_Description": "Даёт невосприимчивость к физическому урону и восстановление здоровья. Нельзя развеять."
   }
 }
