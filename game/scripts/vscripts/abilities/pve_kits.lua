@@ -1090,8 +1090,11 @@ function enfos_drow_gust:OnSpellStart()
     dir.z = 0
     if dir:Length2D() < 1 then dir = c:GetForwardVector() end
     dir.z = 0
-    self.direction = dir:Normalized()
-    self.hit_targets = {}
+    local direction = dir:Normalized()
+    self.gust_serial = (self.gust_serial or 0) + 1
+    local cast_id = self.gust_serial
+    self.gust_waves = self.gust_waves or {}
+    self.gust_waves[cast_id] = { direction = direction, hit_targets = {} }
     c:EmitSound('Hero_DrowRanger.Silence')
 
     ProjectileManager:CreateLinearProjectile({
@@ -1108,19 +1111,27 @@ function enfos_drow_gust:OnSpellStart()
         iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
         iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
         bDeleteOnHit = false,
-        vVelocity = self.direction * value(self, 'wave_speed'),
-        bProvidesVision = false
+        vVelocity = direction * value(self, 'wave_speed'),
+        bProvidesVision = false,
+        ExtraData = { gust_cast = cast_id }
     })
 end
-function enfos_drow_gust:OnProjectileHit(t)
+function enfos_drow_gust:OnProjectileHit_ExtraData(t, location, data)
+    local cast_id = data and tonumber(data.gust_cast)
+    local wave = cast_id and self.gust_waves and self.gust_waves[cast_id]
+    if not wave then return false end
+    if not t then
+        self.gust_waves[cast_id] = nil
+        return false
+    end
     if t and not (t.IsNull and t:IsNull()) and t:IsAlive() then
-        local target_id = t.entindex and t:entindex() or t
-        if self.hit_targets and self.hit_targets[target_id] then return false end
-        self.hit_targets = self.hit_targets or {}
-        self.hit_targets[target_id] = true
         local c = self:GetCaster()
+        if not c or c:IsNull() or t:GetTeamNumber() == c:GetTeamNumber() then return false end
+        local target_id = t.entindex and t:entindex() or t
+        if wave.hit_targets[target_id] then return false end
+        wave.hit_targets[target_id] = true
         if not is_boss(t) then
-            t:SetAbsOrigin(t:GetAbsOrigin() + self.direction * value(self, 'knockback_distance'))
+            t:SetAbsOrigin(t:GetAbsOrigin() + wave.direction * value(self, 'knockback_distance'))
             FindClearSpaceForUnit(t, t:GetAbsOrigin(), true)
         end
         local boss_pct = value(self, 'boss_control_duration_pct')

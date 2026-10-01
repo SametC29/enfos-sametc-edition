@@ -608,11 +608,48 @@ test('Drow Gust defaults a zero cursor to forward and only applies once per targ
     gust:OnSpellStart()
     assert(last_linear_projectile.vVelocity.x == 0 and last_linear_projectile.vVelocity.y == 1200,
         'Zero-length cursor should launch the wave along Drow forward')
-    gust:OnProjectileHit(enemy)
+    gust:OnProjectileHit_ExtraData(enemy, nil, last_linear_projectile.ExtraData)
     local moved = enemy:GetAbsOrigin()
     assert(moved.x == 200 and moved.y == 200, 'Gust knockback should follow the wave direction')
-    gust:OnProjectileHit(enemy)
+    gust:OnProjectileHit_ExtraData(enemy, nil, last_linear_projectile.ExtraData)
     assert(enemy:GetAbsOrigin().y == 200, 'The same projectile must not knock back or apply control repeatedly')
+end)
+
+test('Drow Gust isolates overlapping wave direction, hits and destination cleanup',function()
+ local c=create_mock_unit('npc_dota_hero_drow_ranger',2,Vector(0,0,0))
+ local t=create_mock_unit('enfos_creep',3,Vector(200,0,0));local cursor=Vector(1000,0,0)
+ local a=enfos_drow_gust();a.GetCaster=function() return c end;a.GetCursorPosition=function() return cursor end
+ a.GetSpecialValueFor=function(_,k) return ({wave_distance=1000,wave_speed=1200,wave_width=250,knockback_distance=200,silence_duration=3,boss_control_duration_pct=30})[k] or 0 end
+ a:OnSpellStart();local first=last_linear_projectile.ExtraData
+ cursor=Vector(0,1000,0);a:OnSpellStart();local second=last_linear_projectile.ExtraData
+ assert(first.gust_cast~=second.gust_cast)
+ a:OnProjectileHit_ExtraData(t,nil,first)
+ assert(t:GetAbsOrigin().x==400 and t:GetAbsOrigin().y==0,'first wave must keep its +X direction')
+ a:OnProjectileHit_ExtraData(t,nil,first)
+ assert(t:GetAbsOrigin().x==400,'one wave cannot hit the same target twice')
+ a:OnProjectileHit_ExtraData(t,nil,second)
+ assert(t:GetAbsOrigin().x==400 and t:GetAbsOrigin().y==200,'another wave may hit independently with +Y direction')
+ a:OnProjectileHit_ExtraData(nil,nil,first)
+ assert(a.gust_waves[first.gust_cast]==nil and a.gust_waves[second.gust_cast]~=nil)
+ a:OnProjectileHit_ExtraData(t,nil,first)
+ assert(t:GetAbsOrigin().y==200,'retired wave cannot resurrect its state')
+ a:OnProjectileHit_ExtraData(nil,nil,second)
+ assert(next(a.gust_waves)==nil,'destination callback retires all completed wave records')
+end)
+
+test('Drow Gust rejects friendly, dead, null and unknown callbacks without retiring a live wave',function()
+ local c=create_mock_unit('npc_dota_hero_drow_ranger',2,Vector(0,0,0))
+ local ally=create_mock_unit('enfos_ally',2,Vector(100,0,0));local dead=create_mock_unit('enfos_dead',3,Vector(100,0,0));dead.alive=false
+ local null={IsNull=function() return true end};local enemy=create_mock_unit('enfos_creep',3,Vector(100,0,0))
+ local a=enfos_drow_gust();a.GetCaster=function() return c end;a.GetCursorPosition=function() return Vector(1000,0,0) end
+ a.GetSpecialValueFor=function(_,k) return ({wave_distance=1000,wave_speed=1200,wave_width=250,knockback_distance=200,silence_duration=3,boss_control_duration_pct=30})[k] or 0 end
+ a:OnSpellStart();local data=last_linear_projectile.ExtraData
+ for _,t in ipairs({ally,dead,null}) do a:OnProjectileHit_ExtraData(t,nil,data) end
+ a:OnProjectileHit_ExtraData(enemy,nil,{gust_cast=999});a:OnProjectileHit_ExtraData(enemy,nil,{})
+ assert(ally:GetAbsOrigin().x==100 and dead:GetAbsOrigin().x==100 and enemy:GetAbsOrigin().x==100)
+ assert(a.gust_waves[data.gust_cast] and next(a.gust_waves[data.gust_cast].hit_targets)==nil)
+ a:OnProjectileHit_ExtraData(enemy,nil,data);assert(enemy:GetAbsOrigin().x==300)
+ a:OnProjectileHit_ExtraData(nil,nil,data);assert(next(a.gust_waves)==nil)
 end)
 
 test('Drow Multishot projectiles retain spell-immunity pierce and configured travel data', function()
