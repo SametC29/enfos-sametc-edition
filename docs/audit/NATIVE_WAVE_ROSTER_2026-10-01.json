@@ -1,0 +1,812 @@
+{
+  "source": "Installed Valve scripts/npc/npc_units.txt and pak01_dir.vpk",
+  "desktopSha256": "64993b31eaeead031778064a58e4d39ce399d4a7751e1050ce1de309b9010159",
+  "records": [
+    {
+      "wave": 1,
+      "name": "Pollywog",
+      "unit": "enfos_wave_01",
+      "native": "npc_dota_beastmaster_boar",
+      "model": "models/heroes/beastmaster/beastmaster_beast.vmdl",
+      "source": {
+        "Model": "models/heroes/beastmaster/beastmaster_beast.vmdl",
+        "ModelScale": "0.65",
+        "SoundSet": "Beastmaster_Boar",
+        "HealthBarOffset": "125",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "550",
+        "AttackAnimationPoint": "0.5",
+        "ProjectileModel": "particles/units/heroes/hero_beastmaster/beastmaster_boar_attack.vpcf",
+        "ProjectileSpeed": "1500"
+      }
+    },
+    {
+      "wave": 2,
+      "name": "Kobold",
+      "unit": "enfos_wave_02",
+      "native": "npc_dota_neutral_kobold",
+      "model": "models/creeps/neutral_creeps/n_creep_kobold/kobold_c/n_creep_kobold_c.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_kobold/kobold_c/n_creep_kobold_c.vmdl",
+        "ModelScale": ".9",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "130",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.38"
+      }
+    },
+    {
+      "wave": 3,
+      "name": "Kobold Soldier",
+      "unit": "enfos_wave_03",
+      "native": "npc_dota_neutral_kobold_tunneler",
+      "model": "models/creeps/neutral_creeps/n_creep_kobold/kobold_b/n_creep_kobold_b.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_kobold/kobold_b/n_creep_kobold_b.vmdl",
+        "ModelScale": "1",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "150",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.38"
+      }
+    },
+    {
+      "wave": 4,
+      "name": "Kobold Foreman",
+      "unit": "enfos_wave_04",
+      "native": "npc_dota_neutral_kobold_taskmaster",
+      "model": "models/creeps/neutral_creeps/n_creep_kobold/kobold_a/n_creep_kobold_a.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_kobold/kobold_a/n_creep_kobold_a.vmdl",
+        "ModelScale": "1",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "180",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "110",
+        "AttackAnimationPoint": "0.38"
+      }
+    },
+    {
+      "wave": 6,
+      "name": "Hill Troll Priest",
+      "unit": "enfos_wave_06",
+      "native": "npc_dota_neutral_forest_troll_high_priest",
+      "model": "models/creeps/neutral_creeps/n_creep_forest_trolls/n_creep_forest_troll_high_priest.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_forest_trolls/n_creep_forest_troll_high_priest.vmdl",
+        "ModelScale": ".90",
+        "SoundSet": "n_creep_Ranged",
+        "HealthBarOffset": "170",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "600",
+        "AttackAnimationPoint": "0.3",
+        "ProjectileModel": "particles/base_attacks/ranged_badguy.vpcf",
+        "ProjectileSpeed": "900"
+      }
+    },
+    {
+      "wave": 7,
+      "name": "Hill Troll Berserker",
+      "unit": "enfos_wave_07",
+      "native": "npc_dota_neutral_forest_troll_berserker",
+      "model": "models/creeps/neutral_creeps/n_creep_forest_trolls/n_creep_forest_troll_berserker.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_forest_trolls/n_creep_forest_troll_berserker.vmdl",
+        "ModelScale": ".90",
+        "SoundSet": "n_creep_Ranged",
+        "HealthBarOffset": "160",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "500",
+        "AttackAnimationPoint": "0.3",
+        "ProjectileModel": "particles/base_attacks/ranged_badguy.vpcf",
+        "ProjectileSpeed": "1200"
+      }
+    },
+    {
+      "wave": 8,
+      "name": "Vhoul Assassin",
+      "unit": "enfos_wave_08",
+      "native": "npc_dota_neutral_gnoll_assassin",
+      "model": "models/creeps/neutral_creeps/n_creep_gnoll/n_creep_gnoll.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_gnoll/n_creep_gnoll.vmdl",
+        "ModelScale": ".90",
+        "SoundSet": "n_creep_Ranged",
+        "HealthBarOffset": "170",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "500",
+        "AttackAnimationPoint": "0.4",
+        "ProjectileModel": "particles/neutral_fx/gnoll_base_attack.vpcf",
+        "ProjectileSpeed": "1500"
+      }
+    },
+    {
+      "wave": 9,
+      "name": "Fell Spirit",
+      "unit": "enfos_wave_09",
+      "native": "npc_dota_neutral_fel_beast",
+      "model": "models/creeps/neutral_creeps/n_creep_ghost_b/n_creep_ghost_b.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_ghost_b/n_creep_ghost_b.vmdl",
+        "ModelScale": ".90",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "175",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.4"
+      }
+    },
+    {
+      "wave": 11,
+      "name": "Ghost",
+      "unit": "enfos_wave_11",
+      "native": "npc_dota_neutral_ghost",
+      "model": "models/creeps/neutral_creeps/n_creep_ghost_a/n_creep_ghost_a.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_ghost_a/n_creep_ghost_a.vmdl",
+        "ModelScale": ".90",
+        "SoundSet": "n_creep_Ranged",
+        "HealthBarOffset": "190",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "400",
+        "AttackAnimationPoint": "0.3",
+        "ProjectileModel": "particles/neutral_fx/ghost_base_attack.vpcf",
+        "ProjectileSpeed": "900"
+      }
+    },
+    {
+      "wave": 12,
+      "name": "Harpy Scout",
+      "unit": "enfos_wave_12",
+      "native": "npc_dota_neutral_harpy_scout",
+      "model": "models/creeps/neutral_creeps/n_creep_harpy_a/n_creep_harpy_a.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_harpy_a/n_creep_harpy_a.vmdl",
+        "ModelScale": "0.85",
+        "SoundSet": "n_creep_Ranged",
+        "HealthBarOffset": "180",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "300",
+        "AttackAnimationPoint": "0.3",
+        "ProjectileModel": "particles/base_attacks/ranged_badguy.vpcf",
+        "ProjectileSpeed": "1200"
+      }
+    },
+    {
+      "wave": 13,
+      "name": "Harpy Stormcrafter",
+      "unit": "enfos_wave_13",
+      "native": "npc_dota_neutral_harpy_storm",
+      "model": "models/creeps/neutral_creeps/n_creep_harpy_b/n_creep_harpy_b.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_harpy_b/n_creep_harpy_b.vmdl",
+        "ModelScale": "0.925",
+        "SoundSet": "n_creep_Ranged",
+        "HealthBarOffset": "190",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "450",
+        "AttackAnimationPoint": "0.3",
+        "ProjectileModel": "particles/base_attacks/ranged_badguy.vpcf",
+        "ProjectileSpeed": "1200"
+      }
+    },
+    {
+      "wave": 14,
+      "name": "Raptor",
+      "unit": "enfos_wave_14",
+      "native": "npc_dota_necronomicon_archer_1",
+      "model": "models/creeps/item_creeps/i_creep_necro_archer/necro_archer.vmdl",
+      "source": {
+        "Model": "models/creeps/item_creeps/i_creep_necro_archer/necro_archer.vmdl",
+        "ModelScale": "0.4",
+        "SoundSet": "Creep_Good_Range",
+        "HealthBarOffset": "155",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "450",
+        "AttackAnimationPoint": "0.7",
+        "ProjectileModel": "particles/items2_fx/necronomicon_archer_projectile.vpcf",
+        "ProjectileSpeed": "900"
+      }
+    },
+    {
+      "wave": 16,
+      "name": "Razorback",
+      "unit": "enfos_wave_16",
+      "native": "npc_dota_broodmother_spiderling",
+      "model": "models/heroes/broodmother/spiderling.vmdl",
+      "source": {
+        "Model": "models/heroes/broodmother/spiderling.vmdl",
+        "ModelScale": ".3",
+        "SoundSet": "0",
+        "HealthBarOffset": "140",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.5"
+      }
+    },
+    {
+      "wave": 17,
+      "name": "Treant",
+      "unit": "enfos_wave_17",
+      "native": "npc_dota_furion_treant",
+      "model": "models/heroes/furion/treant.vmdl",
+      "source": {
+        "Model": "models/heroes/furion/treant.vmdl",
+        "ModelScale": "0.80",
+        "SoundSet": "Furion_Treant",
+        "HealthBarOffset": "170",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "125",
+        "AttackAnimationPoint": "0.467"
+      }
+    },
+    {
+      "wave": 18,
+      "name": "Giant Wolf",
+      "unit": "enfos_wave_18",
+      "native": "npc_dota_neutral_giant_wolf",
+      "model": "models/creeps/neutral_creeps/n_creep_worg_small/n_creep_worg_small.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_worg_small/n_creep_worg_small.vmdl",
+        "ModelScale": ".90",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "130",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "90",
+        "AttackAnimationPoint": "0.33"
+      }
+    },
+    {
+      "wave": 19,
+      "name": "Alpha Wolf",
+      "unit": "enfos_wave_19",
+      "native": "npc_dota_neutral_alpha_wolf",
+      "model": "models/creeps/neutral_creeps/n_creep_worg_large/n_creep_worg_large.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_worg_large/n_creep_worg_large.vmdl",
+        "ModelScale": ".90",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "160",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "90",
+        "AttackAnimationPoint": "0.33"
+      }
+    },
+    {
+      "wave": 21,
+      "name": "Lycan Wolf",
+      "unit": "enfos_wave_21",
+      "native": "npc_dota_lycan_wolf1",
+      "model": "models/heroes/lycan/summon_wolves.vmdl",
+      "source": {
+        "Model": "models/heroes/lycan/summon_wolves.vmdl",
+        "ModelScale": "0.9",
+        "SoundSet": "Lycan_Wolf",
+        "HealthBarOffset": "160",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "90",
+        "AttackAnimationPoint": "0.33"
+      }
+    },
+    {
+      "wave": 22,
+      "name": "Satyr Banisher",
+      "unit": "enfos_wave_22",
+      "native": "npc_dota_neutral_satyr_trickster",
+      "model": "models/creeps/neutral_creeps/n_creep_satyr_b/n_creep_satyr_b.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_satyr_b/n_creep_satyr_b.vmdl",
+        "ModelScale": ".7",
+        "SoundSet": "n_creep_Ranged",
+        "HealthBarOffset": "170",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "280",
+        "AttackAnimationPoint": "0.3",
+        "ProjectileModel": "particles/neutral_fx/satyr_trickster_projectile.vpcf",
+        "ProjectileSpeed": "1500"
+      }
+    },
+    {
+      "wave": 23,
+      "name": "Satyr Mindstealer",
+      "unit": "enfos_wave_23",
+      "native": "npc_dota_neutral_satyr_soulstealer",
+      "model": "models/creeps/neutral_creeps/n_creep_satyr_c/n_creep_satyr_c.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_satyr_c/n_creep_satyr_c.vmdl",
+        "ModelScale": ".8",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "190",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 24,
+      "name": "Ogre Bruiser",
+      "unit": "enfos_wave_24",
+      "native": "npc_dota_neutral_ogre_mauler",
+      "model": "models/creeps/neutral_creeps/n_creep_ogre_med/n_creep_ogre_med.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_ogre_med/n_creep_ogre_med.vmdl",
+        "ModelScale": ".90",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "190",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 26,
+      "name": "Ogre Frostmage",
+      "unit": "enfos_wave_26",
+      "native": "npc_dota_neutral_ogre_magi",
+      "model": "models/creeps/neutral_creeps/n_creep_ogre_lrg/n_creep_ogre_lrg.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_ogre_lrg/n_creep_ogre_lrg.vmdl",
+        "ModelScale": ".90",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "210",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 27,
+      "name": "Eidolon",
+      "unit": "enfos_wave_27",
+      "native": "npc_dota_lesser_eidolon",
+      "model": "models/heroes/enigma/eidelon.vmdl",
+      "source": {
+        "Model": "models/heroes/enigma/eidelon.vmdl",
+        "ModelScale": "0.75",
+        "SoundSet": "Creep_Good_Range",
+        "HealthBarOffset": "130",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "425",
+        "AttackAnimationPoint": "0.2",
+        "ProjectileModel": "particles/units/heroes/hero_enigma/enigma_base_attack_eidolon.vpcf",
+        "ProjectileSpeed": "900"
+      }
+    },
+    {
+      "wave": 28,
+      "name": "Forged Spirit",
+      "unit": "enfos_wave_28",
+      "native": "npc_dota_invoker_forged_spirit",
+      "model": "models/heroes/invoker/forge_spirit.vmdl",
+      "source": {
+        "Model": "models/heroes/invoker/forge_spirit.vmdl",
+        "ModelScale": "1.0",
+        "SoundSet": "Creep_Good_Range",
+        "HealthBarOffset": "270",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "0",
+        "AttackAnimationPoint": "0.2",
+        "ProjectileModel": "particles/units/heroes/hero_invoker/invoker_forged_spirit_projectile.vpcf",
+        "ProjectileSpeed": "1000"
+      }
+    },
+    {
+      "wave": 29,
+      "name": "Centaur Courser",
+      "unit": "enfos_wave_29",
+      "native": "npc_dota_neutral_centaur_outrunner",
+      "model": "models/creeps/neutral_creeps/n_creep_centaur_med/n_creep_centaur_med.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_centaur_med/n_creep_centaur_med.vmdl",
+        "ModelScale": ".80",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "170",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 31,
+      "name": "Centaur Conqueror",
+      "unit": "enfos_wave_31",
+      "native": "npc_dota_neutral_centaur_khan",
+      "model": "models/creeps/neutral_creeps/n_creep_centaur_lrg/n_creep_centaur_lrg.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_centaur_lrg/n_creep_centaur_lrg.vmdl",
+        "ModelScale": "1",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "220",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 32,
+      "name": "Satyr Tormenter",
+      "unit": "enfos_wave_32",
+      "native": "npc_dota_neutral_satyr_hellcaller",
+      "model": "models/creeps/neutral_creeps/n_creep_satyr_a/n_creep_satyr_a.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_satyr_a/n_creep_satyr_a.vmdl",
+        "ModelScale": ".95",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "210",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 33,
+      "name": "Warpine Raider",
+      "unit": "enfos_wave_33",
+      "native": "npc_dota_neutral_warpine_raider",
+      "model": "models/creeps/pine_cone/pine_cone.vmdl",
+      "source": {
+        "Model": "models/creeps/pine_cone/pine_cone.vmdl",
+        "ModelScale": "1.1",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "190",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 34,
+      "name": "Hill Troll",
+      "unit": "enfos_wave_34",
+      "native": "npc_dota_neutral_dark_troll",
+      "model": "models/creeps/neutral_creeps/n_creep_troll_dark_a/n_creep_troll_dark_a.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_troll_dark_a/n_creep_troll_dark_a.vmdl",
+        "ModelScale": ".70",
+        "SoundSet": "n_creep_Ranged",
+        "HealthBarOffset": "190",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "250",
+        "AttackAnimationPoint": "0.3",
+        "ProjectileModel": "particles/base_attacks/ranged_badguy.vpcf",
+        "ProjectileSpeed": "1200"
+      }
+    },
+    {
+      "wave": 36,
+      "name": "Dark Troll Summoner",
+      "unit": "enfos_wave_36",
+      "native": "npc_dota_neutral_dark_troll_warlord",
+      "model": "models/creeps/neutral_creeps/n_creep_troll_dark_b/n_creep_troll_dark_b.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_troll_dark_b/n_creep_troll_dark_b.vmdl",
+        "ModelScale": ".90",
+        "SoundSet": "n_creep_Ranged",
+        "HealthBarOffset": "190",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "250",
+        "AttackAnimationPoint": "0.3",
+        "ProjectileModel": "particles/base_attacks/ranged_badguy.vpcf",
+        "ProjectileSpeed": "1200"
+      }
+    },
+    {
+      "wave": 37,
+      "name": "Skeleton Warrior",
+      "unit": "enfos_wave_37",
+      "native": "npc_dota_dark_troll_warlord_skeleton_warrior",
+      "model": "models/creeps/neutral_creeps/n_creep_troll_skeleton/n_creep_skeleton_melee.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_troll_skeleton/n_creep_skeleton_melee.vmdl",
+        "ModelScale": "1.1",
+        "SoundSet": "Creep_Good_Melee",
+        "HealthBarOffset": "140",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "90",
+        "AttackAnimationPoint": "0.56"
+      }
+    },
+    {
+      "wave": 38,
+      "name": "Mud Golem",
+      "unit": "enfos_wave_38",
+      "native": "npc_dota_neutral_mud_golem",
+      "model": "models/creeps/neutral_creeps/n_creep_golem_b/n_creep_golem_b.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_golem_b/n_creep_golem_b.vmdl",
+        "ModelScale": "1.1",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "190",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 39,
+      "name": "Shard Golem",
+      "unit": "enfos_wave_39",
+      "native": "npc_dota_necronomicon_warrior_1",
+      "model": "models/creeps/item_creeps/i_creep_necro_warrior/necro_warrior.vmdl",
+      "source": {
+        "Model": "models/creeps/item_creeps/i_creep_necro_warrior/necro_warrior.vmdl",
+        "ModelScale": "0.4",
+        "SoundSet": "Creep_Good_Melee",
+        "HealthBarOffset": "150",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.56"
+      }
+    },
+    {
+      "wave": 41,
+      "name": "Hellbear",
+      "unit": "enfos_wave_41",
+      "native": "npc_dota_neutral_polar_furbolg_champion",
+      "model": "models/creeps/neutral_creeps/n_creep_beast/n_creep_beast.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_beast/n_creep_beast.vmdl",
+        "ModelScale": ".80",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "180",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 42,
+      "name": "Hellbear Smasher",
+      "unit": "enfos_wave_42",
+      "native": "npc_dota_neutral_polar_furbolg_ursa_warrior",
+      "model": "models/creeps/neutral_creeps/n_creep_furbolg/n_creep_furbolg_disrupter.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_furbolg/n_creep_furbolg_disrupter.vmdl",
+        "ModelScale": ".95",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "215",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 43,
+      "name": "Wildwing",
+      "unit": "enfos_wave_43",
+      "native": "npc_dota_neutral_wildkin",
+      "model": "models/creeps/neutral_creeps/n_creep_vulture_b/n_creep_vulture_b.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_vulture_b/n_creep_vulture_b.vmdl",
+        "ModelScale": ".80",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "170",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "128",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 44,
+      "name": "Wildwing Ripper",
+      "unit": "enfos_wave_44",
+      "native": "npc_dota_neutral_enraged_wildkin",
+      "model": "models/creeps/neutral_creeps/n_creep_vulture_a/n_creep_vulture_a.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_vulture_a/n_creep_vulture_a.vmdl",
+        "ModelScale": "1.1",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "220",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "128",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 46,
+      "name": "Boglet",
+      "unit": "enfos_wave_46",
+      "native": "npc_dota_unit_undying_zombie",
+      "model": "models/heroes/undying/undying_minion.vmdl",
+      "source": {
+        "Model": "models/heroes/undying/undying_minion.vmdl",
+        "ModelScale": "1.05",
+        "SoundSet": "Undying_Zombie",
+        "HealthBarOffset": "160",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "128",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 47,
+      "name": "Croaker",
+      "unit": "enfos_wave_47",
+      "native": "npc_dota_visage_familiar1",
+      "model": "models/heroes/visage/visage_familiar.vmdl",
+      "source": {
+        "Model": "models/heroes/visage/visage_familiar.vmdl",
+        "ModelScale": "0.66",
+        "SoundSet": "Visage_Familiar",
+        "HealthBarOffset": "130",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "180",
+        "AttackAnimationPoint": "0.33",
+        "ProjectileModel": "particles/units/heroes/hero_visage/visage_familiar_base_attack.vpcf",
+        "ProjectileSpeed": "900"
+      }
+    },
+    {
+      "wave": 48,
+      "name": "Marshmage Apprentice",
+      "unit": "enfos_wave_48",
+      "native": "npc_dota_brewmaster_earth_1",
+      "model": "models/heroes/brewmaster/brewmaster_earthspirit.vmdl",
+      "source": {
+        "Model": "models/heroes/brewmaster/brewmaster_earthspirit.vmdl",
+        "ModelScale": "0.85",
+        "SoundSet": "Brewmaster_Earth",
+        "HealthBarOffset": "160",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "150",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 49,
+      "name": "Marshmage",
+      "unit": "enfos_wave_49",
+      "native": "npc_dota_brewmaster_storm_1",
+      "model": "models/heroes/brewmaster/brewmaster_windspirit.vmdl",
+      "source": {
+        "Model": "models/heroes/brewmaster/brewmaster_windspirit.vmdl",
+        "ModelScale": "0.85",
+        "SoundSet": "Brewmaster_Storm",
+        "HealthBarOffset": "160",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "600",
+        "AttackAnimationPoint": "0.4",
+        "ProjectileModel": "particles/units/heroes/hero_brewmaster/brewmaster_storm_attack.vpcf",
+        "ProjectileSpeed": "1200"
+      }
+    },
+    {
+      "wave": 51,
+      "name": "Ancient Croaker",
+      "unit": "enfos_wave_51",
+      "native": "npc_dota_brewmaster_fire_1",
+      "model": "models/heroes/brewmaster/brewmaster_firespirit.vmdl",
+      "source": {
+        "Model": "models/heroes/brewmaster/brewmaster_firespirit.vmdl",
+        "ModelScale": "0.85",
+        "SoundSet": "Brewmaster_Fire",
+        "HealthBarOffset": "160",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "150",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 52,
+      "name": "Ancient Black Drake",
+      "unit": "enfos_wave_52",
+      "native": "npc_dota_neutral_black_drake",
+      "model": "models/creeps/neutral_creeps/n_creep_black_drake/n_creep_black_drake.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_black_drake/n_creep_black_drake.vmdl",
+        "ModelScale": ".6",
+        "SoundSet": "n_creep_Ranged",
+        "HealthBarOffset": "300",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "300",
+        "AttackAnimationPoint": "0.5",
+        "ProjectileModel": "particles/neutral_fx/black_drake_attack.vpcf",
+        "ProjectileSpeed": "900"
+      }
+    },
+    {
+      "wave": 53,
+      "name": "Ancient Rock Golem",
+      "unit": "enfos_wave_53",
+      "native": "npc_dota_neutral_rock_golem",
+      "model": "models/creeps/neutral_creeps/n_creep_golem_a/neutral_creep_golem_a.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_golem_a/neutral_creep_golem_a.vmdl",
+        "ModelScale": "1",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "220",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 54,
+      "name": "Ancient Rumblehide",
+      "unit": "enfos_wave_54",
+      "native": "npc_dota_neutral_big_thunder_lizard",
+      "model": "models/creeps/neutral_creeps/n_creep_thunder_lizard/n_creep_thunder_lizard_big.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_thunder_lizard/n_creep_thunder_lizard_big.vmdl",
+        "ModelScale": ".80",
+        "SoundSet": "n_creep_Ranged",
+        "HealthBarOffset": "240",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "300",
+        "AttackAnimationPoint": "0.3",
+        "ProjectileModel": "particles/neutral_fx/thunderlizard_base_attack.vpcf",
+        "ProjectileSpeed": "1500"
+      }
+    },
+    {
+      "wave": 56,
+      "name": "Ancient Frostbitten Golem",
+      "unit": "enfos_wave_56",
+      "native": "npc_dota_neutral_frostbitten_golem",
+      "model": "models/creeps/ice_biome/frostbitten/n_creep_frostbitten_swollen01.vmdl",
+      "source": {
+        "Model": "models/creeps/ice_biome/frostbitten/n_creep_frostbitten_swollen01.vmdl",
+        "ModelScale": "1",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "220",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 57,
+      "name": "Ancient Prowler Acolyte",
+      "unit": "enfos_wave_57",
+      "native": "npc_dota_neutral_prowler_acolyte",
+      "model": "models/creeps/neutral_creeps/n_creep_satyr_spawn_a/n_creep_satyr_spawn_b.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_satyr_spawn_a/n_creep_satyr_spawn_b.vmdl",
+        "ModelScale": "1.0",
+        "SoundSet": "n_creep_Melee",
+        "HealthBarOffset": "200",
+        "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+        "AttackRange": "100",
+        "AttackAnimationPoint": "0.3"
+      }
+    },
+    {
+      "wave": 58,
+      "name": "Ancient Black Dragon",
+      "unit": "enfos_wave_58",
+      "native": "npc_dota_neutral_black_dragon",
+      "model": "models/creeps/neutral_creeps/n_creep_black_dragon/n_creep_black_dragon.vmdl",
+      "source": {
+        "Model": "models/creeps/neutral_creeps/n_creep_black_dragon/n_creep_black_dragon.vmdl",
+        "ModelScale": "1",
+        "SoundSet": "n_creep_Ranged",
+        "HealthBarOffset": "300",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "300",
+        "AttackAnimationPoint": "0.5",
+        "ProjectileModel": "particles/neutral_fx/black_dragon_attack.vpcf",
+        "ProjectileSpeed": "1500"
+      }
+    },
+    {
+      "wave": 59,
+      "name": "Ancient Granite Golem",
+      "unit": "enfos_wave_59",
+      "native": "npc_dota_neutral_ice_shaman",
+      "model": "models/creeps/ice_biome/giant/ice_giant01.vmdl",
+      "source": {
+        "Model": "models/creeps/ice_biome/giant/ice_giant01.vmdl",
+        "ModelScale": "1.3",
+        "SoundSet": "n_creep_Ranged",
+        "HealthBarOffset": "240",
+        "AttackCapabilities": "DOTA_UNIT_CAP_RANGED_ATTACK",
+        "AttackRange": "500",
+        "AttackAnimationPoint": "0.7",
+        "ProjectileModel": "particles/units/heroes/hero_witchdoctor/witchdoctor_base_attack.vpcf",
+        "ProjectileSpeed": "1500"
+      }
+    }
+  ]
+}
