@@ -1578,7 +1578,17 @@ function modifier_enfos_pve_degen_aura:GetAuraRadius() return value(self:GetAbil
 function modifier_enfos_pve_degen_aura:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_ENEMY end
 function modifier_enfos_pve_degen_aura:GetAuraSearchType() return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end
 function modifier_enfos_pve_degen_aura:GetModifierAura() return 'modifier_enfos_pve_degen_debuff' end
-function modifier_enfos_pve_degen_aura:GetEffectName() return 'particles/units/heroes/hero_omniknight/omniknight_degen_aura.vpcf' end
+function modifier_enfos_pve_degen_aura:OnCreated()
+    if not IsServer() then return end
+    self.aura_particle = ParticleManager:CreateParticle('particles/units/heroes/hero_omniknight/omniknight_degen_aura.vpcf', PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+    ParticleManager:SetParticleControl(self.aura_particle, 1, Vector(self:GetAuraRadius(), 0, 0))
+    self:AddParticle(self.aura_particle, false, false, -1, false, false)
+end
+function modifier_enfos_pve_degen_aura:OnRefresh()
+    if IsServer() and self.aura_particle then
+        ParticleManager:SetParticleControl(self.aura_particle, 1, Vector(self:GetAuraRadius(), 0, 0))
+    end
+end
 
 modifier_enfos_pve_degen_debuff=class({})
 function modifier_enfos_pve_degen_debuff:IsDebuff() return true end

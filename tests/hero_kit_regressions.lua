@@ -1213,7 +1213,7 @@ test('Omniknight Degen Aura tick damage uses configured pure-damage scaling', fu
     assert(#applied_damages == 1 and applied_damages[1].damage == 90 and applied_damages[1].damage_type == DAMAGE_TYPE_PURE)
     assert(modifier:GetModifierMoveSpeedBonus_Percentage() == -35 and modifier:GetModifierAttackSpeedBonus_Constant() == -45)
     local aura = setmetatable({ GetParent = function() return omni end, GetAbility = function() return ability end }, modifier_enfos_pve_degen_aura)
-    assert(aura:IsAura() and aura:GetEffectName():find('omniknight_degen_aura.vpcf', 1, true))
+    assert(aura:IsAura() and aura:GetModifierAura() == 'modifier_enfos_pve_degen_debuff')
     assert(modifier:GetEffectName():find('omniknight_degen_aura_debuff.vpcf', 1, true))
     omni.PassivesDisabled = function() return true end
     assert(not aura:IsAura(), 'Break must disable Degen Aura')
@@ -5640,6 +5640,30 @@ test('Omniknight Purification supplies its actual area radius to the native fini
     assert(cp and cp.x==400,'Purification ring reads radius from CP1.x; omitted controls collapse its area')
     assert(owner==target and release==811,'Finite effect must follow healed target and release its index')
     assert(type(a.GetAOERadius)=='function' and a:GetAOERadius()==400,'Native AoE target cursor must match actual hit radius')
+end)
+
+
+test('Omniknight Degen Aura owns one native radius-controlled ring across refreshes', function()
+    local c=create_mock_unit('npc_dota_hero_omniknight',2,Vector(20,30,0))
+    local radius=500;local a=enfos_omni_degen_aura()
+    a.GetSpecialValueFor=function(_,k) return k=='radius' and radius or 0 end
+    local m=modifier_enfos_pve_degen_aura()
+    m.GetParent=function() return c end;m.GetAbility=function() return a end
+    local oldCreate,oldControl=ParticleManager.CreateParticle,ParticleManager.SetParticleControl
+    local count,owned,controls=0,0,{}
+    ParticleManager.CreateParticle=function(_,path,attachment,u)
+        assert(path=='particles/units/heroes/hero_omniknight/omniknight_degen_aura.vpcf' and u==c and attachment==PATTACH_ABSORIGIN_FOLLOW)
+        count=count+1;return 821
+    end
+    ParticleManager.SetParticleControl=function(_,id,cp,v) assert(id==821 and cp==1);controls[#controls+1]=v.x end
+    m.AddParticle=function(_,id) assert(id==821);owned=owned+1 end
+    assert(type(m.OnCreated)=='function','Automatic effect has no actual aura radius CP or explicit owner')
+    m:OnCreated()
+    assert(count==1 and owned==1 and controls[1]==500)
+    radius=650;m:OnRefresh();m:OnRefresh()
+    assert(count==1 and owned==1 and controls[#controls]==650,'Refresh must update the same owned ring, not allocate another')
+    assert(not m.GetEffectName or not m:GetEffectName(),'Do not retain automatic duplicate ring')
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl=oldCreate,oldControl
 end)
 
 print(passed .. ' hero kit regression tests passed (mock engine).')

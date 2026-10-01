@@ -398,6 +398,7 @@ for _, hero_info in ipairs(roster) do
                     end
                     local mod = mod_cls()
                     mod.GetParent = function() return hero end
+                    mod.AddParticle = function() end
                     mod.GetCaster = function() return hero end
                     mod.GetAbility = function() return ab end
                     mod.GetStackCount = function() return 2 end
