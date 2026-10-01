@@ -288,6 +288,7 @@ function create_mock_unit(name, team, origin, hp)
             mod.SetDuration = function(m, dur, refresh) end
             mod.Destroy = function(m) self.modifiers[mod_name] = nil end
             mod.StartIntervalThink = function() end
+            mod.AddParticle = function() end
             self.modifiers[mod_name] = mod
             if mod.OnCreated then
                 mod:OnCreated(params)
@@ -479,6 +480,7 @@ for _, mod_name in ipairs(modifier_list) do
             mod.GetStackCount = function() return 3 end
             mod.SetStackCount = function() end
             mod.StartIntervalThink = function() end
+            mod.AddParticle = function() end
             mod.SetDuration = function() end
             mod.Destroy = function() end
 

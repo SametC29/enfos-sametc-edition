@@ -812,10 +812,30 @@ test('Juggernaut Blade Fury owns its loop and emits the verified ending sound',f
  local c=create_mock_unit('npc_dota_hero_juggernaut',2,Vector(0,0,0));local sounds,stopped={},{}
  c.EmitSound=function(_,s) sounds[#sounds+1]=s end;c.StopSound=function(_,s) stopped[#stopped+1]=s end
  local a=enfos_juggernaut_blade_fury();a.GetSpecialValueFor=function() return 0.2 end
- local m=setmetatable({GetParent=function() return c end,GetAbility=function() return a end,StartIntervalThink=function() end},modifier_enfos_pve_fury)
+ local m=setmetatable({GetParent=function() return c end,GetAbility=function() return a end,StartIntervalThink=function() end,AddParticle=function() end},modifier_enfos_pve_fury)
  m:OnCreated();m:OnDestroy()
  assert(sounds[1]=='Hero_Juggernaut.BladeFuryStart' and sounds[2]=='Hero_Juggernaut.BladeFuryStop' and stopped[1]==sounds[1])
 end)
+test('Juggernaut Blade Fury supplies native radius CP and modifier-owned particle lifetime',function()
+ local c=create_mock_unit('npc_dota_hero_juggernaut',2,Vector(0,0,0))
+ local a=enfos_juggernaut_blade_fury();a.GetSpecialValueFor=function(_,k) return k=='radius' and 425 or 0.5 end
+ local created,controlled,owned=0,0,0
+ local oldCreate,oldControl,oldServer=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,IsServer
+ ParticleManager.CreateParticle=function(_,path,attach,parent)
+  assert(path=='particles/units/heroes/hero_juggernaut/juggernaut_blade_fury.vpcf' and attach==PATTACH_ABSORIGIN_FOLLOW and parent==c)
+  created=created+1;return 91
+ end
+ ParticleManager.SetParticleControl=function(_,id,cp,v) assert(id==91 and cp==5 and v.x==425 and v.y==0);controlled=controlled+1 end
+ local m=setmetatable({GetParent=function() return c end,GetAbility=function() return a end,StartIntervalThink=function() end,
+  AddParticle=function(_,id,immediate,status,priority,hero,overhead)
+   assert(id==91 and immediate==false and status==false and priority==-1 and hero==false and overhead==false);owned=owned+1
+  end},modifier_enfos_pve_fury)
+ m:OnCreated();IsServer=function() return false end;m:OnCreated()
+ ParticleManager.CreateParticle,ParticleManager.SetParticleControl,IsServer=oldCreate,oldControl,oldServer
+ assert(created==1 and controlled==1 and owned==1 and modifier_enfos_pve_fury.GetEffectName==nil,
+  'one server-created effect, owned by the modifier; no duplicate automatic effect')
+end)
+
 test('Shadow Shaman Fowl Play does not consume its save until lethal damage is prevented', function()
     local shaman = create_mock_unit('npc_dota_hero_shadow_shaman', 2, Vector(0, 0, 0), 1000)
     local ability = enfos_ss_fowl_play()

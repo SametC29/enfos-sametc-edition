@@ -789,7 +789,13 @@ end
 
 function modifier_enfos_pve_fury:OnCreated()
     if IsServer() then
-        self:GetParent():EmitSound('Hero_Juggernaut.BladeFuryStart')
+        local parent = self:GetParent()
+        parent:EmitSound('Hero_Juggernaut.BladeFuryStart')
+        local spin = ParticleManager:CreateParticle(
+            'particles/units/heroes/hero_juggernaut/juggernaut_blade_fury.vpcf', PATTACH_ABSORIGIN_FOLLOW, parent)
+        -- The installed root/children read CP5.x as their radius input.
+        ParticleManager:SetParticleControl(spin, 5, Vector(value(self:GetAbility(), 'radius'), 0, 0))
+        self:AddParticle(spin, false, false, -1, false, false)
         self:StartIntervalThink(value(self:GetAbility(), 'tick_interval'))
     end
 end
@@ -814,7 +820,6 @@ function modifier_enfos_pve_fury:DeclareFunctions()
 end
 function modifier_enfos_pve_fury:GetModifierStatusResistanceStacking() return value(self:GetAbility(), 'status_resistance') end
 function modifier_enfos_pve_fury:GetModifierMoveSpeedBonus_Constant() return value(self:GetAbility(), 'bonus_movespeed') end
-function modifier_enfos_pve_fury:GetEffectName() return 'particles/units/heroes/hero_juggernaut/juggernaut_blade_fury.vpcf' end
 function modifier_enfos_pve_fury:OnDestroy()
     if IsServer() then
         local c = self:GetParent()

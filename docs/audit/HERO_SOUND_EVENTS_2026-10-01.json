@@ -522,12 +522,12 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7978,
+          "line": 7983,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7979,
+          "line": 7984,
           "operation": "EmitSound"
         }
       ],
@@ -543,7 +543,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1393,
+          "line": 1398,
           "operation": "EmitSound"
         }
       ],
@@ -559,7 +559,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1317,
+          "line": 1322,
           "operation": "EmitSound"
         },
         {
@@ -579,7 +579,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6368,
+          "line": 6373,
           "operation": "EmitSound"
         }
       ],
@@ -595,7 +595,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6237,
+          "line": 6242,
           "operation": "EmitSound"
         }
       ],
@@ -611,7 +611,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6296,
+          "line": 6301,
           "operation": "EmitSound"
         }
       ],
@@ -627,7 +627,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5405,
+          "line": 5410,
           "operation": "EmitSound"
         }
       ],
@@ -643,7 +643,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5395,
+          "line": 5400,
           "operation": "EmitSound"
         }
       ],
@@ -659,7 +659,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5413,
+          "line": 5418,
           "operation": "EmitSound"
         }
       ],
@@ -675,7 +675,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5443,
+          "line": 5448,
           "operation": "EmitSound"
         }
       ],
@@ -691,7 +691,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1841,
+          "line": 1846,
           "operation": "EmitSound"
         }
       ],
@@ -707,7 +707,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1798,
+          "line": 1803,
           "operation": "EmitSound"
         }
       ],
@@ -721,7 +721,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1924,
+          "line": 1929,
           "operation": "EmitSound"
         }
       ],
@@ -737,7 +737,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1967,
+          "line": 1972,
           "operation": "EmitSound"
         }
       ],
@@ -753,7 +753,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1955,
+          "line": 1960,
           "operation": "EmitSound"
         }
       ],
@@ -769,7 +769,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3316,
+          "line": 3321,
           "operation": "EmitSound"
         }
       ],
@@ -785,12 +785,12 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3168,
+          "line": 3173,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3202,
+          "line": 3207,
           "operation": "EmitSound"
         }
       ],
@@ -806,7 +806,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3141,
+          "line": 3146,
           "operation": "EmitSound"
         }
       ],
@@ -822,7 +822,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2116,
+          "line": 2121,
           "operation": "EmitSound"
         }
       ],
@@ -838,7 +838,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2087,
+          "line": 2092,
           "operation": "EmitSound"
         }
       ],
@@ -854,7 +854,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2188,
+          "line": 2193,
           "operation": "EmitSound"
         }
       ],
@@ -870,7 +870,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6625,
+          "line": 6630,
           "operation": "EmitSound"
         }
       ],
@@ -886,7 +886,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6644,
+          "line": 6649,
           "operation": "EmitSound"
         }
       ],
@@ -902,7 +902,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6726,
+          "line": 6731,
           "operation": "EmitSound"
         }
       ],
@@ -918,7 +918,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6740,
+          "line": 6745,
           "operation": "EmitSound"
         }
       ],
@@ -934,7 +934,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6661,
+          "line": 6666,
           "operation": "EmitSound"
         }
       ],
@@ -950,7 +950,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6662,
+          "line": 6667,
           "operation": "EmitSound"
         }
       ],
@@ -966,7 +966,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2687,
+          "line": 2692,
           "operation": "EmitSound"
         }
       ],
@@ -982,12 +982,12 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2801,
+          "line": 2806,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2815,
+          "line": 2820,
           "operation": "StopSound"
         }
       ],
@@ -1003,7 +1003,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2716,
+          "line": 2721,
           "operation": "EmitSound"
         }
       ],
@@ -1019,7 +1019,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3045,
+          "line": 3050,
           "operation": "EmitSound"
         }
       ],
@@ -1035,7 +1035,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2913,
+          "line": 2918,
           "operation": "EmitSound"
         }
       ],
@@ -1051,7 +1051,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2994,
+          "line": 2999,
           "operation": "EmitSound"
         }
       ],
@@ -1067,7 +1067,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2973,
+          "line": 2978,
           "operation": "EmitSound"
         }
       ],
@@ -1083,7 +1083,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4377,
+          "line": 4382,
           "operation": "EmitSound"
         }
       ],
@@ -1099,7 +1099,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4413,
+          "line": 4418,
           "operation": "EmitSound"
         }
       ],
@@ -1115,7 +1115,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4458,
+          "line": 4463,
           "operation": "EmitSound"
         }
       ],
@@ -1131,7 +1131,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1055,
+          "line": 1060,
           "operation": "EmitSound"
         }
       ],
@@ -1147,12 +1147,12 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1148,
+          "line": 1153,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1197,
+          "line": 1202,
           "operation": "StopSound"
         }
       ],
@@ -1168,7 +1168,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1091,
+          "line": 1096,
           "operation": "EmitSound"
         }
       ],
@@ -1184,7 +1184,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5566,
+          "line": 5571,
           "operation": "EmitSound"
         }
       ],
@@ -1200,7 +1200,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5511,
+          "line": 5516,
           "operation": "EmitSound"
         }
       ],
@@ -1216,7 +1216,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5547,
+          "line": 5552,
           "operation": "EmitSound"
         }
       ],
@@ -1230,7 +1230,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5498,
+          "line": 5503,
           "operation": "EmitSound"
         }
       ],
@@ -1246,7 +1246,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7325,
+          "line": 7330,
           "operation": "EmitSound"
         }
       ],
@@ -1262,7 +1262,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7345,
+          "line": 7350,
           "operation": "EmitSound"
         }
       ],
@@ -1278,7 +1278,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7420,
+          "line": 7425,
           "operation": "EmitSound"
         }
       ],
@@ -1294,7 +1294,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7450,
+          "line": 7455,
           "operation": "EmitSound"
         }
       ],
@@ -1310,7 +1310,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7467,
+          "line": 7472,
           "operation": "EmitSound"
         }
       ],
@@ -1326,7 +1326,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7389,
+          "line": 7394,
           "operation": "EmitSound"
         }
       ],
@@ -1340,7 +1340,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7404,
+          "line": 7409,
           "operation": "EmitSound"
         }
       ],
@@ -1356,7 +1356,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7636,
+          "line": 7641,
           "operation": "EmitSound"
         }
       ],
@@ -1372,7 +1372,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7668,
+          "line": 7673,
           "operation": "EmitSound"
         }
       ],
@@ -1388,7 +1388,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7705,
+          "line": 7710,
           "operation": "EmitSound"
         }
       ],
@@ -1404,7 +1404,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7740,
+          "line": 7745,
           "operation": "EmitSound"
         }
       ],
@@ -1420,12 +1420,12 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 793,
+          "line": 794,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 823,
+          "line": 828,
           "operation": "StopSound"
         }
       ],
@@ -1441,7 +1441,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 824,
+          "line": 829,
           "operation": "EmitSound"
         }
       ],
@@ -1457,7 +1457,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 833,
+          "line": 838,
           "operation": "EmitSound"
         }
       ],
@@ -1473,7 +1473,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 903,
+          "line": 908,
           "operation": "EmitSound"
         }
       ],
@@ -1489,7 +1489,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2409,
+          "line": 2414,
           "operation": "EmitSound"
         }
       ],
@@ -1505,7 +1505,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2437,
+          "line": 2442,
           "operation": "EmitSound"
         }
       ],
@@ -1521,7 +1521,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2374,
+          "line": 2379,
           "operation": "EmitSound"
         }
       ],
@@ -1535,7 +1535,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2272,
+          "line": 2277,
           "operation": "EmitSound"
         }
       ],
@@ -1549,7 +1549,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2319,
+          "line": 2324,
           "operation": "EmitSound"
         }
       ],
@@ -1565,7 +1565,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7170,
+          "line": 7175,
           "operation": "EmitSound"
         }
       ],
@@ -1581,7 +1581,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7189,
+          "line": 7194,
           "operation": "EmitSound"
         }
       ],
@@ -1595,12 +1595,12 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7203,
+          "line": 7208,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7215,
+          "line": 7220,
           "operation": "EmitSound"
         }
       ],
@@ -1616,17 +1616,17 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7250,
+          "line": 7255,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7253,
+          "line": 7258,
           "operation": "StopSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7262,
+          "line": 7267,
           "operation": "StopSound"
         }
       ],
@@ -1642,7 +1642,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7152,
+          "line": 7157,
           "operation": "EmitSound"
         }
       ],
@@ -1658,7 +1658,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 8134,
+          "line": 8139,
           "operation": "EmitSound"
         }
       ],
@@ -1674,7 +1674,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 8148,
+          "line": 8153,
           "operation": "EmitSound"
         }
       ],
@@ -1688,7 +1688,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 8023,
+          "line": 8028,
           "operation": "EmitSound"
         }
       ],
@@ -1702,7 +1702,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 8071,
+          "line": 8076,
           "operation": "EmitSound"
         }
       ],
@@ -1718,7 +1718,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1271,
+          "line": 1276,
           "operation": "EmitSound"
         }
       ],
@@ -1734,7 +1734,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6168,
+          "line": 6173,
           "operation": "EmitSound"
         }
       ],
@@ -1750,7 +1750,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6063,
+          "line": 6068,
           "operation": "EmitSound"
         }
       ],
@@ -1766,12 +1766,12 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6113,
+          "line": 6118,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6130,
+          "line": 6135,
           "operation": "StopSound"
         }
       ],
@@ -1787,7 +1787,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6091,
+          "line": 6096,
           "operation": "EmitSound"
         }
       ],
@@ -1803,7 +1803,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1689,
+          "line": 1694,
           "operation": "EmitSound"
         }
       ],
@@ -1819,7 +1819,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1732,
+          "line": 1737,
           "operation": "EmitSound"
         }
       ],
@@ -1835,7 +1835,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1593,
+          "line": 1598,
           "operation": "EmitSound"
         }
       ],
@@ -1851,12 +1851,12 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1594,
+          "line": 1599,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1725,
+          "line": 1730,
           "operation": "EmitSound"
         }
       ],
@@ -1872,7 +1872,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1774,
+          "line": 1779,
           "operation": "EmitSound"
         }
       ],
@@ -1888,7 +1888,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6846,
+          "line": 6851,
           "operation": "EmitSound"
         }
       ],
@@ -1904,7 +1904,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6894,
+          "line": 6899,
           "operation": "EmitSound"
         }
       ],
@@ -1920,7 +1920,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6939,
+          "line": 6944,
           "operation": "EmitSound"
         }
       ],
@@ -1936,7 +1936,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5304,
+          "line": 5309,
           "operation": "EmitSound"
         }
       ],
@@ -1952,7 +1952,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5227,
+          "line": 5232,
           "operation": "EmitSound"
         }
       ],
@@ -1968,7 +1968,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5200,
+          "line": 5205,
           "operation": "EmitSound"
         }
       ],
@@ -1984,7 +1984,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5705,
+          "line": 5710,
           "operation": "EmitSound"
         }
       ],
@@ -2000,7 +2000,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5637,
+          "line": 5642,
           "operation": "EmitSound"
         }
       ],
@@ -2016,7 +2016,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1541,
+          "line": 1546,
           "operation": "EmitSound"
         }
       ],
@@ -2032,7 +2032,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1473,
+          "line": 1478,
           "operation": "EmitSound"
         }
       ],
@@ -2048,7 +2048,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 1490,
+          "line": 1495,
           "operation": "EmitSound"
         }
       ],
@@ -2064,7 +2064,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3844,
+          "line": 3849,
           "operation": "EmitSound"
         }
       ],
@@ -2080,7 +2080,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3885,
+          "line": 3890,
           "operation": "EmitSound"
         }
       ],
@@ -2096,7 +2096,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3735,
+          "line": 3740,
           "operation": "EmitSound"
         }
       ],
@@ -2112,7 +2112,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3798,
+          "line": 3803,
           "operation": "EmitSound"
         }
       ],
@@ -2128,7 +2128,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3821,
+          "line": 3826,
           "operation": "EmitSound"
         }
       ],
@@ -2144,7 +2144,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3815,
+          "line": 3820,
           "operation": "EmitSound"
         }
       ],
@@ -2160,7 +2160,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7589,
+          "line": 7594,
           "operation": "EmitSound"
         }
       ],
@@ -2176,7 +2176,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7516,
+          "line": 7521,
           "operation": "EmitSound"
         }
       ],
@@ -2192,7 +2192,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7573,
+          "line": 7578,
           "operation": "EmitSound"
         }
       ],
@@ -2208,7 +2208,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7540,
+          "line": 7545,
           "operation": "EmitSound"
         }
       ],
@@ -2224,12 +2224,12 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4722,
+          "line": 4727,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4743,
+          "line": 4748,
           "operation": "StopSound"
         }
       ],
@@ -2245,7 +2245,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4567,
+          "line": 4572,
           "operation": "EmitSound"
         }
       ],
@@ -2259,12 +2259,12 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4623,
+          "line": 4628,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4632,
+          "line": 4637,
           "operation": "StopSound"
         }
       ],
@@ -2280,7 +2280,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5917,
+          "line": 5922,
           "operation": "EmitSound"
         }
       ],
@@ -2296,7 +2296,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5941,
+          "line": 5946,
           "operation": "EmitSound"
         }
       ],
@@ -2312,7 +2312,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6021,
+          "line": 6026,
           "operation": "EmitSound"
         }
       ],
@@ -2328,12 +2328,12 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5970,
+          "line": 5975,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5986,
+          "line": 5991,
           "operation": "StopSound"
         }
       ],
@@ -2349,7 +2349,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3635,
+          "line": 3640,
           "operation": "EmitSound"
         }
       ],
@@ -2365,7 +2365,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3509,
+          "line": 3514,
           "operation": "EmitSound"
         }
       ],
@@ -2381,12 +2381,12 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3667,
+          "line": 3672,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3706,
+          "line": 3711,
           "operation": "EmitSound"
         }
       ],
@@ -2402,7 +2402,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4833,
+          "line": 4838,
           "operation": "EmitSound"
         }
       ],
@@ -2418,7 +2418,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4873,
+          "line": 4878,
           "operation": "EmitSound"
         }
       ],
@@ -2434,7 +2434,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4981,
+          "line": 4986,
           "operation": "EmitSound"
         }
       ],
@@ -2450,7 +2450,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2598,
+          "line": 2603,
           "operation": "EmitSound"
         }
       ],
@@ -2464,7 +2464,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2549,
+          "line": 2554,
           "operation": "EmitSound"
         }
       ],
@@ -2480,7 +2480,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2495,
+          "line": 2500,
           "operation": "EmitSound"
         }
       ],
@@ -2496,7 +2496,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 2567,
+          "line": 2572,
           "operation": "EmitSound"
         }
       ],
@@ -2512,7 +2512,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5872,
+          "line": 5877,
           "operation": "EmitSound"
         }
       ],
@@ -2528,7 +2528,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5797,
+          "line": 5802,
           "operation": "EmitSound"
         }
       ],
@@ -2544,7 +2544,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5837,
+          "line": 5842,
           "operation": "EmitSound"
         }
       ],
@@ -2560,7 +2560,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5778,
+          "line": 5783,
           "operation": "EmitSound"
         }
       ],
@@ -2576,7 +2576,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5747,
+          "line": 5752,
           "operation": "EmitSound"
         }
       ],
@@ -2654,7 +2654,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7029,
+          "line": 7034,
           "operation": "EmitSound"
         }
       ],
@@ -2670,7 +2670,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7060,
+          "line": 7065,
           "operation": "EmitSound"
         }
       ],
@@ -2686,7 +2686,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6988,
+          "line": 6993,
           "operation": "EmitSound"
         }
       ],
@@ -2702,7 +2702,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7103,
+          "line": 7108,
           "operation": "EmitSound"
         }
       ],
@@ -2718,7 +2718,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7104,
+          "line": 7109,
           "operation": "EmitSound"
         }
       ],
@@ -2734,7 +2734,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3405,
+          "line": 3410,
           "operation": "EmitSound"
         }
       ],
@@ -2750,7 +2750,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3337,
+          "line": 3342,
           "operation": "EmitSound"
         }
       ],
@@ -2764,7 +2764,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3433,
+          "line": 3438,
           "operation": "EmitSound"
         }
       ],
@@ -2778,7 +2778,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6552,
+          "line": 6557,
           "operation": "EmitSound"
         }
       ],
@@ -2794,7 +2794,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6408,
+          "line": 6413,
           "operation": "EmitSound"
         }
       ],
@@ -2808,7 +2808,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6411,
+          "line": 6416,
           "operation": "EmitSound"
         }
       ],
@@ -2822,7 +2822,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6474,
+          "line": 6479,
           "operation": "EmitSound"
         }
       ],
@@ -2838,7 +2838,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6496,
+          "line": 6501,
           "operation": "EmitSound"
         }
       ],
@@ -2854,7 +2854,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 6506,
+          "line": 6511,
           "operation": "EmitSound"
         }
       ],
@@ -2870,7 +2870,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5055,
+          "line": 5060,
           "operation": "EmitSound"
         }
       ],
@@ -2886,7 +2886,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5157,
+          "line": 5162,
           "operation": "EmitSound"
         }
       ],
@@ -2902,7 +2902,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 5085,
+          "line": 5090,
           "operation": "EmitSound"
         }
       ],
@@ -2918,7 +2918,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7814,
+          "line": 7819,
           "operation": "EmitSound"
         }
       ],
@@ -2934,7 +2934,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7830,
+          "line": 7835,
           "operation": "EmitSound"
         }
       ],
@@ -2950,12 +2950,12 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7915,
+          "line": 7920,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7916,
+          "line": 7921,
           "operation": "EmitSound"
         }
       ],
@@ -2971,7 +2971,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 7855,
+          "line": 7860,
           "operation": "EmitSound"
         }
       ],
@@ -2987,7 +2987,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4211,
+          "line": 4216,
           "operation": "EmitSound"
         }
       ],
@@ -3003,7 +3003,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4228,
+          "line": 4233,
           "operation": "EmitSound"
         }
       ],
@@ -3019,27 +3019,27 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4240,
+          "line": 4245,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4259,
+          "line": 4264,
           "operation": "StopSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4272,
+          "line": 4277,
           "operation": "StopSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4310,
+          "line": 4315,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4318,
+          "line": 4323,
           "operation": "StopSound"
         }
       ],
@@ -3055,7 +3055,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4168,
+          "line": 4173,
           "operation": "EmitSound"
         }
       ],
@@ -3071,7 +3071,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4066,
+          "line": 4071,
           "operation": "EmitSound"
         }
       ],
@@ -3087,7 +3087,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4121,
+          "line": 4126,
           "operation": "EmitSound"
         }
       ],
@@ -3103,12 +3103,12 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4122,
+          "line": 4127,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4133,
+          "line": 4138,
           "operation": "StopSound"
         }
       ],
@@ -3124,7 +3124,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4134,
+          "line": 4139,
           "operation": "EmitSound"
         }
       ],
@@ -3140,7 +3140,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3921,
+          "line": 3926,
           "operation": "EmitSound"
         }
       ],
@@ -3156,12 +3156,12 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3936,
+          "line": 3941,
           "operation": "EmitSound"
         },
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3957,
+          "line": 3962,
           "operation": "EmitSound"
         }
       ],
@@ -3177,7 +3177,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4008,
+          "line": 4013,
           "operation": "EmitSound"
         }
       ],
@@ -3193,7 +3193,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 4026,
+          "line": 4031,
           "operation": "EmitSound"
         }
       ],
@@ -3207,7 +3207,7 @@
       "uses": [
         {
           "file": "game/scripts/vscripts/abilities/pve_kits.lua",
-          "line": 3971,
+          "line": 3976,
           "operation": "EmitSound"
         }
       ],
