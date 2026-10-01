@@ -1302,6 +1302,20 @@ end)
 -- BATCH 2 TESTS: Axe, Centaur, Legion Commander, Sniper, Crystal Maiden, Dazzle
 -- =========================================================================
 
+test('Axe Battle Hunger owns its persistent model effect instead of emitting one per damage tick', function()
+    local c=create_mock_unit('npc_dota_hero_axe',2,Vector(0,0,0),1000);c.strength=100
+    local target=create_mock_unit('enfos_hunger_target',3,Vector(100,0,0),1000)
+    local a=enfos_axe_battle_hunger();a.GetCaster=function() return c end
+    a.GetSpecialValueFor=function(_,k) return ({damage_per_second=30,strength_damage_factor=0.25})[k] or 0 end
+    local m=modifier_enfos_axe_battle_hunger_debuff();m.GetCaster=function() return c end;m.GetParent=function() return target end;m.GetAbility=function() return a end
+    local oldParticles,allocations=ParticleManager,0
+    ParticleManager={CreateParticle=function() allocations=allocations+1;return allocations end,ReleaseParticleIndex=function() end}
+    applied_damages={};m:OnIntervalThink();m:OnIntervalThink();ParticleManager=oldParticles
+    assert(#applied_damages==2 and applied_damages[1].damage==55 and applied_damages[2].damage==55,'Persistent effect ownership must not alter physical tick damage')
+    assert(allocations==0,'Hunger damage ticks must not spawn accumulating continuous emitters')
+    assert(m:GetEffectName()=='particles/units/heroes/hero_axe/axe_battle_hunger.vpcf' and m:GetEffectAttachType()==PATTACH_ABSORIGIN_FOLLOW,'Modifier lifetime must own the native model-following effect')
+end)
+
 test('Axe Berserkers Call taunts and applies 75% duration reduction on bosses', function()
     local axe = create_mock_unit('npc_dota_hero_axe', 2, Vector(0, 0, 0))
     local creep = create_mock_unit('creep_1', 3, Vector(100, 0, 0))

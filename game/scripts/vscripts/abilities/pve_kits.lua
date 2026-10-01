@@ -1929,6 +1929,8 @@ function enfos_axe_battle_hunger:OnSpellStart()
 end
 
 modifier_enfos_axe_battle_hunger_debuff=class({})
+function modifier_enfos_axe_battle_hunger_debuff:GetEffectName() return 'particles/units/heroes/hero_axe/axe_battle_hunger.vpcf' end
+function modifier_enfos_axe_battle_hunger_debuff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_axe_battle_hunger_debuff:IsDebuff() return true end
 function modifier_enfos_axe_battle_hunger_debuff:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_EVENT_ON_DEATH } end
 function modifier_enfos_axe_battle_hunger_debuff:GetModifierMoveSpeedBonus_Percentage() return -value(self:GetAbility(), 'slow_pct') end
@@ -1944,7 +1946,6 @@ function modifier_enfos_axe_battle_hunger_debuff:OnIntervalThink()
     local str = get_str(c)
     local dmg = base + (str * value(a, 'strength_damage_factor'))
     damage(a, p, dmg, DAMAGE_TYPE_PHYSICAL)
-    effect('particles/units/heroes/hero_axe/axe_battle_hunger.vpcf', p)
 end
 function modifier_enfos_axe_battle_hunger_debuff:OnDeath(params)
     if not IsServer() then return end
