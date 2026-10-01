@@ -1226,6 +1226,18 @@
     "DOTA_Tooltip_Ability_spellbringer_future_reinforcements_Description": "Призывает 5 управляемых союзников на 30 сек. с силой и обликом текущей волны +5. Для волн боссов используется предыдущий обычный противник. После волны 60 сила ограничена волной 60, облик — волной 59. Союзники не дают врагам наград и не уменьшают жизни команды.",
     "DOTA_Tooltip_ability_enfos_wave_raise": "Призыв помощников",
     "DOTA_Tooltip_ability_enfos_wave_raise_Description": "Призывает до 2 помощников на 20 сек. Не более 4 живых помощников на призывателя. Помощники не призывают других, не дают наград и не уменьшают жизни команды.",
-    "DOTA_Tooltip_ability_spellbringer_future_reinforcements_Description": "Призывает 5 управляемых союзников на 30 сек. с силой и обликом текущей волны +5. Для волн боссов используется предыдущий обычный противник. После волны 60 сила ограничена волной 60, облик — волной 59. Союзники не дают врагам наград и не уменьшают жизни команды."
+    "DOTA_Tooltip_ability_spellbringer_future_reinforcements_Description": "Призывает 5 управляемых союзников на 30 сек. с силой и обликом текущей волны +5. Для волн боссов используется предыдущий обычный противник. После волны 60 сила ограничена волной 60, облик — волной 59. Союзники не дают врагам наград и не уменьшают жизни команды.",
+    "DOTA_Tooltip_modifier_enfos_axe_call_buff": "Зов берсерка",
+    "DOTA_Tooltip_modifier_enfos_axe_call_buff_Description": "Броня увеличена на %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%.",
+    "DOTA_Tooltip_modifier_enfos_axe_call_taunt": "Зов берсерка — Провокация",
+    "DOTA_Tooltip_modifier_enfos_axe_call_taunt_Description": "Вынужден атаковать Axe. Нельзя развеять.",
+    "DOTA_Tooltip_modifier_enfos_axe_battle_hunger_debuff": "Боевой голод",
+    "DOTA_Tooltip_modifier_enfos_axe_battle_hunger_debuff_Description": "Получает периодический физический урон. Скорость передвижения снижена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_axe_battle_hunger_speed": "Боевой голод — Ускорение",
+    "DOTA_Tooltip_modifier_enfos_axe_battle_hunger_speed_Description": "Скорость передвижения увеличена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_axe_culling_blade_buff": "Смертельный удар — Победа",
+    "DOTA_Tooltip_modifier_enfos_axe_culling_blade_buff_Description": "Скорость передвижения увеличена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%, скорость атаки — на %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%.",
+    "DOTA_Tooltip_modifier_enfos_axe_blood_armor_passive": "Кровавая броня",
+    "DOTA_Tooltip_modifier_enfos_axe_blood_armor_passive_Description": "Броня увеличена на %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%, восстановление здоровья — на %dMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT%. Накопленные заряды учтены. Истощение отключает эти бонусы и отражение урона."
   }
 }

@@ -1657,6 +1657,18 @@
     "DOTA_Tooltip_Ability_enfos_wave_raise": "Yardımcı Çağır",
     "DOTA_Tooltip_Ability_enfos_wave_raise_Description": "20 saniyeliğine en fazla 2 yardımcı çağırır. Çağıran başına en fazla 4 yaşayan yardımcı bulunabilir; yardımcılar çağırma yapamaz, ödül vermez ve Takım Canını azaltmaz.",
     "DOTA_Tooltip_ability_enfos_wave_raise": "Yardımcı Çağır",
-    "DOTA_Tooltip_ability_enfos_wave_raise_Description": "20 saniyeliğine en fazla 2 yardımcı çağırır. Çağıran başına en fazla 4 yaşayan yardımcı bulunabilir; yardımcılar çağırma yapamaz, ödül vermez ve Takım Canını azaltmaz."
+    "DOTA_Tooltip_ability_enfos_wave_raise_Description": "20 saniyeliğine en fazla 2 yardımcı çağırır. Çağıran başına en fazla 4 yaşayan yardımcı bulunabilir; yardımcılar çağırma yapamaz, ödül vermez ve Takım Canını azaltmaz.",
+    "DOTA_Tooltip_modifier_enfos_axe_call_buff": "Berserker's Call",
+    "DOTA_Tooltip_modifier_enfos_axe_call_buff_Description": "Zırh %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS% artar.",
+    "DOTA_Tooltip_modifier_enfos_axe_call_taunt": "Berserker's Call — Kışkırtma",
+    "DOTA_Tooltip_modifier_enfos_axe_call_taunt_Description": "Axe’a saldırmaya zorlanır. Dispel ile kaldırılamaz.",
+    "DOTA_Tooltip_modifier_enfos_axe_battle_hunger_debuff": "Battle Hunger",
+    "DOTA_Tooltip_modifier_enfos_axe_battle_hunger_debuff_Description": "Düzenli fiziksel hasar alır. Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% azalır.",
+    "DOTA_Tooltip_modifier_enfos_axe_battle_hunger_speed": "Battle Hunger — Hız",
+    "DOTA_Tooltip_modifier_enfos_axe_battle_hunger_speed_Description": "Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% artar.",
+    "DOTA_Tooltip_modifier_enfos_axe_culling_blade_buff": "Culling Blade — Zafer",
+    "DOTA_Tooltip_modifier_enfos_axe_culling_blade_buff_Description": "Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%, saldırı hızı %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT% artar.",
+    "DOTA_Tooltip_modifier_enfos_axe_blood_armor_passive": "Blood Armor",
+    "DOTA_Tooltip_modifier_enfos_axe_blood_armor_passive_Description": "Zırh %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%, sağlık yenilenmesi %dMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT% artar. Biriken Blood Armor yükleri dahildir. Break bu bonusları ve hasar yansıtmayı devre dışı bırakır."
   }
 }

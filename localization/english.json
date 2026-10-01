@@ -1286,6 +1286,18 @@
     "DOTA_Tooltip_Ability_enfos_wave_raise": "Raise Helpers",
     "DOTA_Tooltip_Ability_enfos_wave_raise_Description": "Summons up to 2 helpers for 20 seconds. Maximum 4 living helpers per caster; helpers cannot summon, grant rewards or cost Team Life.",
     "DOTA_Tooltip_ability_enfos_wave_raise": "Raise Helpers",
-    "DOTA_Tooltip_ability_enfos_wave_raise_Description": "Summons up to 2 helpers for 20 seconds. Maximum 4 living helpers per caster; helpers cannot summon, grant rewards or cost Team Life."
+    "DOTA_Tooltip_ability_enfos_wave_raise_Description": "Summons up to 2 helpers for 20 seconds. Maximum 4 living helpers per caster; helpers cannot summon, grant rewards or cost Team Life.",
+    "DOTA_Tooltip_modifier_enfos_axe_call_buff": "Berserker's Call",
+    "DOTA_Tooltip_modifier_enfos_axe_call_buff_Description": "Armor increased by %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%.",
+    "DOTA_Tooltip_modifier_enfos_axe_call_taunt": "Berserker's Call — Taunted",
+    "DOTA_Tooltip_modifier_enfos_axe_call_taunt_Description": "Forced to attack Axe. Cannot be dispelled.",
+    "DOTA_Tooltip_modifier_enfos_axe_battle_hunger_debuff": "Battle Hunger",
+    "DOTA_Tooltip_modifier_enfos_axe_battle_hunger_debuff_Description": "Taking periodic physical damage. Movement speed reduced by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_axe_battle_hunger_speed": "Battle Hunger — Haste",
+    "DOTA_Tooltip_modifier_enfos_axe_battle_hunger_speed_Description": "Movement speed increased by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_axe_culling_blade_buff": "Culling Blade — Victory",
+    "DOTA_Tooltip_modifier_enfos_axe_culling_blade_buff_Description": "Movement speed increased by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%; attack speed increased by %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%.",
+    "DOTA_Tooltip_modifier_enfos_axe_blood_armor_passive": "Blood Armor",
+    "DOTA_Tooltip_modifier_enfos_axe_blood_armor_passive_Description": "Armor increased by %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%; health regeneration increased by %dMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT%. Includes accumulated Blood Armor stacks. Break suppresses these bonuses and damage reflection."
   }
 }

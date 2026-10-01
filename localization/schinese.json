@@ -1226,6 +1226,18 @@
     "DOTA_Tooltip_Ability_spellbringer_future_reinforcements_Description": "召唤5个可操控友军，持续30秒，使用当前波次+5的实力和外观。首领波次使用前一个普通波次的生物；超过第60波后，实力上限为第60波，外观为第59波。友军不提供敌方奖励，也不会扣除团队生命。",
     "DOTA_Tooltip_ability_enfos_wave_raise": "召唤助手",
     "DOTA_Tooltip_ability_enfos_wave_raise_Description": "召唤最多2个助手，持续20秒。每个召唤者最多拥有4个存活助手。助手不能再次召唤、不提供奖励，也不会扣除团队生命。",
-    "DOTA_Tooltip_ability_spellbringer_future_reinforcements_Description": "召唤5个可操控友军，持续30秒，使用当前波次+5的实力和外观。首领波次使用前一个普通波次的生物；超过第60波后，实力上限为第60波，外观为第59波。友军不提供敌方奖励，也不会扣除团队生命。"
+    "DOTA_Tooltip_ability_spellbringer_future_reinforcements_Description": "召唤5个可操控友军，持续30秒，使用当前波次+5的实力和外观。首领波次使用前一个普通波次的生物；超过第60波后，实力上限为第60波，外观为第59波。友军不提供敌方奖励，也不会扣除团队生命。",
+    "DOTA_Tooltip_modifier_enfos_axe_call_buff": "狂战士之吼",
+    "DOTA_Tooltip_modifier_enfos_axe_call_buff_Description": "护甲增加%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%。",
+    "DOTA_Tooltip_modifier_enfos_axe_call_taunt": "狂战士之吼 — 嘲讽",
+    "DOTA_Tooltip_modifier_enfos_axe_call_taunt_Description": "被迫攻击斧王。无法驱散。",
+    "DOTA_Tooltip_modifier_enfos_axe_battle_hunger_debuff": "战斗饥渴",
+    "DOTA_Tooltip_modifier_enfos_axe_battle_hunger_debuff_Description": "持续受到物理伤害。移动速度降低%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。",
+    "DOTA_Tooltip_modifier_enfos_axe_battle_hunger_speed": "战斗饥渴 — 加速",
+    "DOTA_Tooltip_modifier_enfos_axe_battle_hunger_speed_Description": "移动速度提高%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。",
+    "DOTA_Tooltip_modifier_enfos_axe_culling_blade_buff": "淘汰之刃 — 胜利",
+    "DOTA_Tooltip_modifier_enfos_axe_culling_blade_buff_Description": "移动速度提高%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%，攻击速度提高%dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%。",
+    "DOTA_Tooltip_modifier_enfos_axe_blood_armor_passive": "血之护甲",
+    "DOTA_Tooltip_modifier_enfos_axe_blood_armor_passive_Description": "护甲增加%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%，生命恢复增加%dMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT%。已包含累计层数。破坏效果禁用这些加成及伤害反弹。"
   }
 }

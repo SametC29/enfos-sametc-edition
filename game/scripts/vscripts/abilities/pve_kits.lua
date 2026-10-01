@@ -1898,6 +1898,7 @@ function enfos_axe_berserkers_call:OnSpellStart()
 end
 
 modifier_enfos_axe_call_buff=class({})
+function modifier_enfos_axe_call_buff:GetTexture() return 'axe_berserkers_call' end
 function modifier_enfos_axe_call_buff:IsPurgable() return false end
 function modifier_enfos_axe_call_buff:DeclareFunctions() return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS } end
 function modifier_enfos_axe_call_buff:OnCreated(kv)
@@ -1907,6 +1908,7 @@ function modifier_enfos_axe_call_buff:OnRefresh(kv) self:OnCreated(kv) end
 function modifier_enfos_axe_call_buff:GetModifierPhysicalArmorBonus() return self.bonus_armor end
 
 modifier_enfos_axe_call_taunt=class({})
+function modifier_enfos_axe_call_taunt:GetTexture() return 'axe_berserkers_call' end
 function modifier_enfos_axe_call_taunt:IsDebuff() return true end
 function modifier_enfos_axe_call_taunt:IsPurgable() return false end
 function modifier_enfos_axe_call_taunt:DeclareFunctions() return { MODIFIER_EVENT_ON_DEATH } end
@@ -1948,6 +1950,7 @@ function enfos_axe_battle_hunger:OnSpellStart()
 end
 
 modifier_enfos_axe_battle_hunger_debuff=class({})
+function modifier_enfos_axe_battle_hunger_debuff:GetTexture() return 'axe_battle_hunger' end
 function modifier_enfos_axe_battle_hunger_debuff:GetEffectName() return 'particles/units/heroes/hero_axe/axe_battle_hunger.vpcf' end
 function modifier_enfos_axe_battle_hunger_debuff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_axe_battle_hunger_debuff:IsDebuff() return true end
@@ -1990,6 +1993,7 @@ function modifier_enfos_axe_battle_hunger_debuff:OnDeath(params)
 end
 
 modifier_enfos_axe_battle_hunger_speed=class({})
+function modifier_enfos_axe_battle_hunger_speed:GetTexture() return 'axe_battle_hunger' end
 function modifier_enfos_axe_battle_hunger_speed:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
 function modifier_enfos_axe_battle_hunger_speed:GetModifierMoveSpeedBonus_Percentage() return value(self:GetAbility(), 'caster_movespeed_pct') end
 
@@ -2085,6 +2089,7 @@ function enfos_axe_culling_blade:OnSpellStart()
 end
 
 modifier_enfos_axe_culling_blade_buff=class({})
+function modifier_enfos_axe_culling_blade_buff:GetTexture() return 'axe_culling_blade' end
 function modifier_enfos_axe_culling_blade_buff:DeclareFunctions()
     return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
 end
@@ -2095,6 +2100,7 @@ enfos_axe_blood_armor=class({})
 function enfos_axe_blood_armor:GetIntrinsicModifierName() return 'modifier_enfos_axe_blood_armor_passive' end
 
 modifier_enfos_axe_blood_armor_passive=class({})
+function modifier_enfos_axe_blood_armor_passive:GetTexture() return 'axe_foreboding' end
 function modifier_enfos_axe_blood_armor_passive:IsPurgable() return false end
 function modifier_enfos_axe_blood_armor_passive:IsDebuff() return false end
 function modifier_enfos_axe_blood_armor_passive:IsPermanent() return true end
