@@ -6830,6 +6830,38 @@ test('Witch Doctor restoration owns audio and particle cleanup on off and mana e
     IsServer = originalServer
 end)
 
+test('Witch Doctor Ward and Switcheroo terminate invalid periodic sources and abilities', function()
+    for _,constructor in ipairs({modifier_enfos_wd_death_ward_channel,modifier_enfos_wd_voodoo_switcheroo_buff}) do
+        for _,mode in ipairs({'dead_source','deleted_source','deleted_ability'}) do
+            local wd=create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(0,0,0))
+            local a=enfos_wd_death_ward();a.IsNull=function() return mode=='deleted_ability' end
+            a.GetSpecialValueFor=function() error('Invalid ward loop must not evaluate damage') end
+            if mode=='dead_source' then wd.alive=false elseif mode=='deleted_source' then wd.IsNull=function() return true end end
+            wd.GetAbsOrigin=function() error('Invalid ward loop must not read source origin') end
+            local m=constructor();m.GetCaster=function() return wd end;m.GetParent=function() return wd end
+            m.GetAbility=function() return a end;local destroyed=false;m.Destroy=function() destroyed=true end
+            m:OnIntervalThink()
+            assert(destroyed,'Invalid source or ability must terminate its attack loop')
+        end
+    end
+end)
+
+test('Witch Doctor Ward teardown removes its owned unit once and missing ward ends the loop', function()
+    local wd=create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(0,0,0))
+    local ward=create_mock_unit('npc_dota_witch_doctor_death_ward',2,Vector(50,0,0))
+    mock_world_units={wd,ward}
+    local a=enfos_wd_death_ward();a.GetSpecialValueFor=function() error('Missing ward must not evaluate damage') end
+    local m=modifier_enfos_wd_death_ward_channel();m.GetCaster=function() return wd end
+    m.GetAbility=function() return a end;m.ward_idx=ward:entindex()
+    local oldRemove=UTIL_Remove;local removals=0
+    UTIL_Remove=function(unit) assert(unit==ward);removals=removals+1 end
+    local ok,err=pcall(function() m:OnDestroy();m:OnDestroy() end)
+    UTIL_Remove=oldRemove;assert(ok,err)
+    assert(removals==1 and m.ward_idx==nil,'Repeated teardown must not remove the same ward twice')
+    local ended=false;m.Destroy=function() ended=true end
+    m:OnIntervalThink();assert(ended,'No ward means no remaining channel attack loop')
+end)
+
 test('Witch Doctor channel and Shard sound stop during modifier teardown', function()
     local wd = create_mock_unit('npc_dota_hero_witch_doctor', 2, Vector(0, 0, 0))
     local stopped = {}

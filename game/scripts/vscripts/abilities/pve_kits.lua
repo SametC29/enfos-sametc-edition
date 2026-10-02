@@ -4882,6 +4882,7 @@ function enfos_wd_death_ward:OnSpellStart()
 end
 function enfos_wd_death_ward:OnChannelFinish(interrupted)
     local c = self:GetCaster()
+    if not c or (c.IsNull and c:IsNull()) then return end
     c:RemoveModifierByName('modifier_enfos_wd_death_ward_channel')
     c:StopSound('Hero_WitchDoctor.Death_WardBuild')
 end
@@ -4898,11 +4899,16 @@ function modifier_enfos_wd_death_ward_channel:OnDestroy()
     local caster = self:GetCaster()
     if caster and not caster:IsNull() then caster:StopSound('Hero_WitchDoctor.Death_WardBuild') end
     local ward = self.ward_idx and EntIndexToHScript(self.ward_idx) or nil
+    self.ward_idx = nil
     if ward and not ward:IsNull() then UTIL_Remove(ward) end
 end
 function modifier_enfos_wd_death_ward_channel:OnIntervalThink()
     local c = self:GetCaster()
     local a = self:GetAbility()
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive()
+        or not a or (a.IsNull and a:IsNull()) then self:Destroy(); return end
+    local ward = self.ward_idx and EntIndexToHScript(self.ward_idx) or nil
+    if not ward or ward:IsNull() then self:Destroy(); return end
     local int = get_int(c)
     local base = (a and value(a, 'damage')) or 150
     local dmg = base + (int * 0.75)
@@ -4910,8 +4916,7 @@ function modifier_enfos_wd_death_ward_channel:OnIntervalThink()
     local targets = enemies(c, self.pos, 700, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)
     if #targets > 0 then
         local t = targets[RandomInt(1, #targets)]
-        local ward = self.ward_idx and EntIndexToHScript(self.ward_idx) or nil
-        if ward and not ward:IsNull() then wd_launch_ward_attack(a, ward, t, dmg) end
+        wd_launch_ward_attack(a, ward, t, dmg)
     end
 end
 
@@ -4954,6 +4959,8 @@ end
 function modifier_enfos_wd_voodoo_switcheroo_buff:OnIntervalThink()
     local c = self:GetParent()
     local a = self:GetAbility()
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive()
+        or not a or (a.IsNull and a:IsNull()) then self:Destroy(); return end
     local int = get_int(c)
     local dmg = 120 + (int * 0.8)
 
