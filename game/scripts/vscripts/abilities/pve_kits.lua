@@ -4516,10 +4516,19 @@ function enfos_zeus_heavenly_jump:OnSpellStart()
     local c = self:GetCaster()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
     c:EmitSound('Hero_Zuus.HeavenlyJump')
-    effect('particles/units/heroes/hero_zuus/zuus_shard_jump_launch_ring.vpcf', c)
+    -- Native RingWave reads CP2. Keep each finite ring at its cast position,
+    -- rather than following the caster across the instant reposition.
+    local function jump_ring(path, position)
+        local particle = ParticleManager:CreateParticle(path, PATTACH_WORLDORIGIN, nil)
+        ParticleManager:SetParticleControl(particle, 0, position)
+        ParticleManager:SetParticleControl(particle, 2, position)
+        ParticleManager:ReleaseParticleIndex(particle)
+    end
+    local launch_position = c:GetAbsOrigin()
+    jump_ring('particles/units/heroes/hero_zuus/zuus_shard_jump_launch_ring.vpcf', launch_position)
     local forward = c.GetForwardVector and c:GetForwardVector() or Vector(1, 0, 0)
-    FindClearSpaceForUnit(c, c:GetAbsOrigin() + (forward * 450), true)
-    effect('particles/units/heroes/hero_zuus/zuus_shard_jump_landing_ring.vpcf', c)
+    FindClearSpaceForUnit(c, launch_position + (forward * 450), true)
+    jump_ring('particles/units/heroes/hero_zuus/zuus_shard_jump_landing_ring.vpcf', c:GetAbsOrigin())
     c:AddNewModifier(c, self, 'modifier_enfos_zeus_heavenly_jump_buff', { duration = value(self, 'buff_duration') })
 
     local int = get_int(c)

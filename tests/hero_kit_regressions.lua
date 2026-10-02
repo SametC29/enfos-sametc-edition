@@ -3812,8 +3812,12 @@ test('Zeus Heavenly Jump leaps while stationary and emits native launch/landing 
     local previous_manager = ParticleManager
     local emitted = {}
     ParticleManager = {
-        CreateParticle = function(_, path) emitted[#emitted + 1] = path return #emitted end,
-        ReleaseParticleIndex = function() end
+        CreateParticle = function(_, path, attachment, owner)
+            emitted[#emitted + 1] = {path=path, attachment=attachment, owner=owner, controls={}}
+            return #emitted
+        end,
+        SetParticleControl = function(_, index, cp, position) emitted[index].controls[cp] = position end,
+        ReleaseParticleIndex = function(_, index) emitted[index].released = true end
     }
 
     local ab = enfos_zeus_heavenly_jump()
@@ -3821,11 +3825,19 @@ test('Zeus Heavenly Jump leaps while stationary and emits native launch/landing 
     ab.GetSpecialValueFor = function(_, k)
         return ({ damage = 150, bonus_ms_pct = 20, buff_duration = 3, slow_pct = 40, slow_duration = 2, max_targets = 2 })[k] or 0
     end
-    ab:OnSpellStart()
+    local ok, err = pcall(function() ab:OnSpellStart() end)
     ParticleManager = previous_manager
+    assert(ok, err)
     assert(zeus.origin.x == 450, 'Heavenly Jump must move 450 units forward')
-    assert(emitted[1] == 'particles/units/heroes/hero_zuus/zuus_shard_jump_launch_ring.vpcf', 'Heavenly Jump must create its native launch effect')
-    assert(emitted[2] == 'particles/units/heroes/hero_zuus/zuus_shard_jump_landing_ring.vpcf', 'Heavenly Jump must create its native landing effect')
+    assert(emitted[1].path == 'particles/units/heroes/hero_zuus/zuus_shard_jump_launch_ring.vpcf', 'Heavenly Jump must create its native launch effect')
+    assert(emitted[2].path == 'particles/units/heroes/hero_zuus/zuus_shard_jump_landing_ring.vpcf', 'Heavenly Jump must create its native landing effect')
+    for i, x in ipairs({0, 450}) do
+        assert(emitted[i].controls[0] and emitted[i].controls[2]
+            and emitted[i].controls[0].x == x and emitted[i].controls[2].x == x,
+            'Native ring CP0 and RingWave CP2 must capture the distinct launch/resolved landing centers')
+        assert(emitted[i].owner == nil and emitted[i].released,
+            'Finite jump rings must stay at their world positions and release their particle indexes')
+    end
     assert(#applied_damages == 1 and applied_damages[1].victim == creep and applied_damages[1].damage == 190)
 end)
 
