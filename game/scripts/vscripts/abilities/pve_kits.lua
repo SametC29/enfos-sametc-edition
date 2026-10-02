@@ -3223,11 +3223,11 @@ function modifier_enfos_dazzle_poison_touch_debuff:GetModifierMoveSpeedBonus_Per
     local ability = self:GetAbility()
     local slow = value(ability, 'slow_pct')
     if slow <= 0 then slow = 25 end
-    return -slow - (self.bonus_slow or 0)
+    return -slow - self:GetStackCount()
 end
 function modifier_enfos_dazzle_poison_touch_debuff:OnCreated()
     if not IsServer() then return end
-    self.bonus_slow = 0
+    self:SetStackCount(0)
     self:StartIntervalThink(1.0)
 end
 function modifier_enfos_dazzle_poison_touch_debuff:OnIntervalThink()
@@ -3252,7 +3252,7 @@ function modifier_enfos_dazzle_poison_touch_debuff:OnAttackLanded(params)
         if increase <= 0 then increase = 2 end
         local cap = value(self:GetAbility(), 'max_bonus_slow')
         if cap <= 0 then cap = 35 end
-        self.bonus_slow = math.min(cap, (self.bonus_slow or 0) + increase)
+        self:SetStackCount(math.min(cap, self:GetStackCount() + increase))
     end
 end
 

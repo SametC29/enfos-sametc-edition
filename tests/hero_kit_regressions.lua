@@ -2608,12 +2608,17 @@ test('Dazzle Poison Touch only refreshes and ramps slow on Dazzle attacks', func
     assert(debuff, 'Poison Touch must apply its base debuff')
     debuff.StartIntervalThink = function() end
     debuff:OnCreated()
-    assert(debuff.bonus_slow == 0, 'Poison Touch must start with no bonus slow')
+    assert(debuff:GetStackCount() == 0, 'Poison Touch must start with no replicated bonus slow')
     local ally = create_mock_unit('npc_dota_hero_ally', 2, Vector(0, 0, 0))
     debuff:OnAttackLanded({ attacker = ally, target = enemy })
-    assert(debuff.bonus_slow == 0, 'Other allied attacks must not build Dazzle attack stacks')
+    assert(debuff:GetStackCount() == 0, 'Other allied attacks must not build Dazzle attack stacks')
     debuff:OnAttackLanded({ attacker = dazzle, target = enemy })
-    assert(debuff.bonus_slow == 2, 'Dazzle attacks must add configured slow')
+    assert(debuff:GetStackCount() == 2, 'Dazzle attacks must replicate configured bonus slow')
+    local client=setmetatable({GetAbility=function() return ab end,GetStackCount=function() return debuff:GetStackCount() end},
+        modifier_enfos_dazzle_poison_touch_debuff)
+    assert(client:GetModifierMoveSpeedBonus_Percentage()==-27,'Client without server Lua fields must see the same accumulated slow')
+    for i=1,20 do debuff:OnAttackLanded({attacker=dazzle,target=enemy}) end
+    assert(debuff:GetStackCount()==35 and client:GetModifierMoveSpeedBonus_Percentage()==-60,'Replicated bonus slow must respect the configured cap')
 end)
 
 test('Dazzle Shallow Grave grants lethal-damage floor and configured healing amplification', function()
