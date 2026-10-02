@@ -284,3 +284,5 @@ translations retain every configured special-value placeholder. In-game tooltip
 rendering remains PENDING owner verification.
 
 2026-09-30 global Break metadata audit: Added KV `IsBreakable 1` to `enfos_centaur_return` because its linked Lua passive implementation check `PassivesDisabled()`. Automated content validation now rejects this metadata mismatch. Actual Dota Break behavior remains PENDING.
+
+2026-10-02 individual source review closed. See `docs/audit/CENTAUR_INDIVIDUAL_REVIEW_2026-10-02.md` for native6943 comparison, per-slot KEEP/TUNE/PVE-CONVERT/REPLACE decisions, focused repairs, exact decoded resource evidence, shared Aghanim limits and owner checklist. This supersedes historical source-not-evaluated rows above, but every actual Dota/VConsole acceptance remains pending.247behavior tests/full checks0failed; no live launch or Workshop upload. Native Work Horse/Double Edge Shard are not implemented by the shared custom upgrade policy. Source closure permits the next queued hero and does not certify gameplay balance, visuals, audio, HUD points or reconnect.
