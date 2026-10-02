@@ -57,6 +57,8 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-02 source review: installed hero KV declares `GameSoundsFile` as `soundevents/game_sounds_heroes/game_sounds_ursa.vsndevts`; this bank was absent from startup precache although the kit emits Earthshock, Overpower and Enrage events from it. Added Ursa to the shared native bank list. Native AbilityDefinitions specify Earthshock `ACT_DOTA_CAST_ABILITY_1`, Overpower `ACT_DOTA_OVERRIDE_ABILITY_3`, and Enrage `ACT_DOTA_OVERRIDE_ABILITY_4`; these presentation fields were missing from the Enfos active abilities and are now explicit. Static checks cover the values and bank registration. Dota animation and cold-client sound playback remain PENDING owner test.
+
 2026-09-30 static special-value repair: migrated all five Ursa abilities to named `AbilityValues`, preserving the authored ten-rank arrays and scalar values. Added a content contract preventing a return to legacy Lua-read KV fields. Existing combat mocks cover selected Ursa mechanics; this schema migration is not a Dota test. The user owns in-game behavior, audio and VFX checks.
 
 ## Slot 1: `enfos_ursa_earthshock`

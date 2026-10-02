@@ -115,6 +115,20 @@ check('Underlord preserves native active-spell animations and preloads its nativ
   const soundLoop = startup.match(/for _,name in ipairs\(\{([^}]+)\}\) do\s*\n\s*PrecacheResource\("soundfile"[\s\S]*?\n\s*end/);
   if (!soundLoop || !/"abyssal_underlord"/.test(soundLoop[1])) throw new Error('Underlord native sound bank is missing from startup precache');
 });
+check('Ursa preserves native active-spell animations and preloads its native sound bank', () => {
+  const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
+  const expected = {
+    enfos_ursa_earthshock: 'ACT_DOTA_CAST_ABILITY_1',
+    enfos_ursa_overpower: 'ACT_DOTA_OVERRIDE_ABILITY_3',
+    enfos_ursa_enrage: 'ACT_DOTA_OVERRIDE_ABILITY_4',
+  };
+  for (const [id, animation] of Object.entries(expected)) {
+    if (abilities[id].AbilityCastAnimation !== animation) throw new Error(`${id}: expected native cast animation ${animation}`);
+  }
+  const startup = fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua', 'utf8');
+  const soundLoop = startup.match(/for _,name in ipairs\(\{([^}]+)\}\) do\s*\n\s*PrecacheResource\("soundfile"[\s\S]*?\n\s*end/);
+  if (!soundLoop || !/"ursa"/.test(soundLoop[1])) throw new Error('Ursa native sound bank is missing from startup precache');
+});
 check('Lina exposes five ten-rank abilities, delayed Light Strike Array and a separate Enfos passive', () => {
   const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
   const curves = {
