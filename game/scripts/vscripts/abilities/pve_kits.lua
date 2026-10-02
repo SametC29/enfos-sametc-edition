@@ -5194,6 +5194,7 @@ function modifier_enfos_dk_elder_dragon_form_buff:OnCreated()
     if not IsServer() then return end
     local p = self:GetParent()
     self.original_model = p and p.GetModelName and p:GetModelName() or nil
+    self.original_projectile = p and p.GetRangedProjectileName and p:GetRangedProjectileName() or nil
     if p and p.SetAttackCapability then
         p:SetAttackCapability(DOTA_UNIT_CAP_RANGED_ATTACK)
         if p.SetRangedProjectileName then
@@ -5211,6 +5212,9 @@ function modifier_enfos_dk_elder_dragon_form_buff:OnDestroy()
     local p = self:GetParent()
     if p and p.SetAttackCapability then
         p:SetAttackCapability(DOTA_UNIT_CAP_MELEE_ATTACK)
+    end
+    if p and p.SetRangedProjectileName and self.original_projectile ~= nil then
+        p:SetRangedProjectileName(self.original_projectile)
     end
     if p and self.original_model and p.SetModel and p.SetOriginalModel then
         p:SetModel(self.original_model)

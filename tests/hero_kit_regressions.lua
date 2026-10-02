@@ -4883,7 +4883,10 @@ end)
 test('Dragon Knight Elder Dragon Form swaps to the verified dragon model and restores the hero model', function()
     local dk = create_mock_unit('npc_dota_hero_dragon_knight', 2, Vector(0, 0, 0))
     dk.model = 'models/heroes/dragon_knight/dragon_knight.vmdl'
+    dk.projectile_name = 'particles/units/heroes/hero_dragon_knight/test_original_projectile.vpcf'
     dk.GetModelName = function(self) return self.model end
+    dk.GetRangedProjectileName = function(self) return self.projectile_name end
+    dk.SetRangedProjectileName = function(self, name) self.projectile_name = name end
     dk.SetModel = function(self, model) self.model = model end
     dk.SetOriginalModel = function(self, model) self.original_model = model end
     dk.SetAttackCapability = function() end
@@ -4891,8 +4894,10 @@ test('Dragon Knight Elder Dragon Form swaps to the verified dragon model and res
     modifier.GetParent = function() return dk end
     modifier:OnCreated()
     assert(dk.model == 'models/heroes/dragon_knight/dragon_knight_dragon.vmdl')
+    assert(dk.projectile_name == 'particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_fire.vpcf', 'Form sets the dragon ranged projectile')
     modifier:OnDestroy()
     assert(dk.model == 'models/heroes/dragon_knight/dragon_knight.vmdl', 'Form expiry restores the original model')
+    assert(dk.projectile_name == 'particles/units/heroes/hero_dragon_knight/test_original_projectile.vpcf', 'Form expiry restores the original ranged projectile')
 end)
 
 test('Pudge Meat Hook launches a real linear hook and pulls the first target on impact', function()

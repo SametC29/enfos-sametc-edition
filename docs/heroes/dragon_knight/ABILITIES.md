@@ -217,6 +217,12 @@ Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve: Elder Dragon Form R ranks 1–10 are KV-gated at levels 5, 10, …, 50; ultimate UI and point behavior remain PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
+2026-10-02 lifecycle repair: the form temporarily replaces the ranged attack
+projectile. The modifier now stores the pre-form projectile name and restores it
+with the model when the form ends. Both API methods were confirmed in the
+installed VScript catalog; mocked lifecycle regression passes. Engine transition
+and death/reconnect cleanup are still PENDING.
+
 ### Resource and implementation evidence
 
 - Native ability data source + build + hash/revision: PENDING.
