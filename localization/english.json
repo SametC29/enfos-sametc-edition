@@ -1397,6 +1397,14 @@
     "DOTA_Tooltip_modifier_enfos_dk_dragon_blood_passive": "Dragon Blood",
     "DOTA_Tooltip_modifier_enfos_dk_dragon_blood_passive_Description": "Passively grants 6 / 8 / 10 / 12 / 14 / 16 / 18 / 20 / 22 / 24 bonus armor and 10 / 13 / 17 / 20 / 23 / 27 / 30 / 33 / 37 / 40 health regeneration, plus additional health regeneration equal to 5% of your Strength.",
     "DOTA_Tooltip_modifier_enfos_dk_wyrm_vigor_passive": "Wyrm's Vigor",
-    "DOTA_Tooltip_modifier_enfos_dk_wyrm_vigor_passive_Description": "Passively grants 10 / 12 / 13 / 15 / 17 / 18 / 20 / 22 / 23 / 25% magic resistance and 10 / 15 / 20 / 25 / 30 / 35 / 40 / 45 / 50 / 55 Strength."
+    "DOTA_Tooltip_modifier_enfos_dk_wyrm_vigor_passive_Description": "Passively grants 10 / 12 / 13 / 15 / 17 / 18 / 20 / 22 / 23 / 25% magic resistance and 10 / 15 / 20 / 25 / 30 / 35 / 40 / 45 / 50 / 55 Strength.",
+    "DOTA_Tooltip_modifier_enfos_tide_gush_debuff": "Gush",
+    "DOTA_Tooltip_modifier_enfos_tide_gush_debuff_Description": "Armor change: %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Movement speed change: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Can be dispelled.",
+    "DOTA_Tooltip_modifier_enfos_tide_anchor_smash_debuff": "Anchor Smash",
+    "DOTA_Tooltip_modifier_enfos_tide_anchor_smash_debuff_Description": "Base attack damage change: %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%. Can be dispelled.",
+    "DOTA_Tooltip_modifier_enfos_tide_ravage_stun": "Ravage",
+    "DOTA_Tooltip_modifier_enfos_tide_ravage_stun_Description": "Stunned by Ravage. Can only be removed by a strong dispel.",
+    "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff": "Colossal Presence",
+    "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff_Description": "Movement speed change: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Base attack damage change: %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%. Applied by a nearby Tidehunter."
   }
 }

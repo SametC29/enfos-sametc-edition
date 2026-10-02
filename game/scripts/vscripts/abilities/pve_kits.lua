@@ -3787,6 +3787,7 @@ function enfos_tide_gush:OnProjectileHit(t)
 end
 
 modifier_enfos_tide_gush_debuff=class({})
+function modifier_enfos_tide_gush_debuff:GetTexture() return 'tidehunter_gush' end
 function modifier_enfos_tide_gush_debuff:IsDebuff() return true end
 function modifier_enfos_tide_gush_debuff:IsPurgable() return true end
 function modifier_enfos_tide_gush_debuff:IsPurgeException() return false end
@@ -3901,6 +3902,7 @@ function enfos_tide_anchor_smash:ApplyAnchorSmash(multiplier)
 end
 
 modifier_enfos_tide_anchor_smash_debuff=class({})
+function modifier_enfos_tide_anchor_smash_debuff:GetTexture() return 'tidehunter_anchor_smash' end
 function modifier_enfos_tide_anchor_smash_debuff:IsDebuff() return true end
 function modifier_enfos_tide_anchor_smash_debuff:IsPurgable() return true end
 function modifier_enfos_tide_anchor_smash_debuff:IsPurgeException() return false end
@@ -3973,6 +3975,7 @@ function enfos_tide_ravage:OnSpellStart()
 end
 
 modifier_enfos_tide_ravage_stun=class({})
+function modifier_enfos_tide_ravage_stun:GetTexture() return 'tidehunter_ravage' end
 function modifier_enfos_tide_ravage_stun:IsDebuff() return true end
 function modifier_enfos_tide_ravage_stun:IsPurgable() return false end
 function modifier_enfos_tide_ravage_stun:IsPurgeException() return true end
@@ -4009,6 +4012,7 @@ function modifier_enfos_tide_colossal_presence_aura:GetModifierPhysicalArmorBonu
 end
 
 modifier_enfos_tide_colossal_presence_debuff=class({})
+function modifier_enfos_tide_colossal_presence_debuff:GetTexture() return 'tidehunter_kraken_shell' end
 function modifier_enfos_tide_colossal_presence_debuff:IsDebuff() return true end
 function modifier_enfos_tide_colossal_presence_debuff:DeclareFunctions()
     return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE }

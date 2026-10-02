@@ -58,6 +58,16 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-02 visible-modifier follow-up: four secondary recipient modifiers lacked
+exact localization keys; the intrinsic generator already covers Kraken Shell
+and the hidden Colossal owner. Added four-language names/descriptions for Gush,
+Anchor Smash, Ravage stun and Colossal enemy aura, plus explicit verified native
+GetTexture mappings. Signed modifier-property placeholders describe actual
+armor/speed/base-damage changes without hard-coded rank values. Full checks and
+locale generation pass; actual HUD values/icons/text remain OWNER_RUNTIME
+PENDING. See the individual ledger's visible modifier section. No gameplay or
+balance change and no engine acceptance claim.
+
 2026-10-02 Sol re-review: a targeted regression reproduced Gush/Anchor Smash attempting debuff application after synchronous damage callbacks removed the target, caster or ability. Both now revalidate handles before debuff calls; Anchor Smash also validates each remaining target/source before continued area work. Damage formulas, flags, durations and current timing are retained (PVE-CONVERT classification unchanged). Actual engine deletion/death, visuals/audio and Boss behavior remain owner PENDING; the existing individual ledger remains in progress.
 
 2026-09-30 static special-value repair: converted all five Lua-driven Tidehunter abilities from legacy numbered `AbilitySpecial` entries to named `AbilityValues`, retaining the existing ten-rank curves and scalars. A content contract now guards the schema. This follows the project-specific Sven value-loading finding; no Tidehunter Dota playtest is claimed. Boss response, VFX/SFX and gameplay in the engine remain for the user to test.

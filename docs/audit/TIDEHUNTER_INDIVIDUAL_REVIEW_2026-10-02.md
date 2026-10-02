@@ -1,5 +1,33 @@
 # Tidehunter individual review — in progress
 
+## Visible modifier localization follow-up — 2026-10-02
+
+Classification remains PVE-CONVERT for the existing kit; this follow-up changes
+presentation only. Traced `tools/localization.mjs`: its intrinsic-name generator
+already supplies Kraken Shell and the hidden Colossal aura, but does not supply
+the four secondary visible modifiers (Gush, Anchor Smash, Ravage stun and
+Colossal enemy aura). Their exact name/description tokens were absent from all
+four source locales. Added explicit EN/TR/RU/zh-CN tokens and regenerated twelve
+resource/Panorama mirrors. Gush/Anchor/Colossal descriptions use signed current
+modifier-property placeholders instead of promising a fixed or all-rank value.
+Ravage states its implemented strong-only dispel policy.
+
+Added explicit GetTexture mappings to these four modifiers, reusing the native
+icons already assigned/verified in the hero KV and dossier; no new assets or
+precache ownership introduced. API and property-tooltip reference:
+[ModDota modifier declarations](https://docs.moddota.com/lua_server/declaration)
+and [modifier properties in tooltips](https://moddota.com/abilities/modifier-properties-in-tooltips).
+No external implementation imported. This confirms missing text records and
+explicit icon wiring, not a reproduced in-engine default-icon failure.
+
+Validation: localization generation and full `node tools/checks.mjs` passed
+with zero failures. Gameplay quantities, aura eligibility/linger, damage,
+duration and upgrades are unchanged. OWNER_RUNTIME remains PENDING: inspect
+all four recipient debuffs at low/max ranks, confirm signed property values
+render and refresh after rank-up, verify native icons and four-language text,
+then basic/strong dispel and aura leave/re-entry. No Dota launch, remote push
+or Workshop publication was performed for this follow-up.
+
 Scope: the five production abilities assigned to `npc_dota_hero_tidehunter`, their Lua, KV, rank gates, upgrade hooks, localization, presentation and precache. This is a static review plus Lua mocks; it is **not** a Dota runtime certification. No Dota process was launched or controlled.
 
 ## Evidence and decisions

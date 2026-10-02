@@ -1747,6 +1747,14 @@
     "DOTA_Tooltip_modifier_enfos_wd_voodoo_switcheroo_buff": "Voodoo Switcheroo",
     "DOTA_Tooltip_modifier_enfos_wd_voodoo_switcheroo_buff_Description": "Dokunulmaz ve saldırı yapamaz bir ward biçimine dönüştü. Mermi isabetleri hasar artışından önce %1fMODIFIER_PROPERTY_TOOLTIP% fiziksel hasar verir.",
     "DOTA_Tooltip_Ability_enfos_dk_dragon_blood_SummaryDescription": "Damarlarındaki ejderha kanı sayesinde pasif olarak +{{bonus_armor}} zırh ve +{{bonus_hp_regen}} can yenilenmesi kazanır. Ayrıca Gücünün %5’i kadar can yenilenmesi sağlar.",
-    "DOTA_Tooltip_modifier_enfos_dk_dragon_blood_passive_Description": "Damarlarındaki ejderha kanı sayesinde pasif olarak +{{bonus_armor}} zırh ve +{{bonus_hp_regen}} can yenilenmesi kazanır. Ayrıca Gücünün %5’i kadar can yenilenmesi sağlar."
+    "DOTA_Tooltip_modifier_enfos_dk_dragon_blood_passive_Description": "Damarlarındaki ejderha kanı sayesinde pasif olarak +{{bonus_armor}} zırh ve +{{bonus_hp_regen}} can yenilenmesi kazanır. Ayrıca Gücünün %5’i kadar can yenilenmesi sağlar.",
+    "DOTA_Tooltip_modifier_enfos_tide_gush_debuff": "Fışkırma",
+    "DOTA_Tooltip_modifier_enfos_tide_gush_debuff_Description": "Zırh değişimi: %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Hareket hızı değişimi: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Etkisi giderilebilir.",
+    "DOTA_Tooltip_modifier_enfos_tide_anchor_smash_debuff": "Çapa Darbesi",
+    "DOTA_Tooltip_modifier_enfos_tide_anchor_smash_debuff_Description": "Temel saldırı hasarı değişimi: %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%. Etkisi giderilebilir.",
+    "DOTA_Tooltip_modifier_enfos_tide_ravage_stun": "Yıkım",
+    "DOTA_Tooltip_modifier_enfos_tide_ravage_stun_Description": "Yıkım nedeniyle sersemledi. Yalnızca güçlü etki giderme ile kaldırılabilir.",
+    "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff": "Devasa Varlık",
+    "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff_Description": "Hareket hızı değişimi: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Temel saldırı hasarı değişimi: %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%. Yakındaki Tidehunter tarafından uygulanır."
   }
 }

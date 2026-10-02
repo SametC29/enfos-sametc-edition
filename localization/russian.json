@@ -1337,6 +1337,14 @@
     "DOTA_Tooltip_modifier_enfos_dk_dragon_blood_passive": "Драконья кровь",
     "DOTA_Tooltip_modifier_enfos_dk_dragon_blood_passive_Description": "Пассивно даёт 6 / 8 / 10 / 12 / 14 / 16 / 18 / 20 / 22 / 24 брони и 10 / 13 / 17 / 20 / 23 / 27 / 30 / 33 / 37 / 40 здоровья в секунду, а также дополнительное восстановление здоровья в размере 5% от силы.",
     "DOTA_Tooltip_modifier_enfos_dk_wyrm_vigor_passive": "Мощь дракона",
-    "DOTA_Tooltip_modifier_enfos_dk_wyrm_vigor_passive_Description": "Пассивно даёт 10 / 12 / 13 / 15 / 17 / 18 / 20 / 22 / 23 / 25% сопротивления магии и 10 / 15 / 20 / 25 / 30 / 35 / 40 / 45 / 50 / 55 силы."
+    "DOTA_Tooltip_modifier_enfos_dk_wyrm_vigor_passive_Description": "Пассивно даёт 10 / 12 / 13 / 15 / 17 / 18 / 20 / 22 / 23 / 25% сопротивления магии и 10 / 15 / 20 / 25 / 30 / 35 / 40 / 45 / 50 / 55 силы.",
+    "DOTA_Tooltip_modifier_enfos_tide_gush_debuff": "Gush",
+    "DOTA_Tooltip_modifier_enfos_tide_gush_debuff_Description": "Изменение брони: %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Изменение скорости передвижения: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Можно развеять.",
+    "DOTA_Tooltip_modifier_enfos_tide_anchor_smash_debuff": "Anchor Smash",
+    "DOTA_Tooltip_modifier_enfos_tide_anchor_smash_debuff_Description": "Изменение базового урона атак: %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%. Можно развеять.",
+    "DOTA_Tooltip_modifier_enfos_tide_ravage_stun": "Ravage",
+    "DOTA_Tooltip_modifier_enfos_tide_ravage_stun_Description": "Оглушение от Ravage. Снимается только сильным развеиванием.",
+    "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff": "Colossal Presence",
+    "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff_Description": "Изменение скорости передвижения: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Изменение базового урона атак: %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%. Действует от находящегося рядом Tidehunter."
   }
 }
