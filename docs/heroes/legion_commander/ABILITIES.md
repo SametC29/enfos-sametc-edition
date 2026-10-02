@@ -100,6 +100,8 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
 
+2026-10-02 individual Q follow-up: installed build6943 compared directly. Count-based AS/MS now refresh on recast and use explicit server-to-client modifier transmission instead of client fallback constants. Independent regression reproduces the missing refresh and checks a separate client instance.233 hero behavior regressions/full checks pass. See [individual ledger](../../audit/LEGION_COMMANDER_INDIVIDUAL_REVIEW_2026-10-02.md) for native deviations and owner runtime gates. Actual networking, visuals/audio and VConsole remain PENDING; this entry updates Q source acceptance only.
+
 ## Slot 2: `enfos_legion_press_the_attack`
 
 Classification: PVE-CONVERT

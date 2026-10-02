@@ -1737,6 +1737,28 @@ test('Legion Commander Overwhelming Odds scales with enemy count in AoE', functi
     assert(buff.bonus_as == 45, 'Bonus attack speed must match creep and boss counts')
 end)
 
+test('Legion Odds refreshes both bonuses and transmits them to a separate client modifier', function()
+    local server = modifier_enfos_legion_overwhelming_odds_buff()
+    local sends = 0
+    server.SetHasCustomTransmitterData = function(_, enabled) assert(enabled) end
+    server.SendBuffRefreshToClients = function() sends = sends + 1 end
+    server:OnCreated({ bonus_as = 45, bonus_ms = 16 })
+    assert(server:GetModifierAttackSpeedBonus_Constant() == 45)
+    server:OnRefresh({ bonus_as = 0, bonus_ms = 0 })
+    assert(server:GetModifierAttackSpeedBonus_Constant() == 0 and server:GetModifierMoveSpeedBonus_Percentage() == 0,
+        'Recast with no enemies must replace the old count-based bonuses, including zero values')
+    server:OnRefresh({ bonus_as = 70, bonus_ms = 23.5 })
+    local client = modifier_enfos_legion_overwhelming_odds_buff()
+    local original_server = IsServer
+    IsServer = function() return false end
+    client:OnCreated({})
+    client:HandleCustomTransmitterData(server:AddCustomTransmitterData())
+    IsServer = original_server
+    assert(client:GetModifierAttackSpeedBonus_Constant() == 70 and client:GetModifierMoveSpeedBonus_Percentage() == 23.5,
+        'Client properties must use the transmitted count bonuses rather than absent OnCreated KV')
+    assert(sends == 2, 'Each server recast must refresh the transmitted values')
+end)
+
 test('Legion Press the Attack purges and buffs only a living ally', function()
     local legion = create_mock_unit('npc_dota_hero_legion_commander', 2, Vector(0, 0, 0))
     local ally = create_mock_unit('npc_dota_hero_sven', 2, Vector(100, 0, 0))

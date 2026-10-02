@@ -2421,8 +2421,25 @@ function modifier_enfos_legion_overwhelming_odds_buff:DeclareFunctions()
     return { MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE }
 end
 function modifier_enfos_legion_overwhelming_odds_buff:OnCreated(kv)
-    self.bonus_as = (kv and kv.bonus_as) or 20
-    self.bonus_ms = (kv and kv.bonus_ms) or 10
+    self.bonus_as = 0
+    self.bonus_ms = 0
+    if not IsServer() then return end
+    self:SetHasCustomTransmitterData(true)
+    self.bonus_as = tonumber(kv and kv.bonus_as) or 0
+    self.bonus_ms = tonumber(kv and kv.bonus_ms) or 0
+end
+function modifier_enfos_legion_overwhelming_odds_buff:OnRefresh(kv)
+    if not IsServer() then return end
+    self.bonus_as = tonumber(kv and kv.bonus_as) or 0
+    self.bonus_ms = tonumber(kv and kv.bonus_ms) or 0
+    self:SendBuffRefreshToClients()
+end
+function modifier_enfos_legion_overwhelming_odds_buff:AddCustomTransmitterData()
+    return { bonus_as = self.bonus_as, bonus_ms = self.bonus_ms }
+end
+function modifier_enfos_legion_overwhelming_odds_buff:HandleCustomTransmitterData(data)
+    self.bonus_as = data.bonus_as or 0
+    self.bonus_ms = data.bonus_ms or 0
 end
 function modifier_enfos_legion_overwhelming_odds_buff:GetModifierAttackSpeedBonus_Constant() return self.bonus_as end
 function modifier_enfos_legion_overwhelming_odds_buff:GetModifierMoveSpeedBonus_Percentage() return self.bonus_ms end

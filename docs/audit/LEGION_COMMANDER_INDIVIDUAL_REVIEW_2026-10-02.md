@@ -1,0 +1,23 @@
+# Legion Commander individual review — in progress / owner engine pending
+
+Own instructions/dossier and shared hero/research/reference contracts read. All five production implementations and their current KV read individually. Installed Dota is now ClientVersion6943 / SourceRevision11069754 / Oct01 2026; native hero AbilityDefinitions extracted directly from installed VPK, not the historical6941 dossier snapshot. Owner alone launches/tests Dota. No remote push or Workshop publication.
+
+| Skill | Classification and native comparison |
+| --- | --- |
+| Q Overwhelming Odds | PVE-CONVERT: installed native no-target600radius magical40→130 plus14→20per unit/40→130per hero, fixed50→125AS6sec; current Enfos point-target700range,120→300 plus25→55per creep/100per hero or Boss, count-based AS and capped MS6sec. Preserve aimed wave-clear identity; verify point particle radius/CPs and exact sound. |
+| W Press the Attack | PVE-CONVERT: native friendly strong dispel with24→60regen/13→22MS5sec and Scepter radius500/+12MS; current friendly dispel40→100+0.5STRregen/60→120AS5sec. Current AS is an intentional Enfos sustain/offense variant, not current native W parity. Persistent particle ownership/CPs pending. |
+| E Moment of Courage | PVE-CONVERT: native deterministic7→4 incoming-hit counter and55→85lifesteal/0.3cooldown; current probabilistic25→40%,75%actual counterattack lifesteal and0.4Boss-only throttle. Preserve reactive counterattack; current sound absent from decoded bank and feedback/event ordering under investigation. |
+| R Duel | PVE-CONVERT: native hero-only200range forced duel4→5sec,10→30bonus attack damage,60→50CD; current hero/basic150range4→5.5sec,40%outside damage reduction and10normal/30Boss match-only Strength victory. Paired source modifiers have no forced attack target/order or early end on either death; confirmed lifecycle investigation. Native upgrades differ from generic Enfos upgrades. |
+| Fifth Commander's Banner | REPLACE: independent900radius damage/lifesteal aura, not native Outfight Them1200radius armor/6sec. Owner40→50%base damage/24→42lifesteal, allies20→30%/12→21. Break, aura recipients and lethal attack/event semantics need individual review. |
+
+## Q count-buff refresh and client properties
+
+Root cause: modifier captured server cast-KV count bonuses only in OnCreated. Existing modifier refresh on recast therefore retained the first cast's numbers. A separate client modifier cannot obtain the two server-calculated numbers from arbitrary OnCreated KV. No transmitter existed; both client properties fell back to unrelated20AS/10MS defaults. New regression fails before repair on absent OnRefresh, then separately models zero-count recast and client values.
+
+Focused repair: retain the same damage/count/radius/rank values; initialize client values to0, set actual server count values on creation, replace both on refresh (including zeros), and transmit the two fields with the engine custom-modifier transmitter plus refresh notification. No timer, global scan or new manager. Fractions are retained rather than packing two stats into an integer stack.
+
+Research: [ModDota server-to-client guide](https://moddota.com/abilities/server-to-client) documents custom KV limitations and the transmitter callbacks/refresh method. MCP verifies SetHasCustomTransmitterData and CDOTA_Buff:SendBuffRefreshToClients; its method index does not list the user-defined AddCustomTransmitterData/HandleCustomTransmitterData callbacks, whose pattern is documented by the guide. Reference-only inspection of Workshop1571786267 `scripts/vscripts/abilities/ability_capture.lua` shows those callbacks and notification used for one computed value; source revision/license/current runtime unverified, so no code imported or external acceptance claimed.
+
+Owner engine gate: Q into differently sized groups before the6sec buff expires, then empty ground; AS/MS must update to current counts, match client HUD, retain fractional values, and expire/reset correctly. Reconnect and two-player synchronization, actual icons/particle/audio and fresh VConsole remain PENDING. This is IMPLEMENTED BUT NOT ENGINE-VERIFIED.
+
+Validation: before repair new regression fails on absent OnRefresh; after repair233 hero behavior regressions,200/200 abilities and223/223 modifiers across ranks1–10,0failed checks. Smoke harness gained stubs for the two verified engine methods; these stubs do not simulate transport. The independent server/client regression checks the actual two-field payload and client property calculations. Full Dota networking remains pending.
