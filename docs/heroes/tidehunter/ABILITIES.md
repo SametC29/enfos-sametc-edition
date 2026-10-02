@@ -58,6 +58,16 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-02 source review closure: all five source implementations and their
+current KV/upgrade/presentation ownership have individual reviewed contracts in
+[the review ledger](../../audit/TIDEHUNTER_INDIVIDUAL_REVIEW_2026-10-02.md).
+SOURCE_REVIEW COMPLETE / AUTOMATED_VALIDATION PASS (312 mocks, zero failed
+repository checks at447084a) / OWNER_RUNTIME PENDING. Historical generic upgrade
+and instant-Ravage notes below are superseded by that ledger's current summary.
+Default aura eligibility/linger and actual damage/purge/refresh semantics remain
+engine questions; no native parity or whole-hero DONE is claimed. Use the
+[owner checklist](../../audit/TIDEHUNTER_RUNTIME_CHECKLIST.md) for evidence.
+
 2026-10-02 Anchor presentation: decoded installed root/children require CP2.x
 for ring/warp sizing and related emitters; ApplyAnchorSmash omitted this input.
 Now the same named radius feeds the particle and damage query for active and

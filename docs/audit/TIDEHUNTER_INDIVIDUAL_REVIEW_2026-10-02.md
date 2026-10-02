@@ -1,4 +1,36 @@
-# Tidehunter individual review — in progress
+# Tidehunter individual review — source review complete / engine pending
+
+## Current source-review conclusion — 2026-10-02
+
+SOURCE_REVIEW: COMPLETE for the current authored five-slot implementation.
+AUTOMATED_VALIDATION: PASS at gameplay revision `447084a` (312 hero behavior
+mocks; full repository checks zero failures). OWNER_RUNTIME: PENDING. This is
+not whole-hero DONE, native parity, final balance approval or release permission.
+The early findings table below is historical; this conclusion and dated repair
+sections supersede its generic upgrade and instant-Ravage descriptions.
+
+| Slot | Current reviewed contract | Remaining engine acceptance |
+|---|---|---|
+| Q / Gush | PVE-CONVERT. Ordinary enemy hero/basic tracking projectile, speed2500, absorb on cast; impact validates living hostile target/source. Damage = ranked110–350 + Strength. Armor loss4–10, slow30–45%, duration4.5s. Scepter switches to point-target piercing range2200/radius260/speed1500; base cooldown at most7s, retains rank10's6s. Cast metadata owns native animation/sound; ProjectileManager owns travel. | Client behavior switch, dodge/reflect/absorb, immunity/resistance, hit presentation, cold-start audio and in-flight source/item loss. |
+| W / Kraken Shell | PVE-CONVERT of native-theme defense, not installed active Kraken. Learned live source and Break gates; block20–80 +5% Strength, regen5–20. Positive received damage accumulates toward450, resets after7s inactivity; remainder survives cleanse. Strong purge, guarded re-entry. Shard triggers learned Anchor at50% damage at most once/5 game-time seconds. | Physical block event ordering, basic/strong purge, self/allied/reflected-damage policy in engine, pause/death/refresh, reactive gesture and cleanup. |
+| E / Anchor Smash | PVE-CONVERT. Radius400; physical average attack damage + ranked80–230 +75% Strength. Base attack damage reduction40–70% for6s; query includes immune enemies by existing Enfos policy. Live handles revalidated after synchronous damage. Native anchor root receives the same radius in CP2; finite index released. | Actual spell-immunity and base-damage-property behavior, status resistance, active/reactive visual edge, sound/animation, movement during cast. |
+| R / Ravage | PVE-CONVERT. Fixed-origin radius1000, five annular impacts at0/.35/.7/1.05/1.3s; one hit per unit per cast. Damage200–450 +2×Strength, stun2.4–3.2s with Boss cap1s before engine resistance. One finite game-time context per cast; invalid/dead source stops it. Five native particle CP radii match the same layout. | Real collision/visual synchronization, strong dispel/status resistance, immunity, movement/overlap/pause/lag/death and finite effect termination. Authored bands are not native continuous speed725 parity. |
+| Fifth / Colossal Presence | REPLACE: distinct Enfos passive, not native Innate. Learned-source/Break gated health50–200 and armor1–10; enemy hero/basic aura radius900, slow/base-damage reduction5–15%. Values are read live per property callback; no cached rank-specific values, custom thinker or summon. Uses default engine aura search/purge/linger/multiple-caster semantics, without overriding them speculatively. | Aura fade/refresh under Break, immune targets, same/other caster overlap, death/respawn, health recalculation on rank changes, client property tooltips and reconnect. |
+
+Shared audit boundaries: no talent/account grants added; ordinary match levels
+and free fifth rank remain owned by the existing match-level/innate systems.
+Tidehunter-specific Scepter and Shard replace the generic amplification/CDR and
+tank HP/reflection hooks in `heroes/aghanim_manager.lua`; native item stats are
+separate. No summon manager, new event listener or per-frame global scan is
+introduced. Q/W/E/fifth use ten ranks with1/1 gates; R uses5/5 through level50.
+Ten-rank HUD/49-point budget and real passive refresh remain owner tests.
+
+The source review records existing self/allied/reflected-damage accumulation
+and default aura/illusion eligibility instead of claiming unseen native engine
+behavior. No further numerical/design change is made from those uncertainties.
+Use [the focused owner checklist](TIDEHUNTER_RUNTIME_CHECKLIST.md) to supply
+evidence; reopen specific repairs on a failure. Other heroes may proceed while
+this engine acceptance remains explicitly pending.
 
 ## Anchor Smash radius-control decision — 2026-10-02
 
