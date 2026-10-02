@@ -98,3 +98,8 @@ channels, post-combat advancement and exactly one -5 Core leak. Inspect new
 Lua/resource errors, cast order failures, target loss, pause and multiplayer.
 The generic controller still lacks hero-specific heal/execute/combination
 decisions; this correction is not a claim of full Valve bot intelligence.
+
+Git record: validated changes reached origin/codex/project-hardening in
+`6d6c728`. Another concurrent contributor committed the shared staging area
+while validation ran, so that commit also includes their Dragon Knight work.
+Published history was preserved; no force-push or Workshop upload was performed.
