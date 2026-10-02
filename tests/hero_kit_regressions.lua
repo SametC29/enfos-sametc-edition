@@ -2161,6 +2161,20 @@ test('Sniper Assassinate deals damage only when its tracking projectile hits', f
     applied_damages = {}
     local sniper = create_mock_unit('npc_dota_hero_sniper', 2, Vector(0, 0, 0))
     local target = create_mock_unit('creep_target', 3, Vector(800, 0, 0))
+    local shot_sound, impact_sound
+    sniper.EmitSound=function(_,event) shot_sound=event end
+    target.EmitSound=function(_,event) impact_sound=event end
+    local oldCreate,oldControl,oldRelease,oldWorld=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,
+        ParticleManager.ReleaseParticleIndex,PATTACH_WORLDORIGIN
+    PATTACH_WORLDORIGIN=926
+    local cp,releases={},0
+    ParticleManager.CreateParticle=function(_,path,attachment,owner)
+        assert(path=='particles/units/heroes/hero_sniper/sniper_assassinate_impact_sparks.vpcf'
+            and attachment==926 and owner==sniper)
+        return 926
+    end
+    ParticleManager.SetParticleControl=function(_,id,index,pos) assert(id==926);cp[index]=pos end
+    ParticleManager.ReleaseParticleIndex=function(_,id) assert(id==926);releases=releases+1 end
     local ab = enfos_sniper_assassinate()
     ab.GetCaster = function() return sniper end
     ab.GetCursorTarget = function() return target end
@@ -2172,9 +2186,15 @@ test('Sniper Assassinate deals damage only when its tracking projectile hits', f
     ab:OnSpellStart()
     assert(#applied_damages == 0, 'Assassinate damage must wait for projectile impact')
     assert(last_tracking_projectile.Target == target and last_tracking_projectile.iMoveSpeed == 3000)
+    assert(shot_sound=='Ability.Assassinate','Shot must use the current installed native sound event')
     assert(ab:OnProjectileHit(target, target:GetAbsOrigin()) == true)
     assert(#applied_damages == 1 and applied_damages[1].damage == 800)
     assert(applied_damages[1].victim == target and applied_damages[1].damage_type == DAMAGE_TYPE_PHYSICAL)
+    assert(cp[0]==target.origin and cp[1]==target.origin and releases==1
+        and impact_sound=='Hero_Sniper.AssassinateDamage',
+        'Finite impact must bind its actual CP1 position and play the target impact event')
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex,
+        PATTACH_WORLDORIGIN=oldCreate,oldControl,oldRelease,oldWorld
 end)
 
 test('Sniper Assassinate spell block prevents projectile launch', function()

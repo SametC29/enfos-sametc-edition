@@ -2806,7 +2806,7 @@ function enfos_sniper_assassinate:OnSpellStart()
     if t.GetTeamNumber and c.GetTeamNumber and t:GetTeamNumber() == c:GetTeamNumber() then return end
 
     if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
-    c:EmitSound('Hero_Sniper.AssassinateShot')
+    c:EmitSound('Ability.Assassinate')
     ProjectileManager:CreateTrackingProjectile({
         Target = t,
         Source = c,
@@ -2823,7 +2823,13 @@ function enfos_sniper_assassinate:OnProjectileHit(t, location)
     if not t or t:IsNull() or not t:IsAlive() then return true end
     local c = self:GetCaster()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return true end
-    effect('particles/units/heroes/hero_sniper/sniper_assassinate_impact_sparks.vpcf', t)
+    local origin = t:GetAbsOrigin()
+    local particle = ParticleManager:CreateParticle(
+        'particles/units/heroes/hero_sniper/sniper_assassinate_impact_sparks.vpcf', PATTACH_WORLDORIGIN, c)
+    ParticleManager:SetParticleControl(particle, 0, origin)
+    ParticleManager:SetParticleControl(particle, 1, origin)
+    ParticleManager:ReleaseParticleIndex(particle)
+    t:EmitSound('Hero_Sniper.AssassinateDamage')
     local damage_amount = value(self, 'damage') + get_agi(c) * value(self, 'agility_damage_factor')
     damage(self, t, damage_amount, DAMAGE_TYPE_PHYSICAL)
     if not t:IsAlive() then
