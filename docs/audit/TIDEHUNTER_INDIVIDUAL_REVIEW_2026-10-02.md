@@ -1,5 +1,30 @@
 # Tidehunter individual review — in progress
 
+## Anchor Smash radius-control decision — 2026-10-02
+
+Decoded installed 6943 Anchor root and its five direct children from the existing
+Source2Viewer 19.2 extraction. Rings and warp use C_INIT_InitFloat with
+PF_TYPE_CONTROL_POINT_COMPONENT / PF_MAP_TYPE_DIRECT / CP2.x; wake, splash and
+small ripples also consume CP2.x. Production ApplyAnchorSmash creates/releases
+the root without setting CP2 at all. This is a proven missing resource input;
+actual visible malfunction has not been owner-reproduced. Rings decoded SHA256:
+010ab5ed522f55d3642a5e7dd97a20b8ad18290ca80a365c28473aa1506602fe.
+TUNE presentation only: set CP2.x to the same named radius used by the damage
+query, for both active and reactive Shard casts. Preserve finite effect ownership,
+existing attachment, sound, damage/debuff and single shared implementation.
+Search for the exact particle plus SetParticleControl returned no indexed web
+example; decoded installed resources are stronger input evidence than guesses.
+Add a pre-change regression to require radius wiring for normal and half-damage
+calls. Actual render size, movement/attachment and lifetime remain OWNER_RUNTIME.
+
+Result: the pre-change mock failed on missing CP2.x. ApplyAnchorSmash now reads
+the named radius once, supplies it to CP2 and uses it for the enemy query. The
+same path covers active 100% and reactive 50% damage casts; regression varies
+450/850 radius and checks both finite roots release their indices. Full checks
+pass with zero failures. No new particle, gesture, timer or numerical tuning.
+Owner must compare visual edge versus actual hit edge at low/max rank and after
+Shard cleanse, repeat while moving, then check cold-start VConsole/audio/cleanup.
+
 ## Visible modifier localization follow-up — 2026-10-02
 
 Classification remains PVE-CONVERT for the existing kit; this follow-up changes

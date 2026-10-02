@@ -3485,6 +3485,38 @@ test('Tidehunter Anchor Smash deals attack damage plus strength scaling and appl
     assert(debuff ~= nil, 'Anchor smash must apply debuff')
 end)
 
+test('Tidehunter active and reactive Anchor particles receive their gameplay radius', function()
+    local old_create, old_control, old_release = ParticleManager.CreateParticle,
+        ParticleManager.SetParticleControl, ParticleManager.ReleaseParticleIndex
+    local entries = {}
+    ParticleManager.CreateParticle = function(_, path, attachment, owner)
+        entries[#entries + 1] = {path=path, attachment=attachment, owner=owner, cp={}}
+        return #entries
+    end
+    ParticleManager.SetParticleControl = function(_, id, cp, vector) entries[id].cp[cp] = vector end
+    ParticleManager.ReleaseParticleIndex = function(_, id) entries[id].released = true end
+    local tide = create_mock_unit('npc_dota_hero_tidehunter', 2, Vector(500, 300, 0))
+    mock_world_units = {tide}
+    local radius = 450
+    local ab = enfos_tide_anchor_smash()
+    ab.GetCaster = function() return tide end
+    ab.GetSpecialValueFor = function(_, key) return key == 'radius' and radius or 0 end
+    ab:OnSpellStart()
+    radius = 850
+    ab:ApplyAnchorSmash(0.5)
+    ParticleManager.CreateParticle, ParticleManager.SetParticleControl, ParticleManager.ReleaseParticleIndex =
+        old_create, old_control, old_release
+    assert(#entries == 2)
+    for i, expected in ipairs({450, 850}) do
+        local entry = entries[i]
+        assert(entry.cp[2] and entry.cp[2].x == expected,
+            'Anchor child particle CP2.x must receive the actual radius on active and reactive casts')
+        assert(entry.cp[2].y == 0 and entry.cp[2].z == 0)
+        assert(entry.owner == tide and entry.released,
+            'Both finite Anchor roots must remain caster-owned and release their indices')
+    end
+end)
+
 test('Tidehunter Gush launches a native-speed projectile and impacts only a live enemy', function()
     applied_damages = {}
     last_tracking_projectile = nil

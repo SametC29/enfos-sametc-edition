@@ -58,6 +58,13 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-02 Anchor presentation: decoded installed root/children require CP2.x
+for ring/warp sizing and related emitters; ApplyAnchorSmash omitted this input.
+Now the same named radius feeds the particle and damage query for active and
+reactive Shard casts. Pre-change mock failed; varying-radius regression and
+full checks pass. Actual edge alignment, motion, lifetime and audio remain
+OWNER_RUNTIME PENDING. Existing caster attachment and finite release preserved.
+
 2026-10-02 visible-modifier follow-up: four secondary recipient modifiers lacked
 exact localization keys; the intrinsic generator already covers Kraken Shell
 and the hidden Colossal owner. Added four-language names/descriptions for Gush,

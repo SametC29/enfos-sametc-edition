@@ -3880,8 +3880,10 @@ end
 function enfos_tide_anchor_smash:ApplyAnchorSmash(multiplier)
     local c = self:GetCaster()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
+    local radius = value(self, 'radius')
     c:EmitSound('Hero_Tidehunter.AnchorSmash')
     local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_tidehunter/tidehunter_anchor_hero.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:SetParticleControl(fx, 2, Vector(radius, 0, 0))
     ParticleManager:ReleaseParticleIndex(fx)
 
     local base = value(self, 'attack_damage_bonus')
@@ -3889,7 +3891,7 @@ function enfos_tide_anchor_smash:ApplyAnchorSmash(multiplier)
     local str = get_str(c)
     local dmg = (get_atk(c) + base + (str * value(self, 'strength_factor'))) * multiplier
 
-    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), value(self, 'radius'), DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
+    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), radius, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
         if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return end
         if u and not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
             damage(self, u, dmg, DAMAGE_TYPE_PHYSICAL)
