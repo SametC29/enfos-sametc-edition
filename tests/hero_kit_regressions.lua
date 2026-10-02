@@ -3273,6 +3273,7 @@ test('Wraith King Vampiric Aura heals attack damage and ignores spell damage cal
     assert(aura_mod:GetAuraEntityReject(wk), 'Wraith King must be excluded from the aura to prevent duplicate self lifesteal')
     local buff = setmetatable({ GetParent = function() return ally end, GetCaster = function() return wk end,
         GetAbility = function() return aura end }, modifier_enfos_wk_vampiric_aura_buff)
+    assert(buff:OnTooltip() == 25, 'Recipient lifesteal tooltip must read the same rank value as its actual heal')
     wk.hp = 100
     ally.hp = 100
     aura_mod:OnAttackLanded({ attacker = wk, target = enemy, damage = 200 })

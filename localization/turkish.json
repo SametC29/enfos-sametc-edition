@@ -1713,6 +1713,14 @@
     "DOTA_Tooltip_modifier_enfos_centaur_stampede_buff": "İzdiham",
     "DOTA_Tooltip_modifier_enfos_centaur_stampede_buff_Description": "Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_ABSOLUTE%; alınan hasar değişimi %dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%. Birimlerin içinden geçer ve her kullanımda her düşmanı bir kez ezer.",
     "DOTA_Tooltip_modifier_enfos_centaur_stampede_slow": "İzdiham",
-    "DOTA_Tooltip_modifier_enfos_centaur_stampede_slow_Description": "Hareket hızı değişimi: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_slow_Description": "Hareket hızı değişimi: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_wk_wraithfire_blast_stun": "Hortlak Ateşi",
+    "DOTA_Tooltip_modifier_enfos_wk_wraithfire_blast_stun_Description": "Sersemletilmiş. Güçlü arındırmayla kaldırılır. Bosslarda yeteneğin kısa sersemletme sınırı uygulanır.",
+    "DOTA_Tooltip_modifier_enfos_wk_wraithfire_blast_dot": "Hortlak Ateşi",
+    "DOTA_Tooltip_modifier_enfos_wk_wraithfire_blast_dot_Description": "Her saniye büyü hasarı alır. Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% azalır.",
+    "DOTA_Tooltip_modifier_enfos_wk_vampiric_aura_buff": "Vampir Aurası",
+    "DOTA_Tooltip_modifier_enfos_wk_vampiric_aura_buff_Description": "Düşmana verilen saldırı hasarının %dMODIFIER_PROPERTY_TOOLTIP%%% kadarıyla iyileşir. Aura kaynağı Kırılma etkisindeyken çalışmaz.",
+    "DOTA_Tooltip_modifier_enfos_wk_rebirth_slow": "Yeniden Doğuş",
+    "DOTA_Tooltip_modifier_enfos_wk_rebirth_slow_Description": "Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% azalır. Bosslarda süre kısalır."
   }
 }

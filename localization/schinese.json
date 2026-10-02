@@ -1282,6 +1282,14 @@
     "DOTA_Tooltip_modifier_enfos_centaur_stampede_buff": "奔袭冲撞",
     "DOTA_Tooltip_modifier_enfos_centaur_stampede_buff_Description": "移动速度设为%dMODIFIER_PROPERTY_MOVESPEED_ABSOLUTE%；受到的伤害调整%dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%。可穿过单位，每次施放对每个敌人践踏一次。",
     "DOTA_Tooltip_modifier_enfos_centaur_stampede_slow": "奔袭冲撞",
-    "DOTA_Tooltip_modifier_enfos_centaur_stampede_slow_Description": "移动速度调整%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。"
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_slow_Description": "移动速度调整%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。",
+    "DOTA_Tooltip_modifier_enfos_wk_wraithfire_blast_stun": "冥火暴击",
+    "DOTA_Tooltip_modifier_enfos_wk_wraithfire_blast_stun_Description": "眩晕。可被强驱散移除。首领采用技能的较短眩晕上限。",
+    "DOTA_Tooltip_modifier_enfos_wk_wraithfire_blast_dot": "冥火暴击",
+    "DOTA_Tooltip_modifier_enfos_wk_wraithfire_blast_dot_Description": "每秒受到魔法伤害。移动速度降低%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。",
+    "DOTA_Tooltip_modifier_enfos_wk_vampiric_aura_buff": "吸血光环",
+    "DOTA_Tooltip_modifier_enfos_wk_vampiric_aura_buff_Description": "攻击敌人造成的伤害有%dMODIFIER_PROPERTY_TOOLTIP%%%转化为治疗。光环来源受到破坏时不生效。",
+    "DOTA_Tooltip_modifier_enfos_wk_rebirth_slow": "重生",
+    "DOTA_Tooltip_modifier_enfos_wk_rebirth_slow_Description": "移动速度降低%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。对首领的持续时间较短。"
   }
 }

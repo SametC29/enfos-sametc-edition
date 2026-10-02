@@ -3929,12 +3929,14 @@ function enfos_wk_wraithfire_blast:OnProjectileHit(target, location)
 end
 
 modifier_enfos_wk_wraithfire_blast_stun=class({})
+function modifier_enfos_wk_wraithfire_blast_stun:GetTexture() return 'skeleton_king_hellfire_blast' end
 function modifier_enfos_wk_wraithfire_blast_stun:IsDebuff() return true end
 function modifier_enfos_wk_wraithfire_blast_stun:IsPurgable() return false end
 function modifier_enfos_wk_wraithfire_blast_stun:IsPurgeException() return true end
 function modifier_enfos_wk_wraithfire_blast_stun:CheckState() return { [MODIFIER_STATE_STUNNED] = true } end
 
 modifier_enfos_wk_wraithfire_blast_dot=class({})
+function modifier_enfos_wk_wraithfire_blast_dot:GetTexture() return 'skeleton_king_hellfire_blast' end
 function modifier_enfos_wk_wraithfire_blast_dot:IsDebuff() return true end
 function modifier_enfos_wk_wraithfire_blast_dot:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
 function modifier_enfos_wk_wraithfire_blast_dot:GetEffectName()
@@ -3978,6 +3980,7 @@ local function apply_wk_lifesteal(ability, recipient, params)
 end
 
 modifier_enfos_wk_vampiric_aura=class({})
+function modifier_enfos_wk_vampiric_aura:GetTexture() return 'skeleton_king_bone_guard' end
 function modifier_enfos_wk_vampiric_aura:IsHidden() return true end
 function modifier_enfos_wk_vampiric_aura:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACK_LANDED } end
 function modifier_enfos_wk_vampiric_aura:IsAura()
@@ -3994,7 +3997,9 @@ function modifier_enfos_wk_vampiric_aura:OnAttackLanded(params)
 end
 
 modifier_enfos_wk_vampiric_aura_buff=class({})
-function modifier_enfos_wk_vampiric_aura_buff:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACK_LANDED } end
+function modifier_enfos_wk_vampiric_aura_buff:GetTexture() return 'skeleton_king_bone_guard' end
+function modifier_enfos_wk_vampiric_aura_buff:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACK_LANDED, MODIFIER_PROPERTY_TOOLTIP } end
+function modifier_enfos_wk_vampiric_aura_buff:OnTooltip() return value(self:GetAbility(), 'lifesteal_pct') end
 function modifier_enfos_wk_vampiric_aura_buff:OnAttackLanded(params)
     apply_wk_lifesteal(self:GetAbility(), self:GetParent(), params)
 end
@@ -4003,6 +4008,7 @@ enfos_wk_mortal_strike=class({})
 function enfos_wk_mortal_strike:GetIntrinsicModifierName() return 'modifier_enfos_wk_mortal_strike_passive' end
 
 modifier_enfos_wk_mortal_strike_passive=class({})
+function modifier_enfos_wk_mortal_strike_passive:GetTexture() return 'skeleton_king_mortal_strike' end
 function modifier_enfos_wk_mortal_strike_passive:DeclareFunctions()
     return { MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE, MODIFIER_EVENT_ON_ATTACK_LANDED, MODIFIER_EVENT_ON_ATTACK_RECORD_DESTROY }
 end
@@ -4054,6 +4060,7 @@ enfos_wk_reincarnation=class({})
 function enfos_wk_reincarnation:GetIntrinsicModifierName() return 'modifier_enfos_wk_reincarnation_passive' end
 
 modifier_enfos_wk_reincarnation_passive=class({})
+function modifier_enfos_wk_reincarnation_passive:GetTexture() return 'skeleton_king_reincarnation' end
 function modifier_enfos_wk_reincarnation_passive:DeclareFunctions()
     return { MODIFIER_PROPERTY_REINCARNATION, MODIFIER_EVENT_ON_DEATH }
 end
@@ -4095,6 +4102,7 @@ function modifier_enfos_wk_reincarnation_passive:OnDeath(params)
 end
 
 modifier_enfos_wk_rebirth_slow=class({})
+function modifier_enfos_wk_rebirth_slow:GetTexture() return 'skeleton_king_reincarnation' end
 function modifier_enfos_wk_rebirth_slow:IsDebuff() return true end
 function modifier_enfos_wk_rebirth_slow:DeclareFunctions() return {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE} end
 function modifier_enfos_wk_rebirth_slow:GetModifierMoveSpeedBonus_Percentage() return -value(self:GetAbility(), 'slow_pct') end
@@ -4129,6 +4137,7 @@ function enfos_wk_skeleton_army:OnSpellStart()
 end
 
 modifier_enfos_wk_skeleton_army_passive=class({})
+function modifier_enfos_wk_skeleton_army_passive:GetTexture() return 'skeleton_king_bone_guard' end
 function modifier_enfos_wk_skeleton_army_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_DEATH } end
 function modifier_enfos_wk_skeleton_army_passive:OnDeath(params)
     if not IsServer() or not params then return end
