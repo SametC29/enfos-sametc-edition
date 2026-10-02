@@ -253,7 +253,7 @@ modifier_enfos_shard_upgrade = class({})
 function modifier_enfos_shard_upgrade:IsHidden()
     local parent = self.GetParent and self:GetParent()
     local name = parent and parent.GetUnitName and parent:GetUnitName()
-    return name == "npc_dota_hero_sven" or name == "npc_dota_hero_shadow_shaman"
+    return name == "npc_dota_hero_sven" or name == "npc_dota_hero_shadow_shaman" or name == "npc_dota_hero_tidehunter"
 end
 function modifier_enfos_shard_upgrade:IsPurgable() return false end
 function modifier_enfos_shard_upgrade:IsPermanent() return true end
@@ -280,6 +280,7 @@ function modifier_enfos_shard_upgrade:DeclareFunctions()
 end
 
 function modifier_enfos_shard_upgrade:GetModifierHealthBonus()
+    if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_tidehunter" then return 0 end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_sven" then return 0 end
 	if self.role == "Tank" then return 350 end
 	return 0
@@ -308,6 +309,7 @@ function modifier_enfos_shard_upgrade:GetModifierHealAmplify_PercentageSource()
 end
 
 function modifier_enfos_shard_upgrade:OnTakeDamage(keys)
+    if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_tidehunter" then return end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_sven" then return end
 	if not IsServer or not IsServer() then return end
 	if keys.unit ~= self:GetParent() then return end

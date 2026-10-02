@@ -3820,6 +3820,7 @@ end
 function modifier_enfos_tide_kraken_shell_passive:OnCreated()
     self.damage_counter = 0
     self.last_damage_time = nil
+    self.next_shard_smash_time = 0
 end
 function modifier_enfos_tide_kraken_shell_passive:GetModifierPhysical_ConstantBlock()
     local c, a = tide_passive_sources(self)
@@ -3834,7 +3835,7 @@ function modifier_enfos_tide_kraken_shell_passive:GetModifierConstantHealthRegen
     return value(a, 'bonus_hp_regen')
 end
 function modifier_enfos_tide_kraken_shell_passive:OnTakeDamage(params)
-    if not IsServer() or not params then return end
+    if not IsServer() or not params or self.cleanse_in_progress then return end
     local c, a = tide_passive_sources(self)
     if not c or params.unit ~= c then return end
     local received = params.damage or 0
@@ -3849,12 +3850,30 @@ function modifier_enfos_tide_kraken_shell_passive:OnTakeDamage(params)
     if threshold <= 0 then threshold = 450 end
     if self.damage_counter >= threshold then
         self.damage_counter = self.damage_counter % threshold
+        self.cleanse_in_progress = true
         if c.Purge then c:Purge(false, true, false, true, true) end
+        if self.IsNull and self:IsNull() then return end
+        self.cleanse_in_progress = false
+        self:TriggerShardSmash(now)
     end
+end
+
+function modifier_enfos_tide_kraken_shell_passive:TriggerShardSmash(now)
+    local c, a = tide_passive_sources(self)
+    if not c or not c:IsAlive() or not c.HasShard or not c:HasShard()
+        or now < (self.next_shard_smash_time or 0) or not c.FindAbilityByName then return end
+    local anchor = c:FindAbilityByName('enfos_tide_anchor_smash')
+    if not anchor or (anchor.IsNull and anchor:IsNull()) or anchor:GetLevel() <= 0 then return end
+    self.next_shard_smash_time = now + value(a, 'shard_smash_cooldown')
+    if c.StartGesture then c:StartGesture(ACT_DOTA_CAST_ABILITY_3) end
+    anchor:ApplyAnchorSmash(value(a, 'shard_smash_damage_pct') / 100)
 end
 
 enfos_tide_anchor_smash=class({})
 function enfos_tide_anchor_smash:OnSpellStart()
+    self:ApplyAnchorSmash(1)
+end
+function enfos_tide_anchor_smash:ApplyAnchorSmash(multiplier)
     local c = self:GetCaster()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
     c:EmitSound('Hero_Tidehunter.AnchorSmash')
@@ -3864,7 +3883,7 @@ function enfos_tide_anchor_smash:OnSpellStart()
     local base = value(self, 'attack_damage_bonus')
     if base <= 0 then base = 160 end
     local str = get_str(c)
-    local dmg = get_atk(c) + base + (str * value(self, 'strength_factor'))
+    local dmg = (get_atk(c) + base + (str * value(self, 'strength_factor'))) * multiplier
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), value(self, 'radius'), DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
         if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return end

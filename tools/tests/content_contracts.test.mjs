@@ -125,9 +125,10 @@ test('every hero exposes correct ultimate/evolution contracts and migrated Enfos
     const scepterAbility=id==='npc_dota_hero_tidehunter'?h.Ability1:h.Ability4;
     assert.equal(abilities[scepterAbility].HasScepterUpgrade,'1',id);
     if(id==='npc_dota_hero_tidehunter') assert.equal(abilities[h.Ability4].HasScepterUpgrade,undefined,'Ravage must not advertise the removed generic Scepter');
-    const shardAbility=id==='npc_dota_hero_shadow_shaman'?h.Ability2:h.Ability5;
+    const shardAbility=['npc_dota_hero_shadow_shaman','npc_dota_hero_tidehunter'].includes(id)?h.Ability2:h.Ability5;
     assert.equal(abilities[shardAbility].HasShardUpgrade,'1',id);
     if(id==='npc_dota_hero_shadow_shaman') assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Fowl Play must not advertise the replaced generic Shard');
+    if(id==='npc_dota_hero_tidehunter') assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Colossal Presence must not advertise the replaced generic Shard');
     for(let i=7;i<=9;i++)assert.equal(h['Ability'+i],'generic_hidden',id+': unused ability slot');
     for(let i=10;i<=17;i++)assert.equal(h['Ability'+i],'generic_hidden',id+': talent slot must stay disabled');
     assert.equal(h.Ability19,'generic_hidden',id+': native attribute bonus must be hidden');
@@ -328,6 +329,20 @@ test('Tidehunter Scepter metadata and localized values belong to the piercing Gu
   }
   const bootstrap=fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua','utf8');
   assert.ok(bootstrap.includes('"particles/units/heroes/hero_tidehunter/tidehunter_gush_upgrade.vpcf"'));
+});
+
+test('Tidehunter Shard metadata and localized values belong to reactive Kraken Shell',()=>{
+  const abilities=read('npc_abilities_custom.txt').DOTAAbilities;
+  assert.equal(abilities.enfos_tide_kraken_shell.HasShardUpgrade,'1');
+  assert.equal(abilities.enfos_tide_colossal_presence.HasShardUpgrade,undefined);
+  assert.equal(abilities.enfos_tide_kraken_shell.AbilityValues.shard_smash_damage_pct,'50');
+  assert.equal(abilities.enfos_tide_kraken_shell.AbilityValues.shard_smash_cooldown,'5');
+  for(const lang of ['english','turkish','russian','schinese']){
+    const tokens=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens;
+    assert.ok(tokens.DOTA_Tooltip_Ability_enfos_tide_kraken_shell_shard_description.includes('50'));
+    assert.ok(tokens.DOTA_Tooltip_Ability_enfos_tide_kraken_shell_shard_description.includes('5'));
+    assert.equal(tokens.DOTA_Tooltip_Ability_enfos_tide_colossal_presence_shard_description,undefined);
+  }
 });
 
 test('Dragon Knight rank gates fit all ten ability ranks inside the match level cap',()=>{

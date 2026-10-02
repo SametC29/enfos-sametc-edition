@@ -3629,6 +3629,66 @@ test('Tidehunter Kraken Shell resets accumulated damage after inactivity and ign
     GameRules=oldRules
 end)
 
+test('Tidehunter Shard cleanse triggers a bounded half-damage learned Anchor Smash', function()
+    local oldRules=GameRules;local time=0;GameRules={GetGameTime=function() return time end}
+    local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
+    local target=create_mock_unit('shard_anchor_target',3,Vector(100,0,0))
+    local hasShard=true;hero.HasShard=function() return hasShard end
+    local anchor=enfos_tide_anchor_smash();local rank=1
+    anchor.GetCaster=function() return hero end;anchor.GetLevel=function() return rank end
+    anchor.GetSpecialValueFor=function(_,k) return ({attack_damage_bonus=100,strength_factor=1,radius=400,duration=6})[k] or 0 end
+    anchor.StartCooldown=function() error('Reactive Smash cannot spend active Anchor cooldown') end
+    hero.SpendMana=function() error('Reactive Smash cannot spend hero mana') end
+    hero.FindAbilityByName=function(_,name) if name=='enfos_tide_anchor_smash' then return anchor end end
+    local a=enfos_tide_kraken_shell();a.GetLevel=function() return 1 end
+    a.GetSpecialValueFor=function(_,k) return ({purge_damage_threshold=100,purge_reset_interval=7,shard_smash_cooldown=5,shard_smash_damage_pct=50})[k] or 0 end
+    local m=modifier_enfos_tide_kraken_shell_passive();m.GetParent=function() return hero end;m.GetAbility=function() return a end;m:OnCreated()
+    local purges=0;hero.Purge=function() purges=purges+1 end
+    mock_world_units={hero,target};applied_damages={}
+    m:OnTakeDamage({unit=hero,damage=100})
+    assert(#applied_damages==1 and applied_damages[1].damage==125 and applied_damages[1].ability==anchor)
+    assert(target.modifiers.modifier_enfos_tide_anchor_smash_debuff.params.duration==6)
+    time=4.9;m:OnTakeDamage({unit=hero,damage=100});assert(#applied_damages==1 and purges==2)
+    time=5;m:OnTakeDamage({unit=hero,damage=100});assert(#applied_damages==2)
+    time=10;rank=0;m:OnTakeDamage({unit=hero,damage=100});assert(#applied_damages==2)
+    rank=1;hasShard=false;m:OnTakeDamage({unit=hero,damage=100});assert(#applied_damages==2)
+    hasShard=true;hero.PassivesDisabled=function() return true end
+    m:OnTakeDamage({unit=hero,damage=100});assert(#applied_damages==2 and purges==5)
+    GameRules=oldRules
+end)
+
+test('Tidehunter cleanse prevents purge reentry and rejects source removal before reactive Smash', function()
+    for _,mode in ipairs({'nested','ability','caster','modifier'}) do
+        local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
+        local removed=false;hero.HasShard=function() return true end
+        hero.IsNull=function() return removed and mode=='caster' end
+        local a=enfos_tide_kraken_shell();a.GetLevel=function() return 1 end
+        a.IsNull=function() return removed and mode=='ability' end
+        a.GetSpecialValueFor=function() return 100 end
+        local m=modifier_enfos_tide_kraken_shell_passive()
+        m.IsNull=function() return removed and mode=='modifier' end
+        m.GetParent=function() assert(not (removed and mode=='modifier'),'removed modifier parent read');return hero end
+        m.GetAbility=function() return a end;m:OnCreated()
+        local purges=0
+        hero.Purge=function()
+            purges=purges+1
+            if mode=='nested' and purges==1 then m:OnTakeDamage({unit=hero,damage=100}) else removed=true end
+        end
+        hero.FindAbilityByName=function() return nil end
+        m:OnTakeDamage({unit=hero,damage=100})
+        assert(purges==1,'Strong purge callbacks must not recursively trigger another cleanse')
+    end
+end)
+
+test('Tidehunter Shard replaces generic tank health and reflection while other tanks retain them', function()
+    local name='npc_dota_hero_tidehunter'
+    local parent={GetUnitName=function() return name end}
+    local m=setmetatable({role='Tank',GetParent=function() return parent end},modifier_enfos_shard_upgrade)
+    assert(m:GetModifierHealthBonus()==0 and m:IsHidden())
+    m:OnTakeDamage(nil)
+    name='npc_dota_hero_axe';assert(m:GetModifierHealthBonus()==350 and not m:IsHidden())
+end)
+
 test('Tidehunter Ravage uses the configured boss stun cap', function()
     applied_damages = {}
     local tide = create_mock_unit('npc_dota_hero_tidehunter', 2, Vector(0, 0, 0))

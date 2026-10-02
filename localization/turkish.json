@@ -1088,7 +1088,7 @@
     "DOTA_Tooltip_Ability_enfos_ss_mass_serpent_ward_scepter_description": "Mevcut gruptaki bir totem, 4 kat hasar ve cana sahip, 2 kat büyük mega toteme dönüşür. Toplam totem sayısı değişmez; nihai yeteneğin bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_ss_hex_shard_description": "Hex, ana hedefin yakınındaki sınırlı sayıda düşmanı da dönüştürür. Genel Destek iyileştirme bonusunun yerine geçer.",
     "DOTA_Tooltip_Ability_enfos_tide_gush_scepter_description": "Scepter: Gush, seçilen yöne ilerleyen ve düşmanları delip geçen bir dalga olur. Menzil 2200, çarpışma yarıçapı 260, hız 1500, temel bekleme süresi en fazla 7 saniye. Vurulan düşmanlara Gush hasarı, zırh azaltması ve yavaşlatması uygulanır. Genel ulti hasar/bekleme süresi bonusunun yerini alır.",
-    "DOTA_Tooltip_Ability_enfos_tide_colossal_presence_shard_description": "+350 can. Düşmandan gelen hasarın %15’ini fiziksel olarak yansıtır.",
+    "DOTA_Tooltip_Ability_enfos_tide_kraken_shell_shard_description": "Shard: Kraken Shell arınması, en fazla 5 saniyede bir %50 hasarlı ücretsiz Anchor Smash tetikler. Öğrenilmiş Anchor Smash yarıçapını ve saldırı hasarı azaltma etkisini kullanır. Anchor Smash öğrenilmiş olmalıdır; Break tetiklenmeyi kapatır. Mana harcamaz ve aktif Anchor Smash bekleme süresini değiştirmez. Genel can/yansıtma bonusunun yerini alır.",
     "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_dk_wyrm_vigor_shard_description": "+350 can. Düşmandan gelen hasarın %15’ini fiziksel olarak yansıtır.",
     "DOTA_Tooltip_Ability_enfos_pudge_dismember_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
