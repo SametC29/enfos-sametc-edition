@@ -54,6 +54,8 @@ Read it for this ongoing roster audit: it adds standardized, debug-gated, bounde
 Q/W/E/R/D runtime tracing and separate per-hero source, regression, trace,
 visual/audio and engine evidence gates. D means the fifth Enfos slot; R is the
 ultimate. Existing source closures do not automatically satisfy these new gates.
+Owner's subsequent order correction: start at the final roster hero (Lich) and
+proceed backwards. Retain unfinished earlier reviews, including Sven, as pending.
 
 Owner correction,2026-10-03: return to detailed sequential individual review;
 do not use accelerated/batch closure or automated production-kit adaptation as

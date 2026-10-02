@@ -1,7 +1,8 @@
 # Active individual hero audit goal — owner revision, 2026-10-03
 
 This owner-supplied revision extends the active thread goal; it does not close or
-restart that goal. Current priority remains the reopened Sven review. Earlier
+restart that goal. The owner's latest priority is reverse roster order, starting
+with Lich; the reopened Sven review remains pending. Earlier
 reviews must satisfy the added instrumentation and evidence requirements before
 source completion is carried forward. No owner engine acceptance is implied by
 this document. Local commits only; no remote push or Workshop publication.
