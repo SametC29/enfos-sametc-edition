@@ -3769,6 +3769,13 @@ test('Zeus Static Field deals current HP percent damage with boss cap', function
     mod.GetAbility = function() return ab end
 
     local source_spell = {}
+    for _, blocked_damage in ipairs({0, -1}) do
+        mod:OnTakeDamage({ attacker = zeus, unit = creep, inflictor = source_spell, damage = blocked_damage })
+    end
+    mod:OnTakeDamage({ attacker = zeus, unit = creep, inflictor = source_spell })
+    mod:OnTakeDamage({ attacker = zeus, unit = creep, inflictor = ab, damage = 80 })
+    assert(#applied_damages == 0,
+        'Static Field must not bypass a zero-damage/blocked source or recursively trigger on itself')
     mod:OnTakeDamage({ attacker = zeus, unit = creep, inflictor = source_spell, damage = 200 })
     mod:OnTakeDamage({ attacker = zeus, unit = boss, inflictor = source_spell, damage = 300 })
     mod:OnTakeDamage({ attacker = zeus, unit = creep, damage = 200 })

@@ -4486,6 +4486,9 @@ modifier_enfos_zeus_static_field_passive=class({})
 function modifier_enfos_zeus_static_field_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_TAKEDAMAGE } end
 function modifier_enfos_zeus_static_field_passive:OnTakeDamage(params)
     if not IsServer() or not params then return end
+    -- A blocked/zero-damage source is not a successful spell hit. Do not turn
+    -- its event into current-health damage through this independent proc.
+    if (params.damage or 0) <= 0 then return end
     local c = self:GetParent()
     if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled()) then return end
     if params.attacker ~= c or not params.unit or params.unit == c or not params.inflictor or params.inflictor == self:GetAbility() then return end
