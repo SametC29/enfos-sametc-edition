@@ -4076,6 +4076,36 @@ test('Witch Doctor Maledict uses rank values and only bursts damage since the pr
     assert(applied_damages[6].damage == 40, 'Later burst must not re-count damage from the first window')
 end)
 
+test('Witch Doctor Maledict stops a burst tick after lethal DPS deletes its parent', function()
+    local wd=create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(0,0,0))
+    local victim=create_mock_unit('wd_maledict_deleted_tick',3,Vector(100,0,0),100)
+    local a=enfos_wd_maledict();a.GetCaster=function() return wd end
+    a.GetSpecialValueFor=function(_,key) return ({base_dps=30,burst_interval=4,lost_health_pct=20})[key] or 0 end
+    local m=modifier_enfos_wd_maledict_debuff();m.GetParent=function() return victim end
+    m.GetAbility=function() return a end;m.elapsed=3;m.last_burst_hp=100
+    local destroyed=false;m.Destroy=function() destroyed=true end
+    local oldDamage=ApplyDamage;local hits={}
+    ApplyDamage=function(info)
+        hits[#hits+1]=info;victim.alive=false;victim.IsNull=function() return true end
+        victim.GetHealth=function() error('Deleted Maledict victim health must not be read') end
+    end
+    local ok,err=pcall(function() m:OnIntervalThink() end)
+    ApplyDamage=oldDamage
+    assert(ok,err)
+    assert(destroyed and #hits==1 and hits[1].damage==30 and hits[1].damage_type==DAMAGE_TYPE_MAGICAL,
+        'Lethal DPS must terminate the modifier before health-loss burst evaluation')
+end)
+
+test('Witch Doctor Maledict removes its tick when the ability is deleted', function()
+    local victim=create_mock_unit('wd_maledict_removed_ability',3,Vector(100,0,0))
+    local a=enfos_wd_maledict();a.IsNull=function() return true end
+    a.GetSpecialValueFor=function() error('Deleted Maledict ability values must not be read') end
+    local m=modifier_enfos_wd_maledict_debuff();m.GetParent=function() return victim end
+    m.GetAbility=function() return a end;local destroyed=false;m.Destroy=function() destroyed=true end
+    applied_damages={};m:OnIntervalThink()
+    assert(destroyed and #applied_damages==0,'Invalid ability must stop without dealing damage')
+end)
+
 test('Witch Doctor Death Ward creates the native ward and removes it when channel ends', function()
     local wd = create_mock_unit('npc_dota_hero_witch_doctor', 2, Vector(0, 0, 0))
     local ward = create_mock_unit('npc_dota_witch_doctor_death_ward', 2, Vector(300, 200, 0))

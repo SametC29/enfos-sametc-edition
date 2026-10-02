@@ -4735,8 +4735,15 @@ end
 function modifier_enfos_wd_maledict_debuff:OnIntervalThink()
     local p = self:GetParent()
     local a = self:GetAbility()
-    local dps = (a and value(a, 'base_dps')) or 50
+    if not p or (p.IsNull and p:IsNull()) or not p:IsAlive()
+        or not a or (a.IsNull and a:IsNull()) then self:Destroy(); return end
+    local c = a:GetCaster()
+    if not c or (c.IsNull and c:IsNull()) then self:Destroy(); return end
+    local dps = value(a, 'base_dps')
     damage(a, p, dps, DAMAGE_TYPE_MAGICAL)
+    -- The DPS hit may destroy the recipient or ability before the burst reads health.
+    if (p.IsNull and p:IsNull()) or not p:IsAlive()
+        or (a.IsNull and a:IsNull()) or (c.IsNull and c:IsNull()) then self:Destroy(); return end
 
     self.elapsed = (self.elapsed or 0) + 1
     local burst_interval = a and value(a, 'burst_interval') or 4
