@@ -3371,6 +3371,38 @@ test('Wraith King DoT stops for removed sources but survives a valid dead caster
     assert(destroyed and #applied_damages==1,'Removed ability must end the DoT without stale damage')
 end)
 
+test('Wraith King Skeleton Army suppresses native summon rewards and preserves summon stats', function()
+    local oldSummons = package.loaded['heroes/summons']
+    local wk = create_mock_unit('npc_dota_hero_skeleton_king', 2, Vector(0, 0, 0))
+    wk.strength = 100
+    local a = enfos_wk_skeleton_army()
+    a.GetCaster = function() return wk end
+    a.GetSpecialValueFor = function(_, key)
+        return ({minimum_skeletons=2,max_skeletons=12,summon_duration=40,skeleton_base_damage=60,
+            skeleton_strength_damage_factor=0.8,skeleton_base_health=650,skeleton_strength_health_factor=7})[key] or 0
+    end
+    local charge = wk:AddNewModifier(wk,a,'modifier_enfos_wk_skeleton_army_passive',{})
+    charge:SetStackCount(10)
+    local skeleton = {IsNull=function() return false end,minGold=2,maxGold=3,xp=3,
+        SetMinimumGoldBounty=function(self,n) self.minGold=n end,
+        SetMaximumGoldBounty=function(self,n) self.maxGold=n end,
+        SetDeathXP=function(self,n) self.xp=n end}
+    local captured
+    package.loaded['heroes/summons'] = {Units=function(_,ability,name,position,count,duration,damage,hp,cap)
+        captured={name=name,count=count,duration=duration,damage=damage,hp=hp,cap=cap}
+        ability.enfosSummons={skeleton}
+    end}
+    local ok,err=pcall(function() a:OnSpellStart() end)
+    package.loaded['heroes/summons']=oldSummons
+    assert(ok,err)
+    assert(captured.name=='enfos_creep_skeleton' and captured.count==10 and captured.cap==12
+        and captured.duration==40 and captured.damage==140 and captured.hp==1350,
+        'Skeleton Army must preserve its configured count, duration and STR combat stats')
+    assert(charge:GetStackCount()==0,'A release must consume kill charges')
+    assert(skeleton.minGold==0 and skeleton.maxGold==0 and skeleton.xp==0,
+        'Allied skeletons must not pay native gold/XP when killed; an Enfos flag alone is insufficient')
+end)
+
 test('Wraith King Skeleton Army charges ignore friendly deaths and respect KV cap', function()
     local wk = create_mock_unit('npc_dota_hero_skeleton_king', 2, Vector(0, 0, 0))
     local enemy = create_mock_unit('creep_enemy', 3, Vector(100, 0, 0))

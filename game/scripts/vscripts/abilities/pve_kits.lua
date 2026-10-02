@@ -4117,6 +4117,14 @@ function enfos_wk_skeleton_army:OnSpellStart()
         value(self,'summon_duration'),
         value(self,'skeleton_base_damage')+str*value(self,'skeleton_strength_damage_factor'),
         value(self,'skeleton_base_health')+str*value(self,'skeleton_strength_health_factor'),maxCount)
+    -- The shared Enfos reward flag does not disable native unit KV payouts.
+    for _, skeleton in ipairs(self.enfosSummons or {}) do
+        if skeleton and not skeleton:IsNull() then
+            skeleton:SetMinimumGoldBounty(0)
+            skeleton:SetMaximumGoldBounty(0)
+            skeleton:SetDeathXP(0)
+        end
+    end
     c:EmitSound('Hero_SkeletonKing.Reincarnate')
 end
 
