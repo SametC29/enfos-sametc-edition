@@ -1911,6 +1911,26 @@ test('Legion Moment of Courage is disabled by Break and ignores allied attacks',
     assert(sound == 'Hero_LegionCommander.Courage', 'Actual counterattack must emit the installed native event')
 end)
 
+test('Legion Moment of Courage bounds reciprocal counterattacks while its own proc is active', function()
+    local legion = create_mock_unit('npc_dota_hero_legion_commander', 2, Vector(0,0,0))
+    local enemy = create_mock_unit('npc_dota_hero_legion_commander', 3, Vector(100,0,0))
+    local ability = enfos_legion_moment_of_courage()
+    ability.GetSpecialValueFor = function(_,key) return key=='trigger_chance' and 100 or 0 end
+    local m = modifier_enfos_legion_moment_of_courage_passive()
+    m.GetParent = function() return legion end
+    m.GetAbility = function() return ability end
+    m:OnCreated()
+    local attacks = 0
+    legion.PerformAttack = function()
+        attacks = attacks + 1
+        assert(attacks == 1, 'A reciprocal counterattack must not recurse into the still-active original proc')
+        m:OnAttacked({target=legion,attacker=enemy})
+    end
+    m:OnAttacked({target=legion,attacker=enemy})
+    assert(attacks==1 and not m.proc_active and not m.proc_target,
+        'One valid counterattack completes and clears its tracked target')
+end)
+
 test('Legion Moment of Courage lifesteals only from its counterattack target and attack damage', function()
     local lc = create_mock_unit('npc_dota_hero_legion_commander', 2, Vector(0, 0, 0))
     local counter_target = create_mock_unit('enemy', 3, Vector(100, 0, 0))

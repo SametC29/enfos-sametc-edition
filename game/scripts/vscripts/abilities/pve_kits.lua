@@ -2492,7 +2492,7 @@ function modifier_enfos_legion_moment_of_courage_passive:OnCreated()
 end
 function modifier_enfos_legion_moment_of_courage_passive:OnAttacked(params)
     if not IsServer() then return end
-    if not params then return end
+    if not params or self.proc_active then return end
     local c = self:GetParent()
     if params.target ~= c or (c.PassivesDisabled and c:PassivesDisabled()) then return end
     local a = self:GetAbility()
