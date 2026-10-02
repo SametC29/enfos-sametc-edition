@@ -3929,6 +3929,8 @@ end
 
 modifier_enfos_wk_wraithfire_blast_stun=class({})
 function modifier_enfos_wk_wraithfire_blast_stun:IsDebuff() return true end
+function modifier_enfos_wk_wraithfire_blast_stun:IsPurgable() return false end
+function modifier_enfos_wk_wraithfire_blast_stun:IsPurgeException() return true end
 function modifier_enfos_wk_wraithfire_blast_stun:CheckState() return { [MODIFIER_STATE_STUNNED] = true } end
 
 modifier_enfos_wk_wraithfire_blast_dot=class({})

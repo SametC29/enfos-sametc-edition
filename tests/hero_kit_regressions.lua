@@ -3228,6 +3228,8 @@ test('Wraith King Wraithfire Blast travels before dealing impact damage and effe
         'Explicit Wraithfire impact and light origins must share the captured hit position')
     assert(#applied_damages == 1 and applied_damages[1].damage == 270)
     assert(target:HasModifier('modifier_enfos_wk_wraithfire_blast_stun'))
+    assert(modifier_enfos_wk_wraithfire_blast_stun:IsPurgable()==false
+        and modifier_enfos_wk_wraithfire_blast_stun:IsPurgeException()==true,'Wraithfire stun must require a strong dispel')
     assert(target.modifiers['modifier_enfos_wk_wraithfire_blast_dot'].params.duration == 2)
 
     local boss = create_mock_unit('enfos_boss_wraith', 3, Vector(250, 0, 0))
