@@ -3857,6 +3857,10 @@ test('Zeus Wrath emits native impacts for every hostile before lethal deletion',
             particles[#particles+1]={path=path,owner=owner,cp={}};return #particles
         end,
         SetParticleControl=function(_,index,cp,position) particles[index].cp[cp]=position end,
+        SetParticleControlEnt=function(_,index,cp,unit,attachment,name,position)
+            assert(not unit:IsNull(), 'Wrath must bind the recipient model before damage deletes it')
+            particles[index].cp[cp]=position;particles[index].model=unit
+        end,
         ReleaseParticleIndex=function(_,index) particles[index].released=true end
     }
     ApplyDamage=function(info)
@@ -3878,6 +3882,7 @@ test('Zeus Wrath emits native impacts for every hostile before lethal deletion',
     for i,hit in ipairs(hits) do
         local p=particles[i]
         assert(hit.damage==400 and hit.damage_type==DAMAGE_TYPE_MAGICAL)
+        assert(p.model==hit.victim, 'Native Wrath CreateOnModel impact children require the victim on CP1')
         assert(p.cp[0] and p.cp[0].x==p.cp[1].x and p.cp[0].y==p.cp[1].y
             and p.cp[0].z>p.cp[1].z and p.owner==nil and p.released,
             'Wrath beams retain finite world-space sky/impact endpoints after victim deletion')

@@ -4524,7 +4524,9 @@ function enfos_zeus_thundergods_wrath:OnSpellStart()
             local position = u:GetAbsOrigin()
             local bolt = ParticleManager:CreateParticle('particles/units/heroes/hero_zuus/zuus_thundergods_wrath.vpcf', PATTACH_WORLDORIGIN, nil)
             ParticleManager:SetParticleControl(bolt, 0, position + Vector(0, 0, 1000))
-            ParticleManager:SetParticleControl(bolt, 1, position)
+            -- Impact children use CreateOnModel/LockToBone on CP1. A plain
+            -- position supplies the beam endpoint but not the victim model.
+            ParticleManager:SetParticleControlEnt(bolt, 1, u, PATTACH_ABSORIGIN, '', position, true)
             ParticleManager:ReleaseParticleIndex(bolt)
             u:EmitSound('Hero_Zuus.GodsWrath.Target')
             damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
