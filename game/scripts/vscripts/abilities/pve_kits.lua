@@ -4154,7 +4154,7 @@ function modifier_enfos_wk_skeleton_army_passive:OnDeath(params)
 end
 
 -- ----------------------------------------------------------------------------
--- PHANTOM ASSASSIN: STIFLING DAGGER, PHANTOM STRIKE, BLUR, COUP DE GRACE, FAN OF KNIVES
+-- PHANTOM ASSASSIN: STIFLING DAGGER, PHANTOM STRIKE, BLUR, COUP DE GRACE, IMMATERIAL
 -- ----------------------------------------------------------------------------
 
 enfos_pa_stifling_dagger=class({})

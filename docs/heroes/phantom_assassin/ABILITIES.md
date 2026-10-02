@@ -294,3 +294,17 @@ Change/test record (2026-09-30): extended every skill to ten KV ranks; removed t
 The former custom `enfos_pa_fan_of_knives` active was incorrectly assigned to Enfos slot 5 and removed from the five-slot kit. Slot 5 now uses the installed passive `phantom_assassin_immaterial`, and the active native Fan of Knives remains a separate Aghanim-style upgrade candidate. The shared Aghanim manager currently grants role bonuses, so Fan of Knives upgrade wiring is not yet implemented. Source: [Valve Dota 2 Mistwoods](https://www.dota2.com/mistwoods).
 
 2026-09-30 level-cap integration: all five Phantom Assassin abilities now have explicit KV gates. Q/W/E and the Enfos passive use one rank per level; the passive’s free rank 1 remains managed by the separate Enfos grant. Coup de Grace uses levels 5, 10, …, 50 so rank 10 fits the cap. Static KV contract passes; engine level-up buttons, rank grants, ultimate marker and point pacing remain PENDING for owner testing.
+
+## Individual source review closure — 2026-10-02
+
+All five slots classified PVE-CONVERT and individually traced against current installed ClientVersion6943; [individual ledger](../../audit/PHANTOM_ASSASSIN_INDIVIDUAL_REVIEW_2026-10-02.md) is the detailed current evidence, including deliberate differences from native dagger attacks/charges/Blur/Immaterial/upgrades. Earlier6941 inventory is historical source provenance. Repaired projectile lethal/deleted handling, critical record ownership/evaluation metadata/lethal splash, active-heal recipient guards, native cast/root declarations, model/CP bindings, exact bank/precache and localized modifier/upgrade text. Fifth is Immaterial, not Fan of Knives. No talent/profile restoration.
+
+| Slots / acceptance area | Current evidence status |
+| --- | --- |
+| Q/W/E/R/fifth identity, targeting, damage/heal, rank and modifier implementation | STATIC_REVIEW; focused positive/negative MOCK_PASS, full255behavior/200abilities223modifiers ranks1–10; actual engine PENDING |
+| Q/W/E/R particles, root/child controls/lifetimes, model activities, sound banks/icons/precache | FILE_VERIFIED installed6943 / STATIC_REVIEW; visual/audio/cold-start/cleanup ENGINE_PENDING |
+| Fifth direct evasion active cast/travel/audio | N/A: intrinsic direct stat property; icon/client evasion/Break/death remain ENGINE_PENDING |
+| Q/W/E/R/fifth descriptions/status/upgrades | Four source locales and12generated mirrors checked; actual HUD/render ENGINE_PENDING |
+| Q/W/E/R/fifth Boss, Shard/Scepter/Blessing, performance/reconnect/VConsole | Shared boundaries individually reviewed; owner scenario checklist in linked ledger; ENGINE_PENDING |
+
+Source review closed separately from runtime. Engine-sensitive defaults (purge/illusion/evasion combination), native tracking CPs/endcaps, crit-priority arbitration, passive rank refresh and parent-to-child stop propagation are explicitly pending owner tests. No broad claim of DONE or runtime PASS.

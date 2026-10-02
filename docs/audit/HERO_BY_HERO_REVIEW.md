@@ -20,7 +20,7 @@ Per hero: read its instructions/dossier; compare installed native definitions; t
 | 10 | Dazzle | SOURCE REVIEW COMPLETE / ENGINE PENDING — owned poison/Grave, E immune selection/finite links, replicated poison slow, R minimum health/native animations, modifier icons/four-locale upgrade truth repaired; owner gates in individual record |
 | 11 | Centaur Warrunner | SOURCE REVIEW COMPLETE / ENGINE PENDING — Qstrong dispel/radial controls, Wtargets/anchors/gesture, Return feedback, Stampede recast/audio/lifetime, bank/icons/four-locale statuses repaired; individual ledger records owner gates |
 | 12 | Wraith King | SOURCE REVIEW COMPLETE / ENGINE PENDING — Q/Rlethal and stale guards, critical attack records, lethal lifesteal, finite/model-bound effects, casts/dispel/bank, summon payouts and four-locale modifier/DoT text repaired; individual ledger retains owner gates |
-| 13 | Phantom Assassin | IN PROGRESS — own full dossier/five implementations/current6943 native definitions reviewed and classified; individual projectile/critical/lifetime/resources/upgrades review underway; ENGINE PENDING |
+| 13 | Phantom Assassin | SOURCE REVIEW COMPLETE / ENGINE PENDING — projectile lifetime/CPs, critical records/evaluation metadata/lethal splash, recipient heal guards, Blur/Strike owned/model effects, cast/root/bank/icons and four-locale text repaired; individual ledger retains native deviations and owner gates |
 | 14 | Zeus | NOT STARTED |
 | 15 | Witch Doctor | FOCUSED REPAIR ONLY — prior W/R/Shard work does not close whole-hero review |
 | 16 | Shadow Shaman | NOT STARTED |
