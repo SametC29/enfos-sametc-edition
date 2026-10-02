@@ -3768,6 +3768,7 @@ function modifier_enfos_tide_kraken_shell_passive:DeclareFunctions()
 end
 function modifier_enfos_tide_kraken_shell_passive:OnCreated()
     self.damage_counter = 0
+    self.last_damage_time = nil
 end
 function modifier_enfos_tide_kraken_shell_passive:GetModifierPhysical_ConstantBlock()
     local c = self:GetParent()
@@ -3785,7 +3786,14 @@ function modifier_enfos_tide_kraken_shell_passive:OnTakeDamage(params)
     if not IsServer() or not params then return end
     local c = self:GetParent()
     if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled()) or params.unit ~= c then return end
-    self.damage_counter = (self.damage_counter or 0) + (params.damage or 0)
+    local received = params.damage or 0
+    if received <= 0 then return end
+    local now = GameRules and GameRules.GetGameTime and GameRules:GetGameTime() or 0
+    local reset = value(self:GetAbility(), 'purge_reset_interval')
+    if reset <= 0 then reset = 7 end
+    if self.last_damage_time and now - self.last_damage_time >= reset then self.damage_counter = 0 end
+    self.last_damage_time = now
+    self.damage_counter = (self.damage_counter or 0) + received
     local threshold = value(self:GetAbility(), 'purge_damage_threshold')
     if threshold <= 0 then threshold = 450 end
     if self.damage_counter >= threshold then

@@ -1162,7 +1162,7 @@
     "DOTA_Tooltip_Ability_enfos_tide_gush": "Gush",
     "DOTA_Tooltip_Ability_enfos_tide_gush_Description": "Deals {{gush_damage}} + Strength × {{strength_factor}} magical damage to an enemy, reducing its armor by {{armor_reduction}} and movement speed by {{slow_pct}}% for {{duration}} seconds. Spell block absorbs this cast.",
     "DOTA_Tooltip_Ability_enfos_tide_kraken_shell": "Kraken Shell",
-    "DOTA_Tooltip_Ability_enfos_tide_kraken_shell_Description": "Passively blocks {{damage_block}} physical damage and grants +{{bonus_hp_regen}} health regeneration. Purges negative effects from Tidehunter after taking {{purge_damage_threshold}} total damage. Break disables these passive effects.",
+    "DOTA_Tooltip_Ability_enfos_tide_kraken_shell_Description": "Passively blocks {{damage_block}} physical damage and grants +{{bonus_hp_regen}} health regeneration. Purges negative effects from Tidehunter after taking {{purge_damage_threshold}} total damage. Break disables these passive effects. Accumulated damage resets after {{purge_reset_interval}}s without taking damage.",
     "DOTA_Tooltip_Ability_enfos_tide_ravage": "Ravage",
     "DOTA_Tooltip_Ability_enfos_tide_ravage_Description": "Deals {{damage}} magical damage and stuns enemies within {{radius}} for {{stun_duration}} seconds. Bosses are stunned for at most {{boss_stun_duration}} seconds.",
     "DOTA_Tooltip_Ability_enfos_troll_battle_trance_Description": "{{duration}} sn boyunca +{{bonus_as}} saldırı hızı ve %{{move_speed_pct}} hareket hızı verir; düşmanlara verdiği hasarın %{{heal_pct}} kadarıyla iyileştirir ve canı 1’in altına düşmez.",

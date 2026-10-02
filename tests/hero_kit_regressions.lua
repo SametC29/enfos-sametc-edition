@@ -3564,6 +3564,26 @@ test('Tidehunter Kraken Shell respects Break and applies configured block and re
     assert(mod:GetModifierPhysical_ConstantBlock() == 0 and mod:GetModifierConstantHealthRegen() == 0)
 end)
 
+test('Tidehunter Kraken Shell resets accumulated damage after inactivity and ignores zero events', function()
+    local oldRules=GameRules
+    local time,purges=0,0
+    GameRules={GetGameTime=function() return time end}
+    local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
+    hero.Purge=function() purges=purges+1 end
+    local a=enfos_tide_kraken_shell();a.GetSpecialValueFor=function(_,k) return ({purge_damage_threshold=100,purge_reset_interval=7})[k] or 0 end
+    local m=modifier_enfos_tide_kraken_shell_passive();m.GetParent=function() return hero end;m.GetAbility=function() return a end;m:OnCreated()
+    m:OnTakeDamage({unit=hero,damage=60})
+    time=7;m:OnTakeDamage({unit=hero,damage=0});m:OnTakeDamage({unit=hero,damage=-10})
+    assert(m.damage_counter==60,'Nonpositive events cannot reduce the counter or extend its damage window')
+    m:OnTakeDamage({unit=hero,damage=50})
+    assert(purges==0 and m.damage_counter==50,'Exactly seven seconds without positive damage resets precharged cleanse progress')
+    time=13.9;m:OnTakeDamage({unit=hero,damage=40})
+    assert(m.damage_counter==90 and purges==0,'Damage within the configured window continues accumulating')
+    time=14;m:OnTakeDamage({unit=hero,damage=10})
+    assert(purges==1 and m.damage_counter==0,'Crossing threshold inside the active window still strongly dispels')
+    GameRules=oldRules
+end)
+
 test('Tidehunter Ravage uses the configured boss stun cap', function()
     applied_damages = {}
     local tide = create_mock_unit('npc_dota_hero_tidehunter', 2, Vector(0, 0, 0))

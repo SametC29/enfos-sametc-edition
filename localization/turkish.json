@@ -737,7 +737,7 @@
     "DOTA_Tooltip_Ability_enfos_tide_gush": "Su Fışkırtması",
     "DOTA_Tooltip_Ability_enfos_tide_gush_Description": "Bir düşmana {{gush_damage}} + Güç × {{strength_factor}} büyü hasarı verir; zırhını {{armor_reduction}}, hareket hızını {{slow_pct}}% azaltır. Etkiler {{duration}} saniye sürer. Büyü kalkanı bu kullanımı engeller.",
     "DOTA_Tooltip_Ability_enfos_tide_kraken_shell": "Kraken Kabuğu",
-    "DOTA_Tooltip_Ability_enfos_tide_kraken_shell_Description": "Pasif olarak gelen fiziksel hasarın {{damage_block}} kadarını engeller ve +{{bonus_hp_regen}} can yenilenmesi sağlar. Toplam {{purge_damage_threshold}} hasar aldığında Tidehunter üzerindeki olumsuz etkileri arındırır. Break pasifi devre dışı bırakır.",
+    "DOTA_Tooltip_Ability_enfos_tide_kraken_shell_Description": "Pasif olarak gelen fiziksel hasarın {{damage_block}} kadarını engeller ve +{{bonus_hp_regen}} can yenilenmesi sağlar. Toplam {{purge_damage_threshold}} hasar aldığında Tidehunter üzerindeki olumsuz etkileri arındırır. Break pasifi devre dışı bırakır. {{purge_reset_interval}} saniye hasar almazsa birikmiş hasar sıfırlanır.",
     "DOTA_Tooltip_Ability_enfos_tide_anchor_smash": "Çapa Vuruşu",
     "DOTA_Tooltip_Ability_enfos_tide_anchor_smash_Description": "Çapasını savurur; {{radius}} yarıçapındaki düşmanlara saldırı gücü, +{{attack_damage_bonus}} ve Güç × {{strength_factor}} fiziksel hasar verir. Temel saldırı hasarlarını {{damage_reduction}}% azaltır; etki {{duration}} saniye sürer.",
     "DOTA_Tooltip_Ability_enfos_tide_ravage": "Yıkım",

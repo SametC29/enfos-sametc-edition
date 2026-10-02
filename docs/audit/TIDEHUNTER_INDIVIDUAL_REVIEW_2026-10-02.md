@@ -44,6 +44,14 @@ Validation run and exact result are recorded in the associated commit turn. This
 
 ## Sol re-review: synchronous impact removal
 
+## Kraken Shell inactivity window decision before implementation
+
+PVE-CONVERT remains: retain authored block, Strength coefficient, regeneration and 450 cleanse threshold. Installed native hero KV explicitly sets `damage_reset_interval=7.0`; current custom passive accumulates damage indefinitely across out-of-combat intervals. Add named `purge_reset_interval=7` and reset the accumulated counter on the next positive damage event after at least seven game-time seconds without damage. Use event timestamps, not another interval thinker/global scan. Zero/negative events must not move the time window or counter. The existing pre-purge counter update remains to avoid callback re-entry. Tooltips in all four languages must state the inactivity window; actual paused-game timing/cleanse visuals and event ordering remain owner engine gates.
+
 Result: pre-change regression failed on a removed Gush recipient reaching AddNewModifier. After repair, Gush and Anchor Smash skip removed/dead/switched-allied recipients after damage; deleted/dead source or deleted ability stops subsequent calls. Anchor Smash also validates later recipients before damage. Mocks cover target/source/ability removal for both skills; all 298 hero-kit regressions pass. Existing damage and control math remains unchanged. Current Dota death callback/particle/audio acceptance remains owner PENDING.
 
 Native source and live Lua were reread on 2026-10-02. Gush impact and Anchor Smash call damage then apply a modifier without revalidating recipient/source/ability. ApplyDamage can synchronously trigger death/removal callbacks, leaving invalid handles for AddNewModifier. Reproduce through a targeted damage-callback regression and guard subsequent calls while preserving authored amounts, target flags, durations and timing. Ravage already applies its stun before damage and is not included in this particular defect. No new native animation, resource or blanket resistance policy is assumed. Other pending items in the existing ledger remain open.
+
+## Kraken Shell inactivity repair result
+
+Implemented the preceding decision with event timestamps using `GameRules:GetGameTime`; no new thinker or global scan. The targeted pre-change test failed because negative damage reduced the counter; the same test additionally exercises the previously missing seven-second reset. All 299 hero-kit mock regressions pass; `node tools/checks.mjs` reports zero failed checks. Locale generation reflects the named interval in EN/TR/RU/zh-CN. Native active Kraken Shell, block ordering and runtime event semantics are not certified by this repair. Owner checks: compare sustained damage versus a seven-second gap, pause during the gap, Break, death/respawn and strong-dispel effects. ENGINE_PENDING remains.
