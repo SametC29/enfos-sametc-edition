@@ -3976,7 +3976,9 @@ local function apply_wk_lifesteal(ability, recipient, params)
         or (target.GetTeamNumber and recipient.GetTeamNumber and target:GetTeamNumber() == recipient:GetTeamNumber())
         or not params.damage or params.damage <= 0 then return end
     recipient:Heal(params.damage * value(ability, 'lifesteal_pct') / 100, ability)
-    effect('particles/units/heroes/hero_skeletonking/wraith_king_vampiric_aura_lifesteal.vpcf', recipient)
+    local lifesteal = ParticleManager:CreateParticle('particles/units/heroes/hero_skeletonking/wraith_king_vampiric_aura_lifesteal.vpcf', PATTACH_ABSORIGIN_FOLLOW, recipient)
+    ParticleManager:SetParticleControlEnt(lifesteal, 1, recipient, PATTACH_ABSORIGIN_FOLLOW, '', recipient:GetAbsOrigin(), true)
+    ParticleManager:ReleaseParticleIndex(lifesteal)
 end
 
 modifier_enfos_wk_vampiric_aura=class({})

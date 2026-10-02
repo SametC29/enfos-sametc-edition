@@ -3276,8 +3276,17 @@ test('Wraith King Vampiric Aura heals attack damage and ignores spell damage cal
     assert(buff:OnTooltip() == 25, 'Recipient lifesteal tooltip must read the same rank value as its actual heal')
     wk.hp = 100
     ally.hp = 100
+    local oldBind = ParticleManager.SetParticleControlEnt
+    local lifestealRecipients = {}
+    ParticleManager.SetParticleControlEnt = function(_, _, cp, unit, attach)
+        assert(cp == 1 and attach == PATTACH_ABSORIGIN_FOLLOW)
+        lifestealRecipients[#lifestealRecipients + 1] = unit
+    end
     aura_mod:OnAttackLanded({ attacker = wk, target = enemy, damage = 200 })
     buff:OnAttackLanded({ attacker = ally, target = enemy, damage = 200 })
+    ParticleManager.SetParticleControlEnt = oldBind
+    assert(lifestealRecipients[1] == wk and lifestealRecipients[2] == ally,
+        'Finite native lifesteal children require CP1 bound to each healed recipient model')
     assert(wk.hp == 150 and ally.hp == 150, 'Owner and aura recipients must heal for the configured attack lifesteal')
     enemy.alive=false
     aura_mod:OnAttackLanded({attacker=wk,target=enemy,damage=200})
