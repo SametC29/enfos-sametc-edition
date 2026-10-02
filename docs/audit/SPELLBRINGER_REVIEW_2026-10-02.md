@@ -156,3 +156,66 @@ errors are isolated from cast success. No movement gameplay patch applied;
 reported bug remains OPEN / runtime reproduction evidence required. Tests cover
 automatic Tools arming, no global scan, wrong-owner reporting/observation,
 non-Tools exclusion and diagnostic failure preserving the successful spawn.
+
+## Owner VConsole reproduction — October 3
+
+Owner supplied `Yapıştırılan metin.txt` (attachment e33d8ec8-0ef1-410f-b976-
+2519c6112559). It contains runtime FAIL for five `enfos_wave_06` reinforcements,
+entities 1838/1841/1844/1847/1850: team 2, player owner 0, controllable=true,
+movable=true, speed=276, rooted/stunned/restricted=false, spawn cells traversable
+and unblocked, wave_ai=false. Both ground movement (type 1, target 0) and
+attack-move (type 3) reached the server order filter. Every final one-second
+sample reports displacement=0.0; positions also stay unchanged across repeated
+attempts. Owner confirms the hero and hostile waves could move in that area.
+This establishes an actual summon movement failure, not a missing mouse command
+or missing owner/control assignment. It does **not** establish destination path
+connectivity, collision freedom, motor/queue state or the native heal modifier's
+effect. Do not declare creature BaseClass, default turn rate or autocast the root
+cause without a discriminating engine test.
+
+Installed Valve KV: native `npc_dota_neutral_forest_troll_high_priest` uses
+`npc_dota_creep_neutral`, speed 290 and turn rate 0.9. Native
+`npc_dota_units_base` contains turn rate 0.5; the custom profile's omitted turn
+rate alone is not evidence of a zero runtime turn rate. Its native heal has
+UNIT_TARGET/DONT_RESUME_ATTACK/AUTOCAST behavior and creates the observed
+`modifier_forest_troll_high_priest_heal_autocast`. The only other observed
+modifier is `modifier_kill`; the additional native `twin_gate_portal_warp` is
+present. Current API catalog confirms CanFindPath, IsMoving, IsIdle, IsFrozen
+and GetCurrentActiveAbility. Working reference Aghanim's Pathfinders, Workshop
+2208582400, `encounters/encounter_morty_transition.lua`, assigns player control
+with SetControllableByPlayer(player,true) plus SetOwner: the existing ownership
+pattern is supported, so changing the boolean by guess is unwarranted.
+
+Focused evidence tool extended: automatic read-only observation now reports
+destination connectivity/blocking, queue flag, moving/idle/frozen state and active
+ability. Explicit **owner-run** server command, immediately after casting an early
+wave-6 group and issuing a move at least 128 units away:
+
+`script require("tools/spellbringer_audit").Compare(0)`
+
+This issues one server move to an actual reinforcement and three fresh fixtures:
+same custom profile without the special, same custom profile with its heal, and
+the installed native priest. Fixtures are placed apart near the original group;
+each has the same owner/team, movement speed, acquisition settings and mana,
+zero economy rewards and eight-second expiry. Three-second samples report actual
+displacement or an inconclusive dead/removed/no-path/spawn-failed result. Repeated
+calls are bounded to one fixture group per player per ten game seconds. No
+comparison runs automatically or outside Tools. The native comparator includes
+native KV/ability differences; it narrows the investigation, not a single-variable
+proof of BaseClass. Fresh custom fixtures also separate native heal from an
+existing cluster; fresh-only success needs collision/lifecycle follow-up. Server
+move success is not manual movement acceptance. Production gameplay remains
+unchanged; movement root cause and fix are still OPEN.
+
+Supplied log also contains missing `particles/custom/healing_aura_dire/
+healing_aura_dire_main.vpcf_c` and unattributed invalid order 26 visibility errors.
+Neither identifies this ground-move failure. The later pause occurs after the
+zero-displacement samples. Full eight-skill visual/audio/animation acceptance
+remains PENDING; this transcript supplies movement evidence only.
+
+Validation: focused diagnostic regression PASS (motor/path reporting, Tools
+gates, missing attempt/disconnected path rejection, bounded fixture creation,
+zero rewards, removed fixture handling and measured movement). No new owner
+engine result for the comparison tool yet; no runtime fix claimed.
+`npm run check`: PASS, zero failed checks; all-60-wave reinforcement regression
+also PASS. No gameplay/asset/KV changes or publication in this evidence unit.

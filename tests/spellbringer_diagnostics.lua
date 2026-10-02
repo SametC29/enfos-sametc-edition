@@ -4,10 +4,16 @@ print = function(line) lines[#lines + 1] = line end
 IsServer = function() return server end
 IsInToolsMode = function() return tools end
 GameRules = {GetGameTime=function() return now end, GetGameModeEntity=function()
-    return {SetContextThink=function(_,name,fn,delay) assert(delay==1); timers[name]=fn end}
+    return {SetContextThink=function(_,name,fn,delay) assert(delay==1 or delay==3); timers[name]=fn end}
 end}
 PlayerResource = {IsValidPlayerID=function(_,id) return id==0 end}
-GridNav = {IsTraversable=function() return true end, IsBlocked=function() return false end}
+local reachable=true
+GridNav = {IsTraversable=function() return true end, IsBlocked=function() return false end,
+    CanFindPath=function() return reachable end}
+DOTA_UNIT_ORDER_MOVE_TO_POSITION=1;DOTA_UNIT_ORDER_ATTACK_MOVE=3
+function Vector(x,y,z)
+    return setmetatable({x=x,y=y,z=z},{__add=function(p,q) return Vector(p.x+q.x,p.y+q.y,p.z+q.z) end})
+end
 local function unit(id, name, owner)
     return {is_allied_reinforcement=true, pos={x=100,y=100,z=0},
         IsNull=function(self) return self.removed or false end, IsAlive=function() return true end,
@@ -17,6 +23,8 @@ local function unit(id, name, owner)
         GetAbilityCount=function() return 0 end, GetAbsOrigin=function(self) return self.pos end,
         IsControllableByAnyPlayer=function() return true end, HasMovementCapability=function() return true end,
         GetIdealSpeed=function() return 276 end, IsRooted=function(self) return self.rooted or false end,
+        GetCurrentActiveAbility=function(self) return self.active end,
+        IsMoving=function() return false end, IsIdle=function() return true end, IsFrozen=function() return false end,
         IsStunned=function() return false end, IsCommandRestricted=function() return false end}
 end
 local a=unit(1,'enfos_wave_06',0)
@@ -38,7 +46,8 @@ assert(order.units['0']=='1' and order.order_type==1, 'audit must not change the
 a.pos.x=250;a.rooted=true
 assert(timers.SpellbringerOrderAudit_1()==nil)
 assert(lines[#lines]:find('displacement=150.0',1,true))
-assert(lines[#lines-1]:find('rooted=true',1,true), 'capture immobilization at observation time')
+assert(lines[#lines-2]:find('rooted=true',1,true), 'capture immobilization at observation time')
+assert(lines[#lines-1]:find('active=none',1,true))
 watch(order);a.removed=true;assert(timers.SpellbringerOrderAudit_1()==nil)
 assert(lines[#lines]:find('removed before sample',1,true))
 now=30;watch(order);assert(EnfosSpellbringerOrderAudit==nil, 'watch expires without looping')
@@ -56,4 +65,41 @@ assert(#rows==1 and rows[1].owner==1, 'report wrong ownership instead of filteri
 timers={}
 EnfosSpellbringerOrderAudit({issuer_player_id_const=0,order_type=1,units={['0']=2}})
 assert(timers.SpellbringerOrderAudit_2, 'observe orders to the supplied spawn despite ownership mismatch')
+-- Explicit comparison must never run in production, without a current group,
+-- without a meaningful destination, on a disconnected path, or twice at once.
+local spawned, orders, configured={}, {}, {}
+PlayerResource.GetSelectedHeroEntity=function() return a end
+package.loaded['waves/special_creeps']={Configure=function(u,wave,team,allied)
+    assert(wave==6 and team==2 and allied);configured[#configured+1]=u
+end}
+CreateUnitByName=function(name,pos,clear,owner,npcOwner,team)
+    assert(clear and owner==a and npcOwner==a and team==2)
+    local u=unit(10+#spawned,name,0);u.is_allied_reinforcement=nil;u.pos=pos
+    for _,method in ipairs({'SetMinimumGoldBounty','SetMaximumGoldBounty','SetDeathXP','SetOwner',
+        'SetControllableByPlayer','SetBaseMoveSpeed','SetMaxMana','SetMana','SetBaseManaRegen','SetIdleAcquire','SetAcquisitionRange'}) do
+        u[method]=function(self,...) self[method..'Args']={...} end
+    end
+    u.AddNewModifier=function(self,_,_,name,kv) assert(name=='modifier_kill' and kv.duration==8) end
+    spawned[#spawned+1]=u;return u
+end
+ExecuteOrderFromTable=function(order) orders[#orders+1]=order end
+tools=false;assert(not audit.Compare(0));tools=true
+audit.Run(0,{a});assert(not audit.Compare(0) and #spawned==0)
+local move={issuer_player_id_const=0,order_type=1,units={['0']=1},position_x=700,position_y=100,queue=0}
+local lineCount=#lines
+EnfosSpellbringerOrderAudit(move)
+local pathLine=lines[lineCount+3]
+assert(pathLine:find('[SPELLBRINGER_PATH]',1,true) and pathLine:find('reachable=true',1,true)
+    and pathLine:find('queued=0',1,true))
+reachable=false;assert(not audit.Compare(0) and #spawned==0);reachable=true
+assert(audit.Compare(0) and #spawned==3 and #orders==4 and #configured==1)
+assert(spawned[1]:GetUnitName()=='enfos_wave_06' and configured[1]==spawned[2])
+assert(spawned[3]:GetUnitName()=='npc_dota_neutral_forest_troll_high_priest')
+for _,u in ipairs(spawned) do assert(u.enfosNoReward and u.SetDeathXPArgs[1]==0) end
+assert(not audit.Compare(0) and #spawned==3,'repeated calls cannot accumulate fixtures')
+spawned[1].pos.x=spawned[1].pos.x+150
+timers.SpellbringerCompare_10()
+assert(lines[#lines]:find('case=custom_bare',1,true) and lines[#lines]:find('displacement=150.0',1,true))
+spawned[2].removed=true;timers.SpellbringerCompare_11()
+assert(lines[#lines]:find('inconclusive=removed_or_dead',1,true))
 io.write('PASS Spellbringer read-only movement diagnostics\n')

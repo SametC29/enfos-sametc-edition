@@ -1,8 +1,10 @@
--- Read-only Tools diagnostic. Automatically armed by Future Reinforcements.
+-- Read-only observation automatically armed by Future Reinforcements.
+-- Compare is a separate, explicit owner-run Tools experiment with temporary units.
 -- Does not cast, move or select units. Can also be armed manually:
 -- Server console: script require("tools/spellbringer_audit").Run(0)
 -- Then select a reinforcement and issue move/attack/stop/hold orders for 30s.
 local Audit = {}
+local latest, comparisonUntil = {}, {}
 
 local function reinforcement(unit)
     return unit and not unit:IsNull() and unit.is_allied_reinforcement
@@ -21,6 +23,7 @@ function Audit.Snapshot(unit)
         end
     end
     local pos = unit:GetAbsOrigin()
+    local active = unit:GetCurrentActiveAbility()
     local row = {
         entity = unit:entindex(), name = unit:GetUnitName(), team = unit:GetTeamNumber(),
         owner = unit:GetPlayerOwnerID(), alive = unit:IsAlive(),
@@ -30,12 +33,16 @@ function Audit.Snapshot(unit)
         traversable = GridNav:IsTraversable(pos), blocked = GridNav:IsBlocked(pos),
         waveAI = unit.creepState ~= nil, modifiers = table.concat(modifiers, ","),
         abilities = table.concat(abilities, ","),
+        moving = unit:IsMoving(), idle = unit:IsIdle(), frozen = unit:IsFrozen(),
+        active = active and not active:IsNull() and active:GetAbilityName() or "none",
     }
     print(string.format("[SPELLBRINGER_AUDIT] entity=%d name=%s team=%d owner=%d alive=%s controllable=%s movable=%s speed=%.1f rooted=%s stunned=%s restricted=%s pos=%.1f,%.1f,%.1f traversable=%s blocked=%s wave_ai=%s modifiers=[%s] abilities=[%s]",
         row.entity, row.name, row.team, row.owner, tostring(row.alive), tostring(row.controllable),
         tostring(row.movable), row.speed, tostring(row.rooted), tostring(row.stunned),
         tostring(row.restricted), row.x, row.y, row.z, tostring(row.traversable),
         tostring(row.blocked), tostring(row.waveAI), row.modifiers, row.abilities))
+    print(string.format("[SPELLBRINGER_MOTOR] entity=%d moving=%s idle=%s frozen=%s active=%s",
+        row.entity, tostring(row.moving), tostring(row.idle), tostring(row.frozen), row.active))
     return row
 end
 
@@ -57,6 +64,7 @@ function Audit.Run(playerID, spawnedUnits)
         end
     end
     local deadline = GameRules:GetGameTime() + 30
+    latest[playerID] = {units = watched}
     -- The regular order filter calls this only while the owner has armed it.
     -- A single delayed read per unit is replaced on repeated orders; no loop.
     _G.EnfosSpellbringerOrderAudit = function(order)
@@ -69,6 +77,15 @@ function Audit.Run(playerID, spawnedUnits)
             local unit = EntIndexToHScript(tonumber(index) or -1)
             if reinforcement(unit) and watched[unit:entindex()] == unit then
                 local before = Audit.Snapshot(unit)
+                local destination
+                if (order.order_type == DOTA_UNIT_ORDER_MOVE_TO_POSITION or order.order_type == DOTA_UNIT_ORDER_ATTACK_MOVE)
+                    and tonumber(order.position_x) and tonumber(order.position_y) then
+                    destination = Vector(tonumber(order.position_x), tonumber(order.position_y), tonumber(order.position_z) or before.z)
+                    latest[playerID].destination = destination
+                    print(string.format("[SPELLBRINGER_PATH] entity=%d reachable=%s destination_traversable=%s destination_blocked=%s queued=%s",
+                        before.entity, tostring(GridNav:CanFindPath(unit:GetAbsOrigin(), destination)),
+                        tostring(GridNav:IsTraversable(destination)), tostring(GridNav:IsBlocked(destination)), tostring(order.queue)))
+                end
                 print(string.format("[SPELLBRINGER_ORDER] entity=%d issuer=%d type=%s target=%s destination=%s,%s,%s",
                     before.entity, playerID, tostring(order.order_type), tostring(order.entindex_target),
                     tostring(order.position_x), tostring(order.position_y), tostring(order.position_z)))
@@ -87,6 +104,88 @@ function Audit.Run(playerID, spawnedUnits)
     end
     print(string.format("[SPELLBRINGER_AUDIT] player=%d found=%d order_watch_seconds=30; issue orders now", playerID, #rows))
     return rows
+end
+
+-- Explicit owner-run experiment, never invoked by a cast or normal gameplay.
+-- Server console after casting wave-6 reinforcements and trying a move:
+-- script require("tools/spellbringer_audit").Compare(0)
+-- Compare the actual summon with fresh copies with/without its native heal,
+-- and the installed native priest. This is evidence collection, not a fix.
+function Audit.Compare(playerID)
+    if not IsServer or not IsServer() or not IsInToolsMode or not IsInToolsMode() then return false end
+    playerID = tonumber(playerID) or 0
+    if not PlayerResource:IsValidPlayerID(playerID) then return false end
+    local now = GameRules:GetGameTime()
+    if (comparisonUntil[playerID] or 0) > now then
+        print("[SPELLBRINGER_COMPARE] previous comparison still active")
+        return false
+    end
+    local attempt = latest[playerID]
+    local anchor
+    for _, unit in pairs(attempt and attempt.units or {}) do
+        if reinforcement(unit) and unit:IsAlive() and unit:GetUnitName() == "enfos_wave_06" then anchor = unit; break end
+    end
+    local owner = PlayerResource:GetSelectedHeroEntity(playerID)
+    if not anchor or not attempt.destination or not owner or owner:IsNull() then
+        print("[SPELLBRINGER_COMPARE] cast early wave-6 reinforcements and issue a move before comparing")
+        return false
+    end
+    local p = anchor:GetAbsOrigin()
+    local origin = Vector(p.x, p.y, p.z)
+    local destination = attempt.destination
+    local dx, dy = destination.x-origin.x, destination.y-origin.y
+    if dx*dx+dy*dy < 128*128 or not GridNav:CanFindPath(origin, destination) then
+        print("[SPELLBRINGER_COMPARE] need a reachable move destination at least 128 units away")
+        return false
+    end
+    -- One group of three fixtures per player, eight-second expiry, no rewards.
+    comparisonUntil[playerID] = now + 10
+    local cases = {
+        {label="original", unit=anchor},
+        {label="custom_bare", name="enfos_wave_06"},
+        {label="custom_heal", name="enfos_wave_06", heal=true},
+        {label="native_priest", name="npc_dota_neutral_forest_troll_high_priest"},
+    }
+    for i, case in ipairs(cases) do
+        if not case.unit then
+            case.unit = CreateUnitByName(case.name, origin+Vector(160*(i-2),160,0), true, owner, owner, anchor:GetTeamNumber())
+            if case.unit then
+                local u = case.unit
+                u.enfosNoReward = true
+                u:SetMinimumGoldBounty(0); u:SetMaximumGoldBounty(0); u:SetDeathXP(0)
+                u:AddNewModifier(u,nil,"modifier_kill",{duration=8})
+                u:SetOwner(owner); u:SetControllableByPlayer(playerID,true)
+                u:SetBaseMoveSpeed(anchor:GetIdealSpeed())
+                u:SetMaxMana(300); u:SetMana(300); u:SetBaseManaRegen(3)
+                u:SetIdleAcquire(true); u:SetAcquisitionRange(700)
+                if case.heal then require("waves/special_creeps").Configure(u,6,u:GetTeamNumber(),true) end
+            end
+        end
+        local u = case.unit
+        if u then
+            local start = Audit.Snapshot(u)
+            if GridNav:CanFindPath(u:GetAbsOrigin(),destination) then
+                print(string.format("[SPELLBRINGER_COMPARE] case=%s entity=%d reachable=true",case.label,u:entindex()))
+                ExecuteOrderFromTable({UnitIndex=u:entindex(),OrderType=DOTA_UNIT_ORDER_MOVE_TO_POSITION,
+                    Position=destination,Queue=false,PlayerID=playerID})
+                GameRules:GetGameModeEntity():SetContextThink("SpellbringerCompare_"..u:entindex(),function()
+                    if u:IsNull() or not u:IsAlive() then
+                        print("[SPELLBRINGER_COMPARE] case="..case.label.." inconclusive=removed_or_dead")
+                        return nil
+                    end
+                    local after = Audit.Snapshot(u)
+                    local distance = math.sqrt((after.x-start.x)^2+(after.y-start.y)^2)
+                    print(string.format("[SPELLBRINGER_COMPARE] case=%s entity=%d displacement=%.1f",case.label,u:entindex(),distance))
+                    return nil
+                end,3)
+            else
+                print("[SPELLBRINGER_COMPARE] case="..case.label.." inconclusive=no_path")
+            end
+        else
+            print("[SPELLBRINGER_COMPARE] case="..case.label.." inconclusive=spawn_failed")
+        end
+    end
+    return true
 end
 
 return Audit
