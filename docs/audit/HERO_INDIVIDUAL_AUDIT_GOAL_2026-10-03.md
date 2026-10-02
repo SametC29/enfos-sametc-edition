@@ -1,19 +1,22 @@
 # Active individual hero audit goal — owner revision, 2026-10-03
 
-This owner-supplied revision extends the active thread goal; it does not close or
-restart that goal. The owner's latest priority is reverse roster order, starting
-with Lich; the reopened Sven review remains pending. Earlier
-reviews must satisfy the added instrumentation and evidence requirements before
-source completion is carried forward. No owner engine acceptance is implied by
-this document. Local commits only; no remote push or Workshop publication.
+Owner revision: restart individual source/design review in reverse authoritative release-roster order, beginning with Lich. One hero at a time; Sven remains in the queue. Preserve earlier repairs, contributor work, isolated modules, handwritten decisions and historical owner evidence. Do not reset Git or discard working code. Reassess earlier closure against the new policy without repeating valid research unnecessarily.
 
-Audit, repair, instrument, and validate all 40 release heroes individually in ENFOS Team Survival SametC Edition, covering Desktop update items 14–16 without dropping pending items 1–8.
+Audit, repair, instrument, isolate and validate all 40 release heroes individually, retaining Desktop items 1-8 and covering 14-16. Isolated local commits only.
 
-Owner order correction, 2026-10-03: work through the release roster one hero at a
-time in reverse roster order, starting with the last hero. Earlier unfinished
-reviews, including Sven, remain explicitly pending and must not be dropped.
-Do not substitute global scans, bulk assumptions, automated mocks, or
-shared-framework inspection for a detailed individual hero review.
+## Remove authored hero-skill-specific Boss exceptions
+
+For reviewed Q/W/E/R/D remove Boss-only damage formulas, max-HP damage caps, execute exceptions, control multipliers/duration caps, no-pull rules and other special skill branches. Use ordinary skill formulas and target rules. Do not introduce a global Boss-only replacement policy.
+
+Keep Boss units, Boss-owned skills, AI, wave cadence and stats outside this change. Normal engine targeting, armor, magic resistance, status resistance, immunity, dispel, Break and native unit-type restrictions remain applicable to all targets. Do not remove a general/native rule merely because it also affects Bosses.
+
+Inspect shared dependencies before removing branches; do not silently change unreviewed heroes or Boss-owned mechanics. No blanket is_boss replacement. Update affected KV, four-locale tooltips, dossiers, tests, traces and owner checklists; retain historical records as superseded. Test ordinary formulas on normal/Boss targets with equivalent relevant properties. Different armor/resistance may still yield different outcomes.
+
+## Native-first checkpoint
+
+Record why each custom slot needs Lua. Prefer native behavior and supported tuning only where installed Dota evidence establishes compatibility with 10 ranks, level 50 and intended match-local scaling. Otherwise retain focused custom code and delegate appropriate projectile/cleave operations to verified engine APIs. Do not rewrite correct custom code solely to reduce counts. Preserve stable IDs and resolve compatibility conflicts before conversion.
+
+Global scans and mocks never substitute for detailed individual review.
 
 For every hero:
 
@@ -30,7 +33,7 @@ For every hero:
    - rank progression and 10-rank/level-50 compatibility
    - targeting rules
    - normal creep interaction
-   - Boss interaction
+   - Boss interaction using ordinary formulas and engine rules; no authored Boss-only hero-skill exceptions
    - damage
    - healing
    - attack records
@@ -203,8 +206,8 @@ Trace events should capture meaningful runtime transitions and actual values whe
 - critical strike proc
 - cleave/splash secondary target count
 - lethal-hit branch
-- Boss-specific behavior
-- Boss caps
+- ordinary skill behavior on Boss targets
+- ordinary damage/control outcomes without authored Boss-only skill caps
 - status-resistance-adjusted effects
 - Shard branch
 - Scepter branch
@@ -278,7 +281,7 @@ VConsole can provide strong evidence for:
 - channel lifecycle
 - attack records
 - cleanup paths
-- Boss branches
+- ordinary target behavior on Boss targets
 - runtime errors
 - missing resources
 
@@ -306,7 +309,9 @@ For each hero record at minimum:
 
 `SOURCE REVIEW: PASS / FAIL / PENDING`
 
-`DESIGN DECISION: KEEP / TUNE / PVE-CONVERT / REPLACE` for every Q/W/E/R/D slot
+`DESIGN DECISION: KEEP / TUNE / PVE-CONVERT / REPLACE` for every Q/W/E/R/D slot, with native-first/custom-necessity rationale
+
+`BOSS-SPECIFIC SKILL EXCEPTIONS: REMOVED / NONE / PENDING` with removed paths and shared-consumer regressions
 
 `PROVEN DEFECTS: repaired / unresolved / none found`
 
@@ -405,7 +410,8 @@ The goal is complete only when all 40 release heroes have:
 
 - an individual detailed review
 - Q/W/E/R/D inspected individually
-- an evidence-backed KEEP/TUNE/PVE-CONVERT/REPLACE decision for every slot
+- an evidence-backed KEEP/TUNE/PVE-CONVERT/REPLACE decision and native-first rationale for every slot
+- removal of authored Boss-only hero-skill exceptions, with updated docs/localization and meaningful regressions
 - proven defects repaired where feasible
 - meaningful regression validation recorded
 - standardized runtime trace coverage added or verified
