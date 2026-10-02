@@ -1040,7 +1040,8 @@ test('Shadow Shaman tooltips use live specials and the Scepter tooltip matches w
   assert.doesNotMatch(tokens.DOTA_Tooltip_Ability_enfos_ss_ether_shock_Description,/%(radius|shock_damage)%/);
   assert.match(tokens.DOTA_Tooltip_Ability_enfos_ss_shackles_Description,/\{\{dps\}\}/);
   assert.doesNotMatch(tokens.DOTA_Tooltip_Ability_enfos_ss_shackles_Description,/%(duration|shackle_damage)%/);
-  assert.match(tokens.DOTA_Tooltip_Ability_enfos_ss_mass_serpent_ward_scepter_description,/totemlerinin saldırı hasarı \+%40/i);
+  assert.match(tokens.DOTA_Tooltip_Ability_enfos_ss_mass_serpent_ward_scepter_description,/mega totem/i);
+  assert.match(tokens.DOTA_Tooltip_Ability_enfos_ss_mass_serpent_ward_Description,/\{\{scepter_mega_damage_multiplier\}\}/);
 });
 test('Storm Spirit Lua-read specials use named AbilityValues and retain ten-rank curves',()=>{
   const heroes=read('npc_heroes_custom.txt').DOTAHeroes,all=read('npc_abilities_custom.txt').DOTAAbilities;

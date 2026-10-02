@@ -6860,10 +6860,24 @@ function modifier_enfos_ss_shackles_debuff:CheckState() return { [MODIFIER_STATE
 enfos_ss_mass_serpent_ward=class({})
 function enfos_ss_mass_serpent_ward:OnSpellStart()
     local c=self:GetCaster()
+    if not c or c:IsNull() or not c:IsAlive() then return end
     local wardDamage = value(self,'ward_damage') + get_int(c) * 0.4
     local ag = require('heroes/aghanim_manager')
-    if ag:HasScepter(c) then wardDamage = wardDamage * (1 + ag.SCEPTER_BONUSES.ult_damage_amp_pct / 100) end
+    local hasScepter = ag:HasScepter(c)
     require('heroes/summons'):Units(self,'npc_dota_shadow_shaman_ward_1',self:GetCursorPosition(),value(self,'ward_count'),value(self,'ward_duration'),wardDamage,value(self,'ward_health'))
+    if hasScepter then
+        -- Upgrade one member of this newly owned, bounded group; no additional summon or lifetime.
+        for _, ward in ipairs(self.enfosSummons or {}) do
+            if ward and not ward:IsNull() and ward:IsAlive() then
+                local megaDamage = wardDamage * value(self, 'scepter_mega_damage_multiplier')
+                local megaHealth = value(self, 'ward_health') * value(self, 'scepter_mega_health_multiplier')
+                ward:SetBaseDamageMin(megaDamage); ward:SetBaseDamageMax(megaDamage)
+                ward:SetBaseMaxHealth(megaHealth); ward:SetMaxHealth(megaHealth); ward:SetHealth(megaHealth)
+                ward:SetModelScale(ward:GetModelScale() * value(self, 'scepter_mega_scale_multiplier'))
+                break
+            end
+        end
+    end
     c:EmitSound('Hero_ShadowShaman.SerpentWard')
 end
 

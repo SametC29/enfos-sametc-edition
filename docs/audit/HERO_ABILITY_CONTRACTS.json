@@ -2093,7 +2093,10 @@
             "ward_damage": "50 85 120 130 140 150 160 170 180 190",
             "ward_count": "8",
             "ward_duration": "30",
-            "ward_health": "450"
+            "ward_health": "450",
+            "scepter_mega_damage_multiplier": "4",
+            "scepter_mega_health_multiplier": "4",
+            "scepter_mega_scale_multiplier": "2"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],

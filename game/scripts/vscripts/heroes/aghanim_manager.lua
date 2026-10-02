@@ -220,7 +220,8 @@ end
 modifier_enfos_scepter_upgrade = class({})
 function modifier_enfos_scepter_upgrade:IsHidden()
     local parent = self.GetParent and self:GetParent()
-    return parent and parent.GetUnitName and parent:GetUnitName() == "npc_dota_hero_sven" or false
+    local name = parent and parent.GetUnitName and parent:GetUnitName()
+    return name == "npc_dota_hero_sven" or name == "npc_dota_hero_shadow_shaman"
 end
 function modifier_enfos_scepter_upgrade:IsPurgable() return false end
 function modifier_enfos_scepter_upgrade:IsPermanent() return true end
@@ -235,6 +236,7 @@ function modifier_enfos_scepter_upgrade:DeclareFunctions()
 end
 function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event)
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_sven" then return 0 end
+    if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_shadow_shaman" then return 0 end
 	local a=event and event.inflictor
 	return a and a:GetAbilityType()==DOTA_ABILITY_TYPE_ULTIMATE and 40 or 0
 end

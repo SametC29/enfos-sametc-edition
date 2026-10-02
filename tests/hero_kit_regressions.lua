@@ -1096,6 +1096,18 @@ test('Shadow Shaman unique Shard replaces generic healing without altering other
     assert(not m:IsHidden(),'Other Support bonus icons must remain visible')
 end)
 
+test('Shadow Shaman unique Scepter replaces generic spell damage while retaining ultimate cooldown reduction', function()
+    require('heroes/aghanim_manager')
+    local name='npc_dota_hero_shadow_shaman'
+    local parent={GetUnitName=function() return name end}
+    local m=setmetatable({GetParent=function() return parent end},modifier_enfos_scepter_upgrade)
+    local ult={GetAbilityType=function() return DOTA_ABILITY_TYPE_ULTIMATE end}
+    assert(m:GetModifierSpellAmplify_Percentage({inflictor=ult})==0 and m:IsHidden(),'Mega ward must replace the old generic damage buff/icon')
+    assert(m:GetModifierPercentageCooldown({ability=ult})==25,'Existing ultimate cooldown bonus remains')
+    name='npc_dota_hero_dazzle'
+    assert(m:GetModifierSpellAmplify_Percentage({inflictor=ult})==40 and not m:IsHidden(),'Other hero Scepter effects stay intact')
+end)
+
 test('Shadow Shaman Fowl Play saves lethal damage with native chicken identity, strong dispel and brief protection', function()
     local shaman = create_mock_unit('npc_dota_hero_shadow_shaman', 2, Vector(0, 0, 0), 1000)
     local ability = enfos_ss_fowl_play()
@@ -1359,12 +1371,20 @@ test('Shadow Shaman Shackles shortens boss channel with its boss control duratio
     assert(ability:GetChannelTime() == 3.5, 'ordinary targets retain the full channel')
 end)
 
-test('Shadow Shaman Scepter boosts summoned Serpent Ward attack damage', function()
+test('Shadow Shaman Scepter upgrades one owned Serpent Ward without increasing count or stacking generic damage', function()
     local oldSummons, oldAghanim = package.loaded['heroes/summons'], package.loaded['heroes/aghanim_manager']
     local summoned = {}
     local hasScepter = true
     package.loaded['heroes/summons'] = { Units = function(_, ability, name, position, count, duration, damage, health)
         summoned = { ability = ability, name = name, position = position, count = count, duration = duration, damage = damage, health = health }
+        ability.enfosSummons={}
+        for i=1,count do
+            ability.enfosSummons[i]={damage=damage,health=health,scale=1,duration=duration,
+                IsNull=function() return false end,IsAlive=function() return true end,
+                SetBaseDamageMin=function(s,v) s.damage=v end,SetBaseDamageMax=function(s,v) s.damageMax=v end,
+                SetBaseMaxHealth=function(s,v) s.baseHP=v end,SetMaxHealth=function(s,v) s.maxHP=v end,SetHealth=function(s,v) s.health=v end,
+                GetModelScale=function(s) return s.scale end,SetModelScale=function(s,v) s.scale=v end}
+        end
     end }
     package.loaded['heroes/aghanim_manager'] = {
         SCEPTER_BONUSES = { ult_damage_amp_pct = 40 },
@@ -1376,7 +1396,8 @@ test('Shadow Shaman Scepter boosts summoned Serpent Ward attack damage', functio
     ability.GetCaster = function() return shaman end
     local targetPosition = Vector(200, 300, 0)
     ability.GetCursorPosition = function() return targetPosition end
-    ability.GetSpecialValueFor = function(_, key) return ({ ward_damage = 100, ward_count = 8, ward_duration = 30, ward_health = 450 })[key] or 0 end
+    ability.GetSpecialValueFor = function(_, key) return ({ ward_damage = 100, ward_count = 8, ward_duration = 30, ward_health = 450,
+        scepter_mega_damage_multiplier=4,scepter_mega_health_multiplier=4,scepter_mega_scale_multiplier=2 })[key] or 0 end
     local emittedSound
     shaman.EmitSound = function(_, event) emittedSound = event end
     ability:OnSpellStart()
@@ -1384,11 +1405,16 @@ test('Shadow Shaman Scepter boosts summoned Serpent Ward attack damage', functio
         'Serpent Wards should be created through the shared summon owner at the chosen point')
     assert(summoned.count == 8 and summoned.duration == 30 and summoned.health == 450,
         'Ward count, lifetime and health should match their KV values')
-    assert(summoned.damage == 196, '140 base attack damage should receive the shared 40% Scepter bonus')
+    assert(summoned.damage == 140, 'Ordinary wards must not stack the replaced generic 40% bonus')
+    local mega=ability.enfosSummons[1]
+    assert(#ability.enfosSummons==8 and mega.damage==560 and mega.damageMax==560 and mega.health==1800 and mega.scale==2,'Exactly one of eight wards becomes a 4x damage/health, 2x visual mega ward')
+    assert(mega.duration==30,'Upgrading a ward must not reset its existing expiry')
+    for i=2,8 do local ward=ability.enfosSummons[i];assert(ward.damage==140 and ward.health==450 and ward.scale==1,'Remaining wards retain normal stats/size') end
     assert(emittedSound == 'Hero_ShadowShaman.SerpentWard', 'A successful cast should emit the native Serpent Ward sound')
     hasScepter = false
     ability:OnSpellStart()
     assert(summoned.damage == 140, 'without Scepter, wards use the configured attack damage')
+    for _,ward in ipairs(ability.enfosSummons) do assert(ward.damage==140 and ward.health==450 and ward.scale==1,'No Scepter means no mega ward') end
     package.loaded['heroes/summons'], package.loaded['heroes/aghanim_manager'] = oldSummons, oldAghanim
 end)
 

@@ -3260,6 +3260,9 @@
 			"ward_count" "8"
 			"ward_duration" "30"
 			"ward_health" "450"
+			"scepter_mega_damage_multiplier" "4"
+			"scepter_mega_health_multiplier" "4"
+			"scepter_mega_scale_multiplier" "2"
 		}
 		"ScriptFile"				"abilities/pve_kits"
 	}
