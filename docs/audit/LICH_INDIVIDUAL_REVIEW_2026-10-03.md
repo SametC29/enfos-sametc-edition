@@ -8,14 +8,14 @@
   D REPLACE. Rationales and unresolved comparisons follow below.
 - PROVEN DEFECTS: Q post-damage handles, W orphan pulses/invalid cast and undefined
   W sound, D recipient-vs-source Break ownership, E control/channel teardown,
-  R lethal-victim/source access and undefined impact sound repaired;
-  projectile identity and other findings remain under review.
-- MOCK/REGRESSION VALIDATION: PASS for the recorded five-slot cases (343 suite cases).
+  R lethal-victim/source access, undefined impact sound and instant projectile
+  dispatch repaired; advanced mechanics and owner engine evidence remain open.
+- MOCK/REGRESSION VALIDATION: PASS for the recorded five-slot cases (348 suite cases).
 - RUNTIME TRACE COVERAGE: PARTIAL, Q cast/absorb/source-loss/primary/splash summary;
   W cast/pulse/source-loss, E channel/control lifecycle and D source/recipient
-  lifecycle and R current synchronous hit/spread records added; detailed W
-  lifecycle, D live Break/rank transitions, E resources/absorb and R actual
-  projectile lifecycle remain open.
+  lifecycle and R projectile launch/impact/damage/termination/slow ownership
+  records added; detailed W lifecycle, D live Break/rank transitions and E
+  resources/absorb remain open. R advanced immunity/upgrade evidence remains open.
 - ABILITY ISOLATION: COMPLETE for current source; five custom slots and six modifiers extracted into
   explicit hero modules; source/regression verification and owner cold-start gate
   are recorded in the isolation section below. This does not close the kit review.
@@ -42,7 +42,7 @@ evidence, not an engine test. No external code/assets imported.
 | Q Frost Blast | TUNE: native instant enemy magic nuke/splash/slow identity; Enfos INT scaling and boss caps are explicit tuning. | Primary target damage+INT0.8, splash+INT0.5; bosses capped10%/6% maxHP and40% slow duration. Post-damage victim/caster handles were unguarded; snapshot origin and control duration before damage, skip dead recipient without dropping splash. Native primary also receives area damage; current primary/splash accounting needs a separate design/native comparison before changing balance. |
 | W Frost Shield | PVE-CONVERT: retain allied protective shield/pulse, current INT pulse scaling. | Six-second buff,1s600-radius pulses; current modifier reduces all incoming physical damage, not specifically native attack damage. Invalid recipient/source and interval cleanup, native shield resource vs old armor resource, missing slow, animation and sound bank need review. |
 | E Sinister Gaze | PVE-CONVERT: native channel/control/mana-drain identity, boss shorter channel/no pull. | Boss35% duration;0.5s mana transfer and40-unit pull; current origin movement/pathing/resistance, channel cancellation/cleanup ownership, absorb branch and actual Gaze resources need review. |
-| R Chain Frost | PVE-CONVERT: authored bounded wave spreading with INT scaling; native projectile identity must be restored where viable. | Current Lua visits each unit once synchronously and renders particle roots at recipients instead of projectile travel. Native6943 initial/next speed1050/850, range550, repeated bounces and2.5s slow. Current authored range600 and once-per-target policy cannot be changed silently; projectile timing/ownership/cleanup are a substantial open defect. |
+| R Chain Frost | PVE-CONVERT: authored bounded wave spreading with INT scaling and native projectile identity. | Engine tracking now replaces synchronous damage/root particles; initial/next speed1050/850, authored range600, once-per-target policy and10–18 hits preserved. Native repeated bounces/range550/damage escalation intentionally differ. Actual engine immunity/resistance, upgrades, particle/animation/audio and primary-block timing remain pending. |
 | D Ice Aura | REPLACE: authored allied armor/mana aura is a distinct Enfos passive, not current native Death Charge's friendly-creep sacrifice. | Recipient Break currently disables external aura benefits while caster Break is checked only by aura emitter. Source/recipient ownership, inactive sources, rank refresh, illusion and lingering-aura policies need review. |
 
 All five slots retain10 ranks; basic/fifth gates1/1 and R5/5 fit level50.
@@ -264,3 +264,68 @@ PVE-CONVERT; SOURCE REVIEW and full trace coverage are still PENDING/PARTIAL.
 Validation after this focused repair: 345 hero behavior regressions passed;
 npm run check passed with zero failed checks; git diff --check passed.
 OWNER RUNTIME TRACE EVIDENCE / VISUAL-AUDIO / ENGINE ACCEPTANCE remain NOT TESTED.
+
+## 2026-10-03: R engine tracking projectile and bounded chain state
+
+R remains PVE-CONVERT. The earlier implementation dealt every hit in one
+synchronous for-loop and placed the travelling root particle directly on each
+victim. This contradicted the existing four-language tooltip's frost-orb launch
+and Lich's projectile identity. Replace that dispatch with an engine tracking
+projectile and OnProjectileHit_ExtraData; damage and slow now occur at impact.
+Preserve the authored once-per-distinct-target rule, 600 search radius, ten ranked
+damage/INT1.0 values, ranked 10–18 hit limits and Boss35% slow duration. This
+intentionally differs from native repeat bounces, 550 radius and escalating
+per-bounce damage. No native infinite-bounce talent is restored.
+
+Current installed native scripts/npc/heroes/npc_dota_hero_lich.txt, build6943 /
+SourceRevision11069754, declares initial_projectile_speed1050 and
+projectile_speed850. Current MCP server signatures and
+[server API declarations](https://docs.moddota.com/lua_server/) verify the tracking
+creation and impact callback interfaces. The installed root
+particles/units/heroes/hero_lich/lich_chain_frost.vpcf_c was decoded read-only
+with Source2Viewer CLI19.2: attraction uses CP1, movement speed override CP2,
+and an explosion endcap plus launch/trail child resources are declared. The
+engine now owns projectile particle positioning and destruction; no separately
+created root, particle handle, timer or persistent per-cast registry remains.
+Resource structure supports the integration but does not establish visible
+placement, endcap playback or engine CP acceptance.
+
+REFERENCE_ONLY: [Elfansoer Lich Chain Frost implementation](https://github.com/Elfansoer/dota-2-lua-abilities/blob/6288dfa99327b7e97ec2d1c10a2a75d256ed1368/scripts/vscripts/lua_abilities/lich_chain_frost_lua/lich_chain_frost_lua.lua),
+file revision6288dfa99327b7e97ec2d1c10a2a75d256ed1368,2019-02-09.
+Observed concept: nondodgeable tracking projectile followed by impact-driven
+bounces. No code/assets imported; the old temp-table/thinker tracking and TI8
+particle dependency are rejected. Nondodgeable preserves the prior unavoidable
+instant-chain behavior; current owner engine dodge acceptance is still pending.
+
+Each projectile carries only numeric damage/duration/hit budget and at most18
+visited entity indices in ExtraData. Independent recasts do not share history.
+Nil/dead/removed/friendly impact targets stop; valid dead casters retain launched
+spells, removed casters/abilities stop. A lethal victim's position is captured
+before damage, allowing the next projectile to depart from its saved origin.
+Primary spell block remains checked once at cast; no extra block check was added
+to bounces. Source/target loss creates no abandoned Lua cast state requiring
+expiry cleanup. The explicit18 cap equals the current maximum authored rank
+budget; future increases require changing this bound and its rank regressions.
+
+Default-off bounded R traces now record launch ID/target/speed/engine particle
+ownership, impact index/Boss/damage request/slow duration, ApplyDamage return,
+termination reason and slow create/refresh/removal ownership. A nil mock damage
+return is not a claim of measured engine damage. No getter or per-frame traces.
+
+Regression fixtures explicitly deliver captured projectiles, rather than making
+the mock engine auto-hit synchronously. All ten ranks preserve damage and unique
+hit budgets; cast alone deals no damage. Recasts, valid caster death, nil/friendly/
+dead impacts, removed caster/ability and existing lethal/source-loss cases pass.
+348 hero behavior regressions and npm run check pass with zero failed checks.
+Generated structural inventory reflects only the new R callbacks; localization
+already describes the launch/bounce behavior, so source text stays unchanged.
+
+R source review is still PENDING for immunity/invulnerability/control resistance,
+spell reflection and primary-block timing, Shard/Scepter integration, animation
+and full resource acceptance. Owner basic tests: cold load, rank1 cast, actual
+travel followed by damage/slow, ordinary-creep and Boss impact sounds, exhausted
+chain cleanup. Advanced tests: rank10 dense wave, lethal removal in flight,
+recast/refresh/death, target disappearance/disjoint attempts, BKB/debuff immunity,
+purge/resistance, two Lich ownership, upgrades and reconnect. OWNER RUNTIME TRACE
+EVIDENCE / VISUAL-AUDIO / ENGINE ACCEPTANCE remain NOT TESTED; no source closure
+or engine acceptance is inferred from these automated passes.

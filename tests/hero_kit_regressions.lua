@@ -7508,6 +7508,18 @@ test('Vengeful Spirit Vengeance Aura stops buffing allies while its source is br
     assert(aura:IsAura() == false, 'Break must disable the source aura')
 end)
 
+local function advance_lich_projectiles(ability)
+    for i = 1, 18 do
+        local projectile = _G.last_tracking_projectile
+        if not projectile then return end
+        _G.last_tracking_projectile = nil
+        assert(projectile.Ability == ability, 'Only advance this Lich cast')
+        assert(projectile.iMoveSpeed == (projectile.ExtraData.hits == 0 and 1050 or 850), 'Native first/bounce travel speeds')
+        assert(ability:OnProjectileHit_ExtraData(projectile.Target, projectile.Target:GetAbsOrigin(), projectile.ExtraData) == true)
+    end
+    assert(not _G.last_tracking_projectile, 'Lich chain must remain bounded')
+end
+
 test('Lich Chain Frost slows targets and never repeats a bounce on an already hit enemy', function()
     applied_damages = {}
     local lich = create_mock_unit('npc_dota_hero_lich', 2, Vector(0, 0, 0))
@@ -7529,6 +7541,9 @@ test('Lich Chain Frost slows targets and never repeats a bounce on an already hi
     end
 
     ab:OnSpellStart()
+    assert(#applied_damages == 0, 'Cast must wait for an engine projectile impact')
+    assert(_G.last_tracking_projectile.iMoveSpeed == 1050 and _G.last_tracking_projectile.bDodgeable == false)
+    advance_lich_projectiles(ab)
     -- dmg per hit = 400 + (100 * 1.0 = 100) = 500
     assert(#applied_damages == 2, 'Chain Frost visits each available enemy at most once')
     assert(applied_damages[1].damage == 500)
@@ -8740,7 +8755,7 @@ test('Lich Chain Frost continues from a lethal removed target without using its 
         oldDamage(e)
         if e.victim==first then removed=true;mock_world_units={c,nextTarget} end
     end
-    local ok,err=pcall(function() a:OnSpellStart() end);ApplyDamage=oldDamage
+    local ok,err=pcall(function() a:OnSpellStart(); advance_lich_projectiles(a) end);ApplyDamage=oldDamage
     assert(ok,err);assert(#applied_damages==2,'Lethal hit must preserve remaining spread')
     assert(sound=='Hero_Lich.ChainFrostImpact.Creep','Use current bank creep impact event')
 end)
@@ -8755,7 +8770,7 @@ test('Lich Chain Frost stops after synchronous damage removes its caster',functi
     local oldDamage=ApplyDamage;local removed=false;c.IsNull=function() return removed end
     p.AddNewModifier=function() error('Removed source cannot add a slow') end
     ApplyDamage=function(e) oldDamage(e);removed=true end
-    local ok,err=pcall(function() a:OnSpellStart() end);ApplyDamage=oldDamage
+    local ok,err=pcall(function() a:OnSpellStart(); advance_lich_projectiles(a) end);ApplyDamage=oldDamage
     assert(ok,err);assert(#applied_damages==1)
 end)
 
@@ -8785,6 +8800,63 @@ test('Lich Chain Frost rejects a friendly primary without consuming spell absorb
     mock_world_units={c,p};applied_damages={}
     local ok,err=pcall(function() a:OnSpellStart() end)
     assert(ok,err);assert(#applied_damages==0)
+end)
+
+test('Lich Chain Frost preserves all ten ranked damage and distinct-target budgets in flight',function()
+    local jumps={10,12,15,16,17,18,18,18,18,18}
+    local damages={250,400,550,625,700,775,850,925,1000,1075}
+    for rank=1,10 do
+        local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0));c.intellect=100
+        mock_world_units={c};applied_damages={}
+        for i=1,20 do
+            local u=create_mock_unit('enfos_creep_rank_'..i,3,Vector(i*10,0,0),10000)
+            u.entindex=function() return 100+i end
+            table.insert(mock_world_units,u)
+        end
+        local a=enfos_lich_chain_frost();a.GetCaster=function() return c end
+        a.GetCursorTarget=function() return mock_world_units[2] end
+        a.GetSpecialValueFor=function(_,k) return ({jump_count=jumps[rank],damage=damages[rank],slow_duration=2.5})[k] or 0 end
+        a:OnSpellStart();assert(#applied_damages==0)
+        advance_lich_projectiles(a)
+        assert(#applied_damages==jumps[rank],'Ranked distinct-target hit limit')
+        for _,entry in ipairs(applied_damages) do assert(entry.damage==damages[rank]+100) end
+    end
+end)
+
+test('Lich Chain Frost recasts keep independent histories and allow a valid dead source',function()
+    local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+    local p=create_mock_unit('enfos_creep_first',3,Vector(100,0,0))
+    local other=create_mock_unit('enfos_creep_next',3,Vector(200,0,0))
+    mock_world_units={c,p,other};applied_damages={}
+    local a=enfos_lich_chain_frost();a.GetCaster=function() return c end;a.GetCursorTarget=function() return p end
+    a.GetSpecialValueFor=function(_,k) return ({jump_count=2,damage=100,slow_duration=2.5})[k] or 0 end
+    a:OnSpellStart();local first=_G.last_tracking_projectile
+    a:OnSpellStart();local second=_G.last_tracking_projectile
+    assert(first.ExtraData~=second.ExtraData,'Recast must not share history')
+    c.IsAlive=function() return false end
+    _G.last_tracking_projectile=first;advance_lich_projectiles(a)
+    assert(second.ExtraData.hits==0,'First chain must not consume the second budget')
+    _G.last_tracking_projectile=second;advance_lich_projectiles(a)
+    assert(#applied_damages==4,'Both launched spells persist after a valid caster dies')
+end)
+
+test('Lich Chain Frost lost targets and removed sources end without damage or spread',function()
+    for _,mode in ipairs({'nil','friendly','dead','removed_source','removed_ability'}) do
+        local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+        local p=create_mock_unit('enfos_creep_first',3,Vector(100,0,0))
+        local a=enfos_lich_chain_frost();a.GetCaster=function() return c end;a.GetCursorTarget=function() return p end
+        a.GetSpecialValueFor=function(_,k) return ({jump_count=2,damage=100,slow_duration=2.5})[k] or 0 end
+        applied_damages={};a:OnSpellStart();local flight=_G.last_tracking_projectile;_G.last_tracking_projectile=nil
+        if mode=='friendly' then p.team=2 end
+        if mode=='dead' then p.IsAlive=function() return false end end
+        if mode=='removed_source' then c.IsNull=function() return true end end
+        if mode=='removed_ability' then a.IsNull=function() return true end end
+        local impactTarget=p
+        if mode=='nil' then impactTarget=nil end
+        assert(a:OnProjectileHit_ExtraData(impactTarget,Vector(100,0,0),flight.ExtraData)==true)
+        assert(#applied_damages==0 and not _G.last_tracking_projectile,'Invalid impact cannot damage or continue')
+        assert(not p:HasModifier('modifier_enfos_lich_chain_frost_slow'))
+    end
 end)
 
 print(passed .. ' hero kit regression tests passed (mock engine).')

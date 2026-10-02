@@ -4135,6 +4135,8 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
           "callbacks": [
+            "LaunchChainProjectile",
+            "OnProjectileHit_ExtraData",
             "OnSpellStart",
             "Precache"
           ],
