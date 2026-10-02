@@ -51,3 +51,11 @@ Extended existing Q placement test first fails missingCP1, then checks point plu
 ## Tick termination guards
 
 Frostbite interval could pass a removed caster into damage/stack calls; channel interval could continue target queries after the engine channel ended, until separate modifier cleanup arrived. New regression first fails on ended channel not stopping, then checks safe destruction for ended channel and removed Frostbite caster. Added server/valid owner/ability/target guards and live/channeling checks for R. Frostbite still survives a valid dead caster; removed caster/ability or dead recipient ends its debuff. MCP verifies CDOTA_BaseNPC:IsChanneling; owner must validate first-tick/interruption order in actual Dota.244behavior/full checks0failed,200abilities/223modifiers; modifier-owned effects and existing wind-stop cleanup retained, no timer or balance change.
+
+## Modifier presentation and native audio
+
+Nine CM modifiers now identify their verified native ability icons. Seven visible modifiers have EN/TR/RU/zh-CN names and descriptions in the source JSON and all twelve generated mirrors. Frost stacks expose the configured threshold through MODIFIER_PROPERTY_TOOLTIP; displayed property values remain engine pending. The short fifth-skill freeze now owns the already precached Frostbite model-bound ice/mist root for its lifetime instead of having no persistent frozen feedback.
+
+Installed6943 sound bank declares `hero_Crystal.frostbite` (finite4.937483sec) and `hero_Crystal.freezingField.explosion` (finite1.329705sec, delay0.5sec, limiter disabled). W now uses exact bank spelling; case sensitivity of the earlier spelling is not established. R emits the finite explosion at its captured impact position, at most once per existing0.2sec pulse. No extra timer or ongoing sound allocation. Existing wind stops on modifier destruction; the bank's12.251429sec wind duration does not itself establish looping. Pulse visual child delay0.4sec, bank audio delay0.5sec and instant gameplay damage require actual owner timing/overlap evaluation.
+
+Validation:244behavior regressions and full checks0failed;200abilities/223modifiers across ranks1–10. No Dota launch or Workshop upload. Actual icon/property rendering, frozen effect cleanup, audible events and VConsole are OWNER ENGINE PENDING.

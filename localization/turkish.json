@@ -1681,6 +1681,20 @@
     "DOTA_Tooltip_modifier_enfos_sniper_shrapnel_slow": "Şarapnel",
     "DOTA_Tooltip_modifier_enfos_sniper_shrapnel_slow_Description": "Hareket hızı değişimi: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
     "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff": "Nişan Al",
-    "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff_Description": "Saldırılar ıskalamaz. Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% artar."
+    "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff_Description": "Saldırılar ıskalamaz. Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% artar.",
+    "DOTA_Tooltip_modifier_enfos_cm_crystal_nova_slow": "Kristal Nova",
+    "DOTA_Tooltip_modifier_enfos_cm_crystal_nova_slow_Description": "Hareket hızı değişimi: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%; saldırı hızı değişimi: %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%.",
+    "DOTA_Tooltip_modifier_enfos_cm_frostbite_debuff": "Buz Tutması",
+    "DOTA_Tooltip_modifier_enfos_cm_frostbite_debuff_Description": "Köklenmiş ve silahsızlandırılmıştır. Düzenli büyü hasarı alır; hedef hayatta kalırsa ve kahramanın pasifi etkinse Ayaz yükü eklenebilir.",
+    "DOTA_Tooltip_modifier_enfos_cm_arcane_aura_buff": "Büyülü Aura",
+    "DOTA_Tooltip_modifier_enfos_cm_arcane_aura_buff_Description": "Mana yenilenmesi %fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT%, büyü güçlendirmesi %fMODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE%%% artar.",
+    "DOTA_Tooltip_modifier_enfos_cm_freezing_field_channel": "Dondurucu Alan",
+    "DOTA_Tooltip_modifier_enfos_cm_freezing_field_channel_Description": "Dondurucu Alan hazırlanıyor. Zırh %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%, büyü direnci %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%% artar.",
+    "DOTA_Tooltip_modifier_enfos_cm_freezing_field_slow": "Dondurucu Alan",
+    "DOTA_Tooltip_modifier_enfos_cm_freezing_field_slow_Description": "Hareket hızı değişimi: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_cm_frost_stack": "Ayaz",
+    "DOTA_Tooltip_modifier_enfos_cm_frost_stack_Description": "%dMODIFIER_PROPERTY_TOOLTIP% yükte hedef donar ve parçalanır. Yeni uygulamalar yüklerin süresini yeniler. Kaynaktaki Kırılma yeni yük tetiklenmesini engeller.",
+    "DOTA_Tooltip_modifier_enfos_cm_frozen": "Donmuş",
+    "DOTA_Tooltip_modifier_enfos_cm_frozen_Description": "Sersemletilmiş ve donmuştur. Bossların donma süresi pasifte ayarlanan Boss çarpanı ile azaltılır."
   }
 }

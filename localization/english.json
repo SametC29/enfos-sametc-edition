@@ -1310,6 +1310,20 @@
     "DOTA_Tooltip_modifier_enfos_sniper_shrapnel_slow": "Shrapnel",
     "DOTA_Tooltip_modifier_enfos_sniper_shrapnel_slow_Description": "Movement speed adjusted by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
     "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff": "Take Aim",
-    "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff_Description": "Attacks cannot miss. Movement speed increased by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
+    "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff_Description": "Attacks cannot miss. Movement speed increased by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_cm_crystal_nova_slow": "Crystal Nova",
+    "DOTA_Tooltip_modifier_enfos_cm_crystal_nova_slow_Description": "Movement speed adjusted by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%; attack speed adjusted by %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%.",
+    "DOTA_Tooltip_modifier_enfos_cm_frostbite_debuff": "Frostbite",
+    "DOTA_Tooltip_modifier_enfos_cm_frostbite_debuff_Description": "Rooted and disarmed. Takes periodic magical damage; surviving hits can add Frost stacks while the caster’s passive is active.",
+    "DOTA_Tooltip_modifier_enfos_cm_arcane_aura_buff": "Arcane Aura",
+    "DOTA_Tooltip_modifier_enfos_cm_arcane_aura_buff_Description": "Mana regeneration increased by %fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT%; spell amplification increased by %fMODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_cm_freezing_field_channel": "Freezing Field",
+    "DOTA_Tooltip_modifier_enfos_cm_freezing_field_channel_Description": "Channeling Freezing Field. Armor increased by %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%; magic resistance increased by %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%%.",
+    "DOTA_Tooltip_modifier_enfos_cm_freezing_field_slow": "Freezing Field",
+    "DOTA_Tooltip_modifier_enfos_cm_freezing_field_slow_Description": "Movement speed adjusted by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_cm_frost_stack": "Frost",
+    "DOTA_Tooltip_modifier_enfos_cm_frost_stack_Description": "At %dMODIFIER_PROPERTY_TOOLTIP% stacks, freezes and shatters. Further applications refresh the stack duration. Break on the source prevents new stack triggers.",
+    "DOTA_Tooltip_modifier_enfos_cm_frozen": "Frozen",
+    "DOTA_Tooltip_modifier_enfos_cm_frozen_Description": "Stunned and frozen. Boss freeze duration is reduced by the passive’s configured Boss multiplier."
   }
 }

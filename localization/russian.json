@@ -1250,6 +1250,20 @@
     "DOTA_Tooltip_modifier_enfos_sniper_shrapnel_slow": "Шрапнель",
     "DOTA_Tooltip_modifier_enfos_sniper_shrapnel_slow_Description": "Изменение скорости передвижения: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
     "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff": "Прицеливание",
-    "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff_Description": "Атаки не промахиваются. Скорость передвижения повышена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
+    "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff_Description": "Атаки не промахиваются. Скорость передвижения повышена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_cm_crystal_nova_slow": "Кристальная нова",
+    "DOTA_Tooltip_modifier_enfos_cm_crystal_nova_slow_Description": "Изменение скорости передвижения: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%; скорости атаки: %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%.",
+    "DOTA_Tooltip_modifier_enfos_cm_frostbite_debuff": "Обморожение",
+    "DOTA_Tooltip_modifier_enfos_cm_frostbite_debuff_Description": "Обездвижен и обезоружен. Получает периодический магический урон; выжившая цель получает заряды Мороза, пока пассивная способность источника действует.",
+    "DOTA_Tooltip_modifier_enfos_cm_arcane_aura_buff": "Чародейская аура",
+    "DOTA_Tooltip_modifier_enfos_cm_arcane_aura_buff_Description": "Восстановление маны повышено на %fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT%; усиление заклинаний — на %fMODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_cm_freezing_field_channel": "Ледяное поле",
+    "DOTA_Tooltip_modifier_enfos_cm_freezing_field_channel_Description": "Поддерживает Ледяное поле. Броня повышена на %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%; сопротивление магии — на %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%%.",
+    "DOTA_Tooltip_modifier_enfos_cm_freezing_field_slow": "Ледяное поле",
+    "DOTA_Tooltip_modifier_enfos_cm_freezing_field_slow_Description": "Изменение скорости передвижения: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_cm_frost_stack": "Мороз",
+    "DOTA_Tooltip_modifier_enfos_cm_frost_stack_Description": "При %dMODIFIER_PROPERTY_TOOLTIP% зарядах цель замерзает и раскалывается. Новые применения обновляют время зарядов. Истощение источника предотвращает новые срабатывания.",
+    "DOTA_Tooltip_modifier_enfos_cm_frozen": "Заморожен",
+    "DOTA_Tooltip_modifier_enfos_cm_frozen_Description": "Оглушен и заморожен. Для боссов время заморозки сокращено множителем пассивной способности."
   }
 }

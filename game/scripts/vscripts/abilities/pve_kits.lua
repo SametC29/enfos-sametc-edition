@@ -2948,6 +2948,7 @@ function enfos_cm_crystal_nova:OnSpellStart()
 end
 
 modifier_enfos_cm_crystal_nova_slow=class({})
+function modifier_enfos_cm_crystal_nova_slow:GetTexture() return 'crystal_maiden_crystal_nova' end
 function modifier_enfos_cm_crystal_nova_slow:IsDebuff() return true end
 function modifier_enfos_cm_crystal_nova_slow:DeclareFunctions()
     return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
@@ -2963,11 +2964,12 @@ function enfos_cm_frostbite:OnSpellStart()
     if t.GetTeamNumber and c.GetTeamNumber and t:GetTeamNumber() == c:GetTeamNumber() then return end
     if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
 
-    c:EmitSound('Hero_Crystal.Frostbite')
+    c:EmitSound('hero_Crystal.frostbite')
     t:AddNewModifier(c, self, 'modifier_enfos_cm_frostbite_debuff', { duration = value(self, 'duration') })
 end
 
 modifier_enfos_cm_frostbite_debuff=class({})
+function modifier_enfos_cm_frostbite_debuff:GetTexture() return 'crystal_maiden_frostbite' end
 function modifier_enfos_cm_frostbite_debuff:GetEffectName() return 'particles/units/heroes/hero_crystalmaiden/maiden_frostbite_buff.vpcf' end
 function modifier_enfos_cm_frostbite_debuff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_cm_frostbite_debuff:IsDebuff() return true end
@@ -3007,6 +3009,7 @@ enfos_cm_arcane_aura=class({})
 function enfos_cm_arcane_aura:GetIntrinsicModifierName() return 'modifier_enfos_cm_arcane_aura' end
 
 modifier_enfos_cm_arcane_aura=class({})
+function modifier_enfos_cm_arcane_aura:GetTexture() return 'crystal_maiden_brilliance_aura' end
 function modifier_enfos_cm_arcane_aura:IsHidden() return true end
 function modifier_enfos_cm_arcane_aura:IsPurgable() return false end
 function modifier_enfos_cm_arcane_aura:DeclareFunctions()
@@ -3035,6 +3038,7 @@ function modifier_enfos_cm_arcane_aura:GetModifierSpellAmplify_Percentage()
 end
 
 modifier_enfos_cm_arcane_aura_buff=class({})
+function modifier_enfos_cm_arcane_aura_buff:GetTexture() return 'crystal_maiden_brilliance_aura' end
 function modifier_enfos_cm_arcane_aura_buff:IsPurgable() return false end
 function modifier_enfos_cm_arcane_aura_buff:DeclareFunctions()
     return { MODIFIER_PROPERTY_MANA_REGEN_CONSTANT, MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE }
@@ -3064,6 +3068,7 @@ function enfos_cm_freezing_field:OnChannelFinish(interrupted)
 end
 
 modifier_enfos_cm_freezing_field_channel=class({})
+function modifier_enfos_cm_freezing_field_channel:GetTexture() return 'crystal_maiden_freezing_field' end
 function modifier_enfos_cm_freezing_field_channel:IsPurgable() return false end
 function modifier_enfos_cm_freezing_field_channel:OnDestroy()
     if IsServer() then
@@ -3108,6 +3113,7 @@ function modifier_enfos_cm_freezing_field_channel:OnIntervalThink()
         local origin = t:GetAbsOrigin()
         damage(a, t, dmg, DAMAGE_TYPE_MAGICAL)
         effect_at_position('particles/units/heroes/hero_crystalmaiden/maiden_freezing_field_explosion.vpcf', origin)
+        EmitSoundOnLocationWithCaster(origin, 'hero_Crystal.freezingField.explosion', c)
         local gm = c.FindAbilityByName and c:FindAbilityByName('enfos_cm_glacial_mastery')
         if not t:IsNull() and t:IsAlive() then
             t:AddNewModifier(c, a, 'modifier_enfos_cm_freezing_field_slow', { duration = value(a, 'slow_duration') })
@@ -3119,6 +3125,7 @@ function modifier_enfos_cm_freezing_field_channel:OnIntervalThink()
 end
 
 modifier_enfos_cm_freezing_field_slow=class({})
+function modifier_enfos_cm_freezing_field_slow:GetTexture() return 'crystal_maiden_freezing_field' end
 function modifier_enfos_cm_freezing_field_slow:IsDebuff() return true end
 function modifier_enfos_cm_freezing_field_slow:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
 function modifier_enfos_cm_freezing_field_slow:GetModifierMoveSpeedBonus_Percentage() return -value(self:GetAbility(), 'slow_pct') end
@@ -3127,9 +3134,13 @@ enfos_cm_glacial_mastery=class({})
 function enfos_cm_glacial_mastery:GetIntrinsicModifierName() return 'modifier_enfos_cm_glacial_mastery_passive' end
 
 modifier_enfos_cm_glacial_mastery_passive=class({})
+function modifier_enfos_cm_glacial_mastery_passive:GetTexture() return 'crystal_maiden_freezing_field' end
 function modifier_enfos_cm_glacial_mastery_passive:IsHidden() return true end
 
 modifier_enfos_cm_frost_stack=class({})
+function modifier_enfos_cm_frost_stack:GetTexture() return 'crystal_maiden_freezing_field' end
+function modifier_enfos_cm_frost_stack:DeclareFunctions() return { MODIFIER_PROPERTY_TOOLTIP } end
+function modifier_enfos_cm_frost_stack:OnTooltip() return value(self:GetAbility(), 'frost_stack_limit') end
 function modifier_enfos_cm_frost_stack:IsDebuff() return true end
 function modifier_enfos_cm_frost_stack:OnCreated()
     if not IsServer() then return end
@@ -3172,6 +3183,9 @@ function modifier_enfos_cm_frost_stack:OnRefresh()
 end
 
 modifier_enfos_cm_frozen=class({})
+function modifier_enfos_cm_frozen:GetTexture() return 'crystal_maiden_frostbite' end
+function modifier_enfos_cm_frozen:GetEffectName() return 'particles/units/heroes/hero_crystalmaiden/maiden_frostbite_buff.vpcf' end
+function modifier_enfos_cm_frozen:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_cm_frozen:IsDebuff() return true end
 function modifier_enfos_cm_frozen:CheckState() return { [MODIFIER_STATE_FROZEN] = true, [MODIFIER_STATE_STUNNED] = true } end
 

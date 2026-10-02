@@ -1250,6 +1250,20 @@
     "DOTA_Tooltip_modifier_enfos_sniper_shrapnel_slow": "榴霰弹",
     "DOTA_Tooltip_modifier_enfos_sniper_shrapnel_slow_Description": "移动速度变化：%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。",
     "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff": "瞄准",
-    "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff_Description": "攻击不会落空。移动速度提高%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。"
+    "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff_Description": "攻击不会落空。移动速度提高%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。",
+    "DOTA_Tooltip_modifier_enfos_cm_crystal_nova_slow": "冰霜新星",
+    "DOTA_Tooltip_modifier_enfos_cm_crystal_nova_slow_Description": "移动速度变化：%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%；攻击速度变化：%dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%。",
+    "DOTA_Tooltip_modifier_enfos_cm_frostbite_debuff": "冰封禁制",
+    "DOTA_Tooltip_modifier_enfos_cm_frostbite_debuff_Description": "被缠绕并缴械，持续受到魔法伤害；目标存活且施法者被动有效时可增加冰霜层数。",
+    "DOTA_Tooltip_modifier_enfos_cm_arcane_aura_buff": "奥术光环",
+    "DOTA_Tooltip_modifier_enfos_cm_arcane_aura_buff_Description": "魔法恢复提高%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT%，技能增强提高%fMODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE%%%。",
+    "DOTA_Tooltip_modifier_enfos_cm_freezing_field_channel": "极寒领域",
+    "DOTA_Tooltip_modifier_enfos_cm_freezing_field_channel_Description": "正在持续施放极寒领域。护甲提高%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%，魔法抗性提高%dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%%。",
+    "DOTA_Tooltip_modifier_enfos_cm_freezing_field_slow": "极寒领域",
+    "DOTA_Tooltip_modifier_enfos_cm_freezing_field_slow_Description": "移动速度变化：%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。",
+    "DOTA_Tooltip_modifier_enfos_cm_frost_stack": "冰霜",
+    "DOTA_Tooltip_modifier_enfos_cm_frost_stack_Description": "达到%dMODIFIER_PROPERTY_TOOLTIP%层时冻结并碎裂。新的施加刷新层数持续时间。来源被破坏时不会产生新的触发。",
+    "DOTA_Tooltip_modifier_enfos_cm_frozen": "冻结",
+    "DOTA_Tooltip_modifier_enfos_cm_frozen_Description": "被眩晕并冻结。首领的冻结时间按被动技能设定的首领倍率缩短。"
   }
 }
