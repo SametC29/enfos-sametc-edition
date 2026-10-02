@@ -2327,9 +2327,15 @@ function modifier_enfos_centaur_stampede_buff:OnCreated()
     self:StartIntervalThink(0.2)
 end
 function modifier_enfos_centaur_stampede_buff:OnIntervalThink()
+    if not IsServer() then return end
     local c = self:GetCaster()
     local p = self:GetParent()
     local a = self:GetAbility()
+    if not c or c:IsNull() or not p or p:IsNull() or not p:IsAlive()
+        or not a or (a.IsNull and a:IsNull()) then
+        self:Destroy()
+        return
+    end
     local str = get_str(c)
     local dmg = value(a, 'trample_damage') + (str * value(a, 'strength_damage_factor'))
 
@@ -2339,7 +2345,9 @@ function modifier_enfos_centaur_stampede_buff:OnIntervalThink()
         if not self.trampled[id] then
             self.trampled[id] = true
             damage(a, u, dmg, DAMAGE_TYPE_PHYSICAL)
-            u:AddNewModifier(c, a, 'modifier_enfos_centaur_stampede_slow', { duration = value(a, 'slow_duration') })
+            if not u:IsNull() and u:IsAlive() then
+                u:AddNewModifier(c, a, 'modifier_enfos_centaur_stampede_slow', { duration = value(a, 'slow_duration') })
+            end
         end
     end
 end

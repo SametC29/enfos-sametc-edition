@@ -1675,6 +1675,28 @@ test('Centaur Stampede tramples each enemy once per ally buff', function()
     assert(#applied_damages == 1, 'One ally buff must not trample the same enemy repeatedly during its duration')
 end)
 
+test('Centaur Stampede skips control after lethal removal and stops on lost caster', function()
+    local centaur=create_mock_unit('npc_dota_hero_centaur',2,Vector(0,0,0))
+    local enemy=create_mock_unit('lethal_trample',3,Vector(100,0,0))
+    mock_world_units={centaur,enemy}
+    local ability={GetSpecialValueFor=function(_,key) return ({trample_radius=150,trample_damage=200,strength_damage_factor=2,slow_duration=1.5})[key] or 0 end}
+    local ended=false
+    local mod=setmetatable({GetParent=function() return centaur end,GetCaster=function() return centaur end,
+        GetAbility=function() return ability end,StartIntervalThink=function() end,Destroy=function() ended=true end},
+        modifier_enfos_centaur_stampede_buff)
+    mod:OnCreated()
+    local old_damage=ApplyDamage
+    ApplyDamage=function(keys) keys.victim.IsNull=function() return true end; keys.victim.alive=false end
+    local controls=0
+    enemy.AddNewModifier=function() controls=controls+1 end
+    mod:OnIntervalThink()
+    ApplyDamage=old_damage
+    assert(controls==0,'Trample must not apply control to its killed/removed target')
+    centaur.IsNull=function() return true end
+    mod:OnIntervalThink()
+    assert(ended,'Lost Stampede caster must end its owned buff before another target query')
+end)
+
 test('Centaur Colossal Hide blocks physical damage and loses both bonuses under Break', function()
     local centaur = create_mock_unit('npc_dota_hero_centaur', 2, Vector(0, 0, 0))
     centaur.strength = 100

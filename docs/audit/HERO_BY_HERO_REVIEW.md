@@ -18,7 +18,7 @@ Per hero: read its instructions/dossier; compare installed native definitions; t
 | 8 | Sniper | SOURCE REVIEW COMPLETE / ENGINE PENDING — lethal Keen Eye, owned Shrapnel radius/ground sound/tick guards, Take Aim overhead/Break split, Assassinate native impact/audio/target metadata and four-locale buffs/upgrades repaired; owner gates in individual record |
 | 9 | Crystal Maiden | SOURCE REVIEW COMPLETE / ENGINE PENDING — owned Frostbite/snow/frozen effects, finite pulse audio, Nova CPs, lethal/stale tick guards, secondary Boss cap, native animation declarations and four-locale modifier/DPS text repaired; owner gates in individual record |
 | 10 | Dazzle | SOURCE REVIEW COMPLETE / ENGINE PENDING — owned poison/Grave, E immune selection/finite links, replicated poison slow, R minimum health/native animations, modifier icons/four-locale upgrade truth repaired; owner gates in individual record |
-| 11 | Centaur Warrunner | NOT STARTED |
+| 11 | Centaur Warrunner | IN PROGRESS — own instructions/full dossier and five native6943/custom implementations reviewed; Stampede lethal/lost-owner guard repaired; resources/upgrades/presentation review continues; ENGINE PENDING |
 | 12 | Wraith King | NOT STARTED |
 | 13 | Phantom Assassin | NOT STARTED |
 | 14 | Zeus | NOT STARTED |
