@@ -326,6 +326,7 @@ local modifier_list = {
     'modifier_enfos_ss_fowl_play_passive',
     'modifier_enfos_ss_fowl_play_buff',
     'modifier_enfos_ss_fowl_play_guard',
+    'modifier_enfos_ss_fowl_play_invulnerable',
     'modifier_enfos_lion_earth_spike_stun',
     'modifier_enfos_lion_hex_debuff',
     'modifier_enfos_lion_mana_drain_channel',
@@ -6879,6 +6880,7 @@ function modifier_enfos_ss_fowl_play_passive:OnTakeDamage(event)
     -- Consume first: strong-purge removal callbacks may synchronously deal damage.
     a:StartCooldown(value(a, 'cooldown'))
     c:AddNewModifier(c, a, 'modifier_enfos_ss_fowl_play_guard', { duration = value(a, 'damage_reduction_duration') })
+    c:AddNewModifier(c, a, 'modifier_enfos_ss_fowl_play_invulnerable', { duration = value(a, 'invuln_duration') })
     if c.Purge then c:Purge(false, true, false, true, true) end
     if c:IsNull() or not c:IsAlive() or (a.IsNull and a:IsNull()) then return end
     c:AddNewModifier(c, a, 'modifier_enfos_ss_fowl_play_buff', { duration = value(a, 'duration') })
@@ -6901,6 +6903,14 @@ function modifier_enfos_ss_fowl_play_guard:RemoveOnDeath() return true end
 function modifier_enfos_ss_fowl_play_guard:DeclareFunctions() return { MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE } end
 function modifier_enfos_ss_fowl_play_guard:GetModifierIncomingDamage_Percentage()
     return -math.max(0, math.min(100, value(self:GetAbility(), 'damage_reduction_pct')))
+end
+
+modifier_enfos_ss_fowl_play_invulnerable=class({})
+function modifier_enfos_ss_fowl_play_invulnerable:IsHidden() return true end
+function modifier_enfos_ss_fowl_play_invulnerable:IsPurgable() return false end
+function modifier_enfos_ss_fowl_play_invulnerable:RemoveOnDeath() return true end
+function modifier_enfos_ss_fowl_play_invulnerable:CheckState()
+    return { [MODIFIER_STATE_INVULNERABLE] = true }
 end
 
 -- ----------------------------------------------------------------------------

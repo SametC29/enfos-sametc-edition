@@ -1066,7 +1066,7 @@ test('Shadow Shaman Fowl Play saves lethal damage with native chicken identity, 
     ability.IsCooldownReady = function() return cooldownReady end
     ability.StartCooldown = function(_, duration) cooldownReady = false; cooldownStarts = cooldownStarts + 1; ability.cooldown = duration end
     ability.EndCooldown = function() cooldownReady = true end
-    ability.GetSpecialValueFor = function(_, key) return ({ cooldown = 45, duration = 6, bonus_ms = 160, damage_reduction_duration = 1, damage_reduction_pct = 100 })[key] or 0 end
+    ability.GetSpecialValueFor = function(_, key) return ({ cooldown = 45, duration = 6, bonus_ms = 160, damage_reduction_duration = 1, damage_reduction_pct = 100, invuln_duration = 0.1 })[key] or 0 end
     local purgeArgs
     shaman.Purge = function(_, ...) purgeArgs = { ... } end
     local passive = setmetatable({
@@ -1085,6 +1085,10 @@ test('Shadow Shaman Fowl Play saves lethal damage with native chicken identity, 
         'Fowl Play should perform the native strong debuff dispel')
     assert(shaman:HasModifier('modifier_enfos_ss_fowl_play_buff'), 'the save grants its movement and chicken transformation buff')
     assert(shaman:HasModifier('modifier_enfos_ss_fowl_play_guard'), 'the save grants brief damage protection')
+    local protection = shaman:FindModifierByName('modifier_enfos_ss_fowl_play_invulnerable')
+    assert(protection and protection:CheckState()[MODIFIER_STATE_INVULNERABLE], 'lethal save grants the native short invulnerability state')
+    assert(protection.params.duration == 0.1, 'native invulnerability must remain a short 0.1-second window')
+    assert(not protection:IsPurgable() and protection:RemoveOnDeath(), 'short invulnerability cannot be purged and clears on death')
     local buff = shaman:FindModifierByName('modifier_enfos_ss_fowl_play_buff')
     assert(buff:GetModifierModelChange() == 'models/props_gameplay/chicken.vmdl', 'Fowl Play should use the verified native chicken model')
     local guard = shaman:FindModifierByName('modifier_enfos_ss_fowl_play_guard')

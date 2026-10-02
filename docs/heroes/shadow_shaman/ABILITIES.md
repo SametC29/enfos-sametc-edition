@@ -57,6 +57,8 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-02 native short protection: current installed Fowl Play KV confirms a separate 0.1s invulnerability window. Added a finite hidden, nonpurgable/death-removing invulnerability modifier before purge, retaining the existing 1s damage guard. Four locale sources/mirrors explain both durations; mock verifies state and duration. Actual Dota expiration, targetability and lethal-save ordering remain owner PENDING. This supersedes older missing-invulnerability notes, but native confusion chickens and unique hero upgrades remain open.
+
 2026-10-02 Fowl Play purge ordering: cooldown and short damage guard are established before strong-dispel callbacks; source/ability are revalidated afterward before chicken transformation. A pre-change nested-damage regression triggered two saves, and deleted-source cases reached unsafe calls. Mock regression covers all three cases; actual Dota callback ordering still requires owner verification.
 
 2026-10-02 shared summon reward repair: `Summons:Own` now zeros native minimum/maximum gold bounty and death XP in addition to the addon no-reward flags. Native reward handling does not consult those custom flags. Player ownership/control and group registration remain intact; combat/rank classification is unchanged. Pre-change ward/illusion bounty regression failed; the repaired behavior is MOCK_PASS, with actual enemy kill rewards and owner control still ENGINE PENDING.

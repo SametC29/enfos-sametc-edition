@@ -3282,6 +3282,7 @@
 			"bonus_ms" "100 110 120 130 140 150 160 170 180 190"
 			"damage_reduction_duration" "1"
 			"damage_reduction_pct" "100"
+			"invuln_duration" "0.1"
 		}
 		"ScriptFile"				"abilities/pve_kits"
 	}
