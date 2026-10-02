@@ -2407,6 +2407,7 @@
 	"enfos_zeus_arc_lightning"
 	{
 		"BaseClass"					"ability_lua"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_1"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
@@ -2431,6 +2432,7 @@
 	"enfos_zeus_lightning_bolt"
 	{
 		"BaseClass"					"ability_lua"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_2"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
@@ -2474,6 +2476,7 @@
 	"enfos_zeus_thundergods_wrath"
 	{
 		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_5"
 		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
