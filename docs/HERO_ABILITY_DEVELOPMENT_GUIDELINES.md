@@ -92,6 +92,28 @@ For each changed ability, record pass, fail, pending or justified not-applicable
 
 Damage being dealt, absence of Lua errors or passing automated tests alone never establishes DONE. Every applicable area must pass. If Dota/VConsole, visual or audio validation cannot be performed, report precisely what remains pending; do not promote code-tested abilities to fully verified status.
 
+## Owner-approved efficient review workflow (2026-10-02)
+
+Keep the acceptance coverage above unchanged while eliminating repeated discovery.
+Reuse verified shared-system evidence and existing automated contracts; re-check a
+reference when the installed build, source file, API or affected behavior changes.
+Do not treat a shared check as an individual gameplay review.
+
+Review one hero's five abilities and upgrades as a coherent unit. Record proven
+defects, intended native deviations and engine-only questions in its existing
+ledger. Run meaningful affected regressions after repairs, then the full checks
+at the logical delivery boundary. Separate independent problems into atomic
+commits; do not repeat a passing full suite without a new change or unresolved
+failure that warrants it. Reuse existing audit tools rather than adding a parallel
+inventory or manager.
+
+Maintain separate SOURCE_REVIEW, AUTOMATED_VALIDATION and OWNER_RUNTIME statuses.
+An unavailable engine observation remains PENDING with an actionable test, never
+an assumed pass. Owner runtime sessions may cover groups of 4–5 reviewed heroes;
+correlate supplied VConsole evidence with the tested revision. Reopen focused
+repairs on failures. The owner alone launches and controls Dota. This workflow
+does not authorize Workshop publication or reduce any acceptance requirement.
+
 ## Change records and delivery
 
 For each modified ability, record its stable ID, native original, class and rationale, Enfos behavior, elite/boss rules, references with provenance, intentional numerical changes, engine limitations/native deviations, tests/evidence and remaining gaps. Update the existing matrix/contracts/reports where suitable instead of duplicating truth.
