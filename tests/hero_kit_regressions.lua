@@ -3482,6 +3482,52 @@ test('Phantom Assassin Immaterial exposes its configured innate evasion', functi
     assert(mod:GetModifierEvasion_Constant() == 0, 'Enfos passive evasion must stop under Break')
 end)
 
+test('Phantom Assassin lethal daggers do not apply slow or sound to deleted victims', function()
+    local pa = create_mock_unit('npc_dota_hero_phantom_assassin',2,Vector(0,0,0))
+    local target = create_mock_unit('pa_lethal_dagger',3,Vector(100,0,0))
+    local a = enfos_pa_stifling_dagger()
+    a.GetCaster=function() return pa end
+    a.GetSpecialValueFor=function(_,key) return key=='slow_duration' and 2 or 0 end
+    local deleted=false
+    target.IsNull=function() return deleted end
+    target.AddNewModifier=function() error('A lethal dagger must not debuff a deleted recipient') end
+    target.EmitSound=function() assert(not deleted,'Impact sound must precede target deletion') end
+    local oldDamage=ApplyDamage
+    ApplyDamage=function(info) assert(info.victim==target and info.damage==190);deleted=true;target.alive=false end
+    local ok,err=pcall(function() a:OnProjectileHit_ExtraData(target,target:GetAbsOrigin(),{damage=190}) end)
+    ApplyDamage=oldDamage
+    assert(ok,err)
+end)
+
+test('Phantom Assassin dagger fallback keeps a captured chain center after a lethal primary', function()
+    local pa=create_mock_unit('npc_dota_hero_phantom_assassin',2,Vector(0,0,0))
+    local primary=create_mock_unit('pa_fallback_primary',3,Vector(100,0,0))
+    local secondary=create_mock_unit('pa_fallback_secondary',3,Vector(200,0,0))
+    local a=enfos_pa_stifling_dagger()
+    a.GetCaster=function() return pa end
+    a.GetCursorTarget=function() return primary end
+    a.GetSpecialValueFor=function(_,key) return ({base_damage=100,attack_factor=70,agility_factor=0.4,
+        chain_targets=2,chain_radius=275,chain_damage_pct=60,slow_duration=2})[key] or 0 end
+    local removed=false
+    primary.IsNull=function() return removed end
+    primary.GetAbsOrigin=function() assert(not removed,'Chain center must not be reread from a deleted primary');return Vector(100,0,0) end
+    primary.AddNewModifier=function() error('Deleted fallback target must not receive slow') end
+    mock_world_units={pa,primary,secondary}
+    local oldManager,oldDamage=ProjectileManager,ApplyDamage
+    local dealt={}
+    ProjectileManager=nil
+    ApplyDamage=function(info)
+        dealt[#dealt+1]=info
+        if info.victim==primary then removed=true;primary.alive=false end
+    end
+    local ok,err=pcall(function() a:OnSpellStart() end)
+    ProjectileManager,ApplyDamage=oldManager,oldDamage
+    assert(ok,err)
+    assert(#dealt==2 and dealt[1].damage==190 and dealt[2].victim==secondary and dealt[2].damage==114,
+        'A lethal primary must preserve configured secondary dagger damage')
+    assert(secondary:HasModifier('modifier_enfos_pa_stifling_dagger_slow'))
+end)
+
 test('Phantom Assassin Stifling Dagger validates spell block, enemy target and configured projectile', function()
     last_tracking_projectile = nil
     local pa = create_mock_unit('npc_dota_hero_phantom_assassin', 2, Vector(0, 0, 0))

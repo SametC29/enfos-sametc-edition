@@ -4171,6 +4171,7 @@ function enfos_pa_stifling_dagger:OnSpellStart()
     local agi = get_agi(c)
     local atk = get_atk(c, t)
     local dmg = base + (atk * value(self, 'attack_factor') / 100) + (agi * value(self, 'agility_factor'))
+    local chain_center = t:GetAbsOrigin()
 
     if ProjectileManager and ProjectileManager.CreateTrackingProjectile then
         ProjectileManager:CreateTrackingProjectile({
@@ -4187,8 +4188,7 @@ function enfos_pa_stifling_dagger:OnSpellStart()
             ExtraData = { damage = dmg }
         })
     else
-        damage(self, t, dmg, DAMAGE_TYPE_PHYSICAL)
-        t:AddNewModifier(c, self, 'modifier_enfos_pa_stifling_dagger_slow', { duration = value(self, 'slow_duration') })
+        self:OnProjectileHit_ExtraData(t, chain_center, { damage = dmg })
     end
 
     local count = 0
@@ -4197,7 +4197,7 @@ function enfos_pa_stifling_dagger:OnSpellStart()
     if chain_radius <= 0 then chain_radius = 500 end
     local chain_damage_pct = value(self, 'chain_damage_pct')
     if chain_damage_pct <= 0 then chain_damage_pct = 75 end
-    for _, u in ipairs(enemies(c, t:GetAbsOrigin(), chain_radius, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
+    for _, u in ipairs(enemies(c, chain_center, chain_radius, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
         if u ~= t and count < chain_targets then
             if ProjectileManager and ProjectileManager.CreateTrackingProjectile then
                 ProjectileManager:CreateTrackingProjectile({
@@ -4212,8 +4212,7 @@ function enfos_pa_stifling_dagger:OnSpellStart()
                     ExtraData = { damage = dmg * chain_damage_pct / 100 }
                 })
             else
-                damage(self, u, dmg * chain_damage_pct / 100, DAMAGE_TYPE_PHYSICAL)
-                u:AddNewModifier(c, self, 'modifier_enfos_pa_stifling_dagger_slow', { duration = value(self, 'slow_duration') })
+                self:OnProjectileHit_ExtraData(u, u:GetAbsOrigin(), { damage = dmg * chain_damage_pct / 100 })
             end
             count = count + 1
         end
@@ -4226,9 +4225,10 @@ function enfos_pa_stifling_dagger:OnProjectileHit_ExtraData(hTarget, vLocation, 
     if not c or (c.IsNull and c:IsNull()) or hTarget:GetTeamNumber() == c:GetTeamNumber() then return true end
     local dmg = extraData and extraData.damage or 200
     effect('particles/units/heroes/hero_phantom_assassin/phantom_assassin_stifling_dagger_explosion.vpcf', hTarget)
-    damage(self, hTarget, dmg, DAMAGE_TYPE_PHYSICAL)
-    hTarget:AddNewModifier(c, self, 'modifier_enfos_pa_stifling_dagger_slow', { duration = value(self, 'slow_duration') })
     hTarget:EmitSound('Hero_PhantomAssassin.Dagger.Target')
+    damage(self, hTarget, dmg, DAMAGE_TYPE_PHYSICAL)
+    if hTarget:IsNull() or not hTarget:IsAlive() then return true end
+    hTarget:AddNewModifier(c, self, 'modifier_enfos_pa_stifling_dagger_slow', { duration = value(self, 'slow_duration') })
     return true
 end
 
