@@ -422,6 +422,8 @@ modifier_enfos_pve_angel=class({})
 -- SVEN (TANK)
 -- =========================================================================
 
+local HeroTrace = require('lib/hero_trace')
+
 local function sven_has_shard(c)
     if not c or (c.IsNull and c:IsNull()) or not c.HasModifier then return false end
     -- Match the consumed markers recognized by the existing Aghanim manager,
@@ -462,19 +464,19 @@ function bulwark_shield_slam:OnSpellStart()
     local target = self:GetCursorTarget()
     local targetName = target and not target:IsNull() and target:GetUnitName() or "<none>"
     local level = self.GetLevel and self:GetLevel() or 0
-    print(string.format("[SVEN_TRACE][Q] cast caster=%s target=%s level=%d",
-        c and c:GetUnitName() or "<none>", targetName, level))
+    HeroTrace:Log('SVEN', 'Q', 'cast caster=%s target=%s level=%d',
+        HeroTrace:Name(c), targetName, level)
     if not c or not target or target:IsNull() or not target:IsAlive() then
-        print("[SVEN_TRACE][Q] launch_cancelled reason=invalid_target")
+        HeroTrace:Log('SVEN', 'Q', 'launch_cancelled reason=invalid_target')
         return
     end
     if target.TriggerSpellAbsorb and target:TriggerSpellAbsorb(self) then
-        print("[SVEN_TRACE][Q] launch_cancelled reason=spell_absorb")
+        HeroTrace:Log('SVEN', 'Q', 'launch_cancelled reason=spell_absorb')
         return
     end
 
     if not ProjectileManager or not ProjectileManager.CreateTrackingProjectile then
-        print("[SVEN_TRACE][Q] launch_cancelled reason=projectile_manager_unavailable")
+        HeroTrace:Log('SVEN', 'Q', 'launch_cancelled reason=projectile_manager_unavailable')
         return
     end
     local projectile = ProjectileManager:CreateTrackingProjectile({
@@ -487,26 +489,26 @@ function bulwark_shield_slam:OnSpellStart()
         bVisibleToEnemies = true,
         bProvidesVision = false
     })
-    print(string.format("[SVEN_TRACE][Q] projectile_created handle=%s speed=%s",
-        tostring(projectile), tostring(value(self, 'bolt_speed'))))
+    HeroTrace:Log('SVEN', 'Q', 'projectile_created handle=%s speed=%s',
+        tostring(projectile), tostring(value(self, 'bolt_speed')))
 end
 
 function bulwark_shield_slam:OnProjectileHit(target, location)
     if not IsServer() then return true end
     local c = self:GetCaster()
     if not c or c:IsNull() then
-        print("[SVEN_TRACE][Q] impact_cancelled reason=missing_caster")
+        HeroTrace:Log('SVEN', 'Q', 'impact_cancelled reason=missing_caster')
         return true
     end
     local origin = location or (target and not target:IsNull() and target:GetAbsOrigin())
     if not origin then
-        print("[SVEN_TRACE][Q] impact_cancelled reason=missing_location")
+        HeroTrace:Log('SVEN', 'Q', 'impact_cancelled reason=missing_location')
         return true
     end
 
     -- A dodged projectile has no impact target and must not detonate at its last location.
     if not target or target:IsNull() or not target:IsAlive() then
-        print("[SVEN_TRACE][Q] impact_cancelled reason=target_lost_or_dodged")
+        HeroTrace:Log('SVEN', 'Q', 'impact_cancelled reason=target_lost_or_dodged')
         return true
     end
     if target:GetTeamNumber() == c:GetTeamNumber() then return true end
@@ -536,8 +538,8 @@ function bulwark_shield_slam:OnProjectileHit(target, location)
             enemy:AddNewModifier(c, self, 'modifier_stunned', { duration = actualStun })
         end
     end
-    print(string.format("[SVEN_TRACE][Q] impact target=%s affected=%d damage=%s stun=%s",
-        targetName, affected, tostring(totalDamage), tostring(stunDuration)))
+    HeroTrace:Log('SVEN', 'Q', 'impact target=%s affected=%d damage=%s stun=%s',
+        targetName, affected, tostring(totalDamage), tostring(stunDuration))
     return true
 end
 
@@ -580,8 +582,8 @@ function bulwark_challenge:OnSpellStart()
         end
     end
     local level = self.GetLevel and self:GetLevel() or 0
-    print(string.format("[SVEN_TRACE][W] cast caster=%s level=%d allies_buffed=%d enemies_taunted=%d radius=%s duration=%s",
-        c:GetUnitName(), level, allyCount, tauntCount, tostring(rad), tostring(dur)))
+    HeroTrace:Log('SVEN', 'W', 'cast caster=%s level=%d allies_buffed=%d enemies_taunted=%d radius=%s duration=%s',
+        HeroTrace:Name(c), level, allyCount, tauntCount, tostring(rad), tostring(dur))
 end
 
 function modifier_enfos_pve_warcry:DeclareFunctions()
@@ -714,6 +716,9 @@ function modifier_bulwark_iron_guard:OnAttackLanded(e)
     -- Use the engine's physical cleave and particle contract, not target-attached
     -- copies of a cleave root. Native width specials map directly to API radii.
     DoCleaveAttack(c, primary, a, splashDamage, startWidth, endWidth, distance, particle)
+    HeroTrace:Log('SVEN', 'E', 'cleave_dispatch caster=%s target=%s attack_damage=%s cleave_damage=%s start_radius=%s end_radius=%s distance=%s',
+        HeroTrace:Name(c), HeroTrace:Name(primary), tostring(baseDamage), tostring(splashDamage),
+        tostring(startWidth), tostring(endWidth), tostring(distance))
 end
 
 bulwark_fortress=class({})
@@ -787,8 +792,8 @@ function modifier_bulwark_fortress:OnIntervalThink()
         end
     end
     if c and c.GetUnitName then
-        print(string.format('[SVEN_TRACE][D] pulse targets=%d vfx_targets=%d damage=%.1f radius=%s',
-            #targets, visualCount, dmg, tostring(value(a, 'radius'))))
+        HeroTrace:Log('SVEN', 'R', 'pulse targets=%d vfx_targets=%d damage=%.1f radius=%s',
+            #targets, visualCount, dmg, tostring(value(a, 'radius')))
     end
 
     -- Scepter: Aura granting 50% bonus damage to allies within 900 radius

@@ -5,6 +5,13 @@ All rows **PENDING** until owner observation plus current-build VConsole evidenc
 Start a fresh local match; reloading an old match does not establish resource/rank
 acceptance. Record build, ability ranks and Shard/Scepter/Blessing state.
 
+For current partial diagnostics, set `enfos_hero_trace 1` in VConsole and restore
+`enfos_hero_trace 0` after capture. Q/W/E/R events use these slot labels; the fifth
+slot D trace coverage is not complete yet. Output is capped across heroes at100
+lines per game-clock second, so missing individual lines under a dense burst are
+not evidence that a gameplay branch failed. Console registration/use is itself
+PENDING owner verification.
+
 | Check | Expected behavior | Status |
 | --- | --- | --- |
 | Start and progression | Level6, five spendable points, fifth passive rank1 free; max level50, all five skills max10. No talent tree/permanent bonuses. | PENDING |

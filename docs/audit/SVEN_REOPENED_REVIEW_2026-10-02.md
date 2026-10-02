@@ -14,9 +14,9 @@ runtime evidence. **Current engine acceptance is PENDING.**
   The rationale remains in the per-slot review below; these are not engine passes.
 - PROVEN DEFECTS: repaired findings below; further individual review in progress.
 - MOCK/REGRESSION VALIDATION: PASS for the recorded repaired cases; no engine simulation claim.
-- RUNTIME TRACE COVERAGE: PARTIAL. Existing unconditional Q/W traces need the
-  common debug gate; the ultimate pulse incorrectly uses D and must use R.
-  E and the actual fifth-slot D still lack sufficient material branch coverage.
+- RUNTIME TRACE COVERAGE: PARTIAL. Q/W, E cleave dispatch and R pulse now use the
+  common default-off debug gate; ultimate pulses correctly use R. Detailed
+  lifecycle/upgrade/control branches and actual fifth-slot D coverage remain open.
 - OWNER RUNTIME TRACE EVIDENCE: NOT TESTED for the current revised source/build.
 - OWNER VISUAL/AUDIO VERIFICATION: NOT TESTED for the current revised source/build.
 - OWNER ENGINE ACCEPTANCE: NOT TESTED.
@@ -180,3 +180,33 @@ consumption, status-resistance replication and Q/R effects remain owner tests.
 
 330 hero regression mocks pass after these repairs. Standardized trace work is
 still pending; this is not a Sven source-closure or engine-acceptance claim.
+
+## 2026-10-03: bounded runtime trace foundation, Sven first
+
+Inspected lib/log.lua and addon/shared-kit logging before introducing the small
+lib/hero_trace.lua diagnostic helper. Existing Log has level/subsystem filters,
+but no single hero-trace convar or dense-wave output cap. Workshop MCP confirms
+Convars:RegisterConvar and GetBool are available in both realms. The helper
+registers `enfos_hero_trace` default0 and permits server output only. Set it to1
+in the owner's VConsole for diagnostics, and0 to silence traces. Registration and
+actual console use remain engine-pending. No game is launched by this change.
+
+The helper caps total output at100 lines per existing game-clock second, across
+all users of this shared module; without a clock it conservatively caps the module
+lifetime. Diagnostic counters are not hero gameplay state. There are no added
+timers, modifiers, target scans, particles, cleanup calls or damage events. Safe
+entity names tolerate null/deleted/throwing handles; formatting failure cannot
+escape as a gameplay error. No getter is instrumented.
+
+Sven's previous unconditional Q/W traces now use this gate. E records the real
+cleave dispatch damage and geometry after the existing engine call; it does not
+claim a secondary hit count, because the engine return contract does not prove
+that count and adding a target search merely for logging is forbidden. The old
+ultimate pulse D label was corrected to R. This is only PARTIAL coverage: fifth
+slot lifecycle, upgrade/control branches and other important events are still
+being reviewed, so source completion remains PENDING.
+
+A meaningful helper regression verifies default0 registration, disabled output,
+server-only output, removed handles, format failures, the100-line cap and next
+second rollover.331 hero regressions pass. Actual convar registration and output,
+native E collisions, particle appearance and audio remain owner engine tests.

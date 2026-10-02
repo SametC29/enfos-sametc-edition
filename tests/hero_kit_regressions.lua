@@ -8544,4 +8544,33 @@ test('Sven consumed Shard upgrades work before the periodic role marker is attac
     end
 end)
 
+test('Hero tracing is default-off, bounded, server-only and safe for removed entities',function()
+    local oldConvars,oldRules,oldPrint,oldServer=Convars,GameRules,print,IsServer
+    local oldModule=package.loaded['lib/hero_trace'];package.loaded['lib/hero_trace']=nil
+    local enabled=false;local now=10;local lines={};local registration
+    Convars={RegisterConvar=function(_,name,default,help,flags) registration={name,default,flags} end,
+        GetBool=function() return enabled end}
+    GameRules={GetGameTime=function() return now end}
+    IsServer=function() return true end
+    local trace=require('lib/hero_trace')
+    print=function(message) lines[#lines+1]=message end
+    trace:Log('SVEN','E','cleave damage=%d',100)
+    assert(#lines==0 and registration[1]=='enfos_hero_trace' and registration[2]=='0')
+    enabled=true;trace:Log('SVEN','R','pulse damage=%d',100)
+    assert(lines[1]=='[SVEN_TRACE][R] pulse damage=100')
+    assert(trace:Name(nil)=='<none>')
+    assert(trace:Name({IsNull=function() return true end,
+        GetUnitName=function() error('Removed entity must not be queried') end})=='<removed>')
+    assert(trace:Name({IsNull=function() error('Invalid handle') end})=='<invalid>')
+    trace:Log('SVEN','Q','invalid %d',{}) -- Formatting failure is diagnostic only.
+    assert(#lines==1)
+    for i=1,150 do trace:Log('SVEN','E','attack index=%d',i) end
+    assert(#lines==100,'Dense-wave diagnostics must obey the shared per-second cap')
+    now=11;trace:Log('SVEN','Q','cast');assert(#lines==101)
+    IsServer=function() return false end
+    trace:Log('SVEN','Q','client cast');assert(#lines==101)
+    Convars,GameRules,print,IsServer=oldConvars,oldRules,oldPrint,oldServer
+    package.loaded['lib/hero_trace']=oldModule
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')
