@@ -2496,6 +2496,25 @@ test('Crystal Maiden damage callbacks do not add control or frost stacks to remo
     ApplyDamage=oldDamage
 end)
 
+test('Crystal Maiden ticks stop when their owner is removed or channel has ended', function()
+    local cm=create_mock_unit('npc_dota_hero_crystal_maiden',2,Vector(0,0,0))
+    local target=create_mock_unit('enemy',3,Vector(100,0,0))
+    local a=enfos_cm_freezing_field()
+    a.GetSpecialValueFor=function() return 0 end
+    cm.IsChanneling=function() return false end
+    local field=modifier_enfos_cm_freezing_field_channel()
+    field.GetParent=function() return cm end;field.GetAbility=function() return a end
+    local ended=0
+    field.Destroy=function() ended=ended+1 end
+    field:OnIntervalThink()
+    assert(ended==1,'Ended channel must stop before any subsequent target query or damage pulse')
+    local frost=modifier_enfos_cm_frostbite_debuff()
+    frost.GetParent=function() return target end;frost.GetCaster=function() return nil end
+    frost.GetAbility=function() return a end;frost.Destroy=function() ended=ended+1 end
+    frost:OnIntervalThink()
+    assert(ended==2,'Frostbite must stop before damage/stack callbacks when its caster is removed')
+end)
+
 test('Crystal Maiden Arcane Aura grants configured ally and owner values and honors Break', function()
     local cm = create_mock_unit('npc_dota_hero_crystal_maiden', 2, Vector(0, 0, 0))
     local ally = create_mock_unit('cm_aura_ally', 2, Vector(100, 0, 0))

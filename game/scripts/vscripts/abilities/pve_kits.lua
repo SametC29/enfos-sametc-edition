@@ -2979,9 +2979,15 @@ function modifier_enfos_cm_frostbite_debuff:OnCreated()
     self:StartIntervalThink(value(self:GetAbility(), 'damage_interval'))
 end
 function modifier_enfos_cm_frostbite_debuff:OnIntervalThink()
+    if not IsServer() then return end
     local p = self:GetParent()
     local a = self:GetAbility()
     local c = self:GetCaster()
+    if not p or p:IsNull() or not p:IsAlive() or not a or (a.IsNull and a:IsNull())
+        or not c or c:IsNull() then
+        self:Destroy()
+        return
+    end
     local int = get_int(c)
     local base = (a and value(a, 'damage_per_second')) or 120
     local interval = value(a, 'damage_interval')
@@ -3082,8 +3088,14 @@ function modifier_enfos_cm_freezing_field_channel:OnCreated()
     self:StartIntervalThink(value(self:GetAbility(), 'tick_interval'))
 end
 function modifier_enfos_cm_freezing_field_channel:OnIntervalThink()
+    if not IsServer() then return end
     local c = self:GetParent()
     local a = self:GetAbility()
+    if not c or c:IsNull() or not c:IsAlive() or not a or (a.IsNull and a:IsNull())
+        or (c.IsChanneling and not c:IsChanneling()) then
+        self:Destroy()
+        return
+    end
     local int = get_int(c)
     local base = (a and value(a, 'explosion_damage')) or 180
     local dmg = base + (int * value(a, 'int_damage_factor'))
