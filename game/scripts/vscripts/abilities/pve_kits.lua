@@ -2276,6 +2276,12 @@ function modifier_enfos_centaur_return_passive:OnTakeDamage(params)
     local str = get_str(c)
     local refl = flat + (str * value(a, 'strength_damage_factor'))
 
+    -- Native Return is a finite two-ended rope; capture both positions before lethal damage.
+    local link = ParticleManager:CreateParticle('particles/units/heroes/hero_centaur/centaur_return.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(link, 0, c:GetAbsOrigin())
+    ParticleManager:SetParticleControl(link, 1, attacker:GetAbsOrigin())
+    ParticleManager:ReleaseParticleIndex(link)
+
     ApplyDamage({
         victim = attacker,
         attacker = c,
@@ -2290,9 +2296,14 @@ function modifier_enfos_centaur_return_passive:OnTakeDamage(params)
     if threshold <= 0 then threshold = 300 end
     if self.accumulated_damage >= threshold then
         self.accumulated_damage = 0
-        effect('particles/units/heroes/hero_centaur/centaur_return.vpcf', c)
         local radius = value(a, 'pulse_radius')
         if radius <= 0 then radius = 250 end
+        -- The radial pulse needs a ground burst, not Return's unit-to-unit rope.
+        local pulse = ParticleManager:CreateParticle('particles/units/heroes/hero_centaur/centaur_warstomp.vpcf', PATTACH_WORLDORIGIN, nil)
+        ParticleManager:SetParticleControl(pulse, 0, c:GetAbsOrigin())
+        ParticleManager:SetParticleControl(pulse, 1, Vector(radius, radius, radius))
+        ParticleManager:SetParticleControl(pulse, 2, c:GetAbsOrigin())
+        ParticleManager:ReleaseParticleIndex(pulse)
         for _, u in ipairs(enemies(c, c:GetAbsOrigin(), radius, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
             damage(a, u, refl, DAMAGE_TYPE_PHYSICAL)
         end

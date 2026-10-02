@@ -1637,11 +1637,30 @@ test('Centaur Return reflects enemy damage and pulses at the configured threshol
     end }
     local mod = setmetatable({ GetParent = function() return centaur end,
         GetAbility = function() return ability end }, modifier_enfos_centaur_return_passive)
+    local oldCreate,oldControl,oldRelease=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex
+    local feedback={}
+    ParticleManager.CreateParticle=function(_,path,attach,owner)
+        feedback[#feedback+1]={path=path,cp={}};return #feedback
+    end
+    ParticleManager.SetParticleControl=function(_,id,cp,v) feedback[id].cp[cp]=v end
+    ParticleManager.ReleaseParticleIndex=function(_,id) feedback[id].released=true end
     mod:OnCreated()
     mod:OnTakeDamage({ unit = centaur, attacker = attacker, damage = 150, damage_flags = 0 })
     assert(#applied_damages == 1 and applied_damages[1].victim == attacker
         and applied_damages[1].damage == 70, 'Return must reflect its configured flat plus Strength damage')
     mod:OnTakeDamage({ unit = centaur, attacker = attacker, damage = 150, damage_flags = 0 })
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex=oldCreate,oldControl,oldRelease
+    assert(#feedback==3, 'Each reflection needs its two-ended feedback and the threshold needs one area pulse')
+    for i=1,2 do
+        assert(feedback[i].path:find('centaur_return.vpcf',1,true)
+            and feedback[i].cp[0].x==0 and feedback[i].cp[1].x==100 and feedback[i].released,
+            'Return rope must connect captured Centaur and attacker positions')
+    end
+    assert(feedback[3].path:find('centaur_warstomp.vpcf',1,true)
+        and feedback[3].cp[0].x==0 and feedback[3].cp[1].x==250
+        and feedback[3].cp[1].y==250 and feedback[3].cp[1].z==250
+        and feedback[3].cp[2].x==0 and feedback[3].released,
+        'Return pulse must use the finite stomp root with configured scale and ground contact')
     assert(#applied_damages == 3, 'Crossing the threshold must add one AoE pulse after reflecting the triggering hit')
     assert(applied_damages[2].damage_flags == DOTA_DAMAGE_FLAG_REFLECTION,
         'Returned damage must carry the reflection flag to prevent recursive Return')
