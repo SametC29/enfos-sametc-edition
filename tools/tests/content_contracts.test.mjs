@@ -843,6 +843,13 @@ test('Axe ability tooltips have authored English, Russian and Chinese instead of
     }
   }
 });
+test('Centaur Double Edge selects immune enemies consistently and retains its native cast animation',()=>{
+  const ability=read('npc_abilities_custom.txt').DOTAAbilities.enfos_centaur_double_edge;
+  assert.equal(ability.SpellImmunityType,'SPELL_IMMUNITY_ENEMIES_YES');
+  assert.equal(ability.AbilityUnitTargetFlags,'DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES');
+  assert.equal(ability.AbilityCastAnimation,'ACT_DOTA_CAST_ABILITY_2');
+});
+
 test('Centaur ability tooltips have authored English, Russian and Chinese and preserve special values',()=>{
   const tr=JSON.parse(fs.readFileSync('localization/turkish.json','utf8')).Tokens;
   const abilityNames=['enfos_centaur_hoof_stomp','enfos_centaur_double_edge','enfos_centaur_return','enfos_centaur_stampede','enfos_centaur_colossal_hide'];
