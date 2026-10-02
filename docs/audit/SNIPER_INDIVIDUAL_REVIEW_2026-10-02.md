@@ -1,0 +1,19 @@
+# Sniper individual review — in progress / owner engine pending
+
+Own instructions/dossier and shared hero/research/reference contracts read. All five current Lua/KV implementations read individually; native definitions freshly extracted from installed Dota ClientVersion6943 / SourceRevision11069754 / Oct01 2026. Historical6941 dossier snapshot is not current patch evidence. Owner alone tests Dota; local commits only, no remote push or Workshop upload.
+
+| Skill | Classification and current comparison |
+| --- | --- |
+| Q Shrapnel | PVE-CONVERT: native400→475radius,30→75magical damage,10sec,1.2sec delay, three charges/35sec restore; Enfos450radius,40→115+0.35AGIphysical damage each second,8sec,15→7sec cooldown/1200range. Persistent field identity retained; particle ownership/radius and resource feedback under review. |
+| W Headshot | TUNE / PVE-CONVERT: native40%chance20→110physical bonus,50push and0.2→0.5sec slow; Enfos40%chance60→180+0.75AGIphysical bonus,60clear-space push except Boss,80%chance during E. No native slow implemented; feedback/event semantics under review. |
+| E Take Aim | PVE-CONVERT: native160→400passive range,3sec100%Headshot active with65%self slow/extra range/vision; Enfos150→450passive range,5secTrue Strike/+15%MS, W80%chance. Deliberate mobile PvE variant, not native parity. Owned overhead attachment under review. |
+| R Assassinate | PVE-CONVERT: native300→500magical,2500projectile speed,2sec cast, native Scepter shortens cast/adds stun; Enfos400→900+3AGIphysical,3000speed,1.5sec cast, kill resets cooldown/refunds half mana. Existing3000 is a custom setting, not current native speed; targeting/impact/upgrade/resource audit pending. |
+| Fifth Keen Eye | REPLACE: Enfos forward550length/300width lane, nearest three secondary targets,60→100%landed-hit damage, Break/illusion suppression; separate from native Keen Scope distance damage innate. |
+
+## Keen Eye lethal primary attack
+
+Confirmed root cause: OnAttackLanded rejected an otherwise valid primary entity solely because its lethal attack had already killed it. The passive therefore failed exactly when wave clearing secured a kill. Existing nearest-three lane and live-secondary rules are retained. Extended existing positive regression with a valid dead primary and living enemy behind it; it fails before repair with no secondary damage, then passes when only the primary alive requirement is removed. Removed/null primary remains rejected; living secondaries, friendly rejection, Break, illusion and target cap remain unchanged. This is the same event/impact distinction already repaired individually for other heroes, not a blanket passive rewrite.
+
+Installed current native innate is a different mechanic and does not establish this custom piercing event policy. MCP reference search finds Pathfinders2208582400 Sniper Shrapnel KV; no external code imported or license/runtime acceptance inferred. Engine attack callback/corpse lifetime and actual pierce damage/feedback remain PENDING owner testing. All subsequent acceptance entries must distinguish SOURCE/MOCK from ENGINE.
+
+Keen Eye validation:238 hero behavior regressions,200/200abilities and223/223modifiers across ranks1–10; full checks0failed. Real Dota/VConsole pending.

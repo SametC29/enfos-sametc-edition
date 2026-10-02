@@ -277,3 +277,5 @@ Change/test record (2026-09-30): all five Enfos slots declare ten ranks with int
 2026-09-30 static regression follow-up: Assassinate now has direct mock coverage that spell block cancels projectile launch and impact damage. Dota spell-absorb timing, projectile dodge/loss, kill refund, VFX/SFX and boss behavior remain PENDING owner testing.
 
 2026-09-30 global Break metadata audit: Added KV `IsBreakable 1` to `enfos_sniper_headshot` because its linked Lua passive implementation check `PassivesDisabled()`. Automated content validation now rejects this metadata mismatch. Actual Dota Break behavior remains PENDING.
+
+2026-10-02 individual review started against installed6943. Keen Eye now retains piercing from a valid primary killed by the landed attack; existing lane/cap/Break/illusion rules remain. Regression fails before repair and passes afterward. The [individual ledger](../../audit/SNIPER_INDIVIDUAL_REVIEW_2026-10-02.md) tracks current comparisons, source repairs and pending owner engine gates; this is not whole-hero or Dota runtime acceptance.

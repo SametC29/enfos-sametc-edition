@@ -2839,7 +2839,8 @@ function modifier_enfos_sniper_keen_eye_passive:OnAttackLanded(params)
     if not c or params.attacker ~= c or (c.PassivesDisabled and c:PassivesDisabled())
         or (c.IsIllusion and c:IsIllusion()) then return end
     local t = params.target
-    if not t or (t.IsNull and t:IsNull()) or not t:IsAlive() then return end
+    -- A lethal landed attack still supplies a valid impact position for piercing.
+    if not t or (t.IsNull and t:IsNull()) then return end
     if t.GetTeamNumber and c.GetTeamNumber and t:GetTeamNumber() == c:GetTeamNumber() then return end
 
     local origin = t:GetAbsOrigin()

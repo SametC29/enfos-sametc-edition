@@ -2061,6 +2061,12 @@ test('Sniper Keen Eye pierces line behind primary target for secondary damage', 
     -- Configured 40% of 300 = 120 physical to behind unit
     assert(#applied_damages == 1, 'Secondary enemy behind must be pierced')
     assert(applied_damages[1].victim == behind and applied_damages[1].damage == 120)
+    applied_damages = {}
+    primary.alive = false
+    mod:OnAttackLanded({ attacker = sniper, target = primary, damage = 300 })
+    assert(#applied_damages == 1 and applied_damages[1].victim == behind
+        and applied_damages[1].damage == 120,
+        'A lethal primary hit must still pierce living enemies behind its valid corpse')
 end)
 
 test('Sniper Keen Eye is a forward lane, excludes flanks, and caps targets', function()
