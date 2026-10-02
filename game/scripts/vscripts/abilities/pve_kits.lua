@@ -4327,11 +4327,12 @@ function modifier_enfos_pa_coup_de_grace_passive:OnAttackLanded(params)
     local t = params.target
     local position = t and not t:IsNull() and t:GetAbsOrigin() or saved.position
     c:EmitSound('Hero_PhantomAssassin.CoupDeGrace')
-    if t and not t:IsNull() then
-        effect('particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf', t)
-    else
-        effect_at_position('particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf', position)
-    end
+    local model = t and not t:IsNull() and t or nil
+    local impact = ParticleManager:CreateParticle('particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf',
+        model and PATTACH_ABSORIGIN_FOLLOW or PATTACH_WORLDORIGIN, model)
+    if not model then ParticleManager:SetParticleControl(impact, 0, position) end
+    ParticleManager:SetParticleControl(impact, 1, position)
+    ParticleManager:ReleaseParticleIndex(impact)
     local splash_radius = value(self:GetAbility(), 'splash_radius')
     if splash_radius <= 0 then splash_radius = 250 end
     local splash_pct = value(self:GetAbility(), 'splash_pct')

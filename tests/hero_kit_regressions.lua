@@ -3446,7 +3446,15 @@ test('Phantom Assassin Coup de Grace crits and uses its configured physical spla
 
     local crit = mod:GetModifierPreAttack_CriticalStrike({attacker=pa,target=primary,record=91})
     assert(crit == 425, 'Coup de Grace crit must be 425%')
+    local oldCreate,oldControl,oldRelease=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex
+    local impact={cp={}}
+    ParticleManager.CreateParticle=function(_,path,attach,owner) impact.path=path;impact.attach=attach;impact.owner=owner;return 121 end
+    ParticleManager.SetParticleControl=function(_,id,cp,v) assert(id==121);impact.cp[cp]=v end
+    ParticleManager.ReleaseParticleIndex=function(_,id) assert(id==121);impact.released=true end
     mod:OnAttackLanded({ attacker = pa, target = primary, record=91, damage = 500 })
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex=oldCreate,oldControl,oldRelease
+    assert(impact.cp[1] and impact.cp[1].x==100 and impact.owner==primary and impact.released,
+        'Native critical root needs recipient-model ownership and its CP1 impact/cull origin')
 
     -- Configured splash to swarm: 500 * 0.6 = 300.
     assert(#applied_damages == 1)
