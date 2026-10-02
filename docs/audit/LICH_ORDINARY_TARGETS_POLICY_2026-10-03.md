@@ -183,3 +183,34 @@ AllowIllusionDuplicate; their existence does not establish defaults or prove
 this aura's runtime behavior. No guessed death/purge/illusion policy, aura timer
 or new global scan was added. Concurrent E/main-ledger/dossier work remains
 excluded. Full hero source and engine acceptance remain PENDING.
+
+## W immediate protection ownership repair
+
+Re-read installed build6943 native lich_frost_shield KV through Workshop MCP:
+friendly hero/basic/building targeting, damage_reduction, movement_slow,
+slow_duration0.5, interval1, radius600 and dispellable=yes. Production W currently
+has a narrower friendly hero/basic target contract, authored incoming-physical
+reduction and INT-scaled pulses without native pulse slow. Its four-language
+description accurately describes the current physical reduction/pulses; missing
+native slow and native-vs-authored mitigation semantics remain design review
+items, not presumed restored behavior. W remains TUNE provisionally; custom
+ten-rank/scaled behavior compatibility with a native override is unproven.
+
+Confirmed ownership defect: OnCreated and OnIntervalThink reject an invalid
+caster/recipient or an enemy recipient, but the physical mitigation getter only
+checked the ability. After allegiance change it could still return protection
+before the next one-second pulse removed the modifier. The new real-getter
+fixture fails against that pre-repair code on immediate enemy protection.
+Apply the existing shield ownership conditions to the getter, without destroying
+a modifier from a property callback. Invalid/removed/dead recipients, removed
+casters and changed allegiance immediately return0. Caster death alone retains
+the existing finite shield, matching the pulse's distinction between dead and
+removed casters; no new death cancellation was invented.
+
+Regression checks all ten production reduction ranks, immediate allegiance
+change, removed caster/recipient/ability, recipient death and caster-death
+continuation. It passes after repair. Current modifier API declares the existing
+incoming-physical callback; no callback signature, modifier ID, shared manager,
+KV or tooltip meaning changes. No Boss branch is added. Engine damage ordering,
+client prediction, death/dispel cleanup and actual recast remain owner checks.
+Full Lich source/design/upgrade review is still PENDING.

@@ -142,3 +142,40 @@ print('Lich aura source/rank regression PASS')
   assert.equal(result.status,0,result.stderr||result.stdout);
   assert.match(result.stdout,/Lich aura source\/rank regression PASS/,result.stderr);
 });
+
+test('Lich shield mitigation cannot outlive valid allied ownership between pulses',()=>{
+  const script=`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t) t.__index=t;return t end
+function LinkLuaModifier() end
+require('abilities/heroes/lich/w')
+local rank,sourceRemoved,recipientRemoved,abilityRemoved,recipientAlive,sourceAlive,recipientTeam=1,false,false,false,true,true,2
+local reductions={${curve('enfos_lich_frost_shield','damage_reduction')}}
+local c={IsNull=function() return sourceRemoved end,IsAlive=function() return sourceAlive end,
+  GetTeamNumber=function() return 2 end}
+local p={IsNull=function() return recipientRemoved end,IsAlive=function() return recipientAlive end,
+  GetTeamNumber=function() return recipientTeam end}
+local a={IsNull=function() return abilityRemoved end,GetSpecialValueFor=function(_,key)
+  assert(not abilityRemoved,'Never read a removed shield source')
+  assert(key=='damage_reduction');return reductions[rank]
+end}
+local m=setmetatable({GetCaster=function() return c end,GetParent=function() return p end,
+  GetAbility=function() return a end},modifier_enfos_lich_frost_shield)
+for i=1,10 do rank=i;assert(m:GetModifierIncomingPhysicalDamage_Percentage()==-reductions[i]) end
+recipientTeam=3
+assert(m:GetModifierIncomingPhysicalDamage_Percentage()==0,'Enemy recipient must immediately lose friendly protection, before next pulse')
+recipientTeam=2;sourceRemoved=true
+assert(m:GetModifierIncomingPhysicalDamage_Percentage()==0,'Removed caster cannot own shield protection')
+sourceRemoved=false;recipientRemoved=true
+assert(m:GetModifierIncomingPhysicalDamage_Percentage()==0,'Removed recipient cannot retain protection')
+recipientRemoved=false;recipientAlive=false
+assert(m:GetModifierIncomingPhysicalDamage_Percentage()==0,'Dead recipient cannot retain protection')
+recipientAlive=true;sourceAlive=false
+assert(m:GetModifierIncomingPhysicalDamage_Percentage()==-reductions[rank],'Caster death does not cancel an existing finite allied shield')
+abilityRemoved=true;assert(m:GetModifierIncomingPhysicalDamage_Percentage()==0)
+print('Lich shield immediate ownership regression PASS')
+`;
+  const result=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});
+  assert.equal(result.status,0,result.stderr||result.stdout);
+  assert.match(result.stdout,/Lich shield immediate ownership regression PASS/,result.stderr);
+});
