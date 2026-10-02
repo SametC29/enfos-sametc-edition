@@ -2527,6 +2527,7 @@
 	// =========================================================================
 	"enfos_wd_paralyzing_cask"
 	{
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES_STRONG"
 		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_1"
 		"precache"
 		{
@@ -2560,6 +2561,7 @@
 
 	"enfos_wd_voodoo_restoration"
 	{
+		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
 		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_2"
@@ -2583,6 +2585,7 @@
 
 	"enfos_wd_maledict"
 	{
+		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
 		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_5"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
@@ -2610,6 +2613,7 @@
 
 	"enfos_wd_death_ward"
 	{
+		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
 		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_4"
 		"AbilityChannelAnimation" "ACT_DOTA_CHANNEL_ABILITY_4"
 		"precache"
@@ -2643,6 +2647,7 @@
 
 	"enfos_wd_voodoo_switcheroo"
 	{
+		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
 		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_3"
 		"precache"
 		{

@@ -4698,6 +4698,10 @@ end
 
 modifier_enfos_wd_paralyzing_cask_stun=class({})
 function modifier_enfos_wd_paralyzing_cask_stun:IsDebuff() return true end
+function modifier_enfos_wd_paralyzing_cask_stun:IsPurgable() return false end
+function modifier_enfos_wd_paralyzing_cask_stun:IsPurgeException() return true end
+function modifier_enfos_wd_paralyzing_cask_stun:IsStunDebuff() return true end
+function modifier_enfos_wd_paralyzing_cask_stun:GetTexture() return 'witch_doctor_paralyzing_cask' end
 function modifier_enfos_wd_paralyzing_cask_stun:CheckState() return { [MODIFIER_STATE_STUNNED] = true } end
 
 enfos_wd_voodoo_restoration=class({})
@@ -4797,6 +4801,14 @@ end
 
 modifier_enfos_wd_maledict_debuff=class({})
 function modifier_enfos_wd_maledict_debuff:IsDebuff() return true end
+function modifier_enfos_wd_maledict_debuff:IsPurgable() return false end
+function modifier_enfos_wd_maledict_debuff:IsPurgeException() return false end
+function modifier_enfos_wd_maledict_debuff:GetTexture() return 'witch_doctor_maledict' end
+function modifier_enfos_wd_maledict_debuff:DeclareFunctions()
+    return {MODIFIER_PROPERTY_TOOLTIP, MODIFIER_PROPERTY_TOOLTIP2}
+end
+function modifier_enfos_wd_maledict_debuff:OnTooltip() return value(self:GetAbility(), 'base_dps') end
+function modifier_enfos_wd_maledict_debuff:OnTooltip2() return value(self:GetAbility(), 'burst_interval') end
 function modifier_enfos_wd_maledict_debuff:OnCreated()
     if not IsServer() then return end
     local p = self:GetParent()
@@ -4914,6 +4926,12 @@ function enfos_wd_death_ward:OnChannelFinish(interrupted)
 end
 
 modifier_enfos_wd_death_ward_channel=class({})
+function modifier_enfos_wd_death_ward_channel:IsPurgable() return false end
+function modifier_enfos_wd_death_ward_channel:GetTexture() return 'witch_doctor_death_ward' end
+function modifier_enfos_wd_death_ward_channel:DeclareFunctions() return {MODIFIER_PROPERTY_TOOLTIP} end
+function modifier_enfos_wd_death_ward_channel:OnTooltip()
+    return value(self:GetAbility(), 'damage') + get_int(self:GetCaster()) * 0.75
+end
 function modifier_enfos_wd_death_ward_channel:OnCreated(kv)
     if not IsServer() then return end
     self.pos = Vector(kv.x or 0, kv.y or 0, kv.z or 0)
@@ -4979,7 +4997,10 @@ modifier_enfos_wd_voodoo_switcheroo_buff=class({})
 function modifier_enfos_wd_voodoo_switcheroo_buff:IsPurgable() return false end
 function modifier_enfos_wd_voodoo_switcheroo_buff:GetTexture() return 'witch_doctor_voodoo_switcheroo' end
 function modifier_enfos_wd_voodoo_switcheroo_buff:DeclareFunctions()
-    return { MODIFIER_PROPERTY_MODEL_CHANGE }
+    return { MODIFIER_PROPERTY_MODEL_CHANGE, MODIFIER_PROPERTY_TOOLTIP }
+end
+function modifier_enfos_wd_voodoo_switcheroo_buff:OnTooltip()
+    return 120 + get_int(self:GetParent()) * 0.8
 end
 function modifier_enfos_wd_voodoo_switcheroo_buff:GetModifierModelChange()
     return 'models/heroes/witchdoctor/witchdoctor_ward.vmdl'

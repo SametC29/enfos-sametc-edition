@@ -1366,6 +1366,14 @@
     "DOTA_Tooltip_modifier_enfos_wd_gris_gris": "Gris-Gris",
     "DOTA_Tooltip_modifier_enfos_wd_gris_gris_Description": "Grants %dMODIFIER_PROPERTY_TOOLTIP% reliable gold every %dMODIFIER_PROPERTY_TOOLTIP2% seconds, including while dead. Break pauses income; illusions do not generate gold.",
     "DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura": "Voodoo Restoration",
-    "DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura_Description": "Heals allies within %dMODIFIER_PROPERTY_TOOLTIP2% for %1fMODIFIER_PROPERTY_TOOLTIP% health each second before healing amplification. Drains mana while active."
+    "DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura_Description": "Heals allies within %dMODIFIER_PROPERTY_TOOLTIP2% for %1fMODIFIER_PROPERTY_TOOLTIP% health each second before healing amplification. Drains mana while active.",
+    "DOTA_Tooltip_modifier_enfos_wd_paralyzing_cask_stun": "Paralyzing Cask Stun",
+    "DOTA_Tooltip_modifier_enfos_wd_paralyzing_cask_stun_Description": "Stunned. Can only be removed by a strong dispel.",
+    "DOTA_Tooltip_modifier_enfos_wd_maledict_debuff": "Maledict",
+    "DOTA_Tooltip_modifier_enfos_wd_maledict_debuff_Description": "Takes %dMODIFIER_PROPERTY_TOOLTIP% magical damage each second before amplification, plus health-loss bursts every %dMODIFIER_PROPERTY_TOOLTIP2% seconds. Burst percentage is lower against bosses. Cannot be dispelled.",
+    "DOTA_Tooltip_modifier_enfos_wd_death_ward_channel": "Death Ward",
+    "DOTA_Tooltip_modifier_enfos_wd_death_ward_channel_Description": "Channels the ward. Each projectile impact deals %1fMODIFIER_PROPERTY_TOOLTIP% physical damage before amplification. Interrupted channel removes the ward.",
+    "DOTA_Tooltip_modifier_enfos_wd_voodoo_switcheroo_buff": "Voodoo Switcheroo",
+    "DOTA_Tooltip_modifier_enfos_wd_voodoo_switcheroo_buff_Description": "Transformed into an invulnerable, disarmed ward. Projectile impacts deal %1fMODIFIER_PROPERTY_TOOLTIP% physical damage before amplification."
   }
 }

@@ -1737,6 +1737,14 @@
     "DOTA_Tooltip_modifier_enfos_wd_gris_gris": "Gris-Gris",
     "DOTA_Tooltip_modifier_enfos_wd_gris_gris_Description": "Ölü olduğunda da her %dMODIFIER_PROPERTY_TOOLTIP2% saniyede %dMODIFIER_PROPERTY_TOOLTIP% güvenilir altın kazanır. Kırılma geliri durdurur; illüzyonlar altın üretmez.",
     "DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura": "Voodoo İyileştirmesi",
-    "DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura_Description": "%dMODIFIER_PROPERTY_TOOLTIP2% menzildeki müttefikleri her saniye, iyileştirme artışından önce %1fMODIFIER_PROPERTY_TOOLTIP% can iyileştirir. Etkinken mana tüketir."
+    "DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura_Description": "%dMODIFIER_PROPERTY_TOOLTIP2% menzildeki müttefikleri her saniye, iyileştirme artışından önce %1fMODIFIER_PROPERTY_TOOLTIP% can iyileştirir. Etkinken mana tüketir.",
+    "DOTA_Tooltip_modifier_enfos_wd_paralyzing_cask_stun": "Paralyzing Cask Sersemletmesi",
+    "DOTA_Tooltip_modifier_enfos_wd_paralyzing_cask_stun_Description": "Sersemletildi. Yalnızca güçlü bir etkisizleştirme ile kaldırılabilir.",
+    "DOTA_Tooltip_modifier_enfos_wd_maledict_debuff": "Maledict",
+    "DOTA_Tooltip_modifier_enfos_wd_maledict_debuff_Description": "Hasar artışından önce saniyede %dMODIFIER_PROPERTY_TOOLTIP% büyü hasarı alır; her %dMODIFIER_PROPERTY_TOOLTIP2% saniyede kaybedilen cana bağlı patlama gerçekleşir. Bosslarda patlama yüzdesi daha düşüktür. Etkisizleştirilemez.",
+    "DOTA_Tooltip_modifier_enfos_wd_death_ward_channel": "Death Ward",
+    "DOTA_Tooltip_modifier_enfos_wd_death_ward_channel_Description": "Ward saldırılarını yönlendirir. Her mermi isabeti hasar artışından önce %1fMODIFIER_PROPERTY_TOOLTIP% fiziksel hasar verir. Kanal kesilirse ward kaldırılır.",
+    "DOTA_Tooltip_modifier_enfos_wd_voodoo_switcheroo_buff": "Voodoo Switcheroo",
+    "DOTA_Tooltip_modifier_enfos_wd_voodoo_switcheroo_buff_Description": "Dokunulmaz ve saldırı yapamaz bir ward biçimine dönüştü. Mermi isabetleri hasar artışından önce %1fMODIFIER_PROPERTY_TOOLTIP% fiziksel hasar verir."
   }
 }

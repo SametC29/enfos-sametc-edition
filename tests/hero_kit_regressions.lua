@@ -4228,6 +4228,19 @@ test('Witch Doctor Maledict removes its tick when the ability is deleted', funct
     assert(destroyed and #applied_damages==0,'Invalid ability must stop without dealing damage')
 end)
 
+test('Witch Doctor Cask and Maledict declare native strong-only and nondispellable policies', function()
+    local stun = modifier_enfos_wd_paralyzing_cask_stun()
+    assert(type(stun.IsPurgable) == 'function' and not stun:IsPurgable(),
+        'Cask stun must explicitly reject basic dispels')
+    assert(stun:IsPurgeException() and stun:IsStunDebuff(),
+        'Cask stun must explicitly support strong stun removal')
+    local curse = modifier_enfos_wd_maledict_debuff()
+    assert(not curse:IsPurgable() and not curse:IsPurgeException(),
+        'Native Maledict policy rejects both ordinary and strong removal')
+    local channel = modifier_enfos_wd_death_ward_channel()
+    assert(not channel:IsPurgable(), 'An ordinary buff dispel must not detach the owned Ward channel')
+end)
+
 test('Witch Doctor Death Ward rejects invalid sources and stops failed summon channels', function()
     local old_create = CreateUnitByName
     local ok, err = pcall(function()

@@ -1306,6 +1306,14 @@
     "DOTA_Tooltip_modifier_enfos_wd_gris_gris": "Гри-Гри",
     "DOTA_Tooltip_modifier_enfos_wd_gris_gris_Description": "Даёт %dMODIFIER_PROPERTY_TOOLTIP% надёжного золота каждые %dMODIFIER_PROPERTY_TOOLTIP2% сек., даже после смерти. Истощение приостанавливает доход; иллюзии не создают золото.",
     "DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura": "Восстановление вуду",
-    "DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura_Description": "Лечит союзников в радиусе %dMODIFIER_PROPERTY_TOOLTIP2% на %1fMODIFIER_PROPERTY_TOOLTIP% здоровья в секунду до усиления лечения. Расходует ману, пока действует."
+    "DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura_Description": "Лечит союзников в радиусе %dMODIFIER_PROPERTY_TOOLTIP2% на %1fMODIFIER_PROPERTY_TOOLTIP% здоровья в секунду до усиления лечения. Расходует ману, пока действует.",
+    "DOTA_Tooltip_modifier_enfos_wd_paralyzing_cask_stun": "Оглушение Paralyzing Cask",
+    "DOTA_Tooltip_modifier_enfos_wd_paralyzing_cask_stun_Description": "Оглушён. Снимается только сильным развеиванием.",
+    "DOTA_Tooltip_modifier_enfos_wd_maledict_debuff": "Проклятие",
+    "DOTA_Tooltip_modifier_enfos_wd_maledict_debuff_Description": "Получает %dMODIFIER_PROPERTY_TOOLTIP% магического урона в секунду до усиления и дополнительный урон от потерянного здоровья каждые %dMODIFIER_PROPERTY_TOOLTIP2% сек. Процент взрыва против боссов ниже. Не развеивается.",
+    "DOTA_Tooltip_modifier_enfos_wd_death_ward_channel": "Death Ward",
+    "DOTA_Tooltip_modifier_enfos_wd_death_ward_channel_Description": "Поддерживает атаки тотема. Попадания снарядов наносят %1fMODIFIER_PROPERTY_TOOLTIP% физического урона до усиления. Прерывание заклинания убирает тотем.",
+    "DOTA_Tooltip_modifier_enfos_wd_voodoo_switcheroo_buff": "Voodoo Switcheroo",
+    "DOTA_Tooltip_modifier_enfos_wd_voodoo_switcheroo_buff_Description": "Превращён в неуязвимый обезоруженный тотем. Попадания снарядов наносят %1fMODIFIER_PROPERTY_TOOLTIP% физического урона до усиления."
   }
 }
