@@ -1,5 +1,30 @@
 # Dragon Knight individual review — 2026-10-02
 
+## Q/W synchronous impact lifetime decision — 2026-10-02
+
+Keep the existing PVE-CONVERT casts, damage formulas, target flags, immediate
+timing and Boss cap. Breathe Fire and Dragon Tail both call damage then apply
+modifiers without revalidating target/source/ability. A death/removal callback
+can invalidate those handles. Q also traverses remaining recipients without
+checking whether earlier damage removed/switched them. Reproduce these branches
+with focused mock callbacks and guard post-damage follow-ups plus subsequent Q
+recipients. Invalid/null/dead source and null target must be rejected before
+cast effects; a removed/dead/now-friendly recipient gets no new debuff.
+Shared damage helper already checks recipients before ApplyDamage but does not
+own caller continuation; fix these two Dragon Knight call sites only.
+Installed native definitions and current ModDota API evidence from preceding
+review apply; no new API/asset, external import, numerical or immunity change.
+Actual death/kill event timing, spell-block/reflect and VConsole remain owner
+runtime tests; mocks certify only these control-flow branches.
+
+Result: pre-change mock failed on a removed recipient still reaching modifier
+application. Q/W now revalidate owner/ability/recipient after damage; Q also
+validates each remaining recipient. Q preserves an impact burst on a valid
+hostile corpse but gives it no new debuff. Tests cover removed/dead/friendly
+recipient, removed/dead owner, deleted ability and removed later Q target.
+All317 hero mocks and full checks pass with zero failures. Actual engine callback
+ordering, presentation and native immunity/reflect remain owner PENDING.
+
 ## Form cleanup restoration decision — 2026-10-02
 
 PVE-CONVERT unchanged. OnCreated saves model/projectile but not attack capability;

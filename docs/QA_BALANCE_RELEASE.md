@@ -112,6 +112,8 @@ Assert:
 - each of the 12 Bosses is the mapped native roster hero with its native Q/W/E/R kit,
 - native hero build and item milestones scale to the current wave/team level,
 - native ability orders select defenders on the opposing team and cast only when legal,
+- empty-lane Bosses do not spend active spells/items; local no-target attacks wait for defenders inside their verified native effect radius,
+- cast phase/channel is uninterrupted; after casting and losing combat targets the next route think resumes the current Core waypoint without the four-second stuck delay,
 - Boss wave contains only its Boss,
 - no path skip,
 - one leak resolution.

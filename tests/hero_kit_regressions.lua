@@ -5302,6 +5302,50 @@ test('Dragon Knight Dragon Tail rejects spell block and reads the boss stun cap 
     assert(#applied_damages == 1, 'Spell block must prevent Dragon Tail damage')
 end)
 
+test('Dragon Knight Q and W guard follow-ups after impact removes handles', function()
+    local old_damage=ApplyDamage
+    for _,id in ipairs({'enfos_dk_breathe_fire','enfos_dk_dragon_tail'}) do
+        for _,state in ipairs({'recipient','dead_recipient','friendly_recipient','source','dead_source','ability','next_recipient'}) do
+            local dk=create_mock_unit('npc_dota_hero_dragon_knight',2,Vector(0,0,0))
+            local first=create_mock_unit('first',3,Vector(100,0,0))
+            local later=create_mock_unit('later',3,Vector(200,0,0))
+            mock_world_units={first,later}
+            local a=_G[id]()
+            a.GetCaster=function() return dk end
+            a.GetCursorTarget=function() return first end
+            a.GetCursorPosition=function() return Vector(500,0,0) end
+            a.GetSpecialValueFor=function(_,key) return ({damage=200,range=750,width=225,duration=4,stun_duration=2,boss_stun_duration=1})[key] or 0 end
+            local hits=0
+            ApplyDamage=function(info)
+                hits=hits+1
+                if info.victim==first then
+                    if state=='recipient' then first.IsNull=function() return true end
+                    elseif state=='dead_recipient' then first.alive=false
+                    elseif state=='friendly_recipient' then first.GetTeamNumber=function() return 2 end
+                    elseif state=='source' then dk.IsNull=function() return true end
+                    elseif state=='dead_source' then dk.alive=false
+                    elseif state=='ability' then a.IsNull=function() return true end
+                    else later.IsNull=function() return true end end
+                end
+            end
+            local invalid_calls=0
+            first.AddNewModifier=function()
+                if state~='next_recipient' then invalid_calls=invalid_calls+1 end
+            end
+            later.AddNewModifier=function()
+                assert(state~='next_recipient' and state~='source' and state~='dead_source' and state~='ability',
+                    'An invalid later Q recipient/source must not receive a modifier')
+            end
+            a:OnSpellStart()
+            assert(invalid_calls==0,'Removed/dead/friendly target or source must not reach Q/W modifier application')
+            local expected=id=='enfos_dk_breathe_fire' and
+                (state=='recipient' or state=='dead_recipient' or state=='friendly_recipient') and 2 or 1
+            assert(hits==expected,'Invalidated Q source/later recipient must prevent subsequent damage')
+        end
+    end
+    ApplyDamage=old_damage
+end)
+
 test('Dragon Knight passives respect Break and read ten-rank ability values', function()
     local dk = create_mock_unit('npc_dota_hero_dragon_knight', 2, Vector(0, 0, 0))
     local ability = { GetSpecialValueFor = function(_, key) return key == 'bonus_armor' and 20 or key == 'bonus_hp_regen' and 30 or 20 end }

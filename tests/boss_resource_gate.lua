@@ -3,6 +3,9 @@ dofile('tests/runtime_regressions.lua')
 local W=require('waves/wave_manager')
 local pending,requests={},0
 function PrecacheUnitByNameAsync(name,callback)
+	-- Init also prewarms normal-wave resources. Only hold Boss hero loads;
+	-- normal prewarm requests must not masquerade as duplicate Boss requests.
+	if not name:match('^npc_dota_hero_') then callback();return end
  requests=requests+1;pending[name]=callback
 end
 W:Init()
@@ -24,15 +27,16 @@ W:OnThink()
 assert(spawned==1 and #W.pendingBatches==0,'loaded Boss must spawn once for active team')
 W.SpawnCreepEntity=original
 -- A late callback from a previous match must not mark the new match ready.
+pending={}
 W:Init();W:StartWave(10)
 local oldCallback
 for _,callback in pairs(pending) do oldCallback=callback end
 W:Init();W:StartWave(10)
 oldCallback()
 assert(not W.bossResources:IsPlanReady(W.bossResourcePlan))
--- Normal waves never wait for Boss loading.
+-- Normal waves use their already-prewarmed native resources, not Boss loads.
 W:StartWave(6)
-assert(W.bossResourcePlan==nil)
+assert(W.bossResources:IsPlanReady(W.bossResourcePlan))
 local Gate=require('bosses/resource_gate')
 local failed=Gate.New()
 function PrecacheUnitByNameAsync() error('mock resource failure') end

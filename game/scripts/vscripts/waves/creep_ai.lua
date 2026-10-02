@@ -196,6 +196,7 @@ function CreepAI:OrderMoveToWaypoint(state)
 		Queue = false,
 	}
 	ExecuteOrderFromTable(order)
+	state.bossCastPending = nil
 end
 
 --------------------------------------------------------------------------------
@@ -297,6 +298,17 @@ function CreepAI:OnThink(state)
 				end
 			end
 		end
+	end
+
+	-- Casting consumes native hero attack-move (some skills explicitly declare
+	-- DONT_RESUME_MOVEMENT). Resume once after the cast/channel and after target
+	-- acquisition, rather than spending four seconds in stuck recovery.
+	if state.isBoss and state.bossCastPending then
+		CreepAI:OrderMoveToWaypoint(state)
+		state.bossCastPending = nil
+		state.stuckTimer = 0
+		state.lastPos = currentPos
+		return THINK_INTERVAL
 	end
 
 	-- Anti-stuck detection

@@ -11,6 +11,16 @@ local MAX_HERO_LEVEL = 50
 local THINK_INTERVAL = 0.4
 local ENEMY_SEARCH_RADIUS = 1400
 
+-- Effect-radius keys verified in installed build 6943 hero AbilityDefinitions.
+-- GetAOERadius is a cursor API and can be zero for native no-target spells.
+local COMBAT_RADIUS_KEYS = {
+	axe_berserkers_call = {"radius"},
+	juggernaut_blade_fury = {"blade_fury_radius"},
+	crystal_maiden_freezing_field = {"radius"},
+	luna_eclipse = {"radius"},
+	luna_lunar_orbit = {"rotating_glaives_movement_radius", "rotating_glaives_hit_radius"},
+}
+
 local function hasBehavior(ability, behaviorFlag)
 	return bit and bit.band and behaviorFlag and bit.band(ability:GetBehaviorInt(), behaviorFlag) ~= 0
 end
@@ -236,7 +246,7 @@ function NativeBosses:Prepare(unit, heroName, waveNumber, defendingTeam, rewardT
 	return true
 end
 
-local function nearbyDefenders(unit, state, ability)
+local function nearbyDefenders(unit, state, ability, radiusLimit)
 	ability = ability or {} -- nil asks for combat presence, not a friendly spell target.
 	local targetTeam = ability.GetAbilityTargetTeam and ability:GetAbilityTargetTeam() or DOTA_UNIT_TARGET_TEAM_ENEMY
 	if targetTeam == DOTA_UNIT_TARGET_TEAM_FRIENDLY then return { unit } end
@@ -244,6 +254,7 @@ local function nearbyDefenders(unit, state, ability)
 	if not targetType or targetType == 0 then targetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end
 	local castRange = ability.GetCastRange and ability:GetCastRange(unit:GetAbsOrigin(), nil) or 0
 	local searchRadius = castRange > 0 and math.min(ENEMY_SEARCH_RADIUS, castRange + 96) or ENEMY_SEARCH_RADIUS
+	if radiusLimit then searchRadius = math.min(searchRadius, radiusLimit) end
 	local targetFlags = ability.GetAbilityTargetFlags and ability:GetAbilityTargetFlags() or DOTA_UNIT_TARGET_FLAG_NONE
 	if bit and bit.bor then targetFlags = bit.bor(targetFlags, DOTA_UNIT_TARGET_FLAG_NO_INVIS or DOTA_UNIT_TARGET_FLAG_NONE) end
 	-- Boss heroes are engine-neutral (team 4), so ENEMY-relative unit searches
@@ -256,7 +267,9 @@ local function nearbyDefenders(unit, state, ability)
 	for _, target in ipairs(found) do
 		if target and not target:IsNull() and target:IsAlive()
 			and target:GetTeamNumber() == state.defendingTeam
-			and (castRange <= 0 or (target:GetAbsOrigin() - unit:GetAbsOrigin()):Length2D() <= searchRadius) then
+			and not (target.IsInvulnerable and target:IsInvulnerable())
+			and not (target.IsInvisible and target:IsInvisible())
+			and (castRange <= 0 or (target:GetAbsOrigin() - unit:GetAbsOrigin()):Length2D() <= castRange) then
 			defenders[#defenders + 1] = target
 		end
 	end
@@ -273,7 +286,23 @@ local function issueCast(unit, ability, orderType, target)
 	if orderType == DOTA_UNIT_ORDER_CAST_TARGET then order.TargetIndex = target:entindex() end
 	if orderType == DOTA_UNIT_ORDER_CAST_POSITION then order.Position = target:GetAbsOrigin() end
 	ExecuteOrderFromTable(order)
+	-- Native DONT_RESUME_MOVEMENT abilities and failed cast orders can consume
+	-- attack-move. The route thinker resumes only after cast phase/channel ends.
+	if unit.creepState then unit.creepState.bossCastPending = true end
 	return true
+end
+
+local function combatPresent(unit, state, ability)
+	local radius = ability and ability.GetAOERadius and ability:GetAOERadius() or 0
+	local keys = ability and ability.GetAbilityName and COMBAT_RADIUS_KEYS[ability:GetAbilityName()]
+	if keys and ability.GetSpecialValueFor then
+		local effectRadius = 0
+		for _, key in ipairs(keys) do effectRadius = effectRadius + ability:GetSpecialValueFor(key) end
+		if effectRadius > 0 then radius = effectRadius end
+	end
+	-- AoE cursor radius is not supplied by every native buff/no-target ability.
+	-- Use the lane's existing acquisition distance for those combat windows.
+	return #nearbyDefenders(unit, state, nil, radius > 0 and radius or 750) > 0
 end
 
 local function tryAbility(unit, state, ability)
@@ -296,6 +325,10 @@ local function tryAbility(unit, state, ability)
 		return false
 	end
 	if not ability:IsFullyCastable() then return false end
+	-- FRIENDLY returns self even in an empty lane. Every new combat cast needs
+	-- actual defenders; toggle-off above remains legal outside combat.
+	if ability.GetAbilityTargetTeam and ability:GetAbilityTargetTeam() == DOTA_UNIT_TARGET_TEAM_FRIENDLY
+		and not combatPresent(unit, state, nil) then return false end
 
 	if hasBehavior(ability, DOTA_ABILITY_BEHAVIOR_UNIT_TARGET) then
 		local targets = nearbyDefenders(unit, state, ability)
@@ -308,8 +341,7 @@ local function tryAbility(unit, state, ability)
 		if target then return issueCast(unit, ability, DOTA_UNIT_ORDER_CAST_POSITION, target) end
 	end
 	if hasBehavior(ability, DOTA_ABILITY_BEHAVIOR_NO_TARGET) then
-		local targetTeam = ability.GetAbilityTargetTeam and ability:GetAbilityTargetTeam() or DOTA_UNIT_TARGET_TEAM_NONE
-		if targetTeam == DOTA_UNIT_TARGET_TEAM_ENEMY and #nearbyDefenders(unit, state, ability) == 0 then return false end
+		if not combatPresent(unit, state, ability) then return false end
 		return issueCast(unit, ability, DOTA_UNIT_ORDER_CAST_NO_TARGET)
 	end
 	return false
@@ -335,6 +367,8 @@ local function tryItem(unit, state, slot)
 	end
 	if hasBehavior(item, DOTA_ABILITY_BEHAVIOR_AUTOCAST)
 		or hasBehavior(item, DOTA_ABILITY_BEHAVIOR_TOGGLE) then return false end
+	if item.GetAbilityTargetTeam and item:GetAbilityTargetTeam() == DOTA_UNIT_TARGET_TEAM_FRIENDLY
+		and not combatPresent(unit, state, nil) then return false end
 	if hasBehavior(item, DOTA_ABILITY_BEHAVIOR_UNIT_TARGET) then
 		local target = nearbyDefenders(unit, state, item)[1]
 		if target then return issueCast(unit, item, DOTA_UNIT_ORDER_CAST_TARGET, target) end
@@ -344,6 +378,7 @@ local function tryItem(unit, state, slot)
 		if target then return issueCast(unit, item, DOTA_UNIT_ORDER_CAST_POSITION, target) end
 	end
 	if hasBehavior(item, DOTA_ABILITY_BEHAVIOR_NO_TARGET) then
+		if not combatPresent(unit, state, nil) then return false end
 		return issueCast(unit, item, DOTA_UNIT_ORDER_CAST_NO_TARGET)
 	end
 	return false

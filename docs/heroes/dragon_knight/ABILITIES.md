@@ -57,6 +57,14 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-02 Q/W lifetime repair: targeted mock reproduced modifier application
+after damage removed a recipient. Both casts now validate owner/ability/target
+after damage; Q checks later recipients too. No new modifier is applied to
+dead/removed/now-friendly targets. Valid hostile Q corpses keep the impact burst.
+Removed/dead source or deleted ability stops further impacts. Damage/range/
+duration/Boss cap unchanged.317 mocks and full checks pass; runtime remains
+PENDING and the hero's individual review remains open.
+
 2026-10-02 form cleanup: Elder Dragon Form now captures/restores the previous
 attack capability, rather than forcing melee on removal, and avoids all getter/
 setter calls on removed/null parents. Installed MCP getter/setter signatures

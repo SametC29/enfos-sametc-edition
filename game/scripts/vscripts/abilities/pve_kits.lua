@@ -5239,7 +5239,7 @@ end
 enfos_dk_breathe_fire=class({})
 function enfos_dk_breathe_fire:OnSpellStart()
     local c = self:GetCaster()
-    if not c or (c.IsNull and c:IsNull()) then return end
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
     local origin = c:GetAbsOrigin()
     local dir = (self:GetCursorPosition() - origin):Normalized()
     if dir:Length2D() < 1 then dir = c:GetForwardVector() end
@@ -5258,9 +5258,17 @@ function enfos_dk_breathe_fire:OnSpellStart()
         DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE) or {}
 
     for _, u in ipairs(targets) do
-        damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
-        effect('particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire_explosion.vpcf', u)
-        u:AddNewModifier(c, self, 'modifier_enfos_dk_breathe_fire_debuff', { duration = value(self, 'duration') })
+        if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return end
+        if u and not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
+            damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
+            if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return end
+            if not u:IsNull() and u:GetTeamNumber() ~= c:GetTeamNumber() then
+                effect('particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire_explosion.vpcf', u)
+                if u:IsAlive() then
+                    u:AddNewModifier(c, self, 'modifier_enfos_dk_breathe_fire_debuff', { duration = value(self, 'duration') })
+                end
+            end
+        end
     end
 end
 
@@ -5276,7 +5284,8 @@ enfos_dk_dragon_tail=class({})
 function enfos_dk_dragon_tail:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
-    if not c or not t or not t:IsAlive() or (t.GetTeamNumber and t:GetTeamNumber() == c:GetTeamNumber()) then return end
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or (t.IsNull and t:IsNull())
+        or not t:IsAlive() or (t.GetTeamNumber and t:GetTeamNumber() == c:GetTeamNumber()) then return end
     if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
 
     c:EmitSound('Hero_DragonKnight.DragonTail.Target')
@@ -5288,6 +5297,8 @@ function enfos_dk_dragon_tail:OnSpellStart()
     local dmg = base + (str * 1.0)
 
     damage(self, t, dmg, DAMAGE_TYPE_PHYSICAL)
+    if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive()
+        or t:IsNull() or not t:IsAlive() or t:GetTeamNumber() == c:GetTeamNumber() then return end
     local stun_dur = value(self, 'stun_duration')
     if stun_dur <= 0 then stun_dur = 2.5 end
     if is_boss(t) then
