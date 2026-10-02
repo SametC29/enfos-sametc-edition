@@ -6677,7 +6677,6 @@ function enfos_ss_shackles:OnSpellStart()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or t:IsNull() or not t:IsAlive() then return end
     if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
 
-    c:EmitSound('Hero_ShadowShaman.Shackles')
     local dur = self:GetChannelTime()
     c:AddNewModifier(c, self, 'modifier_enfos_ss_shackles_channel', { duration = dur, target_idx = t:entindex() })
     t:AddNewModifier(c, self, 'modifier_enfos_ss_shackles_debuff', { duration = dur })
@@ -6691,6 +6690,12 @@ end
 modifier_enfos_ss_shackles_channel=class({})
 function modifier_enfos_ss_shackles_channel:OnDestroy()
     if not IsServer() then return end
+    local particle = self.particle
+    self.particle = nil
+    if particle and ParticleManager then
+        ParticleManager:DestroyParticle(particle, false)
+        ParticleManager:ReleaseParticleIndex(particle)
+    end
     local caster=self:GetCaster()
     local target=self.target_idx and EntIndexToHScript(self.target_idx)
     self.target_idx = nil
@@ -6702,6 +6707,22 @@ end
 function modifier_enfos_ss_shackles_channel:OnCreated(kv)
     if not IsServer() then return end
     self.target_idx = kv and kv.target_idx or nil
+    local c = self:GetParent()
+    local a = self:GetAbility()
+    local t = self.target_idx and EntIndexToHScript(self.target_idx) or nil
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive()
+        or not a or (a.IsNull and a:IsNull())
+        or not t or (t.IsNull and t:IsNull()) or not t:IsAlive()
+        or t:GetTeamNumber() == c:GetTeamNumber() then self:Destroy(); return end
+    c:EmitSound('Hero_ShadowShaman.Shackles.Cast')
+    c:EmitSound('Hero_ShadowShaman.Shackles')
+    if ParticleManager then
+        self.particle = ParticleManager:CreateParticle('particles/units/heroes/hero_shadowshaman/shadowshaman_shackle.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+        ParticleManager:SetParticleControlEnt(self.particle, 0, c, PATTACH_POINT_FOLLOW, 'attach_attack1', c:GetAbsOrigin(), true)
+        ParticleManager:SetParticleControlEnt(self.particle, 5, c, PATTACH_POINT_FOLLOW, 'attach_attack2', c:GetAbsOrigin(), true)
+        ParticleManager:SetParticleControlEnt(self.particle, 1, t, PATTACH_ABSORIGIN_FOLLOW, '', t:GetAbsOrigin(), true)
+        ParticleManager:SetParticleControlEnt(self.particle, 6, t, PATTACH_ABSORIGIN_FOLLOW, '', t:GetAbsOrigin(), true)
+    end
     self:StartIntervalThink(0.5)
 end
 function modifier_enfos_ss_shackles_channel:OnIntervalThink()
@@ -6724,7 +6745,6 @@ function modifier_enfos_ss_shackles_channel:OnIntervalThink()
     -- Damage callbacks may remove the source or granted ability synchronously.
     if (c.IsNull and c:IsNull()) or not c:IsAlive() or (a.IsNull and a:IsNull()) then self:Destroy(); return end
     c:Heal(dmg, a)
-    effect('particles/units/heroes/hero_shadowshaman/shadowshaman_shackle.vpcf', t)
 end
 
 modifier_enfos_ss_shackles_debuff=class({})

@@ -3188,6 +3188,13 @@
 
 	"enfos_ss_shackles"
 	{
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_3"
+		"AbilityChannelAnimation" "ACT_DOTA_CHANNEL_ABILITY_3"
+		"precache"
+		{
+			"soundfile" "soundevents/game_sounds_heroes/game_sounds_shadowshaman.vsndevts"
+			"particle" "particles/units/heroes/hero_shadowshaman/shadowshaman_shackle.vpcf"
+		}
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"

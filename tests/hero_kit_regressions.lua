@@ -1021,6 +1021,54 @@ test('Shadow Shaman Shackles teardown is scoped once and avoids deleted casters'
     end
 end)
 
+test('Shadow Shaman Shackles owns one two-hand connection and ends it once', function()
+    local hero = create_mock_unit('npc_dota_hero_shadow_shaman',2,Vector(10,20,0))
+    local target = create_mock_unit('ss_shackle_owned_effect',3,Vector(180,90,0))
+    mock_world_units = {hero,target}
+    target.RemoveModifierByNameAndCaster = function(_,name,caster)
+        assert(name == 'modifier_enfos_ss_shackles_debuff' and caster == hero)
+    end
+    local a = enfos_ss_shackles()
+    a.GetCaster = function() return hero end
+    a.GetSpecialValueFor = function() return 80 end
+    local m = modifier_enfos_ss_shackles_channel()
+    m.GetParent = function() return hero end
+    m.GetCaster = function() return hero end
+    m.GetAbility = function() return a end
+    m.StartIntervalThink = function() end
+    local old_manager,old_point = ParticleManager,PATTACH_POINT_FOLLOW
+    PATTACH_POINT_FOLLOW = 'test_point_follow'
+    local created,destroyed,released = 0,0,0
+    local points,sounds,stopped = {},{},0
+    hero.EmitSound = function(_,name) sounds[#sounds+1] = name end
+    hero.StopSound = function(_,name) assert(name == 'Hero_ShadowShaman.Shackles'); stopped = stopped+1 end
+    ParticleManager = {
+        CreateParticle = function(_,path,attachment,owner)
+            assert(path == 'particles/units/heroes/hero_shadowshaman/shadowshaman_shackle.vpcf' and owner == hero)
+            created=created+1;return 894
+        end,
+        SetParticleControlEnt = function(_,id,cp,unit,attachment,bone)
+            assert(id == 894);points[cp]={unit=unit,bone=bone,attachment=attachment}
+        end,
+        DestroyParticle = function(_,id,immediate) assert(id==894 and not immediate);destroyed=destroyed+1 end,
+        ReleaseParticleIndex = function(_,id) assert(id==894);released=released+1 end,
+    }
+    local ok,err = pcall(function()
+        m:OnCreated({target_idx=target:entindex()})
+        assert(created == 1 and released == 0,'Persistent channel connection must be created and owned at start')
+        assert(points[0].unit==hero and points[0].bone=='attach_attack1')
+        assert(points[5].unit==hero and points[5].bone=='attach_attack2')
+        assert(points[1].unit==target and points[6].unit==target,'Both rope destinations must follow recipient')
+        assert(sounds[1]=='Hero_ShadowShaman.Shackles.Cast' and sounds[2]=='Hero_ShadowShaman.Shackles')
+        m:OnIntervalThink();m:OnIntervalThink()
+        assert(created == 1 and #sounds == 2,'Ticks must not accumulate another effect or restart cast audio')
+        m:OnDestroy();m:OnDestroy()
+        assert(destroyed==1 and released==1 and m.particle==nil,'Repeated teardown must end one persistent root once')
+    end)
+    ParticleManager,PATTACH_POINT_FOLLOW = old_manager,old_point
+    assert(ok,err)
+end)
+
 test('Shadow Shaman Shackles shortens boss channel with its boss control duration', function()
     local ability = enfos_ss_shackles()
     local target = create_mock_unit('enfos_boss_test', 3, Vector(0, 0, 0))
