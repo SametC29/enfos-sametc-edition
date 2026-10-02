@@ -241,3 +241,26 @@ function bodies verbatim against the pre-extraction commit. git diff --check pas
 Isolation source/regressions are COMPLETE. Owner full-restart registration, particles/sounds and five-slot live
 behavior remain NOT TESTED. Existing trace and individual source review remain
 PARTIAL/PENDING; extraction alone is not hero completion.
+
+## 2026-10-03: R primary spell block and hostile targeting
+
+Individual R inspection found no TriggerSpellAbsorb call before the synchronous
+spread, despite enemy unit-target KV and native Chain Frost identity. Current
+installed MCP CDOTA_BaseNPC:TriggerSpellAbsorb takes a CDOTABaseAbility and returns
+a server bool; the current [server API documentation](https://docs.moddota.com/lua_server/)
+and existing Q/E guards provide matching API/reference evidence. No external code
+was imported. Primary absorb is checked once before cast feedback, damage or slow;
+friendly primaries are rejected before consuming an enemy spell-block charge.
+Cancellation traces use the existing bounded helper and add no gameplay events.
+
+The independent blocked-primary regression failed before repair because absorb
+was never attempted. Both blocked and friendly cases now require no damage,
+spread or cast sound; friendly targets must not consume spell block. This repair
+does not change damage/rank/Boss values, once-per-target policy or current instant
+spread timing. Spell reflection, actual engine absorb behavior and subsequent
+projectile integration remain pending individual/runtime work. R remains
+PVE-CONVERT; SOURCE REVIEW and full trace coverage are still PENDING/PARTIAL.
+
+Validation after this focused repair: 345 hero behavior regressions passed;
+npm run check passed with zero failed checks; git diff --check passed.
+OWNER RUNTIME TRACE EVIDENCE / VISUAL-AUDIO / ENGINE ACCEPTANCE remain NOT TESTED.

@@ -14,6 +14,14 @@ function enfos_lich_chain_frost:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not c or c:IsNull() or not c:IsAlive() or not t or t:IsNull() or not t:IsAlive() then return end
+    if t:GetTeamNumber() == c:GetTeamNumber() then
+        HeroTrace:Log('LICH','R','cast_cancelled reason=friendly_primary target=%s',HeroTrace:Name(t))
+        return
+    end
+    if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then
+        HeroTrace:Log('LICH','R','cast_cancelled reason=spell_absorb target=%s',HeroTrace:Name(t))
+        return
+    end
     c:EmitSound('Hero_Lich.ChainFrost')
     local jumps = value(self, 'jump_count')
     if jumps <= 0 then jumps = 10 end

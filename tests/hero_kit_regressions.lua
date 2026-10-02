@@ -8759,4 +8759,32 @@ test('Lich Chain Frost stops after synchronous damage removes its caster',functi
     assert(ok,err);assert(#applied_damages==1)
 end)
 
+test('Lich Chain Frost respects primary spell absorb before damage or feedback',function()
+    local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+    local p=create_mock_unit('enfos_creep_first',3,Vector(100,0,0))
+    local other=create_mock_unit('enfos_creep_next',3,Vector(200,0,0))
+    local a=enfos_lich_chain_frost();a.GetCaster=function() return c end;a.GetCursorTarget=function() return p end
+    a.GetSpecialValueFor=function(_,k) return k=='jump_count' and 2 or 100 end
+    local absorbs,sounds=0,0
+    p.TriggerSpellAbsorb=function(_,ability) assert(ability==a);absorbs=absorbs+1;return true end
+    c.EmitSound=function() sounds=sounds+1 end
+    mock_world_units={c,p,other};applied_damages={}
+    a:OnSpellStart()
+    assert(absorbs==1,'Enemy unit-target ultimate must attempt spell absorb exactly once')
+    assert(#applied_damages==0 and sounds==0,'Absorbed cast must not damage, spread or play cast feedback')
+    assert(not p:HasModifier('modifier_enfos_lich_chain_frost_slow'))
+end)
+
+test('Lich Chain Frost rejects a friendly primary without consuming spell absorb',function()
+    local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+    local p=create_mock_unit('npc_dota_hero_sven',2,Vector(100,0,0))
+    local a=enfos_lich_chain_frost();a.GetCaster=function() return c end;a.GetCursorTarget=function() return p end
+    a.GetSpecialValueFor=function() return 100 end
+    p.TriggerSpellAbsorb=function() error('Friendly target cannot consume an enemy spell-block charge') end
+    c.EmitSound=function() error('Invalid friendly cast cannot play cast feedback') end
+    mock_world_units={c,p};applied_damages={}
+    local ok,err=pcall(function() a:OnSpellStart() end)
+    assert(ok,err);assert(#applied_damages==0)
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')
