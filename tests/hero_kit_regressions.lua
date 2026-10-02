@@ -3689,6 +3689,26 @@ test('Tidehunter Shard replaces generic tank health and reflection while other t
     name='npc_dota_hero_axe';assert(m:GetModifierHealthBonus()==350 and not m:IsHidden())
 end)
 
+test('Tidehunter Ravage supplies five decoded ring radii at a fixed cast origin', function()
+    local oldManager=ParticleManager;local controls={};local released=0
+    ParticleManager={
+        CreateParticle=function(_,path,attach,owner)
+            assert(path=='particles/units/heroes/hero_tidehunter/tidehunter_spell_ravage.vpcf' and attach==PATTACH_WORLDORIGIN and owner==nil)
+            return 731
+        end,
+        SetParticleControl=function(_,id,cp,vector) assert(id==731);controls[cp]=vector end,
+        ReleaseParticleIndex=function(_,id) assert(id==731);released=released+1 end
+    }
+    local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(100,200,0))
+    local a=enfos_tide_ravage();a.GetCaster=function() return hero end
+    a.GetSpecialValueFor=function(_,k) return k=='radius' and 900 or 100 end
+    mock_world_units={hero};a:OnSpellStart()
+    assert(controls[0].x==100 and controls[0].y==200)
+    for ring=1,5 do assert(controls[ring].x==180*ring and controls[ring].y==1 and controls[ring].z==0) end
+    assert(released==1,'Finite Ravage effect must release exactly one owned particle index')
+    ParticleManager=oldManager
+end)
+
 test('Tidehunter Ravage uses the configured boss stun cap', function()
     applied_damages = {}
     local tide = create_mock_unit('npc_dota_hero_tidehunter', 2, Vector(0, 0, 0))

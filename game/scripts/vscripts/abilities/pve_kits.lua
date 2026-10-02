@@ -3910,7 +3910,12 @@ enfos_tide_ravage=class({})
 function enfos_tide_ravage:OnSpellStart()
     local c = self:GetCaster()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
-    effect('particles/units/heroes/hero_tidehunter/tidehunter_spell_ravage.vpcf', c)
+    local origin = c:GetAbsOrigin()
+    local radius = value(self, 'radius')
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_tidehunter/tidehunter_spell_ravage.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(fx, 0, origin)
+    for ring = 1, 5 do ParticleManager:SetParticleControl(fx, ring, Vector(radius * ring / 5, 1, 0)) end
+    ParticleManager:ReleaseParticleIndex(fx)
 
     local base = value(self, 'damage')
     if base <= 0 then base = 325 end
@@ -3919,7 +3924,7 @@ function enfos_tide_ravage:OnSpellStart()
     local dur = value(self, 'stun_duration')
     if dur <= 0 then dur = 2.8 end
 
-    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), value(self, 'radius'))) do
+    for _, u in ipairs(enemies(c, origin, radius)) do
         if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return end
         if u and not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
             local boss_dur = value(self, 'boss_stun_duration')
