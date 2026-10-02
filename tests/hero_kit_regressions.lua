@@ -1849,6 +1849,7 @@ test('Legion Duel forces paired attacks and ends both sides on death without dup
         m.GetParent = function() return unit end
         m.GetCaster = function() return legion end
         m.GetAbility = function() return ability end
+        m.AddParticle = function() end
         m.Destroy = function(self)
             if self.destroyed then return end
             self.destroyed = true
@@ -1888,6 +1889,36 @@ test('Legion Duel forces paired attacks and ends both sides on death without dup
     ours:OnDeath({unit=legion})
     assert(legion.strength == 70 and ours.destroyed and theirs.destroyed and not enemy.forced,
         'Caster death ends the pair and cannot grant a victory')
+end)
+
+test('Legion Duel owns one ground ring per pair and model-bound feedback for both participants', function()
+    local legion = create_mock_unit('npc_dota_hero_legion_commander',2,Vector(1500,2000,128))
+    local enemy = create_mock_unit('enfos_creep_melee',4,Vector(1600,2000,128))
+    mock_world_units={legion,enemy}
+    local oldCreate,oldControl,oldRelease,oldWorld = ParticleManager.CreateParticle,ParticleManager.SetParticleControl,
+        ParticleManager.ReleaseParticleIndex,PATTACH_WORLDORIGIN
+    PATTACH_WORLDORIGIN=923
+    local allocations,owners,releases,cp = 0,0,0,{}
+    ParticleManager.CreateParticle=function(_,path,attachment,owner)
+        assert(path=='particles/units/heroes/hero_legion_commander/legion_duel_ring.vpcf' and attachment==923 and owner==legion)
+        allocations=allocations+1;return 923
+    end
+    ParticleManager.SetParticleControl=function(_,id,index,value) assert(id==923);cp[index]=value end
+    ParticleManager.ReleaseParticleIndex=function() releases=releases+1 end
+    for _, pair in ipairs({{legion,enemy},{enemy,legion}}) do
+        local parent,target=pair[1],pair[2]
+        parent.SetForceAttackTarget=function() end;parent.MoveToTargetToAttack=function() end
+        local m=modifier_enfos_legion_duel_buff()
+        m.GetParent=function() return parent end;m.GetCaster=function() return legion end
+        m.AddParticle=function(_,id) assert(id==923);owners=owners+1 end
+        m:OnCreated({target_idx=target:entindex()})
+        assert(m:GetEffectName()=='particles/units/heroes/hero_legion_commander/legion_commander_duel_buff.vpcf'
+            and m:GetEffectAttachType()==PATTACH_ABSORIGIN_FOLLOW)
+    end
+    assert(allocations==1 and owners==1 and releases==0 and cp[0]==legion.origin and cp[7]==legion.origin,
+        'Persistent Duel ring must be allocated once, centered at cast origin and owned by Legion modifier cleanup')
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex,
+        PATTACH_WORLDORIGIN=oldCreate,oldControl,oldRelease,oldWorld
 end)
 
 test('Legion Moment of Courage is disabled by Break and ignores allied attacks', function()

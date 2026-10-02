@@ -2563,6 +2563,8 @@ end
 
 modifier_enfos_legion_duel_buff=class({})
 function modifier_enfos_legion_duel_buff:GetTexture() return 'legion_commander_duel' end
+function modifier_enfos_legion_duel_buff:GetEffectName() return 'particles/units/heroes/hero_legion_commander/legion_commander_duel_buff.vpcf' end
+function modifier_enfos_legion_duel_buff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_legion_duel_buff:IsPurgable() return false end
 function modifier_enfos_legion_duel_buff:IsDebuff() return self:GetParent() ~= self:GetCaster() end
 function modifier_enfos_legion_duel_buff:CheckState()
@@ -2585,6 +2587,14 @@ function modifier_enfos_legion_duel_buff:OnCreated(kv)
     end
     parent:SetForceAttackTarget(self.target)
     parent:MoveToTargetToAttack(self.target)
+    if parent == self:GetCaster() then
+        local origin = parent:GetAbsOrigin()
+        local ring = ParticleManager:CreateParticle(
+            'particles/units/heroes/hero_legion_commander/legion_duel_ring.vpcf', PATTACH_WORLDORIGIN, parent)
+        ParticleManager:SetParticleControl(ring, 0, origin)
+        ParticleManager:SetParticleControl(ring, 7, origin)
+        self:AddParticle(ring, false, false, -1, false, false)
+    end
 end
 function modifier_enfos_legion_duel_buff:OnDestroy()
     if not IsServer() or self.ending then return end
