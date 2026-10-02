@@ -4224,7 +4224,11 @@ function enfos_pa_stifling_dagger:OnProjectileHit_ExtraData(hTarget, vLocation, 
     local c = self:GetCaster()
     if not c or (c.IsNull and c:IsNull()) or hTarget:GetTeamNumber() == c:GetTeamNumber() then return true end
     local dmg = extraData and extraData.damage or 200
-    effect('particles/units/heroes/hero_phantom_assassin/phantom_assassin_stifling_dagger_explosion.vpcf', hTarget)
+    local hit_position = hTarget:GetAbsOrigin()
+    local impact = ParticleManager:CreateParticle('particles/units/heroes/hero_phantom_assassin/phantom_assassin_stifling_dagger_explosion.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(impact, 0, hit_position)
+    ParticleManager:SetParticleControl(impact, 3, hit_position)
+    ParticleManager:ReleaseParticleIndex(impact)
     hTarget:EmitSound('Hero_PhantomAssassin.Dagger.Target')
     damage(self, hTarget, dmg, DAMAGE_TYPE_PHYSICAL)
     if hTarget:IsNull() or not hTarget:IsAlive() then return true end

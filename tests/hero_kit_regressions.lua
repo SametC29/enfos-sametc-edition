@@ -3631,6 +3631,15 @@ test('Phantom Assassin Stifling Dagger validates spell block, enemy target and c
         'Dagger damage must use the configured Agility coefficient')
     assert(last_find_units_radius == 275 and last_find_units_flags == DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
         'Dagger chaining must use KV radius and include spell-immune enemies for physical damage')
+    local oldCreate,oldControl,oldRelease=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex
+    local impact={cp={}}
+    ParticleManager.CreateParticle=function(_,path,attach) impact.path=path;impact.attach=attach;return 122 end
+    ParticleManager.SetParticleControl=function(_,id,cp,v) assert(id==122);impact.cp[cp]=v end
+    ParticleManager.ReleaseParticleIndex=function(_,id) assert(id==122);impact.released=true end
+    ab:OnProjectileHit_ExtraData(target,target:GetAbsOrigin(),{damage=190})
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex=oldCreate,oldControl,oldRelease
+    assert(impact.cp[3] and impact.cp[3].x==100 and impact.attach==PATTACH_WORLDORIGIN and impact.released,
+        'Native dagger explosion and all three children must receive the captured CP3 hit position')
     local friendly = create_mock_unit('pa_ally', 2, Vector(100, 0, 0))
     ab.GetCursorTarget = function() return friendly end
     last_tracking_projectile = nil
