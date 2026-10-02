@@ -42,10 +42,17 @@ test('Dragon Knight Elder Dragon Form keeps its native no-cast-animation behavio
     'native Elder Dragon Form explicitly suppresses a cast gesture during transformation');
 });
 
-test('Dragon Knight ranged dragon-form projectile is precached',()=>{
+test('Dragon Knight skill particles are all present in the addon precache list',()=>{
   const mode=fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua','utf8');
-  assert.match(mode,/PrecacheResource\(["']particle["'],\s*["']particles\/units\/heroes\/hero_dragon_knight\/dragon_knight_elder_dragon_fire\.vpcf["']/,
-    'Elder Dragon Form assigns this VPK particle as the ranged projectile');
+  const kits=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');
+  const start=kits.indexOf('enfos_dk_breathe_fire=class({})');
+  const end=kits.indexOf('-- PUDGE: MEAT HOOK',start);
+  assert.ok(start>=0&&end>start,'Dragon Knight ability implementation region must be found');
+  const assets=[...new Set(kits.slice(start,end).match(/particles\/units\/heroes\/hero_dragon_knight\/[\w/.-]+\.vpcf/g)||[])];
+  assert.equal(assets.length,6,'all six Dragon Knight ability particle assets should be inventoried');
+  for(const asset of assets){
+    assert.ok(mode.includes(asset),`missing Dragon Knight particle precache: ${asset}`);
+  }
 });
 
 

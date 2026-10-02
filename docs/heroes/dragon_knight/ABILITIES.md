@@ -122,6 +122,15 @@ Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve: Dragon Tail W ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
+2026-10-02 source comparison: the installed native Ability2 uses
+`SpellImmunityType SPELL_IMMUNITY_ENEMIES_NO`; the Enfos W currently uses
+`SPELL_IMMUNITY_ENEMIES_YES`, physical damage, and a separately capped Boss
+stun. This changes native immunity behavior. No design decision was found that
+explicitly authorizes the piercing exception. Keep this PvE-conversion choice
+flagged for owner/runtime validation; do not infer it is correct merely because
+the mock cast succeeds. KV and Lua currently agree on the physical damage and
+boss-duration cap.
+
 ### Resource and implementation evidence
 
 - Native ability data source + build + hash/revision: PENDING.
