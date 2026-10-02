@@ -4023,7 +4023,11 @@ function modifier_enfos_wk_mortal_strike_passive:OnAttackLanded(params)
     local t = params.target
     local position = t and not t:IsNull() and t:GetAbsOrigin() or saved.position
     c:EmitSound('Hero_SkeletonKing.CriticalStrike')
-    if t and not t:IsNull() then effect('particles/units/heroes/hero_skeletonking/skeletonking_mortalstrike.vpcf', t) end
+    -- The native parent root emits indefinitely; its explosion child is a finite hit burst.
+    local burst = ParticleManager:CreateParticle('particles/units/heroes/hero_skeletonking/skeletonking_mortalstrike_explosion.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(burst, 0, position)
+    ParticleManager:SetParticleControl(burst, 2, position)
+    ParticleManager:ReleaseParticleIndex(burst)
     local cleave_dmg = (params.damage or 0) * value(self:GetAbility(), 'cleave_pct') / 100
     if cleave_dmg <= 0 then return end
     for _, u in ipairs(enemies(c, position, value(self:GetAbility(), 'cleave_radius'))) do

@@ -3153,7 +3153,16 @@ test('Wraith King Mortal Strike procs cleave damage around target', function()
 
     local crit = mod:GetModifierPreAttack_CriticalStrike({attacker=wk,target=primary,record=71})
     assert(crit == 260, 'Mortal Strike crit must be 260%')
+    local oldCreate,oldControl,oldRelease=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex
+    local burst={cp={}}
+    ParticleManager.CreateParticle=function(_,path,attach,owner) burst.path=path;burst.attach=attach;burst.owner=owner;return 105 end
+    ParticleManager.SetParticleControl=function(_,id,cp,v) assert(id==105);burst.cp[cp]=v end
+    ParticleManager.ReleaseParticleIndex=function(_,id) assert(id==105);burst.released=true end
     mod:OnAttackLanded({ attacker = wk, target = primary, damage = 300, record=71 })
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex=oldCreate,oldControl,oldRelease
+    assert(burst.path:find('skeletonking_mortalstrike_explosion.vpcf',1,true) and burst.attach==PATTACH_WORLDORIGIN
+        and burst.owner==nil and burst.cp[0] and burst.cp[0].x==100 and burst.cp[2] and burst.cp[2].x==100 and burst.released,
+        'Mortal Strike must release a finite impact burst with CP0/2 at the captured victim position')
 
     -- Cleave damage to secondary: 300 * 0.5 = 150
     assert(#applied_damages == 1)
