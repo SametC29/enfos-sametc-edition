@@ -4097,7 +4097,8 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
           "callbacks": [
-            "OnSpellStart"
+            "OnSpellStart",
+            "Precache"
           ],
           "specials": {
             "damage_reduction": "30 40 50 60 62 64 66 68 70 72",

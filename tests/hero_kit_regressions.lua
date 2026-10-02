@@ -8617,4 +8617,46 @@ test('Lich Frost Blast stops when damage removes its caster',function()
     q:OnSpellStart();ApplyDamage=oldDamage
 end)
 
+test('Lich Frost Shield stops when recipient or ability is removed',function()
+    for _,removed in ipairs({'parent','ability'}) do
+        local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+        local p=create_mock_unit('npc_dota_hero_axe',2,Vector(100,0,0))
+        local enemy=create_mock_unit('enfos_creep',3,Vector(150,0,0))
+        local a=enfos_lich_frost_shield();a.GetCaster=function() return c end
+        a.GetSpecialValueFor=function(_,k) return k=='dps' and 30 or 0 end
+        local m=p:AddNewModifier(c,a,'modifier_enfos_lich_frost_shield',{})
+        local destroyed=false;m.Destroy=function() destroyed=true end
+        if removed=='parent' then
+            p.IsNull=function() return true end
+            p.GetAbsOrigin=function() error('Removed shield recipient must not be queried') end
+        else a.IsNull=function() return true end end
+        mock_world_units={c,enemy};applied_damages={}
+        m:OnIntervalThink()
+        assert(destroyed and #applied_damages==0,'Invalid shield must stop instead of dealing orphan pulse damage')
+    end
+end)
+
+test('Lich Frost Shield cast rejects an invalid allied target',function()
+    local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+    local p=create_mock_unit('npc_dota_hero_axe',2,Vector(100,0,0))
+    p.IsNull=function() return true end;p.EmitSound=function() error('Removed target must not emit shield sound') end
+    local a=enfos_lich_frost_shield();a.GetCaster=function() return c end;a.GetCursorTarget=function() return p end
+    a.GetSpecialValueFor=function(_,k) return k=='duration' and 6 or 0 end
+    a:OnSpellStart()
+end)
+
+test('Lich shield cast uses the verified sound event and precaches its declaring bank',function()
+    local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+    local p=create_mock_unit('npc_dota_hero_axe',2,Vector(100,0,0))
+    local sound;p.EmitSound=function(_,name) sound=name end
+    local a=enfos_lich_frost_shield();a.GetCaster=function() return c end;a.GetCursorTarget=function() return p end
+    a.GetSpecialValueFor=function(_,k) return k=='duration' and 6 or 0 end
+    a:OnSpellStart();assert(sound=='Hero_Lich.IceAge')
+    local oldPrecache=PrecacheResource;local bank
+    PrecacheResource=function(kind,path) if kind=='soundfile' then bank=path end end
+    a:Precache({});PrecacheResource=oldPrecache
+    assert(bank=='soundevents/game_sounds_heroes/game_sounds_lich.vsndevts')
+    assert(modifier_enfos_lich_frost_shield:GetTexture()=='lich_frost_shield')
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')

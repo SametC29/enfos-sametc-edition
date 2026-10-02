@@ -124,6 +124,13 @@ Change/test record (2026-09-30): Lich’s five Enfos ability definitions now exp
 
 ## Slot 2: `enfos_lich_frost_shield`
 
+2026-10-03 individual follow-up: source-lifetime guards prevent removed-recipient
+access and orphan pulses; cast uses the decoded current-build IceAge sound with
+explicit declaring-bank precache and native modifier icon. See
+[individual findings](../../audit/LICH_INDIVIDUAL_REVIEW_2026-10-03.md). W pulse slow,
+attack-only mitigation, persistent particle CPs, Shard/Scepter and lifecycle trace
+coverage remain open; mocks do not establish engine/audio/VFX acceptance.
+
 Classification: PVE-CONVERT
 Native counterpart: `lich_frost_shield` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
 Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
