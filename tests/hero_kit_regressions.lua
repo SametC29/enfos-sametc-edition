@@ -4076,6 +4076,37 @@ test('Witch Doctor Maledict uses rank values and only bursts damage since the pr
     assert(applied_damages[6].damage == 40, 'Later burst must not re-count damage from the first window')
 end)
 
+test('Witch Doctor Maledict owns one model-bound effect and cleans it exactly once', function()
+    local victim=create_mock_unit('wd_maledict_owned_effect',3,Vector(120,80,0))
+    local a=enfos_wd_maledict();a.GetSpecialValueFor=function(_,k) return k=='burst_interval' and 4 or 0 end
+    local m=modifier_enfos_wd_maledict_debuff();m.GetParent=function() return victim end
+    m.GetAbility=function() return a end;m.StartIntervalThink=function() end
+    local old=ParticleManager;local created,controls,bindings,destroyed,released=0,{},{},0,0
+    ParticleManager={
+        CreateParticle=function(_,path,attach,owner)
+            assert(path=='particles/units/heroes/hero_witchdoctor/witchdoctor_maledict.vpcf' and owner==victim)
+            created=created+1;return 73
+        end,
+        SetParticleControlEnt=function(_,id,cp,unit,attach,bone,pos,lock)
+            assert(id==73);bindings[cp]={unit=unit,pos=pos,lock=lock}
+        end,
+        SetParticleControl=function(_,id,cp,v) assert(id==73);controls[cp]=v end,
+        DestroyParticle=function(_,id) assert(id==73);destroyed=destroyed+1 end,
+        ReleaseParticleIndex=function(_,id) assert(id==73);released=released+1 end,
+    }
+    local ok,err=pcall(function()
+        m:OnCreated()
+        assert(created==1 and bindings[0] and bindings[0].unit==victim and bindings[0].lock,
+            'Maledict must bind its persistent model effect to the modifier recipient')
+        assert(controls[1] and controls[1].x==4,'Child restart CP must use the burst interval')
+        assert(released==0,'Persistent particle must remain owned until debuff teardown')
+        m:OnDestroy();m:OnDestroy()
+        assert(destroyed==1 and released==1 and m.particle==nil,'Cleanup must destroy/release once')
+    end)
+    ParticleManager=old
+    assert(ok,err)
+end)
+
 test('Witch Doctor Maledict stops a burst tick after lethal DPS deletes its parent', function()
     local wd=create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(0,0,0))
     local victim=create_mock_unit('wd_maledict_deleted_tick',3,Vector(100,0,0),100)

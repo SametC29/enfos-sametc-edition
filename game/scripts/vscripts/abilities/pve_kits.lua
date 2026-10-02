@@ -4719,7 +4719,6 @@ function enfos_wd_maledict:OnSpellStart()
 
     for _, u in ipairs(enemies(c, pos, r)) do
         u:AddNewModifier(c, self, 'modifier_enfos_wd_maledict_debuff', { duration = value(self, 'duration') > 0 and value(self, 'duration') or 12.0 })
-        effect('particles/units/heroes/hero_witchdoctor/witchdoctor_maledict.vpcf', u)
     end
 end
 
@@ -4728,9 +4727,25 @@ function modifier_enfos_wd_maledict_debuff:IsDebuff() return true end
 function modifier_enfos_wd_maledict_debuff:OnCreated()
     if not IsServer() then return end
     local p = self:GetParent()
+    if not p or (p.IsNull and p:IsNull()) or not p:IsAlive() then self:Destroy(); return end
     self.last_burst_hp = p.GetHealth and p:GetHealth() or 1000
     self.elapsed = 0
+    if ParticleManager then
+        self.particle = ParticleManager:CreateParticle('particles/units/heroes/hero_witchdoctor/witchdoctor_maledict.vpcf', PATTACH_ABSORIGIN_FOLLOW, p)
+        ParticleManager:SetParticleControlEnt(self.particle, 0, p, PATTACH_ABSORIGIN_FOLLOW, '', p:GetAbsOrigin(), true)
+        local interval = value(self:GetAbility(), 'burst_interval')
+        if interval <= 0 then interval = 4 end
+        ParticleManager:SetParticleControl(self.particle, 1, Vector(interval, 0, 0))
+    end
     self:StartIntervalThink(1.0)
+end
+function modifier_enfos_wd_maledict_debuff:OnDestroy()
+    if not IsServer() then return end
+    if self.particle and ParticleManager then
+        ParticleManager:DestroyParticle(self.particle, false)
+        ParticleManager:ReleaseParticleIndex(self.particle)
+        self.particle = nil
+    end
 end
 function modifier_enfos_wd_maledict_debuff:OnIntervalThink()
     local p = self:GetParent()
