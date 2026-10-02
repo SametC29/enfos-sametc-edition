@@ -4409,6 +4409,7 @@ function enfos_zeus_arc_lightning:OnSpellStart()
 
     local hit = { [initial:entindex()] = true }
     local current = initial
+    local current_position = initial:GetAbsOrigin()
 
     if ParticleManager then
         local p = ParticleManager:CreateParticle('particles/units/heroes/hero_zuus/zuus_arc_lightning.vpcf', PATTACH_CUSTOMORIGIN, c)
@@ -4423,23 +4424,31 @@ function enfos_zeus_arc_lightning:OnSpellStart()
     if jumps <= 0 then jumps = 9 end
 
     for i = 1, jumps do
-        local candidates = enemies(c, current:GetAbsOrigin(), 500)
+        local candidates = enemies(c, current_position, 500)
         local next_target = nil
         for _, u in ipairs(candidates) do
-            if not hit[u:entindex()] and u:IsAlive() then next_target = u break end
+            if u and not u:IsNull() and u:IsAlive() and not hit[u:entindex()] then next_target = u break end
         end
         if not next_target then break end
         hit[next_target:entindex()] = true
+        local next_position = next_target:GetAbsOrigin()
 
         if ParticleManager then
-            local p = ParticleManager:CreateParticle('particles/units/heroes/hero_zuus/zuus_arc_lightning.vpcf', PATTACH_CUSTOMORIGIN, current)
-            ParticleManager:SetParticleControlEnt(p, 0, current, PATTACH_POINT_FOLLOW, "attach_hitloc", current:GetAbsOrigin(), true)
-            ParticleManager:SetParticleControlEnt(p, 1, next_target, PATTACH_POINT_FOLLOW, "attach_hitloc", next_target:GetAbsOrigin(), true)
+            local source = current and not current:IsNull() and current or nil
+            local p = ParticleManager:CreateParticle('particles/units/heroes/hero_zuus/zuus_arc_lightning.vpcf',
+                source and PATTACH_CUSTOMORIGIN or PATTACH_WORLDORIGIN, source)
+            if source then
+                ParticleManager:SetParticleControlEnt(p, 0, source, PATTACH_POINT_FOLLOW, "attach_hitloc", current_position, true)
+            else
+                ParticleManager:SetParticleControl(p, 0, current_position)
+            end
+            ParticleManager:SetParticleControlEnt(p, 1, next_target, PATTACH_POINT_FOLLOW, "attach_hitloc", next_position, true)
             ParticleManager:ReleaseParticleIndex(p)
         end
         next_target:EmitSound('Hero_Zuus.ArcLightning.Target')
         damage(self, next_target, dmg, DAMAGE_TYPE_MAGICAL)
         current = next_target
+        current_position = next_position
     end
 end
 

@@ -3706,6 +3706,51 @@ test('Zeus Arc Lightning damages initial target and jumps with Intellect scaling
     assert(applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
 end)
 
+test('Zeus Arc Lightning continues from captured positions after lethal target deletion', function()
+    local zeus=create_mock_unit('npc_dota_hero_zuus',2,Vector(0,0,0))
+    zeus.intellect=50
+    local first=create_mock_unit('zeus_lethal_first',3,Vector(100,0,0))
+    local second=create_mock_unit('zeus_lethal_second',3,Vector(200,0,0))
+    local third=create_mock_unit('zeus_third',3,Vector(300,0,0))
+    mock_world_units={zeus,first,second,third}
+    local a=enfos_zeus_arc_lightning();a.GetCaster=function() return zeus end
+    a.GetCursorTarget=function() return first end
+    a.GetSpecialValueFor=function(_,key) return ({damage=90,jump_count=2})[key] or 0 end
+    local oldDamage,oldCreate,oldEnt,oldCP,oldRelease,oldWorld=ApplyDamage,ParticleManager.CreateParticle,
+        ParticleManager.SetParticleControlEnt,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex,PATTACH_WORLDORIGIN
+    PATTACH_WORLDORIGIN=915
+    local hits,particles={},{}
+    ApplyDamage=function(info)
+        hits[#hits+1]=info
+        if info.victim==first or info.victim==second then
+            info.victim.alive=false
+            info.victim.IsNull=function() return true end
+            info.victim.GetAbsOrigin=function() error('Deleted chain source position must not be accessed') end
+        end
+    end
+    ParticleManager.CreateParticle=function(_,path,attach,owner)
+        assert(not owner or not owner:IsNull(),'A chain effect must never own a deleted recipient')
+        particles[#particles+1]={attach=attach,cp={},owner=owner};return #particles
+    end
+    ParticleManager.SetParticleControlEnt=function(_,id,cp,unit)
+        assert(not unit:IsNull(),'A chain effect must not bind a deleted model')
+    end
+    ParticleManager.SetParticleControl=function(_,id,cp,position) particles[id].cp[cp]=position end
+    ParticleManager.ReleaseParticleIndex=function(_,id) particles[id].released=true end
+    local ok,err=pcall(function() a:OnSpellStart() end)
+    ApplyDamage,ParticleManager.CreateParticle,ParticleManager.SetParticleControlEnt,ParticleManager.SetParticleControl,
+        ParticleManager.ReleaseParticleIndex,PATTACH_WORLDORIGIN=oldDamage,oldCreate,oldEnt,oldCP,oldRelease,oldWorld
+    assert(ok,err)
+    assert(#hits==3 and hits[1].victim==first and hits[2].victim==second and hits[3].victim==third,
+        'Lethal primary and secondary hits must not truncate the configured chain')
+    assert(hits[1].damage==120 and hits[2].damage==120 and hits[3].damage==120,
+        'Deletion handling must preserve flat configured magical damage')
+    assert(#particles==3 and particles[2].attach==915 and particles[2].cp[0].x==100
+        and particles[3].attach==915 and particles[3].cp[0].x==200
+        and particles[2].released and particles[3].released,
+        'Deleted-source arcs need their captured world endpoint and finite index release')
+end)
+
 test('Zeus Static Field deals current HP percent damage with boss cap', function()
     applied_damages = {}
     local zeus = create_mock_unit('npc_dota_hero_zuus', 2, Vector(0, 0, 0))
