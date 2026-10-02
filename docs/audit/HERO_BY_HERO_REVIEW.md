@@ -15,7 +15,7 @@ Per hero: read its instructions/dossier; compare installed native definitions; t
 | 5 | Omniknight | SOURCE REVIEW COMPLETE / ENGINE PENDING — Purification piercing/radius, Hammer lethal impact/splash, aura ownership, recipient effects, Scepter text and visible modifier identities repaired; individual record contains upgrade limits and owner tests |
 | 6 | Axe | SOURCE REVIEW COMPLETE / ENGINE PENDING — Hunger effect ownership, Call sound/target/refresh/dispel/CP1, Helix spin, Culling CP4 and Blood Armor replicated properties/modifier text repaired; exact defaults/runtime uncertainties and owner checklist in individual record |
 | 7 | Legion Commander | SOURCE REVIEW COMPLETE / ENGINE PENDING — Odds refresh/transmission/CP/audio, Press owned recipient bindings, Courage re-entry/audio, Duel paired combat/cleanup/feedback/metadata and four-locale modifier/upgrade text repaired; individual owner gates remain |
-| 8 | Sniper | IN PROGRESS — own dossier/instructions read; individual native comparison and five-skill review underway; ENGINE PENDING |
+| 8 | Sniper | SOURCE REVIEW COMPLETE / ENGINE PENDING — lethal Keen Eye, owned Shrapnel radius/ground sound/tick guards, Take Aim overhead/Break split, Assassinate native impact/audio/target metadata and four-locale buffs/upgrades repaired; owner gates in individual record |
 | 9 | Crystal Maiden | NOT STARTED |
 | 10 | Dazzle | NOT STARTED |
 | 11 | Centaur Warrunner | NOT STARTED |

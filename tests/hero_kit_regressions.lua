@@ -2252,6 +2252,26 @@ test('Sniper Assassinate deals damage only when its tracking projectile hits', f
         PATTACH_WORLDORIGIN=oldCreate,oldControl,oldRelease,oldWorld
 end)
 
+test('Sniper Assassinate refunds only a valid projectile kill and ignores lost hits', function()
+    local sniper=create_mock_unit('npc_dota_hero_sniper',2,Vector(0,0,0))
+    local target=create_mock_unit('enemy',3,Vector(800,0,0))
+    sniper.mana=100
+    local ability=enfos_sniper_assassinate()
+    ability.GetCaster=function() return sniper end
+    ability.GetSpecialValueFor=function(_,key) return ({damage=400,agility_damage_factor=3})[key] or 0 end
+    ability.GetManaCost=function() return 125 end
+    local refunds=0
+    ability.EndCooldown=function() refunds=refunds+1 end
+    local oldDamage=ApplyDamage
+    ApplyDamage=function(info) info.victim.alive=false end
+    assert(ability:OnProjectileHit(target,target.origin)==true)
+    assert(refunds==1 and sniper.mana==162.5,'Lethal impact resets cooldown once and refunds half configured mana')
+    ability:OnProjectileHit(target,target.origin)
+    ability:OnProjectileHit(nil,target.origin)
+    assert(refunds==1 and sniper.mana==162.5,'Dead target or lost projectile cannot repeat kill rewards')
+    ApplyDamage=oldDamage
+end)
+
 test('Sniper Assassinate spell block prevents projectile launch', function()
     applied_damages = {}
     last_tracking_projectile = nil
