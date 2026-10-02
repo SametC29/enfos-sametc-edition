@@ -528,7 +528,7 @@ function SpellbringerService:CastRiftSurge(casterTeam, opponentTeam, def, target
 			CreepAI:Attach(unit,opponentTeam,"center",function(u) u:ForceKill(false) end,route)
 		end
 	end
-	EmitGlobalSound("Hero_Enigma.DemonicConversion")
+	EmitGlobalSound("Hero_Enigma.Demonic_Conversion")
 	return created>0
 end
 

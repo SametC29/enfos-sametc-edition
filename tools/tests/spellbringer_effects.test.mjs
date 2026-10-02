@@ -12,7 +12,7 @@ test('Spellbringer previews one cursor area, acknowledges casts and cleans bound
   Particles:{CreateParticle:(name,attach,owner)=>{assert.equal(owner,100);live.add(++next);return next;},
    DestroyParticleEffect:id=>assert(live.has(id),'never destroy twice'),ReleaseParticleIndex:id=>live.delete(id),
    SetParticleControl:(...args)=>controls.push(args)},
-  CustomNetTables:{GetTableValue:t=>t==='spellbringer_state'?{mana:200,regen:2.5}:t==='spellbringer_meta'?{spellbringer_reveal:{cost:30,radius:900}}:null,SubscribeNetTableListener(){}},
+  CustomNetTables:{GetTableValue:t=>t==='spellbringer_state'?{mana:200,regen:2.5}:t==='spellbringer_meta'?{spellbringer_reveal:{cost:30,radius:900},spellbringer_purification:{cost:50,radius:600}}:null,SubscribeNetTableListener(){}},
   GameEvents:{Subscribe:(id,fn)=>events[id]=fn,SendEventClientSide(){},SendCustomGameEventToServer(){}},
   GameUI:{SetMouseCallback(){},GetCursorPosition:()=>[0,0],GetScreenWorldPosition:()=>[7500,2000,128]}};
  vm.runInNewContext(fs.readFileSync('content/panorama/scripts/custom_game/spellbringer.js','utf8'),c);
@@ -23,6 +23,10 @@ test('Spellbringer previews one cursor area, acknowledges casts and cleans bound
  const cast={team:2,ability:'spellbringer_reveal',x:7500,y:2000,z:128};
  events.enfos_spellbringer_effect({...cast,team:3});assert.equal(live.size,0);
  events.enfos_spellbringer_effect(cast);assert.equal(live.size,2);
+ for(const timer of timers.splice(0).sort((a,b)=>a.delay-b.delay))timer.fn();assert.equal(live.size,0);
+ events.enfos_spellbringer_effect({...cast,ability:'spellbringer_purification'});
+ const burst=next;
+ assert(controls.some(a=>a[0]===burst&&a[1]===1&&a[2][0]===600),'native Purification receives its radius CP');
  for(const timer of timers.splice(0).sort((a,b)=>a.delay-b.delay))timer.fn();assert.equal(live.size,0);
  for(let i=0;i<30;i++)events.enfos_spellbringer_effect(cast);
  assert(live.size<=32,'max sixteen confirmed effect pairs');

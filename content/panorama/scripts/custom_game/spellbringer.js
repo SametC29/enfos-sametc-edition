@@ -208,7 +208,10 @@ function HideTooltip() {
             : "particles/units/heroes/hero_enigma/enigma_demonic_conversion.vpcf";
         effect.burst = CreateSpellParticle(particle);
         Particles.SetParticleControl(effect.burst, 0, position);
-        if (data.ability === "spellbringer_reveal") Particles.SetParticleControl(effect.burst, 1, [SpellRadius(data.ability), 0, 0]);
+        // Native Purification's RingWave also reads its radius from CP1.x.
+        if (data.ability === "spellbringer_reveal" || data.ability === "spellbringer_purification") {
+            Particles.SetParticleControl(effect.burst, 1, [SpellRadius(data.ability), 0, 0]);
+        }
         function retire(value) {
             if (value.retired) return;
             value.retired = true;

@@ -32,6 +32,7 @@ function Precache(context)
         "particles/items_fx/dust_of_appearance.vpcf",
         "particles/units/heroes/hero_omniknight/omniknight_purification.vpcf",
         "particles/units/heroes/hero_enigma/enigma_demonic_conversion.vpcf",
+        "particles/items3_fx/glimmer_cape_initial.vpcf",
     }) do PrecacheResource("particle", particle, context) end
     -- Validated replacements for resource names introduced in the hero refresh.
     for _,particle in ipairs({
@@ -58,6 +59,11 @@ function Precache(context)
 	for _,name in ipairs({"sven","juggernaut","drowranger","lina","omniknight","centaur","skeletonking","phantom_assassin","zuus","tidehunter","dragon_knight","pudge","abyssal_underlord","ursa","monkey_king","troll_warlord","chaos_knight","antimage"}) do
 		PrecacheResource("soundfile","soundevents/game_sounds_heroes/game_sounds_"..name..".vsndevts",context)
 	end
+	-- Spellbringer can cast without these native heroes being selected.
+	for _,name in ipairs({"silencer","enigma","chen","legion_commander"}) do
+		PrecacheResource("soundfile","soundevents/game_sounds_heroes/game_sounds_"..name..".vsndevts",context)
+	end
+	PrecacheResource("soundfile","soundevents/game_sounds_items.vsndevts",context)
 	PrecacheResource("particle","particles/units/heroes/hero_sven/sven_warcry_buff.vpcf",context)
 	PrecacheResource("particle", "particles/units/heroes/hero_sven/sven_storm_bolt_projectile_trail.vpcf", context)
 	PrecacheResource("particle", "particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf", context)
