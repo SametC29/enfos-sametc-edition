@@ -3902,7 +3902,13 @@ function enfos_wk_wraithfire_blast:OnProjectileHit(target, location)
         return true
     end
 
-    effect('particles/units/heroes/hero_skeletonking/skeletonking_hellfireblast_explosion.vpcf', target)
+    local hit_position = target:GetAbsOrigin()
+    local impact = ParticleManager:CreateParticle('particles/units/heroes/hero_skeletonking/skeletonking_hellfireblast_explosion.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(impact, 0, hit_position)
+    ParticleManager:SetParticleControl(impact, 1, hit_position)
+    ParticleManager:SetParticleControl(impact, 3, hit_position)
+    ParticleManager:ReleaseParticleIndex(impact)
+    target:EmitSound('Hero_SkeletonKing.Hellfire_BlastImpact')
     local base = value(self, 'damage')
     if base <= 0 then base = 200 end
     local damage_amount = base + (get_str(c) * value(self, 'strength_damage_factor'))
@@ -4065,7 +4071,10 @@ function modifier_enfos_wk_reincarnation_passive:OnDeath(params)
     if not a or a:IsNull() or not c:IsReincarnating() then return end
     a:UseResources(false, false, false, true)
     c:EmitSound('Hero_SkeletonKing.Reincarnate')
-    effect('particles/units/heroes/hero_skeletonking/skeletonking_reincarnation.vpcf', c)
+    local rebirth = ParticleManager:CreateParticle('particles/units/heroes/hero_skeletonking/skeletonking_reincarnation.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:SetParticleControl(rebirth, 0, c:GetAbsOrigin())
+    ParticleManager:SetParticleControl(rebirth, 2, c:GetAbsOrigin())
+    ParticleManager:ReleaseParticleIndex(rebirth)
     local str = get_str(c)
     local dmg = value(a, 'damage') + (str * value(a, 'strength_damage_factor'))
 

@@ -3216,7 +3216,16 @@ test('Wraith King Wraithfire Blast travels before dealing impact damage and effe
     assert(last_tracking_projectile and last_tracking_projectile.Target == target)
     assert(last_tracking_projectile.iMoveSpeed == 1200 and last_tracking_projectile.bDodgeable)
     assert(#applied_damages == 0, 'Damage must wait until the projectile hits')
+    local oldCreate,oldControl,oldRelease=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex
+    local impact={cp={}}
+    ParticleManager.CreateParticle=function(_,path) impact.path=path;return 106 end
+    ParticleManager.SetParticleControl=function(_,id,cp,v) assert(id==106);impact.cp[cp]=v end
+    ParticleManager.ReleaseParticleIndex=function(_,id) assert(id==106);impact.released=true end
     ab:OnProjectileHit(target, target:GetAbsOrigin())
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex=oldCreate,oldControl,oldRelease
+    assert(impact.cp[0] and impact.cp[1] and impact.cp[3] and impact.cp[0].x==200
+        and impact.cp[1].x==200 and impact.cp[3].x==200 and impact.released,
+        'Explicit Wraithfire impact and light origins must share the captured hit position')
     assert(#applied_damages == 1 and applied_damages[1].damage == 270)
     assert(target:HasModifier('modifier_enfos_wk_wraithfire_blast_stun'))
     assert(target.modifiers['modifier_enfos_wk_wraithfire_blast_dot'].params.duration == 2)
@@ -3300,7 +3309,16 @@ test('Wraith King Reincarnation uses configured delay and separates boss slow du
     wk.PassivesDisabled = function() return true end
     assert(mod:ReincarnateTime() == nil, 'Reincarnation must be disabled by Break')
     wk.PassivesDisabled = function() return false end
+    local oldCreate,oldControl,oldRelease=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex
+    local rebirth={cp={}}
+    ParticleManager.CreateParticle=function(_,path,attach,owner) rebirth.path=path;rebirth.attach=attach;rebirth.owner=owner;return 107 end
+    ParticleManager.SetParticleControl=function(_,id,cp,v) assert(id==107);rebirth.cp[cp]=v end
+    ParticleManager.ReleaseParticleIndex=function(_,id) assert(id==107);rebirth.released=true end
     mod:OnDeath({ unit = wk })
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex=oldCreate,oldControl,oldRelease
+    assert(rebirth.cp[0] and rebirth.cp[2] and rebirth.cp[0].x==0 and rebirth.cp[2].x==0
+        and rebirth.owner==wk and rebirth.attach==PATTACH_ABSORIGIN_FOLLOW and rebirth.released,
+        'Rebirth model particles must retain caster ownership and CP0/2 positions')
     assert(ability.cooldown_used, 'Reincarnation must consume its cooldown on the death event')
     assert(#applied_damages == 2 and applied_damages[1].damage == 550 and applied_damages[2].damage == 550)
     assert(creep.modifiers['modifier_enfos_wk_rebirth_slow'].params.duration == 3)
