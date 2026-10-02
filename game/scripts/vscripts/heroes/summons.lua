@@ -13,6 +13,10 @@ function Summons:Own(ability,unit)
     unit:SetControllableByPlayer(hero:GetPlayerOwnerID(),true)
     unit.enfosNoReward=true
     unit.is_allied_reinforcement=true
+    -- Addon flags only guard our reward handlers; the engine pays native bounty separately.
+    unit:SetMinimumGoldBounty(0)
+    unit:SetMaximumGoldBounty(0)
+    unit:SetDeathXP(0)
     table.insert(ability.enfosSummons,unit)
 end
 function Summons:Units(ability,name,position,count,duration,damage,health,maxUnits)

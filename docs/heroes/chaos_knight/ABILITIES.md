@@ -57,6 +57,8 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-02 shared summon reward repair: `Summons:Own` now zeros native minimum/maximum gold bounty and death XP in addition to the addon no-reward flags. Native reward handling does not consult those custom flags. Player ownership/control and group registration remain intact; combat/rank classification is unchanged. Pre-change ward/illusion bounty regression failed; the repaired behavior is MOCK_PASS, with actual enemy kill rewards and owner control still ENGINE PENDING.
+
 2026-10-02 source review: installed native definitions specify Chaos Bolt `ACT_DOTA_CAST_ABILITY_1`, Reality Rift `ACT_DOTA_OVERRIDE_ABILITY_2`, and Phantasm `ACT_DOTA_CAST_ABILITY_4`; these presentation fields were absent from the Enfos KV and are now declared. The same hero definition points to `soundevents/game_sounds_heroes/game_sounds_chaos_knight.vsndevts`; this bank was missing from startup precache despite four emitted Chaos Knight events, so it is now preloaded. Static tests cover the fields/list; engine animation and cold-client audio remain PENDING owner Dota/VConsole test.
 
 2026-09-30 level-50 migration: Q/W/E/Entropy gates are level 1 +1; Phantasm is level 5 +5. Static rank contract is covered by a focused check. Owner live verification of rank points and HUD remains pending.

@@ -7722,4 +7722,27 @@ test('Axe Call binds the shout CP1 to its verified mouth attachment before relea
     assert(bound and released,'Call shout requires CP1 mouth position/orientation, not just origin attachment')
 end)
 
+test('Shared summon ownership removes native kill bounty as well as custom wave rewards', function()
+    local oldLoaded = package.loaded['heroes/summons']
+    package.loaded['heroes/summons'] = nil
+    local manager = require('heroes/summons')
+    local hero = {GetPlayerOwnerID=function() return 3 end}
+    for _, native in ipairs({{goldMin=20,goldMax=26,xp=31}, {goldMin=100,goldMax=100,xp=40}}) do
+        local unit = {
+            SetOwner=function(self,owner) self.owner=owner end,
+            SetControllableByPlayer=function(self,id,enabled) self.player=id; self.controlled=enabled end,
+            SetMinimumGoldBounty=function(self,v) self.goldMin=v end,
+            SetMaximumGoldBounty=function(self,v) self.goldMax=v end,
+            SetDeathXP=function(self,v) self.xp=v end,
+            goldMin=native.goldMin,goldMax=native.goldMax,xp=native.xp,
+        }
+        local ability={GetCaster=function() return hero end,enfosSummons={}}
+        manager:Own(ability,unit)
+        assert(unit.goldMin==0 and unit.goldMax==0 and unit.xp==0, 'native reward delivery ignores addon flags: zero actual bounty')
+        assert(unit.enfosNoReward and unit.is_allied_reinforcement, 'custom reward guards must remain enabled')
+        assert(unit.owner==hero and unit.player==3 and unit.controlled and ability.enfosSummons[1]==unit, 'reward repair must retain player ownership/control')
+    end
+    package.loaded['heroes/summons']=oldLoaded
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')

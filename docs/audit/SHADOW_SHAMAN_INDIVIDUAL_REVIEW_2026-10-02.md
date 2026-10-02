@@ -8,6 +8,10 @@ Owner requested restarting at Shadow Shaman on 2026-10-02. Prior entries remain 
 
 Still open: native extra confusion chickens and brief invulnerability are absent; the current Shard/Scepter are generic role/ultimate bonuses, not a completed unique hero evolution. Serpent wards marked `enfosNoReward` still retain native bounty/XP because the shared summon owner does not zero engine bounty. Review and repair this economy path separately; no runtime assertion is made from the flag.
 
+### Shared summon economy repair
+
+The subsequent ownership regression reproduced the bounty gap before repair: native serpent ward defaults (20–26 gold / 31 XP) survived `Summons:Own`. The owner now zeros both engine gold endpoints and death XP, alongside existing addon reward flags. MCP current server API confirms all three setters. This applies to the four existing callers: Shadow Shaman wards, Wraith King skeletons, Chaos Knight Phantasm and Terrorblade Conjure Image. Relevant hero instructions/dossiers and shared helper were inspected; ability classifications and combat mechanics are unchanged (reward bookkeeping only). Regression also checks that owner/player control and summon-group registration are preserved, using ward and illusion-like native bounty defaults. Actual engine reward delivery remains owner-test PENDING; no combat, count, lifetime, damage or rank changes.
+
 ## Ether Shock target and visual repair decision before implementation
 
 Classification PVE-CONVERT retained: keep the authored target-centered 600 radius, rank target budget, base + Intelligence magical damage and 6% Boss maximum-health cap. Native6943 ability is unit-target magical, cast range600/point0.3 and ACT_DOTA_CAST_ABILITY_1, with cone secondary targeting. Current Enfos radius conversion remains intentional; this repair does not silently substitute a native cone.

@@ -49,6 +49,7 @@ local hero={IsIllusion=function() return false end,GetPlayerOwnerID=function() r
 local function unit()
  return {alive=true,IsNull=function() return false end,IsAlive=function(s) return s.alive end,ForceKill=function(s) s.alive=false end,
   SetOwner=function(s,v) s.owner=v end,SetControllableByPlayer=function(s,p,v) s.player=p;s.control=v end,
+  SetMinimumGoldBounty=function(s,v) s.goldMin=v end,SetMaximumGoldBounty=function(s,v) s.goldMax=v end,SetDeathXP=function(s,v) s.xp=v end,
   SetBaseDamageMin=function() end,SetBaseDamageMax=function() end,SetBaseMaxHealth=function() end,SetMaxHealth=function() end,SetHealth=function() end,
   SetIdleAcquire=function() end,SetAcquisitionRange=function() end,AddNewModifier=function(s,_,_,name,p) s.life=p.duration end}
 end
@@ -73,7 +74,7 @@ test('controllable summon cap survives repeated casts; illusions cannot recursiv
  hero.IsIllusion=function() return false end
  CreateIllusions=function(owner,copy,p,count) assert(owner==hero and copy==hero and count==3 and p.outgoing_damage== -40 and p.incoming_damage==200);return {unit(),unit(),unit()} end
  service:Illusions(a,3,30,60);assert(#a.enfosSummons==3)
- for _,u in ipairs(a.enfosSummons) do assert(u.control and u.enfosNoReward) end
+ for _,u in ipairs(a.enfosSummons) do assert(u.control and u.enfosNoReward and u.goldMin==0 and u.goldMax==0 and u.xp==0) end
 end)
 
 test('match level budget funds all five Enfos skills without a talent tree',function()

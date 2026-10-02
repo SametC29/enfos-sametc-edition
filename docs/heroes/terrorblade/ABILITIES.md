@@ -58,6 +58,8 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-02 shared summon reward repair: `Summons:Own` now zeros native minimum/maximum gold bounty and death XP in addition to the addon no-reward flags. Native reward handling does not consult those custom flags. Player ownership/control and group registration remain intact; combat/rank classification is unchanged. Pre-change ward/illusion bounty regression failed; the repaired behavior is MOCK_PASS, with actual enemy kill rewards and owner control still ENGINE PENDING.
+
 2026-09-30 level-50 migration: Q/W/E/Enfos passive gates start at level 1 with interval 1; R starts at level 5 with interval 5. Static contract test added; point/HUD and gameplay acceptance remain pending for owner live test.
 
 2026-09-30 static special-value repair: migrated all five Terrorblade abilities to named `AbilityValues`, preserving the existing ten-rank scalar/curve data, and added a five-slot schema contract. Native skill identities and Scepter/Shards remain as recorded; this schema fix does not validate illusion behavior, Sunder caps, VFX, audio or metamorphosis form in Dota. The user owns those live tests.
