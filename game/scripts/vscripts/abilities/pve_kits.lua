@@ -2336,6 +2336,7 @@ end
 modifier_enfos_centaur_stampede_buff=class({})
 function modifier_enfos_centaur_stampede_buff:IsPurgable() return false end
 function modifier_enfos_centaur_stampede_buff:GetEffectName() return 'particles/units/heroes/hero_centaur/centaur_stampede_haste.vpcf' end
+function modifier_enfos_centaur_stampede_buff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_centaur_stampede_buff:DeclareFunctions()
     return { MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE, MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE }
 end
@@ -2344,8 +2345,25 @@ function modifier_enfos_centaur_stampede_buff:GetModifierIncomingDamage_Percenta
 function modifier_enfos_centaur_stampede_buff:CheckState() return { [MODIFIER_STATE_NO_UNIT_COLLISION] = true } end
 function modifier_enfos_centaur_stampede_buff:OnCreated()
     if not IsServer() then return end
+    local p = self:GetParent()
+    if p and not p:IsNull() then
+        if self.movement_sound_started then p:StopSound('Hero_Centaur.Stampede.Movement') end
+        p:EmitSound('Hero_Centaur.Stampede.Movement')
+        self.movement_sound_started = true
+    end
     self.trampled = {}
     self:StartIntervalThink(0.2)
+end
+function modifier_enfos_centaur_stampede_buff:OnRefresh()
+    self:OnCreated()
+end
+function modifier_enfos_centaur_stampede_buff:OnDestroy()
+    if not IsServer() then return end
+    local p = self:GetParent()
+    if self.movement_sound_started and p and not p:IsNull() then
+        p:StopSound('Hero_Centaur.Stampede.Movement')
+    end
+    self.movement_sound_started = false
 end
 function modifier_enfos_centaur_stampede_buff:OnIntervalThink()
     if not IsServer() then return end
@@ -2365,6 +2383,7 @@ function modifier_enfos_centaur_stampede_buff:OnIntervalThink()
         local id = u:entindex()
         if not self.trampled[id] then
             self.trampled[id] = true
+            u:EmitSound('Hero_Centaur.Stampede.Stun')
             damage(a, u, dmg, DAMAGE_TYPE_PHYSICAL)
             if not u:IsNull() and u:IsAlive() then
                 u:AddNewModifier(c, a, 'modifier_enfos_centaur_stampede_slow', { duration = value(a, 'slow_duration') })

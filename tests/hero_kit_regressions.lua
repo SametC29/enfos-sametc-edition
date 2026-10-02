@@ -1714,6 +1714,25 @@ test('Centaur Stampede tramples each enemy once per ally buff', function()
     assert(#applied_damages == 1, 'One ally buff must not trample the same enemy repeatedly during its duration')
 end)
 
+test('Centaur Stampede refresh renews contact tracking and owns movement audio',function()
+    local centaur=create_mock_unit('npc_dota_hero_centaur',2,Vector(0,0,0))
+    local enemy=create_mock_unit('creep_refresh',3,Vector(100,0,0))
+    mock_world_units={centaur,enemy};applied_damages={}
+    local starts,stops,contacts=0,0,0
+    centaur.EmitSound=function(_,event) assert(event=='Hero_Centaur.Stampede.Movement');starts=starts+1 end
+    centaur.StopSound=function(_,event) assert(event=='Hero_Centaur.Stampede.Movement');stops=stops+1 end
+    enemy.EmitSound=function(_,event) assert(event=='Hero_Centaur.Stampede.Stun');contacts=contacts+1 end
+    local a={GetSpecialValueFor=function(_,key) return ({trample_radius=150,trample_damage=200,slow_duration=1.5})[key] or 0 end}
+    local m=setmetatable({GetParent=function() return centaur end,GetCaster=function() return centaur end,
+        GetAbility=function() return a end,StartIntervalThink=function() end},modifier_enfos_centaur_stampede_buff)
+    m:OnCreated();m:OnIntervalThink();m:OnIntervalThink()
+    assert(starts==1 and contacts==1 and #applied_damages==1,'One active buff must own one movement emission and one hit sound per contact')
+    m:OnRefresh();m:OnIntervalThink()
+    assert(starts==2 and stops==1 and contacts==2 and #applied_damages==2,'Recast must replace its audio and allow a fresh trample')
+    m:OnDestroy()
+    assert(stops==2 and m:GetEffectAttachType()==PATTACH_ABSORIGIN_FOLLOW,'Ending Stampede must stop audio and its modifier owns the following haste root')
+end)
+
 test('Centaur Stampede skips control after lethal removal and stops on lost caster', function()
     local centaur=create_mock_unit('npc_dota_hero_centaur',2,Vector(0,0,0))
     local enemy=create_mock_unit('lethal_trample',3,Vector(100,0,0))

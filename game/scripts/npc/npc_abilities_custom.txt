@@ -2110,6 +2110,7 @@
 
 	"enfos_centaur_stampede"
 	{
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_4"
 		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
