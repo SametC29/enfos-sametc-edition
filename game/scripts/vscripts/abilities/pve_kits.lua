@@ -3347,7 +3347,7 @@ function enfos_dazzle_bad_juju:OnSpellStart()
     local duration = value(self, 'effect_duration')
     if duration <= 0 then duration = 8.0 end
     local cost = c:GetHealth() * cost_pct / 100
-    if c:GetHealth() > cost then c:SetHealth(c:GetHealth() - cost) end
+    if c:GetHealth() > cost then c:SetHealth(math.max(1, math.floor(c:GetHealth() - cost))) end
 
     c:EmitSound('Hero_Dazzle.BadJuju.Cast')
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), value(self, 'radius'))) do

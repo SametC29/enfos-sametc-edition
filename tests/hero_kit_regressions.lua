@@ -2691,6 +2691,9 @@ test('Dazzle Bad Juju spends configured health and reduces other ability cooldow
     passive.GetAbility = function() return ab end
     passive:OnAbilityFullyCast({ unit = dazzle, ability = just_cast })
     assert(cd == 7, 'Bad Juju passive must reduce another ability cooldown by its configured value')
+    dazzle.hp=1
+    ab:OnSpellStart()
+    assert(dazzle:GetHealth()==1,'Percent health cost must not pass fractional sub-one health into the integer engine setter')
 end)
 
 test('Dazzle Nothl Weave is suppressed by Break while active Poison Touch still applies', function()
