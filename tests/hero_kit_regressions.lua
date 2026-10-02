@@ -2040,6 +2040,9 @@ end)
 test('Sniper Shrapnel owns its persistent ground effect and supplies the configured radius', function()
     local sniper = create_mock_unit('npc_dota_hero_sniper',2,Vector(0,0,0))
     local thinker = create_mock_unit('shrapnel_thinker',2,Vector(1600,900,128))
+    local sound,stopped
+    thinker.EmitSound=function(_,event) sound=event end
+    thinker.StopSound=function(_,event) stopped=event end
     local m = modifier_enfos_sniper_shrapnel_thinker()
     m.GetParent=function() return thinker end
     m.GetCaster=function() return sniper end
@@ -2060,6 +2063,9 @@ test('Sniper Shrapnel owns its persistent ground effect and supplies the configu
     assert(allocations==1 and owners==1 and releases==0 and cp[0]==thinker.origin
         and cp[2]==thinker.origin and cp[1].x==450,
         'Shrapnel emitter must have a modifier cleanup owner and its actual radius CP')
+    assert(sound=='Hero_Sniper.ShrapnelShatter','Field must play the installed ground impact sound at the thinker')
+    m:OnDestroy()
+    assert(stopped==sound and thinker.removed,'Field removal must stop its long sound before removing the entity')
     ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex,
         PATTACH_WORLDORIGIN=oldCreate,oldControl,oldRelease,oldWorld
 end)

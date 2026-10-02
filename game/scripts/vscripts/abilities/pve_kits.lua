@@ -2703,7 +2703,12 @@ function enfos_sniper_shrapnel:OnSpellStart()
 end
 
 modifier_enfos_sniper_shrapnel_thinker=class({})
-function modifier_enfos_sniper_shrapnel_thinker:OnDestroy() remove_ground_effect(self) end
+function modifier_enfos_sniper_shrapnel_thinker:OnDestroy()
+    if not IsServer() then return end
+    local parent = self:GetParent()
+    if parent and not parent:IsNull() then parent:StopSound('Hero_Sniper.ShrapnelShatter') end
+    remove_ground_effect(self)
+end
 function modifier_enfos_sniper_shrapnel_thinker:OnCreated(kv)
     if not IsServer() then return end
     self.radius = (kv and kv.radius) or 450
@@ -2715,6 +2720,7 @@ function modifier_enfos_sniper_shrapnel_thinker:OnCreated(kv)
     ParticleManager:SetParticleControl(particle, 1, Vector(self.radius, 0, 0))
     ParticleManager:SetParticleControl(particle, 2, origin)
     self:AddParticle(particle, false, false, -1, false, false)
+    self:GetParent():EmitSound('Hero_Sniper.ShrapnelShatter')
 end
 function modifier_enfos_sniper_shrapnel_thinker:OnIntervalThink()
     if not IsServer() then return end
