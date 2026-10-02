@@ -86,6 +86,65 @@ Diagnose proven defects and repair them with focused changes. Avoid broad specul
 
 Run meaningful regression checks after each repair. Preserve unrelated contributor work and make isolated local commits for logically separate fixes.
 
+## Mandatory hero ability isolation — owner addition, 2026-10-03
+
+Ability isolation is part of this same individual audit goal, not a separate
+optional cleanup. Apply it one reviewed hero at a time in the current owner
+review order. Do not migrate all 40 kits in a bulk rewrite or postpone the
+five-slot inspection in favor of a global refactor.
+
+For each release hero, move its custom Q/W/E/R/D ability classes and exclusively
+owned modifiers/helpers out of `game/scripts/vscripts/abilities/pve_kits.lua`
+into `game/scripts/vscripts/abilities/heroes/<native_hero_slug>/`. Prefer a
+separate Lua file per slot or coherent ability/modifier unit, with explicit
+dependencies. New custom heroes must use this isolated structure from the start.
+Keep verified native KEEP/TUNE abilities native; do not replace engine behavior
+with custom Lua solely to satisfy a directory convention.
+
+Before extraction, identify each class, modifier, local helper, shared state,
+callback, precache dependency and cross-hero caller. Preserve stable hero/ability
+and modifier IDs, global class registration, callback signatures, server/client
+behavior, state ownership and intended correct PvE behavior. Moving files alone
+does not justify numerical, design or lifecycle changes. Keep proven gameplay
+repairs logically separate from behavior-preserving extraction where practical.
+
+Keep truly shared gameplay/resource helpers in explicit shared modules and use
+the existing common runtime trace helper and single debug flag. Do not copy a
+private version into every hero, depend on another hero's local scope, or create
+circular imports. Do not add timers, events, modifiers, searches or state changes
+to make isolation or tracing easier.
+
+Update the affected KV `ScriptFile`, `LinkLuaModifier` paths and explicit startup
+loading where required. Preserve startup assertions, precache ownership and
+class availability at cold start; ensure there is exactly one authoritative
+definition of each extracted class. `pve_kits.lua` may remain a backward-compatible
+loader/shared entry point while migration proceeds, but completed custom hero
+implementations must live in their isolated modules.
+
+Adapt existing structural audits, ability/mock tests, localization modifier
+discovery and generated dossier inventories to follow actual KV/module ownership
+rather than assuming all implementations are in `pve_kits.lua`. Keep production
+KV authoritative and retain release-roster checks and hero-selection behavior.
+Regenerate only affected derived inventories/mirrors and preserve handwritten
+decisions and owner evidence. Do not create a competing content source.
+
+For each extraction, verify Lua syntax, KV/class/modifier resolution, imports and
+duplicate-definition absence; run the hero's meaningful behavior/trace regressions
+and required shared/full checks. Compare before/after behavior for material
+branches, including shared consumers and relevant death/refresh/recast/attack-record
+paths. Record exact moved files, dependency decisions and test results. Owner
+cold-start/full-restart tests must separately verify new script registrations,
+modifier loading, resources and standardized traces; static checks and mocks do
+not establish engine acceptance.
+
+Record `ABILITY ISOLATION: COMPLETE / PARTIAL / PENDING` per hero, with a Q/W/E/R/D
+module/ownership map, any justified native/shared exceptions and explicit remaining
+work. `COMPLETE` means the custom kit is isolated and source/regression requirements
+passed; owner runtime acceptance retains its separate status. Do not carry historical
+source closure forward without reviewing the extracted implementation. Finish
+material isolation and trace coverage before marking that hero's source review
+complete.
+
 ## Mandatory standardized runtime trace instrumentation
 
 As each hero is reviewed, add or verify a lightweight standardized VConsole runtime trace layer that allows owner-driven live tests to produce useful diagnostic evidence.
@@ -255,6 +314,8 @@ For each hero record at minimum:
 
 `RUNTIME TRACE COVERAGE: COMPLETE / PARTIAL / MISSING`
 
+`ABILITY ISOLATION: COMPLETE / PARTIAL / PENDING` with per-slot module/ownership paths and justified native/shared exceptions
+
 `OWNER RUNTIME TRACE EVIDENCE: PASS / PARTIAL / FAIL / NOT TESTED`
 
 `OWNER VISUAL/AUDIO VERIFICATION: PASS / PARTIAL / FAIL / NOT TESTED`
@@ -326,6 +387,7 @@ read documentation
 → record KEEP/TUNE/PVE-CONVERT/REPLACE
 → identify proven defects
 → make focused repairs
+→ isolate that hero's custom ability/modifier modules and update their explicit dependencies/KV paths
 → add/verify standardized runtime tracing
 → run focused regression checks
 → record findings
@@ -347,6 +409,7 @@ The goal is complete only when all 40 release heroes have:
 - proven defects repaired where feasible
 - meaningful regression validation recorded
 - standardized runtime trace coverage added or verified
+- custom Q/W/E/R/D implementations isolated into hero modules, with justified native/shared exceptions and an individual isolation/dependency record
 - a separate per-hero findings ledger
 - code review status recorded
 - mock/regression status recorded
