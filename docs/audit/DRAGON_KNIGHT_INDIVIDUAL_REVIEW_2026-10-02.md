@@ -1,5 +1,29 @@
 # Dragon Knight individual review — 2026-10-02
 
+## Passive source-eligibility decision — 2026-10-02
+
+Installed build remains6943 / SourceRevision11069754, verified from steam.inf.
+Keep both existing PVE-CONVERT passives: Dragon Blood sustain and Wyrm Vigor's
+authored defensive fifth slot. Their property callbacks check Break/illusion,
+but not owner/source validity or learned rank. Dragon Blood still adds5% Strength
+regen after a removed ability makes the shared value helper return zero; rank0
+can also expose KV bonuses. Add a Dragon Knight-local source guard reused by
+these two modifiers, rejecting missing/null owner or ability and unlearned rank,
+while preserving Break/illusion exclusions. No all-hero helper rewrite, rank
+curve, numerical balance, death persistence or tooltip change. MCP GetLevel is
+available both realms; ModDota's declaration documents it. A mock must reproduce
+the old rank0/missing-source leak before repair, then cover both source owners
+and live rank restoration. Actual rank0 intrinsic installation, engine rank-up
+stat recalculation, free fifth rank and respawn remain owner tests.
+
+Result: targeted pre-change rank0 regression failed on residual stats. Both
+intrinsic owners now share a hero-local live learned source guard. Missing/null
+ability or parent returns zero for armor/regen/resistance/Strength; learned rank
+restores the existing numbers. Dragon Blood's5% Strength regeneration no longer
+survives source removal. Existing Break/illusion tests remain passing; all315
+hero mocks and full checks pass with zero failures. Engine stat recalculation,
+free starting passive rank, removal/relearning/death/reconnect remain PENDING.
+
 ## Sol re-review: Elder Dragon splash decision
 
 Re-read the installed hero definition via MCP vpk_read(maxChars60000), including

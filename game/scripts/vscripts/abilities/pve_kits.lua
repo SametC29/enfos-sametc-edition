@@ -5304,20 +5304,29 @@ function modifier_enfos_dk_dragon_tail_stun:CheckState() return { [MODIFIER_STAT
 enfos_dk_dragon_blood=class({})
 function enfos_dk_dragon_blood:GetIntrinsicModifierName() return 'modifier_enfos_dk_dragon_blood_passive' end
 
+local function dk_passive_sources(modifier)
+    local c = modifier:GetParent()
+    if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled())
+        or (c.IsIllusion and c:IsIllusion()) then return nil end
+    local a = modifier:GetAbility()
+    if not a or (a.IsNull and a:IsNull()) or (a.GetLevel and a:GetLevel() <= 0) then return nil end
+    return c, a
+end
+
 modifier_enfos_dk_dragon_blood_passive=class({})
 function modifier_enfos_dk_dragon_blood_passive:DeclareFunctions()
     return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS, MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT }
 end
 function modifier_enfos_dk_dragon_blood_passive:GetModifierPhysicalArmorBonus()
-    local c = self:GetParent()
-    if (c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion()) then return 0 end
-    return (self.GetAbility and value(self:GetAbility(), 'bonus_armor')) or 18
+    local c, a = dk_passive_sources(self)
+    if not c then return 0 end
+    return value(a, 'bonus_armor')
 end
 function modifier_enfos_dk_dragon_blood_passive:GetModifierConstantHealthRegen()
-    local c = self:GetParent()
-    if (c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion()) then return 0 end
+    local c, a = dk_passive_sources(self)
+    if not c then return 0 end
     local str = get_str(c)
-    local base = (self.GetAbility and value(self:GetAbility(), 'bonus_hp_regen')) or 25
+    local base = value(a, 'bonus_hp_regen')
     return base + (str * 0.05)
 end
 
@@ -5419,14 +5428,14 @@ function modifier_enfos_dk_wyrm_vigor_passive:DeclareFunctions()
     return { MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS, MODIFIER_PROPERTY_STATS_STRENGTH_BONUS }
 end
 function modifier_enfos_dk_wyrm_vigor_passive:GetModifierMagicalResistanceBonus()
-    local c = self:GetParent()
-    if (c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion()) then return 0 end
-    return value(self:GetAbility(), 'magic_resist')
+    local c, a = dk_passive_sources(self)
+    if not c then return 0 end
+    return value(a, 'magic_resist')
 end
 function modifier_enfos_dk_wyrm_vigor_passive:GetModifierBonusStats_Strength()
-    local c = self:GetParent()
-    if (c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion()) then return 0 end
-    return value(self:GetAbility(), 'bonus_strength')
+    local c, a = dk_passive_sources(self)
+    if not c then return 0 end
+    return value(a, 'bonus_strength')
 end
 
 -- ----------------------------------------------------------------------------

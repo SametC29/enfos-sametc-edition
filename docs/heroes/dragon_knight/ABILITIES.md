@@ -57,6 +57,14 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-02 passive validity repair: Dragon Blood and Wyrm Vigor now require a
+valid owner and learned live ability, preserving Break and illusion suppression.
+Rank0/source-removal mock reproduced a residual-bonus defect, including Dragon
+Blood's Strength regen. The repaired callbacks return zero for absent/null
+parent/ability and restore existing values when learned. All315 hero mocks and
+full checks pass; live rank-up/health recalculation, passive free grant, death
+and reconnect remain OWNER_RUNTIME PENDING. No curve or balance change.
+
 2026-10-02 Sol re-review, R splash: installed native Elder Dragon Form definition
 was reread through MCP, not inferred from icon/slot. Existing PVE-CONVERT splash
 rejected a primary killed by the attack; targeted mock reproduced this. It now
