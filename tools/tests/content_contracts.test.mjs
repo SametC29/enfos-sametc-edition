@@ -123,7 +123,9 @@ test('every hero exposes correct ultimate/evolution contracts and migrated Enfos
     assert.ok(abilities[h.Ability5].AbilityBehavior?.includes('DOTA_ABILITY_BEHAVIOR_PASSIVE'),id+': fifth Enfos ability must be passive');
     assert.equal(abilities[h.Ability4].AbilityType,'DOTA_ABILITY_TYPE_ULTIMATE',id);
     assert.equal(abilities[h.Ability4].HasScepterUpgrade,'1',id);
-    assert.equal(abilities[h.Ability5].HasShardUpgrade,'1',id);
+    const shardAbility=id==='npc_dota_hero_shadow_shaman'?h.Ability2:h.Ability5;
+    assert.equal(abilities[shardAbility].HasShardUpgrade,'1',id);
+    if(id==='npc_dota_hero_shadow_shaman') assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Fowl Play must not advertise the replaced generic Shard');
     for(let i=7;i<=9;i++)assert.equal(h['Ability'+i],'generic_hidden',id+': unused ability slot');
     for(let i=10;i<=17;i++)assert.equal(h['Ability'+i],'generic_hidden',id+': talent slot must stay disabled');
     assert.equal(h.Ability19,'generic_hidden',id+': native attribute bonus must be hidden');
@@ -131,7 +133,7 @@ test('every hero exposes correct ultimate/evolution contracts and migrated Enfos
     for(const lang of ['turkish','english','russian','schinese']){
       const tokens=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens;
       assert.ok(tokens['DOTA_Tooltip_Ability_'+h.Ability4+'_scepter_description']);
-      assert.ok(tokens['DOTA_Tooltip_Ability_'+h.Ability5+'_shard_description']);
+      assert.ok(tokens['DOTA_Tooltip_Ability_'+shardAbility+'_shard_description']);
     }
   }
   assert.equal(Object.keys(abilities).filter(id=>id.startsWith('special_bonus_enfos_')).length,0,'removed talent abilities must not remain in KV');

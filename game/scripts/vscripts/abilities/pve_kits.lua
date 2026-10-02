@@ -6696,13 +6696,32 @@ function enfos_ss_hex:OnSpellStart()
     if t:GetTeamNumber() == c:GetTeamNumber() then return end
     if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
 
+    local center = t:GetAbsOrigin()
+    if not self:ApplyHex(t) then return end
+    if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return end
+    if not require('heroes/aghanim_manager'):HasShard(c) then return end
+    local remaining = math.max(0, math.floor(value(self, 'shard_targets')))
+    local seen = {[t] = true}
+    for _, target in ipairs(enemies(c, center, value(self, 'shard_radius'))) do
+        if remaining <= 0 then break end
+        if not seen[target] then
+            seen[target] = true
+            if self:ApplyHex(target) then remaining = remaining - 1 end
+        end
+    end
+end
+function enfos_ss_hex:ApplyHex(t)
+    local c = self:GetCaster()
+    if (self.IsNull and self:IsNull()) or not c or (c.IsNull and c:IsNull()) or not c:IsAlive()
+        or not t or t:IsNull() or not t:IsAlive() or t:GetTeamNumber() == c:GetTeamNumber() then return false end
     local dur = value(self, 'duration')
     if dur <= 0 then dur = 3.5 end
     if is_boss(t) then dur = dur * 0.35 end
     local hex = t:AddNewModifier(c, self, 'modifier_enfos_ss_hex_debuff', { duration = dur })
-    if not hex or (hex.IsNull and hex:IsNull()) or t:IsNull() or not t:IsAlive() then return end
+    if not hex or (hex.IsNull and hex:IsNull()) or t:IsNull() or not t:IsAlive() then return false end
     t:EmitSound('Hero_ShadowShaman.Hex.Target')
     effect('particles/units/heroes/hero_shadowshaman/shadowshaman_voodoo.vpcf', t)
+    return true
 end
 
 modifier_enfos_ss_hex_debuff=class({})

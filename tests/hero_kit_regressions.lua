@@ -1058,6 +1058,44 @@ test('Shadow Shaman Hex only presents successful enemy casts and uses recipient 
     assert(created==1 and impact==1,'failed, allied or absorbed casts cannot show success feedback')
 end)
 
+test('Shadow Shaman Shard spreads Hex with a bounded target budget and retains boss duration', function()
+    local oldAg=package.loaded['heroes/aghanim_manager']
+    local shard=true
+    package.loaded['heroes/aghanim_manager']={HasShard=function() return shard end}
+    local hero=create_mock_unit('npc_dota_hero_shadow_shaman',2,Vector(0,0,0))
+    local primary=create_mock_unit('hex_primary',3,Vector(100,0,0))
+    local boss=create_mock_unit('enfos_boss_hex_secondary',3,Vector(120,0,0))
+    local creep=create_mock_unit('hex_secondary',3,Vector(130,0,0))
+    local extra=create_mock_unit('hex_over_budget',3,Vector(140,0,0))
+    local ally=create_mock_unit('hex_ally',2,Vector(110,0,0))
+    mock_world_units={primary,boss,creep,extra,ally}
+    local a=enfos_ss_hex();a.GetCaster=function() return hero end;a.GetCursorTarget=function() return primary end
+    a.GetSpecialValueFor=function(_,k) return ({duration=4,shard_radius=325,shard_targets=2})[k] or 0 end
+    a:OnSpellStart()
+    assert(primary:HasModifier('modifier_enfos_ss_hex_debuff') and boss:HasModifier('modifier_enfos_ss_hex_debuff') and creep:HasModifier('modifier_enfos_ss_hex_debuff'),'Shard must transform primary and two additional enemies')
+    assert(not extra:HasModifier('modifier_enfos_ss_hex_debuff') and not ally:HasModifier('modifier_enfos_ss_hex_debuff'),'Spread cannot exceed target budget or affect allies')
+    assert(math.abs(boss.modifiers.modifier_enfos_ss_hex_debuff.params.duration-1.4)<0.001,'Boss shortening also applies to spread targets')
+    for _,u in ipairs(mock_world_units) do u.modifiers={} end
+    shard=false;a:OnSpellStart()
+    assert(primary:HasModifier('modifier_enfos_ss_hex_debuff') and not boss:HasModifier('modifier_enfos_ss_hex_debuff'),'No Shard means ordinary single-target Hex')
+    for _,u in ipairs(mock_world_units) do u.modifiers={} end
+    shard=true;primary.TriggerSpellAbsorb=function() return true end;a:OnSpellStart()
+    assert(not primary:HasModifier('modifier_enfos_ss_hex_debuff') and not boss:HasModifier('modifier_enfos_ss_hex_debuff'),'Blocked primary must prevent all secondary Hexes')
+    package.loaded['heroes/aghanim_manager']=oldAg
+end)
+
+test('Shadow Shaman unique Shard replaces generic healing without altering other supports', function()
+    require('heroes/aghanim_manager')
+    local name='npc_dota_hero_shadow_shaman'
+    local parent={GetUnitName=function() return name end}
+    local m=setmetatable({role='Support',GetParent=function() return parent end},modifier_enfos_shard_upgrade)
+    assert(m:GetModifierHealAmplify_PercentageSource()==0,'Hex Shard must not stack generic healing amplification')
+    assert(m:IsHidden(),'Replaced generic Support bonus must not advertise a misleading buff icon')
+    name='npc_dota_hero_dazzle'
+    assert(m:GetModifierHealAmplify_PercentageSource()==25,'Other Support Shards retain existing healing amplification')
+    assert(not m:IsHidden(),'Other Support bonus icons must remain visible')
+end)
+
 test('Shadow Shaman Fowl Play saves lethal damage with native chicken identity, strong dispel and brief protection', function()
     local shaman = create_mock_unit('npc_dota_hero_shadow_shaman', 2, Vector(0, 0, 0), 1000)
     local ability = enfos_ss_fowl_play()

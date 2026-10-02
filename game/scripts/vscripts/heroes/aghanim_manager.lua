@@ -248,7 +248,8 @@ end
 modifier_enfos_shard_upgrade = class({})
 function modifier_enfos_shard_upgrade:IsHidden()
     local parent = self.GetParent and self:GetParent()
-    return parent and parent.GetUnitName and parent:GetUnitName() == "npc_dota_hero_sven" or false
+    local name = parent and parent.GetUnitName and parent:GetUnitName()
+    return name == "npc_dota_hero_sven" or name == "npc_dota_hero_shadow_shaman"
 end
 function modifier_enfos_shard_upgrade:IsPurgable() return false end
 function modifier_enfos_shard_upgrade:IsPermanent() return true end
@@ -296,6 +297,8 @@ function modifier_enfos_shard_upgrade:GetModifierSpellAmplify_Percentage()
 end
 
 function modifier_enfos_shard_upgrade:GetModifierHealAmplify_PercentageSource()
+	local parent = self.GetParent and self:GetParent()
+	if parent and parent.GetUnitName and parent:GetUnitName() == "npc_dota_hero_shadow_shaman" then return 0 end
 	if self.role == "Support" then return 25 end
 	return 0
 end

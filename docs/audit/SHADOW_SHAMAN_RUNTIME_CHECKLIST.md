@@ -17,7 +17,8 @@ Status: NOT RUN. Code/mocks are separate evidence. Restart the local addon fully
 - Q damage is configured base + Intelligence; Boss raw damage is capped at 6% max HP before mitigation.
 - E damage per tick is (configured DPS + 0.6 Intelligence) × 0.5; current heal uses this raw amount. Do not infer heal from enemy health lost after resistance.
 - R damage is configured ward damage + 0.4 Intelligence. Existing Scepter adds 40% ward attack damage and the shared 25% ultimate cooldown reduction; Blessing must retain it. Test attack damage, not only tooltip values.
-- Current Shard remains the generic Support healing bonus/pulse. Native confusion chickens, native Urnaconda and a unique hero Scepter evolution are not implemented. Their absence is an open development item, not a passed test.
+- Buy Shard: Hex should transform the primary plus up to two additional enemies within 325. Check Boss shortened duration on a secondary, immunity, strong dispel, primary spell absorption preventing spread, and exactly one effect/sound per transformed enemy. Generic Support healing amplification should no longer stack on Shadow Shaman. Other supports retain their existing bonus.
+- This Shard is an authored Enfos Hex evolution, not native Urnaconda. Native confusion chickens and a unique hero Scepter evolution remain open development items, not passed tests.
 - Repeat channel/purge/recast cases with two Shadow Shamans on opposing teams where possible; one caster's cleanup must not remove the other's effects.
 
 ## Evidence to capture

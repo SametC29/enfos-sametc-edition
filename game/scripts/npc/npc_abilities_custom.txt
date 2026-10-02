@@ -3173,6 +3173,7 @@
 
 	"enfos_ss_hex"
 	{
+		"HasShardUpgrade" "1"
 		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType" "SPELL_DISPELLABLE_YES_STRONG"
 		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_2"
@@ -3197,6 +3198,8 @@
 		"AbilityValues"
 		{
 			"duration" "3 3.5 4 4.5 4.6 4.7 4.8 4.9 5 5.1"
+			"shard_radius" "325"
+			"shard_targets" "2"
 		}
 		"ScriptFile"				"abilities/pve_kits"
 	}
@@ -3263,7 +3266,6 @@
 
 	"enfos_ss_fowl_play"
 	{
-		"HasShardUpgrade" "1"
 		"IsBreakable" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
