@@ -1350,6 +1350,12 @@
     "DOTA_Tooltip_modifier_enfos_wk_vampiric_aura_buff": "Vampiric Aura",
     "DOTA_Tooltip_modifier_enfos_wk_vampiric_aura_buff_Description": "Heals for %dMODIFIER_PROPERTY_TOOLTIP%%% of hostile attack damage. Disabled while the aura source is affected by Break.",
     "DOTA_Tooltip_modifier_enfos_wk_rebirth_slow": "Reincarnation",
-    "DOTA_Tooltip_modifier_enfos_wk_rebirth_slow_Description": "Movement speed reduced by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Boss duration is reduced."
+    "DOTA_Tooltip_modifier_enfos_wk_rebirth_slow_Description": "Movement speed reduced by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Boss duration is reduced.",
+    "DOTA_Tooltip_modifier_enfos_pa_stifling_dagger_slow": "Stifling Dagger",
+    "DOTA_Tooltip_modifier_enfos_pa_stifling_dagger_slow_Description": "Movement speed reduced by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_pa_phantom_strike_buff": "Phantom Strike",
+    "DOTA_Tooltip_modifier_enfos_pa_phantom_strike_buff_Description": "Attack speed increased by %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Heals for %dMODIFIER_PROPERTY_TOOLTIP%%% of damage dealt to enemies.",
+    "DOTA_Tooltip_modifier_enfos_pa_blur_active": "Blur",
+    "DOTA_Tooltip_modifier_enfos_pa_blur_active_Description": "Invisible. Coup de Grace consumes this effect to guarantee a critical attack."
   }
 }

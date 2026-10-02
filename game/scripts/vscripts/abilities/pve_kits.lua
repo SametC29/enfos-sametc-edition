@@ -4237,6 +4237,7 @@ function enfos_pa_stifling_dagger:OnProjectileHit_ExtraData(hTarget, vLocation, 
 end
 
 modifier_enfos_pa_stifling_dagger_slow=class({})
+function modifier_enfos_pa_stifling_dagger_slow:GetTexture() return 'phantom_assassin_stifling_dagger' end
 function modifier_enfos_pa_stifling_dagger_slow:IsDebuff() return true end
 function modifier_enfos_pa_stifling_dagger_slow:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
 function modifier_enfos_pa_stifling_dagger_slow:GetModifierMoveSpeedBonus_Percentage() return -value(self:GetAbility(), 'slow_pct') end
@@ -4260,9 +4261,11 @@ function enfos_pa_phantom_strike:OnSpellStart()
 end
 
 modifier_enfos_pa_phantom_strike_buff=class({})
+function modifier_enfos_pa_phantom_strike_buff:GetTexture() return 'phantom_assassin_phantom_strike' end
 function modifier_enfos_pa_phantom_strike_buff:DeclareFunctions()
-    return { MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_EVENT_ON_TAKEDAMAGE }
+    return { MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_EVENT_ON_TAKEDAMAGE, MODIFIER_PROPERTY_TOOLTIP }
 end
+function modifier_enfos_pa_phantom_strike_buff:OnTooltip() return value(self:GetAbility(), 'heal_pct') end
 function modifier_enfos_pa_phantom_strike_buff:GetModifierAttackSpeedBonus_Constant() return value(self:GetAbility(), 'bonus_attack_speed') end
 function modifier_enfos_pa_phantom_strike_buff:OnTakeDamage(params)
     if not IsServer() or not params then return end
@@ -4285,6 +4288,7 @@ function enfos_pa_blur:OnSpellStart()
 end
 
 modifier_enfos_pa_blur_passive=class({})
+function modifier_enfos_pa_blur_passive:GetTexture() return 'phantom_assassin_blur' end
 function modifier_enfos_pa_blur_passive:DeclareFunctions() return { MODIFIER_PROPERTY_EVASION_CONSTANT } end
 function modifier_enfos_pa_blur_passive:GetModifierEvasion_Constant()
     local c = self:GetParent()
@@ -4293,12 +4297,14 @@ function modifier_enfos_pa_blur_passive:GetModifierEvasion_Constant()
 end
 
 modifier_enfos_pa_blur_active=class({})
+function modifier_enfos_pa_blur_active:GetTexture() return 'phantom_assassin_blur' end
 function modifier_enfos_pa_blur_active:CheckState() return { [MODIFIER_STATE_INVISIBLE] = true } end
 
 enfos_pa_coup_de_grace=class({})
 function enfos_pa_coup_de_grace:GetIntrinsicModifierName() return 'modifier_enfos_pa_coup_de_grace_passive' end
 
 modifier_enfos_pa_coup_de_grace_passive=class({})
+function modifier_enfos_pa_coup_de_grace_passive:GetTexture() return 'phantom_assassin_coup_de_grace' end
 function modifier_enfos_pa_coup_de_grace_passive:DeclareFunctions()
     return { MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE, MODIFIER_EVENT_ON_ATTACK_LANDED, MODIFIER_EVENT_ON_ATTACK_RECORD_DESTROY }
 end
@@ -4358,6 +4364,7 @@ enfos_pa_immaterial=class({})
 function enfos_pa_immaterial:GetIntrinsicModifierName() return 'modifier_enfos_pa_immaterial_passive' end
 
 modifier_enfos_pa_immaterial_passive=class({})
+function modifier_enfos_pa_immaterial_passive:GetTexture() return 'phantom_assassin_immaterial' end
 function modifier_enfos_pa_immaterial_passive:DeclareFunctions() return { MODIFIER_PROPERTY_EVASION_CONSTANT } end
 function modifier_enfos_pa_immaterial_passive:GetModifierEvasion_Constant()
     local c = self:GetParent()

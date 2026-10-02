@@ -1721,6 +1721,12 @@
     "DOTA_Tooltip_modifier_enfos_wk_vampiric_aura_buff": "Vampir Aurası",
     "DOTA_Tooltip_modifier_enfos_wk_vampiric_aura_buff_Description": "Düşmana verilen saldırı hasarının %dMODIFIER_PROPERTY_TOOLTIP%%% kadarıyla iyileşir. Aura kaynağı Kırılma etkisindeyken çalışmaz.",
     "DOTA_Tooltip_modifier_enfos_wk_rebirth_slow": "Yeniden Doğuş",
-    "DOTA_Tooltip_modifier_enfos_wk_rebirth_slow_Description": "Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% azalır. Bosslarda süre kısalır."
+    "DOTA_Tooltip_modifier_enfos_wk_rebirth_slow_Description": "Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% azalır. Bosslarda süre kısalır.",
+    "DOTA_Tooltip_modifier_enfos_pa_stifling_dagger_slow": "Boğucu Hançer",
+    "DOTA_Tooltip_modifier_enfos_pa_stifling_dagger_slow_Description": "Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% azalır.",
+    "DOTA_Tooltip_modifier_enfos_pa_phantom_strike_buff": "Hayalet Saldırı",
+    "DOTA_Tooltip_modifier_enfos_pa_phantom_strike_buff_Description": "Saldırı hızı %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT% artar. Düşmanlara verilen hasarın %dMODIFIER_PROPERTY_TOOLTIP%%% kadarıyla iyileşir.",
+    "DOTA_Tooltip_modifier_enfos_pa_blur_active": "Bulanıklık",
+    "DOTA_Tooltip_modifier_enfos_pa_blur_active_Description": "Görünmez. Coup de Grace, kritik saldırıyı garanti etmek için bu etkiyi tüketir."
   }
 }

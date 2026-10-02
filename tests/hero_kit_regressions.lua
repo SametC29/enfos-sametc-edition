@@ -3532,6 +3532,7 @@ test('Phantom Strike healing accepts lethal hostile damage but rejects dead or r
     local removedAbility=false
     a.IsNull=function() return removedAbility end
     local m=setmetatable({GetParent=function() return pa end,GetAbility=function() return a end},modifier_enfos_pa_phantom_strike_buff)
+    assert(m:OnTooltip()==25,'Phantom Strike heal tooltip must match its configured hostile-damage healing')
     pa.hp=100
     m:OnTakeDamage({attacker=pa,unit=enemy,damage=200})
     enemy.alive=false

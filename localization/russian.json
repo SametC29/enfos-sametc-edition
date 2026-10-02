@@ -1290,6 +1290,12 @@
     "DOTA_Tooltip_modifier_enfos_wk_vampiric_aura_buff": "Вампирская аура",
     "DOTA_Tooltip_modifier_enfos_wk_vampiric_aura_buff_Description": "Восстанавливает здоровье в размере %dMODIFIER_PROPERTY_TOOLTIP%%% урона от атак по врагам. Не действует, пока источник ауры находится под истощением.",
     "DOTA_Tooltip_modifier_enfos_wk_rebirth_slow": "Перерождение",
-    "DOTA_Tooltip_modifier_enfos_wk_rebirth_slow_Description": "Скорость передвижения снижена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Длительность на боссах сокращена."
+    "DOTA_Tooltip_modifier_enfos_wk_rebirth_slow_Description": "Скорость передвижения снижена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Длительность на боссах сокращена.",
+    "DOTA_Tooltip_modifier_enfos_pa_stifling_dagger_slow": "Удушающий кинжал",
+    "DOTA_Tooltip_modifier_enfos_pa_stifling_dagger_slow_Description": "Скорость передвижения снижена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_pa_phantom_strike_buff": "Призрачный удар",
+    "DOTA_Tooltip_modifier_enfos_pa_phantom_strike_buff_Description": "Скорость атаки увеличена на %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Восстанавливает здоровье в размере %dMODIFIER_PROPERTY_TOOLTIP%%% урона, нанесённого врагам.",
+    "DOTA_Tooltip_modifier_enfos_pa_blur_active": "Размытие",
+    "DOTA_Tooltip_modifier_enfos_pa_blur_active_Description": "Невидимость. Coup de Grace расходует этот эффект, гарантируя критическую атаку."
   }
 }
