@@ -1735,6 +1735,8 @@
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow": "Gök Sıçraması Yavaşlatması",
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "Hareket hızı %dMODIFIER_PROPERTY_TOOLTIP%%% azalır.",
     "DOTA_Tooltip_modifier_enfos_wd_gris_gris": "Gris-Gris",
-    "DOTA_Tooltip_modifier_enfos_wd_gris_gris_Description": "Ölü olduğunda da her %dMODIFIER_PROPERTY_TOOLTIP2% saniyede %dMODIFIER_PROPERTY_TOOLTIP% güvenilir altın kazanır. Kırılma geliri durdurur; illüzyonlar altın üretmez."
+    "DOTA_Tooltip_modifier_enfos_wd_gris_gris_Description": "Ölü olduğunda da her %dMODIFIER_PROPERTY_TOOLTIP2% saniyede %dMODIFIER_PROPERTY_TOOLTIP% güvenilir altın kazanır. Kırılma geliri durdurur; illüzyonlar altın üretmez.",
+    "DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura": "Voodoo İyileştirmesi",
+    "DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura_Description": "%dMODIFIER_PROPERTY_TOOLTIP2% menzildeki müttefikleri her saniye, iyileştirme artışından önce %1fMODIFIER_PROPERTY_TOOLTIP% can iyileştirir. Etkinken mana tüketir."
   }
 }

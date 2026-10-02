@@ -6816,6 +6816,27 @@ test('Shadow Fiend aura and Feast of Souls disable while Broken', function()
     assert(sf.hp == 425 and sf.mana == 315, 'Feast should heal and restore mana for a valid kill')
 end)
 
+test('Witch Doctor Restoration rejects removed and dead toggle sources before audiovisual creation', function()
+    for _, state in ipairs({'removed', 'dead'}) do
+        local hero = create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(0,0,0))
+        hero.IsNull = function() return state == 'removed' end
+        hero.IsAlive = function() return state ~= 'dead' end
+        hero.AddNewModifier = function() error('Invalid source must not create the active aura') end
+        hero.EmitSound = function() error('Invalid aura must not start audio') end
+        local a = enfos_wd_voodoo_restoration()
+        a.GetCaster = function() return hero end
+        a.GetToggleState = function() return true end
+        a:OnToggle()
+        local m = modifier_enfos_wd_voodoo_restoration_aura()
+        m.GetParent = function() return hero end
+        m.GetAbility = function() return a end
+        local ended = false
+        m.Destroy = function() ended = true end
+        m:OnCreated()
+        assert(ended, 'Invalid aura creation must terminate its modifier')
+    end
+end)
+
 test('Witch Doctor Restoration stops dead parent and deleted ability ticks before spending mana', function()
     for _,mode in ipairs({'dead_parent','deleted_ability'}) do
         local wd=create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(0,0,0))

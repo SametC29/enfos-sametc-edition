@@ -1364,6 +1364,8 @@
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow": "Heavenly Jump Slow",
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "Movement speed reduced by %dMODIFIER_PROPERTY_TOOLTIP%%%.",
     "DOTA_Tooltip_modifier_enfos_wd_gris_gris": "Gris-Gris",
-    "DOTA_Tooltip_modifier_enfos_wd_gris_gris_Description": "Grants %dMODIFIER_PROPERTY_TOOLTIP% reliable gold every %dMODIFIER_PROPERTY_TOOLTIP2% seconds, including while dead. Break pauses income; illusions do not generate gold."
+    "DOTA_Tooltip_modifier_enfos_wd_gris_gris_Description": "Grants %dMODIFIER_PROPERTY_TOOLTIP% reliable gold every %dMODIFIER_PROPERTY_TOOLTIP2% seconds, including while dead. Break pauses income; illusions do not generate gold.",
+    "DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura": "Voodoo Restoration",
+    "DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura_Description": "Heals allies within %dMODIFIER_PROPERTY_TOOLTIP2% for %1fMODIFIER_PROPERTY_TOOLTIP% health each second before healing amplification. Drains mana while active."
   }
 }

@@ -2620,6 +2620,8 @@
 		"DOTA_Tooltip_modifier_enfos_vs_vengeance_aura_Description" "Pasif olarak tüm dost birimlerin temel saldırı gücünü %15 / 20 / 25 / 30 / 31 / 32 / 33 / 34 / 35 / 36 artırır."
 		"DOTA_Tooltip_modifier_enfos_wd_gris_gris" "Gris-Gris"
 		"DOTA_Tooltip_modifier_enfos_wd_gris_gris_Description" "Ölü olduğunda da her %dMODIFIER_PROPERTY_TOOLTIP2% saniyede %dMODIFIER_PROPERTY_TOOLTIP% güvenilir altın kazanır. Kırılma geliri durdurur; illüzyonlar altın üretmez."
+		"DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura" "Voodoo İyileştirmesi"
+		"DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura_Description" "%dMODIFIER_PROPERTY_TOOLTIP2% menzildeki müttefikleri her saniye, iyileştirme artışından önce %1fMODIFIER_PROPERTY_TOOLTIP% can iyileştirir. Etkinken mana tüketir."
 		"DOTA_Tooltip_modifier_enfos_wk_mortal_strike_passive" "Ölümcül Vuruş (Mortal Strike)"
 		"DOTA_Tooltip_modifier_enfos_wk_mortal_strike_passive_Description" "Saldırılar 12% / 14% / 16% / 18% / 20% / 22% / 24% / 26% / 28% / 30% olasılıkla 180% / 200% / 220% / 240% / 260% / 280% / 300% / 320% / 340% / 360% kritik hasar verir. Kritik vuruşlar, 300 / 322 / 344 / 367 / 389 / 411 / 433 / 456 / 478 / 500 yarıçapta hasarın 30% / 34% / 39% / 43% / 47% / 52% / 56% / 61% / 65% / 70% kadarını yakındaki düşmanlara yayar."
 		"DOTA_Tooltip_modifier_enfos_wk_rebirth_slow" "Yeniden Doğuş"

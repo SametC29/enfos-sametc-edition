@@ -4704,6 +4704,7 @@ enfos_wd_voodoo_restoration=class({})
 function enfos_wd_voodoo_restoration:OnToggle()
     if not IsServer() then return end
     local c = self:GetCaster()
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
     if self:GetToggleState() then
         c:AddNewModifier(c, self, 'modifier_enfos_wd_voodoo_restoration_aura', {})
     else
@@ -4713,13 +4714,30 @@ end
 
 modifier_enfos_wd_voodoo_restoration_aura=class({})
 function modifier_enfos_wd_voodoo_restoration_aura:IsPurgable() return false end
+function modifier_enfos_wd_voodoo_restoration_aura:GetTexture() return 'witch_doctor_voodoo_restoration' end
+function modifier_enfos_wd_voodoo_restoration_aura:DeclareFunctions()
+    return {MODIFIER_PROPERTY_TOOLTIP, MODIFIER_PROPERTY_TOOLTIP2}
+end
+function modifier_enfos_wd_voodoo_restoration_aura:OnTooltip()
+    return value(self:GetAbility(), 'heal_per_second') + get_int(self:GetParent()) * 0.3
+end
+function modifier_enfos_wd_voodoo_restoration_aura:OnTooltip2() return value(self:GetAbility(), 'radius') end
 function modifier_enfos_wd_voodoo_restoration_aura:OnCreated()
     if not IsServer() then return end
-    self:GetParent():EmitSound('Hero_WitchDoctor.Voodoo_Restoration')
-    self:GetParent():EmitSound('Hero_WitchDoctor.Voodoo_Restoration.Loop')
-    if ParticleManager and self:GetParent() then
-        self.particle = ParticleManager:CreateParticle('particles/units/heroes/hero_witchdoctor/witchdoctor_voodoo_restoration_aura.vpcf', PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-        if self.particle then ParticleManager:SetParticleControl(self.particle, 0, self:GetParent():GetAbsOrigin()) end
+    local c = self:GetParent()
+    local a = self:GetAbility()
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive()
+        or not a or (a.IsNull and a:IsNull()) then self:Destroy(); return end
+    c:EmitSound('Hero_WitchDoctor.Voodoo_Restoration')
+    c:EmitSound('Hero_WitchDoctor.Voodoo_Restoration.Loop')
+    if ParticleManager then
+        local radius = value(a, 'radius')
+        if radius <= 0 then radius = 500 end
+        self.particle = ParticleManager:CreateParticle('particles/units/heroes/hero_witchdoctor/witchdoctor_voodoo_restoration.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+        ParticleManager:SetParticleControlEnt(self.particle, 0, c, PATTACH_ABSORIGIN_FOLLOW, '', c:GetAbsOrigin(), false)
+        -- Native root consumes radius/thickness/speed in CP1 and staff flame in CP2.
+        ParticleManager:SetParticleControl(self.particle, 1, Vector(radius, 0, radius))
+        ParticleManager:SetParticleControlEnt(self.particle, 2, c, PATTACH_POINT_FOLLOW, 'attach_staff', c:GetAbsOrigin(), true)
     end
     self:StartIntervalThink(1.0)
 end

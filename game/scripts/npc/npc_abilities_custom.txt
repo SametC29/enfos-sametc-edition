@@ -2566,7 +2566,7 @@
 		"precache"
 		{
 			"soundfile" "soundevents/game_sounds_heroes/game_sounds_witchdoctor.vsndevts"
-			"particle" "particles/units/heroes/hero_witchdoctor/witchdoctor_voodoo_restoration_aura.vpcf"
+			"particle" "particles/units/heroes/hero_witchdoctor/witchdoctor_voodoo_restoration.vpcf"
 		}
 		"AbilityTextureName"		"witch_doctor_voodoo_restoration"
 		"RequiredLevel"	"1"

@@ -1304,6 +1304,8 @@
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow": "神圣一跃减速",
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "移动速度降低%dMODIFIER_PROPERTY_TOOLTIP%%%。",
     "DOTA_Tooltip_modifier_enfos_wd_gris_gris": "格里-格里",
-    "DOTA_Tooltip_modifier_enfos_wd_gris_gris_Description": "每 %dMODIFIER_PROPERTY_TOOLTIP2% 秒获得 %dMODIFIER_PROPERTY_TOOLTIP% 点可靠金钱，死亡期间也有效。破坏效果会暂停收入；幻象无法产生金钱。"
+    "DOTA_Tooltip_modifier_enfos_wd_gris_gris_Description": "每 %dMODIFIER_PROPERTY_TOOLTIP2% 秒获得 %dMODIFIER_PROPERTY_TOOLTIP% 点可靠金钱，死亡期间也有效。破坏效果会暂停收入；幻象无法产生金钱。",
+    "DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura": "巫毒回复",
+    "DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura_Description": "每秒为 %dMODIFIER_PROPERTY_TOOLTIP2% 范围内的友军回复 %1fMODIFIER_PROPERTY_TOOLTIP% 点生命值（治疗增幅前）。开启时持续消耗魔法。"
   }
 }

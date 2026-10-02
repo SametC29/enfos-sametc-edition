@@ -2622,6 +2622,8 @@
 		"DOTA_Tooltip_modifier_enfos_vs_vengeance_aura_Description" "Pasif olarak tüm dost birimlerin temel saldırı gücünü %15 / 20 / 25 / 30 / 31 / 32 / 33 / 34 / 35 / 36 artırır."
 		"DOTA_Tooltip_modifier_enfos_wd_gris_gris" "Гри-Гри"
 		"DOTA_Tooltip_modifier_enfos_wd_gris_gris_Description" "Даёт %dMODIFIER_PROPERTY_TOOLTIP% надёжного золота каждые %dMODIFIER_PROPERTY_TOOLTIP2% сек., даже после смерти. Истощение приостанавливает доход; иллюзии не создают золото."
+		"DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura" "Восстановление вуду"
+		"DOTA_Tooltip_modifier_enfos_wd_voodoo_restoration_aura_Description" "Лечит союзников в радиусе %dMODIFIER_PROPERTY_TOOLTIP2% на %1fMODIFIER_PROPERTY_TOOLTIP% здоровья в секунду до усиления лечения. Расходует ману, пока действует."
 		"DOTA_Tooltip_modifier_enfos_wk_mortal_strike_passive" "Ölümcül Vuruş (Mortal Strike)"
 		"DOTA_Tooltip_modifier_enfos_wk_mortal_strike_passive_Description" "Атаки с вероятностью 12% / 14% / 16% / 18% / 20% / 22% / 24% / 26% / 28% / 30% наносят критический урон 180% / 200% / 220% / 240% / 260% / 280% / 300% / 320% / 340% / 360%. Критический удар наносит 30% / 34% / 39% / 43% / 47% / 52% / 56% / 61% / 65% / 70% урона ближайшим врагам в радиусе 300 / 322 / 344 / 367 / 389 / 411 / 433 / 456 / 478 / 500."
 		"DOTA_Tooltip_modifier_enfos_wk_rebirth_slow" "Перерождение"
