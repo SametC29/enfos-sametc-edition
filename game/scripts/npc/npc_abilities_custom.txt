@@ -3188,6 +3188,7 @@
 
 	"enfos_ss_shackles"
 	{
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES_STRONG"
 		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_3"
 		"AbilityChannelAnimation" "ACT_DOTA_CHANNEL_ABILITY_3"
 		"precache"

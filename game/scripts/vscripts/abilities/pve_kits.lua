@@ -6678,8 +6678,14 @@ function enfos_ss_shackles:OnSpellStart()
     if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
 
     local dur = self:GetChannelTime()
-    c:AddNewModifier(c, self, 'modifier_enfos_ss_shackles_channel', { duration = dur, target_idx = t:entindex() })
-    t:AddNewModifier(c, self, 'modifier_enfos_ss_shackles_debuff', { duration = dur })
+    self.shackles_cast_id = (self.shackles_cast_id or 0) + 1
+    local cast_id = self.shackles_cast_id
+    local debuff = t:AddNewModifier(c, self, 'modifier_enfos_ss_shackles_debuff', { duration = dur, channel_id = cast_id })
+    if not debuff or (debuff.IsNull and debuff:IsNull()) then
+        if self.EndChannel then self:EndChannel(true) end
+        return
+    end
+    c:AddNewModifier(c, self, 'modifier_enfos_ss_shackles_channel', { duration = dur, target_idx = t:entindex(), channel_id = cast_id })
 end
 function enfos_ss_shackles:OnChannelFinish(interrupted)
     local c = self:GetCaster()
@@ -6688,6 +6694,7 @@ function enfos_ss_shackles:OnChannelFinish(interrupted)
 end
 
 modifier_enfos_ss_shackles_channel=class({})
+function modifier_enfos_ss_shackles_channel:IsPurgable() return false end
 function modifier_enfos_ss_shackles_channel:OnDestroy()
     if not IsServer() then return end
     local particle = self.particle
@@ -6699,6 +6706,7 @@ function modifier_enfos_ss_shackles_channel:OnDestroy()
     local caster=self:GetCaster()
     local target=self.target_idx and EntIndexToHScript(self.target_idx)
     self.target_idx = nil
+    self.channel_id = nil
     if target and not target:IsNull() and caster and not caster:IsNull() then
         target:RemoveModifierByNameAndCaster('modifier_enfos_ss_shackles_debuff',caster)
     end
@@ -6707,6 +6715,7 @@ end
 function modifier_enfos_ss_shackles_channel:OnCreated(kv)
     if not IsServer() then return end
     self.target_idx = kv and kv.target_idx or nil
+    self.channel_id = tonumber(kv and kv.channel_id) or 0
     local c = self:GetParent()
     local a = self:GetAbility()
     local t = self.target_idx and EntIndexToHScript(self.target_idx) or nil
@@ -6749,6 +6758,30 @@ end
 
 modifier_enfos_ss_shackles_debuff=class({})
 function modifier_enfos_ss_shackles_debuff:IsDebuff() return true end
+function modifier_enfos_ss_shackles_debuff:IsPurgable() return false end
+function modifier_enfos_ss_shackles_debuff:IsPurgeException() return true end
+function modifier_enfos_ss_shackles_debuff:IsStunDebuff() return true end
+function modifier_enfos_ss_shackles_debuff:OnCreated(kv)
+    if not IsServer() then return end
+    self.channel_id = tonumber(kv and kv.channel_id) or 0
+    self.channel_end_requested = false
+end
+function modifier_enfos_ss_shackles_debuff:OnRefresh(kv) self:OnCreated(kv) end
+function modifier_enfos_ss_shackles_debuff:OnDestroy()
+    if not IsServer() or self.channel_end_requested then return end
+    self.channel_end_requested = true
+    local c = self:GetCaster()
+    local p = self:GetParent()
+    if not c or (c.IsNull and c:IsNull()) or not p or (p.IsNull and p:IsNull()) then return end
+    local channel = c.FindModifierByName and c:FindModifierByName('modifier_enfos_ss_shackles_channel') or nil
+    if not channel or (channel.IsNull and channel:IsNull())
+        or not self.channel_id or self.channel_id <= 0 or channel.channel_id ~= self.channel_id
+        or channel.target_idx ~= p:entindex() then return end
+    local a = self:GetAbility()
+    if channel.GetAbility and channel:GetAbility() ~= a then return end
+    if a and not (a.IsNull and a:IsNull()) and a.EndChannel then a:EndChannel(true) end
+    if not (channel.IsNull and channel:IsNull()) then channel:Destroy() end
+end
 function modifier_enfos_ss_shackles_debuff:CheckState() return { [MODIFIER_STATE_STUNNED] = true } end
 
 enfos_ss_mass_serpent_ward=class({})

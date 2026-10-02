@@ -1069,6 +1069,57 @@ test('Shadow Shaman Shackles owns one two-hand connection and ends it once', fun
     assert(ok,err)
 end)
 
+test('Shadow Shaman Shackles recipient removal ends only its matching channel generation', function()
+    for _,state in ipairs({'matching','new_generation','other_target','deleted_caster','deleted_ability'}) do
+        local hero=create_mock_unit('npc_dota_hero_shadow_shaman',2,Vector(0,0,0))
+        local target=create_mock_unit('ss_removed_stun',3,Vector(100,0,0))
+        hero.IsNull=function() return state=='deleted_caster' end
+        local ended,destroyed=0,0
+        local a=enfos_ss_shackles()
+        a.IsNull=function() return state=='deleted_ability' end
+        a.EndChannel=function() assert(state=='matching');ended=ended+1 end
+        local channel={channel_id=state=='new_generation' and 2 or 1,
+            target_idx=state=='other_target' and -1 or target:entindex(),
+            GetAbility=function() return a end,
+            Destroy=function() destroyed=destroyed+1 end}
+        hero.FindModifierByName=function() assert(state~='deleted_caster');return channel end
+        local d=modifier_enfos_ss_shackles_debuff()
+        d.GetCaster=function() return hero end
+        d.GetParent=function() return target end
+        d.GetAbility=function() return a end
+        d:OnCreated({channel_id=1})
+        assert(not d:IsPurgable() and d:IsPurgeException() and d:IsStunDebuff(),
+            'Shackles must declare its native strong-only stun removal')
+        d:OnDestroy();d:OnDestroy()
+        assert(ended==(state=='matching' and 1 or 0),'Old or unrelated stun must not end another channel')
+        assert(destroyed==((state=='matching' or state=='deleted_ability') and 1 or 0),
+            'Only matching generation can destroy the owned interval; removed ability still cleans up')
+    end
+end)
+
+test('Shadow Shaman Shackles assigns both modifiers a distinct paired cast generation', function()
+    local hero=create_mock_unit('npc_dota_hero_shadow_shaman',2,Vector(0,0,0))
+    local target=create_mock_unit('ss_cast_generation',3,Vector(100,0,0))
+    local recipient_ids,channel_ids={},{}
+    target.AddNewModifier=function(_,caster,ability,name,kv)
+        assert(name=='modifier_enfos_ss_shackles_debuff' and caster==hero)
+        recipient_ids[#recipient_ids+1]=kv.channel_id
+        return {}
+    end
+    hero.AddNewModifier=function(_,caster,ability,name,kv)
+        assert(name=='modifier_enfos_ss_shackles_channel' and kv.target_idx==target:entindex())
+        channel_ids[#channel_ids+1]=kv.channel_id
+        return {}
+    end
+    local a=enfos_ss_shackles()
+    a.GetCaster=function() return hero end
+    a.GetCursorTarget=function() return target end
+    a.GetSpecialValueFor=function() return 3.5 end
+    a:OnSpellStart();a:OnSpellStart()
+    assert(recipient_ids[1]==1 and channel_ids[1]==1 and recipient_ids[2]==2 and channel_ids[2]==2,
+        'Each actual cast must pair its recipient/channel and isolate the next cast')
+end)
+
 test('Shadow Shaman Shackles shortens boss channel with its boss control duration', function()
     local ability = enfos_ss_shackles()
     local target = create_mock_unit('enfos_boss_test', 3, Vector(0, 0, 0))
