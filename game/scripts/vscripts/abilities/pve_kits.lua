@@ -2238,7 +2238,11 @@ function enfos_centaur_double_edge:OnSpellStart()
     local dmg = base_dmg + (str * value(self, 'strength_damage_factor')) + (hp * value(self, 'max_health_damage_pct') / 100)
 
     c:EmitSound('Hero_Centaur.DoubleEdge')
-    effect('particles/units/heroes/hero_centaur/centaur_double_edge.vpcf', t)
+    -- Source/target children build their own CP4/5 paths around CP0/CP1.
+    local edge = ParticleManager:CreateParticle('particles/units/heroes/hero_centaur/centaur_double_edge.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(edge, 0, c:GetAbsOrigin())
+    ParticleManager:SetParticleControl(edge, 1, t:GetAbsOrigin())
+    ParticleManager:ReleaseParticleIndex(edge)
 
     local self_dmg = dmg * value(self, 'self_damage_pct') / 100
     local minimum_health = value(self, 'minimum_health')

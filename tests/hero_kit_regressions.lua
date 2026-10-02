@@ -1597,7 +1597,16 @@ test('Centaur Double Edge uses configured splash radius and self-damage', functi
         return 0
     end
 
+    local oldCreate,oldControl,oldRelease=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex
+    local edge={cp={}}
+    ParticleManager.CreateParticle=function(_,path) edge.path=path;return 102 end
+    ParticleManager.SetParticleControl=function(_,id,cp,v) assert(id==102);edge.cp[cp]=v end
+    ParticleManager.ReleaseParticleIndex=function(_,id) assert(id==102);edge.released=true end
     ab:OnSpellStart()
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex=oldCreate,oldControl,oldRelease
+    assert(edge.path:find('centaur_double_edge.vpcf',1,true) and edge.cp[0] and edge.cp[1]
+        and edge.cp[0].x==0 and edge.cp[1].x==100 and edge.released,
+        'Double Edge must distinguish its captured caster and target anchors')
 
     -- Damage: 300 + (120 * 0.6) + (2000 * 0.15) = 672 pure. The neighbor is 50 units away,
     -- so a configured 40 radius must exclude it even though the ability default is 250.
