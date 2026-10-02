@@ -30,6 +30,12 @@ test('Dragon Knight Enfos passive uses the distinct verified Wyrm’s Wrath icon
     'Wyrm Vigor must not reuse the Dragon Blood passive icon');
 });
 
+test('Dragon Knight native sound bank is included in the addon precache list',()=>{
+  const mode=fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua','utf8');
+  assert.match(mode,/["']dragon_knight["']/,
+    'Dragon Knight Lua abilities emit Hero_DragonKnight events and need its native sound bank precached');
+});
+
 
 test('Elites are fully retired from the NPC roster and wave runtime',()=>{
   const units=read('npc_units_custom.txt').DOTAUnits;
