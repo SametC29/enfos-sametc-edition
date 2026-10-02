@@ -645,6 +645,8 @@ end
 function modifier_enfos_pve_warcry:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_pve_warcry:OnTakeDamage(e)
     if not IsServer() or e.unit ~= self:GetParent() or not e.attacker or e.attacker:IsNull() or e.attacker == e.unit then return end
+    local a = self:GetAbility()
+    if not a or (a.IsNull and a:IsNull()) then return end
     if not e.attacker:IsAlive() or e.attacker:GetTeamNumber() == e.unit:GetTeamNumber() then return end
     if e.damage_flags and bit and bit.band(e.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION or 16) ~= 0 then return end
     -- Shard: 40% physical damage reflection during Warcry
@@ -652,7 +654,7 @@ function modifier_enfos_pve_warcry:OnTakeDamage(e)
     if sven_has_shard(c) then
         if e.damage_type~=DAMAGE_TYPE_PHYSICAL then return end
         local refl = (e.damage or 0) * 0.40
-        if refl > 0 then damage(self:GetAbility(), e.attacker, refl, DAMAGE_TYPE_PHYSICAL, DOTA_DAMAGE_FLAG_REFLECTION) end
+        if refl > 0 then damage(a, e.attacker, refl, DAMAGE_TYPE_PHYSICAL, DOTA_DAMAGE_FLAG_REFLECTION) end
     end
 end
 

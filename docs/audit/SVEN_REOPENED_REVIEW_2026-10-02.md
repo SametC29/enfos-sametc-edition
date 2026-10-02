@@ -7,6 +7,14 @@ runtime evidence. **Current engine acceptance is PENDING.**
 
 ## Evidence and scope
 
+2026-10-03 owner priority change: suspend this reopened review and continue the
+release roster in reverse order. Sven remains PENDING, including lifecycle trace
+coverage; do not mark it complete simply because review moved to another hero.
+Before switching, a proven W source-lifetime defect was repaired: a Warcry buff
+whose ability had been removed still dispatched reflection through the shared
+damage helper with a nil attacker. The regression failed before the ability guard
+and passes after it; no barrier, armor, reflection balance or other hero changed.
+
 ### Current acceptance ledger — owner-expanded goal, 2026-10-03
 
 - SOURCE REVIEW: PENDING (reopened individual review and standardized tracing unfinished).

@@ -8,7 +8,11 @@ this document. Local commits only; no remote push or Workshop publication.
 
 Audit, repair, instrument, and validate all 40 release heroes individually in ENFOS Team Survival SametC Edition, covering Desktop update items 14–16 without dropping pending items 1–8.
 
-Work through the release roster one hero at a time, beginning with Sven and continuing in roster order. Do not substitute global scans, bulk assumptions, automated mocks, or shared-framework inspection for a detailed individual hero review.
+Owner order correction, 2026-10-03: work through the release roster one hero at a
+time in reverse roster order, starting with the last hero. Earlier unfinished
+reviews, including Sven, remain explicitly pending and must not be dropped.
+Do not substitute global scans, bulk assumptions, automated mocks, or
+shared-framework inspection for a detailed individual hero review.
 
 For every hero:
 

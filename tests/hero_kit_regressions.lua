@@ -8573,4 +8573,15 @@ test('Hero tracing is default-off, bounded, server-only and safe for removed ent
     package.loaded['lib/hero_trace']=oldModule
 end)
 
+test('Sven Warcry cannot reflect damage with a removed ability source',function()
+    local c=create_mock_unit('npc_dota_hero_sven',2,Vector(0,0,0))
+    c.modifiers.modifier_item_aghanims_shard_consumed={}
+    local enemy=create_mock_unit('enfos_creep',3,Vector(100,0,0))
+    local ability={IsNull=function() return true end,GetCaster=function() error('Removed ability must not be queried') end}
+    local modifier=c:AddNewModifier(c,ability,'modifier_enfos_pve_warcry',{})
+    applied_damages={}
+    modifier:OnTakeDamage({unit=c,attacker=enemy,damage=100,damage_type=DAMAGE_TYPE_PHYSICAL})
+    assert(#applied_damages==0,'A removed source must not dispatch reflection with a nil attacker')
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')
