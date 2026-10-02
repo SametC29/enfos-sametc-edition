@@ -80,6 +80,7 @@ DOTA_DAMAGE_FLAG_IGNORES_PHYSICAL_ARMOR = 128
 DOTA_DAMAGE_CATEGORY_ATTACK = 1
 DOTA_DAMAGE_CATEGORY_SPELL = 2
 PATTACH_ABSORIGIN_FOLLOW = 'mock_absorigin_follow'
+MODIFIER_STATE_CANNOT_MISS = 'mock_cannot_miss'
 
 ParticleManager = {
     CreateParticle = function() return 1 end,
@@ -2137,6 +2138,26 @@ test('Sniper Headshot and Keen Eye passives honor Break and reject allied target
     local keen = setmetatable({ GetParent = function() return sniper end, GetAbility = function() return enfos_sniper_keen_eye() end }, modifier_enfos_sniper_keen_eye_passive)
     keen:OnAttackLanded({ attacker = sniper, target = ally, damage = 100 })
     assert(#applied_damages == 0, 'Break must suppress both Sniper passives, and Keen Eye must ignore allies')
+end)
+
+test('Sniper Take Aim keeps its active True Strike feedback while Break disables passive range', function()
+    local sniper=create_mock_unit('npc_dota_hero_sniper',2,Vector(0,0,0))
+    local a=enfos_sniper_take_aim()
+    a.GetCaster=function() return sniper end
+    a.GetSpecialValueFor=function(_,key) return ({bonus_range=450,duration=5,bonus_movespeed_pct=15})[key] or 0 end
+    a:OnSpellStart()
+    local buff=sniper:FindModifierByName('modifier_enfos_sniper_take_aim_buff')
+    local passive=modifier_enfos_sniper_take_aim_passive()
+    passive.GetParent=function() return sniper end;passive.GetAbility=function() return a end
+    assert(passive:GetModifierAttackRangeBonus()==450 and buff.params.duration==5)
+    local oldOverhead=PATTACH_OVERHEAD_FOLLOW
+    PATTACH_OVERHEAD_FOLLOW=927
+    assert(buff:GetEffectAttachType()==927,'Native overhead feedback must follow the hero overhead rather than use default attachment')
+    sniper.PassivesDisabled=function() return true end
+    assert(passive:GetModifierAttackRangeBonus()==0 and buff:CheckState()[MODIFIER_STATE_CANNOT_MISS]
+        and buff:GetModifierMoveSpeedBonus_Percentage()==15,
+        'Break suppresses the passive range without removing an already-cast active buff')
+    PATTACH_OVERHEAD_FOLLOW=oldOverhead
 end)
 
 test('Sniper Headshot applies configured bonus damage and non-boss knockback', function()

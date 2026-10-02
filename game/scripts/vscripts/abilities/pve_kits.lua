@@ -2790,6 +2790,7 @@ end
 
 modifier_enfos_sniper_take_aim_buff=class({})
 function modifier_enfos_sniper_take_aim_buff:GetEffectName() return 'particles/units/heroes/hero_sniper/sniper_take_aim_overhead.vpcf' end
+function modifier_enfos_sniper_take_aim_buff:GetEffectAttachType() return PATTACH_OVERHEAD_FOLLOW end
 function modifier_enfos_sniper_take_aim_buff:DeclareFunctions()
     return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE }
 end
