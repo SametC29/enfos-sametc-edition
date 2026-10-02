@@ -1,5 +1,33 @@
 # Dragon Knight individual review — 2026-10-02
 
+## Sol re-review: Elder Dragon splash decision
+
+Re-read the installed hero definition via MCP vpk_read(maxChars60000), including
+the full native Elder Dragon Form definition (no partial-file inference). Native
+R retains ranged splash, non-dispellable transformation and ACT_INVALID. Keep
+the existing PVE-CONVERT authored form/splash rather than a new mechanic. The
+custom OnAttackLanded rejects a primary already dead after the attack, dropping
+all splash on lethal hits. It also lacks friendly-primary and source/recipient
+lifetime guards around synchronous splash-damage callbacks. Fix eligibility
+for a valid hostile primary whether alive or dead, while damage/slow recipients
+must be living enemies. Reject deleted/inactive ability, null/dead owner and
+nonpositive attack damage; revalidate handles before/after each damage callback.
+Do not change immunity flags, radius, percentage, slow duration or form model.
+MCP and https://docs.moddota.com/lua_server/declaration establish the callback
+and handle APIs, not actual engine event ordering. Use targeted pre-change
+mocks; owner lethal splash, visual/audio and collision acceptance stays pending.
+
+Result: pre-change regression failed on a dead primary producing no splash.
+The repaired callback accepts a valid hostile dead primary, rejects nil events,
+friendly primaries, nonpositive damage and inactive/removed ability sources,
+and checks each enemy and owner/ability again after damage. Removed/dead enemy
+receives no follow-up effect/slow; removal of owner/ability stops later impacts.
+Two focused regressions cover lethal attack and invalid-context cases, plus
+synchronous recipient/source/ability/next-recipient removal. All314 hero mocks
+and full repository checks pass (zero failures). No balance values or native
+immunity/purge/model policy changed. Actual OnAttackLanded ordering, kill splash,
+slow/visual/audio, high-density fights and VConsole remain OWNER_RUNTIME PENDING.
+
 ## Scope of this pass
 
 This pass repaired user-visible localization and tooltip accuracy. It is not a full runtime certification of Dragon Knight's kit.

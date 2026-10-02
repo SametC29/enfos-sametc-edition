@@ -5372,23 +5372,29 @@ function modifier_enfos_dk_elder_dragon_form_buff:GetModifierAttackRangeBonus()
     return bonus > 0 and bonus or 350
 end
 function modifier_enfos_dk_elder_dragon_form_buff:OnAttackLanded(params)
-    if not IsServer() then return end
+    if not IsServer() or not params then return end
     local c = self:GetParent()
-    if params.attacker ~= c then return end
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or params.attacker ~= c then return end
     local t = params.target
-    if not t or not t:IsAlive() then return end
+    if not t or (t.IsNull and t:IsNull()) or t:GetTeamNumber() == c:GetTeamNumber() then return end
 
     local ability = self:GetAbility()
+    if not ability or (ability.IsNull and ability:IsNull()) or (ability.GetLevel and ability:GetLevel() <= 0) then return end
     local splash_pct = value(ability, 'splash_damage_pct')
     if splash_pct <= 0 then splash_pct = 80 end
     local radius = value(ability, 'splash_radius')
     if radius <= 0 then radius = 300 end
-    local splash_dmg = (params.damage or 200) * splash_pct / 100
+    local splash_dmg = (params.damage or 0) * splash_pct / 100
+    if splash_dmg <= 0 then return end
     for _, u in ipairs(enemies(c, t:GetAbsOrigin(), radius)) do
-        if u ~= t then
+        if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() or (ability.IsNull and ability:IsNull()) then return end
+        if u ~= t and u and not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
             damage(ability, u, splash_dmg, DAMAGE_TYPE_PHYSICAL)
-            effect('particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_fire_explosion.vpcf', u)
-            u:AddNewModifier(c, ability, 'modifier_enfos_dk_dragon_frost_slow', { duration = value(ability, 'splash_slow_duration') })
+            if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() or (ability.IsNull and ability:IsNull()) then return end
+            if not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
+                effect('particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_fire_explosion.vpcf', u)
+                u:AddNewModifier(c, ability, 'modifier_enfos_dk_dragon_frost_slow', { duration = value(ability, 'splash_slow_duration') })
+            end
         end
     end
 end

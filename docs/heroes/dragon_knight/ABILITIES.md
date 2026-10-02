@@ -57,6 +57,16 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-02 Sol re-review, R splash: installed native Elder Dragon Form definition
+was reread through MCP, not inferred from icon/slot. Existing PVE-CONVERT splash
+rejected a primary killed by the attack; targeted mock reproduced this. It now
+accepts a valid hostile dead primary while requiring live enemy recipients and
+learned/live ability source; nil/friendly/zero-damage events are rejected.
+Synchronous damage callbacks cannot continue through removed recipient/owner/
+ability or later targets. Existing percentages/radius/slow/flags preserved.
+314 hero behavior mocks and full checks pass; actual Dota lethal-splash events,
+effects, audio and Boss/immune behavior remain pending owner testing.
+
 2026-09-30 implementation record: all five Enfos slots now have ten KV ranks and Wyrm Vigor is no longer marked as Dota `Innate`. Installed source mapping: Breathe Fire=`dragon_knight_breathe_fire` (Ability1), Dragon Tail=`dragon_knight_dragon_tail` (Ability2), Dragon Blood=`dragon_knight_dragon_blood` (Ability5), Elder Dragon Form=`dragon_knight_elder_dragon_form` (Ability6), Wyrm Vigor=`dragon_knight_wyrms_wrath` (Ability3). Q now queries a forward line with configured width/range and reads debuff duration; W rejects allies/spell block and reads boss cap from KV; passive bonuses honor Break; R reads rank-scaled form, range, splash and slow values and emits verified impact/transform particles. Six used particle assets were found in installed ClientVersion 6941 VPK; Q/W/R tests added. Live Dota visuals, audio, dragon model transformation, projectile display and 10-rank balance remain PENDING.
 
 2026-09-30 static special-value repair: migrated all five Lua-driven abilities from legacy numbered `AbilitySpecial` rows to named `AbilityValues`, preserving all rank arrays and scalar values. Added a contract for the five Enfos slots. This follows the confirmed Sven special-value loading defect; no Dragon Knight live test is claimed. Remaining gameplay, VFX, SFX, transformation and boss checks are for the user in Dota.

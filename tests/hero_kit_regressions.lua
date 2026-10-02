@@ -5343,6 +5343,72 @@ test('Dragon Knight Elder Dragon Form swaps to the verified dragon model and res
     assert(dk.projectile_name == 'particles/units/heroes/hero_dragon_knight/test_original_projectile.vpcf', 'Form expiry restores the original ranged projectile')
 end)
 
+test('Dragon Knight form splash survives lethal primary hits and rejects invalid attacks', function()
+    local dk=create_mock_unit('npc_dota_hero_dragon_knight',2,Vector(0,0,0))
+    local primary=create_mock_unit('primary',3,Vector(100,0,0))
+    local secondary=create_mock_unit('secondary',3,Vector(150,0,0))
+    mock_world_units={dk,primary,secondary}
+    local a=enfos_dk_elder_dragon_form()
+    a.GetCaster=function() return dk end
+    a.GetLevel=function() return 1 end
+    a.GetSpecialValueFor=function(_,key) return ({splash_damage_pct=80,splash_radius=300,splash_slow_duration=3})[key] or 0 end
+    local mod=modifier_enfos_dk_elder_dragon_form_buff()
+    mod.GetParent=function() return dk end
+    mod.GetAbility=function() return a end
+    primary.hp=0
+    primary.alive=false
+    applied_damages={}
+    mod:OnAttackLanded({attacker=dk,target=primary,damage=100})
+    assert(#applied_damages==1 and applied_damages[1].victim==secondary and applied_damages[1].damage==80,
+        'A lethal primary attack must still splash a living hostile secondary')
+    assert(secondary.modifiers.modifier_enfos_dk_dragon_frost_slow)
+    local function rejects(event)
+        applied_damages={};mod:OnAttackLanded(event);assert(#applied_damages==0)
+    end
+    rejects(nil)
+    rejects({attacker=dk,target=primary,damage=0})
+    rejects({attacker=dk,target=dk,damage=100})
+    a.GetLevel=function() return 0 end
+    rejects({attacker=dk,target=primary,damage=100})
+    a.GetLevel=function() return 1 end
+    a.IsNull=function() return true end
+    rejects({attacker=dk,target=primary,damage=100})
+end)
+
+test('Dragon Knight splash revalidates handles after synchronous damage callbacks', function()
+    local old_damage=ApplyDamage
+    for _,removed in ipairs({'recipient','source','ability','next_recipient'}) do
+        local dk=create_mock_unit('npc_dota_hero_dragon_knight',2,Vector(0,0,0))
+        local primary=create_mock_unit('primary',3,Vector(100,0,0))
+        local first=create_mock_unit('first',3,Vector(130,0,0))
+        local later=create_mock_unit('later',3,Vector(150,0,0))
+        mock_world_units={primary,first,later}
+        local a=enfos_dk_elder_dragon_form()
+        a.GetCaster=function() return dk end
+        a.GetLevel=function() return 1 end
+        a.GetSpecialValueFor=function(_,key) return ({splash_damage_pct=80,splash_radius=300,splash_slow_duration=3})[key] or 0 end
+        local mod=modifier_enfos_dk_elder_dragon_form_buff()
+        mod.GetParent=function() return dk end
+        mod.GetAbility=function() return a end
+        local modifier_calls=0
+        first.AddNewModifier=function() modifier_calls=modifier_calls+1;error('Removed splash context reached modifier application') end
+        local hits=0
+        ApplyDamage=function(info)
+            hits=hits+1
+            if info.victim==first then
+                if removed=='recipient' then first.IsNull=function() return true end
+                elseif removed=='source' then dk.IsNull=function() return true end
+                elseif removed=='ability' then a.IsNull=function() return true end
+                else later.IsNull=function() return true end;first.AddNewModifier=function() end end
+            end
+        end
+        mod:OnAttackLanded({attacker=dk,target=primary,damage=100})
+        assert(modifier_calls==0 and (removed=='recipient' and hits==2 or removed~='recipient' and hits==1),
+            'Removed owner/ability/later recipient must stop invalid follow-up calls')
+    end
+    ApplyDamage=old_damage
+end)
+
 test('Pudge Meat Hook launches a real linear hook and pulls the first target on impact', function()
     applied_damages = {}
     local pudge = create_mock_unit('npc_dota_hero_pudge', 2, Vector(0, 0, 0))
