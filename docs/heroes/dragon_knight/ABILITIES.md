@@ -13,7 +13,7 @@ Hero: `npc_dota_hero_dragon_knight`; role: Tank. Progression target: hero level 
 | 2 | `enfos_dk_dragon_tail` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | dragon_knight_dragon_tail |
 | 3 | `enfos_dk_dragon_blood` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | dragon_knight_dragon_blood |
 | 4 | `enfos_dk_elder_dragon_form` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | dragon_knight_elder_dragon_form |
-| 5 | `enfos_dk_wyrm_vigor` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | dragon_knight_dragon_blood |
+| 5 | `enfos_dk_wyrm_vigor` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | dragon_knight_wyrms_wrath |
 
 Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 

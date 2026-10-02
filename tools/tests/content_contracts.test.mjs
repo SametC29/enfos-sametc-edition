@@ -24,6 +24,12 @@ test('Dragon Knight release skill tooltips are localized and match Enfos values'
     'Turkish Dragon Blood tooltip must expose its Strength-based regeneration');
 });
 
+test('Dragon Knight Enfos passive uses the distinct verified Wyrm’s Wrath icon',()=>{
+  const abilities=read('npc_abilities_custom.txt').DOTAAbilities;
+  assert.equal(abilities.enfos_dk_wyrm_vigor.AbilityTextureName,'dragon_knight_wyrms_wrath',
+    'Wyrm Vigor must not reuse the Dragon Blood passive icon');
+});
+
 
 test('Elites are fully retired from the NPC roster and wave runtime',()=>{
   const units=read('npc_units_custom.txt').DOTAUnits;

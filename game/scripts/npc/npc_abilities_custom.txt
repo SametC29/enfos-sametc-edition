@@ -3513,7 +3513,7 @@
 		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"dragon_knight_dragon_blood"
+		"AbilityTextureName"		"dragon_knight_wyrms_wrath"
 		"RequiredLevel"	"1"
 		"LevelsBetweenUpgrades"	"1"
 		"MaxLevel"					"10"
