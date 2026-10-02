@@ -6857,21 +6857,23 @@ end
 function modifier_enfos_ss_fowl_play_passive:GetMinHealth()
     local a = self:GetAbility()
     local c = self:GetParent()
-    if not a or not c or (c.IsNull and c:IsNull()) or (c.IsIllusion and c:IsIllusion())
+    if not a or (a.IsNull and a:IsNull()) or a:GetLevel() <= 0
+        or not c or (c.IsNull and c:IsNull()) or (c.IsIllusion and c:IsIllusion())
         or (c.PassivesDisabled and c:PassivesDisabled()) then return 0 end
     return a:IsCooldownReady() and 1 or 0
 end
 function modifier_enfos_ss_fowl_play_passive:OnRespawn(event)
     if not IsServer() or not event or event.unit ~= self:GetParent() then return end
     local a = self:GetAbility()
-    if a and not (a.IsNull and a:IsNull()) and a.EndCooldown then a:EndCooldown() end
+    if a and not (a.IsNull and a:IsNull()) and a:GetLevel() > 0 and a.EndCooldown then a:EndCooldown() end
 end
 function modifier_enfos_ss_fowl_play_passive:OnTakeDamage(event)
     if not IsServer() or not event or event.unit ~= self:GetParent() or (event.damage or 0) <= 0 then return end
     local c = self:GetParent()
     local a = self:GetAbility()
     if not c or c:IsNull() or not c:IsAlive() or c:GetHealth() > 1 or (c.IsIllusion and c:IsIllusion())
-        or (c.PassivesDisabled and c:PassivesDisabled()) or not a or not a:IsCooldownReady() then return end
+        or (c.PassivesDisabled and c:PassivesDisabled()) or not a
+        or (a.IsNull and a:IsNull()) or a:GetLevel() <= 0 or not a:IsCooldownReady() then return end
 
     -- Match native Fowl Play's strong dispel, brief damage immunity and chicken escape.
     if c.Purge then c:Purge(false, true, false, true, true) end

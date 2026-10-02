@@ -1061,6 +1061,7 @@ end)
 test('Shadow Shaman Fowl Play saves lethal damage with native chicken identity, strong dispel and brief protection', function()
     local shaman = create_mock_unit('npc_dota_hero_shadow_shaman', 2, Vector(0, 0, 0), 1000)
     local ability = enfos_ss_fowl_play()
+    ability.GetLevel = function() return 1 end
     local cooldownReady, cooldownStarts = true, 0
     ability.IsCooldownReady = function() return cooldownReady end
     ability.StartCooldown = function(_, duration) cooldownReady = false; cooldownStarts = cooldownStarts + 1; ability.cooldown = duration end
@@ -1098,6 +1099,29 @@ test('Shadow Shaman Fowl Play saves lethal damage with native chicken identity, 
     shaman.PassivesDisabled = function() return false end
     shaman.IsIllusion = function() return true end
     assert(passive:GetMinHealth() == 0, 'hero illusions should not inherit the real hero lethal save')
+end)
+
+test('Shadow Shaman Fowl Play cannot protect with an unlearned or deleted ability', function()
+    local hero = create_mock_unit('npc_dota_hero_shadow_shaman', 2, Vector(0,0,0))
+    hero.hp = 1
+    local ability = enfos_ss_fowl_play()
+    local removed, rank, saves = false, 0, 0
+    ability.IsNull = function() return removed end
+    ability.GetLevel = function() assert(not removed, 'deleted ability rank queried'); return rank end
+    ability.IsCooldownReady = function() assert(not removed, 'deleted ability cooldown queried'); return true end
+    ability.StartCooldown = function() saves = saves + 1 end
+    ability.EndCooldown = function() error('unlearned/deleted ability respawn reset') end
+    ability.GetSpecialValueFor = function() return 1 end
+    local passive = setmetatable({GetParent=function() return hero end, GetAbility=function() return ability end}, modifier_enfos_ss_fowl_play_passive)
+    assert(passive:GetMinHealth() == 0, 'unlearned passive cannot prevent death')
+    passive:OnTakeDamage({unit=hero,damage=100})
+    passive:OnRespawn({unit=hero})
+    assert(saves == 0, 'unlearned passive cannot spend a save')
+    rank, removed = 1, true
+    assert(passive:GetMinHealth() == 0, 'deleted passive cannot prevent death')
+    passive:OnTakeDamage({unit=hero,damage=100})
+    passive:OnRespawn({unit=hero})
+    assert(saves == 0, 'deleted passive cannot spend a save')
 end)
 
 test('Shadow Shaman Shackles stops invalid channel sources and rejects stale post-damage healing', function()

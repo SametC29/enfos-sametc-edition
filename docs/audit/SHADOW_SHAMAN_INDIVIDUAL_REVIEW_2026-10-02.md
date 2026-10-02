@@ -2,6 +2,12 @@
 
 Status: IN PROGRESS / ENGINE PENDING. Order16of40. Local commits only; owner controls Dota.
 
+## Sol re-review: passive rank and removed handles
+
+Owner requested restarting at Shadow Shaman on 2026-10-02. Prior entries remain historical evidence, not acceptance. The new regression reproduced a real source defect: `GetMinHealth` returned 1 with rank 0; deleted ability handles could also reach `IsCooldownReady` in property/damage callbacks. All three passive callbacks now reject removed or unlearned abilities before querying cooldown or applying the save. Classification remains PVE-CONVERT; authored rank damage, movement and cooldown curves are unchanged. The pre-change regression failed on rank-zero death protection; post-change all 292 hero-kit mock regressions pass, including rank-zero and deleted-handle scenarios. Actual lethal ordering remains ENGINE PENDING. Native source was reread through MCP; API/channel research consulted https://docs.moddota.com/lua_server/ . No imported code/assets.
+
+Still open: native extra confusion chickens and brief invulnerability are absent; the current Shard/Scepter are generic role/ultimate bonuses, not a completed unique hero evolution. Serpent wards marked `enfosNoReward` still retain native bounty/XP because the shared summon owner does not zero engine bounty. Review and repair this economy path separately; no runtime assertion is made from the flag.
+
 ## Ether Shock target and visual repair decision before implementation
 
 Classification PVE-CONVERT retained: keep the authored target-centered 600 radius, rank target budget, base + Intelligence magical damage and 6% Boss maximum-health cap. Native6943 ability is unit-target magical, cast range600/point0.3 and ACT_DOTA_CAST_ABILITY_1, with cone secondary targeting. Current Enfos radius conversion remains intentional; this repair does not silently substitute a native cone.
