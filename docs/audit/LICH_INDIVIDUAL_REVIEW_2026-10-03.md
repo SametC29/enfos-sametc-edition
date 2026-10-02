@@ -16,6 +16,9 @@
   lifecycle and R current synchronous hit/spread records added; detailed W
   lifecycle, D live Break/rank transitions, E resources/absorb and R actual
   projectile lifecycle remain open.
+- ABILITY ISOLATION: COMPLETE for current source; five custom slots and six modifiers extracted into
+  explicit hero modules; source/regression verification and owner cold-start gate
+  are recorded in the isolation section below. This does not close the kit review.
 - OWNER RUNTIME TRACE EVIDENCE: NOT TESTED.
 - OWNER VISUAL/AUDIO VERIFICATION: NOT TESTED.
 - OWNER ENGINE ACCEPTANCE: NOT TESTED.
@@ -192,3 +195,49 @@ CP/attachment/lifetime, spell block, immunity, resistance, death/recast and
 upgrades require further review. No premature projectile/visual acceptance.
 343 behavior mocks pass and full project checks0fail; inventory refreshed only
 for new callback metadata. All owner runtime gates remain NOT TESTED.
+
+## 2026-10-03: individual ability isolation
+
+Latest owner steering retains reverse roster order: Lich first, then Vengeful
+Spirit, Jakiro, Lion and the preceding roster entries. Sven remains reopened
+and pending until its turn. The separate unfinished onboarding generator was
+backed up outside the repository before this work; it is not part of this repair.
+
+Inspected all five current Lich implementations against installed hero source
+again on ClientVersion6943 / SourceRevision11069754 (Oct01 2026). This extraction
+preserves the current implementation and open design findings; it does not turn
+the synchronous R into a verified native projectile or certify W/E resources.
+
+| Slot | Stable class | Implementation / modifier ownership |
+| --- | --- | --- |
+| Q | enfos_lich_frost_blast | abilities/heroes/lich/q.lua; Frost Blast slow |
+| W | enfos_lich_frost_shield | abilities/heroes/lich/w.lua; Frost Shield |
+| E | enfos_lich_sinister_gaze | abilities/heroes/lich/e.lua; Gaze debuff/channel teardown |
+| R | enfos_lich_chain_frost | abilities/heroes/lich/r.lua; Chain Frost slow |
+| D | enfos_lich_ice_aura | abilities/heroes/lich/d.lua; aura source and recipient buff |
+
+Each file explicitly imports shared value/enemy/Boss/intellect/damage helpers and
+lib/hero_trace. Five original helper bodies were moved verbatim into
+abilities/shared/pve_helpers.lua; the remaining monolith imports the same helpers.
+No balance values, gameplay callbacks, searches, timers, particles or state
+transitions were changed by extraction. Private D eligibility/trace helpers stay
+with D. No other hero's ability classes were moved.
+
+KV ScriptFile now points to the five isolated files. Each file links its own
+modifiers. The old pve_kits bootstrap requires lich/init and preserves the shared
+modifier inventory while skipping duplicate registrations for those six names.
+Direct Lich module loading requires neither Sven locals nor the monolith.
+Structural audit, rank-matrix modifier-owner discovery and localization intrinsic
+discovery follow production KV and explicit imports; generated dossier source
+links follow the actual ScriptFile values. Human evidence remains unchanged.
+
+Verification: baseline npm run check passed before extraction. Dedicated isolation
+tests check unique class definitions, KV ownership, all six modifier routes and
+direct cold module load followed by compatible shared bootstrap. Focused and full
+post-extraction results: 95 focused Node tests passed (including two new isolation
+tests); full npm run check passed with zero failed checks and all 343 hero behavior
+regressions. A migration comparison verified all 55 original Lich/shared-helper
+function bodies verbatim against the pre-extraction commit. git diff --check passed.
+Isolation source/regressions are COMPLETE. Owner full-restart registration, particles/sounds and five-slot live
+behavior remain NOT TESTED. Existing trace and individual source review remain
+PARTIAL/PENDING; extraction alone is not hero completion.

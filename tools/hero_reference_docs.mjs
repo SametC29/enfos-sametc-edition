@@ -1,4 +1,4 @@
-// Maintain 40 hero dossiers without replacing human decisions or test evidence.
+// Maintain hero dossiers without replacing human decisions or test evidence.
 import fs from 'node:fs';
 import path from 'node:path';
 import { parseKV } from './lib/kv.mjs';
@@ -29,7 +29,9 @@ function inventory(id, hero) {
     if (!a) throw new Error(`Missing ability: ${id}/${slot}`);
     table.push(`| ${slot} | \`${hero[`Ability${slot}`]}\` | ${cell(a.MaxLevel)} | ${cell(a.AbilityBehavior)} | ${cell(a.ScriptFile)} | ${cell(a.AbilityTextureName)} |`);
   }
-  table.push('', 'Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).', '',
+  const scripts = [...new Set([1,2,3,4,5].map(slot => abilities[hero[`Ability${slot}`]].ScriptFile))];
+  const luaLinks = scripts.map(script => `[${scripts.length === 1 ? 'Lua' : script}](../../../game/scripts/vscripts/${script}.lua)`).join(', ');
+  table.push('', `Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), ${luaLinks}, [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).`, '',
     '### Installed native source (not a custom-slot mapping)', '',
     `Source: \`${native.source}\`; status: ${native.status}; SHA256: \`${native.sha256 ?? 'PENDING'}\`.`,
     `Installed build: ClientVersion=${snapshot.build.ClientVersion}; SourceRevision=${snapshot.build.SourceRevision}; ${snapshot.build.VersionDate}. Snapshot observation UTC: ${snapshot.observedAt}.`,
@@ -123,8 +125,8 @@ for (const [id, hero] of rows) {
 }
 const readme = ['# Kahraman çalışma ve referans dizini', '',
   'Her skill görevinde ilgili kahramanın **AGENTS.md** ve **ABILITIES.md** dosyalarını, ardından [ortak teknik rehberin](../HERO_ABILITY_REFERENCE.md) ilgili bölümünü oku. Root AGENTS.md bu okuma yükümlülüğünü paylaşılan Lua/KV/precache/localization değişiklikleri için de açıkça uygular.', '',
-  '40 kahraman / 200 skill için envanter ve ayrı kabul kayıtları hazır. Native yuvalar kurulu Valve kaynağından çıkarıldı; her özel skill eşlemesi ve çalışma kanıtı ilgili dossier\'de tutulur. PENDING oyun içi kayıtlar bilinçlidir: kaynak dosyası, VPK varlığı ve mock test, oyunda doğru çalışma iddiası değildir.', '',
-  'İlerleme hedefi için ortak seviye-50 XP/başlangıç sistemi ve 40 kahramanın tümünde beş yuvaya ait KV rütbe kapıları uygulandı. Q/W/E/pasif 1. seviyede açılır ve her seviyede rütbe kazanır; R 5. seviyede açılır ve her beş seviyede rütbe kazanır. Oyuncu puanı/HUD ve beceri davranışlarının Dota motorundaki kabulü canlı test bekler.', '',
+  `${rows.length} kahraman / ${checked} skill için envanter ve ayrı kabul kayıtları hazır. Native yuvalar kurulu Valve kaynağından çıkarıldı; her özel skill eşlemesi ve çalışma kanıtı ilgili dossier'de tutulur. PENDING oyun içi kayıtlar bilinçlidir: kaynak dosyası, VPK varlığı ve mock test, oyunda doğru çalışma iddiası değildir.`, '',
+  `İlerleme hedefi için ortak seviye-50 XP/başlangıç sistemi ve ${rows.length} kahramanın tümünde beş yuvaya ait KV rütbe kapıları uygulandı. Q/W/E/pasif 1. seviyede açılır ve her seviyede rütbe kazanır; R 5. seviyede açılır ve her beş seviyede rütbe kazanır. Oyuncu puanı/HUD ve beceri davranışlarının Dota motorundaki kabulü canlı test bekler.`, '',
   '| Kahraman | Proje rolü | Çalışma talimatı | Skill referansı ve kabul kayıtları |', '| --- | --- | --- | --- |',
   ...rows.map(([id,h]) => { const slug = id.replace('npc_dota_hero_', ''); return `| ${names[id] || id} | ${h.Role} | [AGENTS.md](${slug}/AGENTS.md) | [ABILITIES.md](${slug}/ABILITIES.md) |`; }), '',
   '## Bakım', '',

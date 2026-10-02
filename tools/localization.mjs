@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseKV } from './lib/kv.mjs';
 import { getAbilityValues } from './lib/ability_values.mjs';
+import { readAbilitySources } from './lib/ability_sources.mjs';
 
 export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -88,9 +89,8 @@ export function generateLocalization(check = false) {
       }
     }
 
-    // Auto-generate tooltips for intrinsic modifiers in pve_kits.lua
-    const pveKitsPath = path.join(root, 'game/scripts/vscripts/abilities/pve_kits.lua');
-    const pveKitsContent = fs.readFileSync(pveKitsPath, 'utf8');
+    // Follow actual KV/import ownership, including isolated hero modules.
+    const pveKitsContent = [...readAbilitySources(abilities, root).values()].join('\n');
     const abRegex = /function\s+([a-zA-Z0-9_]+):GetIntrinsicModifierName\(\)\s*return\s*['"]([^'"]+)['"]/g;
     let abM;
     while ((abM = abRegex.exec(pveKitsContent)) !== null) {

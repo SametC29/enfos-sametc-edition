@@ -5542,7 +5542,7 @@
 	"enfos_lich_frost_blast"
 	{
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/lich/q"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
@@ -5570,7 +5570,7 @@
 	"enfos_lich_frost_shield"
 	{
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/lich/w"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
@@ -5595,7 +5595,7 @@
 	"enfos_lich_sinister_gaze"
 	{
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/lich/e"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
@@ -5620,7 +5620,7 @@
 	{
 		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/lich/r"
 		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -5649,7 +5649,7 @@
 	{
 		"IsBreakable" "1"		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/lich/d"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"lich_frost_nova"
 		"MaxLevel"					"10"

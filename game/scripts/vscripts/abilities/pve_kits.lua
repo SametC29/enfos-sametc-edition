@@ -1,17 +1,13 @@
+local Helpers = require('abilities/shared/pve_helpers')
+local value, enemies, is_boss, get_int, damage = Helpers.value, Helpers.enemies, Helpers.is_boss, Helpers.get_int, Helpers.damage
+
 -- Enfos Team Survival — SametC Edition: Authoritative PvE Hero Kits (Batch 1)
 -- Implements complete, high-synergy PvE kits for 6 representative heroes:
 -- Sven (Tank), Juggernaut (Fighter), Drow Ranger (Carry), Lina (Mage), Omniknight (Support), Luna (Carry)
 
-local function value(a, k)
-    if not a or (a.IsNull and a:IsNull()) then return 0 end
-    return (a.GetSpecialValueFor and a:GetSpecialValueFor(k)) or 0
-end
 
-local function enemies(c, p, r, target_flags)
-    if not c or (c.IsNull and c:IsNull()) then return {} end
-    return FindUnitsInRadius(c:GetTeamNumber(), p, nil, r, DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, target_flags or DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false) or {}
-end
+
+
 
 local function allies(c, p, r)
     if not c or (c.IsNull and c:IsNull()) then return {} end
@@ -19,12 +15,7 @@ local function allies(c, p, r)
         DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false) or {}
 end
 
-local function is_boss(target)
-    if not target or (target.IsNull and target:IsNull()) then return false end
-    if target.isBoss == true then return true end
-    local name = (target.GetUnitName and target:GetUnitName()) or ""
-    return name:find("enfos_boss_", 1, true) ~= nil
-end
+
 
 local function apply_dazzle_weave(caster, target)
     if not caster or not target or (target.IsNull and target:IsNull()) or not target:IsAlive() then return end
@@ -49,16 +40,7 @@ local function apply_dazzle_weave(caster, target)
     end
 end
 
-local function get_int(c)
-    if not c or (c.IsNull and c:IsNull()) then return 0 end
-    if c.GetIntellect then
-        local ok, val = pcall(c.GetIntellect, c, false)
-        if ok and type(val) == "number" then return val end
-        ok, val = pcall(c.GetIntellect, c)
-        if ok and type(val) == "number" then return val end
-    end
-    return 0
-end
+
 
 local function get_agi(c)
     if not c or (c.IsNull and c:IsNull()) then return 0 end
@@ -93,19 +75,7 @@ local function get_atk(c, target)
     return 100
 end
 
-local function damage(a, target, amount, kind, flags)
-    if target and not (target.IsNull and target:IsNull()) and (target.IsAlive and target:IsAlive()) and amount and amount > 0 then
-        local caster = (a and not (a.IsNull and a:IsNull()) and a.GetCaster) and a:GetCaster() or nil
-        return ApplyDamage({
-            victim = target,
-            attacker = caster,
-            ability = a,
-            damage = amount,
-            damage_flags = flags or 0,
-            damage_type = kind or (a and a.GetAbilityDamageType and a:GetAbilityDamageType()) or DAMAGE_TYPE_PHYSICAL
-        })
-    end
-end
+
 
 local function effect(path, target)
     if not target or (target.IsNull and target:IsNull()) or not ParticleManager then return end
@@ -398,8 +368,11 @@ local modifier_list = {
 }
 _G.ENFOS_PVE_MODIFIER_LIST = modifier_list
 
+local isolatedModifiers = require('abilities/heroes/lich/init')
 for _, mod_name in ipairs(modifier_list) do
-    LinkLuaModifier(mod_name, 'abilities/pve_kits', LUA_MODIFIER_MOTION_NONE)
+    if not isolatedModifiers[mod_name] then
+        LinkLuaModifier(mod_name, 'abilities/pve_kits', LUA_MODIFIER_MOTION_NONE)
+    end
 end
 
 -- Backward compatibility aliases for existing tests
@@ -9112,350 +9085,4 @@ function modifier_enfos_vs_retribution:GetModifierAttackSpeedBonus_Constant()
     return value(self:GetAbility(), 'bonus_as')
 end
 
--- -------------------------------------------------------------------------
--- LICH (SUPPORT)
--- -------------------------------------------------------------------------
-
-enfos_lich_frost_blast=class({})
-function enfos_lich_frost_blast:OnSpellStart()
-    if not IsServer() then return end
-    local c = self:GetCaster()
-    local t = self:GetCursorTarget()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or t:IsNull() or not t:IsAlive() then return end
-    if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then
-        HeroTrace:Log('LICH','Q','cast_cancelled reason=spell_absorb target=%s',HeroTrace:Name(t))
-        return
-    end
-    local origin = t:GetAbsOrigin()
-    HeroTrace:Log('LICH','Q','cast caster=%s target=%s rank=%s position=%s',
-        HeroTrace:Name(c),HeroTrace:Name(t),tostring(self.GetLevel and self:GetLevel() or 0),tostring(origin))
-    c:EmitSound('Ability.FrostNova')
-    t:EmitSound('Ability.FrostNova')
-    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_lich/lich_frost_nova.vpcf', PATTACH_ABSORIGIN_FOLLOW, t)
-    ParticleManager:SetParticleControl(fx, 0, origin)
-    ParticleManager:ReleaseParticleIndex(fx)
-    local tdmg = value(self, 'target_damage')
-    local rdmg = value(self, 'radius_damage')
-    local int = get_int(c)
-    local primary = tdmg + (int * 0.8)
-    if is_boss(t) then primary = math.min(primary, t:GetMaxHealth() * 0.1) end
-    local radius = value(self, 'radius')
-    if radius <= 0 then radius = 250 end
-    local slow_duration = value(self, 'duration')
-    if slow_duration <= 0 then slow_duration = 4 end
-    local primary_slow_duration = is_boss(t) and (slow_duration * 0.4) or slow_duration
-    damage(self, t, primary, DAMAGE_TYPE_MAGICAL)
-    if c:IsNull() or (self.IsNull and self:IsNull()) then
-        HeroTrace:Log('LICH','Q','impact_cancelled reason=source_removed_after_primary_damage')
-        return
-    end
-    HeroTrace:Log('LICH','Q','primary target=%s requested_damage=%s slow_duration=%s alive=%s',
-        HeroTrace:Name(t),tostring(primary),tostring(primary_slow_duration),tostring(not t:IsNull() and t:IsAlive()))
-    if not t:IsNull() and t:IsAlive() then
-        t:AddNewModifier(c, self, 'modifier_enfos_lich_frost_blast_slow', { duration = primary_slow_duration })
-    end
-    local affected = 0
-    for _, u in ipairs(enemies(c, origin, radius)) do
-        if c:IsNull() or (self.IsNull and self:IsNull()) then break end
-        if u ~= t then
-        local splash = rdmg + (int * 0.5)
-        if is_boss(u) then splash = math.min(splash, u:GetMaxHealth() * 0.06) end
-        local dur = is_boss(u) and (slow_duration * 0.4) or slow_duration
-        damage(self, u, splash, DAMAGE_TYPE_MAGICAL)
-        affected = affected + 1
-        if c:IsNull() or (self.IsNull and self:IsNull()) then break end
-        if not u:IsNull() and u:IsAlive() then
-            u:AddNewModifier(c, self, 'modifier_enfos_lich_frost_blast_slow', { duration = dur })
-        end
-        end
-    end
-    HeroTrace:Log('LICH','Q','impact_summary splash_targets=%d radius=%s',affected,tostring(radius))
-end
-
-modifier_enfos_lich_frost_blast_slow=class({})
-function modifier_enfos_lich_frost_blast_slow:IsDebuff() return true end
-function modifier_enfos_lich_frost_blast_slow:DeclareFunctions()
-    return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
-end
-function modifier_enfos_lich_frost_blast_slow:GetModifierMoveSpeedBonus_Percentage() return -value(self:GetAbility(), 'slow_pct') end
-function modifier_enfos_lich_frost_blast_slow:GetModifierAttackSpeedBonus_Constant()
-    local slow = value(self:GetAbility(), 'slow_attack')
-    return -(slow > 0 and slow or 40)
-end
-
-enfos_lich_frost_shield=class({})
-function enfos_lich_frost_shield:Precache(context)
-    PrecacheResource('soundfile', 'soundevents/game_sounds_heroes/game_sounds_lich.vsndevts', context)
-end
-function enfos_lich_frost_shield:OnSpellStart()
-    if not IsServer() then return end
-    local c = self:GetCaster()
-    if not c or c:IsNull() or not c:IsAlive() then return end
-    local t = self:GetCursorTarget() or c
-    if not t or t:IsNull() or not t:IsAlive() then return end
-    local dur = value(self, 'duration')
-    if dur <= 0 then dur = 6.0 end
-    t:EmitSound('Hero_Lich.IceAge')
-    t:AddNewModifier(c, self, 'modifier_enfos_lich_frost_shield', { duration = dur })
-    HeroTrace:Log('LICH','W','cast caster=%s recipient=%s duration=%s',HeroTrace:Name(c),HeroTrace:Name(t),tostring(dur))
-end
-
-modifier_enfos_lich_frost_shield=class({})
-function modifier_enfos_lich_frost_shield:GetTexture() return 'lich_frost_shield' end
-function modifier_enfos_lich_frost_shield:OnCreated()
-    if not IsServer() then return end
-    self:StartIntervalThink(1.0)
-end
-function modifier_enfos_lich_frost_shield:GetEffectName()
-    return 'particles/units/heroes/hero_lich/lich_frost_armor.vpcf'
-end
-function modifier_enfos_lich_frost_shield:GetEffectAttachType()
-    return PATTACH_OVERHEAD_FOLLOW
-end
-function modifier_enfos_lich_frost_shield:OnIntervalThink()
-    if not IsServer() then return end
-    local p = self:GetParent()
-    local c = self:GetCaster()
-    local ab = self:GetAbility()
-    if not p or p:IsNull() or not p:IsAlive() or not c or c:IsNull()
-        or not ab or (ab.IsNull and ab:IsNull()) then
-        HeroTrace:Log('LICH','W','pulse_cancelled reason=invalid_source_or_recipient recipient=%s',HeroTrace:Name(p))
-        self:Destroy(); return
-    end
-    local dps = value(ab, 'dps')
-    local int = get_int(c)
-    local total_dps = dps + (int * 0.25)
-    local affected = 0
-    for _, u in ipairs(enemies(c, p:GetAbsOrigin(), 600)) do
-        damage(ab, u, total_dps, DAMAGE_TYPE_MAGICAL)
-        affected = affected + 1
-        if c:IsNull() or p:IsNull() or not p:IsAlive() or (ab.IsNull and ab:IsNull()) then break end
-    end
-    HeroTrace:Log('LICH','W','pulse recipient=%s affected=%d requested_damage=%s',HeroTrace:Name(p),affected,tostring(total_dps))
-end
-function modifier_enfos_lich_frost_shield:DeclareFunctions() return { MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE } end
-function modifier_enfos_lich_frost_shield:GetModifierIncomingPhysicalDamage_Percentage()
-    local ab = self:GetAbility()
-    local red = ab and value(ab, 'damage_reduction') or 40
-    return -red
-end
-
-enfos_lich_sinister_gaze=class({})
-function enfos_lich_sinister_gaze:GetChannelTime()
-    local duration = value(self, 'duration')
-    if duration <= 0 then duration = 2.0 end
-    local target = self:GetCursorTarget()
-    if target and not (target.IsNull and target:IsNull()) and is_boss(target) then
-        return duration * 0.35
-    end
-    return duration
-end
-function enfos_lich_sinister_gaze:OnSpellStart()
-    if not IsServer() then return end
-    local c = self:GetCaster()
-    local t = self:GetCursorTarget()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or t:IsNull() or not t:IsAlive() then return end
-    if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
-    c:EmitSound('Hero_Lich.SinisterGaze.Cast')
-    local dur = value(self, 'duration')
-    if dur <= 0 then dur = 2.0 end
-    if is_boss(t) then dur = dur * 0.35 end
-    self.gazeTarget = t
-    HeroTrace:Log('LICH', 'E', 'channel_start target=%s duration=%.2f boss=%s', HeroTrace:Name(t), dur, tostring(is_boss(t)))
-    t:AddNewModifier(c, self, 'modifier_enfos_lich_sinister_gaze_debuff', { duration = dur })
-end
-function enfos_lich_sinister_gaze:OnChannelFinish(interrupted)
-    if not IsServer() then return end
-    local c = self:GetCaster()
-    local t = self.gazeTarget
-    self.gazeTarget = nil
-    HeroTrace:Log('LICH', 'E', 'channel_finish target=%s interrupted=%s', HeroTrace:Name(t), tostring(interrupted))
-    if t and not t:IsNull() and c and not c:IsNull() then
-        t:RemoveModifierByNameAndCaster('modifier_enfos_lich_sinister_gaze_debuff', c)
-    end
-end
-
-modifier_enfos_lich_sinister_gaze_debuff=class({})
-function modifier_enfos_lich_sinister_gaze_debuff:IsDebuff() return true end
-function modifier_enfos_lich_sinister_gaze_debuff:GetTexture() return 'lich_sinister_gaze' end
-function modifier_enfos_lich_sinister_gaze_debuff:CheckState()
-    return { [MODIFIER_STATE_STUNNED] = true }
-end
-function modifier_enfos_lich_sinister_gaze_debuff:GetEffectName()
-    return 'particles/units/heroes/hero_lich/lich_gaze.vpcf'
-end
-function modifier_enfos_lich_sinister_gaze_debuff:GetEffectAttachType()
-    return PATTACH_ABSORIGIN_FOLLOW
-end
-function modifier_enfos_lich_sinister_gaze_debuff:OnCreated()
-    if not IsServer() then return end
-    self:StartIntervalThink(0.5)
-end
-function modifier_enfos_lich_sinister_gaze_debuff:OnIntervalThink()
-    if not IsServer() then return end
-    local p = self:GetParent()
-    local c = self:GetCaster()
-    local ab = self:GetAbility()
-    if not ab or (ab.IsNull and ab:IsNull()) or not c or c:IsNull() or not c:IsAlive() or not p or p:IsNull() or not p:IsAlive() then
-        HeroTrace:Log('LICH', 'E', 'control_cancel target=%s invalid_source_or_recipient=true', HeroTrace:Name(p))
-        self:Destroy()
-        return
-    end
-    local drain = value(ab, 'mana_drain_pct')
-    local drained = math.min(p:GetMana(), p:GetMaxMana() * drain * 0.01 * 0.5)
-    if drained > 0 then
-        if p.ReduceMana then
-            p:ReduceMana(drained)
-            if c.GiveMana then c:GiveMana(drained) end
-        elseif p.SetMana and p.GetMana then
-            local actual = math.min(drained, p:GetMana())
-            p:SetMana(math.max(0, p:GetMana() - actual))
-            if c.GiveMana then c:GiveMana(actual) end
-        end
-    end
-    local dir = (c:GetAbsOrigin() - p:GetAbsOrigin()):Normalized()
-    local pulled = false
-    if not is_boss(p) and (p:GetAbsOrigin() - c:GetAbsOrigin()):Length2D() > 100 then
-        p:SetAbsOrigin(p:GetAbsOrigin() + (dir * 40))
-        FindClearSpaceForUnit(p, p:GetAbsOrigin(), true)
-        pulled = true
-    end
-    HeroTrace:Log('LICH', 'E', 'control_tick target=%s mana=%.2f pulled=%s', HeroTrace:Name(p), drained, tostring(pulled))
-end
-function modifier_enfos_lich_sinister_gaze_debuff:OnDestroy()
-    if not IsServer() then return end
-    local ab = self:GetAbility()
-    local c = self:GetCaster()
-    local p = self:GetParent()
-    if not ab or (ab.IsNull and ab:IsNull()) or ab.gazeTarget ~= p then return end
-    -- ChannelFinish clears ownership before removing this modifier. An old
-    -- recipient must not interrupt another cast or erase a newer target.
-    ab.gazeTarget = nil
-    local ownsChannel = c and not c:IsNull() and c.GetCurrentActiveAbility and c:GetCurrentActiveAbility() == ab
-    HeroTrace:Log('LICH', 'E', 'control_removed target=%s matching_channel=%s', HeroTrace:Name(p), tostring(not not ownsChannel))
-    if ownsChannel and ab.EndChannel then ab:EndChannel(true) end
-end
-
-enfos_lich_chain_frost=class({})
-function enfos_lich_chain_frost:Precache(context)
-    PrecacheResource('soundfile', 'soundevents/game_sounds_heroes/game_sounds_lich.vsndevts', context)
-end
-function enfos_lich_chain_frost:OnSpellStart()
-    if not IsServer() then return end
-    local c = self:GetCaster()
-    local t = self:GetCursorTarget()
-    if not c or c:IsNull() or not c:IsAlive() or not t or t:IsNull() or not t:IsAlive() then return end
-    c:EmitSound('Hero_Lich.ChainFrost')
-    local jumps = value(self, 'jump_count')
-    if jumps <= 0 then jumps = 10 end
-    local dmg = value(self, 'damage')
-    local int = get_int(c)
-    local total_dmg = dmg + (int * 1.0)
-    local current = t
-    local hit_targets = {}
-    local slow_duration = value(self, 'slow_duration')
-    if slow_duration <= 0 then slow_duration = 2.5 end
-    HeroTrace:Log('LICH','R','cast target=%s jumps=%s requested_damage=%s',HeroTrace:Name(t),tostring(jumps),tostring(total_dmg))
-
-    for i = 1, jumps do
-        if not current or (current.IsNull and current:IsNull()) or not current:IsAlive() or hit_targets[current] then break end
-        hit_targets[current] = true
-        local origin = current:GetAbsOrigin()
-        local duration = is_boss(current) and (slow_duration * 0.35) or slow_duration
-        local impactSound = current:IsHero() and 'Hero_Lich.ChainFrostImpact.Hero' or 'Hero_Lich.ChainFrostImpact.Creep'
-        current:EmitSound(impactSound)
-        local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_lich/lich_chain_frost.vpcf', PATTACH_ABSORIGIN_FOLLOW, current)
-        ParticleManager:ReleaseParticleIndex(fx)
-        HeroTrace:Log('LICH','R','hit target=%s index=%d requested_damage=%s slow_duration=%s',HeroTrace:Name(current),i,tostring(total_dmg),tostring(duration))
-        damage(self, current, total_dmg, DAMAGE_TYPE_MAGICAL)
-        if c:IsNull() or (self.IsNull and self:IsNull()) then
-            HeroTrace:Log('LICH','R','spread_cancelled reason=source_removed')
-            break
-        end
-        if not current:IsNull() and current:IsAlive() then
-            current:AddNewModifier(c, self, 'modifier_enfos_lich_chain_frost_slow', { duration = duration })
-        end
-        local candidates = enemies(c, origin, 600)
-        local next_target = nil
-        for _, u in ipairs(candidates) do
-            if u and not u:IsNull() and u ~= current and not hit_targets[u] and u:IsAlive() then
-                next_target = u
-                break
-            end
-        end
-        HeroTrace:Log('LICH','R','spread_next target=%s',HeroTrace:Name(next_target))
-        current = next_target
-    end
-end
-
-modifier_enfos_lich_chain_frost_slow=class({})
-function modifier_enfos_lich_chain_frost_slow:IsDebuff() return true end
-function modifier_enfos_lich_chain_frost_slow:DeclareFunctions()
-    return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
-end
-function modifier_enfos_lich_chain_frost_slow:GetModifierMoveSpeedBonus_Percentage()
-    local a = self:GetAbility()
-    local slow = a and value(a, 'slow_pct') or 50
-    if slow <= 0 then slow = 50 end
-    return -slow
-end
-function modifier_enfos_lich_chain_frost_slow:GetModifierAttackSpeedBonus_Constant()
-    local a = self:GetAbility()
-    local slow = a and value(a, 'slow_attack_pct') or 50
-    if slow <= 0 then slow = 50 end
-    return -slow
-end
-
-enfos_lich_ice_aura=class({})
-function enfos_lich_ice_aura:GetIntrinsicModifierName() return 'modifier_enfos_lich_ice_aura' end
-
-modifier_enfos_lich_ice_aura=class({})
-local function lich_ice_aura_source(c, a)
-    if not c or (c.IsNull and c:IsNull()) or not a or (a.IsNull and a:IsNull())
-        or (a.GetLevel and a:GetLevel() <= 0) or (c.PassivesDisabled and c:PassivesDisabled()) then return nil end
-    return a
-end
-
-local function lich_ice_aura_trace(modifier, event)
-    if not HeroTrace:Enabled() then return end
-    local c, a = modifier:GetCaster(), modifier:GetAbility()
-    local active = lich_ice_aura_source(c, a)
-    HeroTrace:Log('LICH','D','%s source=%s recipient=%s active=%s armor=%s mana_regen=%s',
-        event,HeroTrace:Name(c),HeroTrace:Name(modifier:GetParent()),tostring(active ~= nil),
-        tostring(value(active,'bonus_armor')),tostring(value(active,'mana_regen')))
-end
-
-function modifier_enfos_lich_ice_aura:GetTexture() return 'lich_frost_nova' end
-function modifier_enfos_lich_ice_aura:OnCreated() lich_ice_aura_trace(self, 'source_created') end
-function modifier_enfos_lich_ice_aura:OnRefresh() lich_ice_aura_trace(self, 'source_refreshed') end
-function modifier_enfos_lich_ice_aura:OnDestroy() lich_ice_aura_trace(self, 'source_removed') end
-function modifier_enfos_lich_ice_aura:IsAura()
-    return lich_ice_aura_source(self:GetParent(), self:GetAbility()) ~= nil
-end
-function modifier_enfos_lich_ice_aura:GetAuraRadius() return value(self:GetAbility(), 'radius') end
-function modifier_enfos_lich_ice_aura:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_FRIENDLY end
-function modifier_enfos_lich_ice_aura:GetAuraSearchType() return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end
-function modifier_enfos_lich_ice_aura:GetModifierAura() return 'modifier_enfos_lich_ice_aura_buff' end
-
-modifier_enfos_lich_ice_aura_buff=class({})
-function modifier_enfos_lich_ice_aura_buff:GetTexture() return 'lich_frost_nova' end
-function modifier_enfos_lich_ice_aura_buff:OnCreated() lich_ice_aura_trace(self, 'recipient_created') end
-function modifier_enfos_lich_ice_aura_buff:OnRefresh() lich_ice_aura_trace(self, 'recipient_refreshed') end
-function modifier_enfos_lich_ice_aura_buff:OnDestroy() lich_ice_aura_trace(self, 'recipient_removed') end
-function modifier_enfos_lich_ice_aura_buff:DeclareFunctions()
-    return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS, MODIFIER_PROPERTY_MANA_REGEN_CONSTANT }
-end
-function modifier_enfos_lich_ice_aura_buff:GetModifierPhysicalArmorBonus()
-    local c = self:GetParent()
-    if not c or (c.IsNull and c:IsNull()) then return 0 end
-    if c and c.IsIllusion and c:IsIllusion() then return 0 end
-    local ab = lich_ice_aura_source(self:GetCaster(), self:GetAbility())
-    return value(ab, 'bonus_armor')
-end
-function modifier_enfos_lich_ice_aura_buff:GetModifierConstantManaRegen()
-    local c = self:GetParent()
-    if not c or (c.IsNull and c:IsNull()) then return 0 end
-    if c and c.IsIllusion and c:IsIllusion() then return 0 end
-    local ab = lich_ice_aura_source(self:GetCaster(), self:GetAbility())
-    return value(ab, 'mana_regen')
-end
+-- Lich is loaded above through its isolated compatibility module.

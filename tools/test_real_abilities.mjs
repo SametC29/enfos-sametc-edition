@@ -4,9 +4,10 @@ import {spawnSync} from 'node:child_process';
 import {parseKV} from './lib/kv.mjs';
 import {getAbilityValues} from './lib/ability_values.mjs';
 import luaparse from 'luaparse';
+import {readAbilitySources} from './lib/ability_sources.mjs';
 const abilities=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.txt','utf8')).DOTAAbilities;
-const source=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');
 const owners={};
+for (const source of readAbilitySources(abilities).values()) {
 let current;
 for(const node of luaparse.parse(source).body){
   if(node.type==='AssignmentStatement' && abilities[node.variables[0]?.name]) current=node.variables[0].name;
@@ -14,6 +15,7 @@ for(const node of luaparse.parse(source).body){
     const name=node.identifier.base.name;
     if(current && name?.startsWith('modifier_')) owners[name]=current;
   }
+}
 }
 const ownerLua=Object.entries(owners).map(([k,v])=>`["${k}"]="${v}"`).join(',');
 const maxRank=Math.max(...Object.values(abilities).map(a=>Number(a.MaxLevel)||1));

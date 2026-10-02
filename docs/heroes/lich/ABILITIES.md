@@ -9,13 +9,13 @@ Hero: `npc_dota_hero_lich`; role: Support. Progression target: hero level 50 / a
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_lich_frost_blast` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | lich_frost_nova |
-| 2 | `enfos_lich_frost_shield` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | lich_frost_shield |
-| 3 | `enfos_lich_sinister_gaze` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_CHANNELLED | abilities/pve_kits | lich_sinister_gaze |
-| 4 | `enfos_lich_chain_frost` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | lich_chain_frost |
-| 5 | `enfos_lich_ice_aura` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | lich_frost_nova |
+| 1 | `enfos_lich_frost_blast` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/heroes/lich/q | lich_frost_nova |
+| 2 | `enfos_lich_frost_shield` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/heroes/lich/w | lich_frost_shield |
+| 3 | `enfos_lich_sinister_gaze` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_CHANNELLED | abilities/heroes/lich/e | lich_sinister_gaze |
+| 4 | `enfos_lich_chain_frost` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/heroes/lich/r | lich_chain_frost |
+| 5 | `enfos_lich_ice_aura` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/lich/d | lich_frost_nova |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/lich/q](../../../game/scripts/vscripts/abilities/heroes/lich/q.lua), [abilities/heroes/lich/w](../../../game/scripts/vscripts/abilities/heroes/lich/w.lua), [abilities/heroes/lich/e](../../../game/scripts/vscripts/abilities/heroes/lich/e.lua), [abilities/heroes/lich/r](../../../game/scripts/vscripts/abilities/heroes/lich/r.lua), [abilities/heroes/lich/d](../../../game/scripts/vscripts/abilities/heroes/lich/d.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 

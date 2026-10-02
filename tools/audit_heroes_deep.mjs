@@ -2,12 +2,15 @@ import fs from 'node:fs';
 import luaparse from 'luaparse';
 import {parseKV} from './lib/kv.mjs';
 import {getAbilityValues} from './lib/ability_values.mjs';
+import {readAbilitySources} from './lib/ability_sources.mjs';
 
 // Structural inventory is evidence of coverage, not a certificate of engine behavior.
-const source=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');
 const abilities=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.txt','utf8')).DOTAAbilities;
+const sources=readAbilitySources(abilities);
+const source=[...sources.values()].join('\n');
 const heroes=parseKV(fs.readFileSync('game/scripts/npc/npc_heroes_custom.txt','utf8')).DOTAHeroes;
 const functions=new Map(), ownerSource=new Map(), classSource=new Map(), helperSource=new Map();
+for (const source of sources.values()) {
 let owner;
 for(const n of luaparse.parse(source,{ranges:true}).body){
   if(n.type==='AssignmentStatement' && abilities[n.variables[0]?.name]) owner=n.variables[0].name;
@@ -22,6 +25,7 @@ for(const n of luaparse.parse(source,{ranges:true}).body){
   functions.get(cls).add(method);
   classSource.set(cls,(classSource.get(cls)||'')+'\n'+body);
   if(owner) ownerSource.set(owner,(ownerSource.get(owner)||'')+'\n'+body);
+}
 }
 const rows=[];
 for(const [id,hero] of Object.entries(heroes).filter(([,h])=>h.Role)){
