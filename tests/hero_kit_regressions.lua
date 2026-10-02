@@ -3519,8 +3519,32 @@ test('Phantom Assassin Phantom Strike lands behind the target facing', function(
     ab.GetCaster = function() return pa end
     ab.GetCursorTarget = function() return target end
     ab.GetSpecialValueFor = function(_, key) return ({bonus_attack_speed=100,buff_duration=3})[key] or 0 end
-    ab:OnSpellStart()
+    local oldCreate,oldControl,oldEnt,oldRelease,oldOrigin = ParticleManager.CreateParticle,
+        ParticleManager.SetParticleControl,ParticleManager.SetParticleControlEnt,ParticleManager.ReleaseParticleIndex,PATTACH_ABSORIGIN
+    PATTACH_ABSORIGIN=912
+    local particles={}
+    ParticleManager.CreateParticle=function(_,path,attach,owner)
+        particles[#particles+1]={path=path,attach=attach,owner=owner,cp={}}
+        return #particles
+    end
+    ParticleManager.SetParticleControl=function(_,id,cp,position) particles[id].cp[cp]=position end
+    ParticleManager.SetParticleControlEnt=function(_,id,cp,owner,attach,name,position,orientation)
+        particles[id].model={cp=cp,owner=owner,attach=attach,position=position}
+    end
+    ParticleManager.ReleaseParticleIndex=function(_,id) particles[id].released=true end
+    local ok,err=pcall(function() ab:OnSpellStart() end)
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.SetParticleControlEnt,
+        ParticleManager.ReleaseParticleIndex,PATTACH_ABSORIGIN=oldCreate,oldControl,oldEnt,oldRelease,oldOrigin
+    assert(ok,err)
     assert(pa.origin.x == 100 and pa.origin.y == 40, 'expected destination 60 units behind the target facing')
+    assert(#particles==2 and particles[1].attach==912 and particles[2].attach==912,
+        'Teleport bursts must stay at their own origin instead of following the teleported caster')
+    assert(particles[1].cp[0] and particles[1].cp[0].x==0 and particles[1].cp[0].y==0
+        and particles[2].cp[0] and particles[2].cp[0].x==100 and particles[2].cp[0].y==40,
+        'Departure and arrival effects must preserve distinct source/resolved landing positions')
+    assert(particles[1].model and particles[1].model.cp==1 and particles[1].model.owner==pa
+        and particles[1].model.attach==912 and particles[1].released and particles[2].released,
+        'Departure afterimages need the caster model on CP1 and both finite bursts must release their indexes')
 end)
 
 test('Phantom Strike healing accepts lethal hostile damage but rejects dead or removed recipients', function()

@@ -4251,11 +4251,21 @@ function enfos_pa_phantom_strike:OnSpellStart()
     if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
 
     c:EmitSound('Hero_PhantomAssassin.Strike.Start')
-    effect('particles/units/heroes/hero_phantom_assassin/phantom_assassin_phantom_strike_start.vpcf', c)
+    if ParticleManager then
+        local origin = c:GetAbsOrigin()
+        local start = ParticleManager:CreateParticle('particles/units/heroes/hero_phantom_assassin/phantom_assassin_phantom_strike_start.vpcf', PATTACH_ABSORIGIN, c)
+        ParticleManager:SetParticleControl(start, 0, origin)
+        ParticleManager:SetParticleControlEnt(start, 1, c, PATTACH_ABSORIGIN, '', origin, true)
+        ParticleManager:ReleaseParticleIndex(start)
+    end
     local forward = t.GetForwardVector and t:GetForwardVector() or Vector(1, 0, 0)
     local dest = t:GetAbsOrigin() - (forward * 60)
     FindClearSpaceForUnit(c, dest, true)
-    effect('particles/units/heroes/hero_phantom_assassin/phantom_assassin_phantom_strike_end.vpcf', c)
+    if ParticleManager then
+        local finish = ParticleManager:CreateParticle('particles/units/heroes/hero_phantom_assassin/phantom_assassin_phantom_strike_end.vpcf', PATTACH_ABSORIGIN, c)
+        ParticleManager:SetParticleControl(finish, 0, c:GetAbsOrigin())
+        ParticleManager:ReleaseParticleIndex(finish)
+    end
     c:EmitSound('Hero_PhantomAssassin.Strike.End')
     c:AddNewModifier(c, self, 'modifier_enfos_pa_phantom_strike_buff', { duration = value(self, 'buff_duration') })
 end
