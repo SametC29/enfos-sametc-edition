@@ -2458,11 +2458,12 @@ function enfos_legion_press_the_attack:OnSpellStart()
     if t.GetTeamNumber and c.GetTeamNumber and t:GetTeamNumber() ~= c:GetTeamNumber() then return end
     if t.Purge then t:Purge(false, true, false, true, true) end
     t:EmitSound('Hero_LegionCommander.PressTheAttack')
-    effect('particles/units/heroes/hero_legion_commander/legion_commander_press.vpcf', t)
     t:AddNewModifier(c, self, 'modifier_enfos_legion_press_the_attack_buff', { duration = value(self, 'duration') })
 end
 
 modifier_enfos_legion_press_the_attack_buff=class({})
+function modifier_enfos_legion_press_the_attack_buff:GetEffectName() return 'particles/units/heroes/hero_legion_commander/legion_commander_press.vpcf' end
+function modifier_enfos_legion_press_the_attack_buff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_legion_press_the_attack_buff:DeclareFunctions()
     return { MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
 end

@@ -1800,12 +1800,20 @@ test('Legion Press the Attack purges and buffs only a living ally', function()
     ability.GetCaster = function() return legion end
     ability.GetCursorTarget = function() return ally end
     ability.GetSpecialValueFor = function(_, key) return key == 'duration' and 6 or 0 end
-
+    local oldCreate = ParticleManager.CreateParticle
+    local allocations = 0
+    ParticleManager.CreateParticle = function() allocations = allocations + 1; return 922 end
     ability:OnSpellStart()
+    ParticleManager.CreateParticle = oldCreate
     assert(ally:HasModifier('modifier_enfos_legion_press_the_attack_buff'), 'Friendly target receives the buff')
     assert(purge_args and purge_args[1] == false and purge_args[2] == true and purge_args[4] == true,
         'Friendly target receives the configured debuff/stun purge call')
     assert(ally.modifiers['modifier_enfos_legion_press_the_attack_buff'].params.duration == 6)
+    assert(allocations == 0, 'Continuous Press children must not be allocated as an unowned released cast effect')
+    local buff = ally.modifiers['modifier_enfos_legion_press_the_attack_buff']
+    assert(buff:GetEffectName() == 'particles/units/heroes/hero_legion_commander/legion_commander_press.vpcf'
+        and buff:GetEffectAttachType() == PATTACH_ABSORIGIN_FOLLOW,
+        'The recipient modifier lifetime must own the continuous native effect')
 
     ability.GetCursorTarget = function() return enemy end
     ability:OnSpellStart()
