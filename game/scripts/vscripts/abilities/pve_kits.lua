@@ -3858,11 +3858,17 @@ function enfos_tide_ravage:OnSpellStart()
     if dur <= 0 then dur = 2.8 end
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), value(self, 'radius'))) do
-        local boss_dur = value(self, 'boss_stun_duration')
-        if boss_dur <= 0 then boss_dur = 1.0 end
-        local target_dur = is_boss(u) and math.min(dur, boss_dur) or dur
-        u:AddNewModifier(c, self, 'modifier_enfos_tide_ravage_stun', { duration = target_dur })
-        damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
+        if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return end
+        if u and not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
+            local boss_dur = value(self, 'boss_stun_duration')
+            if boss_dur <= 0 then boss_dur = 1.0 end
+            local target_dur = is_boss(u) and math.min(dur, boss_dur) or dur
+            u:AddNewModifier(c, self, 'modifier_enfos_tide_ravage_stun', { duration = target_dur })
+            if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return end
+            if not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
+                damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
+            end
+        end
     end
 end
 

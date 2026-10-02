@@ -3600,6 +3600,47 @@ test('Tidehunter Ravage uses the configured boss stun cap', function()
     assert(applied_damages[1].damage == 375, 'Ravage must use its named Strength factor, not a hidden fixed coefficient')
 end)
 
+test('Tidehunter Ravage revalidates later recipients after synchronous damage callbacks', function()
+    local oldDamage=ApplyDamage
+    for _,mode in ipairs({'target','caster','ability','allied'}) do
+        local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
+        local first=create_mock_unit('first_ravage_target',3,Vector(50,0,0))
+        local second=create_mock_unit('second_ravage_target',3,Vector(100,0,0))
+        local changed=false;local hits=0
+        hero.IsNull=function() return changed and mode=='caster' end
+        second.IsNull=function() return changed and mode=='target' end
+        second.GetTeamNumber=function() return changed and mode=='allied' and 2 or 3 end
+        local a=enfos_tide_ravage();a.GetCaster=function() return hero end
+        a.IsNull=function() return changed and mode=='ability' end
+        a.GetSpecialValueFor=function() assert(not (changed and mode=='ability'),'removed Ravage value read');return 1000 end
+        second.AddNewModifier=function() error('Ravage cannot stun a recipient invalidated by an earlier impact') end
+        ApplyDamage=function() hits=hits+1;changed=true end
+        mock_world_units={hero,first,second}
+        a:OnSpellStart()
+        assert(hits==1,'Ravage must stop or skip invalid later recipients without a second damage call')
+    end
+    ApplyDamage=oldDamage
+end)
+
+test('Tidehunter Ravage handles source and recipient removal from modifier callbacks', function()
+    local oldDamage=ApplyDamage
+    for _,mode in ipairs({'target','caster','ability'}) do
+        local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
+        local target=create_mock_unit('ravage_modifier_target',3,Vector(50,0,0))
+        local changed=false
+        hero.IsNull=function() return changed and mode=='caster' end
+        target.IsNull=function() return changed and mode=='target' end
+        local a=enfos_tide_ravage();a.GetCaster=function() return hero end
+        a.IsNull=function() return changed and mode=='ability' end
+        a.GetSpecialValueFor=function() return 1000 end
+        target.AddNewModifier=function() changed=true end
+        ApplyDamage=function() error('Removed handles cannot enter ApplyDamage after modifier callbacks') end
+        mock_world_units={hero,target}
+        a:OnSpellStart()
+    end
+    ApplyDamage=oldDamage
+end)
+
 test('Tidehunter passives reject unlearned, missing and removed ability sources', function()
     local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
     local purges=0;hero.Purge=function() purges=purges+1 end
