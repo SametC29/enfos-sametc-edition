@@ -2590,6 +2590,9 @@ test('Crystal Maiden Freezing Field applies a configured random-target pulse and
 end)
 
 test('Dazzle Poison Touch only refreshes and ramps slow on Dazzle attacks', function()
+    local old_create=ParticleManager.CreateParticle
+    local allocations=0
+    ParticleManager.CreateParticle=function() allocations=allocations+1; return 1 end
     applied_damages = {}
     local dazzle = create_mock_unit('npc_dota_hero_dazzle', 2, Vector(0, 0, 0))
     local enemy = create_mock_unit('creep_poison_touch', 3, Vector(200, 0, 0))
@@ -2604,8 +2607,12 @@ test('Dazzle Poison Touch only refreshes and ramps slow on Dazzle attacks', func
             int_damage_pct = 35, slow_pct = 25, slow_per_attack = 2, max_bonus_slow = 35 })[key] or 0
     end
     ab:OnSpellStart()
+    ParticleManager.CreateParticle=old_create
+    assert(allocations==0,'Immediate radial poison must not leave a standalone native projectile emitter')
     local debuff = enemy:FindModifierByName('modifier_enfos_dazzle_poison_touch_debuff')
     assert(debuff, 'Poison Touch must apply its base debuff')
+    assert(debuff:GetEffectName()=='particles/units/heroes/hero_dazzle/dazzle_poison_debuff.vpcf'
+        and debuff:GetEffectAttachType()==PATTACH_ABSORIGIN_FOLLOW,'Poison duration must own its native ongoing feedback')
     debuff.StartIntervalThink = function() end
     debuff:OnCreated()
     assert(debuff:GetStackCount() == 0, 'Poison Touch must start with no replicated bonus slow')
@@ -2619,6 +2626,18 @@ test('Dazzle Poison Touch only refreshes and ramps slow on Dazzle attacks', func
     assert(client:GetModifierMoveSpeedBonus_Percentage()==-27,'Client without server Lua fields must see the same accumulated slow')
     for i=1,20 do debuff:OnAttackLanded({attacker=dazzle,target=enemy}) end
     assert(debuff:GetStackCount()==35 and client:GetModifierMoveSpeedBonus_Percentage()==-60,'Replicated bonus slow must respect the configured cap')
+end)
+
+test('Dazzle Poison Touch ends safely when its ability is removed', function()
+    local dazzle=create_mock_unit('npc_dota_hero_dazzle',2,Vector(0,0,0))
+    local enemy=create_mock_unit('poison_target',3,Vector(100,0,0))
+    local ended=false
+    local poison=setmetatable({GetCaster=function() return dazzle end,GetParent=function() return enemy end,
+        GetAbility=function() return {IsNull=function() return true end} end,
+        Destroy=function() ended=true end},modifier_enfos_dazzle_poison_touch_debuff)
+    applied_damages={}
+    poison:OnIntervalThink()
+    assert(ended and #applied_damages==0,'Removed poison ability must stop before damage and release its modifier owner')
 end)
 
 test('Dazzle Shallow Grave grants lethal-damage floor and configured healing amplification', function()

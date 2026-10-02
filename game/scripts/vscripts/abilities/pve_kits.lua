@@ -3208,13 +3208,14 @@ function enfos_dazzle_poison_touch:OnSpellStart()
     for _, u in ipairs(targets) do
         u:AddNewModifier(c, self, 'modifier_enfos_dazzle_poison_touch_debuff', { duration = value(self, 'duration') })
         apply_dazzle_weave(c, u)
-        effect('particles/units/heroes/hero_dazzle/dazzle_poison_touch.vpcf', u)
         count = count + 1
         if count >= max_targets then break end
     end
 end
 
 modifier_enfos_dazzle_poison_touch_debuff=class({})
+function modifier_enfos_dazzle_poison_touch_debuff:GetEffectName() return 'particles/units/heroes/hero_dazzle/dazzle_poison_debuff.vpcf' end
+function modifier_enfos_dazzle_poison_touch_debuff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_dazzle_poison_touch_debuff:IsDebuff() return true end
 function modifier_enfos_dazzle_poison_touch_debuff:DeclareFunctions()
     return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_EVENT_ON_ATTACK_LANDED }
@@ -3231,9 +3232,15 @@ function modifier_enfos_dazzle_poison_touch_debuff:OnCreated()
     self:StartIntervalThink(1.0)
 end
 function modifier_enfos_dazzle_poison_touch_debuff:OnIntervalThink()
+    if not IsServer() then return end
     local p = self:GetParent()
     local a = self:GetAbility()
     local c = self:GetCaster()
+    if not p or p:IsNull() or not p:IsAlive() or not a or (a.IsNull and a:IsNull())
+        or not c or c:IsNull() then
+        self:Destroy()
+        return
+    end
     local int = get_int(c)
     local base = (a and value(a, 'damage_per_second')) or 60
     local int_pct = value(a, 'int_damage_pct')
