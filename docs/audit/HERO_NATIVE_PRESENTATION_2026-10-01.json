@@ -1,5 +1,5 @@
 {
-  "build": "ClientVersion=6942\r\nServerVersion=6942\r\nProductName=dota2_workshop\r\nappID=570\r\nServerAppID=373310\r\nCustomGameServerAppID=471280\r\nToolsAppID=316570\r\nSourceRevision=11055158\r\nVersionDate=Sep 29 2026\r\nVersionTime=11:34:03",
+  "build": "ClientVersion=6943\r\nServerVersion=6943\r\nProductName=dota2_workshop\r\nappID=570\r\nServerAppID=373310\r\nCustomGameServerAppID=471280\r\nToolsAppID=316570\r\nSourceRevision=11069754\r\nVersionDate=Oct 01 2026\r\nVersionTime=15:53:48",
   "policy": "Use only explicit dossier counterpart IDs, never icon or slot inference. Metadata differences are review candidates; intentional PvE behavior, Lua-owned sounds/gestures and native defaults require manual review. No engine acceptance.",
   "heroes": [
     {
@@ -604,7 +604,7 @@
           "mappingStatus": "NATIVE_DEFINITION_FOUND",
           "metadata": {
             "AbilityBehavior": {
-              "custom": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+              "custom": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE",
               "native": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
             },
             "AbilityCastAnimation": {
@@ -764,7 +764,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_OVERRIDE_ABILITY_1",
               "native": "ACT_DOTA_OVERRIDE_ABILITY_1"
             },
             "AbilityChannelAnimation": {
@@ -777,7 +777,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -794,7 +793,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_OVERRIDE_ABILITY_2",
               "native": "ACT_DOTA_OVERRIDE_ABILITY_2"
             },
             "AbilityChannelAnimation": {
@@ -807,7 +806,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -1224,7 +1222,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_1",
               "native": "ACT_DOTA_CAST_ABILITY_1"
             },
             "AbilityChannelAnimation": {
@@ -1237,7 +1235,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -1254,7 +1251,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_2",
               "native": "ACT_DOTA_CAST_ABILITY_2"
             },
             "AbilityChannelAnimation": {
@@ -1267,7 +1264,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -1313,11 +1309,11 @@
               "native": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_4",
               "native": "ACT_DOTA_CAST_ABILITY_4"
             },
             "AbilityChannelAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CHANNEL_ABILITY_4",
               "native": "ACT_DOTA_CHANNEL_ABILITY_4"
             },
             "AbilitySound": {
@@ -1326,8 +1322,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
-            "NATIVE_AbilityChannelAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -1378,7 +1372,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_1",
               "native": "ACT_DOTA_CAST_ABILITY_1"
             },
             "AbilityChannelAnimation": {
@@ -1391,7 +1385,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -1408,7 +1401,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_SHALLOW_GRAVE",
               "native": "ACT_DOTA_SHALLOW_GRAVE"
             },
             "AbilityChannelAnimation": {
@@ -1421,7 +1414,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -1438,7 +1430,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_3",
               "native": "ACT_DOTA_CAST_ABILITY_3"
             },
             "AbilityChannelAnimation": {
@@ -1451,7 +1443,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -1468,7 +1459,7 @@
               "native": null
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_4",
               "native": null
             },
             "AbilityChannelAnimation": {
@@ -1529,7 +1520,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_1",
               "native": null
             },
             "AbilityChannelAnimation": {
@@ -1558,7 +1549,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_2",
               "native": "ACT_DOTA_CAST_ABILITY_2"
             },
             "AbilityChannelAnimation": {
@@ -1571,7 +1562,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -1617,7 +1607,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_4",
               "native": "ACT_DOTA_CAST_ABILITY_4"
             },
             "AbilityChannelAnimation": {
@@ -1630,7 +1620,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -1681,7 +1670,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_1",
               "native": "ACT_DOTA_CAST_ABILITY_1"
             },
             "AbilityChannelAnimation": {
@@ -1694,7 +1683,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -1711,7 +1699,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_SHOW_IN_GUIDES"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_2",
               "native": "ACT_DOTA_CAST_ABILITY_2"
             },
             "AbilityChannelAnimation": {
@@ -1723,9 +1711,7 @@
               "native": null
             }
           },
-          "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT"
-          ],
+          "reviewCandidates": [],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
         },
         {
@@ -1834,7 +1820,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_1",
               "native": "ACT_DOTA_CAST_ABILITY_1"
             },
             "AbilityChannelAnimation": {
@@ -1847,7 +1833,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -1860,11 +1845,11 @@
           "mappingStatus": "NATIVE_DEFINITION_FOUND",
           "metadata": {
             "AbilityBehavior": {
-              "custom": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+              "custom": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES",
               "native": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_2",
               "native": "ACT_DOTA_CAST_ABILITY_2"
             },
             "AbilityChannelAnimation": {
@@ -1877,7 +1862,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -1894,7 +1878,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_SHOW_IN_GUIDES | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_3",
               "native": "ACT_DOTA_CAST_ABILITY_3"
             },
             "AbilityChannelAnimation": {
@@ -1906,9 +1890,7 @@
               "native": null
             }
           },
-          "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT"
-          ],
+          "reviewCandidates": [],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
         },
         {
@@ -1989,7 +1971,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_1",
               "native": "ACT_DOTA_CAST_ABILITY_1"
             },
             "AbilityChannelAnimation": {
@@ -2002,7 +1984,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -2019,7 +2000,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_POINT"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_2",
               "native": "ACT_DOTA_CAST_ABILITY_2"
             },
             "AbilityChannelAnimation": {
@@ -2032,7 +2013,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -2045,11 +2025,11 @@
           "mappingStatus": "NATIVE_DEFINITION_FOUND",
           "metadata": {
             "AbilityBehavior": {
-              "custom": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+              "custom": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES",
               "native": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_3",
               "native": "ACT_DOTA_CAST_ABILITY_3"
             },
             "AbilityChannelAnimation": {
@@ -2061,9 +2041,7 @@
               "native": null
             }
           },
-          "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT"
-          ],
+          "reviewCandidates": [],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
         },
         {
@@ -2078,7 +2056,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_5",
               "native": "ACT_DOTA_CAST_ABILITY_5"
             },
             "AbilityChannelAnimation": {
@@ -2091,7 +2069,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -2144,7 +2121,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_1",
               "native": "ACT_DOTA_CAST_ABILITY_1"
             },
             "AbilityChannelAnimation": {
@@ -2157,7 +2134,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -2904,7 +2880,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_1",
               "native": "ACT_DOTA_CAST_ABILITY_1"
             },
             "AbilityChannelAnimation": {
@@ -2917,7 +2893,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -2934,7 +2909,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_2",
               "native": "ACT_DOTA_CAST_ABILITY_2"
             },
             "AbilityChannelAnimation": {
@@ -2947,7 +2922,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -2964,11 +2938,11 @@
               "native": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_3",
               "native": "ACT_DOTA_CAST_ABILITY_3"
             },
             "AbilityChannelAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CHANNEL_ABILITY_3",
               "native": null
             },
             "AbilitySound": {
@@ -2976,9 +2950,7 @@
               "native": null
             }
           },
-          "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT"
-          ],
+          "reviewCandidates": [],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
         },
         {
@@ -2993,7 +2965,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_4",
               "native": "ACT_DOTA_CAST_ABILITY_4"
             },
             "AbilityChannelAnimation": {
@@ -3006,7 +2978,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -3014,13 +2985,13 @@
         {
           "slot": 5,
           "id": "enfos_ss_fowl_play",
-          "counterpart": "Project Fowl Play passive; native innate metadata kept separate",
+          "counterpart": "shadow_shaman_fowl_play",
           "mappingSource": "docs/heroes/shadow_shaman/ABILITIES.md",
-          "mappingStatus": "MAPPED_ID_NOT_IN_HERO_DEFINITIONS",
+          "mappingStatus": "NATIVE_DEFINITION_FOUND",
           "metadata": {
             "AbilityBehavior": {
               "custom": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
-              "native": null
+              "native": "DOTA_ABILITY_BEHAVIOR_PASSIVE"
             },
             "AbilityCastAnimation": {
               "custom": null,
@@ -3057,7 +3028,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_1",
               "native": "ACT_DOTA_CAST_ABILITY_1"
             },
             "AbilityChannelAnimation": {
@@ -3065,14 +3036,11 @@
               "native": null
             },
             "AbilitySound": {
-              "custom": null,
+              "custom": "Ability.GushCast",
               "native": "Ability.GushCast"
             }
           },
-          "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
-            "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
-          ],
+          "reviewCandidates": [],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
         },
         {
@@ -3117,7 +3085,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_3",
               "native": "ACT_DOTA_CAST_ABILITY_3"
             },
             "AbilityChannelAnimation": {
@@ -3130,7 +3098,6 @@
             }
           },
           "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
             "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
           ],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
@@ -3147,7 +3114,7 @@
               "native": "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
             },
             "AbilityCastAnimation": {
-              "custom": null,
+              "custom": "ACT_DOTA_CAST_ABILITY_4",
               "native": "ACT_DOTA_CAST_ABILITY_4"
             },
             "AbilityChannelAnimation": {
@@ -3155,14 +3122,11 @@
               "native": null
             },
             "AbilitySound": {
-              "custom": null,
+              "custom": "Ability.Ravage",
               "native": "Ability.Ravage"
             }
           },
-          "reviewCandidates": [
-            "NATIVE_AbilityCastAnimation_CUSTOM_NOT_EXPLICIT",
-            "NATIVE_AbilitySound_CUSTOM_NOT_EXPLICIT"
-          ],
+          "reviewCandidates": [],
           "acceptance": "STATIC_COMPARISON_ONLY_ENGINE_PENDING"
         },
         {

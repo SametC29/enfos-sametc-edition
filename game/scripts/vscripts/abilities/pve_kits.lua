@@ -3708,7 +3708,6 @@ function enfos_tide_gush:OnSpellStart()
         or not t:IsAlive() or t:GetTeamNumber() == c:GetTeamNumber() then return end
     if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
 
-    c:EmitSound('Hero_Tidehunter.Gush.Cast')
     effect('particles/units/heroes/hero_tidehunter/tidehunter_gush.vpcf', t)
 
     local base = value(self, 'gush_damage')
@@ -3804,7 +3803,6 @@ enfos_tide_ravage=class({})
 function enfos_tide_ravage:OnSpellStart()
     local c = self:GetCaster()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
-    c:EmitSound('Hero_Tidehunter.Ravage')
     effect('particles/units/heroes/hero_tidehunter/tidehunter_spell_ravage.vpcf', c)
 
     local base = value(self, 'damage')

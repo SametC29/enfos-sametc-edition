@@ -1,0 +1,43 @@
+# Tidehunter individual review — in progress
+
+Scope: the five production abilities assigned to `npc_dota_hero_tidehunter`, their Lua, KV, rank gates, upgrade hooks, localization, presentation and precache. This is a static review plus Lua mocks; it is **not** a Dota runtime certification. No Dota process was launched or controlled.
+
+## Evidence and decisions
+
+- Read `docs/heroes/tidehunter/AGENTS.md`, `ABILITIES.md`, the shared hero contract, hero-development guidelines and `docs/RESEARCH_AND_RUNTIME_VERIFICATION.md` before editing.
+- Re-read `scripts/npc/heroes/npc_dota_hero_tidehunter.txt` from the installed `pak01_dir.vpk`. Installed build: ClientVersion 6943 / SourceRevision 11069754 (Oct 01 2026); source SHA256 `8c96be768e85e8d845bc6ef04f99ad261c0f9bd5c0e45503aedb6ab4c5c78cda`, matching the prior dossier snapshot. Native explicit counterparts are Gush, Kraken Shell, Anchor Smash and Ravage; slot 5 is project-specific.
+- Inspected live project Lua/KV, `heroes/aghanim_manager.lua`, bootstrap precache, four locale JSON files and the existing hero regressions. Dota particle paths exist in the installed VPK. Their visual composition/CP behavior was not decoded in this pass.
+- The checked-in sound snapshot says `Hero_Tidehunter.AnchorSmash` is in the Tidehunter hero bank, while `Hero_Tidehunter.Gush.Cast` and `Hero_Tidehunter.Ravage` were not found in the decoded hero banks. Installed native ability definitions provide the intended exact event IDs (`Ability.GushCast`, `Hero_Tidehunter.AnchorSmash`, `Ability.Ravage`). Sound event presence is evidence of identifiers only, not audible playback.
+- Classification: Q Gush = PVE-CONVERT; W Kraken Shell = PVE-CONVERT; E Anchor Smash = PVE-CONVERT; R Ravage = PVE-CONVERT; slot 5 Colossal Presence = REPLACE (custom Enfos passive, not Dota Innate). All retain recognizable Tidehunter themes. Values below remain a balance/design choice, not independently balance-certified.
+
+## Findings by ability
+
+| Slot / ability | Behavior in project | Defect repaired | Remaining review/test items |
+|---|---|---|---|
+| Q `enfos_tide_gush` | Single-target magical damage with Strength scaling, armor reduction and slow; enemy hero/basic target, 750 range, spell absorb guard; 10 ranks. Native source: `tidehunter_gush`. | Custom KV lacked native `ACT_DOTA_CAST_ABILITY_1`; prior `Hero_Tidehunter.Gush.Cast` sound literal was not present in the decoded hero-bank snapshot. Added exact native animation and `AbilitySound=Ability.GushCast`; removed the old Lua sound call to avoid duplicate playback. | Current damage is instant on selected target and has no native 2500-speed projectile/travel phase. Native Gush’s current definition declares Scepter modifiers for speed, AoE and range; Enfos instead uses generic Scepter spell amplification/ultimate cooldown. This is a deliberate PvE redesign candidate, but should be decided before claiming native Scepter parity. Spell immunity/spell absorb engine behavior, range, VFX, audio and animation need owner test. |
+| W `enfos_tide_kraken_shell` | Passive physical constant block plus flat HP regen; damage threshold triggers a strong purge; 10 ranks; Break gates block, regen and purge. Native source: `tidehunter_kraken_shell`. | Existing regressions cover declared regen property, block/regen values, damage threshold and Break. No new W code changed in this pass. | The Enfos W is passive, whereas installed native build 6943 defines Kraken Shell as a no-target immediate active with damage reduction and a timed effect. Keep this PvE conversion explicitly understood. Check whether damage accumulation should exclude self/allied/reflected damage, and whether counter reset/carry-over semantics match intended purge timing. Validate block ordering, regen, purge, Break, death/respawn and modifier lifetime in Dota. |
+| E `enfos_tide_anchor_smash` | No-target physical AoE, attack damage + ranked bonus + Strength scaling; applies base attack damage reduction; includes magic-immune enemies in query; 10 ranks. Native source: `tidehunter_anchor_smash`. | Custom KV lacked native `ACT_DOTA_CAST_ABILITY_3`. Added it. The existing cast sound `Hero_Tidehunter.AnchorSmash` is confirmed in the hero-bank snapshot; native VPK uses the same event. | Current custom KV marks this ability as piercing spell immunity while the installed native definition explicitly excludes spell-immune enemies. This may be intentional PvE policy, but it needs a recorded product decision and runtime test. Confirm damage reduction property semantics, debuff purge/status resistance, particle scale/attachment, and that the custom immunity flag behaves as intended. |
+| R `enfos_tide_ravage` | No-target magical AoE damage and stun; boss stun capped separately; 10 ranks, unlocks every five hero levels through level 50. Native source: `tidehunter_ravage`. | Custom KV lacked native `ACT_DOTA_CAST_ABILITY_4`; prior `Hero_Tidehunter.Ravage` event was not found in the decoded hero-bank snapshot. Added the native activity and `AbilitySound=Ability.Ravage`, removing Lua's old sound call. Tidehunter hero sound bank added to bootstrap precache. | Current stun 2.4–3.2s and boss cap 1.0s are materially different from native; test wave clear, boss status resistance, immunity and cast timing. Generic Scepter applies to ultimate inflictor damage and cooldown by design; verify actual scripted damage receives spell amplification in Dota. Sound/animation/VFX and cold-start precache remain pending. |
+| Enfos passive `enfos_tide_colossal_presence` | Ten-rank aura grants flat health/armor and weakens nearby enemies' movement and base attack damage; Break disables aura and stat bonuses. | Existing regressions cover passive values and Break; no new passive mechanics changed. | Aura search's magic-immune behavior, debuff duration/purge and refresh, illusion behavior, max-health/life interactions, client icon/tooltip and aura performance remain untested in engine. Tank Shard role buff (350 HP/15% incoming-damage reflection) is generic in `aghanim_manager.lua`, not implemented by this ability; ensure item upgrade tooltip and team scoring account for reflection as intended. |
+
+## Regression and presentation repair
+
+Static comparison to installed native `AbilityDefinitions` confirmed the missing Q/E/R cast activities. The native event IDs for Gush and Ravage also resolve from those definitions, and the previous Lua event literals conflicted with the source-backed names. The custom KV now declares the matching cast animations and exact sound events; Lua no longer emits the two unverified events. Tidehunter's native sound bank is explicitly listed in `Precache`.
+
+Added a content-contract regression for the three native activities, Q/R sound IDs, removal of obsolete Lua event strings, and sound-bank preload. Existing Tidehunter mock regressions cover Gush spell block/ally rejection and Strength scaling; Kraken Shell block/regen/threshold/Break; Anchor Smash physical damage, debuff and immunity search flags; Ravage boss stun cap; and Colossal Presence stats/Break.
+
+## Acceptance status
+
+| Area | Status | Evidence / limitation |
+|---|---|---|
+| Source identity, classification, Lua/KV mapping | PASS (static) | Installed Dota 6943 native definitions and project slot dossiers; not runtime acceptance. |
+| Ten-rank curves and gates | PASS (static) | KV and repository content contracts; rank-up UI/point behavior remains owner runtime pending. |
+| Q/E/R animation IDs and Q/R audio IDs | PASS (static wiring) | Installed native VPK definitions; engine presentation pending. |
+| Anchor Smash audio ID | PASS (static wiring) | Tidehunter decoded bank snapshot plus native definition; playback pending. |
+| Particle path existence | PASS (static existence only) | Installed VPK path inventory; appearance, attachment, control points and scale pending. |
+| Precache | PASS (static declaration) | `addon_game_mode.lua`; cold-start runtime pending. |
+| EN/TR/RU/zh-CN tooltips | PASS (static presence) | Localized strings and named KV values checked; in-client display pending. |
+| Gameplay, bosses, immunity, Break, purge, death/reconnect, upgrades | PENDING | Existing mocks are partial and cannot establish engine semantics or game balance. |
+| VFX/SFX/animation quality and VConsole | PENDING | Must be checked by owner in the live game; no launch/control occurred. |
+
+Validation run and exact result are recorded in the associated commit turn. This hero remains in progress until owner engine tests resolve the pending rows and the remaining mechanics review is closed.

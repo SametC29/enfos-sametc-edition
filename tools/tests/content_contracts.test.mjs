@@ -245,6 +245,20 @@ test('Tidehunter rank gates fit all ten ability ranks inside the match level cap
   assert.equal(Number(ultimate.RequiredLevel)+9*Number(ultimate.LevelsBetweenUpgrades),50);
   assert.equal(abilities[hero.Ability5].Innate,undefined);
 });
+test('Tidehunter active abilities preserve verified native cast presentation metadata',()=>{
+  const abilities=read('npc_abilities_custom.txt').DOTAAbilities;
+  assert.equal(abilities.enfos_tide_gush.AbilityCastAnimation,'ACT_DOTA_CAST_ABILITY_1');
+  assert.equal(abilities.enfos_tide_gush.AbilitySound,'Ability.GushCast');
+  assert.equal(abilities.enfos_tide_anchor_smash.AbilityCastAnimation,'ACT_DOTA_CAST_ABILITY_3');
+  assert.equal(abilities.enfos_tide_ravage.AbilityCastAnimation,'ACT_DOTA_CAST_ABILITY_4');
+  assert.equal(abilities.enfos_tide_ravage.AbilitySound,'Ability.Ravage');
+  const lua=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');
+  assert.doesNotMatch(lua,/Hero_Tidehunter\.(?:Gush\.Cast|Ravage)/,
+    'Gush and Ravage use installed native sound events through AbilitySound, not unverified EmitSound names');
+  const bootstrap=fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua','utf8');
+  assert.match(bootstrap,/"zuus","tidehunter"/,
+    'the native Tidehunter event bank must be explicitly included in hero sound precache');
+});
 test('Dragon Knight rank gates fit all ten ability ranks inside the match level cap',()=>{
   const heroes=read('npc_heroes_custom.txt').DOTAHeroes,abilities=read('npc_abilities_custom.txt').DOTAAbilities;
   const hero=heroes.npc_dota_hero_dragon_knight;
