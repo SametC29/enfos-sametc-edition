@@ -1,13 +1,13 @@
-# Legion Commander individual review — in progress / owner engine pending
+# Legion Commander individual review — source review complete / owner engine pending
 
 Own instructions/dossier and shared hero/research/reference contracts read. All five production implementations and their current KV read individually. Installed Dota is now ClientVersion6943 / SourceRevision11069754 / Oct01 2026; native hero AbilityDefinitions extracted directly from installed VPK, not the historical6941 dossier snapshot. Owner alone launches/tests Dota. No remote push or Workshop publication.
 
 | Skill | Classification and native comparison |
 | --- | --- |
 | Q Overwhelming Odds | PVE-CONVERT: installed native no-target600radius magical40→130 plus14→20per unit/40→130per hero, fixed50→125AS6sec; current Enfos point-target700range,120→300 plus25→55per creep/100per hero or Boss, count-based AS and capped MS6sec. Preserve aimed wave-clear identity; verify point particle radius/CPs and exact sound. |
-| W Press the Attack | PVE-CONVERT: native friendly strong dispel with24→60regen/13→22MS5sec and Scepter radius500/+12MS; current friendly dispel40→100+0.5STRregen/60→120AS5sec. Current AS is an intentional Enfos sustain/offense variant, not current native W parity. Persistent particle ownership/CPs pending. |
-| E Moment of Courage | PVE-CONVERT: native deterministic7→4 incoming-hit counter and55→85lifesteal/0.3cooldown; current probabilistic25→40%,75%actual counterattack lifesteal and0.4Boss-only throttle. Preserve reactive counterattack; current sound absent from decoded bank and feedback/event ordering under investigation. |
-| R Duel | PVE-CONVERT: native hero-only200range forced duel4→5sec,10→30bonus attack damage,60→50CD; current hero/basic150range4→5.5sec,40%outside damage reduction and10normal/30Boss match-only Strength victory. Paired source modifiers have no forced attack target/order or early end on either death; confirmed lifecycle investigation. Native upgrades differ from generic Enfos upgrades. |
+| W Press the Attack | PVE-CONVERT: native friendly strong dispel with24→60regen/13→22MS5sec and Scepter radius500/+12MS; current friendly dispel40→100+0.5STRregen/60→120AS5sec. Current AS is an intentional Enfos sustain/offense variant, not current native W parity. Modifier ownership and verified recipient CP bindings repaired below; rendering remains pending. |
+| E Moment of Courage | PVE-CONVERT: native deterministic7→4 incoming-hit counter and55→85lifesteal/0.3cooldown; current probabilistic25→40%,75%actual counterattack lifesteal and0.4Boss-only throttle. Exact Courage event and re-entry guard repaired below; actual attack/event ordering remains pending. |
+| R Duel | PVE-CONVERT: native hero-only200range forced duel4→5sec,10→30bonus attack damage,60→50CD; current hero/basic150range4→5.5sec,40%outside damage reduction and10normal/30Boss match-only Strength victory. Forced targets, paired cleanup, once-only reward, metadata and owned ongoing feedback repaired below. Native upgrades differ from generic Enfos upgrades. |
 | Fifth Commander's Banner | REPLACE: independent900radius damage/lifesteal aura, not native Outfight Them1200radius armor/6sec. Owner40→50%base damage/24→42lifesteal, allies20→30%/12→21. Break, aura recipients and lethal attack/event semantics need individual review. |
 
 ## Q count-buff refresh and client properties
@@ -97,3 +97,25 @@ Press CP follow-up full checks:238 hero behavior regressions,200/200abilities,22
 ## Duel immunity and dispel metadata
 
 Installed6943 native Duel declares enemy immunity piercing, MAGIC_IMMUNE_ENEMIES target flag and SPELL_DISPELLABLE_NO. Enfos declared the piercing policy but omitted the immune target flag and dispel metadata, despite its non-purgable Lua modifier. Added the exact native immune target flag and non-dispellable metadata so cast filtering/tooltip declarations match existing control policy. Retained Enfos BASIC targets; native NOT_CREEP_HERO exclusion is not copied into the intentional wave-target adaptation. No duration, range, mana, cooldown, reward or ability-type change. [ModDota KV guide](https://moddota.com/abilities/ability-keyvalues) distinguishes target flags from spell-immunity behavior. Actual immune hero/creep/Boss target acceptance and dispel/resistance require owner engine testing with a full restart for KV.
+
+## Final source closure and owner gates
+
+All five implementations, current rank curves, native6943 definitions, roster/innate grant, generic upgrade manager, four-language source/mirrors and literal precache resources were traced individually. This closes source discovery, not engine certification. The original per-skill dossier PENDING rows are historical discovery entries; this record contains the current source evidence and outstanding runtime gates.
+
+| Acceptance area | Source evidence / remaining engine gate |
+| --- | --- |
+| Gameplay and targeting | Q aimed count damage/buff, W friendly strong purge, E reactive actual attack/heal, paired R and fifth friendly aura individually traced; positive/negative/re-entry/order regressions pass. Real immunity, status resistance, attack orders and damage events pending. |
+| Progression | All five ten-rank KV gates and free real-hero fifth rank inspected; level50/49 ordinary points retained. Actual point distribution, rank refresh and HUD pending. |
+| VFX and cleanup | Q finite radius CP4; W recipient CP1/2/3 owned by its buff; E finite courage hit; R body/ring owned by pair. Victory root emits one3sec particle, burst has finite0.2sec emission, text/glow instantaneous particles, winner magic has1sec emission and rays instantaneous emission/Decay; released finite victory helper retained. Victory text CP2 visual scaling is not established from its editor preview and must be observed rather than guessed. |
+| SFX and animation | Exact installed Odds.Cast/Location, PressTheAttack, Courage, Duel.Cast/Victory banks decoded, finite events; active native model cast activities1/2/4 verified. Actual animation, playback and resumed attack pending; no guessed passive cast gesture. |
+| Modifiers | Q refresh/transmitted fields, W owned attachments, E bounded synchronous proc, R ownership-safe paired restrictions/reward, Banner live owner/ally values and Break reviewed. Icons and visible properties localized; client transport, dispels, aura death/refresh and rendering pending. |
+| Boss and upgrades | Q Boss hero-count contribution, E0.4sec Boss throttle, R existing full duration/30STR reward, Fighter Shard and effective25%ultimate CDR traced. Native W Scepter and Q Shard mechanics are not implemented by this generic system. Immune/Boss control and native AI interaction pending. |
+| Performance and restoration | No new timer/global scan; existing bounded player upgrade polling, area query and modifier lifecycle retained. Re-entry and paired cleanup regressions pass. Dense-wave performance, real death callback/removal ordering, removed-caster aura callbacks, illusions and reconnect remain pending. |
+| Localization/resources | EN/TR/RU/zh-CN descriptions/modifier aliases regenerated;219icons/258literal native paths resolved. Rendered values, wrapping and cold-start dependencies require owner testing. |
+| VConsole | No owner capture supplied for these changes; no Dota launched by agent. PENDING. |
+
+Unchanged balance questions: Q count-based AS has no cap; R adds10STR per normal win/30per Boss win without a match cap. These are implemented match-only strength systems, not permanent account progression. Their pacing requires recorded owner combat results before numerical changes. No balance certification from mocks.
+
+Latest verification:238 hero behavior regressions;200/200abilities and223/223modifiers tested across ranks1–10; full checks0failed, resource checks pass. Source closure may advance the queue while every gameplay/visual/audio/network acceptance remains OWNER ENGINE PENDING.
+
+Owner evening checklist: cold-start Legion match; Q larger/smaller/empty groups during the6sec buff and compare AS/MS; W self/ally/basic summon and missing-hand models, refresh/death/dispels; E normal/Boss/reciprocal counters, Break/miss/procs/healing; Duel normal/runner/immune Boss, forced attacks, either death, expiry/status resistance and foreign taunt/Refresher, single reward/ring removal/victory rendering; Banner owner/ally rank1/10, lethal attack, aura exit/Break/respawn; Shard/Scepter/Blessing acquisition/consumption/reconnect; all ten ranks/point budget, native hover translations and VConsole. Do not claim DONE until these outcomes are recorded.

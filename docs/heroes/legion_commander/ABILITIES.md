@@ -235,7 +235,7 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 Classification: REPLACE
 Native counterpart: None. `legion_commander_outfight_them` is the separate native innate and must not be conflated with this Enfos passive.
-Decision and PvE identity rationale: Preserve the Enfos-only banner aura as the custom fifth-slot passive. The configured 20% bonus damage was previously ignored by Lua's hardcoded 20/40 values; Lua now reads the configured amount for allies and doubles it for Legion. The value moved to `AbilityValues` unchanged.
+Decision and PvE identity rationale: Preserve the Enfos-only banner aura as the custom fifth-slot passive. Current separate owner/ally curves are40→50%/20→30%base attack damage and24→42%/12→21%attack lifesteal; owner damage is not universally double ally damage. The historical repair below predates these curves. Current source evidence and owner gates are in the individual ledger.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve: The Enfos passive rank 1 is granted separately; ranks 2–10 are KV-gated at levels 2–10; engine point/UI behavior remains PENDING.
@@ -283,3 +283,5 @@ Change/test record (2026-09-30): all five Legion Enfos slots now have ten ranks,
 2026-09-30 global Break metadata audit: Added KV `IsBreakable 1` to `enfos_legion_moment_of_courage` because its linked Lua passive implementation check `PassivesDisabled()`. Automated content validation now rejects this metadata mismatch. Actual Dota Break behavior remains PENDING.
 
 2026-10-02 individual Duel follow-up: forced target/orders and matching paired cleanup added; normal/running creep route AI suspends progression during Duel. Either death or expiry releases both sides. Death callbacks in either order grant one existing10normal/30Boss Strength victory only while Legion survives.234 hero behavior regressions and full static/mock checks pass. Detailed root causes/references/owner acceptance are in the [individual ledger](../../audit/LEGION_COMMANDER_INDIVIDUAL_REVIEW_2026-10-02.md). No Dota/VConsole, visual/audio or upgrade acceptance inferred.
+
+2026-10-02 source closure: all five skills reviewed against installed6943, including Q refresh/transmission/CP/audio, W modifier-owned recipient attachments, E re-entry/audio, R paired lifecycle/feedback/immunity/dispel, Banner values, generic upgrades and four-language visible modifier tooltips. Latest238behavior regressions/full checks pass. The [individual ledger](../../audit/LEGION_COMMANDER_INDIVIDUAL_REVIEW_2026-10-02.md) supersedes historical discovery/source rows; all actual Dota/VConsole/visual/audio/network acceptance remains PENDING owner testing.
