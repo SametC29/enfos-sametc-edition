@@ -3151,15 +3151,42 @@ test('Wraith King Mortal Strike procs cleave damage around target', function()
     mod.GetParent = function() return wk end
     mod.GetAbility = function() return ab end
 
-    local crit = mod:GetModifierPreAttack_CriticalStrike()
+    local crit = mod:GetModifierPreAttack_CriticalStrike({attacker=wk,target=primary,record=71})
     assert(crit == 260, 'Mortal Strike crit must be 260%')
-    mod:OnAttackLanded({ attacker = wk, target = primary, damage = 300 })
+    mod:OnAttackLanded({ attacker = wk, target = primary, damage = 300, record=71 })
 
     -- Cleave damage to secondary: 300 * 0.5 = 150
     assert(#applied_damages == 1)
     assert(applied_damages[1].victim == secondary and applied_damages[1].damage == 150)
     wk.PassivesDisabled = function() return true end
     assert(mod:GetModifierPreAttack_CriticalStrike() == 0, 'Mortal Strike must be disabled by Break')
+end)
+
+test('Wraith King Mortal Strike caches separate attack records and cleaves a lethal primary',function()
+    local wk=create_mock_unit('npc_dota_hero_skeleton_king',2,Vector(0,0,0))
+    local first=create_mock_unit('wk_first',3,Vector(100,0,0))
+    local second=create_mock_unit('wk_second',3,Vector(150,0,0));mock_world_units={wk,first,second}
+    local a=enfos_wk_mortal_strike();a.GetSpecialValueFor=function(_,k) return ({crit_chance=20,crit_mult=260,cleave_pct=50,cleave_radius=300})[k] or 0 end
+    local m=setmetatable({GetParent=function() return wk end,GetAbility=function() return a end},modifier_enfos_wk_mortal_strike_passive)
+    local oldRoll,calls=RollPercentage,0
+    RollPercentage=function() calls=calls+1;return calls==1 end
+    local firstCrit=m:GetModifierPreAttack_CriticalStrike({attacker=wk,target=first,record=81})
+    local repeatCrit=m:GetModifierPreAttack_CriticalStrike({attacker=wk,target=first,record=81})
+    m:GetModifierPreAttack_CriticalStrike({attacker=wk,target=second,record=82})
+    RollPercentage=oldRoll
+    assert(calls==2 and firstCrit==260 and repeatCrit==260,'Repeated queries must reuse one roll per attack record')
+    first.alive=false;applied_damages={}
+    m:OnAttackLanded({attacker=wk,target=first,record=81,damage=300})
+    m:OnAttackLanded({attacker=wk,target=second,record=82,damage=300})
+    assert(#applied_damages==1 and applied_damages[1].victim==second and applied_damages[1].damage==150,
+        'A lethal critical attack must splash once; a later noncritical record must not inherit it')
+    assert(not m.critRecords[81] and not m.critRecords[82],'Landed records must be consumed')
+    m:GetModifierPreAttack_CriticalStrike({attacker=wk,target=second,record=83})
+    m:OnAttackRecordDestroy({attacker=wk,record=83})
+    assert(not m.critRecords[83],'Canceled attacks must not retain pending critical state')
+    m:GetModifierPreAttack_CriticalStrike({attacker=wk,target=second,record=84})
+    m:OnAttackLanded({attacker=wk,target=second,record=84,damage=0})
+    assert(#applied_damages==1,'A zero-damage critical hit must not manufacture secondary damage callbacks')
 end)
 
 test('Wraith King Wraithfire Blast travels before dealing impact damage and effects', function()

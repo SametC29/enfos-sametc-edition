@@ -3994,33 +3994,47 @@ function enfos_wk_mortal_strike:GetIntrinsicModifierName() return 'modifier_enfo
 
 modifier_enfos_wk_mortal_strike_passive=class({})
 function modifier_enfos_wk_mortal_strike_passive:DeclareFunctions()
-    return { MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE, MODIFIER_EVENT_ON_ATTACK_LANDED }
+    return { MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE, MODIFIER_EVENT_ON_ATTACK_LANDED, MODIFIER_EVENT_ON_ATTACK_RECORD_DESTROY }
 end
-function modifier_enfos_wk_mortal_strike_passive:GetModifierPreAttack_CriticalStrike()
+function modifier_enfos_wk_mortal_strike_passive:GetModifierPreAttack_CriticalStrike(event)
     if not IsServer() then return end
     local c = self:GetParent()
-    if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled()) then return 0 end
-    if RollPercentage(value(self:GetAbility(), 'crit_chance')) then
-        self.crit_proc = true
-        return value(self:GetAbility(), 'crit_mult')
+    if not c or c:IsNull() or (c.PassivesDisabled and c:PassivesDisabled()) or not event or not event.target
+        or event.target:IsNull() or (event.attacker and event.attacker ~= c)
+        or event.target:GetTeamNumber() == c:GetTeamNumber() then return 0 end
+    self.critRecords = self.critRecords or {}
+    local saved = event.record ~= nil and self.critRecords[event.record] or nil
+    if saved then return saved.multiplier end
+    local multiplier = RollPercentage(value(self:GetAbility(), 'crit_chance')) and value(self:GetAbility(), 'crit_mult') or 0
+    if event.record ~= nil then
+        self.critRecords[event.record] = { target = event.target, position = event.target:GetAbsOrigin(), multiplier = multiplier }
     end
-    self.crit_proc = false
-    return 0
+    return multiplier
 end
 function modifier_enfos_wk_mortal_strike_passive:OnAttackLanded(params)
     if not IsServer() or not params then return end
     local c = self:GetParent()
-    if params.attacker ~= c or (c.PassivesDisabled and c:PassivesDisabled()) then return end
+    if params.attacker ~= c or params.record == nil then return end
+    local saved = self.critRecords and self.critRecords[params.record]
+    if self.critRecords then self.critRecords[params.record] = nil end
+    if not c or c:IsNull() or not saved or saved.multiplier <= 0
+        or (c.PassivesDisabled and c:PassivesDisabled()) or saved.target ~= params.target then return end
     local t = params.target
-    if self.crit_proc and t and t:IsAlive() then
-        c:EmitSound('Hero_SkeletonKing.CriticalStrike')
-        effect('particles/units/heroes/hero_skeletonking/skeletonking_mortalstrike.vpcf', t)
-        local cleave_dmg = (params.damage or 200) * value(self:GetAbility(), 'cleave_pct') / 100
-        for _, u in ipairs(enemies(c, t:GetAbsOrigin(), value(self:GetAbility(), 'cleave_radius'))) do
-            if u ~= t then damage(self:GetAbility(), u, cleave_dmg, DAMAGE_TYPE_PHYSICAL) end
-        end
+    local position = t and not t:IsNull() and t:GetAbsOrigin() or saved.position
+    c:EmitSound('Hero_SkeletonKing.CriticalStrike')
+    if t and not t:IsNull() then effect('particles/units/heroes/hero_skeletonking/skeletonking_mortalstrike.vpcf', t) end
+    local cleave_dmg = (params.damage or 0) * value(self:GetAbility(), 'cleave_pct') / 100
+    if cleave_dmg <= 0 then return end
+    for _, u in ipairs(enemies(c, position, value(self:GetAbility(), 'cleave_radius'))) do
+        if u ~= t then damage(self:GetAbility(), u, cleave_dmg, DAMAGE_TYPE_PHYSICAL) end
     end
 end
+function modifier_enfos_wk_mortal_strike_passive:OnAttackRecordDestroy(event)
+    if IsServer() and event and event.attacker == self:GetParent() and event.record ~= nil and self.critRecords then
+        self.critRecords[event.record] = nil
+    end
+end
+function modifier_enfos_wk_mortal_strike_passive:OnDestroy() self.critRecords = nil end
 
 enfos_wk_reincarnation=class({})
 function enfos_wk_reincarnation:GetIntrinsicModifierName() return 'modifier_enfos_wk_reincarnation_passive' end
