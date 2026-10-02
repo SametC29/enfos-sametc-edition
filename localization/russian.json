@@ -1116,7 +1116,7 @@
     "DOTA_Tooltip_Ability_enfos_ursa_overpower_Description": "{{buff_duration}} sn boyunca saldırı hızını +{{attack_speed}} artırır. En fazla {{max_attacks}} düşman saldırısı; her vuruş Ursa’yı verilen hasarın %{{attack_heal_pct}} kadarı iyileştirir.",
     "DOTA_Tooltip_Ability_enfos_ursa_ursa_minor_Description": "Pasif olarak +{{bonus_ms}} hareket hızı kazandırır. Pasif etkiler susturulunca devre dışı kalır.",
     "DOTA_Tooltip_Ability_enfos_wd_death_ward": "Тотем смерти",
-    "DOTA_Tooltip_Ability_enfos_wd_death_ward_Description": "Во время канала длительностью 8 сек. атакует случайного врага в радиусе 700 от выбранной точки каждые 0,22 сек., нанося {{damage}} + 75% интеллекта физического урона.",
+    "DOTA_Tooltip_Ability_enfos_wd_death_ward_Description": "Во время канала длительностью 8 сек. атакует случайного врага в радиусе {{radius}} от тотема каждые {{attack_interval}} сек., нанося {{damage}} + 75% интеллекта физического урона.",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris": "Гри-Гри",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris_Description": "Пассивная способность Enfos: каждые {{interval}} сек. даёт {{gold_per_interval}} надёжного золота, даже после смерти. Истощение приостанавливает доход. Иллюзии не создают золото.",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris_shard_description": "Исходящее лечение +25%.",

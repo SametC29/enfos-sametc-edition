@@ -396,3 +396,7 @@ PVE-CONVERT remains. The previous restoration_aura resource was a150-radius heal
 ## 2026-10-02 visible effects and dispel contract
 
 PVE-CONVERT remains. Build6943 native Q YES_STRONG/E NO plus verified MCP purge callbacks underpin explicit Q basic-purge false/strong true/stun identity and E basic/strong false. R's owned channel is nonpurgable. Q/W/E/R/Shard SpellDispellableType metadata now agrees with Lua. Native icon resources were found directly in panorama/images/spellicons; Q/E/R/Shard modifier names/descriptions are EN/TR/RU/zh-CN and E/R/Shard expose current pre-amplification damage/interval through tooltip properties. No client-side Boss flag is assumed; ability text still provides configured normal/Boss burst percentages. Full checks pass (280 behavior regressions), but actual engine purge/status resistance, HUD substitutions and channel behavior remain owner-runtime PENDING.
+
+## 2026-10-02 Death Ward live origin/configuration
+
+PVE-CONVERT unchanged. Radius search now uses the actual owned native ward's origin rather than cursor snapshot, so clear-space relocation cannot separate acquisition center from projectile source. Existing authored700radius/0.22attack interval extracted into R AbilityValues with unchanged fallbacks. Four-locale ability text uses these values and names ward as center. Displacement regression failed before and passes after; full checks281behavior regressions,zero failures. Native clear-space placement, targeting and channel presentation remain owner-runtime PENDING.

@@ -4934,9 +4934,9 @@ function modifier_enfos_wd_death_ward_channel:OnTooltip()
 end
 function modifier_enfos_wd_death_ward_channel:OnCreated(kv)
     if not IsServer() then return end
-    self.pos = Vector(kv.x or 0, kv.y or 0, kv.z or 0)
     self.ward_idx = kv.ward_idx
-    self:StartIntervalThink(0.22)
+    local interval = value(self:GetAbility(), 'attack_interval')
+    self:StartIntervalThink(interval > 0 and interval or 0.22)
 end
 function modifier_enfos_wd_death_ward_channel:OnDestroy()
     if not IsServer() then return end
@@ -4957,7 +4957,9 @@ function modifier_enfos_wd_death_ward_channel:OnIntervalThink()
     local base = (a and value(a, 'damage')) or 150
     local dmg = base + (int * 0.75)
 
-    local targets = enemies(c, self.pos, 700, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)
+    local radius = value(a, 'radius')
+    if radius <= 0 then radius = 700 end
+    local targets = enemies(c, ward:GetAbsOrigin(), radius, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)
     if #targets > 0 then
         local t = targets[RandomInt(1, #targets)]
         wd_launch_ward_attack(a, ward, t, dmg)

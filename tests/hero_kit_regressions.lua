@@ -4301,6 +4301,33 @@ test('Witch Doctor Death Ward creates the native ward and removes it when channe
     CreateUnitByName = original_create_unit
 end)
 
+test('Witch Doctor Death Ward searches around the actual ward rather than the requested cursor', function()
+    local hero = create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(0,0,0))
+    local ward = create_mock_unit('npc_dota_witch_doctor_death_ward',2,Vector(500,0,0))
+    local target = create_mock_unit('relocated_ward_target',3,Vector(1100,0,0))
+    mock_world_units = {hero,ward,target}
+    local a = enfos_wd_death_ward()
+    a.GetCaster = function() return hero end
+    a.GetSpecialValueFor = function(_, key)
+        return ({damage=90, radius=700, attack_interval=0.22, projectile_speed=1000})[key] or 0
+    end
+    local m = modifier_enfos_wd_death_ward_channel()
+    m.GetCaster = function() return hero end
+    m.GetAbility = function() return a end
+    m.pos = Vector(0,0,0)
+    m.ward_idx = ward:entindex()
+    local old_projectile = ProjectileManager.CreateTrackingProjectile
+    local launched
+    ProjectileManager.CreateTrackingProjectile = function(_, options) launched = options end
+    local ok, err = pcall(function() m:OnIntervalThink() end)
+    ProjectileManager.CreateTrackingProjectile = old_projectile
+    assert(ok,err)
+    assert(launched and launched.Source == ward and launched.Target == target,
+        'Relocated ward must attack eligible targets around its actual source')
+    assert(last_find_units_point.x == 500 and last_find_units_radius == 700,
+        'Target query must use live ward origin and configured radius')
+end)
+
 test('Witch Doctor Death Ward targeting includes spell-immune enemies', function()
     applied_damages = {}
     local wd = create_mock_unit('npc_dota_hero_witch_doctor', 2, Vector(0, 0, 0))

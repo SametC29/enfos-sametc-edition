@@ -1178,7 +1178,7 @@
     "DOTA_Tooltip_Ability_enfos_ursa_overpower_Description": "{{buff_duration}} sn boyunca saldırı hızını +{{attack_speed}} artırır. En fazla {{max_attacks}} düşman saldırısı; her vuruş Ursa’yı verilen hasarın %{{attack_heal_pct}} kadarı iyileştirir.",
     "DOTA_Tooltip_Ability_enfos_ursa_ursa_minor_Description": "Pasif olarak +{{bonus_ms}} hareket hızı kazandırır. Pasif etkiler susturulunca devre dışı kalır.",
     "DOTA_Tooltip_Ability_enfos_wd_death_ward": "Death Ward",
-    "DOTA_Tooltip_Ability_enfos_wd_death_ward_Description": "During an 8-second channel, attacks a random enemy within 700 of the chosen point every 0.22 seconds for {{damage}} + 75% of Intelligence as physical damage.",
+    "DOTA_Tooltip_Ability_enfos_wd_death_ward_Description": "During an 8-second channel, attacks a random enemy within {{radius}} of the ward every {{attack_interval}} seconds for {{damage}} + 75% of Intelligence as physical damage.",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris": "Gris-Gris",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris_Description": "Enfos passive: gain {{gold_per_interval}} reliable gold every {{interval}} seconds, including while dead. Break pauses this income. Illusions do not generate gold.",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris_shard_description": "Outgoing healing +25%.",

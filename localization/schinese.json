@@ -1116,7 +1116,7 @@
     "DOTA_Tooltip_Ability_enfos_ursa_overpower_Description": "{{buff_duration}} sn boyunca saldırı hızını +{{attack_speed}} artırır. En fazla {{max_attacks}} düşman saldırısı; her vuruş Ursa’yı verilen hasarın %{{attack_heal_pct}} kadarı iyileştirir.",
     "DOTA_Tooltip_Ability_enfos_ursa_ursa_minor_Description": "Pasif olarak +{{bonus_ms}} hareket hızı kazandırır. Pasif etkiler susturulunca devre dışı kalır.",
     "DOTA_Tooltip_Ability_enfos_wd_death_ward": "死亡守卫",
-    "DOTA_Tooltip_Ability_enfos_wd_death_ward_Description": "引导 8 秒，每 0.22 秒攻击所选位置 700 范围内的一名随机敌人，造成 {{damage}} + 75% 智力的物理伤害。",
+    "DOTA_Tooltip_Ability_enfos_wd_death_ward_Description": "引导 8 秒，每 {{attack_interval}} 秒攻击守卫周围 {{radius}} 范围内的一名随机敌人，造成 {{damage}} + 75% 智力的物理伤害。",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris": "格里-格里",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris_Description": "Enfos 被动：每 {{interval}} 秒获得 {{gold_per_interval}} 点可靠金钱，死亡期间也有效。破坏效果会暂停此收入。幻象无法产生金钱。",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris_shard_description": "治疗效果+25%。",

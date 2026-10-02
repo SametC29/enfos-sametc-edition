@@ -1590,6 +1590,8 @@
           ],
           "specials": {
             "channel_duration": "8.0",
+            "radius": "700",
+            "attack_interval": "0.22",
             "damage": "90 107 123 140 157 173 190 207 223 240",
             "projectile_speed": "1000"
           },
