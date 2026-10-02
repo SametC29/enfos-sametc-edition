@@ -1015,7 +1015,7 @@
     "DOTA_Tooltip_Ability_enfos_cm_freezing_field": "Поле заморозки",
     "DOTA_Tooltip_Ability_enfos_cm_freezing_field_Description": "Во время канала длительностью {{duration}} сек. каждые {{tick_interval}} сек. наносит случайному врагу в радиусе {{radius}} {{explosion_damage}} + {{int_damage_factor}} от интеллекта магического урона и замедляет его на {{slow_pct}}% на {{slow_duration}} сек. Дает {{bonus_armor}} брони и {{bonus_magic_resist}}% сопротивления магии.",
     "DOTA_Tooltip_Ability_enfos_cm_frostbite": "Оцепенение",
-    "DOTA_Tooltip_Ability_enfos_cm_frostbite_Description": "Удерживает цель и запрещает ей атаковать {{duration}} сек. Каждые {{damage_interval}} сек. наносит {{damage_per_second}} + {{int_damage_factor}} от интеллекта магического урона; обычные крипы получают урон, увеличенный в {{creep_damage_multiplier}} раза.",
+    "DOTA_Tooltip_Ability_enfos_cm_frostbite_Description": "Удерживает цель и запрещает ей атаковать {{duration}} сек. Наносит {{damage_per_second}} + {{int_damage_factor}} от интеллекта магического урона в секунду; урон применяется каждые {{damage_interval}} сек. Обычные крипы получают урон, увеличенный в {{creep_damage_multiplier}} раза.",
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery": "Ледяное мастерство",
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery_Description": "Заклинания накладывают на врагов заряды Льда на {{frost_stack_duration}} сек. При {{frost_stack_limit}} зарядах цель замораживается на {{freeze_duration}} сек. и получает {{max_hp_damage_pct}}% от максимального здоровья плюс {{shatter_damage}} магического урона (дополнительный урон боссам ограничен {{boss_shatter_damage_cap}}); ближайшие враги тоже получают урон.",
     "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju": "Дурное вуду",

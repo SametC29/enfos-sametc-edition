@@ -1015,7 +1015,7 @@
     "DOTA_Tooltip_Ability_enfos_cm_freezing_field": "极寒领域",
     "DOTA_Tooltip_Ability_enfos_cm_freezing_field_Description": "引导期间持续{{duration}}秒，每{{tick_interval}}秒对{{radius}}范围内随机一名敌人造成{{explosion_damage}} + 智力{{int_damage_factor}}倍魔法伤害，并使其减速{{slow_pct}}%，持续{{slow_duration}}秒。引导时获得{{bonus_armor}}护甲和{{bonus_magic_resist}}%魔法抗性。",
     "DOTA_Tooltip_Ability_enfos_cm_frostbite": "冰封禁制",
-    "DOTA_Tooltip_Ability_enfos_cm_frostbite_Description": "使目标被缠绕并缴械{{duration}}秒。每{{damage_interval}}秒造成{{damage_per_second}} + 智力{{int_damage_factor}}倍的魔法伤害；普通小兵受到{{creep_damage_multiplier}}倍伤害。",
+    "DOTA_Tooltip_Ability_enfos_cm_frostbite_Description": "使目标被缠绕并缴械{{duration}}秒。每秒造成{{damage_per_second}} + 智力{{int_damage_factor}}倍的魔法伤害，每{{damage_interval}}秒结算一次；普通小兵受到{{creep_damage_multiplier}}倍伤害。",
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery": "冰川精通",
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery_Description": "技能会使敌人获得持续{{frost_stack_duration}}秒的冰霜层数。达到{{frost_stack_limit}}层时冻结目标{{freeze_duration}}秒，并造成其最大生命值{{max_hp_damage_pct}}%的伤害及{{shatter_damage}}点魔法伤害（首领额外伤害上限{{boss_shatter_damage_cap}}）；附近敌人也会受到爆裂伤害。",
     "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju": "邪恶巫术",

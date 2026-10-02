@@ -597,7 +597,7 @@
     "DOTA_Tooltip_Ability_enfos_cm_crystal_nova": "Kristal Patlama (Crystal Nova)",
     "DOTA_Tooltip_Ability_enfos_cm_crystal_nova_Description": "Hedef bölgede {{damage}} + Zekânın {{int_damage_factor}} katı büyü hasarı verir. Düşmanları {{duration}} sn boyunca %{{slow_pct}} yavaşlatır ve saldırı hızlarını {{attack_slow}} azaltır.",
     "DOTA_Tooltip_Ability_enfos_cm_frostbite": "Donma (Frostbite)",
-    "DOTA_Tooltip_Ability_enfos_cm_frostbite_Description": "Hedefi {{duration}} sn kökler ve silahsızlandırır. Her {{damage_interval}} sn’de {{damage_per_second}} + Zekânın {{int_damage_factor}} katı büyü hasarı verir; normal yaratıklar {{creep_damage_multiplier}} kat hasar alır.",
+    "DOTA_Tooltip_Ability_enfos_cm_frostbite_Description": "Hedefi {{duration}} sn kökler ve silahsızlandırır. Saniyede {{damage_per_second}} + Zekânın {{int_damage_factor}} katı büyü hasarı verir; hasar her {{damage_interval}} sn’de bir uygulanır. Normal yaratıklar {{creep_damage_multiplier}} kat hasar alır.",
     "DOTA_Tooltip_Ability_enfos_cm_arcane_aura": "Büyü Halesi (Arcane Aura)",
     "DOTA_Tooltip_Ability_enfos_cm_arcane_aura_Description": "Küresel pasif aura dost kahramanlara ve temel birimlere {{mana_regen}} mana yenilenmesi ve %{{spell_amp}} büyü hasarı verir. Crystal Maiden üç kat mana yenilenmesi alır.",
     "DOTA_Tooltip_Ability_enfos_cm_freezing_field": "Dondurucu Alan (Freezing Field)",

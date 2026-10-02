@@ -1,4 +1,4 @@
-# Crystal Maiden individual review — in progress / owner engine pending
+# Crystal Maiden individual review — source complete / owner engine pending
 
 Own hero instructions/full dossier, shared hero/research/reference contract read. Five current Lua/KV implementations individually read; installed native definitions freshly extracted from Dota ClientVersion6943 / SourceRevision11069754 / Oct01 2026. Historical6941 dossier is not patch certification. Owner alone runs Dota; local commits only, no remote push/Workshop.
 
@@ -59,3 +59,30 @@ Nine CM modifiers now identify their verified native ability icons. Seven visibl
 Installed6943 sound bank declares `hero_Crystal.frostbite` (finite4.937483sec) and `hero_Crystal.freezingField.explosion` (finite1.329705sec, delay0.5sec, limiter disabled). W now uses exact bank spelling; case sensitivity of the earlier spelling is not established. R emits the finite explosion at its captured impact position, at most once per existing0.2sec pulse. No extra timer or ongoing sound allocation. Existing wind stops on modifier destruction; the bank's12.251429sec wind duration does not itself establish looping. Pulse visual child delay0.4sec, bank audio delay0.5sec and instant gameplay damage require actual owner timing/overlap evaluation.
 
 Validation:244behavior regressions and full checks0failed;200abilities/223modifiers across ranks1–10. No Dota launch or Workshop upload. Actual icon/property rendering, frozen effect cleanup, audible events and VConsole are OWNER ENGINE PENDING.
+
+## Animation declarations
+
+Installed6943 native Q/W/R declare ACT_DOTA_CAST_ABILITY_1/2/4; native R additionally declares ACT_DOTA_CHANNEL_ABILITY_4. Custom Q/W/R omitted these declarations. Omission alone does not establish a broken engine default, but explicitly carrying the verified native cast/channel contract avoids depending on an unspecified fallback. Added these four fields only, with no gesture timer or animation-rate override. [KV documentation](https://moddota.com/abilities/ability-keyvalues) documents explicit activity selection.
+
+Decoded current `models/heroes/crystal_maiden/crystal_maiden.vmdl_c` with VRF19.2. Model declares casts1/2/4 including freezing_field_anim_10s and cosmetic variants. It does not explicitly list CHANNEL_ABILITY_4, despite the current native R declaring it; engine mapping/fallback is unresolved. The native channel declaration is retained rather than inventing a different gesture. Eight-second custom channel versus ten-second authored animation, cosmetic variants and interruption remain OWNER ENGINE PENDING.
+
+Frostbite tooltip had a separate numerical error in all four languages: it advertised the configured DPS as damage on each0.5sec tick, implying twice the actual damage. Lua correctly multiplies DPS by interval; four source descriptions and twelve mirrors now explicitly distinguish damage per second from tick frequency. Existing187.5damage tick regression establishes the calculation; no gameplay damage was changed.
+
+## Source closure and owner acceptance
+
+Five implementations, fresh6943 native counterparts, hero mapping/rank gates, shared upgrades, source translations/mirrors, native effects/sound bank/model and regression paths individually reviewed. This closes source investigation, not live acceptance. No external code imported, new progression/talent system, global thinker or unbounded effect service added.
+
+| Area | Source findings / unresolved runtime gate |
+| --- | --- |
+| Gameplay/targeting | Q area slow, W enemy/spell-block/DoT/normal-creep multiplier, E global ally-basic/self-reject/triple-owner/Break, R single-target pulses and channel defenses, fifth stack/shatter/secondary Boss cap reviewed. Enemy immunity is non-piercing in KV/shared query. Actual block/reflect/immune targeting and slow/root/stun/status resistance remain pending. |
+| Ranks/progression | Five stable slots/ten ranks, Q/W/E/fifth1/1 and R5/5, shared free fifth rank, level50 and49 ordinary points preserved. Engine rank-up/innate area, client properties on upgrade, death and reconnect pending. |
+| VFX/SFX/animation | Nova CP0/1 finite feedback; Frostbite/frozen modifier-owned ice; one channel-owned snow and finite impact bursts; exact native audio declarations; explicit current native animation fields. Audio pulse overlap/delay, model channel fallback/cosmetic variants, radius and lifetime require actual Dota. |
+| Modifiers/cleanup | W stale owner and R ended channel terminate; Q/W/R no modifiers on killed/removed targets. Aura/fifth Break rules, source self rejection and icons/text reviewed. Purge/strong purge defaults, illusion copies, different-caster stack ownership, aura lifetime after source death/removal, finite endcaps and real channel order remain pending. No assumption that a mock Destroy invokes engine cleanup. |
+| Boss/upgrades | Fifth percentage component capped for primary and secondary Boss; freeze25%normal duration. Generic Mage Shard only15%spell amplification; configured unused mana_restore_pct is not implemented or promised. Generic Scepter40%ultimate-inflictor amplification/25%ultimate cooldown applies to R damage, not fifth-inflictor shatter; no native move-while-channeling, automatic Frostbite or Crystal Clone promised. Native/consumed/Ascended Blessing recognition, amplification and cooldown getters, Boss phase/control interactions remain pending. |
+| Performance/reconnect | No extra timer/global scan; one snow root per channel, finite pulse root, bounded radius/tick queries. Existing99999aura includes friendly basics, potentially many summoned units; dense-wave cost, same-team buff transport/stacking and multiplayer restore remain pending. |
+| Localization/resources | Four language descriptions/icons and twelve mirrors synchronized. Existing precache roots/bank plus newly added finite explosion root;219icons/259literal paths verified earlier in installed archive. Rendered intrinsic/visible modifier values, cold start and wrapping pending. |
+| VConsole | Agent did not launch/control Dota. No owner runtime capture for these repairs; PENDING. |
+
+Latest full checks:244behavior regressions,200/200abilities and223/223modifiers across ranks1–10,0failed checks. Expected mocked negative-path ERROR lines are deliberate fixture tests, not actual VConsole evidence. Queue may advance on source closure; balance/feedback are not certified.
+
+Owner evening checklist: fresh local match; Q425ground radius/slow/Break-stack and lethal hit; W normal creep versus Boss DPS, spell block/immune/purge, repeated root/expiry/caster removal; E ally hero/basic versus own triple regen, Break/death/respawn and rank10 values; R eight-second channel, moving/interruption/death/recast, one snow field/finite burst/audio overlap, selected target loss/lethal hit and cleanup; fifth five stacks/expiry/Break, Boss25%freeze and normal-primary/neighbor-Boss cap; Scepter/Blessing R damage/CDR and Shard15%amp versus absent native movement/Clone, four-language icons/property display, free fifth skill/rank/point HUD, dense waves/reconnect and fresh VConsole. All ENGINE PENDING.

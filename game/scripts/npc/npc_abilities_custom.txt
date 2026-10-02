@@ -1770,6 +1770,7 @@
 	// =========================================================================
 	"enfos_cm_crystal_nova"
 	{
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
@@ -1797,6 +1798,7 @@
 
 	"enfos_cm_frostbite"
 	{
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_2"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -1842,6 +1844,8 @@
 
 	"enfos_cm_freezing_field"
 	{
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_4"
+		"AbilityChannelAnimation" "ACT_DOTA_CHANNEL_ABILITY_4"
 		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"

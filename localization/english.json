@@ -1077,7 +1077,7 @@
     "DOTA_Tooltip_Ability_enfos_cm_freezing_field": "Freezing Field",
     "DOTA_Tooltip_Ability_enfos_cm_freezing_field_Description": "While channeling for {{duration}}s, damages a random enemy within {{radius}} every {{tick_interval}}s for {{explosion_damage}} + {{int_damage_factor}} times Intelligence as magical damage and slows it by {{slow_pct}}% for {{slow_duration}}s. Grants {{bonus_armor}} armor and {{bonus_magic_resist}}% magic resistance while channeling.",
     "DOTA_Tooltip_Ability_enfos_cm_frostbite": "Frostbite",
-    "DOTA_Tooltip_Ability_enfos_cm_frostbite_Description": "Roots and disarms the target for {{duration}}s. Every {{damage_interval}}s, deals {{damage_per_second}} + {{int_damage_factor}} times Intelligence as magical damage; normal creeps take {{creep_damage_multiplier}} times damage.",
+    "DOTA_Tooltip_Ability_enfos_cm_frostbite_Description": "Roots and disarms the target for {{duration}}s. Deals {{damage_per_second}} + {{int_damage_factor}} times Intelligence as magical damage per second, applied in ticks every {{damage_interval}}s; normal creeps take {{creep_damage_multiplier}} times damage.",
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery": "Glacial Mastery",
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery_Description": "Abilities apply Frost stacks to enemies for {{frost_stack_duration}}s. At {{frost_stack_limit}} stacks, the target is frozen for {{freeze_duration}}s and takes {{max_hp_damage_pct}}% of its max health plus {{shatter_damage}} magical damage (bonus boss damage capped at {{boss_shatter_damage_cap}}); nearby enemies are also hit.",
     "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju": "Bad Juju",
