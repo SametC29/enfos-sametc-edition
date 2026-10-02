@@ -4944,6 +4944,12 @@ function enfos_wd_voodoo_switcheroo:OnSpellStart()
 end
 
 modifier_enfos_wd_voodoo_switcheroo_buff=class({})
+function modifier_enfos_wd_voodoo_switcheroo_buff:DeclareFunctions()
+    return { MODIFIER_PROPERTY_MODEL_CHANGE }
+end
+function modifier_enfos_wd_voodoo_switcheroo_buff:GetModifierModelChange()
+    return 'models/heroes/witchdoctor/witchdoctor_ward.vmdl'
+end
 function modifier_enfos_wd_voodoo_switcheroo_buff:OnDestroy()
     if not IsServer() then return end
     local parent = self:GetParent()

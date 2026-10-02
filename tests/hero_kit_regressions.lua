@@ -6862,6 +6862,28 @@ test('Witch Doctor Ward teardown removes its owned unit once and missing ward en
     m:OnIntervalThink();assert(ended,'No ward means no remaining channel attack loop')
 end)
 
+test('Witch Doctor Switcheroo declares a temporary native ward model on both sides', function()
+    local m=modifier_enfos_wd_voodoo_switcheroo_buff()
+    local oldConstant=MODIFIER_PROPERTY_MODEL_CHANGE;local oldServer=IsServer
+    local oldDisarmed=MODIFIER_STATE_DISARMED
+    MODIFIER_STATE_DISARMED='mock_disarmed'
+    MODIFIER_PROPERTY_MODEL_CHANGE='mock_model_change'
+    local ok,err=pcall(function()
+        local props=m:DeclareFunctions()
+        assert(props[1]==MODIFIER_PROPERTY_MODEL_CHANGE,'Model must be supplied as a modifier property')
+        IsServer=function() return false end
+        assert(m:GetModifierModelChange()=='models/heroes/witchdoctor/witchdoctor_ward.vmdl',
+            'Client must receive the verified ward model during transformation')
+        IsServer=function() return true end
+        assert(m:GetModifierModelChange()=='models/heroes/witchdoctor/witchdoctor_ward.vmdl')
+        local state=m:CheckState()
+        assert(state[MODIFIER_STATE_INVULNERABLE] and state[MODIFIER_STATE_DISARMED],
+            'Model presentation must preserve the existing Shard combat state')
+    end)
+    MODIFIER_PROPERTY_MODEL_CHANGE=oldConstant;MODIFIER_STATE_DISARMED=oldDisarmed;IsServer=oldServer
+    assert(ok,err)
+end)
+
 test('Witch Doctor channel and Shard sound stop during modifier teardown', function()
     local wd = create_mock_unit('npc_dota_hero_witch_doctor', 2, Vector(0, 0, 0))
     local stopped = {}
