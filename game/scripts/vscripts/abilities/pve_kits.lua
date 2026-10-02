@@ -2707,7 +2707,13 @@ function modifier_enfos_sniper_shrapnel_thinker:OnCreated(kv)
     if not IsServer() then return end
     self.radius = (kv and kv.radius) or 450
     self:StartIntervalThink(1.0)
-    effect('particles/units/heroes/hero_sniper/sniper_shrapnel.vpcf', self:GetParent())
+    local origin = self:GetParent():GetAbsOrigin()
+    local particle = ParticleManager:CreateParticle(
+        'particles/units/heroes/hero_sniper/sniper_shrapnel.vpcf', PATTACH_WORLDORIGIN, self:GetCaster())
+    ParticleManager:SetParticleControl(particle, 0, origin)
+    ParticleManager:SetParticleControl(particle, 1, Vector(self.radius, 0, 0))
+    ParticleManager:SetParticleControl(particle, 2, origin)
+    self:AddParticle(particle, false, false, -1, false, false)
 end
 function modifier_enfos_sniper_shrapnel_thinker:OnIntervalThink()
     local c = self:GetCaster()

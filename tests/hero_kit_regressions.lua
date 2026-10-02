@@ -2036,6 +2036,33 @@ test("Legion Commander's Banner applies owner/ally values and attack-only lifest
     assert(ally_buff:GetModifierBaseDamageOutgoing_Percentage() == 20)
 end)
 
+test('Sniper Shrapnel owns its persistent ground effect and supplies the configured radius', function()
+    local sniper = create_mock_unit('npc_dota_hero_sniper',2,Vector(0,0,0))
+    local thinker = create_mock_unit('shrapnel_thinker',2,Vector(1600,900,128))
+    local m = modifier_enfos_sniper_shrapnel_thinker()
+    m.GetParent=function() return thinker end
+    m.GetCaster=function() return sniper end
+    m.StartIntervalThink=function(_,interval) assert(interval==1) end
+    local oldCreate,oldControl,oldRelease,oldWorld=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,
+        ParticleManager.ReleaseParticleIndex,PATTACH_WORLDORIGIN
+    PATTACH_WORLDORIGIN=925
+    local allocations,owners,releases,cp=0,0,0,{}
+    ParticleManager.CreateParticle=function(_,path,attachment,owner)
+        assert(path=='particles/units/heroes/hero_sniper/sniper_shrapnel.vpcf' and attachment==925 and owner==sniper,
+            'Persistent Shrapnel must use the chosen ground position and its caster attribution')
+        allocations=allocations+1;return 925
+    end
+    ParticleManager.SetParticleControl=function(_,id,index,value) assert(id==925);cp[index]=value end
+    ParticleManager.ReleaseParticleIndex=function() releases=releases+1 end
+    m.AddParticle=function(_,id) assert(id==925);owners=owners+1 end
+    m:OnCreated({radius=450})
+    assert(allocations==1 and owners==1 and releases==0 and cp[0]==thinker.origin
+        and cp[2]==thinker.origin and cp[1].x==450,
+        'Shrapnel emitter must have a modifier cleanup owner and its actual radius CP')
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex,
+        PATTACH_WORLDORIGIN=oldCreate,oldControl,oldRelease,oldWorld
+end)
+
 test('Sniper Keen Eye pierces line behind primary target for secondary damage', function()
     applied_damages = {}
     local sniper = create_mock_unit('npc_dota_hero_sniper', 2, Vector(0, 0, 0))

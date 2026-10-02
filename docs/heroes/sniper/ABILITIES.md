@@ -279,3 +279,5 @@ Change/test record (2026-09-30): all five Enfos slots declare ten ranks with int
 2026-09-30 global Break metadata audit: Added KV `IsBreakable 1` to `enfos_sniper_headshot` because its linked Lua passive implementation check `PassivesDisabled()`. Automated content validation now rejects this metadata mismatch. Actual Dota Break behavior remains PENDING.
 
 2026-10-02 individual review started against installed6943. Keen Eye now retains piercing from a valid primary killed by the landed attack; existing lane/cap/Break/illusion rules remain. Regression fails before repair and passes afterward. The [individual ledger](../../audit/SNIPER_INDIVIDUAL_REVIEW_2026-10-02.md) tracks current comparisons, source repairs and pending owner engine gates; this is not whole-hero or Dota runtime acceptance.
+
+2026-10-02 Shrapnel follow-up: continuous native field now belongs to its thinker modifier, with verified ground CP0/CP2 and configured radius CP1. Existing eight-second duration/three-entity bound retained.239behavior regressions/full checks pass; real circle appearance, child expiry, sound and VConsole PENDING owner testing.
