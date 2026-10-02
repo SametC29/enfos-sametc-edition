@@ -3835,6 +3835,48 @@ test('Zeus Lightning Bolt captures vertical endpoints before lethal damage delet
         'The lightning path must descend to the captured victim position')
 end)
 
+test('Zeus Wrath emits native impacts for every hostile before lethal deletion', function()
+    local zeus=create_mock_unit('npc_dota_hero_zuus',2,Vector(0,0,0));zeus.intellect=50
+    local first=create_mock_unit('wrath_deleted',3,Vector(400,100,20))
+    local second=create_mock_unit('wrath_survivor',3,Vector(700,200,30))
+    local ally=create_mock_unit('wrath_ally',2,Vector(600,0,0))
+    mock_world_units={zeus,first,second,ally}
+    local a=enfos_zeus_thundergods_wrath();a.GetCaster=function() return zeus end
+    a.GetSpecialValueFor=function(_,key) return key=='damage' and 300 or 0 end
+    local oldManager,oldDamage=ParticleManager,ApplyDamage
+    local particles,hits={},{}
+    ParticleManager={
+        CreateParticle=function(_,path,attachment,owner)
+            particles[#particles+1]={path=path,owner=owner,cp={}};return #particles
+        end,
+        SetParticleControl=function(_,index,cp,position) particles[index].cp[cp]=position end,
+        ReleaseParticleIndex=function(_,index) particles[index].released=true end
+    }
+    ApplyDamage=function(info)
+        local index=#hits+1;local particle=particles[index]
+        assert(particle and particle.path=='particles/units/heroes/hero_zuus/zuus_thundergods_wrath.vpcf'
+            and particle.cp[1] and particle.cp[1].x==info.victim.origin.x,
+            'Each Wrath victim needs its native impact before damage, including lethal hits')
+        hits[index]=info
+        if info.victim==first then
+            first.alive=false;first.IsNull=function() return true end
+            first.GetAbsOrigin=function() error('Deleted Wrath recipient must not be reread') end
+        end
+    end
+    local ok,err=pcall(function() a:OnSpellStart() end)
+    ParticleManager,ApplyDamage=oldManager,oldDamage
+    assert(ok,err)
+    assert(#hits==2 and #particles==2 and hits[1].victim==first and hits[2].victim==second,
+        'Wrath preserves its hostile basic-unit scope and does not emit an extra victim beam on the caster')
+    for i,hit in ipairs(hits) do
+        local p=particles[i]
+        assert(hit.damage==400 and hit.damage_type==DAMAGE_TYPE_MAGICAL)
+        assert(p.cp[0] and p.cp[0].x==p.cp[1].x and p.cp[0].y==p.cp[1].y
+            and p.cp[0].z>p.cp[1].z and p.owner==nil and p.released,
+            'Wrath beams retain finite world-space sky/impact endpoints after victim deletion')
+    end
+end)
+
 test('Zeus Heavenly Jump leaps while stationary and emits native launch/landing effects', function()
     applied_damages = {}
     local zeus = create_mock_unit('npc_dota_hero_zuus', 2, Vector(0, 0, 0))

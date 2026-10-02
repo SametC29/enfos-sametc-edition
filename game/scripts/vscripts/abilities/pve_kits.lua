@@ -4504,7 +4504,6 @@ function enfos_zeus_thundergods_wrath:OnSpellStart()
     local c = self:GetCaster()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
     c:EmitSound('Hero_Zuus.GodsWrath')
-    effect('particles/units/heroes/hero_zuus/zuus_thundergods_wrath.vpcf', c)
 
     local base = value(self, 'damage')
     if base <= 0 then base = 450 end
@@ -4512,8 +4511,16 @@ function enfos_zeus_thundergods_wrath:OnSpellStart()
     local dmg = base + (int * 2.0)
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 99999)) do
-        damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
-        effect('particles/units/heroes/hero_zuus/zuus_lightning_bolt.vpcf', u)
+        if u and not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
+            -- Wrath is a victim beam, not a caster aura. Its native root derives
+            -- child impact CP3 from CP1; preserve endpoints even on lethal hits.
+            local position = u:GetAbsOrigin()
+            local bolt = ParticleManager:CreateParticle('particles/units/heroes/hero_zuus/zuus_thundergods_wrath.vpcf', PATTACH_WORLDORIGIN, nil)
+            ParticleManager:SetParticleControl(bolt, 0, position + Vector(0, 0, 1000))
+            ParticleManager:SetParticleControl(bolt, 1, position)
+            ParticleManager:ReleaseParticleIndex(bolt)
+            damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
+        end
     end
 end
 
