@@ -727,7 +727,7 @@
     "DOTA_Tooltip_Ability_enfos_ss_ether_shock": "Eter Şoku (Ether Shock)",
     "DOTA_Tooltip_Ability_enfos_ss_ether_shock_Description": "Ana hedefin 600 birim çevresindeki en fazla {{targets}} düşmana {{damage}} + Zekâ kadar büyü hasarı verir. Bosslara verilen hasar, azaltımlar uygulanmadan önce azami canlarının %6’sı ile sınırlıdır.",
     "DOTA_Tooltip_Ability_enfos_ss_hex": "Dönüşüm (Hex)",
-    "DOTA_Tooltip_Ability_enfos_ss_hex_Description": "Hedef düşmanı {{duration}} saniye susturur, silahsızlandırır ve eşyalarını kullanmasını engeller. Hedef yavaşlatılır; tamamen hareketsiz kalmaz.",
+    "DOTA_Tooltip_Ability_enfos_ss_hex_Description": "Hedef düşmanı {{duration}} saniyeliğine tavuğa dönüştürür; saldırmasını, yetenek ve eşya kullanmasını engeller. Temel hareket hızı 140 olur. Güçlü temizleme etkileri dönüşümü kaldırır. Bosslarda süre belirtilen sürenin %35’idir.",
     "DOTA_Tooltip_Ability_enfos_ss_shackles": "Prangalar (Shackles)",
     "DOTA_Tooltip_Ability_enfos_ss_shackles_Description": "Hedefi {{duration}} saniye sersemletir. Kanal sürerken saniyede {{dps}} + Zekâ'nın %60'ı kadar büyü hasarı verir ve verdiği hasarın yarısı kadar iyileştirir.",
     "DOTA_Tooltip_Ability_enfos_ss_mass_serpent_ward": "Yılan Totemleri (Mass Serpent Ward)",

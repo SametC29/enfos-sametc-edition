@@ -6669,22 +6669,29 @@ function enfos_ss_hex:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or t:IsNull() or not t:IsAlive() then return end
+    if t:GetTeamNumber() == c:GetTeamNumber() then return end
     if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
 
-    c:EmitSound('Hero_ShadowShaman.Hex.Target')
-    effect('particles/units/heroes/hero_shadowshaman/shadowshaman_voodoo.vpcf', t)
     local dur = value(self, 'duration')
     if dur <= 0 then dur = 3.5 end
     if is_boss(t) then dur = dur * 0.35 end
-    t:AddNewModifier(c, self, 'modifier_enfos_ss_hex_debuff', { duration = dur })
+    local hex = t:AddNewModifier(c, self, 'modifier_enfos_ss_hex_debuff', { duration = dur })
+    if not hex or (hex.IsNull and hex:IsNull()) or t:IsNull() or not t:IsAlive() then return end
+    t:EmitSound('Hero_ShadowShaman.Hex.Target')
+    effect('particles/units/heroes/hero_shadowshaman/shadowshaman_voodoo.vpcf', t)
 end
 
 modifier_enfos_ss_hex_debuff=class({})
 function modifier_enfos_ss_hex_debuff:IsDebuff() return true end
+function modifier_enfos_ss_hex_debuff:IsPurgable() return false end
+function modifier_enfos_ss_hex_debuff:IsPurgeException() return true end
+function modifier_enfos_ss_hex_debuff:RemoveOnDeath() return true end
 function modifier_enfos_ss_hex_debuff:CheckState()
-    return { [MODIFIER_STATE_SILENCED] = true, [MODIFIER_STATE_DISARMED] = true, [MODIFIER_STATE_MUTED] = true }
+    return { [MODIFIER_STATE_HEXED] = true, [MODIFIER_STATE_SILENCED] = true, [MODIFIER_STATE_DISARMED] = true, [MODIFIER_STATE_MUTED] = true }
 end
-function modifier_enfos_ss_hex_debuff:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BASE_OVERRIDE } end
+function modifier_enfos_ss_hex_debuff:DeclareFunctions() return { MODIFIER_PROPERTY_MODEL_CHANGE, MODIFIER_PROPERTY_MOVESPEED_BASE_OVERRIDE } end
+function modifier_enfos_ss_hex_debuff:GetModifierModelChange() return 'models/props_gameplay/chicken.vmdl' end
+function modifier_enfos_ss_hex_debuff:GetTexture() return 'shadow_shaman_voodoo' end
 function modifier_enfos_ss_hex_debuff:GetModifierMoveSpeedOverride() return 140 end
 
 enfos_ss_shackles=class({})

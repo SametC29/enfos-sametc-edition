@@ -1374,6 +1374,8 @@
     "DOTA_Tooltip_modifier_enfos_wd_death_ward_channel": "Death Ward",
     "DOTA_Tooltip_modifier_enfos_wd_death_ward_channel_Description": "Channels the ward. Each projectile impact deals %1fMODIFIER_PROPERTY_TOOLTIP% physical damage before amplification. Interrupted channel removes the ward.",
     "DOTA_Tooltip_modifier_enfos_wd_voodoo_switcheroo_buff": "Voodoo Switcheroo",
-    "DOTA_Tooltip_modifier_enfos_wd_voodoo_switcheroo_buff_Description": "Transformed into an invulnerable, disarmed ward. Projectile impacts deal %1fMODIFIER_PROPERTY_TOOLTIP% physical damage before amplification."
+    "DOTA_Tooltip_modifier_enfos_wd_voodoo_switcheroo_buff_Description": "Transformed into an invulnerable, disarmed ward. Projectile impacts deal %1fMODIFIER_PROPERTY_TOOLTIP% physical damage before amplification.",
+    "DOTA_Tooltip_Ability_enfos_ss_hex": "Hex",
+    "DOTA_Tooltip_Ability_enfos_ss_hex_Description": "Transforms the enemy into a chicken for {{duration}} seconds, silencing, disarming and muting it. Base movement speed is 140. Strong dispels remove the Hex. Boss duration is 35% of the listed duration."
   }
 }

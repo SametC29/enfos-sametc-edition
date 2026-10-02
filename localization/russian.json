@@ -1314,6 +1314,8 @@
     "DOTA_Tooltip_modifier_enfos_wd_death_ward_channel": "Death Ward",
     "DOTA_Tooltip_modifier_enfos_wd_death_ward_channel_Description": "Поддерживает атаки тотема. Попадания снарядов наносят %1fMODIFIER_PROPERTY_TOOLTIP% физического урона до усиления. Прерывание заклинания убирает тотем.",
     "DOTA_Tooltip_modifier_enfos_wd_voodoo_switcheroo_buff": "Voodoo Switcheroo",
-    "DOTA_Tooltip_modifier_enfos_wd_voodoo_switcheroo_buff_Description": "Превращён в неуязвимый обезоруженный тотем. Попадания снарядов наносят %1fMODIFIER_PROPERTY_TOOLTIP% физического урона до усиления."
+    "DOTA_Tooltip_modifier_enfos_wd_voodoo_switcheroo_buff_Description": "Превращён в неуязвимый обезоруженный тотем. Попадания снарядов наносят %1fMODIFIER_PROPERTY_TOOLTIP% физического урона до усиления.",
+    "DOTA_Tooltip_Ability_enfos_ss_hex": "Сглаз",
+    "DOTA_Tooltip_Ability_enfos_ss_hex_Description": "Превращает врага в курицу на {{duration}} сек., запрещая атаки, способности и использование предметов. Базовая скорость передвижения — 140. Сильное развеивание снимает эффект. На боссах длительность составляет 35% от указанной."
   }
 }

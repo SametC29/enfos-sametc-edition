@@ -1022,6 +1022,42 @@ test('Shadow Shaman Ether Shock snapshots targets before death and stops a remov
         'primary death must not erase secondary hits; ability deletion must stop the remaining hit')
 end)
 
+test('Shadow Shaman Hex declares a temporary model and strong-only dispel identity', function()
+    local hex,model=MODIFIER_STATE_HEXED,MODIFIER_PROPERTY_MODEL_CHANGE
+    local silence,disarm,mute=MODIFIER_STATE_SILENCED,MODIFIER_STATE_DISARMED,MODIFIER_STATE_MUTED
+    MODIFIER_STATE_HEXED='ss_mock_hexed';MODIFIER_PROPERTY_MODEL_CHANGE='ss_mock_model'
+    MODIFIER_STATE_SILENCED='ss_mock_silenced';MODIFIER_STATE_DISARMED='ss_mock_disarmed';MODIFIER_STATE_MUTED='ss_mock_muted'
+    local m=modifier_enfos_ss_hex_debuff()
+    assert(m:GetModifierModelChange()=='models/props_gameplay/chicken.vmdl')
+    assert(m:CheckState()[MODIFIER_STATE_HEXED]==true)
+    local found=false
+    for _,property in ipairs(m:DeclareFunctions()) do if property==MODIFIER_PROPERTY_MODEL_CHANGE then found=true end end
+    assert(found and m:GetModifierMoveSpeedOverride()==140)
+    assert(m:IsPurgable()==false and m:IsPurgeException()==true and m:RemoveOnDeath()==true)
+    MODIFIER_STATE_HEXED,MODIFIER_PROPERTY_MODEL_CHANGE=hex,model
+    MODIFIER_STATE_SILENCED,MODIFIER_STATE_DISARMED,MODIFIER_STATE_MUTED=silence,disarm,mute
+end)
+
+test('Shadow Shaman Hex only presents successful enemy casts and uses recipient sound', function()
+    local c=create_mock_unit('npc_dota_hero_shadow_shaman',2,Vector(0,0,0))
+    local t=create_mock_unit('enfos_boss_hex_target',3,Vector(100,0,0))
+    local a=enfos_ss_hex()
+    a.GetCaster=function() return c end;a.GetCursorTarget=function() return t end
+    a.GetSpecialValueFor=function(_,key) return key=='duration' and 4.5 or 0 end
+    local created,impact=0,0
+    local oldParticle=ParticleManager.CreateParticle
+    ParticleManager.CreateParticle=function(_,path,attachment,parent) assert(parent==t);impact=impact+1;return 37 end
+    c.EmitSound=function() error('Hex.Target must not originate at caster') end
+    t.EmitSound=function(_,event) assert(event=='Hero_ShadowShaman.Hex.Target');created=created+1 end
+    a:OnSpellStart()
+    assert(created==1 and impact==1 and math.abs(t.modifiers.modifier_enfos_ss_hex_debuff.params.duration-1.575)<0.001)
+    t.AddNewModifier=function() return nil end;a:OnSpellStart()
+    t.team=2;a:OnSpellStart();t.team=3
+    t.TriggerSpellAbsorb=function() return true end;a:OnSpellStart()
+    ParticleManager.CreateParticle=oldParticle
+    assert(created==1 and impact==1,'failed, allied or absorbed casts cannot show success feedback')
+end)
+
 test('Shadow Shaman Fowl Play does not consume its save until lethal damage is prevented', function()
     local shaman = create_mock_unit('npc_dota_hero_shadow_shaman', 2, Vector(0, 0, 0), 1000)
     local ability = enfos_ss_fowl_play()

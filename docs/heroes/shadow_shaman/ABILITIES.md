@@ -113,8 +113,8 @@ Change/test record: all five slots have MaxLevel 10; all multirank KV values hav
 Classification: PVE-CONVERT
 Native counterpart: `shadow_shaman_voodoo` (installed native snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot mapping is authored).
 Decision and PvE identity rationale: PVE-CONVERT preserves the identified Dota hero fantasy while changing PvP-only targeting/control for wave, elite and boss play.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
+Expected cast/travel/impact/ongoing/cleanup behavior: source-reviewed2026-10-02. Instant enemy chicken transformation through modifier-owned model property; hexed/silenced/disarmed/muted,140base move speed. Target receives finite feather impact and Hex.Target sound only after successful modifier creation. No projectile/loop/custom thinker. Model restoration on modifier removal remains engine-owned and owner testing PENDING.
+Normal creep / elite / boss, immunity / dispel / resistance rules: no Elite spawns. Enemy hero/basic targets, ENEMIES_NO, primary spell absorb; allied target rejected. Basic purge false, strong purge true, RemoveOnDeath true. Boss duration35%rank duration. Actual immunity/status resistance/purge and Boss model/scale restoration pending owner Dota tests.
 Current/target rank: each Enfos slot has ten explicit KV levels. The match is capped at level 50; Q/W/E/R require 40 paid ranks total and passive ranks 2–10 require nine more; the fifth slot rank 1 is free, for 49 spendable points overall. Rank-up HUD/runtime acceptance remains pending.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
@@ -150,6 +150,8 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
 Change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
+
+Hex2026-10-02 evidence summary: native6943voodoo definition/hash reread; cast2 activity verified in installed model; chicken.vmdl and voodoo icon found in VPK. Existing decoded voodoo root/children are finite instantaneousCP0-origin feather effects; no extraCPguessing needed. Bank Hex.Target uses ambient/chicken.vsnd1.397347s. Ability explicitly precaches chicken/root/bank and declares cast2. Native speed100/duration2.0→2.9 differ from authored140/duration3→5.1; PVE-CONVERT retains those tuning curves and Boss35%. All4locales/mirrors now describe actual intended transformation/control/dispel. Initial missing-model-callback regression reproduced,291behavior/full checks pass after repair. No persistent model setters, timers or new reconnect state. Owner tests remain PENDING including multi-caster refresh/purge/death/wearables/Boss scale and cold start. This record is source/mock evidence, not runtime certification; hero review remains IN PROGRESS.
 
 ## Slot 3: `enfos_ss_shackles`
 
