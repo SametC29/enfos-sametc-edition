@@ -58,6 +58,16 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+### Reopened cursor/Shard review — 2026-10-03
+
+Q (TUNE) now returns its actual impact radius through GetAOERadius; W
+(PVE-CONVERT) and fifth-slot D (REPLACE) recognize the two consumed-Shard markers
+already used by the Aghanim manager, without waiting for its role-modifier poll.
+See [reopened findings ledger](../../audit/SVEN_REOPENED_REVIEW_2026-10-02.md)
+for failing-before/passing-after regressions, current-build evidence and explicit
+source/mock/trace/owner acceptance states. Current owner engine acceptance remains
+NOT TESTED. Standardized debug-gated Q/W/E/R/D tracing is still incomplete.
+
 ### Runtime class-registration guard — 2026-09-29
 
 The live test reported Q/W/E casts without their expected damage/feedback. Their

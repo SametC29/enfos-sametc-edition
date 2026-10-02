@@ -422,6 +422,16 @@ modifier_enfos_pve_angel=class({})
 -- SVEN (TANK)
 -- =========================================================================
 
+local function sven_has_shard(c)
+    if not c or (c.IsNull and c:IsNull()) or not c.HasModifier then return false end
+    -- Match the consumed markers recognized by the existing Aghanim manager,
+    -- without waiting for its one-second role-upgrade poll.
+    return c:HasModifier('modifier_item_aghanims_shard_consumed')
+        or c:HasModifier('modifier_aghanims_shard_consumed')
+        or c:HasModifier('modifier_item_aghanims_shard')
+        or c:HasModifier('modifier_enfos_shard_upgrade')
+end
+
 local function sven_passive_source(modifier)
     local c, a = modifier:GetParent(), modifier:GetAbility()
     if not c or (c.IsNull and c:IsNull()) or not a or (a.IsNull and a:IsNull())
@@ -444,6 +454,7 @@ local function sven_storm_impact(target, position)
 end
 
 bulwark_shield_slam=class({})
+function bulwark_shield_slam:GetAOERadius() return math.max(0, value(self, 'radius')) end
 function bulwark_shield_slam:OnSpellStart()
     if not IsServer() then return end
     local c = self:GetCaster()
@@ -595,7 +606,7 @@ function modifier_enfos_pve_warcry:OnCreated()
     self.barrier = base_barrier + (c and get_str(c) * 1.5 or 0)
 
     -- Aghanim's Shard: Grants barrier equal to 25% of Sven's max health
-    if c and not (c.IsNull and c:IsNull()) and c.HasModifier and (c:HasModifier('modifier_item_aghanims_shard') or c:HasModifier('modifier_enfos_shard_upgrade')) then
+    if sven_has_shard(c) then
         self.barrier = self.barrier + (c:GetMaxHealth() * 0.25)
     end
     if IsServer() and self.SetStackCount then self:SetStackCount(math.ceil(self.barrier)) end
@@ -636,7 +647,7 @@ function modifier_enfos_pve_warcry:OnTakeDamage(e)
     if e.damage_flags and bit and bit.band(e.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION or 16) ~= 0 then return end
     -- Shard: 40% physical damage reflection during Warcry
     local c = self:GetCaster()
-    if c and not (c.IsNull and c:IsNull()) and c.HasModifier and (c:HasModifier('modifier_item_aghanims_shard') or c:HasModifier('modifier_enfos_shard_upgrade')) then
+    if sven_has_shard(c) then
         if e.damage_type~=DAMAGE_TYPE_PHYSICAL then return end
         local refl = (e.damage or 0) * 0.40
         if refl > 0 then damage(self:GetAbility(), e.attacker, refl, DAMAGE_TYPE_PHYSICAL, DOTA_DAMAGE_FLAG_REFLECTION) end
@@ -818,7 +829,7 @@ function modifier_bulwark_unbreakable:GetModifierConstantHealthRegen()
     local regen = value(self:GetAbility(), 'bonus_hp_regen')
     -- Shard: doubles HP regen when below 40% health
     if c and c.GetHealthPercent and c:GetHealthPercent() < 40 then
-        if c.HasModifier and (c:HasModifier('modifier_item_aghanims_shard') or c:HasModifier('modifier_enfos_shard_upgrade')) then
+        if sven_has_shard(c) then
             regen = regen * 2.0
         end
     end

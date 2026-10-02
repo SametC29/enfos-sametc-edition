@@ -7,6 +7,21 @@ runtime evidence. **Current engine acceptance is PENDING.**
 
 ## Evidence and scope
 
+### Current acceptance ledger — owner-expanded goal, 2026-10-03
+
+- SOURCE REVIEW: PENDING (reopened individual review and standardized tracing unfinished).
+- DESIGN DECISION: Q TUNE; W PVE-CONVERT; E TUNE; R PVE-CONVERT; D REPLACE.
+  The rationale remains in the per-slot review below; these are not engine passes.
+- PROVEN DEFECTS: repaired findings below; further individual review in progress.
+- MOCK/REGRESSION VALIDATION: PASS for the recorded repaired cases; no engine simulation claim.
+- RUNTIME TRACE COVERAGE: PARTIAL. Existing unconditional Q/W traces need the
+  common debug gate; the ultimate pulse incorrectly uses D and must use R.
+  E and the actual fifth-slot D still lack sufficient material branch coverage.
+- OWNER RUNTIME TRACE EVIDENCE: NOT TESTED for the current revised source/build.
+- OWNER VISUAL/AUDIO VERIFICATION: NOT TESTED for the current revised source/build.
+- OWNER ENGINE ACCEPTANCE: NOT TESTED.
+- REMAINING ENGINE-ONLY TESTS: every row in SVEN_RUNTIME_CHECKLIST.md remains pending.
+
 - Installed `steam.inf`: ClientVersion/ServerVersion 6943, SourceRevision 11069754.
 - Re-read full native `scripts/npc/heroes/npc_dota_hero_sven.txt` through Workshop MCP.
   Native Storm Hammer/Great Cleave/Warcry/God's Strength identifiers, target rules,
@@ -132,3 +147,36 @@ damage cases:damage200/original0 =>100 cleave at50%; critical600 without origina
 pass. Native collision, event fields/armor interaction, actual secondary damage
 and visible effect still need owner verification; these source defects are
 plausible contributors, not a proven diagnosis of the specific missed hit.
+
+## 2026-10-03: Q cursor radius and immediate consumed-Shard recognition
+
+Q retains TUNE: the unit-target/AOE KV has a live radius special (250 at rank1,
+340 at rank10), but no AoERadius field or Lua GetAOERadius implementation supplied
+that value to the cursor. Installed MCP CDOTA_Ability_Lua:GetAOERadius confirms
+the both-realms cursor callback; [API documentation](https://docs.moddota.com/lua_server/)
+agrees. Add the callback using the same radius as impact, with no gameplay changes.
+The targeted test failed on the absent method before repair. Visible circle remains
+an owner engine test, not certified from the callback alone.
+
+W and D checked only the legacy item marker or modifier_enfos_shard_upgrade.
+The existing Aghanim manager recognizes modifier_item_aghanims_shard_consumed
+and modifier_aghanims_shard_consumed, then attaches the role marker during its
+one-second poll (only for living selected heroes). A cast before that poll could
+snapshot a W barrier without its extra25% maxHP for the whole buff. Recognition
+now includes both existing consumed markers immediately for barrier, physical
+reflection and low-health regen, retaining both previously supported markers.
+No manager, timer, upgrade balance or other hero is changed. The targeted consumed
+marker case failed before repair; both markers, the40% HP boundary and marker
+removal are checked. The test fixture explicitly calls OnCreated because this
+mock does not implement the engine modifier lifecycle; damage is asserted from
+ApplyDamage dispatch, not an HP simulation this mock does not provide.
+
+Scepter/Blessing was also inspected: items/aghanims_blessing.lua and
+economy/ascended_shop.lua apply the native modifier_item_ultimate_scepter_consumed
+alongside the custom stats marker. The custom stats marker alone declares no
+Scepter property, but the real purchase/consume paths provide the native marker.
+Do not infer a proven HasScepter failure from the custom modifier alone. Actual
+consumption, status-resistance replication and Q/R effects remain owner tests.
+
+330 hero regression mocks pass after these repairs. Standardized trace work is
+still pending; this is not a Sven source-closure or engine-acceptance claim.

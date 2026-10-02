@@ -11,6 +11,7 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE",
           "callbacks": [
+            "GetAOERadius",
             "OnProjectileHit",
             "OnSpellStart"
           ],

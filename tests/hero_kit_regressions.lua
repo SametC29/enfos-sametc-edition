@@ -8511,4 +8511,37 @@ test('Sven cleave uses actual landed attack damage including zero-original and c
     DoCleaveAttack=oldCleave
 end)
 
+test('Sven hammer exposes its live impact radius to the targeting cursor',function()
+    local q=bulwark_shield_slam();local radius=250
+    q.GetSpecialValueFor=function(_,k) return k=='radius' and radius or 0 end
+    assert(q:GetAOERadius()==250)
+    radius=340;assert(q:GetAOERadius()==340,'Cursor must follow upgraded impact radius')
+end)
+
+test('Sven consumed Shard upgrades work before the periodic role marker is attached',function()
+    local c=create_mock_unit('npc_dota_hero_sven',2,Vector(0,0,0))
+    c.max_hp=1000;c.hp=399;c.GetHealthPercent=function(self) return self.hp/self.max_hp*100 end
+    c.GetStrength=function() return 20 end
+    local attacker=create_mock_unit('enfos_creep',3,Vector(100,0,0))
+    local w=bulwark_challenge();w.GetCaster=function() return c end
+    w.GetSpecialValueFor=function(_,k) return k=='barrier_hp' and 100 or 0 end
+    local passive=bulwark_unbreakable()
+    passive.GetSpecialValueFor=function(_,k) return k=='bonus_hp_regen' and 15 or 0 end
+    local innate=c:AddNewModifier(c,passive,'modifier_bulwark_unbreakable',{})
+    for _,name in ipairs({'modifier_item_aghanims_shard_consumed','modifier_aghanims_shard_consumed'}) do
+        c.modifiers[name]={}
+        local shield=c:AddNewModifier(c,w,'modifier_enfos_pve_warcry',{})
+        shield:OnCreated() -- This mock does not invoke engine modifier lifecycle callbacks.
+        assert(shield.barrier==380,'Consumed Shard must immediately add 25% max HP to the barrier')
+        assert(innate:GetModifierConstantHealthRegen()==30,'Low-health regen must not wait for manager polling')
+        applied_damages={}
+        shield:OnTakeDamage({unit=c,attacker=attacker,damage=100,damage_type=DAMAGE_TYPE_PHYSICAL})
+        assert(#applied_damages==1 and applied_damages[1].victim==attacker
+            and applied_damages[1].damage==40,'Consumed Shard enables physical reflection immediately')
+        c.hp=400;assert(innate:GetModifierConstantHealthRegen()==15)
+        c.hp=399;c.modifiers[name]=nil
+        assert(innate:GetModifierConstantHealthRegen()==15,'Removed upgrade grants no Shard regen')
+    end
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')

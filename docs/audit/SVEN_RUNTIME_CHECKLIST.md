@@ -10,6 +10,8 @@ acceptance. Record build, ability ranks and Shard/Scepter/Blessing state.
 | Start and progression | Level6, five spendable points, fifth passive rank1 free; max level50, all five skills max10. No talent tree/permanent bonuses. | PENDING |
 | Q rank1/10 | Hammer travels, impact sound/flash at target away from map origin, magical AoE and stun; bosses at most0.6s before resistance. Lethal victims are not stunned. | PENDING |
 | Q target edges | No explosion after dodge/target removal; no friendly primary detonation after team change. Test absorb/reflect and immunity separately. | PENDING |
+| Q cursor | Targeting circle matches impact radius250 at rank1 and340 at rank10. | PENDING |
+| Immediate Shard | Consume Shard and immediately cast W before the manager poll: extra25% maxHP barrier and40% physical reflection apply. Fifth regen doubles below40% HP without waiting for the role marker. | PENDING |
 | W self/ally | Cast head burst/audio; armor/speed increase; visible overhead armor shield on each buffed recipient, tooltip shows current armor and remaining barrier. | PENDING |
 | W barrier | Damage consumes barrier, remainder decreases; recast replenishes without extra persistent shields. Armor buff lasts after barrier depletion. | PENDING |
 | W taunt | Normal creeps attack Sven, runners unaffected, boss duration25%. Expiry/purge/Sven death release owned forced attack. Two Svens recasting switch target correctly. | PENDING |
