@@ -1,8 +1,15 @@
 # Boss AI and Life Core navigation — 2026-10-02
 
-Result: PARTIAL — IMPLEMENTED BUT NOT ENGINE-VERIFIED. Native-kit assembly,
-resource existence and mock order tests pass. Actual Boss navigation, combat,
-VFX, audible SFX and animation remain PENDING.
+Result: PARTIAL — owner playtest reports the symptom appears resolved.
+Native-kit assembly, resource existence and mock order tests pass. Full Boss
+navigation/combat matrix, VFX, audible SFX and animation remain PENDING.
+
+Owner test follow-up (2026-10-02): after announcing an in-game test, the owner
+reported "düzelmiş gözüküyor" (appears fixed). Record this as qualitative owner
+runtime evidence for the reported symptom, not a measured ENGINE_PASS for all
+twelve Bosses. Tested hero/wave/team and individual movement, casting, effect,
+sound, animation and VConsole results were not specified. The earlier agent
+session limitations below remain historical evidence; full acceptance is open.
 
 ## Problem and evidence
 
