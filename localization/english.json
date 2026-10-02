@@ -1298,6 +1298,14 @@
     "DOTA_Tooltip_modifier_enfos_axe_culling_blade_buff": "Culling Blade — Victory",
     "DOTA_Tooltip_modifier_enfos_axe_culling_blade_buff_Description": "Movement speed increased by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%; attack speed increased by %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%.",
     "DOTA_Tooltip_modifier_enfos_axe_blood_armor_passive": "Blood Armor",
-    "DOTA_Tooltip_modifier_enfos_axe_blood_armor_passive_Description": "Armor increased by %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%; health regeneration increased by %dMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT%. Includes accumulated Blood Armor stacks. Break suppresses these bonuses and damage reflection."
+    "DOTA_Tooltip_modifier_enfos_axe_blood_armor_passive_Description": "Armor increased by %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%; health regeneration increased by %dMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT%. Includes accumulated Blood Armor stacks. Break suppresses these bonuses and damage reflection.",
+    "DOTA_Tooltip_modifier_enfos_legion_overwhelming_odds_buff": "Overwhelming Odds",
+    "DOTA_Tooltip_modifier_enfos_legion_overwhelming_odds_buff_Description": "Attack speed increased by %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%; movement speed increased by %fMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_legion_press_the_attack_buff": "Press the Attack",
+    "DOTA_Tooltip_modifier_enfos_legion_press_the_attack_buff_Description": "Health regeneration increased by %fMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT%; attack speed increased by %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%.",
+    "DOTA_Tooltip_modifier_enfos_legion_duel_buff": "Duel",
+    "DOTA_Tooltip_modifier_enfos_legion_duel_buff_Description": "Forced to fight the opposing Duel participant. Damage from attackers outside the Duel is reduced by %dMODIFIER_PROPERTY_TOOLTIP%%%. Ends when either participant dies or the duration expires.",
+    "DOTA_Tooltip_modifier_enfos_legion_commanders_banner_buff": "Commander's Banner",
+    "DOTA_Tooltip_modifier_enfos_legion_commanders_banner_buff_Description": "Base attack damage increased by %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%. Attacks grant lifesteal according to the aura's rank. Break on the aura source suppresses these bonuses."
   }
 }

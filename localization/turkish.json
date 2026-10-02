@@ -1669,6 +1669,14 @@
     "DOTA_Tooltip_modifier_enfos_axe_culling_blade_buff": "Culling Blade — Zafer",
     "DOTA_Tooltip_modifier_enfos_axe_culling_blade_buff_Description": "Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%, saldırı hızı %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT% artar.",
     "DOTA_Tooltip_modifier_enfos_axe_blood_armor_passive": "Blood Armor",
-    "DOTA_Tooltip_modifier_enfos_axe_blood_armor_passive_Description": "Zırh %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%, sağlık yenilenmesi %dMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT% artar. Biriken Blood Armor yükleri dahildir. Break bu bonusları ve hasar yansıtmayı devre dışı bırakır."
+    "DOTA_Tooltip_modifier_enfos_axe_blood_armor_passive_Description": "Zırh %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%, sağlık yenilenmesi %dMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT% artar. Biriken Blood Armor yükleri dahildir. Break bu bonusları ve hasar yansıtmayı devre dışı bırakır.",
+    "DOTA_Tooltip_modifier_enfos_legion_overwhelming_odds_buff": "Overwhelming Odds",
+    "DOTA_Tooltip_modifier_enfos_legion_overwhelming_odds_buff_Description": "Saldırı hızı %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%, hareket hızı %fMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% artar.",
+    "DOTA_Tooltip_modifier_enfos_legion_press_the_attack_buff": "Press the Attack",
+    "DOTA_Tooltip_modifier_enfos_legion_press_the_attack_buff_Description": "Sağlık yenilenmesi %fMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT%, saldırı hızı %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT% artar.",
+    "DOTA_Tooltip_modifier_enfos_legion_duel_buff": "Düello",
+    "DOTA_Tooltip_modifier_enfos_legion_duel_buff_Description": "Düellodaki rakibine saldırmak zorundadır. Düello dışındaki saldırganlardan alınan hasar %dMODIFIER_PROPERTY_TOOLTIP%%% azalır. Katılımcılardan biri öldüğünde veya süre dolduğunda sona erer.",
+    "DOTA_Tooltip_modifier_enfos_legion_commanders_banner_buff": "Komutanın Sancağı",
+    "DOTA_Tooltip_modifier_enfos_legion_commanders_banner_buff_Description": "Temel saldırı hasarı %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%% artar. Saldırılar auranın rütbesine göre can çalma sağlar. Aura kaynağındaki Kırılma bu bonusları devre dışı bırakır."
   }
 }

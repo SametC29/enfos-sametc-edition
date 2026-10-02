@@ -2423,6 +2423,7 @@ function enfos_legion_overwhelming_odds:OnSpellStart()
 end
 
 modifier_enfos_legion_overwhelming_odds_buff=class({})
+function modifier_enfos_legion_overwhelming_odds_buff:GetTexture() return 'legion_commander_overwhelming_odds' end
 function modifier_enfos_legion_overwhelming_odds_buff:DeclareFunctions()
     return { MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE }
 end
@@ -2462,6 +2463,7 @@ function enfos_legion_press_the_attack:OnSpellStart()
 end
 
 modifier_enfos_legion_press_the_attack_buff=class({})
+function modifier_enfos_legion_press_the_attack_buff:GetTexture() return 'legion_commander_press_the_attack' end
 function modifier_enfos_legion_press_the_attack_buff:GetEffectName() return 'particles/units/heroes/hero_legion_commander/legion_commander_press.vpcf' end
 function modifier_enfos_legion_press_the_attack_buff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_legion_press_the_attack_buff:DeclareFunctions()
@@ -2481,6 +2483,7 @@ enfos_legion_moment_of_courage=class({})
 function enfos_legion_moment_of_courage:GetIntrinsicModifierName() return 'modifier_enfos_legion_moment_of_courage_passive' end
 
 modifier_enfos_legion_moment_of_courage_passive=class({})
+function modifier_enfos_legion_moment_of_courage_passive:GetTexture() return 'legion_commander_moment_of_courage' end
 function modifier_enfos_legion_moment_of_courage_passive:IsPurgable() return false end
 function modifier_enfos_legion_moment_of_courage_passive:IsDebuff() return false end
 function modifier_enfos_legion_moment_of_courage_passive:DeclareFunctions()
@@ -2559,6 +2562,7 @@ function enfos_legion_duel:OnSpellStart()
 end
 
 modifier_enfos_legion_duel_buff=class({})
+function modifier_enfos_legion_duel_buff:GetTexture() return 'legion_commander_duel' end
 function modifier_enfos_legion_duel_buff:IsPurgable() return false end
 function modifier_enfos_legion_duel_buff:IsDebuff() return self:GetParent() ~= self:GetCaster() end
 function modifier_enfos_legion_duel_buff:CheckState()
@@ -2566,8 +2570,9 @@ function modifier_enfos_legion_duel_buff:CheckState()
         [MODIFIER_STATE_TAUNTED] = true, [MODIFIER_STATE_COMMAND_RESTRICTED] = true }
 end
 function modifier_enfos_legion_duel_buff:DeclareFunctions()
-    return { MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE, MODIFIER_EVENT_ON_DEATH }
+    return { MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE, MODIFIER_EVENT_ON_DEATH, MODIFIER_PROPERTY_TOOLTIP }
 end
+function modifier_enfos_legion_duel_buff:OnTooltip() return value(self:GetAbility(), 'outside_duel_damage_reduction_pct') end
 function modifier_enfos_legion_duel_buff:OnCreated(kv)
     self.target_idx = kv and kv.target_idx
     if not IsServer() then return end
@@ -2634,6 +2639,7 @@ function modifier_enfos_legion_commanders_banner_aura:GetAuraSearchType() return
 function modifier_enfos_legion_commanders_banner_aura:GetModifierAura() return 'modifier_enfos_legion_commanders_banner_buff' end
 
 modifier_enfos_legion_commanders_banner_buff=class({})
+function modifier_enfos_legion_commanders_banner_buff:GetTexture() return 'legion_commander_press_the_attack' end
 function modifier_enfos_legion_commanders_banner_buff:DeclareFunctions()
     return { MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE, MODIFIER_EVENT_ON_ATTACK_LANDED }
 end

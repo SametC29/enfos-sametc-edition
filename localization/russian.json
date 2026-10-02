@@ -1238,6 +1238,14 @@
     "DOTA_Tooltip_modifier_enfos_axe_culling_blade_buff": "Смертельный удар — Победа",
     "DOTA_Tooltip_modifier_enfos_axe_culling_blade_buff_Description": "Скорость передвижения увеличена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%, скорость атаки — на %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%.",
     "DOTA_Tooltip_modifier_enfos_axe_blood_armor_passive": "Кровавая броня",
-    "DOTA_Tooltip_modifier_enfos_axe_blood_armor_passive_Description": "Броня увеличена на %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%, восстановление здоровья — на %dMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT%. Накопленные заряды учтены. Истощение отключает эти бонусы и отражение урона."
+    "DOTA_Tooltip_modifier_enfos_axe_blood_armor_passive_Description": "Броня увеличена на %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%, восстановление здоровья — на %dMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT%. Накопленные заряды учтены. Истощение отключает эти бонусы и отражение урона.",
+    "DOTA_Tooltip_modifier_enfos_legion_overwhelming_odds_buff": "Подавляющее превосходство",
+    "DOTA_Tooltip_modifier_enfos_legion_overwhelming_odds_buff_Description": "Скорость атаки повышена на %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%; скорость передвижения — на %fMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_legion_press_the_attack_buff": "Прессинг",
+    "DOTA_Tooltip_modifier_enfos_legion_press_the_attack_buff_Description": "Восстановление здоровья повышено на %fMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT%; скорость атаки — на %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%.",
+    "DOTA_Tooltip_modifier_enfos_legion_duel_buff": "Дуэль",
+    "DOTA_Tooltip_modifier_enfos_legion_duel_buff_Description": "Вынужден атаковать противника по дуэли. Урон от остальных атакующих снижен на %dMODIFIER_PROPERTY_TOOLTIP%%%. Дуэль заканчивается при смерти любого участника или по истечении времени.",
+    "DOTA_Tooltip_modifier_enfos_legion_commanders_banner_buff": "Знамя командира",
+    "DOTA_Tooltip_modifier_enfos_legion_commanders_banner_buff_Description": "Базовый урон от атак повышен на %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%. Атаки дают вампиризм согласно уровню ауры. Истощение источника ауры отключает бонусы."
   }
 }
