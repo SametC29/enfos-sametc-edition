@@ -60,6 +60,8 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-02 source review: the installed hero KV maps its native sound bank to `soundevents/game_sounds_heroes/game_sounds_monkey_king.vsndevts`; the Enfos kit emits multiple `Hero_MonkeyKing` events but the bank was absent from startup precache. Added it. Native Boundless Strike AbilityDefinitions specify the distinct `ACT_DOTA_MK_STRIKE` gesture, which was missing from the custom ability KV and is now set. Native Primal Spring and Wukong's Command specify `ACT_INVALID`; no guessed animation was added for those conversions. Static checks cover Boundless Strike and bank registration; rendered gesture and live sound playback remain PENDING owner Dota/VConsole review.
+
 2026-09-30 Boundless Strike targeting repair: a cursor position equal to Monkey King's origin produced a zero-length direction. Lua now falls back to the caster's facing after flattening the vector to the ground plane. A mock regression sets facing along Y and confirms the strike hits the enemy along that line when the cursor is at the caster. The current hero-kit mock suite passes 191 tests. In-game targeting, display, animation, audio, damage balance and rank/HUD checks remain PENDING for owner testing.
 
 2026-09-30 static special-value repair: moved Lua-read values for all five Monkey King abilities from numbered `AbilitySpecial` to named `AbilityValues`, preserving ten-rank curves and scalars. Added a five-slot content contract. This addresses the value-loading failure observed on Sven in the installed Dota build; Monkey King gameplay, VFX, audio and summon behavior remain for the user to test in-game.

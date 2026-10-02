@@ -3894,6 +3894,7 @@
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_PHYSICAL"
 		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityTextureName"		"monkey_king_boundless_strike"
+		"AbilityCastAnimation"	"ACT_DOTA_MK_STRIKE"
 		"RequiredLevel"	"1"
 		"LevelsBetweenUpgrades"	"1"
 		"AbilityCastRange"			"1200"

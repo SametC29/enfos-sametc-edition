@@ -129,6 +129,13 @@ check('Ursa preserves native active-spell animations and preloads its native sou
   const soundLoop = startup.match(/for _,name in ipairs\(\{([^}]+)\}\) do\s*\n\s*PrecacheResource\("soundfile"[\s\S]*?\n\s*end/);
   if (!soundLoop || !/"ursa"/.test(soundLoop[1])) throw new Error('Ursa native sound bank is missing from startup precache');
 });
+check('Monkey King Boundless Strike keeps its native cast animation and sound bank is preloaded', () => {
+  const ability = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities.enfos_mk_boundless_strike;
+  if (ability.AbilityCastAnimation !== 'ACT_DOTA_MK_STRIKE') throw new Error('Boundless Strike must use the verified native staff-strike animation');
+  const startup = fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua', 'utf8');
+  const soundLoop = startup.match(/for _,name in ipairs\(\{([^}]+)\}\) do\s*\n\s*PrecacheResource\("soundfile"[\s\S]*?\n\s*end/);
+  if (!soundLoop || !/"monkey_king"/.test(soundLoop[1])) throw new Error('Monkey King native sound bank is missing from startup precache');
+});
 check('Lina exposes five ten-rank abilities, delayed Light Strike Array and a separate Enfos passive', () => {
   const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
   const curves = {

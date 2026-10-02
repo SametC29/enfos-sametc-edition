@@ -55,7 +55,7 @@ function Precache(context)
 			if definition.ProjectileModel then PrecacheResource("particle",definition.ProjectileModel,context) end
 		end
 	end
-	for _,name in ipairs({"sven","juggernaut","drowranger","lina","omniknight","centaur","skeletonking","phantom_assassin","zuus","tidehunter","dragon_knight","pudge","abyssal_underlord","ursa"}) do
+	for _,name in ipairs({"sven","juggernaut","drowranger","lina","omniknight","centaur","skeletonking","phantom_assassin","zuus","tidehunter","dragon_knight","pudge","abyssal_underlord","ursa","monkey_king"}) do
 		PrecacheResource("soundfile","soundevents/game_sounds_heroes/game_sounds_"..name..".vsndevts",context)
 	end
 	PrecacheResource("particle","particles/units/heroes/hero_sven/sven_warcry_buff.vpcf",context)
