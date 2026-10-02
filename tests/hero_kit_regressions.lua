@@ -2617,6 +2617,9 @@ test('Dazzle Poison Touch only refreshes and ramps slow on Dazzle attacks', func
 end)
 
 test('Dazzle Shallow Grave grants lethal-damage floor and configured healing amplification', function()
+    local old_create=ParticleManager.CreateParticle
+    local allocations=0
+    ParticleManager.CreateParticle=function() allocations=allocations+1; return 1 end
     local dazzle = create_mock_unit('npc_dota_hero_dazzle', 2, Vector(0, 0, 0))
     local ally = create_mock_unit('ally_grave', 2, Vector(100, 0, 0))
     local ab = enfos_dazzle_shallow_grave()
@@ -2624,9 +2627,14 @@ test('Dazzle Shallow Grave grants lethal-damage floor and configured healing amp
     ab.GetCursorTarget = function() return ally end
     ab.GetSpecialValueFor = function(_, key) return ({ duration = 5, heal_amp_pct = 30 })[key] or 0 end
     ab:OnSpellStart()
+    ParticleManager.CreateParticle=old_create
+    assert(allocations==0,'Grave protection effect must belong to its modifier rather than a released standalone allocation')
     local grave = ally:FindModifierByName('modifier_enfos_dazzle_shallow_grave_buff')
     assert(grave, 'Shallow Grave must apply its protective modifier to the friendly target')
     assert(grave:GetMinHealth() == 1, 'Shallow Grave must prevent lethal damage by holding the target at 1 health')
+    assert(grave:GetEffectName()=='particles/units/heroes/hero_dazzle/dazzle_shallow_grave.vpcf'
+        and grave:GetEffectAttachType()==PATTACH_ABSORIGIN_FOLLOW,'Grave must own its native protection effect')
+    assert(grave:IsPurgable()==false,'Grave protection must follow native non-dispellable policy')
     assert(grave:GetModifierHealAmplify_PercentageTarget() == 30, 'Shallow Grave must expose configured heal amplification')
 end)
 

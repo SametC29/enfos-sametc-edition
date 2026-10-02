@@ -3263,12 +3263,14 @@ function enfos_dazzle_shallow_grave:OnSpellStart()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or (t.IsNull and t:IsNull()) or not t:IsAlive() then return end
     if t.GetTeamNumber and c.GetTeamNumber and t:GetTeamNumber() ~= c:GetTeamNumber() then return end
     c:EmitSound('Hero_Dazzle.Shallow_Grave')
-    effect('particles/units/heroes/hero_dazzle/dazzle_shallow_grave.vpcf', t)
     t:AddNewModifier(c, self, 'modifier_enfos_dazzle_shallow_grave_buff', { duration = value(self, 'duration') })
     apply_dazzle_weave(c, t)
 end
 
 modifier_enfos_dazzle_shallow_grave_buff=class({})
+function modifier_enfos_dazzle_shallow_grave_buff:IsPurgable() return false end
+function modifier_enfos_dazzle_shallow_grave_buff:GetEffectName() return 'particles/units/heroes/hero_dazzle/dazzle_shallow_grave.vpcf' end
+function modifier_enfos_dazzle_shallow_grave_buff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_dazzle_shallow_grave_buff:DeclareFunctions()
     return { MODIFIER_PROPERTY_MIN_HEALTH, MODIFIER_PROPERTY_HEAL_AMPLIFY_PERCENTAGE_TARGET }
 end
