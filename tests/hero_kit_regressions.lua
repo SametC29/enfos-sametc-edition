@@ -5372,6 +5372,29 @@ test('Dragon Knight Elder Dragon Form swaps to the verified dragon model and res
     assert(dk.projectile_name == 'particles/units/heroes/hero_dragon_knight/test_original_projectile.vpcf', 'Form expiry restores the original ranged projectile')
 end)
 
+test('Dragon Knight form removal restores the previous attack capability and ignores removed owners', function()
+    local old_melee,old_ranged=DOTA_UNIT_CAP_MELEE_ATTACK,DOTA_UNIT_CAP_RANGED_ATTACK
+    DOTA_UNIT_CAP_MELEE_ATTACK,DOTA_UNIT_CAP_RANGED_ATTACK=1,2
+    for _,original in ipairs({DOTA_UNIT_CAP_RANGED_ATTACK,DOTA_UNIT_CAP_MELEE_ATTACK}) do
+        local dk=create_mock_unit('npc_dota_hero_dragon_knight',2,Vector(0,0,0))
+        local capability=original
+        dk.GetAttackCapability=function() return capability end
+        dk.SetAttackCapability=function(_,next_capability) capability=next_capability end
+        local mod=modifier_enfos_dk_elder_dragon_form_buff()
+        mod.GetParent=function() return dk end
+        mod:OnCreated()
+        assert(capability==DOTA_UNIT_CAP_RANGED_ATTACK)
+        mod:OnDestroy()
+        assert(capability==original,'Form removal must restore the captured attack capability, not force melee')
+        dk.IsNull=function() return true end
+        dk.SetAttackCapability=function() error('Removed parent reached capability setter') end
+        dk.GetAttackCapability=function() error('Removed parent reached capability getter') end
+        mod:OnCreated()
+        mod:OnDestroy()
+    end
+    DOTA_UNIT_CAP_MELEE_ATTACK,DOTA_UNIT_CAP_RANGED_ATTACK=old_melee,old_ranged
+end)
+
 test('Dragon Knight form splash survives lethal primary hits and rejects invalid attacks', function()
     local dk=create_mock_unit('npc_dota_hero_dragon_knight',2,Vector(0,0,0))
     local primary=create_mock_unit('primary',3,Vector(100,0,0))

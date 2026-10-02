@@ -1,5 +1,29 @@
 # Dragon Knight individual review — 2026-10-02
 
+## Form cleanup restoration decision — 2026-10-02
+
+PVE-CONVERT unchanged. OnCreated saves model/projectile but not attack capability;
+OnDestroy always sets melee. That does not restore a pre-existing ranged state.
+Installed MCP verifies server GetAttackCapability/SetAttackCapability signatures;
+the native form remains no-target/non-dispellable/ACT_INVALID. Save the actual
+pre-cast attack capability once in OnCreated and restore it on removal; keep a
+melee fallback only for absent getter in legacy test contexts. Null/removed
+parent on creation/removal must produce no handle calls. No refresh re-snapshot
+that would overwrite the original baseline. Regression must fail before repair
+on an originally ranged owner, then cover melee/ranged restoration and removed
+parent safely. Model/projectile behavior and statistics unchanged; simultaneous
+external transformation ownership and actual death/expiry remain engine tests.
+
+Result: pre-change test failed when an originally ranged owner was forced to
+melee; a separate pre-change run also reached a removed parent's setter.
+OnCreated now captures GetAttackCapability before the ranged swap; OnDestroy
+restores that snapshot and ignores removed/null parents. No OnRefresh snapshot
+was introduced. The regression explicitly defines distinct mock capabilities
+and exercises both cases (no empty ipairs over undefined constants); old model/
+projectile restoration tests remain passing. Full checks zero failures,316
+hero behavior mocks passing. Actual death/expiry, Refresher refresh, cosmetics,
+external transformations and reconnect/VConsole remain OWNER_RUNTIME PENDING.
+
 ## Passive source-eligibility decision — 2026-10-02
 
 Installed build remains6943 / SourceRevision11069754, verified from steam.inf.

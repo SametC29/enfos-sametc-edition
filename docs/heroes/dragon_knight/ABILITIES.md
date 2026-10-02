@@ -57,6 +57,14 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-02 form cleanup: Elder Dragon Form now captures/restores the previous
+attack capability, rather than forcing melee on removal, and avoids all getter/
+setter calls on removed/null parents. Installed MCP getter/setter signatures
+verified. Pre-change ranged-owner and removed-parent tests failed; repaired
+tests and existing model/projectile restoration pass (316 mocks, full checks
+zero failures). Native model/animation, death/expiry/refresh/cosmetics and
+interaction with other transformations remain owner engine tests.
+
 2026-10-02 passive validity repair: Dragon Blood and Wyrm Vigor now require a
 valid owner and learned live ability, preserving Break and illusion suppression.
 Rank0/source-removal mock reproduced a residual-bonus defect, including Dragon
