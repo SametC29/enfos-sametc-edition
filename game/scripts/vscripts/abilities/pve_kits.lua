@@ -6830,7 +6830,7 @@ function enfos_ss_fowl_play:GetIntrinsicModifierName() return 'modifier_enfos_ss
 
 modifier_enfos_ss_fowl_play_passive=class({})
 function modifier_enfos_ss_fowl_play_passive:DeclareFunctions()
-    return { MODIFIER_PROPERTY_MIN_HEALTH, MODIFIER_EVENT_ON_TAKEDAMAGE }
+    return { MODIFIER_PROPERTY_MIN_HEALTH, MODIFIER_EVENT_ON_TAKEDAMAGE, MODIFIER_EVENT_ON_RESPAWN }
 end
 function modifier_enfos_ss_fowl_play_passive:GetMinHealth()
     local a = self:GetAbility()
@@ -6838,6 +6838,11 @@ function modifier_enfos_ss_fowl_play_passive:GetMinHealth()
     if not a or not c or (c.IsNull and c:IsNull()) or (c.IsIllusion and c:IsIllusion())
         or (c.PassivesDisabled and c:PassivesDisabled()) then return 0 end
     return a:IsCooldownReady() and 1 or 0
+end
+function modifier_enfos_ss_fowl_play_passive:OnRespawn(event)
+    if not IsServer() or not event or event.unit ~= self:GetParent() then return end
+    local a = self:GetAbility()
+    if a and not (a.IsNull and a:IsNull()) and a.EndCooldown then a:EndCooldown() end
 end
 function modifier_enfos_ss_fowl_play_passive:OnTakeDamage(event)
     if not IsServer() or not event or event.unit ~= self:GetParent() or (event.damage or 0) <= 0 then return end

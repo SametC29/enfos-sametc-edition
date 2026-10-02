@@ -1064,6 +1064,7 @@ test('Shadow Shaman Fowl Play saves lethal damage with native chicken identity, 
     local cooldownReady, cooldownStarts = true, 0
     ability.IsCooldownReady = function() return cooldownReady end
     ability.StartCooldown = function(_, duration) cooldownReady = false; cooldownStarts = cooldownStarts + 1; ability.cooldown = duration end
+    ability.EndCooldown = function() cooldownReady = true end
     ability.GetSpecialValueFor = function(_, key) return ({ cooldown = 45, duration = 6, bonus_ms = 160, damage_reduction_duration = 1, damage_reduction_pct = 100 })[key] or 0 end
     local purgeArgs
     shaman.Purge = function(_, ...) purgeArgs = { ... } end
@@ -1090,7 +1091,8 @@ test('Shadow Shaman Fowl Play saves lethal damage with native chicken identity, 
     assert(passive:GetMinHealth() == 0, 'the minimum-health guard ends while the ability is on cooldown')
     passive:OnTakeDamage({ unit = shaman, damage = 1 })
     assert(cooldownStarts == 1, 'the same cooldown cannot trigger twice')
-    cooldownReady = true
+    passive:OnRespawn({ unit = shaman })
+    assert(cooldownReady and passive:GetMinHealth() == 1, 'native Fowl Play resets its cooldown when Shadow Shaman respawns')
     shaman.PassivesDisabled = function() return true end
     assert(passive:GetMinHealth() == 0, 'Break should disable the native breakable innate')
     shaman.PassivesDisabled = function() return false end
