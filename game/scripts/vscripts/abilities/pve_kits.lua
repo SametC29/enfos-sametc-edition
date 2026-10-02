@@ -325,6 +325,7 @@ local modifier_list = {
     'modifier_enfos_ss_shackles_debuff',
     'modifier_enfos_ss_fowl_play_passive',
     'modifier_enfos_ss_fowl_play_buff',
+    'modifier_enfos_ss_fowl_play_guard',
     'modifier_enfos_lion_earth_spike_stun',
     'modifier_enfos_lion_hex_debuff',
     'modifier_enfos_lion_mana_drain_channel',
@@ -6833,22 +6834,43 @@ function modifier_enfos_ss_fowl_play_passive:DeclareFunctions()
 end
 function modifier_enfos_ss_fowl_play_passive:GetMinHealth()
     local a = self:GetAbility()
-    return a and a:IsCooldownReady() and 1 or 0
+    local c = self:GetParent()
+    if not a or not c or (c.IsNull and c:IsNull()) or (c.IsIllusion and c:IsIllusion())
+        or (c.PassivesDisabled and c:PassivesDisabled()) then return 0 end
+    return a:IsCooldownReady() and 1 or 0
 end
 function modifier_enfos_ss_fowl_play_passive:OnTakeDamage(event)
     if not IsServer() or not event or event.unit ~= self:GetParent() or (event.damage or 0) <= 0 then return end
     local c = self:GetParent()
     local a = self:GetAbility()
-    if not c or c:IsNull() or not c:IsAlive() or c:GetHealth() > 1 or not a or not a:IsCooldownReady() then return end
+    if not c or c:IsNull() or not c:IsAlive() or c:GetHealth() > 1 or (c.IsIllusion and c:IsIllusion())
+        or (c.PassivesDisabled and c:PassivesDisabled()) or not a or not a:IsCooldownReady() then return end
 
-    -- Spend the once-per-cooldown save only after MIN_HEALTH actually kept a lethal hit at 1 HP.
+    -- Match native Fowl Play's strong dispel, brief damage immunity and chicken escape.
+    if c.Purge then c:Purge(false, true, false, true, true) end
     a:StartCooldown(value(a, 'cooldown'))
     c:AddNewModifier(c, a, 'modifier_enfos_ss_fowl_play_buff', { duration = value(a, 'duration') })
+    c:AddNewModifier(c, a, 'modifier_enfos_ss_fowl_play_guard', { duration = value(a, 'damage_reduction_duration') })
 end
 
 modifier_enfos_ss_fowl_play_buff=class({})
-function modifier_enfos_ss_fowl_play_buff:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT } end
+function modifier_enfos_ss_fowl_play_buff:IsPurgable() return false end
+function modifier_enfos_ss_fowl_play_buff:RemoveOnDeath() return true end
+function modifier_enfos_ss_fowl_play_buff:DeclareFunctions()
+    return { MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT, MODIFIER_PROPERTY_MODEL_CHANGE }
+end
 function modifier_enfos_ss_fowl_play_buff:GetModifierMoveSpeedBonus_Constant() return value(self:GetAbility(), 'bonus_ms') end
+function modifier_enfos_ss_fowl_play_buff:GetModifierModelChange() return 'models/props_gameplay/chicken.vmdl' end
+function modifier_enfos_ss_fowl_play_buff:GetTexture() return 'shadow_shaman_fowl_play' end
+
+modifier_enfos_ss_fowl_play_guard=class({})
+function modifier_enfos_ss_fowl_play_guard:IsHidden() return true end
+function modifier_enfos_ss_fowl_play_guard:IsPurgable() return false end
+function modifier_enfos_ss_fowl_play_guard:RemoveOnDeath() return true end
+function modifier_enfos_ss_fowl_play_guard:DeclareFunctions() return { MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE } end
+function modifier_enfos_ss_fowl_play_guard:GetModifierIncomingDamage_Percentage()
+    return -math.max(0, math.min(100, value(self:GetAbility(), 'damage_reduction_pct')))
+end
 
 -- ----------------------------------------------------------------------------
 -- LION: EARTH SPIKE, HEX, MANA DRAIN, FINGER OF DEATH, DEMON SOUL

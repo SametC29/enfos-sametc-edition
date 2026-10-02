@@ -241,11 +241,11 @@ Change/test record: all five slots have MaxLevel 10; all multirank KV values hav
 
 ## Slot 5: `enfos_ss_fowl_play`
 
-Classification: REPLACE
-Native counterpart: `Project Fowl Play passive; native innate metadata kept separate` (installed native snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot mapping is authored).
-Decision and PvE identity rationale: REPLACE because this Enfos-authored passive has no one-to-one native counterpart; Dota innate metadata remains a separate ability.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `shadow_shaman_fowl_play`, installed Dota6943 / SourceRevision11069754, `Innate=1`, `IsBreakable=1`, passive. Native AbilityValues: 3s chicken transformation, +5% movement speed per5 hero levels, one chicken per6 hero levels, one second of100% incoming-damage reduction,0.1s invulnerability and120s cooldown (native shard adds invulnerability/chickens and item-use behavior). Enfos maps this innate identity to stable slot5 and its own rank10/cooldown curve.
+Decision and PvE identity rationale: PVE-CONVERT preserves the lethal-save fantasy for long PvE fights and the authored rank10 movement/cooldown curve; it now also uses strong dispel, the Valve chicken model and one second of full damage reduction. Additional chicken units, respawn cooldown reset and Shard-specific chickens are not implemented and remain explicit gaps.
+Expected behavior: while ready and not Broken, a lethal damage event is held at1 health. The server strongly dispels debuffs, starts the rank cooldown, applies a chicken model/movement buff and a separate1-second full damage guard. Both effects expire safely on duration/death. No particle or Fowl Play-specific sound is present in the current native source; chicken model/icon are Valve assets. Actual lethal ordering, model restoration, status effects and cooldown presentation are ENGINE PENDING.
+Normal creep / elite / boss, immunity / dispel / resistance rules: self-only lethal save, so incoming unit class is not filtered. Boss damage is blocked for the same1-second guard; this is strong by design but must be checked in owner boss test. Strong dispel uses the current server API `Purge(false,true,false,true,true)`.
 Current/target rank: each Enfos slot has ten explicit KV levels. The match is capped at level 50; Q/W/E/R require 40 paid ranks total and passive ranks 2–10 require nine more; the fifth slot rank 1 is free, for 49 spendable points overall. Rank-up HUD/runtime acceptance remains pending.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
@@ -264,18 +264,18 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Static conversion reviewed against native lethal-save values; Dota death prevention and damage callback ordering still require owner test. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | Separate passive rank 1 grant retained; ranks 2–10 gates declared; HUD/point behavior remains PENDING. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
+| VFX | PENDING | Uses installed Valve chicken model `models/props_gameplay/chicken.vmdl` via modifier-owned model property and native icon `shadow_shaman_fowl_play`; appearance/restoration requires Dota test. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
+| Modifiers | PENDING | Intrinsic checks cooldown/Break/illusion; nonpurgable chicken buff and one-second nonpurgable damage guard are explicitly linked. Engine behavior pending. |
+| Precache | PENDING | Chicken model declared in ability KV; cold-start pending. |
+| Cleanup | PENDING | Both owned modifiers expire/remove on death; model restoration and repeated lethal events pending engine test. |
 | Boss | PENDING | Not evaluated in this dossier setup. |
-| Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Upgrades | PENDING | Shared Support Shard gives role-wide healing bonus; no extra Fowl Play chicken upgrade. Global Scepter effects do not change this passive. |
+| Localization | PENDING | EN/TR/RU/zh-CN source tooltips describe lethal save, strong dispel, chicken transformation, movement and damage reduction; inspect in Dota. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
@@ -297,3 +297,5 @@ PVE-CONVERT remains. Decoded6943 root game config/model verifies both hands atta
 PVE-CONVERT remains. Native6943 YES_STRONG now maps to explicit basic-purge false/strong true/stun identity and matching metadata. Recipient removal ends only its caster/target/ability/cast-generation channel; per-ability serial pairs both modifiers and refresh updates serial. Normal channel teardown clears pair before removing recipient, preventing recursive cancellation; stale same-target callback cannot interrupt newer cast. Missing recipient creation aborts before channel. Cast/recipient teardown and deleted source/ability guarded. Full checks286behavior regressions,zero failures; actual engine strong dispel/death/refresh/interrupt ordering remains owner pending. Hero-wide review still IN PROGRESS.
 
 2026-10-02 Mass Serpent Ward source audit: installed Dota6943 native identity, stationary ranged serpent-ward unit, native attack projectile/sound set, rank values, shared summon ownership, owner/recast cleanup, reward flags and current generic Aghanim effects are recorded in the individual review ledger. Added the model-verified native `ACT_DOTA_CAST_ABILITY_4` cast activity; corrected all four source locale tooltips to show KV-driven ward count, duration, health and rank damage (English/Russian/Chinese had stale hardcoded values). Focused regression and full checks passed. Actual control/order-vs-auto-acquire, boss damage, native serpent unit health/damage semantics, bounty, visual/audio and cold-start behavior remain owner ENGINE PENDING; this does not close Shadow Shaman.
+
+2026-10-02 native innate Fowl Play repair: Dota6943 identifies Fowl Play as Shadow Shaman's breakable innate. The custom slot previously prevented death and granted speed only. It now strongly dispels debuffs, shows Valve's chicken model, gives the native one-second full damage reduction window, and gates the save on Break/cooldown/real hero; the missing modifier link and model precache are supplied. Rank-tuned Enfos cooldown/movement remain. Additional native chickens and respawn cooldown reset are still gaps. Mock acceptance passes; lethal damage/death ordering, purge, model restitution, Boss interactions and cooldown-on-respawn remain owner engine test pending.

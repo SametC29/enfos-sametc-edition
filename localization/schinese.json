@@ -830,6 +830,8 @@
     "evo_cataclysm_echo": "灾变回响",
     "evo_cataclysm_echo_desc": "击杀的波次小兵爆炸，对350范围造成其最大生命25%的魔法伤害。不会连锁触发。",
     "DOTA_Tooltip_Ability_enfos_wk_skeleton_army_Description": "Wraith King 击杀敌人可积攒召唤次数，最多{{max_skeletons}}次。主动召唤{{minimum_skeletons}}至{{max_skeletons}}个可操控骷髅，持续{{summon_duration}}秒，并替换上一组。每个骷髅攻击力为{{skeleton_base_damage}} + 力量 × {{skeleton_strength_damage_factor}}，生命值为{{skeleton_base_health}} + 力量 × {{skeleton_strength_health_factor}}。",
+    "DOTA_Tooltip_Ability_enfos_ss_fowl_play": "鸡飞狗跳（Fowl Play）",
+    "DOTA_Tooltip_Ability_enfos_ss_fowl_play_Description": "致命一击即将杀死你时，你会以1点生命值存活，强力驱散负面效果并变成小鸡。获得{{bonus_ms}}移动速度，持续{{duration}}秒；受到的伤害降低{{damage_reduction_pct}}%，持续{{damage_reduction_duration}}秒。冷却时间：{{cooldown}}秒。",
     "DOTA_Tooltip_Ability_enfos_ss_mass_serpent_ward_Description": "在目标点召唤{{ward_count}}个可操控的固定蛇棒，持续{{ward_duration}}秒并替换上一组。每个蛇棒拥有{{ward_health}}生命值，攻击造成{{ward_damage}} + 0.4 × 智力的物理伤害。",
     "DOTA_Tooltip_Ability_enfos_ck_phantasm_Description": "{{duration}} sn boyunca {{illusion_count}} kontrol edilebilir kopya çağırır. Kopyalar %{{illusion_outgoing_pct}} hasar verir ve %200 hasar alır. Chaos Knight ayrıca +{{bonus_damage}} saldırı hasarı ve her vuruşta %{{echo_damage_pct}} yankı hasarı kazanır; yeni kullanım eski kopyaları temizler.",
     "DOTA_Tooltip_Ability_enfos_tb_conjure_image_Description": "制造2个可操控幻象，持续30秒。造成50%伤害，承受300%伤害，并替换上一组。",

@@ -733,7 +733,7 @@
     "DOTA_Tooltip_Ability_enfos_ss_mass_serpent_ward": "Yılan Totemleri (Mass Serpent Ward)",
     "DOTA_Tooltip_Ability_enfos_ss_mass_serpent_ward_Description": "Seçilen noktaya {{ward_count}} yılan totemi çağırır. {{ward_duration}} saniye sürer; her totem {{ward_health}} cana ve {{ward_damage}} + Zekâ × 0,4 saldırı hasarına sahiptir. Yeni kullanım önceki grubu kaldırır.",
     "DOTA_Tooltip_Ability_enfos_ss_fowl_play": "Kuş Oyunu (Fowl Play)",
-    "DOTA_Tooltip_Ability_enfos_ss_fowl_play_Description": "Ölümcül bir darbe aldığında Shaman'ı 1 canla hayatta tutar ve {{duration}} saniye boyunca {{bonus_ms}} hareket hızı verir. Yeniden tetiklenmesi {{cooldown}} saniye sürer.",
+    "DOTA_Tooltip_Ability_enfos_ss_fowl_play_Description": "Ölümcül bir darbe seni öldürecekken 1 canla hayatta kal, olumsuz etkileri güçlü biçimde temizle ve tavuğa dönüş. {{duration}} saniye boyunca {{bonus_ms}} hareket hızı kazan; {{damage_reduction_duration}} saniye boyunca gelen hasar %{{damage_reduction_pct}} azalır. Bekleme süresi: {{cooldown}} saniye.",
     "DOTA_Tooltip_Ability_enfos_tide_gush": "Su Fışkırtması",
     "DOTA_Tooltip_Ability_enfos_tide_gush_Description": "Bir düşmana {{gush_damage}} + Güç × {{strength_factor}} büyü hasarı verir; zırhını {{armor_reduction}}, hareket hızını {{slow_pct}}% azaltır. Etkiler {{duration}} saniye sürer. Büyü kalkanı bu kullanımı engeller.",
     "DOTA_Tooltip_Ability_enfos_tide_kraken_shell": "Kraken Kabuğu",

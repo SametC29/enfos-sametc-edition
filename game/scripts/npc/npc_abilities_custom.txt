@@ -3264,9 +3264,14 @@
 	"enfos_ss_fowl_play"
 	{
 		"HasShardUpgrade" "1"
+		"IsBreakable" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"shadow_shaman_fowl_play"
+		"precache"
+		{
+			"model" "models/props_gameplay/chicken.vmdl"
+		}
 		"RequiredLevel"	"1"
 		"LevelsBetweenUpgrades"	"1"
 		"MaxLevel"					"10"
@@ -3275,6 +3280,8 @@
 			"duration" "4 4.3 4.6 4.9 5.2 5.5 5.8 6.1 6.4 6.7"
 			"cooldown" "90 85 80 75 70 65 60 55 50 45"
 			"bonus_ms" "100 110 120 130 140 150 160 170 180 190"
+			"damage_reduction_duration" "1"
+			"damage_reduction_pct" "100"
 		}
 		"ScriptFile"				"abilities/pve_kits"
 	}

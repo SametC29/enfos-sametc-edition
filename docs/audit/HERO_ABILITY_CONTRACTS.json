@@ -2108,7 +2108,9 @@
           "specials": {
             "duration": "4 4.3 4.6 4.9 5.2 5.5 5.8 6.1 6.4 6.7",
             "cooldown": "90 85 80 75 70 65 60 55 50 45",
-            "bonus_ms": "100 110 120 130 140 150 160 170 180 190"
+            "bonus_ms": "100 110 120 130 140 150 160 170 180 190",
+            "damage_reduction_duration": "1",
+            "damage_reduction_pct": "100"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],

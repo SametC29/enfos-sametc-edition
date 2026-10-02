@@ -1058,13 +1058,15 @@ test('Shadow Shaman Hex only presents successful enemy casts and uses recipient 
     assert(created==1 and impact==1,'failed, allied or absorbed casts cannot show success feedback')
 end)
 
-test('Shadow Shaman Fowl Play does not consume its save until lethal damage is prevented', function()
+test('Shadow Shaman Fowl Play saves lethal damage with native chicken identity, strong dispel and brief protection', function()
     local shaman = create_mock_unit('npc_dota_hero_shadow_shaman', 2, Vector(0, 0, 0), 1000)
     local ability = enfos_ss_fowl_play()
     local cooldownReady, cooldownStarts = true, 0
     ability.IsCooldownReady = function() return cooldownReady end
     ability.StartCooldown = function(_, duration) cooldownReady = false; cooldownStarts = cooldownStarts + 1; ability.cooldown = duration end
-    ability.GetSpecialValueFor = function(_, key) return ({ cooldown = 45, duration = 6, bonus_ms = 160 })[key] or 0 end
+    ability.GetSpecialValueFor = function(_, key) return ({ cooldown = 45, duration = 6, bonus_ms = 160, damage_reduction_duration = 1, damage_reduction_pct = 100 })[key] or 0 end
+    local purgeArgs
+    shaman.Purge = function(_, ...) purgeArgs = { ... } end
     local passive = setmetatable({
         GetParent = function() return shaman end,
         GetAbility = function() return ability end,
@@ -1077,10 +1079,23 @@ test('Shadow Shaman Fowl Play does not consume its save until lethal damage is p
     shaman.hp = 1
     passive:OnTakeDamage({ unit = shaman, damage = 999 })
     assert(cooldownStarts == 1 and not cooldownReady, 'a prevented lethal hit must start the cooldown')
-    assert(shaman:HasModifier('modifier_enfos_ss_fowl_play_buff'), 'the save grants its movement buff')
+    assert(purgeArgs and purgeArgs[1] == false and purgeArgs[2] == true and purgeArgs[4] == true and purgeArgs[5] == true,
+        'Fowl Play should perform the native strong debuff dispel')
+    assert(shaman:HasModifier('modifier_enfos_ss_fowl_play_buff'), 'the save grants its movement and chicken transformation buff')
+    assert(shaman:HasModifier('modifier_enfos_ss_fowl_play_guard'), 'the save grants brief damage protection')
+    local buff = shaman:FindModifierByName('modifier_enfos_ss_fowl_play_buff')
+    assert(buff:GetModifierModelChange() == 'models/props_gameplay/chicken.vmdl', 'Fowl Play should use the verified native chicken model')
+    local guard = shaman:FindModifierByName('modifier_enfos_ss_fowl_play_guard')
+    assert(guard:GetModifierIncomingDamage_Percentage() == -100, 'full KV damage reduction should make the brief guard block incoming damage')
     assert(passive:GetMinHealth() == 0, 'the minimum-health guard ends while the ability is on cooldown')
     passive:OnTakeDamage({ unit = shaman, damage = 1 })
     assert(cooldownStarts == 1, 'the same cooldown cannot trigger twice')
+    cooldownReady = true
+    shaman.PassivesDisabled = function() return true end
+    assert(passive:GetMinHealth() == 0, 'Break should disable the native breakable innate')
+    shaman.PassivesDisabled = function() return false end
+    shaman.IsIllusion = function() return true end
+    assert(passive:GetMinHealth() == 0, 'hero illusions should not inherit the real hero lethal save')
 end)
 
 test('Shadow Shaman Shackles stops invalid channel sources and rejects stale post-damage healing', function()
