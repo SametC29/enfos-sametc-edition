@@ -6876,10 +6876,12 @@ function modifier_enfos_ss_fowl_play_passive:OnTakeDamage(event)
         or (a.IsNull and a:IsNull()) or a:GetLevel() <= 0 or not a:IsCooldownReady() then return end
 
     -- Match native Fowl Play's strong dispel, brief damage immunity and chicken escape.
-    if c.Purge then c:Purge(false, true, false, true, true) end
+    -- Consume first: strong-purge removal callbacks may synchronously deal damage.
     a:StartCooldown(value(a, 'cooldown'))
-    c:AddNewModifier(c, a, 'modifier_enfos_ss_fowl_play_buff', { duration = value(a, 'duration') })
     c:AddNewModifier(c, a, 'modifier_enfos_ss_fowl_play_guard', { duration = value(a, 'damage_reduction_duration') })
+    if c.Purge then c:Purge(false, true, false, true, true) end
+    if c:IsNull() or not c:IsAlive() or (a.IsNull and a:IsNull()) then return end
+    c:AddNewModifier(c, a, 'modifier_enfos_ss_fowl_play_buff', { duration = value(a, 'duration') })
 end
 
 modifier_enfos_ss_fowl_play_buff=class({})

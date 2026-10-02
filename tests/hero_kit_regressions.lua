@@ -1124,6 +1124,35 @@ test('Shadow Shaman Fowl Play cannot protect with an unlearned or deleted abilit
     assert(saves == 0, 'deleted passive cannot spend a save')
 end)
 
+test('Shadow Shaman Fowl Play consumes its save before purge callbacks and rejects deleted sources afterward', function()
+    for _, mode in ipairs({'reentrant_damage','removed_ability','removed_hero'}) do
+        local hero = create_mock_unit('npc_dota_hero_shadow_shaman',2,Vector(0,0,0))
+        hero.hp = 1
+        local a = enfos_ss_fowl_play()
+        local ready, removedAbility, removedHero, starts, purges = true,false,false,0,0
+        a.GetLevel=function() return 1 end
+        a.IsNull=function() return removedAbility end
+        hero.IsNull=function() return removedHero end
+        a.IsCooldownReady=function() assert(not removedAbility); return ready end
+        a.StartCooldown=function() assert(not removedAbility); ready=false; starts=starts+1 end
+        a.GetSpecialValueFor=function() assert(not removedAbility); return 1 end
+        local passive=setmetatable({GetParent=function() return hero end,GetAbility=function() return a end},modifier_enfos_ss_fowl_play_passive)
+        hero.Purge=function()
+            purges=purges+1
+            if mode=='reentrant_damage' and purges==1 then passive:OnTakeDamage({unit=hero,damage=5}) end
+            if mode=='removed_ability' then removedAbility=true end
+            if mode=='removed_hero' then removedHero=true end
+        end
+        local baseAdd=hero.AddNewModifier
+        hero.AddNewModifier=function(self,caster,ability,name,kv)
+            assert(not removedHero and not removedAbility,'Purge callbacks may invalidate the source before buffs are granted')
+            return baseAdd(self,caster,ability,name,kv)
+        end
+        passive:OnTakeDamage({unit=hero,damage=100})
+        assert(starts==1 and purges==1,'One lethal save cannot re-enter itself through strong-dispel callbacks')
+    end
+end)
+
 test('Shadow Shaman Shackles stops invalid channel sources and rejects stale post-damage healing', function()
     for _, state in ipairs({'dead_source','deleted_source','deleted_ability','source_deleted_by_damage'}) do
         local hero = create_mock_unit('npc_dota_hero_shadow_shaman',2,Vector(0,0,0))

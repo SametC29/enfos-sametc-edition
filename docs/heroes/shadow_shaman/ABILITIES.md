@@ -57,6 +57,8 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-02 Fowl Play purge ordering: cooldown and short damage guard are established before strong-dispel callbacks; source/ability are revalidated afterward before chicken transformation. A pre-change nested-damage regression triggered two saves, and deleted-source cases reached unsafe calls. Mock regression covers all three cases; actual Dota callback ordering still requires owner verification.
+
 2026-10-02 shared summon reward repair: `Summons:Own` now zeros native minimum/maximum gold bounty and death XP in addition to the addon no-reward flags. Native reward handling does not consult those custom flags. Player ownership/control and group registration remain intact; combat/rank classification is unchanged. Pre-change ward/illusion bounty regression failed; the repaired behavior is MOCK_PASS, with actual enemy kill rewards and owner control still ENGINE PENDING.
 
 2026-10-02 Sol re-review: Fowl Play previously supplied a 1 HP floor even at rank 0 and queried cooldown on removed ability handles. Its property, damage and respawn callbacks now reject unlearned/deleted abilities. Regression reproduced the failure before repair; 292 hero-kit mock tests pass afterward. See the individual review ledger for remaining native-mechanic, upgrade and ward-economy gaps. Owner Dota lethal ordering and VConsole validation remain PENDING; this is not hero-wide completion.
