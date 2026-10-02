@@ -3788,6 +3788,8 @@ end
 
 modifier_enfos_tide_gush_debuff=class({})
 function modifier_enfos_tide_gush_debuff:IsDebuff() return true end
+function modifier_enfos_tide_gush_debuff:IsPurgable() return true end
+function modifier_enfos_tide_gush_debuff:IsPurgeException() return false end
 function modifier_enfos_tide_gush_debuff:DeclareFunctions()
     return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS, MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE }
 end
@@ -3810,6 +3812,7 @@ local function tide_passive_sources(modifier)
 end
 
 modifier_enfos_tide_kraken_shell_passive=class({})
+function modifier_enfos_tide_kraken_shell_passive:IsPurgable() return false end
 function modifier_enfos_tide_kraken_shell_passive:DeclareFunctions()
     return {
         MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK,
@@ -3899,6 +3902,8 @@ end
 
 modifier_enfos_tide_anchor_smash_debuff=class({})
 function modifier_enfos_tide_anchor_smash_debuff:IsDebuff() return true end
+function modifier_enfos_tide_anchor_smash_debuff:IsPurgable() return true end
+function modifier_enfos_tide_anchor_smash_debuff:IsPurgeException() return false end
 function modifier_enfos_tide_anchor_smash_debuff:DeclareFunctions()
     return { MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE }
 end
@@ -3941,6 +3946,9 @@ end
 
 modifier_enfos_tide_ravage_stun=class({})
 function modifier_enfos_tide_ravage_stun:IsDebuff() return true end
+function modifier_enfos_tide_ravage_stun:IsPurgable() return false end
+function modifier_enfos_tide_ravage_stun:IsPurgeException() return true end
+function modifier_enfos_tide_ravage_stun:IsStunDebuff() return true end
 function modifier_enfos_tide_ravage_stun:CheckState() return { [MODIFIER_STATE_STUNNED] = true } end
 
 enfos_tide_colossal_presence=class({})
@@ -3948,6 +3956,7 @@ function enfos_tide_colossal_presence:GetIntrinsicModifierName() return 'modifie
 
 modifier_enfos_tide_colossal_presence_aura=class({})
 function modifier_enfos_tide_colossal_presence_aura:IsHidden() return true end
+function modifier_enfos_tide_colossal_presence_aura:IsPurgable() return false end
 function modifier_enfos_tide_colossal_presence_aura:IsAura()
     return tide_passive_sources(self) ~= nil
 end

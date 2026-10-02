@@ -3689,6 +3689,22 @@ test('Tidehunter Shard replaces generic tank health and reflection while other t
     name='npc_dota_hero_axe';assert(m:GetModifierHealthBonus()==350 and not m:IsHidden())
 end)
 
+test('Tidehunter modifiers declare basic, strong-only and intrinsic dispel policies', function()
+    for _,cls in ipairs({modifier_enfos_tide_gush_debuff,modifier_enfos_tide_anchor_smash_debuff}) do
+        local m=cls()
+        assert(m.IsPurgable and m:IsPurgable()==true,'Ordinary Tidehunter debuffs must explicitly allow basic dispel')
+        assert(m.IsPurgeException and m:IsPurgeException()==false)
+    end
+    local stun=modifier_enfos_tide_ravage_stun()
+    assert(stun.IsPurgable and stun:IsPurgable()==false,'Ravage cannot be removed by basic dispel')
+    assert(stun.IsPurgeException and stun:IsPurgeException()==true,'Strong dispel must remove Ravage stun')
+    assert(stun.IsStunDebuff and stun:IsStunDebuff()==true)
+    for _,cls in ipairs({modifier_enfos_tide_kraken_shell_passive,modifier_enfos_tide_colossal_presence_aura}) do
+        local m=cls()
+        assert(m.IsPurgable and m:IsPurgable()==false,'Intrinsic Tidehunter passives use Break, not ordinary purge removal')
+    end
+end)
+
 test('Tidehunter Ravage supplies five decoded ring radii at a fixed cast origin', function()
     local oldManager=ParticleManager;local controls={};local released=0
     ParticleManager={

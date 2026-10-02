@@ -302,6 +302,9 @@ test('Tidehunter rank gates fit all ten ability ranks inside the match level cap
 });
 test('Tidehunter active abilities preserve verified native cast presentation metadata',()=>{
   const abilities=read('npc_abilities_custom.txt').DOTAAbilities;
+  for(const name of ['enfos_tide_gush','enfos_tide_anchor_smash'])assert.equal(abilities[name].SpellDispellableType,'SPELL_DISPELLABLE_YES');
+  assert.equal(abilities.enfos_tide_ravage.SpellDispellableType,'SPELL_DISPELLABLE_YES_STRONG');
+  for(const name of ['enfos_tide_kraken_shell','enfos_tide_colossal_presence'])assert.equal(abilities[name].SpellDispellableType,'SPELL_DISPELLABLE_NO');
   assert.equal(abilities.enfos_tide_gush.AbilityCastAnimation,'ACT_DOTA_CAST_ABILITY_1');
   assert.equal(abilities.enfos_tide_gush.AbilitySound,'Ability.GushCast');
   assert.equal(abilities.enfos_tide_anchor_smash.AbilityCastAnimation,'ACT_DOTA_CAST_ABILITY_3');

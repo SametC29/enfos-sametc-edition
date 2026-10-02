@@ -3295,6 +3295,7 @@
 	// =========================================================================
 	"enfos_tide_gush"
 	{
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES"
 		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
@@ -3330,6 +3331,7 @@
 
 	"enfos_tide_kraken_shell"
 	{
+		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
 		"HasShardUpgrade" "1"
 		"IsBreakable" "1"
 		"BaseClass"					"ability_lua"
@@ -3353,6 +3355,7 @@
 
 	"enfos_tide_anchor_smash"
 	{
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_PHYSICAL"
@@ -3378,6 +3381,7 @@
 
 	"enfos_tide_ravage"
 	{
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES_STRONG"
 		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
@@ -3405,6 +3409,7 @@
 
 	"enfos_tide_colossal_presence"
 	{
+		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
 		"IsBreakable" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
