@@ -22,7 +22,7 @@ Per hero: read its instructions/dossier; compare installed native definitions; t
 | 12 | Wraith King | SOURCE REVIEW COMPLETE / ENGINE PENDING — Q/Rlethal and stale guards, critical attack records, lethal lifesteal, finite/model-bound effects, casts/dispel/bank, summon payouts and four-locale modifier/DoT text repaired; individual ledger retains owner gates |
 | 13 | Phantom Assassin | SOURCE REVIEW COMPLETE / ENGINE PENDING — projectile lifetime/CPs, critical records/evaluation metadata/lethal splash, recipient heal guards, Blur/Strike owned/model effects, cast/root/bank/icons and four-locale text repaired; individual ledger retains native deviations and owner gates |
 | 14 | Zeus | SOURCE REVIEW COMPLETE / ENGINE PENDING — deleted-target/caster guards, beam/model/ring CPs, casts/root/bank/status text repaired; individual ledger tracks owner gates and remaining unique-upgrade design follow-up |
-| 15 | Witch Doctor | IN PROGRESS — current native comparison and Q lifetime regression underway; prior W/R/Shard work does not close whole-hero review |
+| 15 | Witch Doctor | SOURCE REVIEW COMPLETE / ENGINE PENDING — tracking Cask, owned Maledict/Restoration effects, ward spawn/origin/lifetime, Switcheroo model, Gris-Gris lifecycle and four-locale modifier/dispel text repaired; individual ledger retains unique-upgrade and owner gates |
 | 16 | Shadow Shaman | NOT STARTED |
 | 17 | Bristleback | NOT STARTED |
 | 18 | Slark | NOT STARTED |

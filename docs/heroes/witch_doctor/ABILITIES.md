@@ -400,3 +400,7 @@ PVE-CONVERT remains. Build6943 native Q YES_STRONG/E NO plus verified MCP purge 
 ## 2026-10-02 Death Ward live origin/configuration
 
 PVE-CONVERT unchanged. Radius search now uses the actual owned native ward's origin rather than cursor snapshot, so clear-space relocation cannot separate acquisition center from projectile source. Existing authored700radius/0.22attack interval extracted into R AbilityValues with unchanged fallbacks. Four-locale ability text uses these values and names ward as center. Displacement regression failed before and passes after; full checks281behavior regressions,zero failures. Native clear-space placement, targeting and channel presentation remain owner-runtime PENDING.
+
+## Current review disposition (2026-10-02, supersedes initial PENDING setup)
+
+SOURCE REVIEW COMPLETE / ENGINE PENDING for all five stable abilities, Switcheroo, shared Aghanim bindings, progression and resources. Detailed consolidated contracts,281-mock-test evidence and owner evening test route: [individual review](../../audit/WITCH_DOCTOR_INDIVIDUAL_REVIEW_2026-10-02.md). This is not ENGINE_PASS and does not complete the unique Scepter request; that follow-up remains OPEN in DECISIONS_OPEN_ITEMS.md. Historical setup tables/older build references above remain evidence history; the current review reread installed6943/native file hash and code3e80acc. No talent/profile progression restored, no Workshop publication performed.
