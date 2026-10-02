@@ -2385,7 +2385,7 @@ test('Crystal Nova particle is emitted at the selected ground point', function()
             return 731
         end,
         SetParticleControl = function(_, particle, control, value)
-            created.control, created.position = control, value
+            created.controls=created.controls or {};created.controls[control]=value
         end,
         ReleaseParticleIndex = function(_, particle) created.released = particle end
     }
@@ -2393,13 +2393,15 @@ test('Crystal Nova particle is emitted at the selected ground point', function()
     local ab = enfos_cm_crystal_nova()
     ab.GetCaster = function() return cm end
     ab.GetCursorPosition = function() return point end
-    ab.GetSpecialValueFor = function() return 0 end
+    ab.GetSpecialValueFor = function(_,key) return ({radius=425,duration=4.5})[key] or 0 end
     local ok, err = pcall(ab.OnSpellStart, ab)
     ParticleManager, PATTACH_WORLDORIGIN = previous_manager, previous_attach
     assert(ok, err)
     assert(created.path == 'particles/units/heroes/hero_crystalmaiden/maiden_crystal_nova.vpcf')
-    assert(created.attach == 941 and created.owner == nil, 'Ground burst must not follow the caster')
-    assert(created.control == 0 and created.position == point, 'Burst control point 0 must use the selected location')
+    assert(created.attach == 941, 'Ground burst must not follow the caster')
+    assert(created.controls[0] == point, 'Burst control point 0 must use the selected location')
+    assert(created.controls[1] and created.controls[1].x==425 and created.controls[1].y==4.5
+        and created.controls[1].z==425,'Nova must supply radius, duration and radial speed controls to its native child chain')
     assert(created.released == 731, 'One-shot burst particle index must be released')
 end)
 

@@ -2912,6 +2912,14 @@ end
 -- CRYSTAL MAIDEN: CRYSTAL NOVA, FROSTBITE, ARCANE AURA, FREEZING FIELD, GLACIAL MASTERY
 -- ----------------------------------------------------------------------------
 
+local function cm_nova_feedback(caster, position, radius, duration)
+    local particle = ParticleManager:CreateParticle(
+        'particles/units/heroes/hero_crystalmaiden/maiden_crystal_nova.vpcf', PATTACH_WORLDORIGIN, caster)
+    ParticleManager:SetParticleControl(particle, 0, position)
+    ParticleManager:SetParticleControl(particle, 1, Vector(radius, duration, radius))
+    ParticleManager:ReleaseParticleIndex(particle)
+end
+
 enfos_cm_crystal_nova=class({})
 function enfos_cm_crystal_nova:OnSpellStart()
     local c = self:GetCaster()
@@ -2925,7 +2933,7 @@ function enfos_cm_crystal_nova:OnSpellStart()
     local dmg = base + (int * value(self, 'int_damage_factor'))
 
     c:EmitSound('Hero_Crystal.CrystalNova')
-    effect_at_position('particles/units/heroes/hero_crystalmaiden/maiden_crystal_nova.vpcf', pos)
+    cm_nova_feedback(c, pos, r, value(self, 'duration'))
 
     for _, u in ipairs(enemies(c, pos, r)) do
         damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
@@ -3120,10 +3128,12 @@ function modifier_enfos_cm_frost_stack:OnRefresh()
     local p = self:GetParent()
     local c = self:GetCaster()
     local a = self:GetAbility()
-    if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled()) then return end
+    if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled())
+        or not p or p:IsNull() or not p:IsAlive() or not a or (a.IsNull and a:IsNull()) then return end
     local count = self:GetStackCount() + 1
     local stack_limit = value(a, 'frost_stack_limit')
     if count >= stack_limit then
+        local origin = p:GetAbsOrigin()
         self:Destroy()
         local duration = value(a, 'freeze_duration')
         if is_boss(p) then duration = duration * value(a, 'boss_freeze_duration_pct') / 100 end
@@ -3136,8 +3146,8 @@ function modifier_enfos_cm_frost_stack:OnRefresh()
         if base <= 0 then base = 150 end
         local shatter_dmg = base + hp_dmg
 
-        effect('particles/units/heroes/hero_crystalmaiden/maiden_crystal_nova.vpcf', p)
-        for _, u in ipairs(enemies(c, p:GetAbsOrigin(), value(a, 'shatter_radius'))) do
+        cm_nova_feedback(c, origin, value(a, 'shatter_radius'), duration)
+        for _, u in ipairs(enemies(c, origin, value(a, 'shatter_radius'))) do
             local recipient_damage = shatter_dmg
             if is_boss(u) then
                 recipient_damage = base + math.min(value(a, 'boss_shatter_damage_cap'), hp_dmg)
