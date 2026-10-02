@@ -48,6 +48,20 @@ Record the source file/resource and build or revision for verified identifiers. 
 
 ## Discovery, audit and rollout
 
+Owner correction,2026-10-03: return to detailed sequential individual review;
+do not use accelerated/batch closure or automated production-kit adaptation as
+a substitute for inspecting each ability. Automation remains useful for inventory,
+localization generation, consistency checks and meaningful regressions after an
+evidence-backed decision. Read gameplay/KV and native/reference evidence directly,
+including assumptions about event fields, geometry, CPs and modifier defaults.
+Derive expected test behavior independently from those sources; a mock that simply
+asserts the current implementation's numbers can preserve a bug (Sven E's former
+half-width assertion is the concrete counterexample). Reopen past source acceptance
+when owner reports contradict it. Preserve proven fixes; no blanket rollback of
+working code solely because an assistant model or review workflow changed.
+Finish known source defects for the current hero before advancing; runtime gates
+stay explicitly pending owner tests and cannot be replaced with automated passes.
+
 1. Inspect existing addon structure, NPC KV, hero assignments, native overrides, Lua abilities/modifiers, game-mode setup, shared helpers, precache, localization and developer tools. Reuse existing infrastructure.
 2. Build or update a global inventory of enabled heroes and all assigned abilities, including ultimates, talents and passives. Record implementation, native counterpart, A–D classification and rationale, known defects, and separate VFX/SFX/modifier/precache evidence statuses.
 3. Identify systemic causes first: native-ID shadowing, missing hero resources, invalid modifier links, faulty sound/particle helpers, broken precache or client/server mistakes. Repair shared causes before repeating fixes across heroes.
