@@ -3444,9 +3444,9 @@ test('Phantom Assassin Coup de Grace crits and uses its configured physical spla
     mod.GetParent = function() return pa end
     mod.GetAbility = function() return ab end
 
-    local crit = mod:GetModifierPreAttack_CriticalStrike()
+    local crit = mod:GetModifierPreAttack_CriticalStrike({attacker=pa,target=primary,record=91})
     assert(crit == 425, 'Coup de Grace crit must be 425%')
-    mod:OnAttackLanded({ attacker = pa, target = primary, damage = 500 })
+    mod:OnAttackLanded({ attacker = pa, target = primary, record=91, damage = 500 })
 
     -- Configured splash to swarm: 500 * 0.6 = 300.
     assert(#applied_damages == 1)
@@ -3454,7 +3454,53 @@ test('Phantom Assassin Coup de Grace crits and uses its configured physical spla
     assert(last_find_units_radius == 400 and last_find_units_flags == DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
         'Coup splash must use KV radius and include spell-immune enemies for physical damage')
     pa.PassivesDisabled = function() return true end
-    assert(mod:GetModifierPreAttack_CriticalStrike() == 0, 'Coup de Grace must be disabled by Break')
+    assert(mod:GetModifierPreAttack_CriticalStrike({attacker=pa,target=primary,record=92}) == 0, 'Coup de Grace must be disabled by Break')
+end)
+
+test('Phantom Assassin crit records preserve lethal splash and do not consume Blur on preview', function()
+    local pa=create_mock_unit('npc_dota_hero_phantom_assassin',2,Vector(0,0,0))
+    local primary=create_mock_unit('pa_record_primary',3,Vector(100,0,0))
+    local second=create_mock_unit('pa_record_second',3,Vector(130,0,0))
+    mock_world_units={pa,primary,second}
+    local a=enfos_pa_coup_de_grace()
+    a.GetSpecialValueFor=function(_,key) return ({crit_chance=15,crit_mult=425,splash_radius=400,splash_pct=60})[key] or 0 end
+    local m=setmetatable({GetParent=function() return pa end,GetAbility=function() return a end},modifier_enfos_pa_coup_de_grace_passive)
+    pa.RemoveModifierByName=function(self,name) self.modifiers[name]=nil end
+    pa.modifiers.modifier_enfos_pa_blur_active={}
+    m:GetModifierPreAttack_CriticalStrike()
+    assert(pa:HasModifier('modifier_enfos_pa_blur_active'),'A property preview must not consume the active Blur guarantee')
+    assert(m:GetModifierPreAttack_CriticalStrike({attacker=pa,target=primary,record=101})==425)
+    assert(not pa:HasModifier('modifier_enfos_pa_blur_active'),'A valid recorded attack consumes Blur once')
+    local oldRoll=RollPercentage
+    local rolls=0
+    RollPercentage=function() rolls=rolls+1;return false end
+    local cached=m:GetModifierPreAttack_CriticalStrike({attacker=pa,target=primary,record=101})
+    local other=m:GetModifierPreAttack_CriticalStrike({attacker=pa,target=second,record=102})
+    RollPercentage=oldRoll
+    assert(cached==425 and other==0 and rolls==1,'Queries must cache each record without cross-attack contamination')
+    primary.alive=false
+    applied_damages={}
+    m:OnAttackLanded({attacker=pa,target=primary,record=101,damage=500})
+    m:OnAttackLanded({attacker=pa,target=primary,record=101,damage=500})
+    m:OnAttackLanded({attacker=pa,target=second,record=102,damage=500})
+    assert(#applied_damages==1 and applied_damages[1].victim==second and applied_damages[1].damage==300,
+        'A lethal primary crit must splash once and not turn a later noncrit into splash')
+    assert(not m.critRecords[101] and not m.critRecords[102])
+    m:GetModifierPreAttack_CriticalStrike({attacker=pa,target=second,record=103})
+    m:OnAttackRecordDestroy({attacker=pa,record=103})
+    assert(not m.critRecords[103],'Canceled records must be removed')
+    m:GetModifierPreAttack_CriticalStrike({attacker=pa,target=second,record=104})
+    m:OnAttackLanded({attacker=pa,target=second,record=104,damage=0})
+    assert(#applied_damages==1,'A zero-damage critical hit cannot fabricate splash damage')
+    local tertiary=create_mock_unit('pa_record_tertiary',3,Vector(150,0,0))
+    mock_world_units={pa,primary,second,tertiary}
+    m:GetModifierPreAttack_CriticalStrike({attacker=pa,target=second,record=105})
+    second.alive=false
+    second.IsNull=function() return true end
+    second.GetAbsOrigin=function() error('Deleted primary position must not be accessed') end
+    m:OnAttackLanded({attacker=pa,target=second,record=105,damage=500})
+    assert(#applied_damages==2 and applied_damages[2].victim==tertiary and applied_damages[2].damage==300,
+        'Deleted primary must use its saved attack position for secondary damage')
 end)
 
 test('Phantom Assassin Phantom Strike lands behind the target facing', function()

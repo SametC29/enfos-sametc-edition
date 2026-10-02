@@ -4294,39 +4294,58 @@ function enfos_pa_coup_de_grace:GetIntrinsicModifierName() return 'modifier_enfo
 
 modifier_enfos_pa_coup_de_grace_passive=class({})
 function modifier_enfos_pa_coup_de_grace_passive:DeclareFunctions()
-    return { MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE, MODIFIER_EVENT_ON_ATTACK_LANDED }
+    return { MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE, MODIFIER_EVENT_ON_ATTACK_LANDED, MODIFIER_EVENT_ON_ATTACK_RECORD_DESTROY }
 end
-function modifier_enfos_pa_coup_de_grace_passive:GetModifierPreAttack_CriticalStrike()
+function modifier_enfos_pa_coup_de_grace_passive:GetModifierPreAttack_CriticalStrike(event)
     if not IsServer() then return end
     local c = self:GetParent()
-    if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled()) then self.crit_proc = false return 0 end
+    if not c or c:IsNull() or (c.PassivesDisabled and c:PassivesDisabled()) or not event or not event.target
+        or event.target:IsNull() or (event.attacker and event.attacker ~= c)
+        or event.target:GetTeamNumber() == c:GetTeamNumber() or event.record == nil then return 0 end
+    self.critRecords = self.critRecords or {}
+    local saved = self.critRecords[event.record]
+    if saved then return saved.multiplier end
     local is_blur = c:HasModifier('modifier_enfos_pa_blur_active')
+    local multiplier = 0
     if is_blur or RollPercentage(value(self:GetAbility(), 'crit_chance')) then
         if is_blur then c:RemoveModifierByName('modifier_enfos_pa_blur_active') end
-        self.crit_proc = true
-        return value(self:GetAbility(), 'crit_mult')
+        multiplier = value(self:GetAbility(), 'crit_mult')
     end
-    self.crit_proc = false
-    return 0
+    self.critRecords[event.record] = { target = event.target, position = event.target:GetAbsOrigin(), multiplier = multiplier }
+    return multiplier
 end
 function modifier_enfos_pa_coup_de_grace_passive:OnAttackLanded(params)
     if not IsServer() or not params then return end
     local c = self:GetParent()
-    if params.attacker ~= c or (c.PassivesDisabled and c:PassivesDisabled()) then return end
+    if params.attacker ~= c or params.record == nil then return end
+    local saved = self.critRecords and self.critRecords[params.record]
+    if self.critRecords then self.critRecords[params.record] = nil end
+    if not c or c:IsNull() or not saved or saved.multiplier <= 0
+        or (c.PassivesDisabled and c:PassivesDisabled()) or saved.target ~= params.target then return end
     local t = params.target
-    if self.crit_proc and t and t:IsAlive() then
-        c:EmitSound('Hero_PhantomAssassin.CoupDeGrace')
+    local position = t and not t:IsNull() and t:GetAbsOrigin() or saved.position
+    c:EmitSound('Hero_PhantomAssassin.CoupDeGrace')
+    if t and not t:IsNull() then
         effect('particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf', t)
-        local splash_radius = value(self:GetAbility(), 'splash_radius')
-        if splash_radius <= 0 then splash_radius = 250 end
-        local splash_pct = value(self:GetAbility(), 'splash_pct')
-        if splash_pct <= 0 then splash_pct = 50 end
-        local aoe_dmg = (params.damage or 400) * splash_pct / 100
-        for _, u in ipairs(enemies(c, t:GetAbsOrigin(), splash_radius, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
-            if u ~= t then damage(self:GetAbility(), u, aoe_dmg, DAMAGE_TYPE_PHYSICAL) end
-        end
+    else
+        effect_at_position('particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf', position)
+    end
+    local splash_radius = value(self:GetAbility(), 'splash_radius')
+    if splash_radius <= 0 then splash_radius = 250 end
+    local splash_pct = value(self:GetAbility(), 'splash_pct')
+    if splash_pct <= 0 then splash_pct = 50 end
+    local aoe_dmg = (params.damage or 0) * splash_pct / 100
+    if aoe_dmg <= 0 then return end
+    for _, u in ipairs(enemies(c, position, splash_radius, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
+        if u ~= t then damage(self:GetAbility(), u, aoe_dmg, DAMAGE_TYPE_PHYSICAL) end
     end
 end
+function modifier_enfos_pa_coup_de_grace_passive:OnAttackRecordDestroy(event)
+    if IsServer() and event and event.attacker == self:GetParent() and event.record ~= nil and self.critRecords then
+        self.critRecords[event.record] = nil
+    end
+end
+function modifier_enfos_pa_coup_de_grace_passive:OnDestroy() self.critRecords = nil end
 
 enfos_pa_immaterial=class({})
 function enfos_pa_immaterial:GetIntrinsicModifierName() return 'modifier_enfos_pa_immaterial_passive' end

@@ -651,9 +651,9 @@ do
 
     local pa=ability('enfos_pa_coup_de_grace')
     local crit=hero:AddNewModifier(hero,pa,'modifier_enfos_pa_coup_de_grace_passive',{})
-    assert(crit:GetModifierPreAttack_CriticalStrike()==550,'Max ultimate rank must use max crit multiplier')
+    assert(crit:GetModifierPreAttack_CriticalStrike({attacker=hero,target=enemy,record=301})==550,'Max ultimate rank must use max crit multiplier')
     pa.GetSpecialValueFor=function(_,key) return ({crit_chance=15,crit_mult=300})[key] end
-    assert(crit:GetModifierPreAttack_CriticalStrike()==300,'Rank one cannot receive rank two crit')
+    assert(crit:GetModifierPreAttack_CriticalStrike({attacker=hero,target=enemy,record=302})==300,'Rank one cannot receive rank two crit')
 
     local wk=ability('enfos_wk_reincarnation')
     wk.ready=true;wk.IsCooldownReady=function(a) return a.ready end
