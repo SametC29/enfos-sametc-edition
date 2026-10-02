@@ -68,3 +68,36 @@ actual mitigation/status resistance/immunity/dispel; spell block and lethal
 targets; concurrent chains; cold-start imports/resources; audible/visible
 feedback; Shard/Scepter; reconnect and skill-point presentation. Full Lich source
 review remains open; this supplement is not hero completion or runtime acceptance.
+
+## Q particle control-point evidence follow-up
+
+Current installed Frost Nova root and its ten children were decompiled outside
+addon source using Source2Viewer-CLI19.2. Child e/f RingWave reads CP1.x for initial
+radius, CP1.y for thickness and CP1.z for speed; child g uses all three for its
+larger ice wave. Our Q only set CP0, leaving those inputs unconfigured. Bind
+CP1 to Vector(ranked_radius,ranked_radius,ranked_radius), after resolving the
+existing KV radius/fallback and before release. No damage, rank, targeting or
+control formula changed in this resource repair.
+
+Reference-only Workshop1571786267 scripts/vscripts/abilities/bosses/lich/lich.lua
+PlayEffects uses that same vector binding; its source/version/license and live
+compatibility are not certified and no code was imported. Installed resource
+semantics, not that example alone, establish the missing input. Current MCP
+CScriptParticleManager:SetParticleControl confirms API signature. Generic
+[Valve particle documentation](https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Particles/Particle_System_Overview)
+is background, not evidence for this resource's exact CP meanings.
+
+Root owns ten finite children; inspected child emitters are instantaneous except
+h's explicit1s continuous burst, with decay/lifetime operators. Existing index
+release remains; no new lifetime timer or manual destroy is added. Owner still
+must confirm disappearance after repeated casts, lethal recipients and actual
+rank1/10 appearance. Cold-start resource precache already exists at
+addon_game_mode.lua's explicit lich_frost_nova entry. Bounded Q trace records
+resource index/radius/origin and release ownership, not a claimed visible result.
+
+Ten-rank Q/R test now verifies actual CP1 arguments for normal and Boss casts;
+it fails before binding and passes afterwards. Full project checks0fail with
+contributor E work present. Q shader rendering, exact visual footprint, animation
+and audio remain NOT TESTED. Duplicate caster/target FrostNova emission and
+modifier lifecycle/identity still require focused follow-up. Lich SOURCE REVIEW
+remains PENDING. Concurrent main ledger/dossier/E/tests changes are not claimed.

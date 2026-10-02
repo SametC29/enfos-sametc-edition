@@ -17,7 +17,10 @@ function IsServer() return true end
 DAMAGE_TYPE_MAGICAL=2;PATTACH_ABSORIGIN_FOLLOW=1
 DOTA_UNIT_TARGET_TEAM_ENEMY=1;DOTA_UNIT_TARGET_HERO=1;DOTA_UNIT_TARGET_BASIC=2
 DOTA_UNIT_TARGET_FLAG_NONE=0;FIND_ANY_ORDER=0
-ParticleManager={CreateParticle=function() return 1 end,SetParticleControl=function() end,ReleaseParticleIndex=function() end}
+function Vector(x,y,z) return {x=x,y=y,z=z} end
+local controls={}
+ParticleManager={CreateParticle=function() controls={};return 1 end,
+  SetParticleControl=function(_,id,cp,v) controls[cp]=v end,ReleaseParticleIndex=function() end}
 local world,damageEvents={},{}
 function FindUnitsInRadius() return world end
 function ApplyDamage(e) damageEvents[#damageEvents+1]=e;return e.damage end
@@ -45,6 +48,8 @@ for rank=1,10 do
     assert(damageEvents[1].damage==targetDamage[rank]+800,'Q primary must not have a Boss maxHP cap')
     assert(damageEvents[2].damage==splashDamage[rank]+500,'Q splash must not have a Boss maxHP cap')
     assert(p.slow==duration[rank] and s.slow==duration[rank],'Q ordinary control duration applies to both')
+    assert(controls[1] and controls[1].x==radius[rank] and controls[1].y==radius[rank] and controls[1].z==radius[rank],
+      'Frost Nova children must receive their radius/thickness/speed CP1 inputs')
     local b=setmetatable({GetCaster=function() return c end},enfos_lich_chain_frost)
     p.slow=nil;damageEvents={}
     b:OnProjectileHit_ExtraData(p,nil,{hits=0,limit=1,damage=chainDamage[rank]+1000,slow_duration=chainDuration[1]})

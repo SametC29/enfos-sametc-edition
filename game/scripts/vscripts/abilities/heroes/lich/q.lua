@@ -20,15 +20,18 @@ function enfos_lich_frost_blast:OnSpellStart()
         HeroTrace:Name(c),HeroTrace:Name(t),tostring(self.GetLevel and self:GetLevel() or 0),tostring(origin))
     c:EmitSound('Ability.FrostNova')
     t:EmitSound('Ability.FrostNova')
+    local radius = value(self, 'radius')
+    if radius <= 0 then radius = 250 end
     local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_lich/lich_frost_nova.vpcf', PATTACH_ABSORIGIN_FOLLOW, t)
     ParticleManager:SetParticleControl(fx, 0, origin)
+    -- Installed Frost Nova children read CP1.xyz for ring size/thickness/speed.
+    ParticleManager:SetParticleControl(fx, 1, Vector(radius, radius, radius))
     ParticleManager:ReleaseParticleIndex(fx)
+    HeroTrace:Log('LICH','Q','nova_particle index=%s radius=%s position=%s cleanup=finite_resource_release',tostring(fx),tostring(radius),tostring(origin))
     local tdmg = value(self, 'target_damage')
     local rdmg = value(self, 'radius_damage')
     local int = get_int(c)
     local primary = tdmg + (int * 0.8)
-    local radius = value(self, 'radius')
-    if radius <= 0 then radius = 250 end
     local slow_duration = value(self, 'duration')
     if slow_duration <= 0 then slow_duration = 4 end
     local primary_slow_duration = slow_duration
