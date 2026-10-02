@@ -2549,6 +2549,7 @@
 		"MaxLevel"					"10"
 		"AbilityValues"
 		{
+			"projectile_speed" "1200"
 			"damage" "75 94 114 133 153 172 192 211 231 250"
 			"bounces" "8 9 10 11 12 13 14 15 16 18"
 			"stun_duration" "0.8 0.84 0.89 0.93 0.98 1.02 1.07 1.11 1.16 1.2"

@@ -4595,56 +4595,105 @@ function modifier_enfos_zeus_heavenly_jump_slow:GetModifierMoveSpeedBonus_Percen
 
 enfos_wd_paralyzing_cask=class({})
 function enfos_wd_paralyzing_cask:OnSpellStart()
-    local c = self:GetCaster()
-    local initial = self:GetCursorTarget()
+    local c, initial = self:GetCaster(), self:GetCursorTarget()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive()
         or not initial or (initial.IsNull and initial:IsNull()) or not initial:IsAlive()
         or initial:GetTeamNumber() == c:GetTeamNumber() then return end
     if initial.TriggerSpellAbsorb and initial:TriggerSpellAbsorb(self) then return end
-
     c:EmitSound('Hero_WitchDoctor.Paralyzing_Cask_Cast')
-    local base = value(self, 'damage')
-    if base <= 0 then base = 100 end
-    local int = get_int(c)
-    local dmg = base + (int * 0.4)
-
-    local current = initial
-    local bounces = value(self, 'bounces')
-    if bounces <= 0 then bounces = 10 end
-    local visited = {}
-
-    for i = 1, bounces do
-        if (self.IsNull and self:IsNull()) or (c.IsNull and c:IsNull()) or not c:IsAlive()
-            or not current or (current.IsNull and current:IsNull()) or not current:IsAlive()
-            or current:GetTeamNumber() == c:GetTeamNumber() then break end
-        local target_id = current.GetEntityIndex and current:GetEntityIndex() or current
-        if visited[target_id] then break end
-        visited[target_id] = true
-        -- Damage callbacks may delete the victim; retain its chain center before impact.
-        local current_position = current:GetAbsOrigin()
-        local stun_dur = value(self, 'stun_duration')
-        if stun_dur <= 0 then stun_dur = 1.0 end
-        if is_boss(current) then
-            local boss_stun = value(self, 'boss_stun_duration')
-            if boss_stun > 0 then stun_dur = math.min(stun_dur, boss_stun) end
-        end
-        damage(self, current, dmg, DAMAGE_TYPE_MAGICAL)
-        if (self.IsNull and self:IsNull()) or (c.IsNull and c:IsNull()) then break end
-        if not (current.IsNull and current:IsNull()) and current:IsAlive() then
-            current:AddNewModifier(c, self, 'modifier_enfos_wd_paralyzing_cask_stun', { duration = stun_dur })
-        end
-        effect('particles/units/heroes/hero_witchdoctor/witchdoctor_cask.vpcf', current)
-
-        local candidates = enemies(c, current_position, 500)
-        local next_target = nil
-        for _, u in ipairs(candidates) do
-            if u and not (u.IsNull and u:IsNull()) and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
-                local candidate_id = u.GetEntityIndex and u:GetEntityIndex() or u
-                if not visited[candidate_id] then next_target = u break end
+    self.cask_chains = self.cask_chains or {}
+    self.cask_serial = (self.cask_serial or 0) + 1
+    local id = self.cask_serial
+    local now = GameRules and GameRules.GetGameTime and GameRules:GetGameTime() or 0
+    local count, oldest = 0, nil
+    for cast, chain in pairs(self.cask_chains) do
+        if chain.deadline <= now then self.cask_chains[cast] = nil
+        else count = count + 1; if not oldest or cast < oldest then oldest = cast end end
+    end
+    -- Refresher spam cannot retain an unbounded collection of pending cast states.
+    if count >= 4 then self.cask_chains[oldest] = nil end
+    local base, cap = value(self, 'damage'), value(self, 'bounces')
+    self.cask_chains[id] = {
+        visited = {}, hits = 0, cap = cap > 0 and math.floor(cap) or 10,
+        damage = (base > 0 and base or 100) + get_int(c) * 0.4,
+        deadline = now + 30,
+    }
+    self:_LaunchCask(initial, id, c:GetAbsOrigin())
+    local mode = GameRules and GameRules.GetGameModeEntity and GameRules:GetGameModeEntity()
+    if mode and mode.SetContextThink and GameRules.GetGameTime then
+        local owner = self.entindex and self:entindex() or c:entindex()
+        mode:SetContextThink('EnfosWDCaskCleanup_' .. tostring(owner), function()
+            if self.IsNull and self:IsNull() then self.cask_chains = nil; return nil end
+            local time = GameRules:GetGameTime()
+            for cast, chain in pairs(self.cask_chains or {}) do
+                if chain.deadline <= time then self.cask_chains[cast] = nil end
+            end
+            return self.cask_chains and next(self.cask_chains) and 0.5 or nil
+        end, 0.5)
+    end
+end
+function enfos_wd_paralyzing_cask:_LaunchCask(target, id, origin)
+    local chain = self.cask_chains and self.cask_chains[id]
+    if not chain then return end
+    local c = self:GetCaster()
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive()
+        or not target or (target.IsNull and target:IsNull()) or not target:IsAlive()
+        or not ProjectileManager or not ProjectileManager.CreateTrackingProjectile then
+        self.cask_chains[id] = nil; return
+    end
+    chain.pending = target:entindex()
+    chain.hop = chain.hits + 1
+    local speed = value(self, 'projectile_speed')
+    ProjectileManager:CreateTrackingProjectile({
+        Target = target, Source = c, Ability = self, vSourceLoc = origin,
+        EffectName = 'particles/units/heroes/hero_witchdoctor/witchdoctor_cask.vpcf',
+        iMoveSpeed = speed > 0 and speed or 1200,
+        bDodgeable = false, bVisibleToEnemies = true, bProvidesVision = false,
+        ExtraData = { cask_cast = id, cask_hop = chain.hop },
+    })
+end
+function enfos_wd_paralyzing_cask:OnProjectileHit_ExtraData(target, location, extra)
+    local id = tonumber(extra and extra.cask_cast)
+    local chain = id and self.cask_chains and self.cask_chains[id]
+    if not chain then return true end
+    if tonumber(extra.cask_hop) ~= chain.hop then return true end
+    if self.IsNull and self:IsNull() then self.cask_chains[id] = nil; return true end
+    local c = self:GetCaster()
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive()
+        or not target or (target.IsNull and target:IsNull()) or not target:IsAlive()
+        or target:GetTeamNumber() == c:GetTeamNumber() then
+        self.cask_chains[id] = nil; return true
+    end
+    local target_id = target:entindex()
+    if chain.pending ~= target_id or chain.visited[target_id] then return true end
+    chain.pending = nil
+    chain.visited[target_id] = true
+    chain.hits = chain.hits + 1
+    local center = target:GetAbsOrigin()
+    local stun = value(self, 'stun_duration')
+    if stun <= 0 then stun = 1 end
+    if is_boss(target) then
+        local cap = value(self, 'boss_stun_duration')
+        if cap > 0 then stun = math.min(stun, cap) end
+    end
+    target:EmitSound('Hero_WitchDoctor.ProjectileImpact')
+    damage(self, target, chain.damage, DAMAGE_TYPE_MAGICAL)
+    if (self.IsNull and self:IsNull()) or (c.IsNull and c:IsNull()) or not c:IsAlive() then
+        self.cask_chains[id] = nil; return true
+    end
+    if not (target.IsNull and target:IsNull()) and target:IsAlive() then
+        target:AddNewModifier(c, self, 'modifier_enfos_wd_paralyzing_cask_stun', { duration = stun })
+    end
+    if chain.hits < chain.cap then
+        for _, u in ipairs(enemies(c, center, 500)) do
+            if u and not (u.IsNull and u:IsNull()) and u:IsAlive()
+                and u:GetTeamNumber() ~= c:GetTeamNumber() and not chain.visited[u:entindex()] then
+                self:_LaunchCask(u, id, center); return true
             end
         end
-        current = next_target
     end
+    self.cask_chains[id] = nil
+    return true
 end
 
 modifier_enfos_wd_paralyzing_cask_stun=class({})

@@ -3982,6 +3982,97 @@ test('Zeus Heavenly Jump preserves its target cap when lethal hits delete slow r
         'The target cap and caster movement buff must remain intact')
 end)
 
+local function resolve_cask_projectiles(ability)
+    local old=ProjectileManager.CreateTrackingProjectile;local queue={}
+    ProjectileManager.CreateTrackingProjectile=function(_,options) queue[#queue+1]=options;return #queue end
+    local ok,err=pcall(function()
+        ability:OnSpellStart()
+        local index=1
+        while queue[index] do
+            assert(index<=40,'Cask travel must remain bounded')
+            local p=queue[index];ability:OnProjectileHit_ExtraData(p.Target,nil,p.ExtraData);index=index+1
+        end
+    end)
+    ProjectileManager.CreateTrackingProjectile=old
+    assert(ok,err)
+end
+
+test('Witch Doctor Cask applies no damage until travel impact and ignores repeated hop callbacks', function()
+    local wd=create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(0,0,0));wd.intellect=50
+    local first=create_mock_unit('wd_travel_first',3,Vector(100,0,0))
+    local second=create_mock_unit('wd_travel_second',3,Vector(200,0,0))
+    local a=enfos_wd_paralyzing_cask();a.GetCaster=function() return wd end
+    a.GetCursorTarget=function() return first end;a.GetSpecialValueFor=function(_,k)
+        return ({damage=100,bounces=2,stun_duration=1,projectile_speed=1200})[k] or 0
+    end
+    mock_world_units={wd,first,second};applied_damages={}
+    local old=ProjectileManager.CreateTrackingProjectile;local queue={}
+    ProjectileManager.CreateTrackingProjectile=function(_,options) queue[#queue+1]=options;return #queue end
+    local ok,err=pcall(function()
+        a:OnSpellStart()
+        assert(#queue==1 and #applied_damages==0,'Cast must launch rather than deal instant chain damage')
+        assert(queue[1].EffectName=='particles/units/heroes/hero_witchdoctor/witchdoctor_cask.vpcf'
+            and queue[1].iMoveSpeed==1200 and queue[1].bDodgeable==false,'Verified native projectile must own travel')
+        a:OnProjectileHit_ExtraData(first,nil,queue[1].ExtraData)
+        assert(#queue==2 and #applied_damages==1 and queue[2].vSourceLoc.x==100,
+            'Next hop must launch from the captured impact center')
+        a:OnProjectileHit_ExtraData(first,nil,queue[1].ExtraData)
+        assert(#applied_damages==1,'Repeated completed-hop callback must not deal damage')
+        a:OnProjectileHit_ExtraData(second,nil,queue[2].ExtraData)
+        assert(#applied_damages==2 and next(a.cask_chains)==nil,'Hit cap must finish and release cast state')
+    end)
+    ProjectileManager.CreateTrackingProjectile=old
+    assert(ok,err)
+end)
+
+test('Witch Doctor Cask bounds overlapping casts and expires abandoned state with one watchdog', function()
+    local wd=create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(0,0,0))
+    local victim=create_mock_unit('wd_cask_overlaps',3,Vector(100,0,0))
+    local a=enfos_wd_paralyzing_cask();a.GetCaster=function() return wd end
+    a.GetCursorTarget=function() return victim end;a.GetSpecialValueFor=function(_,k)
+        return ({damage=100,bounces=1,stun_duration=1,projectile_speed=1200})[k] or 0
+    end
+    local oldProjectile=ProjectileManager.CreateTrackingProjectile;local oldRules=GameRules
+    local queue,contexts={},{};local time=0
+    ProjectileManager.CreateTrackingProjectile=function(_,options) queue[#queue+1]=options;return #queue end
+    GameRules={GetGameTime=function() return time end,GetGameModeEntity=function()
+        return {SetContextThink=function(_,name,callback,delay) contexts[name]=callback end}
+    end}
+    local ok,err=pcall(function()
+        for i=1,5 do a:OnSpellStart() end
+        local stored=0;for _ in pairs(a.cask_chains) do stored=stored+1 end
+        local watchdogs=0;local callback;for _,fn in pairs(contexts) do watchdogs=watchdogs+1;callback=fn end
+        assert(stored==4 and watchdogs==1,'Overlaps must retain at most four casts and one named watchdog')
+        applied_damages={};a:OnProjectileHit_ExtraData(victim,nil,queue[1].ExtraData)
+        assert(#applied_damages==0,'Discarded oldest cast callback must be harmless')
+        a:OnProjectileHit_ExtraData(victim,nil,queue[2].ExtraData)
+        a:OnProjectileHit_ExtraData(victim,nil,queue[3].ExtraData)
+        assert(#applied_damages==2,'Distinct active casts retain independent visited/hop state')
+        time=31;assert(callback()==nil and next(a.cask_chains)==nil,'Watchdog expires leftovers and stops itself')
+        a:OnProjectileHit_ExtraData(victim,nil,queue[4].ExtraData)
+        assert(#applied_damages==2,'Expired callbacks must not deal damage')
+    end)
+    ProjectileManager.CreateTrackingProjectile=oldProjectile;GameRules=oldRules
+    assert(ok,err)
+end)
+
+test('Witch Doctor Cask closes lost, allied and removed-caster projectile chains', function()
+    for _,mode in ipairs({'lost','allied','removed_caster'}) do
+        local wd=create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(0,0,0))
+        local victim=create_mock_unit('wd_cask_terminated',3,Vector(100,0,0))
+        local a=enfos_wd_paralyzing_cask();a.GetCaster=function() return wd end
+        a.GetCursorTarget=function() return victim end;a.GetSpecialValueFor=function(_,k)
+            return ({damage=100,bounces=3,stun_duration=1,projectile_speed=1200})[k] or 0
+        end
+        a:OnSpellStart();local projectile=last_tracking_projectile;applied_damages={}
+        local target=victim
+        if mode=='lost' then target=nil elseif mode=='allied' then victim.GetTeamNumber=function() return 2 end
+        else wd.IsNull=function() return true end end
+        assert(a:OnProjectileHit_ExtraData(target,nil,projectile.ExtraData)==true)
+        assert(#applied_damages==0 and next(a.cask_chains)==nil,'Invalid impact must clear state without damage')
+    end
+end)
+
 test('Witch Doctor Paralyzing Cask bounces and reduces boss stun duration', function()
     applied_damages = {}
     local wd = create_mock_unit('npc_dota_hero_witch_doctor', 2, Vector(0, 0, 0))
@@ -4001,7 +4092,7 @@ test('Witch Doctor Paralyzing Cask bounces and reduces boss stun duration', func
         return 0
     end
 
-    ab:OnSpellStart()
+    resolve_cask_projectiles(ab)
 
     -- Damage per bounce: 100 + (50 * 0.4) = 120
     assert(#applied_damages == 2, 'Cask must hit each nearby unit no more than once')
@@ -4033,7 +4124,7 @@ test('Witch Doctor Cask continues around captured positions after lethal victim 
             u.AddNewModifier=function() error('Deleted Cask victim must not receive a stun') end
         end
     end
-    local ok,err=pcall(function() a:OnSpellStart() end)
+    local ok,err=pcall(function() resolve_cask_projectiles(a) end)
     ApplyDamage=oldDamage
     assert(ok,err)
     assert(#hits==3 and hits[1].victim==first and hits[2].victim==second and hits[3].victim==third,
