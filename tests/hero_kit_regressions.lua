@@ -3364,27 +3364,37 @@ test('Tidehunter Anchor Smash deals attack damage plus strength scaling and appl
     assert(debuff ~= nil, 'Anchor smash must apply debuff')
 end)
 
-test('Tidehunter Gush blocks spell-absorbed targets and rejects allies', function()
+test('Tidehunter Gush launches a native-speed projectile and impacts only a live enemy', function()
     applied_damages = {}
+    last_tracking_projectile = nil
     local tide = create_mock_unit('npc_dota_hero_tidehunter', 2, Vector(0, 0, 0))
     local enemy = create_mock_unit('enemy', 3, Vector(100, 0, 0))
     local ab = enfos_tide_gush()
     ab.GetCaster = function() return tide end
     ab.GetCursorTarget = function() return enemy end
-    ab.GetSpecialValueFor = function(_, key) return ({gush_damage=100,damage=100,duration=3,strength_factor=1})[key] or 0 end
+    ab.GetSpecialValueFor = function(_, key) return ({gush_damage=100,damage=100,duration=3,strength_factor=1,projectile_speed=2500})[key] or 0 end
     enemy.TriggerSpellAbsorb = function() return true end
     ab:OnSpellStart()
-    assert(#applied_damages == 0 and not enemy:HasModifier('modifier_enfos_tide_gush_debuff'))
+    assert(last_tracking_projectile == nil and #applied_damages == 0 and not enemy:HasModifier('modifier_enfos_tide_gush_debuff'))
     enemy.TriggerSpellAbsorb = function() return false end
     enemy.team = 2
     ab:OnSpellStart()
-    assert(#applied_damages == 0, 'Gush must not hit a friendly unit')
+    assert(last_tracking_projectile == nil and #applied_damages == 0, 'Gush must not target a friendly unit')
     enemy.team = 3
-    enemy.TriggerSpellAbsorb = function() return false end
     tide.strength = 50
     ab:OnSpellStart()
+    assert(#applied_damages == 0, 'Gush damage must wait for the projectile impact')
+    assert(last_tracking_projectile.Target == enemy and last_tracking_projectile.Source == tide)
+    assert(last_tracking_projectile.iMoveSpeed == 2500 and last_tracking_projectile.bDodgeable)
+    assert(last_tracking_projectile.EffectName == 'particles/units/heroes/hero_tidehunter/tidehunter_gush.vpcf')
+    enemy.alive = false
+    assert(ab:OnProjectileHit(enemy) == true and #applied_damages == 0,
+        'Gush must end without damage if its target dies before impact')
+    enemy.alive = true
+    assert(ab:OnProjectileHit(enemy) == true)
     assert(applied_damages[1].damage == 150,
-        'Gush must use the KV Strength coefficient in addition to ranked base damage')
+        'Gush must apply its KV Strength-scaled damage on impact')
+    assert(enemy:HasModifier('modifier_enfos_tide_gush_debuff'), 'Gush debuff must apply on impact')
 end)
 
 test('Tidehunter Kraken Shell respects Break and applies configured block and regeneration', function()

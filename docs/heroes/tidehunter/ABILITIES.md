@@ -64,16 +64,20 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 Classification: PVE-CONVERT
 Native counterpart: `tidehunter_gush` (native Ability1).
-Decision and PvE identity rationale: Keep the recognizable single-target Gush impact; convert PvP-only utility to wave damage and a short armor/movement slow. Native source mapping verified in the installed hero KV (ClientVersion 6941, SourceRevision 11041083).
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
+Decision and PvE identity rationale: Keep the recognizable single-target Gush impact; convert PvP-only utility to wave damage and a short armor/movement slow. Native source mapping verified in installed hero KV (ClientVersion 6943, SourceRevision 11069754).
+Expected cast/travel/impact/ongoing/cleanup behavior: On valid enemy cast, launch the verified native Gush tracking particle at 2500 speed; apply damage and armor/movement debuff only on live-target projectile impact; a dodged, dead, missing or friendly target has no impact. Tracking projectile ends on callback return.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve: Gush Q ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
 
-- Native ability data source + build + hash/revision: PENDING.
-- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
+#### 2026-10-02 projectile correction
+
+Static root cause confirmed: Lua previously attached the native travel trail at the target and applied damage/modifiers immediately, while the installed VPCF is a source-to-target travelling projectile. Gush now uses a tracking projectile at the native 2500 speed and applies damage/debuff on impact. Regression coverage checks cast delay, particle/speed, lost target, spell block/ally rejection and the existing Strength-scaled impact. Dota runtime VFX, audio, dodge and collision behavior remain pending owner testing. Native Scepter speed/AoE/range modifiers are not claimed as implemented; Enfos Scepter policy needs a separate review.
+
+- Native ability data source + build + hash/revision: `tidehunter_gush` in installed ClientVersion 6943 / SourceRevision 11069754; SHA256 is recorded in the installed-source section above and matches the saved snapshot.
+- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: travel particle confirmed in installed VPK and configured through tracking projectile source/target; in-engine attachment and rendered result remain PENDING.
 - Sound events + declaring banks + emission target + loop termination: PENDING.
 - Model/animation/gesture/icon evidence: PENDING.
 - Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.

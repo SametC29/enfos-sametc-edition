@@ -3708,7 +3708,26 @@ function enfos_tide_gush:OnSpellStart()
         or not t:IsAlive() or t:GetTeamNumber() == c:GetTeamNumber() then return end
     if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
 
-    effect('particles/units/heroes/hero_tidehunter/tidehunter_gush.vpcf', t)
+    if not ProjectileManager or not ProjectileManager.CreateTrackingProjectile then return end
+    local speed = value(self, 'projectile_speed')
+    if speed <= 0 then speed = 2500 end
+    ProjectileManager:CreateTrackingProjectile({
+        Target = t,
+        Source = c,
+        Ability = self,
+        EffectName = 'particles/units/heroes/hero_tidehunter/tidehunter_gush.vpcf',
+        iMoveSpeed = speed,
+        bDodgeable = true,
+        bVisibleToEnemies = true,
+        bProvidesVision = false
+    })
+end
+
+function enfos_tide_gush:OnProjectileHit(t)
+    local c = self:GetCaster()
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive()
+        or not t or (t.IsNull and t:IsNull()) or not t:IsAlive()
+        or t:GetTeamNumber() == c:GetTeamNumber() then return true end
 
     local base = value(self, 'gush_damage')
     if base <= 0 then base = value(self, 'damage') end
@@ -3718,6 +3737,7 @@ function enfos_tide_gush:OnSpellStart()
 
     damage(self, t, dmg, DAMAGE_TYPE_MAGICAL)
     t:AddNewModifier(c, self, 'modifier_enfos_tide_gush_debuff', { duration = value(self, 'duration') })
+    return true
 end
 
 modifier_enfos_tide_gush_debuff=class({})
