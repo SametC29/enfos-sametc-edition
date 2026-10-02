@@ -3138,7 +3138,11 @@ function modifier_enfos_cm_frost_stack:OnRefresh()
 
         effect('particles/units/heroes/hero_crystalmaiden/maiden_crystal_nova.vpcf', p)
         for _, u in ipairs(enemies(c, p:GetAbsOrigin(), value(a, 'shatter_radius'))) do
-            damage(a, u, shatter_dmg, DAMAGE_TYPE_MAGICAL)
+            local recipient_damage = shatter_dmg
+            if is_boss(u) then
+                recipient_damage = base + math.min(value(a, 'boss_shatter_damage_cap'), hp_dmg)
+            end
+            damage(a, u, recipient_damage, DAMAGE_TYPE_MAGICAL)
         end
     else
         self:SetStackCount(count)

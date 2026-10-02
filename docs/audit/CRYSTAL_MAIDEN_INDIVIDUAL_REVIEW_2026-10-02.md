@@ -33,3 +33,9 @@ Extended positive pulse regression first fails because no owned snow exists on c
 ## Lethal callback ordering
 
 Q, W and R applied slow/frost-stack modifiers after their damage had killed or removed the target. R additionally read its position after damage; a removed unit could throw before feedback/cleanup. New regression models immediate lethal removal for each of the three callbacks; it first fails on Q adding modifiers to a removed target. Each now gates post-damage modifiers on a valid living recipient; R captures impact position before damage and still renders its finite explosion there. No damage, tick, radius or stack threshold change.243behavior/full checks0failed,200abilities/223modifiers across ranks1–10. Real Dota death/removal/stack callback order and Boss interactions remain OWNER ENGINE PENDING.
+
+## Secondary Boss shatter cap
+
+Confirmed cap bypass: percentage-of-primary-HP damage was capped only when the stacked primary was a Boss, then shared unchanged to every AoE recipient. A20000HP normal creep therefore sent2000percentage damage to a neighboring Boss despite its600cap. Overlapping scheduled waves make secondary Boss recipients possible; Boss-only authored wave does not imply no surviving earlier normal units.
+
+Extended existing five-stack regression with a normal20000HP primary plus neighboring Boss; before repair Boss receives2200total instead of800. Enforce the existing percentage-component cap on each Boss recipient while preserving original primary-Boss capping, normal recipient damage, base200 and freeze duration. After repair normal primary remains2200 and Boss800; original Boss-primary/neighbor800 case remains. No general nerf/new cap/rank change: enforce the existing advertised Boss safety cap on secondary recipients.243behavior/full checks0failed,200abilities/223modifiers. Owner live mixed-wave/phase mitigation and displayed tooltip values remain pending.

@@ -2316,6 +2316,18 @@ test('Crystal Maiden Glacial Mastery triggers 5-stack Glacial Shatter with boss 
     assert(applied_damages[1].damage == 800 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
     assert(applied_damages[2].damage == 800 and applied_damages[2].damage_type == DAMAGE_TYPE_MAGICAL)
     assert(boss.modifiers['modifier_enfos_cm_frozen'].params.duration == 0.375, 'Boss freeze duration must be capped to 25%')
+    applied_damages={}
+    local large_creep=create_mock_unit('enfos_creep_tank',3,Vector(100,0,0),20000)
+    mock_world_units={cm,large_creep,boss,neighbor}
+    stack_mod.GetParent=function() return large_creep end
+    stack_mod:OnRefresh()
+    local boss_damage,creep_damage
+    for _,hit in ipairs(applied_damages) do
+        if hit.victim==boss then boss_damage=hit.damage end
+        if hit.victim==large_creep then creep_damage=hit.damage end
+    end
+    assert(creep_damage==2200 and boss_damage==800,
+        'A normal-creep shatter must not bypass the Boss percentage-damage cap through secondary AoE')
 end)
 
 test('Crystal Maiden Frostbite spell block cancels the debuff', function()
