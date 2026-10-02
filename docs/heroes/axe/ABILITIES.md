@@ -1,6 +1,6 @@
 # Axe: ability evidence dossier
 
-This dossier starts UNASSESSED/PENDING. It is a work reference, not proof that the kit works. The existing [structural inventory](../../audit/HERO_ABILITY_CONTRACTS.json) remains the source for static audit candidates.
+This dossier preserves its historical PENDING setup below. The 2026-10-02 [individual Axe review](../../audit/AXE_INDIVIDUAL_REVIEW_2026-10-01.md) supersedes those setup rows for SOURCE REVIEW, using installed build6942/SourceRevision11055158. All five skills have detailed source evidence and focused regression repairs; actual Dota/VConsole acceptance remains OWNER ENGINE PENDING. The existing [structural inventory](../../audit/HERO_ABILITY_CONTRACTS.json) remains the source for static audit candidates.
 
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
