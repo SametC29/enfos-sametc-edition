@@ -1,6 +1,6 @@
 -- Lich isolated kit: preserve stable classes, values and lifecycle behavior.
 local Helpers = require('abilities/shared/pve_helpers')
-local value, enemies, is_boss, get_int, damage = Helpers.value, Helpers.enemies, Helpers.is_boss, Helpers.get_int, Helpers.damage
+local value, enemies, get_int, damage = Helpers.value, Helpers.enemies, Helpers.get_int, Helpers.damage
 local HeroTrace = require('lib/hero_trace')
 
 LinkLuaModifier('modifier_enfos_lich_frost_blast_slow', 'abilities/heroes/lich/q', LUA_MODIFIER_MOTION_NONE)
@@ -27,12 +27,11 @@ function enfos_lich_frost_blast:OnSpellStart()
     local rdmg = value(self, 'radius_damage')
     local int = get_int(c)
     local primary = tdmg + (int * 0.8)
-    if is_boss(t) then primary = math.min(primary, t:GetMaxHealth() * 0.1) end
     local radius = value(self, 'radius')
     if radius <= 0 then radius = 250 end
     local slow_duration = value(self, 'duration')
     if slow_duration <= 0 then slow_duration = 4 end
-    local primary_slow_duration = is_boss(t) and (slow_duration * 0.4) or slow_duration
+    local primary_slow_duration = slow_duration
     damage(self, t, primary, DAMAGE_TYPE_MAGICAL)
     if c:IsNull() or (self.IsNull and self:IsNull()) then
         HeroTrace:Log('LICH','Q','impact_cancelled reason=source_removed_after_primary_damage')
@@ -48,8 +47,7 @@ function enfos_lich_frost_blast:OnSpellStart()
         if c:IsNull() or (self.IsNull and self:IsNull()) then break end
         if u ~= t then
         local splash = rdmg + (int * 0.5)
-        if is_boss(u) then splash = math.min(splash, u:GetMaxHealth() * 0.06) end
-        local dur = is_boss(u) and (slow_duration * 0.4) or slow_duration
+        local dur = slow_duration
         damage(self, u, splash, DAMAGE_TYPE_MAGICAL)
         affected = affected + 1
         if c:IsNull() or (self.IsNull and self:IsNull()) then break end

@@ -70,7 +70,7 @@ function enfos_lich_chain_frost:OnProjectileHit_ExtraData(target, location, data
     local targetId = target:entindex()
     for i = 1, data.hits do if data['hit_' .. i] == targetId then return true end end
     local origin = target:GetAbsOrigin()
-    local duration = is_boss(target) and data.slow_duration * 0.35 or data.slow_duration
+    local duration = data.slow_duration
     data.hits = data.hits + 1
     data['hit_' .. data.hits] = targetId
     target:EmitSound(target:IsHero() and 'Hero_Lich.ChainFrostImpact.Hero' or 'Hero_Lich.ChainFrostImpact.Creep')
