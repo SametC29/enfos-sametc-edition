@@ -3889,6 +3889,26 @@ test('Zeus Wrath emits native impacts for every hostile before lethal deletion',
     end
 end)
 
+test('Zeus Wrath stops if a damage callback deletes its caster', function()
+    local zeus=create_mock_unit('npc_dota_hero_zuus',2,Vector(0,0,0))
+    local first=create_mock_unit('wrath_caster_loss_first',3,Vector(100,0,0))
+    local second=create_mock_unit('wrath_caster_loss_second',3,Vector(200,0,0))
+    mock_world_units={zeus,first,second}
+    local a=enfos_zeus_thundergods_wrath();a.GetCaster=function() return zeus end
+    a.GetSpecialValueFor=function(_,key) return key=='damage' and 300 or 0 end
+    local oldDamage=ApplyDamage;local hits={}
+    ApplyDamage=function(info)
+        hits[#hits+1]=info
+        zeus.IsNull=function() return true end
+        zeus.GetTeamNumber=function() error('Deleted caster team must not be reread') end
+    end
+    local ok,err=pcall(function() a:OnSpellStart() end)
+    ApplyDamage=oldDamage
+    assert(ok,err)
+    assert(#hits==1 and hits[1].victim==first,
+        'Do not submit further damage or entity access using a deleted attacker')
+end)
+
 test('Zeus Heavenly Jump leaps while stationary and emits native launch/landing effects', function()
     applied_damages = {}
     local zeus = create_mock_unit('npc_dota_hero_zuus', 2, Vector(0, 0, 0))

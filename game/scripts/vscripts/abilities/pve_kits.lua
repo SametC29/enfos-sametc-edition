@@ -4518,6 +4518,9 @@ function enfos_zeus_thundergods_wrath:OnSpellStart()
     local dmg = base + (int * 2.0)
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 99999)) do
+        -- Damage callbacks can remove the attacker/ability while this snapshot
+        -- is being iterated. Ordinary caster death alone does not cancel Wrath.
+        if c:IsNull() or (self.IsNull and self:IsNull()) then break end
         if u and not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
             -- Wrath is a victim beam, not a caster aura. Its native root derives
             -- child impact CP3 from CP1; preserve endpoints even on lethal hits.
