@@ -3829,6 +3829,38 @@ test('Zeus Heavenly Jump leaps while stationary and emits native launch/landing 
     assert(#applied_damages == 1 and applied_damages[1].victim == creep and applied_damages[1].damage == 190)
 end)
 
+test('Zeus Heavenly Jump preserves its target cap when lethal hits delete slow recipients', function()
+    local zeus=create_mock_unit('npc_dota_hero_zuus',2,Vector(0,0,0))
+    zeus.intellect=50
+    local first=create_mock_unit('zeus_jump_deleted',3,Vector(500,0,0))
+    local second=create_mock_unit('zeus_jump_living',3,Vector(550,0,0))
+    local third=create_mock_unit('zeus_jump_over_cap',3,Vector(600,0,0))
+    mock_world_units={zeus,first,second,third}
+    local a=enfos_zeus_heavenly_jump();a.GetCaster=function() return zeus end
+    a.GetSpecialValueFor=function(_,key)
+        return ({damage=150,bonus_ms_pct=20,buff_duration=3,slow_pct=40,slow_duration=2,max_targets=2})[key] or 0
+    end
+    first.AddNewModifier=function() error('Deleted jump victim must not receive a slow') end
+    local oldDamage=ApplyDamage
+    local hits={}
+    ApplyDamage=function(info)
+        hits[#hits+1]=info
+        if info.victim==first then first.alive=false;first.IsNull=function() return true end end
+    end
+    local ok,err=pcall(function() a:OnSpellStart() end)
+    ApplyDamage=oldDamage
+    assert(ok,err)
+    assert(#hits==2 and hits[1].victim==first and hits[2].victim==second
+        and hits[1].damage==190 and hits[2].damage==190,
+        'A lethal hit still consumes one configured target and must not truncate or extend the jump')
+    assert(second:HasModifier('modifier_enfos_zeus_heavenly_jump_slow')
+        and second.modifiers.modifier_enfos_zeus_heavenly_jump_slow.params.duration==2,
+        'The living recipient retains its configured slow')
+    assert(not third:HasModifier('modifier_enfos_zeus_heavenly_jump_slow')
+        and zeus:HasModifier('modifier_enfos_zeus_heavenly_jump_buff'),
+        'The target cap and caster movement buff must remain intact')
+end)
+
 test('Witch Doctor Paralyzing Cask bounces and reduces boss stun duration', function()
     applied_damages = {}
     local wd = create_mock_unit('npc_dota_hero_witch_doctor', 2, Vector(0, 0, 0))

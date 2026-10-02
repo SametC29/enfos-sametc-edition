@@ -4528,10 +4528,14 @@ function enfos_zeus_heavenly_jump:OnSpellStart()
     local count = 0
     local max_targets = math.max(1, math.min(20, math.floor(value(self, 'max_targets'))))
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), 600)) do
-        damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
-        u:AddNewModifier(c, self, 'modifier_enfos_zeus_heavenly_jump_slow', { duration = value(self, 'slow_duration') })
-        count = count + 1
-        if count >= max_targets then break end
+        if u and not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
+            damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
+            if not u:IsNull() and u:IsAlive() then
+                u:AddNewModifier(c, self, 'modifier_enfos_zeus_heavenly_jump_slow', { duration = value(self, 'slow_duration') })
+            end
+            count = count + 1
+            if count >= max_targets then break end
+        end
     end
 end
 
