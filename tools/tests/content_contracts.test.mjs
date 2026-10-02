@@ -42,6 +42,12 @@ test('Dragon Knight Elder Dragon Form keeps its native no-cast-animation behavio
     'native Elder Dragon Form explicitly suppresses a cast gesture during transformation');
 });
 
+test('Dragon Knight ranged dragon-form projectile is precached',()=>{
+  const mode=fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua','utf8');
+  assert.match(mode,/PrecacheResource\(["']particle["'],\s*["']particles\/units\/heroes\/hero_dragon_knight\/dragon_knight_elder_dragon_fire\.vpcf["']/,
+    'Elder Dragon Form assigns this VPK particle as the ranged projectile');
+});
+
 
 test('Elites are fully retired from the NPC roster and wave runtime',()=>{
   const units=read('npc_units_custom.txt').DOTAUnits;

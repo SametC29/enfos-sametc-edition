@@ -15,13 +15,14 @@ This pass repaired user-visible localization and tooltip accuracy. It is not a f
 - The fifth Enfos passive `enfos_dk_wyrm_vigor` was using the Dragon Blood icon. The exact installed VPK contains `panorama/images/spellicons/dragon_knight_wyrms_wrath_png.vtex_c`, which matches its documented native counterpart (`dragon_knight_wyrms_wrath`, installed Ability3). Changed its `AbilityTextureName` and added a regression asserting the distinct icon mapping. The other four assigned icon files were also found in the installed VPK.
 - Q/W/R emit the installed bank's `Hero_DragonKnight.BreathFire`, `Hero_DragonKnight.DragonTail.Target`, and `Hero_DragonKnight.ElderDragonForm` events. The native hero KV names `soundevents/game_sounds_heroes/game_sounds_dragon_knight.vsndevts`, and the recorded sound-event scan confirms all three event definitions. The addon's shared explicit sound-bank precache list omitted `dragon_knight`; added it using the same established path rule as the other heroes and added a regression. Event reachability is statically verified; audible playback and timing remain an engine test.
 - Native `dragon_knight_elder_dragon_form` explicitly sets `AbilityCastAnimation` to `ACT_INVALID`; the custom R slot had no explicit override. Because the Enfos ability occupies slot 4 while the native ability is slot 6, relying on the engine's slot-based cast animation default could produce a cast gesture before the scripted model swap. Set `ACT_INVALID` explicitly to retain the native transform presentation and added a KV regression. Confirm actual gesture/model transition in-game.
+- Elder Dragon Form sets its ranged attack projectile to `dragon_knight_elder_dragon_fire.vpcf`. The particle exists in the installed VPK but was missing from the addon precache list; the analogous Terrorblade form projectile is explicitly precached. Added the missing Dragon Knight particle precache and a regression. Projectile rendering remains an engine test.
 
 ## Verification
 
 - `node tools/localization.mjs` — PASS; all four language outputs regenerated across resource and Panorama targets.
 - `node tools/checks.mjs` — PASS; 0 failed checks. This includes mock Lua execution and static content checks, not a Dota engine playtest.
 - `node tools/hero_reference_docs.mjs --check` — PASS.
-- `node --test tools/tests/content_contracts.test.mjs` — PASS; all 90 tests, including icon, sound-bank precache, and transformation-animation regressions.
+- `node --test tools/tests/content_contracts.test.mjs` — PASS; all 91 tests, including icon, sound-bank, transformation-animation, and projectile-precache regressions.
 - `git diff --check` — PASS.
 - Dota runtime, VConsole, icon presentation, particles, animation, and audio were not tested in this pass. Owner live test is pending.
 
