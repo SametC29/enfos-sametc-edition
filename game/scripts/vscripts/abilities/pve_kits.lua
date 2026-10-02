@@ -4410,6 +4410,7 @@ function enfos_zeus_arc_lightning:OnSpellStart()
     local hit = { [initial:entindex()] = true }
     local current = initial
     local current_position = initial:GetAbsOrigin()
+    initial:EmitSound('Hero_Zuus.ArcLightning.Target')
 
     if ParticleManager then
         local p = ParticleManager:CreateParticle('particles/units/heroes/hero_zuus/zuus_arc_lightning.vpcf', PATTACH_CUSTOMORIGIN, c)
@@ -4460,7 +4461,8 @@ function enfos_zeus_lightning_bolt:OnSpellStart()
         or not t:IsAlive() or t:GetTeamNumber() == c:GetTeamNumber() then return end
     if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
 
-    c:EmitSound('Hero_Zuus.LightningBolt')
+    c:EmitSound('Hero_Zuus.LightningBolt.Cast')
+    t:EmitSound('Hero_Zuus.LightningBolt')
     -- Native bolt children trace CP0 -> CP1; CP3 impact is derived from CP1
     -- by the root. Snapshot endpoints before damage can delete the victim.
     local impact_position = t:GetAbsOrigin()
@@ -4519,6 +4521,7 @@ function enfos_zeus_thundergods_wrath:OnSpellStart()
             ParticleManager:SetParticleControl(bolt, 0, position + Vector(0, 0, 1000))
             ParticleManager:SetParticleControl(bolt, 1, position)
             ParticleManager:ReleaseParticleIndex(bolt)
+            u:EmitSound('Hero_Zuus.GodsWrath.Target')
             damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
         end
     end
@@ -4528,7 +4531,9 @@ enfos_zeus_heavenly_jump=class({})
 function enfos_zeus_heavenly_jump:OnSpellStart()
     local c = self:GetCaster()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
-    c:EmitSound('Hero_Zuus.HeavenlyJump')
+    -- Current Zeus bank has no HeavenlyJump event; use its verified electric
+    -- burst as the custom instant jump cue, rather than an unresolved name.
+    c:EmitSound('Hero_Zuus.StaticField')
     -- Native RingWave reads CP2. Keep each finite ring at its cast position,
     -- rather than following the caster across the instant reposition.
     local function jump_ring(path, position)
