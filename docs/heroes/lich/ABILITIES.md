@@ -127,9 +127,16 @@ Change/test record (2026-09-30): Lich’s five Enfos ability definitions now exp
 2026-10-03 individual follow-up: source-lifetime guards prevent removed-recipient
 access and orphan pulses; cast uses the decoded current-build IceAge sound with
 explicit declaring-bank precache and native modifier icon. See
-[individual findings](../../audit/LICH_INDIVIDUAL_REVIEW_2026-10-03.md). W pulse slow,
-attack-only mitigation, persistent particle CPs, Shard/Scepter and lifecycle trace
-coverage remain open; mocks do not establish engine/audio/VFX acceptance.
+[individual findings](../../audit/LICH_INDIVIDUAL_REVIEW_2026-10-03.md). W rejects
+hostile recipients and stops on allegiance change; missing abilities no longer
+provide fallback protection. Installed6943 Ice Age root now uses recipient-bound
+CP0/1/5 and CP2 radius600, with modifier-owned destruction/release. Refresh reuses
+the particle and existing1s interval. Cast/rank/reduction, create/refresh/remove,
+particle ownership and bounded pulse damage/Boss summaries are traced by the
+shared flag. Four-language tooltips explicitly describe physical damage reduction,
+duration and INT-scaled pulses. Actual visual/audio/control/upgrade acceptance is
+still PENDING; W pulse slow and native attack-only mitigation remain open design
+comparisons. Mocks do not establish engine acceptance.
 
 Classification: PVE-CONVERT
 Native counterpart: `lich_frost_shield` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).

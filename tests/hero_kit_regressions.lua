@@ -8859,4 +8859,90 @@ test('Lich Chain Frost lost targets and removed sources end without damage or sp
     end
 end)
 
+test('Lich Frost Shield rejects enemy recipients before applying protection or sound',function()
+    local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+    local enemy=create_mock_unit('enfos_creep',3,Vector(100,0,0))
+    local a=enfos_lich_frost_shield();a.GetCaster=function() return c end;a.GetCursorTarget=function() return enemy end
+    a.GetSpecialValueFor=function(_,k) return k=='duration' and 6 or 0 end
+    local sound=0;enemy.EmitSound=function() sound=sound+1 end
+    a:OnSpellStart()
+    assert(not enemy:HasModifier('modifier_enfos_lich_frost_shield') and sound==0,'Friendly-target contract must be checked before feedback')
+end)
+
+test('Lich Frost Shield stops pulses on allegiance change and gives no orphan mitigation',function()
+    local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+    local p=create_mock_unit('npc_dota_hero_axe',2,Vector(100,0,0))
+    local enemy=create_mock_unit('enfos_creep',3,Vector(150,0,0))
+    local removed=false;local a=enfos_lich_frost_shield()
+    a.IsNull=function() return removed end;a.GetCaster=function() return c end
+    a.GetSpecialValueFor=function(_,k) assert(not removed,'Cannot read a removed ability');return k=='damage_reduction' and 40 or 30 end
+    local m=p:AddNewModifier(c,a,'modifier_enfos_lich_frost_shield',{})
+    assert(m:GetModifierIncomingPhysicalDamage_Percentage()==-40)
+    p.team=3;local destroyed=false;m.Destroy=function() destroyed=true end
+    mock_world_units={c,p,enemy};applied_damages={};m:OnIntervalThink()
+    assert(destroyed and #applied_damages==0,'Enemy recipient cannot emit allied protection pulses')
+    removed=true;assert(m:GetModifierIncomingPhysicalDamage_Percentage()==0,'Removed ability cannot provide protection')
+    m.GetAbility=function() return nil end
+    assert(m:GetModifierIncomingPhysicalDamage_Percentage()==0,'Missing ability cannot provide the old fallback protection')
+end)
+
+test('Lich Frost Shield registers one recipient-bound native particle without recast duplication',function()
+    local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+    local p=create_mock_unit('npc_dota_hero_axe',2,Vector(100,0,0))
+    local a=enfos_lich_frost_shield();a.GetCaster=function() return c end
+    a.GetSpecialValueFor=function(_,k) return ({radius=600,pulse_interval=1,damage_reduction=30,dps=30})[k] or 0 end
+    local m=p:AddNewModifier(c,a,'modifier_enfos_lich_frost_shield',{})
+    local oldParticles=ParticleManager;local created,owned,intervals=0,0,0;local points={}
+    ParticleManager={
+        CreateParticle=function(_,path,attach,unit)
+            assert(path=='particles/units/heroes/hero_lich/lich_ice_age.vpcf' and unit==p and attach==PATTACH_ABSORIGIN_FOLLOW)
+            created=created+1;return 123
+        end,
+        SetParticleControlEnt=function(_,fx,cp,unit,attach) assert(fx==123 and unit==p and attach==PATTACH_ABSORIGIN_FOLLOW);points[cp]=unit end,
+        SetParticleControl=function(_,fx,cp,vector) assert(fx==123 and cp==2 and vector.x==600);points[cp]=vector end,
+        ReleaseParticleIndex=function() error('Persistent shield ownership must not be released early') end,
+    }
+    m.AddParticle=function(_,fx,immediate) assert(fx==123 and not immediate);owned=owned+1 end
+    m.StartIntervalThink=function(_,interval) assert(interval==1);intervals=intervals+1 end
+    local ok,err=pcall(function() m:OnCreated();m:OnRefresh();m:OnDestroy() end)
+    ParticleManager=oldParticles
+    assert(ok,err);assert(created==1 and owned==1 and intervals==1,'Refresh must reuse the owned resource and existing interval')
+    assert(points[0]==p and points[1]==p and points[5]==p and points[2].x==600,'Decoded root CP contract')
+end)
+
+test('Lich Frost Shield tracing records lifecycle and measured pulse totals without changing damage',function()
+    local oldConvars,oldRules,oldPrint=Convars,GameRules,print
+    local trace=require('lib/hero_trace');local oldWindow,oldCount=trace.window,trace.count
+    local enabled=false;local lines={}
+    Convars={GetBool=function() return enabled end};GameRules={GetGameTime=function() return 100 end}
+    print=function(line) table.insert(lines,line) end;trace.window=nil;trace.count=0
+    local oldDamage=ApplyDamage
+    local ok,err=pcall(function()
+        for _,flag in ipairs({false,true}) do
+            enabled=flag
+            local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0));c.intellect=100
+            local p=create_mock_unit('npc_dota_hero_axe',2,Vector(100,0,0))
+            local creep=create_mock_unit('enfos_creep',3,Vector(150,0,0))
+            local boss=create_mock_unit('enfos_boss_test',3,Vector(200,0,0))
+            local a=enfos_lich_frost_shield();a.GetCaster=function() return c end;a.GetCursorTarget=function() return p end
+            a.GetLevel=function() return 1 end
+            a.GetSpecialValueFor=function(_,k) return ({dps=30,radius=600,pulse_interval=1,damage_reduction=30,duration=6})[k] or 0 end
+            applied_damages={};mock_world_units={c,p,creep,boss}
+            ApplyDamage=function(e) oldDamage(e);return e.damage*0.5 end
+            a:OnSpellStart();local m=p:FindModifierByName('modifier_enfos_lich_frost_shield')
+            m.StartIntervalThink=function() end;m.AddParticle=function() end
+            m:OnCreated();m:OnRefresh();m:OnIntervalThink();m:OnDestroy()
+            assert(#applied_damages==2 and applied_damages[1].damage==55 and applied_damages[2].damage==55,'Debug flag cannot change damage')
+            if not flag then assert(#lines==0,'Tracing is off by default') end
+        end
+        local text=table.concat(lines,'\n')
+        for _,event in ipairs({'cast','shield_created','shield_refreshed','pulse','shield_removed'}) do
+            assert(text:find('[LICH_TRACE][W] '..event,1,true),'Missing material W transition: '..event)
+        end
+        assert(text:find('bosses=1',1,true) and text:find('actual_total=55',1,true),'Actual ApplyDamage totals and Boss summary')
+    end)
+    ApplyDamage=oldDamage;Convars,GameRules,print=oldConvars,oldRules,oldPrint;trace.window,trace.count=oldWindow,oldCount
+    assert(ok,err)
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')

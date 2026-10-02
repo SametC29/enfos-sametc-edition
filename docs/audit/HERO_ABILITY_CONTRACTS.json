@@ -4103,7 +4103,9 @@
           "specials": {
             "damage_reduction": "30 40 50 60 62 64 66 68 70 72",
             "duration": "6.0",
-            "dps": "30 50 70 90 110 130 150 170 190 210"
+            "dps": "30 50 70 90 110 130 150 170 190 210",
+            "radius": "600",
+            "pulse_interval": "1.0"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],

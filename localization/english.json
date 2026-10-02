@@ -1411,6 +1411,11 @@
     "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff": "Elder Dragon Form",
     "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff_Description": "Ranged dragon form. Attack damage: +%dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%. Attack range: +%dMODIFIER_PROPERTY_ATTACK_RANGE_BONUS%. Attacks splash onto nearby enemies and slow them. Cannot be dispelled.",
     "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow": "Dragon Frost",
-    "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow_Description": "Movement speed change: %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Attack speed change: %-dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Affected by an Elder Dragon Form splash attack."
+    "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow_Description": "Movement speed change: %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Attack speed change: %-dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Affected by an Elder Dragon Form splash attack.",
+    "DOTA_Tooltip_Ability_enfos_lich_frost_shield_Description": "Shields an ally for {{duration}} seconds, reducing incoming physical damage by {{damage_reduction}}%. Every {{pulse_interval}} seconds, the shield deals {{dps}} + 25% of Intellect magical damage to enemies within {{radius}} radius.",
+    "DOTA_Tooltip_Ability_enfos_lich_frost_shield_SummaryDescription": "Shields an ally for {{duration}} seconds, reducing incoming physical damage by {{damage_reduction}}%. Every {{pulse_interval}} seconds, the shield deals {{dps}} + 25% of Intellect magical damage to enemies within {{radius}} radius.",
+    "DOTA_Tooltip_Ability_enfos_lich_frost_shield": "Frost Shield",
+    "DOTA_Tooltip_modifier_enfos_lich_frost_shield": "Frost Shield",
+    "DOTA_Tooltip_modifier_enfos_lich_frost_shield_Description": "Incoming physical damage is reduced by %-dMODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE%%%. Periodically deals magical damage to nearby enemies."
   }
 }

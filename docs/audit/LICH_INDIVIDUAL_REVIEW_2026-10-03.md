@@ -10,11 +10,12 @@
   W sound, D recipient-vs-source Break ownership, E control/channel teardown,
   R lethal-victim/source access, undefined impact sound and instant projectile
   dispatch repaired; advanced mechanics and owner engine evidence remain open.
-- MOCK/REGRESSION VALIDATION: PASS for the recorded five-slot cases (348 suite cases).
+- MOCK/REGRESSION VALIDATION: PASS for the recorded five-slot cases (352 suite cases).
 - RUNTIME TRACE COVERAGE: PARTIAL, Q cast/absorb/source-loss/primary/splash summary;
   W cast/pulse/source-loss, E channel/control lifecycle and D source/recipient
   lifecycle and R projectile launch/impact/damage/termination/slow ownership
-  records added; detailed W lifecycle, D live Break/rank transitions and E
+  records added; W create/refresh/removal, particle ownership and actual pulse
+  damage/Boss summaries added. D live Break/rank transitions and E
   resources/absorb remain open. R advanced immunity/upgrade evidence remains open.
 - ABILITY ISOLATION: COMPLETE for current source; five custom slots and six modifiers extracted into
   explicit hero modules; source/regression verification and owner cold-start gate
@@ -329,3 +330,73 @@ recast/refresh/death, target disappearance/disjoint attempts, BKB/debuff immunit
 purge/resistance, two Lich ownership, upgrades and reconnect. OWNER RUNTIME TRACE
 EVIDENCE / VISUAL-AUDIO / ENGINE ACCEPTANCE remain NOT TESTED; no source closure
 or engine acceptance is inferred from these automated passes.
+
+## 2026-10-03: W friendly targeting, persistent resource and lifecycle evidence
+
+W remains PVE-CONVERT: preserve the authored allied defensive buff, six-second
+duration, ten30–72% physical-reduction ranks, ten30–210 pulse-damage ranks and
+INT0.25 scaling. The existing pulse radius600 and interval1.0 are now named KV
+values; their gameplay values did not change. Native6943 Frost Shield declares
+friendly Hero/Basic/Building targeting, interval1, radius600, movement_slow20–35
+and slow_duration0.5. Enfos currently targets friendly Hero/Basic only, uses
+all incoming physical reduction and does not apply native pulse slow. These
+last two differences remain explicit native/design comparisons; this repair
+does not silently change the mitigation category or introduce a new debuff.
+
+Source review found OnSpellStart checked lifetime but not the target's team.
+An independent regression reproduced protection and cast sound on an enemy
+recipient before the fix. Cast now rejects that recipient before feedback.
+An existing shield stops its normal interval when the recipient changes team.
+The incoming-damage getter returns0 for missing/removed ability rather than
+granting the previous missing-ability fallback40%. The old shared value helper
+already protected removed-ability reads; missing-ability fallback was the
+additional defect. Valid caster death continues an existing buff, while removed
+caster/recipient/ability and recipient death stop pulses under existing guards.
+Gameplay team/lifetime guards are source/mock evidence, not an observed owner
+engine targeting failure.
+
+Installed particles/units/heroes/hero_lich/lich_ice_age.vpcf_c and its family were
+decoded read-only with Source2Viewer CLI19.2 from build6943 /
+SourceRevision11069754. Root children include the persistent shield sphere/model,
+AoE ring and an endcap edge. Sphere/model lock to CP1; the AoE ring takes its
+initial radius from CP2.x. Root preview declares CP0/1/5 on its recipient and
+CP2=(600,600,600). Replace the obsolete overhead Frost Armor GetEffectName with
+this current root, bind CP0/1/5 to recipient origin follow and explicitly set
+CP2 to the authored radius. CDOTA_Buff:AddParticle and current
+CScriptParticleManager:SetParticleControlEnt/SetParticleControl signatures were
+verified through installed MCP and [server API declarations](https://docs.moddota.com/lua_server/).
+The existing Sven Warcry AddParticle owner pattern was inspected as an in-repo
+reference, not imported or treated as a Lich engine test. No external code/assets
+were imported. The modifier owns the persistent index and engine disposal;
+OnRefresh creates neither a second particle nor a second interval. Ability
+Precache now names the Ice Age root alongside the already-verified Lich bank.
+Actual body placement, movement follow and endcap cleanup remain owner visual
+tests; preview CPs and mock ownership do not certify those results.
+
+W diagnostics cover cast target/rank/duration/reduction, rejection, create/refresh/
+removal and particle owner, plus one bounded summary per existing1s pulse. The
+summary contains recipient/source, affected/Boss counts, requested per-target
+damage and summed ApplyDamage returns (unavailable if not numeric). No target
+search, timer, modifier or cleanup is added solely for logging. No getter logs.
+Enabled/disabled regression runs produce identical requested pulse damage.
+
+Turkish source and EN/RU/zh-CN translations now state physical reduction rather
+than unqualified damage reduction, and describe the already-existing pulse
+damage, INT scaling, radius, interval and duration. Description and compact
+summary mirrors were regenerated through the existing localization tool.
+Ability/buff names and modifier descriptions are also authored in all four
+languages; the buff uses the existing incoming-physical-damage property tooltip
+placeholder. Its actual signed percentage rendering remains owner HUD testing.
+Four new regressions cover wrong-team cast, allegiance/orphan mitigation,
+recipient particle ownership/refresh reuse and diagnostic gameplay neutrality.
+352 hero behavior regressions,110 Node tests and npm run check pass; no failed
+checks. SOURCE REVIEW remains PENDING and overall TRACE COVERAGE remains PARTIAL.
+
+Owner basic tests: cold W cast on self/ally, visible shield centred on moving
+recipient and600-radius ring, correct tooltip and cast audio, actual physical
+damage reduction and six-second pulse lifetime. Advanced: buff refresh/two Lich
+ownership, purge/expiry/death/removed source, Break versus external buff,
+immunity/physical spells versus attacks, Shard/Scepter/Ascended interactions and
+reconnect. OWNER RUNTIME TRACE EVIDENCE / VISUAL-AUDIO / ENGINE ACCEPTANCE remain
+NOT TESTED. Native pulse slow, attack-only reduction, cast animation and upgrade
+integration need further individual source decisions before W source closure.

@@ -1351,6 +1351,11 @@
     "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff": "古龙形态",
     "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff_Description": "变为远程攻击的巨龙。攻击力：+%dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%。攻击距离：+%dMODIFIER_PROPERTY_ATTACK_RANGE_BONUS%。攻击溅射附近敌人并使其减速。无法驱散。",
     "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow": "龙霜",
-    "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow_Description": "移速变化：%-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。攻击速度变化：%-dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%。受到古龙形态溅射攻击的影响。"
+    "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow_Description": "移速变化：%-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。攻击速度变化：%-dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%。受到古龙形态溅射攻击的影响。",
+    "DOTA_Tooltip_Ability_enfos_lich_frost_shield_Description": "为友军施加持续{{duration}}秒的冰霜护盾，受到的物理伤害降低{{damage_reduction}}%。护盾每{{pulse_interval}}秒对{{radius}}范围内的敌人造成{{dps}} + 智力的25%的魔法伤害。",
+    "DOTA_Tooltip_Ability_enfos_lich_frost_shield_SummaryDescription": "为友军施加持续{{duration}}秒的冰霜护盾，受到的物理伤害降低{{damage_reduction}}%。护盾每{{pulse_interval}}秒对{{radius}}范围内的敌人造成{{dps}} + 智力的25%的魔法伤害。",
+    "DOTA_Tooltip_Ability_enfos_lich_frost_shield": "冰霜护盾",
+    "DOTA_Tooltip_modifier_enfos_lich_frost_shield": "冰霜护盾",
+    "DOTA_Tooltip_modifier_enfos_lich_frost_shield_Description": "受到的物理伤害降低%-dMODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE%%%。周期性对周围敌人造成魔法伤害。"
   }
 }

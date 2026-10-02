@@ -927,7 +927,7 @@
     "DOTA_Tooltip_Ability_enfos_lich_frost_blast": "Donma Patlaması",
     "DOTA_Tooltip_Ability_enfos_lich_frost_blast_Description": "Hedefe {{target_damage}} + Zekâ'nın %80'i, {{radius}} yarıçapındaki diğer düşmanlara {{radius_damage}} + Zekâ'nın %50'si kadar büyü hasarı verir. Hareket hızını %{{slow_pct}}, saldırı hızını {{slow_attack}} azaltır; yavaşlatma {{duration}} sn sürer. Bosslarda yavaşlatma süresi %40'tır.",
     "DOTA_Tooltip_Ability_enfos_lich_frost_shield": "Don Kalkanı",
-    "DOTA_Tooltip_Ability_enfos_lich_frost_shield_Description": "Hedef dosta buz zırhı giydirerek gelen hasarı %{{damage_reduction}} azaltır.",
+    "DOTA_Tooltip_Ability_enfos_lich_frost_shield_Description": "Hedef dosta {{duration}} saniyeliğine buz kalkanı verir ve aldığı fiziksel hasarı %{{damage_reduction}} azaltır. Kalkan her {{pulse_interval}} saniyede {{radius}} yarıçapındaki düşmanlara {{dps}} + Zekanın %25’i kadar büyü hasarı verir.",
     "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze": "Uğursuz Bakış",
     "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_Description": "{{duration}} sn kanallayarak hedefin saniyede maksimum manasının %{{mana_drain_pct}} kadarını çeker ve Lich'e aktarır. Hedefi sersemletip kendine çeker; boss kanal ve sersemletme süresi normalin %35'idir ve boss çekilmez.",
     "DOTA_Tooltip_Ability_enfos_lich_chain_frost": "Zincirleme Don",
@@ -1761,6 +1761,9 @@
     "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff": "Yaşlı Ejderha Biçimi",
     "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff_Description": "Menzilli ejderha biçimi. Saldırı hasarı: +%dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%. Saldırı menzili: +%dMODIFIER_PROPERTY_ATTACK_RANGE_BONUS%. Saldırılar çevredeki düşmanlara sıçrar ve onları yavaşlatır. Etki silinemez.",
     "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow": "Ejderha Soğuğu",
-    "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow_Description": "Hareket hızı değişimi: %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Saldırı hızı değişimi: %-dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Ejderha biçimindeki sıçrama saldırısından etkileniyor."
+    "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow_Description": "Hareket hızı değişimi: %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Saldırı hızı değişimi: %-dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Ejderha biçimindeki sıçrama saldırısından etkileniyor.",
+    "DOTA_Tooltip_Ability_enfos_lich_frost_shield_SummaryDescription": "Hedef dosta {{duration}} saniyeliğine buz kalkanı verir ve aldığı fiziksel hasarı %{{damage_reduction}} azaltır. Kalkan her {{pulse_interval}} saniyede {{radius}} yarıçapındaki düşmanlara {{dps}} + Zekanın %25’i kadar büyü hasarı verir.",
+    "DOTA_Tooltip_modifier_enfos_lich_frost_shield": "Don Kalkanı",
+    "DOTA_Tooltip_modifier_enfos_lich_frost_shield_Description": "Alınan fiziksel hasar %-dMODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE%%% azalır. Yakındaki düşmanlara düzenli olarak büyü hasarı verir."
   }
 }
