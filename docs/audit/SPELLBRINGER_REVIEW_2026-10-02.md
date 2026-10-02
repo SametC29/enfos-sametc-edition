@@ -92,7 +92,10 @@ claim every transferred special is automatically exercised against neutral PvE.
 
 ## Owner acceptance procedure
 
-Use a fresh Tools match. Cast Future Reinforcements, then in **server** console:
+Use a fresh Tools match. Casting Future Reinforcements now automatically arms
+the read-only diagnostic for its five actual spawn handles. No console command
+is needed for the next reproduction. To inspect an existing group manually in
+**server** console:
 `script require("tools/spellbringer_audit").Run(0)` (replace 0 with caster player ID).
 Select one unit, move at least 300 traversable world units, attack a neutral wave
 unit, stop, hold, and repeat using the group. Retain `[SPELLBRINGER_AUDIT]` and
@@ -132,3 +135,24 @@ economy, mana/CD, co-op, target validation and existing hero kits. No actual
 VConsole session at this tested revision; old log warnings remain unclassified
 outside this task. Static/mock PASS never promotes the movement report,
 rendered effects, animations or audio to ENGINE_PASS.
+
+## Reopened after owner failure — October 2, evening session
+
+Owner again reports no movement. Read the new installed console log (last write
+23:25:15 local): Future Reinforcements cast succeeded for player 0/team 2 at
+23:23:08, selected point (10649.66, 9684.98, 128). No SPELLBRINGER_AUDIT or
+SPELLBRINGER_ORDER lines were produced. Dota exited at 23:25:15; no live entities
+remain to inspect. `invalid order (26): Target can't be seen by the unit's team`
+appears around the cast, but lacks the unit ID/source and is also produced by
+other combat AI. It does not identify a failed manual ground move. TreeShop
+trigger missing-function errors are separate, not evidence for this movement
+failure. Do not silently patch any of these as the reinforcement root cause.
+
+Diagnostic gap repaired: only in server Tools mode, successful reinforcement
+creation now automatically calls the existing probe with its five handles.
+Explicit handles also expose wrong owner IDs; the old owner-filtered global scan
+could hide that failure. Ordinary play does not arm this probe. Automatic probe
+errors are isolated from cast success. No movement gameplay patch applied;
+reported bug remains OPEN / runtime reproduction evidence required. Tests cover
+automatic Tools arming, no global scan, wrong-owner reporting/observation,
+non-Tools exclusion and diagnostic failure preserving the successful spawn.

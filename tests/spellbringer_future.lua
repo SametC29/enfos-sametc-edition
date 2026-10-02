@@ -66,4 +66,21 @@ ready=false;spawned={};service.playerState={[0]={mana=200,max_mana=200,cooldowns
 local ok=service:CastSpell(0,'spellbringer_future_reinforcements',Vector(7500,0,128),nil)
 assert(not ok and #spawned==0 and #events==before)
 assert(service.playerState[0].mana==200 and service.playerState[0].cooldowns.spellbringer_future_reinforcements==nil)
+-- Tools casts must arm movement evidence automatically with exactly this group.
+ready=true
+local observations=0
+package.loaded['tools/spellbringer_audit']={Run=function(player,group)
+ assert(player==0 and #group==5)
+ for i,u in ipairs(group) do assert(u==spawned[i]) end
+ observations=observations+1
+end}
+IsInToolsMode=function() return false end
+spawned={};assert(service:CastFutureReinforcements(2,service.ABILITY_DEFS.spellbringer_future_reinforcements,Vector(7500,0,128),0))
+assert(observations==0,'no automatic diagnostic outside Tools mode')
+IsInToolsMode=function() return true end
+spawned={};assert(service:CastFutureReinforcements(2,service.ABILITY_DEFS.spellbringer_future_reinforcements,Vector(7500,0,128),0))
+assert(observations==1)
+package.loaded['tools/spellbringer_audit'].Run=function() error('simulated diagnostic failure') end
+spawned={};assert(service:CastFutureReinforcements(2,service.ABILITY_DEFS.spellbringer_future_reinforcements,Vector(7500,0,128),0))
+assert(#spawned==5,'a diagnostic failure must not invalidate an otherwise successful cast')
 print('spellbringer future tests passed')

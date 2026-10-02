@@ -650,6 +650,7 @@ function SpellbringerService:CastFutureReinforcements(casterTeam, def, targetPos
 	local spawnPos = targetPos or self:GetReinforcementSpawnPos(casterTeam)
 	local owner=playerID and PlayerResource:GetSelectedHeroEntity(playerID) or nil
 	local created=0
+	local spawnedUnits={}
 
 	for i = 1, def.count do
 		local unit = CreateUnitByName(future.unit, spawnPos + Vector(RandomFloat(-60, 60), RandomFloat(-60, 60), 0), true, owner, owner, casterTeam)
@@ -657,6 +658,7 @@ function SpellbringerService:CastFutureReinforcements(casterTeam, def, targetPos
 			created=created+1
 			if owner then unit:SetOwner(owner);unit:SetControllableByPlayer(playerID,true) end
 			unit.is_allied_reinforcement = true
+			spawnedUnits[#spawnedUnits+1]=unit
 			unit.enfosNoReward = true
 			unit:SetMinimumGoldBounty(0);unit:SetMaximumGoldBounty(0);unit:SetDeathXP(0)
 
@@ -680,6 +682,12 @@ function SpellbringerService:CastFutureReinforcements(casterTeam, def, targetPos
 		end
 	end
 
+	-- Capture the owner's next move attempt automatically in a Tools test.
+	-- Pass actual handles so incorrect owner IDs cannot hide a failed assignment.
+	if created>0 and IsInToolsMode and IsInToolsMode() then
+		local ok,err=pcall(function() require("tools/spellbringer_audit").Run(playerID,spawnedUnits) end)
+		if not ok then Log:Warn("spellbringer","Reinforcement observation failed: %s",tostring(err)) end
+	end
 	EmitGlobalSound("Hero_Silencer.GlobalSilence.Effect")
 	return created>0
 end

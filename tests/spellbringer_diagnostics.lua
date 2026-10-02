@@ -48,4 +48,12 @@ DOTA_UNIT_ORDER_SELL_ITEM=33
 EnfosSpellbringerOrderAudit=function() error('simulated stale diagnostic handle') end
 assert(EnfosSametC:OrderFilter(order)==true, 'a diagnostic error must never reject movement')
 assert(EnfosSpellbringerOrderAudit==nil)
+-- Explicit spawn handles must report even an incorrect player assignment.
+a.removed=false;now=0
+Entities.FindAllByClassname=function() error('spawn diagnostics must not scan global units') end
+rows=audit.Run(0,{b})
+assert(#rows==1 and rows[1].owner==1, 'report wrong ownership instead of filtering it out')
+timers={}
+EnfosSpellbringerOrderAudit({issuer_player_id_const=0,order_type=1,units={['0']=2}})
+assert(timers.SpellbringerOrderAudit_2, 'observe orders to the supplied spawn despite ownership mismatch')
 io.write('PASS Spellbringer read-only movement diagnostics\n')

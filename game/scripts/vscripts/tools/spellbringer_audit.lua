@@ -1,4 +1,5 @@
--- Owner-only, read-only Tools diagnostic. Does not cast, move or select units.
+-- Read-only Tools diagnostic. Automatically armed by Future Reinforcements.
+-- Does not cast, move or select units. Can also be armed manually:
 -- Server console: script require("tools/spellbringer_audit").Run(0)
 -- Then select a reinforcement and issue move/attack/stop/hold orders for 30s.
 local Audit = {}
@@ -38,7 +39,7 @@ function Audit.Snapshot(unit)
     return row
 end
 
-function Audit.Run(playerID)
+function Audit.Run(playerID, spawnedUnits)
     if not IsServer or not IsServer() or not GameRules or not IsInToolsMode or not IsInToolsMode() then
         print("[SPELLBRINGER_AUDIT] server Tools context required")
         return nil
@@ -48,9 +49,10 @@ function Audit.Run(playerID)
         print("[SPELLBRINGER_AUDIT] invalid player")
         return nil
     end
-    local rows = {}
-    for _, unit in ipairs(Entities:FindAllByClassname("npc_dota_creature")) do
-        if reinforcement(unit) and unit:GetPlayerOwnerID() == playerID then
+    local rows, watched = {}, {}
+    for _, unit in ipairs(spawnedUnits or Entities:FindAllByClassname("npc_dota_creature")) do
+        if reinforcement(unit) and (spawnedUnits or unit:GetPlayerOwnerID() == playerID) then
+            watched[unit:entindex()] = unit
             rows[#rows + 1] = Audit.Snapshot(unit)
         end
     end
@@ -65,7 +67,7 @@ function Audit.Run(playerID)
         if order.issuer_player_id_const ~= playerID then return end
         for _, index in pairs(order.units or {}) do
             local unit = EntIndexToHScript(tonumber(index) or -1)
-            if reinforcement(unit) and unit:GetPlayerOwnerID() == playerID then
+            if reinforcement(unit) and watched[unit:entindex()] == unit then
                 local before = Audit.Snapshot(unit)
                 print(string.format("[SPELLBRINGER_ORDER] entity=%d issuer=%d type=%s target=%s destination=%s,%s,%s",
                     before.entity, playerID, tostring(order.order_type), tostring(order.entindex_target),
