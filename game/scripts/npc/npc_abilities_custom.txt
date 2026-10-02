@@ -1699,6 +1699,7 @@
 	{
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES"
 		"AbilityTextureName"		"sniper_take_aim"
 		"RequiredLevel"	"1"
 		"LevelsBetweenUpgrades"	"1"
@@ -1723,6 +1724,8 @@
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetFlags" "DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_PHYSICAL"
 		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityTextureName"		"sniper_assassinate"

@@ -2807,6 +2807,7 @@ function modifier_enfos_sniper_take_aim_passive:GetModifierAttackRangeBonus()
 end
 
 modifier_enfos_sniper_take_aim_buff=class({})
+function modifier_enfos_sniper_take_aim_buff:IsPurgable() return true end
 function modifier_enfos_sniper_take_aim_buff:GetTexture() return 'sniper_take_aim' end
 function modifier_enfos_sniper_take_aim_buff:GetEffectName() return 'particles/units/heroes/hero_sniper/sniper_take_aim_overhead.vpcf' end
 function modifier_enfos_sniper_take_aim_buff:GetEffectAttachType() return PATTACH_OVERHEAD_FOLLOW end
