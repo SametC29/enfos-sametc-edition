@@ -66,6 +66,22 @@ for rank=1,10 do
     assert(p.slow==chainDuration[1],'R ordinary slow duration applies to both')
   end
 end
+do
+  local removed=false
+  local a={IsNull=function() return removed end,GetSpecialValueFor=function(_,key)
+    assert(not removed,'Do not read a removed slow ability')
+    return ({slow_pct=51,slow_attack=40,slow_attack_pct=50})[key] or 0
+  end}
+  local qSlow=setmetatable({GetAbility=function() return a end},modifier_enfos_lich_frost_blast_slow)
+  local rSlow=setmetatable({GetAbility=function() return a end},modifier_enfos_lich_chain_frost_slow)
+  assert(qSlow:GetModifierMoveSpeedBonus_Percentage()==-51 and qSlow:GetModifierAttackSpeedBonus_Constant()==-40)
+  assert(rSlow:GetModifierMoveSpeedBonus_Percentage()==-51 and rSlow:GetModifierAttackSpeedBonus_Constant()==-50)
+  removed=true
+  for _,m in ipairs({qSlow,rSlow}) do
+    assert(m:GetModifierMoveSpeedBonus_Percentage()==0 and m:GetModifierAttackSpeedBonus_Constant()==0,
+      'Removed ability must not produce hard-coded orphan slow values')
+  end
+end
 print('Lich ordinary targets ten-rank regression PASS')
 `;
   const result=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});

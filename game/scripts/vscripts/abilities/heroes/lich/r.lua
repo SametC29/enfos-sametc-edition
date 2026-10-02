@@ -115,12 +115,14 @@ function modifier_enfos_lich_chain_frost_slow:DeclareFunctions()
 end
 function modifier_enfos_lich_chain_frost_slow:GetModifierMoveSpeedBonus_Percentage()
     local a = self:GetAbility()
+    if not a or (a.IsNull and a:IsNull()) then return 0 end
     local slow = a and value(a, 'slow_pct') or 50
     if slow <= 0 then slow = 50 end
     return -slow
 end
 function modifier_enfos_lich_chain_frost_slow:GetModifierAttackSpeedBonus_Constant()
     local a = self:GetAbility()
+    if not a or (a.IsNull and a:IsNull()) then return 0 end
     local slow = a and value(a, 'slow_attack_pct') or 50
     if slow <= 0 then slow = 50 end
     return -slow

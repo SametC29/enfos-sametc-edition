@@ -124,3 +124,26 @@ as completing the owner's unique Shard/Scepter request. Native build6943 Gaze
 Scepter AoE400 and Ice Spire relationship require focused native resource/
 rank/slot/PvE design inspection; no arbitrary heal pulse or new active spell is
 added merely to fill the gap. Upgrade source/design implementation is OPEN.
+
+## Q/R removed-source slow properties
+
+Inspection found inconsistent orphan properties: Q's movement slow returned0
+through the safe shared value helper after ability removal, but its attack slow
+fell back to40; R returned50 for both without a valid source. Those constants
+were fallback values, not captured cast data. Add valid-source guards to the
+three affected existing getters, matching Q's existing movement and W's orphan
+mitigation guards. Valid-source ranked values and legacy fallback behavior are
+preserved. No new cleanup, modifier, timer or gameplay transition is added;
+existing finite modifier expiry still owns removal.
+
+The regression exercises valid getters and then a removed ability whose value
+getter throws on access. Before repair it fails on orphan bonuses; after repair
+all four slow properties return0 without touching the removed source. Full
+repository checks0fail. Actual removal/expiry/client replication remains an
+owner-engine test; this does not claim native source-removal equivalence.
+Modifier basic/strong dispel policy is separately open: current Q/W/E/R KV does
+not declare SpellDispellableType and source modifiers rely on defaults. Installed
+native Frost Nova, Shield and Gaze declare SPELL_DISPELLABLE_YES; current
+[modifier API declarations](https://docs.moddota.com/lua_server/docs) expose
+IsPurgable/IsPurgeException/IsStunDebuff. No guessed engine default or unrelated
+aura purge policy is changed in this orphan-property repair.

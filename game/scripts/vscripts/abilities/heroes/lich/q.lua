@@ -72,6 +72,8 @@ function modifier_enfos_lich_frost_blast_slow:DeclareFunctions()
 end
 function modifier_enfos_lich_frost_blast_slow:GetModifierMoveSpeedBonus_Percentage() return -value(self:GetAbility(), 'slow_pct') end
 function modifier_enfos_lich_frost_blast_slow:GetModifierAttackSpeedBonus_Constant()
-    local slow = value(self:GetAbility(), 'slow_attack')
+    local ab = self:GetAbility()
+    if not ab or (ab.IsNull and ab:IsNull()) then return 0 end
+    local slow = value(ab, 'slow_attack')
     return -(slow > 0 and slow or 40)
 end
