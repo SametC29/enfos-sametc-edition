@@ -101,3 +101,26 @@ contributor E work present. Q shader rendering, exact visual footprint, animatio
 and audio remain NOT TESTED. Duplicate caster/target FrostNova emission and
 modifier lifecycle/identity still require focused follow-up. Lich SOURCE REVIEW
 remains PENDING. Concurrent main ledger/dossier/E/tests changes are not claimed.
+
+## Q targeting/sound and upgrade audit follow-up
+
+Q now rejects friendly cursor recipients before absorb, feedback or damage,
+matching native/project enemy-only KV and the explicit R/E team guards. A
+meaningful fixture failed before repair when an ally's spell-absorb callback
+was invoked, and now passes without feedback/damage. Emit Ability.FrostNova
+once at the recipient; the duplicate identical caster emission was removed.
+Existing decoded bank and reference target-centered nova emission supply source
+evidence. Ten-rank fixtures check a single target emission. Actual playback,
+reflect/cast-order behavior and engine targeting remain owner tests.
+
+Read heroes/aghanim_manager.lua and four-language upgrade tokens: current Lich
+is Support. Shard supplies outgoing healing25%; pulse_heal200 is configuration
+without a handler. None of Lich's five spells heals, so this does not evolve
+his kit, though healing items can still use the property. Scepter supplies
+ultimate40% spell amplification/25% cooldown via shared properties; no Lich-
+specific mechanic is implemented. Existing tooltip states those generic values
+accurately. Do not count acquisition, token presence or those generic properties
+as completing the owner's unique Shard/Scepter request. Native build6943 Gaze
+Scepter AoE400 and Ice Spire relationship require focused native resource/
+rank/slot/PvE design inspection; no arbitrary heal pulse or new active spell is
+added merely to fill the gap. Upgrade source/design implementation is OPEN.

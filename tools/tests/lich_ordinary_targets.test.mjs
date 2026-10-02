@@ -21,7 +21,7 @@ function Vector(x,y,z) return {x=x,y=y,z=z} end
 local controls={}
 ParticleManager={CreateParticle=function() controls={};return 1 end,
   SetParticleControl=function(_,id,cp,v) controls[cp]=v end,ReleaseParticleIndex=function() end}
-local world,damageEvents={},{}
+local world,damageEvents,sounds={},{},{}
 function FindUnitsInRadius() return world end
 function ApplyDamage(e) damageEvents[#damageEvents+1]=e;return e.damage end
 local function unit(boss,index)
@@ -30,10 +30,18 @@ local function unit(boss,index)
     GetTeamNumber=function() return index==1 and 2 or 3 end,
     GetAbsOrigin=function() return {x=index*100,y=0,z=0} end,
     GetIntellect=function() return 1000 end,GetMaxHealth=function() return 100 end,
-    EmitSound=function() end,IsHero=function() return false end,entindex=function() return index end,
+    EmitSound=function(self,event) sounds[#sounds+1]={unit=self,event=event} end,
+    IsHero=function() return false end,entindex=function() return index end,
     AddNewModifier=function(self,c,a,name,kv) self.slow=kv.duration;return {} end}
 end
 require('abilities/heroes/lich/q');require('abilities/heroes/lich/r')
+do
+  local c,p=unit(false,1),unit(false,1)
+  p.TriggerSpellAbsorb=function() error('Friendly Q must not consume spell absorb') end
+  p.EmitSound=function() error('Friendly Q must not emit cast feedback') end
+  local a=setmetatable({GetCaster=function() return c end,GetCursorTarget=function() return p end},enfos_lich_frost_blast)
+  damageEvents={};a:OnSpellStart();assert(#damageEvents==0,'Friendly Q must not deal damage')
+end
 local targetDamage,splashDamage={${curve(q,'target_damage')}},{${curve(q,'radius_damage')}}
 local duration,radius={${curve(q,'duration')}},{${curve(q,'radius')}}
 local chainDamage,chainDuration={${curve(r,'damage')}},{${curve(r,'slow_duration')}}
@@ -43,8 +51,9 @@ for rank=1,10 do
     local values={target_damage=targetDamage[rank],radius_damage=splashDamage[rank],duration=duration[rank],radius=radius[rank]}
     local a=setmetatable({GetCaster=function() return c end,GetCursorTarget=function() return p end,
       GetLevel=function() return rank end,GetSpecialValueFor=function(_,k) return values[k] or 0 end},enfos_lich_frost_blast)
-    world={p,s};damageEvents={};a:OnSpellStart()
+    world={p,s};damageEvents={};sounds={};a:OnSpellStart()
     assert(#damageEvents==2)
+    assert(#sounds==1 and sounds[1].unit==p and sounds[1].event=='Ability.FrostNova','Q emits one target-centered nova sound')
     assert(damageEvents[1].damage==targetDamage[rank]+800,'Q primary must not have a Boss maxHP cap')
     assert(damageEvents[2].damage==splashDamage[rank]+500,'Q splash must not have a Boss maxHP cap')
     assert(p.slow==duration[rank] and s.slow==duration[rank],'Q ordinary control duration applies to both')

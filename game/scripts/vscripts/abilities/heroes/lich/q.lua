@@ -11,6 +11,10 @@ function enfos_lich_frost_blast:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or t:IsNull() or not t:IsAlive() then return end
+    if t:GetTeamNumber() == c:GetTeamNumber() then
+        HeroTrace:Log('LICH','Q','cast_cancelled reason=friendly_target target=%s',HeroTrace:Name(t))
+        return
+    end
     if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then
         HeroTrace:Log('LICH','Q','cast_cancelled reason=spell_absorb target=%s',HeroTrace:Name(t))
         return
@@ -18,7 +22,6 @@ function enfos_lich_frost_blast:OnSpellStart()
     local origin = t:GetAbsOrigin()
     HeroTrace:Log('LICH','Q','cast caster=%s target=%s rank=%s position=%s',
         HeroTrace:Name(c),HeroTrace:Name(t),tostring(self.GetLevel and self:GetLevel() or 0),tostring(origin))
-    c:EmitSound('Ability.FrostNova')
     t:EmitSound('Ability.FrostNova')
     local radius = value(self, 'radius')
     if radius <= 0 then radius = 250 end
