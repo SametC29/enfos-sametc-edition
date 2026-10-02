@@ -3518,6 +3518,29 @@ test('Tidehunter Gush launches a native-speed projectile and impacts only a live
     assert(enemy:HasModifier('modifier_enfos_tide_gush_debuff'), 'Gush debuff must apply on impact')
 end)
 
+test('Tidehunter impacts cannot apply debuffs after synchronous target or source removal', function()
+    local oldDamage=ApplyDamage
+    for _,className in ipairs({'enfos_tide_gush','enfos_tide_anchor_smash'}) do
+        for _,mode in ipairs({'target','caster','ability'}) do
+            local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
+            local target=create_mock_unit('tide_impact_target',3,Vector(100,0,0))
+            local removedTarget,removedCaster,removedAbility=false,false,false
+            hero.IsNull=function() return removedCaster end;target.IsNull=function() return removedTarget end
+            local a=_G[className]();a.GetCaster=function() return hero end;a.IsNull=function() return removedAbility end
+            a.GetSpecialValueFor=function() assert(not removedAbility,'deleted ability read');return 300 end
+            mock_world_units={hero,target}
+            target.AddNewModifier=function()
+                assert(not removedTarget and not removedCaster and not removedAbility,'Damage callbacks can invalidate handles before debuff application')
+            end
+            ApplyDamage=function()
+                removedTarget=mode=='target';removedCaster=mode=='caster';removedAbility=mode=='ability'
+            end
+            if className=='enfos_tide_gush' then a:OnProjectileHit(target) else a:OnSpellStart() end
+        end
+    end
+    ApplyDamage=oldDamage
+end)
+
 test('Tidehunter Kraken Shell respects Break and applies configured block and regeneration', function()
     local tide = create_mock_unit('npc_dota_hero_tidehunter', 2, Vector(0, 0, 0))
     local purges = 0

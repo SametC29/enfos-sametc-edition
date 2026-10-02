@@ -41,3 +41,9 @@ Added a content-contract regression for the three native activities, Q/R sound I
 | VFX/SFX/animation quality and VConsole | PENDING | Must be checked by owner in the live game; no launch/control occurred. |
 
 Validation run and exact result are recorded in the associated commit turn. This hero remains in progress until owner engine tests resolve the pending rows and the remaining mechanics review is closed.
+
+## Sol re-review: synchronous impact removal
+
+Result: pre-change regression failed on a removed Gush recipient reaching AddNewModifier. After repair, Gush and Anchor Smash skip removed/dead/switched-allied recipients after damage; deleted/dead source or deleted ability stops subsequent calls. Anchor Smash also validates later recipients before damage. Mocks cover target/source/ability removal for both skills; all 298 hero-kit regressions pass. Existing damage and control math remains unchanged. Current Dota death callback/particle/audio acceptance remains owner PENDING.
+
+Native source and live Lua were reread on 2026-10-02. Gush impact and Anchor Smash call damage then apply a modifier without revalidating recipient/source/ability. ApplyDamage can synchronously trigger death/removal callbacks, leaving invalid handles for AddNewModifier. Reproduce through a targeted damage-callback regression and guard subsequent calls while preserving authored amounts, target flags, durations and timing. Ravage already applies its stun before damage and is not included in this particular defect. No new native animation, resource or blanket resistance policy is assumed. Other pending items in the existing ledger remain open.

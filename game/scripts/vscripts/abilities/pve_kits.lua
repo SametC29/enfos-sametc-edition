@@ -3737,6 +3737,8 @@ function enfos_tide_gush:OnProjectileHit(t)
     local dmg = base + (str * value(self, 'strength_factor'))
 
     damage(self, t, dmg, DAMAGE_TYPE_MAGICAL)
+    if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive()
+        or t:IsNull() or not t:IsAlive() or t:GetTeamNumber() == c:GetTeamNumber() then return true end
     t:AddNewModifier(c, self, 'modifier_enfos_tide_gush_debuff', { duration = value(self, 'duration') })
     return true
 end
@@ -3806,8 +3808,14 @@ function enfos_tide_anchor_smash:OnSpellStart()
     local dmg = get_atk(c) + base + (str * value(self, 'strength_factor'))
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), value(self, 'radius'), DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
-        damage(self, u, dmg, DAMAGE_TYPE_PHYSICAL)
-        u:AddNewModifier(c, self, 'modifier_enfos_tide_anchor_smash_debuff', { duration = value(self, 'duration') })
+        if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return end
+        if u and not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
+            damage(self, u, dmg, DAMAGE_TYPE_PHYSICAL)
+            if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return end
+            if not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
+                u:AddNewModifier(c, self, 'modifier_enfos_tide_anchor_smash_debuff', { duration = value(self, 'duration') })
+            end
+        end
     end
 end
 
