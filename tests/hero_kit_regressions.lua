@@ -1555,7 +1555,18 @@ test('Centaur Hoof Stomp stuns and scales with Strength', function()
         return 0
     end
 
+    local oldCreate,oldControl,oldRelease=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex
+    local stomp={cp={}}
+    ParticleManager.CreateParticle=function(_,path) stomp.path=path;return 101 end
+    ParticleManager.SetParticleControl=function(_,id,cp,v) assert(id==101);stomp.cp[cp]=v end
+    ParticleManager.ReleaseParticleIndex=function(_,id) assert(id==101);stomp.released=true end
     ab:OnSpellStart()
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex=oldCreate,oldControl,oldRelease
+    assert(stomp.path:find('centaur_warstomp.vpcf',1,true) and stomp.cp[0] and stomp.cp[0].x==0
+        and stomp.cp[1] and stomp.cp[1].x==350 and stomp.cp[1].y==350 and stomp.cp[1].z==350
+        and stomp.cp[2] and stomp.cp[2].x==0 and stomp.released,'Stomp burst needs configured radial scale and ground contact')
+    assert(modifier_enfos_centaur_hoof_stomp_stun:IsPurgable()==false
+        and modifier_enfos_centaur_hoof_stomp_stun:IsPurgeException()==true,'Stun must require a strong dispel')
 
     -- Damage: 250 + (100 * 1.5) = 400 physical
     assert(#applied_damages == 2)

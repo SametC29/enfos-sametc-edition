@@ -2203,7 +2203,11 @@ function enfos_centaur_hoof_stomp:OnSpellStart()
     local dmg = base_dmg + (str * value(self, 'strength_damage_factor'))
 
     c:EmitSound('Hero_Centaur.HoofStomp')
-    effect('particles/units/heroes/hero_centaur/centaur_warstomp.vpcf', c)
+    local stomp = ParticleManager:CreateParticle('particles/units/heroes/hero_centaur/centaur_warstomp.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(stomp, 0, c:GetAbsOrigin())
+    ParticleManager:SetParticleControl(stomp, 1, Vector(r, r, r))
+    ParticleManager:SetParticleControl(stomp, 2, c:GetAbsOrigin())
+    ParticleManager:ReleaseParticleIndex(stomp)
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), r)) do
         local target_dur = dur
@@ -2215,6 +2219,8 @@ end
 
 modifier_enfos_centaur_hoof_stomp_stun=class({})
 function modifier_enfos_centaur_hoof_stomp_stun:IsDebuff() return true end
+function modifier_enfos_centaur_hoof_stomp_stun:IsPurgable() return false end
+function modifier_enfos_centaur_hoof_stomp_stun:IsPurgeException() return true end
 function modifier_enfos_centaur_hoof_stomp_stun:CheckState() return { [MODIFIER_STATE_STUNNED] = true } end
 
 enfos_centaur_double_edge=class({})
