@@ -9251,6 +9251,7 @@ function enfos_lich_sinister_gaze:GetChannelTime()
     return duration
 end
 function enfos_lich_sinister_gaze:OnSpellStart()
+    if not IsServer() then return end
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or t:IsNull() or not t:IsAlive() then return end
@@ -9260,12 +9261,15 @@ function enfos_lich_sinister_gaze:OnSpellStart()
     if dur <= 0 then dur = 2.0 end
     if is_boss(t) then dur = dur * 0.35 end
     self.gazeTarget = t
+    HeroTrace:Log('LICH', 'E', 'channel_start target=%s duration=%.2f boss=%s', HeroTrace:Name(t), dur, tostring(is_boss(t)))
     t:AddNewModifier(c, self, 'modifier_enfos_lich_sinister_gaze_debuff', { duration = dur })
 end
-function enfos_lich_sinister_gaze:OnChannelFinish()
+function enfos_lich_sinister_gaze:OnChannelFinish(interrupted)
+    if not IsServer() then return end
     local c = self:GetCaster()
     local t = self.gazeTarget
     self.gazeTarget = nil
+    HeroTrace:Log('LICH', 'E', 'channel_finish target=%s interrupted=%s', HeroTrace:Name(t), tostring(interrupted))
     if t and not t:IsNull() and c and not c:IsNull() then
         t:RemoveModifierByNameAndCaster('modifier_enfos_lich_sinister_gaze_debuff', c)
     end
@@ -9273,6 +9277,7 @@ end
 
 modifier_enfos_lich_sinister_gaze_debuff=class({})
 function modifier_enfos_lich_sinister_gaze_debuff:IsDebuff() return true end
+function modifier_enfos_lich_sinister_gaze_debuff:GetTexture() return 'lich_sinister_gaze' end
 function modifier_enfos_lich_sinister_gaze_debuff:CheckState()
     return { [MODIFIER_STATE_STUNNED] = true }
 end
@@ -9287,11 +9292,13 @@ function modifier_enfos_lich_sinister_gaze_debuff:OnCreated()
     self:StartIntervalThink(0.5)
 end
 function modifier_enfos_lich_sinister_gaze_debuff:OnIntervalThink()
+    if not IsServer() then return end
     local p = self:GetParent()
     local c = self:GetCaster()
     local ab = self:GetAbility()
-    if not c or c:IsNull() or not c:IsAlive() or not p or p:IsNull() or not p:IsAlive() then
-        if ab and ab.EndChannel then ab:EndChannel(true) else self:Destroy() end
+    if not ab or (ab.IsNull and ab:IsNull()) or not c or c:IsNull() or not c:IsAlive() or not p or p:IsNull() or not p:IsAlive() then
+        HeroTrace:Log('LICH', 'E', 'control_cancel target=%s invalid_source_or_recipient=true', HeroTrace:Name(p))
+        self:Destroy()
         return
     end
     local drain = value(ab, 'mana_drain_pct')
@@ -9307,10 +9314,26 @@ function modifier_enfos_lich_sinister_gaze_debuff:OnIntervalThink()
         end
     end
     local dir = (c:GetAbsOrigin() - p:GetAbsOrigin()):Normalized()
+    local pulled = false
     if not is_boss(p) and (p:GetAbsOrigin() - c:GetAbsOrigin()):Length2D() > 100 then
         p:SetAbsOrigin(p:GetAbsOrigin() + (dir * 40))
         FindClearSpaceForUnit(p, p:GetAbsOrigin(), true)
+        pulled = true
     end
+    HeroTrace:Log('LICH', 'E', 'control_tick target=%s mana=%.2f pulled=%s', HeroTrace:Name(p), drained, tostring(pulled))
+end
+function modifier_enfos_lich_sinister_gaze_debuff:OnDestroy()
+    if not IsServer() then return end
+    local ab = self:GetAbility()
+    local c = self:GetCaster()
+    local p = self:GetParent()
+    if not ab or (ab.IsNull and ab:IsNull()) or ab.gazeTarget ~= p then return end
+    -- ChannelFinish clears ownership before removing this modifier. An old
+    -- recipient must not interrupt another cast or erase a newer target.
+    ab.gazeTarget = nil
+    local ownsChannel = c and not c:IsNull() and c.GetCurrentActiveAbility and c:GetCurrentActiveAbility() == ab
+    HeroTrace:Log('LICH', 'E', 'control_removed target=%s matching_channel=%s', HeroTrace:Name(p), tostring(not not ownsChannel))
+    if ownsChannel and ab.EndChannel then ab:EndChannel(true) end
 end
 
 enfos_lich_chain_frost=class({})

@@ -7,11 +7,13 @@
 - DESIGN DECISION: Q TUNE; W PVE-CONVERT; E PVE-CONVERT; R PVE-CONVERT;
   D REPLACE. Rationales and unresolved comparisons follow below.
 - PROVEN DEFECTS: Q post-damage handles, W orphan pulses/invalid cast and undefined
-  W sound, D recipient-vs-source Break ownership repaired; other findings under review.
-- MOCK/REGRESSION VALIDATION: PASS for the recorded Q/W/D cases (338 suite cases).
+  W sound, D recipient-vs-source Break ownership and E control/channel teardown
+  repaired; other findings under review.
+- MOCK/REGRESSION VALIDATION: PASS for the recorded Q/W/E/D cases (341 suite cases).
 - RUNTIME TRACE COVERAGE: PARTIAL, Q cast/absorb/source-loss/primary/splash summary;
-  W cast/pulse/source-loss and D source/recipient lifecycle added; detailed
-  W lifecycle, D live Break/rank transitions and E/R remain open.
+  W cast/pulse/source-loss, E channel/control lifecycle and D source/recipient
+  lifecycle added; detailed W lifecycle, D live Break/rank transitions,
+  E resources/absorb and R remain open.
 - OWNER RUNTIME TRACE EVIDENCE: NOT TESTED.
 - OWNER VISUAL/AUDIO VERIFICATION: NOT TESTED.
 - OWNER ENGINE ACCEPTANCE: NOT TESTED.
@@ -132,3 +134,34 @@ The historical IsAura fixture now supplies an ability because a real intrinsic
 modifier has one; missing-source emission is no longer accepted.338 behavior
 mocks pass. Engine aura timing, visuals/tooltips and all advanced interactions
 remain NOT TESTED/PENDING.
+
+## E channel/control teardown ownership
+
+Retain PVE-CONVERT and current ranked channel duration, boss35% duration/no pull,
+0.5s mana-transfer tick and normal40-unit pull. This is a lifecycle repair,
+not a movement/control redesign. The debuff previously lacked OnDestroy, so
+control removal could leave the channel running; the invalid-state interval
+also called EndChannel on an already-removed ability handle. Targeted mocks
+reproduced the missing callback and unsafe removed-handle branch before repair.
+
+OnDestroy now checks valid ability and matching gazeTarget before clearing
+ownership; it ends only the caster's currently active matching ability.
+OnChannelFinish clears ownership before caster-specific modifier removal,
+preventing recursive channel termination and preserving another Lich's control.
+Invalid/dead caster/recipient or removed ability destroys the existing debuff;
+its normal destruction callback owns interruption. Cast, channel finish and tick
+execute server-only. No new timer, gameplay modifier or search is introduced.
+
+Installed MCP CDOTA_BaseNPC:GetCurrentActiveAbility and
+CDOTABaseAbility:EndChannel signatures plus
+[current server API documentation](https://docs.moddota.com/lua_server/)
+support the ownership guard. Actual engine active-ability state during expiry,
+dispel, death and channel-finish ordering remains owner verification. A removal
+record deliberately says control_removed, not an invented dispel/expiry reason.
+Default-off bounded E traces cover channel start/finish, invalid-state teardown,
+control removal and existing mana/pull ticks. The modifier uses the verified
+lich_sinister_gaze icon. Actual Gaze particle CPs/attachment, target audio,
+animation, absorb cancellation, resistance timing, movement/pathing and
+Shard/Scepter remain open. Three new regressions plus the amended dead-target
+fixture verify ownership, invalid-source cleanup and finish re-entry:341 suite
+cases pass, project checks0fail. These are mock/source evidence, not engine PASS.

@@ -7565,11 +7565,13 @@ test('Lich Sinister Gaze disables its target and ends channel when target dies',
     assert(math.abs(ability:GetChannelTime() - 1.33) < 0.001,
         'boss channel should use the same shortened duration as its control effect')
     ability.EndChannel = function(_, interrupted) ended = interrupted == true end
+    ability.gazeTarget = target
+    lich.GetCurrentActiveAbility = function() return ability end
     local gaze = setmetatable({
         GetParent = function() return target end,
         GetCaster = function() return lich end,
         GetAbility = function() return ability end,
-        Destroy = function(self) self.destroyed = true end,
+        Destroy = function(self) self.destroyed = true;self:OnDestroy() end,
     }, modifier_enfos_lich_sinister_gaze_debuff)
     assert(gaze:CheckState()[MODIFIER_STATE_STUNNED] == true,
         'Sinister Gaze must prevent the controlled target from acting')
@@ -8676,6 +8678,48 @@ test('Lich external aura follows caster Break rather than recipient Break',funct
     c.PassivesDisabled=function() return false end
     rank=0;assert(m:GetModifierPhysicalArmorBonus()==0 and m:GetModifierConstantManaRegen()==0)
     rank=1;removed=true;assert(m:GetModifierPhysicalArmorBonus()==0 and m:GetModifierConstantManaRegen()==0)
+end)
+
+test('Lich Gaze control removal ends only its matching channel',function()
+    local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+    local p=create_mock_unit('enfos_creep',3,Vector(100,0,0))
+    local a=enfos_lich_sinister_gaze();a.gazeTarget=p
+    local ended=0;a.EndChannel=function() ended=ended+1 end
+    c.GetCurrentActiveAbility=function() return a end
+    local m=p:AddNewModifier(c,a,'modifier_enfos_lich_sinister_gaze_debuff',{})
+    m:OnDestroy();assert(ended==1 and a.gazeTarget==nil,'Dispel or expiry must stop owned channel')
+    a.gazeTarget=p;c.GetCurrentActiveAbility=function() return {} end
+    m:OnDestroy();assert(ended==1 and a.gazeTarget==nil,'Never end another active ability')
+    a.gazeTarget=create_mock_unit('other_target',3,Vector(0,0,0))
+    c.GetCurrentActiveAbility=function() return a end
+    m:OnDestroy();assert(ended==1 and a.gazeTarget~=nil,'Old recipient cleanup cannot erase a later target')
+end)
+
+test('Lich Gaze removed ability stops its thinker without touching the invalid handle',function()
+    local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+    local p=create_mock_unit('enfos_creep',3,Vector(100,0,0));p.alive=false
+    local a={IsNull=function() return true end,EndChannel=function() error('Removed ability must not EndChannel') end}
+    local m=p:AddNewModifier(c,a,'modifier_enfos_lich_sinister_gaze_debuff',{})
+    local stopped=false;m.Destroy=function() stopped=true end
+    m:OnIntervalThink();assert(stopped)
+end)
+
+test('Lich Gaze channel finish clears ownership before removing only its own control',function()
+    local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+    local p=create_mock_unit('enfos_creep',3,Vector(100,0,0))
+    local a=enfos_lich_sinister_gaze();a.gazeTarget=p
+    a.GetCaster=function() return c end
+    c.GetCurrentActiveAbility=function() return a end
+    a.EndChannel=function() error('Channel finish cannot recursively end the channel') end
+    local m=p:AddNewModifier(c,a,'modifier_enfos_lich_sinister_gaze_debuff',{})
+    local removed=0
+    p.RemoveModifierByNameAndCaster=function(_,name,owner)
+        assert(name=='modifier_enfos_lich_sinister_gaze_debuff' and owner==c)
+        assert(a.gazeTarget==nil,'Clear ownership before synchronous removal callback')
+        removed=removed+1;m:OnDestroy()
+    end
+    a:OnChannelFinish(false)
+    assert(removed==1 and a.gazeTarget==nil)
 end)
 
 print(passed .. ' hero kit regression tests passed (mock engine).')

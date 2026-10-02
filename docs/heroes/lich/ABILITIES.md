@@ -312,3 +312,11 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 Change/test record: all five abilities now expose ten KV ranks; the complete 200-ability Lua mock suite passes. This confirms static/mock behavior only; in-match Dota VFX, SFX, rank-up HUD, boss and VConsole acceptance remain PENDING.
 
 2026-09-30 global Break metadata audit: Added KV `IsBreakable 1` to `enfos_lich_ice_aura` because its linked Lua passive implementation check `PassivesDisabled()`. Automated content validation now rejects this metadata mismatch. Actual Dota Break behavior remains PENDING.
+
+2026-10-03 E individual follow-up: control removal now ends only its matching
+active channel; channel finish clears target ownership before caster-specific
+control removal. Invalid sources stop the existing thinker without invoking a
+removed ability. Server guards, native icon and partial lifecycle traces added.
+See the individual Lich review for three focused regressions and remaining
+Gaze resource, timing, movement, absorb and owner engine gates. No runtime
+certification or rank/balance change is implied.
