@@ -4939,11 +4939,19 @@ function enfos_wd_voodoo_switcheroo:OnProjectileHit_ExtraData(target, location, 
 end
 function enfos_wd_voodoo_switcheroo:OnSpellStart()
     local c = self:GetCaster()
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
+    if ParticleManager then
+        local p = ParticleManager:CreateParticle('particles/units/heroes/hero_witchdoctor/witchdoctor_shard_switcheroo_cast.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+        ParticleManager:SetParticleControlEnt(p, 0, c, PATTACH_ABSORIGIN_FOLLOW, '', c:GetAbsOrigin(), true)
+        ParticleManager:ReleaseParticleIndex(p)
+    end
     c:EmitSound('Hero_WitchDoctor.Death_WardBuild')
     c:AddNewModifier(c, self, 'modifier_enfos_wd_voodoo_switcheroo_buff', { duration = 2.0 })
 end
 
 modifier_enfos_wd_voodoo_switcheroo_buff=class({})
+function modifier_enfos_wd_voodoo_switcheroo_buff:IsPurgable() return false end
+function modifier_enfos_wd_voodoo_switcheroo_buff:GetTexture() return 'witch_doctor_voodoo_switcheroo' end
 function modifier_enfos_wd_voodoo_switcheroo_buff:DeclareFunctions()
     return { MODIFIER_PROPERTY_MODEL_CHANGE }
 end

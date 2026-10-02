@@ -2647,7 +2647,7 @@
 		"precache"
 		{
 			"soundfile" "soundevents/game_sounds_heroes/game_sounds_witchdoctor.vsndevts"
-			"particle" "particles/units/heroes/hero_witchdoctor/witchdoctor_ward_attack.vpcf"
+			"particle" "particles/units/heroes/hero_witchdoctor/witchdoctor_shard_switcheroo_cast.vpcf"
 			"model" "models/heroes/witchdoctor/witchdoctor_ward.vmdl"
 		}
 		"AbilityValues"

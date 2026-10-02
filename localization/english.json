@@ -1189,7 +1189,7 @@
     "DOTA_Tooltip_Ability_enfos_wd_voodoo_restoration": "Voodoo Restoration",
     "DOTA_Tooltip_Ability_enfos_wd_voodoo_restoration_Description": "Toggle aura: heals allied units within {{radius}} for {{heal_per_second}} + 30% of Intelligence each second and spends {{mana_per_second}} mana per second. Turns off when mana is insufficient.",
     "DOTA_Tooltip_Ability_enfos_wd_voodoo_switcheroo": "Voodoo Switcheroo",
-    "DOTA_Tooltip_Ability_enfos_wd_voodoo_switcheroo_Description": "Unlocked by Aghanim's Shard. For 2 seconds, become invulnerable and disarmed while attacking a random nearby enemy every 0.25 seconds for 120 + 80% of Intelligence as physical damage.",
+    "DOTA_Tooltip_Ability_enfos_wd_voodoo_switcheroo_Description": "Unlocked by Aghanim's Shard. Transform into a Death Ward for 2 seconds, becoming invulnerable and disarmed. Launch a projectile at a random nearby enemy every 0.25 seconds; each impact deals 120 + 80% of Intelligence as physical damage.",
     "DOTA_Tooltip_Ability_enfos_wk_mortal_strike_Description": "Attacks have {{crit_chance|percent}} chance to deal {{crit_mult|percent}} critical damage. Critical strikes cleave {{cleave_pct|percent}} damage within {{cleave_radius}} radius.",
     "DOTA_Tooltip_Ability_enfos_wk_vampiric_aura_Description": "Nearby allied units heal for {{lifesteal_pct|percent}} of their attack damage.",
     "DOTA_Tooltip_Ability_enfos_wk_wraithfire_blast_Description": "Fires a tracking wraithfire projectile. On impact, it deals {{damage}} + {{strength_damage_factor}} × Strength magical damage, stuns for {{stun_duration}}s (bosses: up to {{boss_stun_duration}}s), then deals {{dot_damage}} + 0.3 × Strength magical damage each second for {{dot_duration}}s and slows by {{slow_pct|percent}}.",

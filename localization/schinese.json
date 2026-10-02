@@ -1127,7 +1127,7 @@
     "DOTA_Tooltip_Ability_enfos_wd_voodoo_restoration": "巫毒疗法",
     "DOTA_Tooltip_Ability_enfos_wd_voodoo_restoration_Description": "切换光环：每秒治疗 {{radius}} 范围内友军 {{heal_per_second}} + 30% 智力，并消耗 {{mana_per_second}} 点魔法。魔法不足时关闭。",
     "DOTA_Tooltip_Ability_enfos_wd_voodoo_switcheroo": "巫毒变身",
-    "DOTA_Tooltip_Ability_enfos_wd_voodoo_switcheroo_Description": "由阿哈利姆魔晶解锁。持续 2 秒无敌且缴械，每 0.25 秒攻击附近随机敌人，造成 120 + 80% 智力的物理伤害。",
+    "DOTA_Tooltip_Ability_enfos_wd_voodoo_switcheroo_Description": "由阿哈利姆魔晶解锁。变为死亡守卫，持续2秒，期间无敌且缴械。每0.25秒向附近随机敌人发射弹道；命中时造成120 + 80%智力的物理伤害。",
     "DOTA_Tooltip_Ability_enfos_wk_mortal_strike_Description": "攻击有{{crit_chance|percent}}几率造成{{crit_mult|percent}}暴击伤害。暴击还会对{{cleave_radius}}范围内的敌人造成{{cleave_pct|percent}}伤害。",
     "DOTA_Tooltip_Ability_enfos_wk_vampiric_aura_Description": "附近友军攻击造成的伤害会按{{lifesteal_pct|percent}}转化为生命恢复。",
     "DOTA_Tooltip_Ability_enfos_wk_wraithfire_blast_Description": "发射追踪幽冥火焰弹。命中时造成{{damage}} + {{strength_damage_factor}} × 力量的魔法伤害，并眩晕{{stun_duration}}秒（首领最多{{boss_stun_duration}}秒）；随后每秒造成{{dot_damage}} + 0.3 × 力量的魔法伤害，持续{{dot_duration}}秒，并减速{{slow_pct|percent}}。",

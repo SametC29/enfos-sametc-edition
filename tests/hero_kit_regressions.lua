@@ -6862,6 +6862,26 @@ test('Witch Doctor Ward teardown removes its owned unit once and missing ward en
     m:OnIntervalThink();assert(ended,'No ward means no remaining channel attack loop')
 end)
 
+test('Witch Doctor Switcheroo emits one finite model-bound native transition at cast', function()
+    local wd=create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(120,80,0))
+    local a=enfos_wd_voodoo_switcheroo();a.GetCaster=function() return wd end
+    local old=ParticleManager;local count,bound,released=0,false,0
+    ParticleManager={CreateParticle=function(_,path,attach,owner)
+        assert(path=='particles/units/heroes/hero_witchdoctor/witchdoctor_shard_switcheroo_cast.vpcf' and owner==wd)
+        count=count+1;return 83
+    end,SetParticleControlEnt=function(_,id,cp,unit,attach,bone,origin,lock)
+        assert(id==83 and cp==0 and unit==wd and origin.x==120 and lock);bound=true
+    end,ReleaseParticleIndex=function(_,id) assert(id==83);released=released+1 end}
+    local ok,err=pcall(function()
+        a:OnSpellStart()
+        assert(count==1 and bound and released==1,'Finite transition must bind and release once')
+        local buff=wd.modifiers.modifier_enfos_wd_voodoo_switcheroo_buff
+        assert(buff.params.duration==2 and not buff:IsPurgable(),'Two-second native-like transformation must resist basic dispel')
+        assert(buff:GetTexture()=='witch_doctor_voodoo_switcheroo','Buff must carry its native skill icon')
+    end)
+    ParticleManager=old;assert(ok,err)
+end)
+
 test('Witch Doctor Switcheroo declares a temporary native ward model on both sides', function()
     local m=modifier_enfos_wd_voodoo_switcheroo_buff()
     local oldConstant=MODIFIER_PROPERTY_MODEL_CHANGE;local oldServer=IsServer
