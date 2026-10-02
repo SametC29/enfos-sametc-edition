@@ -16,7 +16,7 @@ Per hero: read its instructions/dossier; compare installed native definitions; t
 | 6 | Axe | SOURCE REVIEW COMPLETE / ENGINE PENDING — Hunger effect ownership, Call sound/target/refresh/dispel/CP1, Helix spin, Culling CP4 and Blood Armor replicated properties/modifier text repaired; exact defaults/runtime uncertainties and owner checklist in individual record |
 | 7 | Legion Commander | SOURCE REVIEW COMPLETE / ENGINE PENDING — Odds refresh/transmission/CP/audio, Press owned recipient bindings, Courage re-entry/audio, Duel paired combat/cleanup/feedback/metadata and four-locale modifier/upgrade text repaired; individual owner gates remain |
 | 8 | Sniper | SOURCE REVIEW COMPLETE / ENGINE PENDING — lethal Keen Eye, owned Shrapnel radius/ground sound/tick guards, Take Aim overhead/Break split, Assassinate native impact/audio/target metadata and four-locale buffs/upgrades repaired; owner gates in individual record |
-| 9 | Crystal Maiden | NOT STARTED |
+| 9 | Crystal Maiden | IN PROGRESS — own instructions/full dossier and native6943 five-skill comparison read; Frostbite and channel effect lifecycle audit underway; ENGINE PENDING |
 | 10 | Dazzle | NOT STARTED |
 | 11 | Centaur Warrunner | NOT STARTED |
 | 12 | Wraith King | NOT STARTED |

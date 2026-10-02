@@ -2431,7 +2431,14 @@ test('Crystal Maiden Frostbite tick reads ranked values and boosts creep damage'
         GetAbility = function() return ability end,
         StartIntervalThink = function(self, interval) self.interval = interval end,
     }, modifier_enfos_cm_frostbite_debuff)
+    local oldCreate=ParticleManager.CreateParticle
+    local allocations=0
+    ParticleManager.CreateParticle=function() allocations=allocations+1;return 1 end
     modifier:OnCreated()
+    assert(allocations==0,'Frostbite must not allocate a released persistent effect outside its modifier owner')
+    assert(modifier:GetEffectName()=='particles/units/heroes/hero_crystalmaiden/maiden_frostbite_buff.vpcf'
+        and modifier:GetEffectAttachType()==PATTACH_ABSORIGIN_FOLLOW)
+    ParticleManager.CreateParticle=oldCreate
     assert(modifier.interval == 0.5)
     modifier:OnIntervalThink()
     assert(#applied_damages == 1 and applied_damages[1].victim == creep)

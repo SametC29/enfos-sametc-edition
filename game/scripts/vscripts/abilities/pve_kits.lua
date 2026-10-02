@@ -2958,13 +2958,14 @@ function enfos_cm_frostbite:OnSpellStart()
 end
 
 modifier_enfos_cm_frostbite_debuff=class({})
+function modifier_enfos_cm_frostbite_debuff:GetEffectName() return 'particles/units/heroes/hero_crystalmaiden/maiden_frostbite_buff.vpcf' end
+function modifier_enfos_cm_frostbite_debuff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_cm_frostbite_debuff:IsDebuff() return true end
 function modifier_enfos_cm_frostbite_debuff:CheckState()
     return { [MODIFIER_STATE_ROOTED] = true, [MODIFIER_STATE_DISARMED] = true }
 end
 function modifier_enfos_cm_frostbite_debuff:OnCreated()
     if not IsServer() then return end
-    effect('particles/units/heroes/hero_crystalmaiden/maiden_frostbite_buff.vpcf', self:GetParent())
     self:StartIntervalThink(value(self:GetAbility(), 'damage_interval'))
 end
 function modifier_enfos_cm_frostbite_debuff:OnIntervalThink()
