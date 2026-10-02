@@ -144,6 +144,14 @@ end
 --------------------------------------------------------------------------------
 function EnfosSametC:OrderFilter(filterTable)
 	if not filterTable then return true end
+	-- Read-only diagnostics are armed explicitly by the owner in Tools mode.
+	if _G.EnfosSpellbringerOrderAudit then
+		local ok, err = pcall(_G.EnfosSpellbringerOrderAudit, filterTable)
+		if not ok then
+			_G.EnfosSpellbringerOrderAudit = nil
+			Log:Warn("spellbringer", "Order observation disabled after diagnostic error: %s", tostring(err))
+		end
+	end
 	local playerID = filterTable.issuer_player_id_const
 	if playerID == nil or not PlayerResource:IsValidPlayerID(playerID) then return true end
 	if filterTable.order_type == DOTA_UNIT_ORDER_SELL_ITEM then
