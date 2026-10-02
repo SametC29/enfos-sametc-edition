@@ -1347,6 +1347,10 @@
     "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff": "巨人威势",
     "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff_Description": "移动速度变化：%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。基础攻击伤害变化：%dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%。由附近的潮汐猎人施加。",
     "DOTA_Tooltip_modifier_enfos_pve_taunt": "被嘲讽",
-    "DOTA_Tooltip_modifier_enfos_pve_taunt_Description": "被迫攻击斯温。斯温死亡时嘲讽结束。"
+    "DOTA_Tooltip_modifier_enfos_pve_taunt_Description": "被迫攻击斯温。斯温死亡时嘲讽结束。",
+    "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff": "古龙形态",
+    "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff_Description": "变为远程攻击的巨龙。攻击力：+%dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%。攻击距离：+%dMODIFIER_PROPERTY_ATTACK_RANGE_BONUS%。攻击溅射附近敌人并使其减速。无法驱散。",
+    "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow": "龙霜",
+    "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow_Description": "移速变化：%-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。攻击速度变化：%-dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%。受到古龙形态溅射攻击的影响。"
   }
 }

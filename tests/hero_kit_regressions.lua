@@ -8475,4 +8475,22 @@ test('Sven hammer and ultimate impact particles bind their CP1 and CP3 to the hi
     end
 end)
 
+test('Dragon Knight form preserves native non-dispellability and exposes its real modifier icons', function()
+    assert(type(modifier_enfos_dk_elder_dragon_form_buff.IsPurgable)=='function'
+        and modifier_enfos_dk_elder_dragon_form_buff:IsPurgable()==false,
+        'Native Elder Dragon Form cannot be purged')
+    assert(modifier_enfos_dk_elder_dragon_form_buff:GetTexture()=='dragon_knight_elder_dragon_form')
+    assert(modifier_enfos_dk_dragon_frost_slow:GetTexture()=='dragon_knight_elder_dragon_form')
+end)
+
+test('Dragon Knight form cast rejects removed caster and never executes on the client', function()
+    local a=enfos_dk_elder_dragon_form()
+    a.GetCaster=function() return {IsNull=function() return true end,EmitSound=function() error('Invalid caster must not emit') end} end
+    a:OnSpellStart()
+    local oldServer=IsServer
+    IsServer=function() return false end
+    a.GetCaster=function() error('Client cast must have no gameplay side effects') end
+    a:OnSpellStart();IsServer=oldServer
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')

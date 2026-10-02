@@ -57,6 +57,14 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-03 form policy/presentation: current6943 native R source explicitly
+declares no dispel. The authored PVE-CONVERT form now has `IsPurgable=false`
+and matching ability KV metadata; cast has server/valid-caster guards. Real
+form/frost secondary modifiers now have four-language names and dynamic values
+plus verified form icon.327 hero behavior mocks and project checks pass; actual
+purge, transformation cleanup, HUD values/VFX/audio remain owner PENDING.
+See the [individual ledger](../../audit/DRAGON_KNIGHT_INDIVIDUAL_REVIEW_2026-10-02.md).
+
 2026-10-02 Breathe Fire planar targeting: old3D normalization followed by
 Length2D<1 could discard the selected direction when terrain heights differ.
 Q now flattens z before the near-zero check and normalization, retaining its

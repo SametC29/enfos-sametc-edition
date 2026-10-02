@@ -1347,6 +1347,10 @@
     "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff": "Colossal Presence",
     "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff_Description": "Изменение скорости передвижения: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Изменение базового урона атак: %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%. Действует от находящегося рядом Tidehunter.",
     "DOTA_Tooltip_modifier_enfos_pve_taunt": "Провокация",
-    "DOTA_Tooltip_modifier_enfos_pve_taunt_Description": "Вынужден атаковать Свена. Провокация заканчивается, если Свен погибает."
+    "DOTA_Tooltip_modifier_enfos_pve_taunt_Description": "Вынужден атаковать Свена. Провокация заканчивается, если Свен погибает.",
+    "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff": "Облик древнего дракона",
+    "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff_Description": "Дракон с дальней атакой. Урон атаки: +%dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%. Дальность атаки: +%dMODIFIER_PROPERTY_ATTACK_RANGE_BONUS%. Атаки наносят урон соседним врагам и замедляют их. Нельзя развеять.",
+    "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow": "Драконий холод",
+    "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow_Description": "Изменение скорости передвижения: %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Изменение скорости атаки: %-dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Эффект атаки по области в облике дракона."
   }
 }

@@ -1407,6 +1407,10 @@
     "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff": "Colossal Presence",
     "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff_Description": "Movement speed change: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Base attack damage change: %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%. Applied by a nearby Tidehunter.",
     "DOTA_Tooltip_modifier_enfos_pve_taunt": "Taunted",
-    "DOTA_Tooltip_modifier_enfos_pve_taunt_Description": "Forced to attack Sven. The taunt ends if Sven dies."
+    "DOTA_Tooltip_modifier_enfos_pve_taunt_Description": "Forced to attack Sven. The taunt ends if Sven dies.",
+    "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff": "Elder Dragon Form",
+    "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff_Description": "Ranged dragon form. Attack damage: +%dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%. Attack range: +%dMODIFIER_PROPERTY_ATTACK_RANGE_BONUS%. Attacks splash onto nearby enemies and slow them. Cannot be dispelled.",
+    "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow": "Dragon Frost",
+    "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow_Description": "Movement speed change: %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Attack speed change: %-dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Affected by an Elder Dragon Form splash attack."
   }
 }

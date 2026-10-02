@@ -1757,6 +1757,10 @@
     "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff": "Devasa Varlık",
     "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff_Description": "Hareket hızı değişimi: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Temel saldırı hasarı değişimi: %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%. Yakındaki Tidehunter tarafından uygulanır.",
     "DOTA_Tooltip_modifier_enfos_pve_taunt": "Kışkırtıldı",
-    "DOTA_Tooltip_modifier_enfos_pve_taunt_Description": "Sven’e saldırmaya zorlanıyor. Sven ölürse kışkırtma sona erer."
+    "DOTA_Tooltip_modifier_enfos_pve_taunt_Description": "Sven’e saldırmaya zorlanıyor. Sven ölürse kışkırtma sona erer.",
+    "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff": "Yaşlı Ejderha Biçimi",
+    "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff_Description": "Menzilli ejderha biçimi. Saldırı hasarı: +%dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%. Saldırı menzili: +%dMODIFIER_PROPERTY_ATTACK_RANGE_BONUS%. Saldırılar çevredeki düşmanlara sıçrar ve onları yavaşlatır. Etki silinemez.",
+    "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow": "Ejderha Soğuğu",
+    "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow_Description": "Hareket hızı değişimi: %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Saldırı hızı değişimi: %-dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Ejderha biçimindeki sıçrama saldırısından etkileniyor."
   }
 }

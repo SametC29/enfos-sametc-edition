@@ -3502,6 +3502,7 @@
 
 	"enfos_dk_elder_dragon_form"
 	{
+		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
 		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"

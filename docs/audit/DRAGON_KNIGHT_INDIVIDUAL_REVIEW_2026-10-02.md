@@ -159,3 +159,42 @@ This pass repaired user-visible localization and tooltip accuracy. It is not a f
 ## Remaining individual audit
 
 All five skills remain pending for full cast/targeting, rank-up UI, gameplay balance, boss effects, modifiers and dispels, visual/audio presentation, precache, cleanup, reconnect, and in-engine validation. Icon path existence is verified, but actual HUD presentation is not. The native reference snapshot is build 6941 / source revision 11041083 from 2026-09-29; re-verify against the current installed build before drawing new engine-behavior conclusions.
+
+## 2026-10-03: form dispel and modifier presentation repair
+
+Re-read the full installed native Dragon Knight definition through MCP
+`vpk_read(maxChars60000)`, current ClientVersion6943/SourceRevision11069754.
+Native Elder Dragon Form explicitly declares `SPELL_DISPELLABLE_NO` and
+`ACT_INVALID`. Keep **PVE-CONVERT** classification and the authored ten-rank
+form/splash/frost package. No balance, immunity, cooldown or upgrade policy change.
+
+The custom form modifier had no explicit `IsPurgable` policy; a targeted
+regression first failed because native non-dispellability was absent. It now
+returns false and the custom ability KV declares the same no-dispel metadata.
+This prevents ordinary purge from ending the authored transformation through
+default Lua buff purgability. Actual engine purge/death/expiry behavior remains
+owner PENDING; model/projectile/attack-capability cleanup remains unchanged.
+
+R's cast previously accessed its caster without checking validity and had no
+server guard. It now skips removed/absent caster and client invocation. A focused
+regression covers both contexts. Existing form application/cleanup and splash
+regressions still pass.
+
+The real `modifier_enfos_dk_elder_dragon_form_buff` and
+`modifier_enfos_dk_dragon_frost_slow` names/descriptions were missing from all
+four localization source files (intrinsic-only generator does not create these
+secondary modifier tokens). Added EN/TR/RU/zh-CN labels and dynamic current
+attack-damage/range and signed movement/attack-speed changes, using existing
+declared modifier properties; regenerated twelve mirrors. Both modifiers now
+explicitly use the verified Elder Dragon Form icon. No guessed new asset.
+[Modifier tooltip format](https://moddota.com/abilities/modifier-properties-in-tooltips)
+documents these property substitutions; client rendering is still pending.
+Valve's Lua-modifier page fetch returned403 and an attempted ModDota Lua-modifiers
+URL was unavailable; neither failed source is used as evidence.
+
+Verification:327 mock hero behavior tests pass (325 before this unit),
+`node tools/checks.mjs` has0 failed checks; localization regeneration and
+`git diff --check` pass. No Dota launch/control, remote push or Workshop upload.
+Full individual source review is still open: Q travel/native visual contract,
+W immunity/design policy, unique upgrade review, remaining resource contracts,
+boss/rank/reconnect and owner runtime acceptance are not certified by this unit.

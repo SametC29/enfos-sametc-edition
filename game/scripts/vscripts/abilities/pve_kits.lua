@@ -5397,13 +5397,17 @@ end
 
 enfos_dk_elder_dragon_form=class({})
 function enfos_dk_elder_dragon_form:OnSpellStart()
+    if not IsServer() then return end
     local c = self:GetCaster()
+    if not c or (c.IsNull and c:IsNull()) then return end
     c:EmitSound('Hero_DragonKnight.ElderDragonForm')
     effect('particles/units/heroes/hero_dragon_knight/dragon_knight_transform_red.vpcf', c)
     c:AddNewModifier(c, self, 'modifier_enfos_dk_elder_dragon_form_buff', { duration = value(self, 'duration') })
 end
 
 modifier_enfos_dk_elder_dragon_form_buff=class({})
+function modifier_enfos_dk_elder_dragon_form_buff:IsPurgable() return false end
+function modifier_enfos_dk_elder_dragon_form_buff:GetTexture() return 'dragon_knight_elder_dragon_form' end
 function modifier_enfos_dk_elder_dragon_form_buff:OnCreated()
     if not IsServer() then return end
     local p = self:GetParent()
@@ -5478,6 +5482,7 @@ end
 
 modifier_enfos_dk_dragon_frost_slow=class({})
 function modifier_enfos_dk_dragon_frost_slow:IsDebuff() return true end
+function modifier_enfos_dk_dragon_frost_slow:GetTexture() return 'dragon_knight_elder_dragon_form' end
 function modifier_enfos_dk_dragon_frost_slow:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT } end
 function modifier_enfos_dk_dragon_frost_slow:GetModifierMoveSpeedBonus_Percentage()
     local slow = self:GetAbility() and value(self:GetAbility(), 'splash_slow_pct') or 30
