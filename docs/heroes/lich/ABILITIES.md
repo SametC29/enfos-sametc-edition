@@ -79,9 +79,9 @@ targets. Engine status resistance, VFX/SFX and live targeting remain pending.
 
 ## Slot 1: `enfos_lich_frost_blast`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `lich_frost_nova` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
-Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
+Decision and PvE identity rationale: native instant magical nuke, splash and slow remain useful; authored INT scaling, ten ranks and boss caps tune those mechanics. Current-build individual review supersedes the generated blanket PVE-CONVERT assumption for Q; see [2026-10-03 findings](../../audit/LICH_INDIVIDUAL_REVIEW_2026-10-03.md). Q removed-victim/source ordering is repaired with targeted regressions and partial debug-gated traces. Engine/VFX/audio acceptance remains PENDING; all other slot reviews remain open.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.

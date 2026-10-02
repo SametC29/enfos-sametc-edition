@@ -8584,4 +8584,37 @@ test('Sven Warcry cannot reflect damage with a removed ability source',function(
     assert(#applied_damages==0,'A removed source must not dispatch reflection with a nil attacker')
 end)
 
+test('Lich Frost Blast keeps its splash when primary damage removes the victim',function()
+    local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+    local t=create_mock_unit('enfos_creep',3,Vector(100,0,0))
+    local splash=create_mock_unit('enfos_creep',3,Vector(150,0,0))
+    mock_world_units={c,t,splash}
+    local q=enfos_lich_frost_blast();q.GetCaster=function() return c end
+    q.GetCursorTarget=function() return t end
+    q.GetSpecialValueFor=function(_,k) return ({target_damage=100,radius_damage=80,radius=200,duration=2})[k] or 0 end
+    local oldDamage=ApplyDamage;local hits={}
+    ApplyDamage=function(info)
+        hits[#hits+1]=info.victim
+        if info.victim==t then
+            t.alive=false;t.IsNull=function() return true end
+            t.GetAbsOrigin=function() error('Removed primary cannot supply splash origin') end
+            t.AddNewModifier=function() error('Removed primary must not receive slow') end
+        end
+    end
+    q:OnSpellStart();ApplyDamage=oldDamage
+    assert(#hits==2 and hits[2]==splash and splash:HasModifier('modifier_enfos_lich_frost_blast_slow'))
+end)
+
+test('Lich Frost Blast stops when damage removes its caster',function()
+    local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+    local t=create_mock_unit('enfos_creep',3,Vector(100,0,0))
+    mock_world_units={c,t}
+    local q=enfos_lich_frost_blast();q.GetCaster=function() return c end;q.GetCursorTarget=function() return t end
+    q.GetSpecialValueFor=function(_,k) return k=='target_damage' and 100 or 0 end
+    local oldDamage=ApplyDamage
+    ApplyDamage=function() c.IsNull=function() return true end end
+    t.AddNewModifier=function() error('Removed caster must not be used to apply slow') end
+    q:OnSpellStart();ApplyDamage=oldDamage
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')

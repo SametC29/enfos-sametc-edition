@@ -9118,36 +9118,58 @@ end
 
 enfos_lich_frost_blast=class({})
 function enfos_lich_frost_blast:OnSpellStart()
+    if not IsServer() then return end
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or t:IsNull() or not t:IsAlive() then return end
-    if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
+    if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then
+        HeroTrace:Log('LICH','Q','cast_cancelled reason=spell_absorb target=%s',HeroTrace:Name(t))
+        return
+    end
+    local origin = t:GetAbsOrigin()
+    HeroTrace:Log('LICH','Q','cast caster=%s target=%s rank=%s position=%s',
+        HeroTrace:Name(c),HeroTrace:Name(t),tostring(self.GetLevel and self:GetLevel() or 0),tostring(origin))
     c:EmitSound('Ability.FrostNova')
     t:EmitSound('Ability.FrostNova')
     local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_lich/lich_frost_nova.vpcf', PATTACH_ABSORIGIN_FOLLOW, t)
-    ParticleManager:SetParticleControl(fx, 0, t:GetAbsOrigin())
+    ParticleManager:SetParticleControl(fx, 0, origin)
     ParticleManager:ReleaseParticleIndex(fx)
     local tdmg = value(self, 'target_damage')
     local rdmg = value(self, 'radius_damage')
     local int = get_int(c)
     local primary = tdmg + (int * 0.8)
     if is_boss(t) then primary = math.min(primary, t:GetMaxHealth() * 0.1) end
-    damage(self, t, primary, DAMAGE_TYPE_MAGICAL)
     local radius = value(self, 'radius')
     if radius <= 0 then radius = 250 end
     local slow_duration = value(self, 'duration')
     if slow_duration <= 0 then slow_duration = 4 end
     local primary_slow_duration = is_boss(t) and (slow_duration * 0.4) or slow_duration
-    t:AddNewModifier(c, self, 'modifier_enfos_lich_frost_blast_slow', { duration = primary_slow_duration })
-    for _, u in ipairs(enemies(c, t:GetAbsOrigin(), radius)) do
+    damage(self, t, primary, DAMAGE_TYPE_MAGICAL)
+    if c:IsNull() or (self.IsNull and self:IsNull()) then
+        HeroTrace:Log('LICH','Q','impact_cancelled reason=source_removed_after_primary_damage')
+        return
+    end
+    HeroTrace:Log('LICH','Q','primary target=%s requested_damage=%s slow_duration=%s alive=%s',
+        HeroTrace:Name(t),tostring(primary),tostring(primary_slow_duration),tostring(not t:IsNull() and t:IsAlive()))
+    if not t:IsNull() and t:IsAlive() then
+        t:AddNewModifier(c, self, 'modifier_enfos_lich_frost_blast_slow', { duration = primary_slow_duration })
+    end
+    local affected = 0
+    for _, u in ipairs(enemies(c, origin, radius)) do
+        if c:IsNull() or (self.IsNull and self:IsNull()) then break end
         if u ~= t then
         local splash = rdmg + (int * 0.5)
         if is_boss(u) then splash = math.min(splash, u:GetMaxHealth() * 0.06) end
-        damage(self, u, splash, DAMAGE_TYPE_MAGICAL)
         local dur = is_boss(u) and (slow_duration * 0.4) or slow_duration
-        u:AddNewModifier(c, self, 'modifier_enfos_lich_frost_blast_slow', { duration = dur })
+        damage(self, u, splash, DAMAGE_TYPE_MAGICAL)
+        affected = affected + 1
+        if c:IsNull() or (self.IsNull and self:IsNull()) then break end
+        if not u:IsNull() and u:IsAlive() then
+            u:AddNewModifier(c, self, 'modifier_enfos_lich_frost_blast_slow', { duration = dur })
+        end
         end
     end
+    HeroTrace:Log('LICH','Q','impact_summary splash_targets=%d radius=%s',affected,tostring(radius))
 end
 
 modifier_enfos_lich_frost_blast_slow=class({})
