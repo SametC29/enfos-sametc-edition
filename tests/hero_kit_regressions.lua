@@ -6645,6 +6645,49 @@ test('Shadow Fiend aura and Feast of Souls disable while Broken', function()
     assert(sf.hp == 425 and sf.mana == 315, 'Feast should heal and restore mana for a valid kill')
 end)
 
+test('Witch Doctor Restoration stops dead parent and deleted ability ticks before spending mana', function()
+    for _,mode in ipairs({'dead_parent','deleted_ability'}) do
+        local wd=create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(0,0,0))
+        local a=enfos_wd_voodoo_restoration()
+        a.GetSpecialValueFor=function() error('Invalid Restoration tick must not read rank values') end
+        if mode=='dead_parent' then wd.alive=false else a.IsNull=function() return true end end
+        local m=modifier_enfos_wd_voodoo_restoration_aura();m.GetParent=function() return wd end
+        m.GetAbility=function() return a end;local ended=false;m.Destroy=function() ended=true end
+        m:OnIntervalThink()
+        assert(ended and wd.mana==500,'Invalid tick must end before spending mana')
+    end
+end)
+
+test('Witch Doctor Restoration skips a recipient deleted by an earlier heal callback', function()
+    local wd=create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(0,0,0));wd.intellect=50
+    local first=create_mock_unit('wd_heal_first',2,Vector(50,0,0))
+    local removed=create_mock_unit('wd_heal_removed',2,Vector(100,0,0))
+    local third=create_mock_unit('wd_heal_third',2,Vector(150,0,0));third.hp=400
+    first.Heal=function() removed.alive=false;removed.IsNull=function() return true end end
+    removed.Heal=function() error('Deleted recipient must not be healed') end
+    local a=enfos_wd_voodoo_restoration();a.GetSpecialValueFor=function(_,k)
+        return ({mana_per_second=8,heal_per_second=20,radius=500})[k] or 0
+    end
+    local m=modifier_enfos_wd_voodoo_restoration_aura();m.GetParent=function() return wd end
+    m.GetAbility=function() return a end;mock_world_units={wd,first,removed,third}
+    m:OnIntervalThink()
+    assert(wd.mana==492 and third.hp==435,'Later valid allies retain the configured heal')
+end)
+
+test('Witch Doctor Restoration stops remaining heals when a callback deletes its source', function()
+    local wd=create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(0,0,0))
+    local later=create_mock_unit('wd_heal_after_source_removal',2,Vector(50,0,0))
+    wd.Heal=function() wd.IsNull=function() return true end end
+    later.Heal=function() error('No further heal after source deletion') end
+    local a=enfos_wd_voodoo_restoration();a.GetSpecialValueFor=function(_,k)
+        return ({mana_per_second=8,heal_per_second=20,radius=500})[k] or 0
+    end
+    local m=modifier_enfos_wd_voodoo_restoration_aura();m.GetParent=function() return wd end
+    m.GetAbility=function() return a end;local ended=false;m.Destroy=function() ended=true end
+    mock_world_units={wd,later};m:OnIntervalThink()
+    assert(ended,'Source removal must end the aura')
+end)
+
 test('Witch Doctor restoration owns audio and particle cleanup on off and mana exhaustion', function()
     local wd = create_mock_unit('npc_dota_hero_witch_doctor', 2, Vector(0, 0, 0), 1000)
     wd.hp = 500

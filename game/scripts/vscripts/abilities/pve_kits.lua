@@ -4690,7 +4690,8 @@ end
 function modifier_enfos_wd_voodoo_restoration_aura:OnIntervalThink()
     local c = self:GetParent()
     local a = self:GetAbility()
-    if not a then self:Destroy(); return end
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive()
+        or not a or (a.IsNull and a:IsNull()) then self:Destroy(); return end
     local mana_cost = value(a, 'mana_per_second')
     if mana_cost > 0 and c.GetMana and c:GetMana() < mana_cost then
         self:Destroy()
@@ -4698,6 +4699,7 @@ function modifier_enfos_wd_voodoo_restoration_aura:OnIntervalThink()
         return
     end
     if mana_cost > 0 and c.SpendMana then c:SpendMana(mana_cost, a) end
+    if (c.IsNull and c:IsNull()) or not c:IsAlive() or (a.IsNull and a:IsNull()) then self:Destroy(); return end
     local int = get_int(c)
     local val = (a and value(a, 'heal_per_second')) or 50
     local amount = val + (int * 0.3)
@@ -4705,7 +4707,11 @@ function modifier_enfos_wd_voodoo_restoration_aura:OnIntervalThink()
     local radius = value(a, 'radius')
     if radius <= 0 then radius = 500 end
     for _, u in ipairs(allies(c, c:GetAbsOrigin(), radius)) do
-        u:Heal(amount, a)
+        -- Earlier Heal callbacks may remove the source or a later queried recipient.
+        if (c.IsNull and c:IsNull()) or not c:IsAlive() or (a.IsNull and a:IsNull()) then self:Destroy(); return end
+        if u and not (u.IsNull and u:IsNull()) and u:IsAlive() and u:GetTeamNumber() == c:GetTeamNumber() then
+            u:Heal(amount, a)
+        end
     end
 end
 
