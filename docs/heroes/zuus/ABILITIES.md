@@ -66,7 +66,7 @@ Decision and PvE identity rationale: Native counterpart: `zuus_arc_lightning` (i
 Expected cast/travel/impact/ongoing/cleanup behavior: Target one enemy, deal magical base plus Intelligence scaling, then arc to configured nearby enemies. Damage remains flat on each jump.
 Creep / elite / boss, spell immunity, mitigation and status rules require live verification; boss exception: Static Field cap 500 only.
 Each of the five Enfos abilities now has MaxLevel 10; Static Field starts at rank 1 free through the Enfos grant. XP/point pacing for the level-50 progression remains a separate pending decision.
-Shard role bonus is Mage spell amplification/mana restoration; ultimate Scepter marker remains on Thundergod’s Wrath. Runtime upgrade behavior pending.
+Current runtime Mage Shard supplies 15% spell amplification; mana restoration is an unused proposal, not implemented behavior. Scepter supplies the shared ultimate amplification/cooldown properties. Actual upgrade behavior and hero-specific redesign remain pending; see the current individual ledger.
 
 ### Resource and implementation evidence
 
@@ -111,7 +111,7 @@ Decision and PvE identity rationale: Native counterpart: `zuus_lightning_bolt` (
 Expected cast/travel/impact/ongoing/cleanup behavior: Target one enemy, then deal magical configured base damage plus 150% Intelligence. The old tooltip claimed a stun that Lua never applied; that claim was removed.
 Creep / elite / boss, spell immunity, mitigation and status rules require live verification; boss exception: Static Field cap 500 only.
 Each of the five Enfos abilities now has MaxLevel 10; Static Field starts at rank 1 free through the Enfos grant. XP/point pacing for the level-50 progression remains a separate pending decision.
-Shard role bonus is Mage spell amplification/mana restoration; ultimate Scepter marker remains on Thundergod’s Wrath. Runtime upgrade behavior pending.
+Current runtime Mage Shard supplies 15% spell amplification; mana restoration is an unused proposal, not implemented behavior. Scepter supplies the shared ultimate amplification/cooldown properties. Actual upgrade behavior and hero-specific redesign remain pending; see the current individual ledger.
 
 ### Resource and implementation evidence
 
@@ -154,7 +154,7 @@ Decision and PvE identity rationale: Native counterpart: `zuus_heavenly_jump` (i
 Expected cast/travel/impact/ongoing/cleanup behavior: Leap 450 units forward on every cast, including while standing still, gain configured movement speed, damage up to a configured number of nearby enemies, and slow them. Jump values are now read from AbilityValues.
 Creep / elite / boss, spell immunity, mitigation and status rules require live verification; boss exception: Static Field cap 500 only.
 Each of the five Enfos abilities now has MaxLevel 10; Static Field starts at rank 1 free through the Enfos grant. XP/point pacing for the level-50 progression remains a separate pending decision.
-Shard role bonus is Mage spell amplification/mana restoration; ultimate Scepter marker remains on Thundergod’s Wrath. Runtime upgrade behavior pending.
+Current runtime Mage Shard supplies 15% spell amplification; mana restoration is an unused proposal, not implemented behavior. Scepter supplies the shared ultimate amplification/cooldown properties. Actual upgrade behavior and hero-specific redesign remain pending; see the current individual ledger.
 
 ### Resource and implementation evidence
 
@@ -197,7 +197,7 @@ Decision and PvE identity rationale: Native counterpart: `zuus_thundergods_wrath
 Expected cast/travel/impact/ongoing/cleanup behavior: Deal magical damage to all opposing units found across the battlefield; there is currently no boss damage cap. VFX placement and map-wide target scope require engine review.
 Creep / elite / boss, spell immunity, mitigation and status rules require live verification; boss exception: Static Field cap 500 only.
 Each of the five Enfos abilities now has MaxLevel 10; Static Field starts at rank 1 free through the Enfos grant. XP/point pacing for the level-50 progression remains a separate pending decision.
-Shard role bonus is Mage spell amplification/mana restoration; ultimate Scepter marker remains on Thundergod’s Wrath. Runtime upgrade behavior pending.
+Current runtime Mage Shard supplies 15% spell amplification; mana restoration is an unused proposal, not implemented behavior. Scepter supplies the shared ultimate amplification/cooldown properties. Actual upgrade behavior and hero-specific redesign remain pending; see the current individual ledger.
 
 ### Resource and implementation evidence
 
@@ -240,7 +240,7 @@ Decision and PvE identity rationale: Keep the native spell-hit passive role; app
 Expected cast/travel/impact/ongoing/cleanup behavior: When Zeus deals spell damage, deal configured percent of that victim’s current health as separate magical damage; boss bonus is capped by `boss_damage_cap` and the passive does not recursively trigger itself.
 Creep / elite / boss, spell immunity, mitigation and status rules require live verification; boss exception: Static Field cap 500 only.
 Each of the five Enfos abilities now has MaxLevel 10; Static Field starts at rank 1 free through the Enfos grant. XP/point pacing for the level-50 progression remains a separate pending decision.
-Shard role bonus is Mage spell amplification/mana restoration; ultimate Scepter marker remains on Thundergod’s Wrath. Runtime upgrade behavior pending.
+Current runtime Mage Shard supplies 15% spell amplification; mana restoration is an unused proposal, not implemented behavior. Scepter supplies the shared ultimate amplification/cooldown properties. Actual upgrade behavior and hero-specific redesign remain pending; see the current individual ledger.
 
 ### Resource and implementation evidence
 
@@ -277,3 +277,5 @@ Change/test record (2026-09-30): all Zeus Enfos slots now expose ten ranks. Full
 2026-09-30 level-cap integration: all five Zeus abilities now declare KV rank gates. Q/W/E and the Enfos passive use one rank per level; passive rank 1 remains a separate Enfos grant. Thundergod’s Wrath ranks 1–10 unlock on levels 5, 10, …, 50. Static KV contract passes; actual rank buttons, level-up points, ultimate badge and match-start level 6 remain PENDING for owner testing.
 
 2026-10-02 individual review started: all five current Lua/KV slots read and classified PVE-CONVERT against fresh installed6943 native AbilityDefinitions. Current evidence and remaining native differences are in [the individual ledger](../../audit/ZEUS_INDIVIDUAL_REVIEW_2026-10-02.md). Arc Lightning now captures pre-damage chain centers and avoids deleted-source particle bindings so lethal/deleted intermediate targets do not truncate the chain. Before/after regression covers two deleted targets, third hit, flat damage and source endpoints; full256behavior/0failed checks. SOURCE REVIEW still IN PROGRESS; no engine/VConsole/visual/audio acceptance claimed.
+
+2026-10-02 current source-review closure: all five custom slots individually compared with installed6943 and reviewed through gameplay, ranks, modifiers, upgrades, localization, sound bank/model and recursive particle/control/lifetime resources. Proven faults repaired; latest full260behavior/0failed. [Current review and acceptance checklist](../../audit/ZEUS_INDIVIDUAL_REVIEW_2026-10-02.md) supersedes incremental/historical findings here. SOURCE REVIEW COMPLETE / OWNER ENGINE PENDING; generic Aghanim bonuses do not close the unique-upgrade design request.

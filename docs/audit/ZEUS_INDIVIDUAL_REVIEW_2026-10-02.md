@@ -1,4 +1,4 @@
-# Zeus individual review — in progress / owner engine pending
+# Zeus individual review — source review complete / owner engine pending
 
 Own zuus/AGENTS and full ABILITIES read via hero index; shared development guideline, technical reference and research/runtime protocol apply. Five current implementations/KV and installed6943 (SourceRevision11069754,Oct01) AbilityDefinitions read directly from scripts/npc/heroes/npc_dota_hero_zuus.txt. Historical6941 dossier is not current runtime certification. No Dota launch/control, push or publication; contributor p0_health untouched.
 
@@ -95,3 +95,21 @@ Recursive graph has38unique files across the five overlapping roots. Detailed li
 After the first victim's damage, a callback deleting Zeus left the remaining snapshot loop reading c:GetTeamNumber and passing a stale attacker through the damage helper. Regression explicitly deletes the caster after first hit and makes later team access fail; this reproduces the custom lifetime fault without guessing which native reflection/deletion sequence triggers it. Check caster/ability IsNull at each iteration before any further recipient work. Ordinary death alone is deliberately not used as a cancellation condition; its engine behavior still needs owner testing.
 
 Before/after regression verifies no stale access and only first damage submission after attacker deletion; full260behavior/0failed. MCP IsNull lifetime contract cited in earlier chain review applies. No shared damage-helper rewrite, targeting/balance/rank changes, remote push or publication. Real reflected spell ownership, entity removal versus death, ability loss and VConsole remain OWNER ENGINE PENDING.
+
+## Source-review closure and owner acceptance checklist
+
+Current status supersedes earlier incremental IN PROGRESS notes: SOURCE REVIEW COMPLETE for the five current implementations; actual gameplay/visual/audio/HUD/cleanup acceptance remains ENGINE PENDING. This does not mean the whole40hero goal or unique-upgrade design request is complete.
+
+| Area | Source result / actual acceptance |
+| --- | --- |
+| Identity/slots | All five PVE-CONVERT decisions above compared with installed6943; roster/KV Q/W/E/R/fifth agree. Native Cloud/Lightning Hands are not claimed as custom upgrades. |
+| Rank/budget | All five10ranks; Q/W/E/passive1+interval1, R5+interval5. Innates applies free fifth rank only when0 on real non-illusion hero; MatchLevels start6/fivepoints,49ordinarypoints through50. Hidden6–17/19/25 preserved. Engine rank/points/innate display/reconnect PENDING. |
+| Gameplay/targeting | Q flat instant initial+up to20secondary hits, visited set/radius500; W hostile unit-only/absorb; E450instant displacement,600damage selection/max2→6, positive MS buff/negative slow; R99999hostile hero/basic snapshot; passive positive inflictor event/Break/self exclusion. Four active casts have verified native gestures. Engine immunity/reflection/vision/Boss routing PENDING. |
+| Boss | Passive cap is500base damage before normal amplification/mitigation; Q/W/E/R keep authored ordinary magical damage. No added Boss executions, stun or global cap. Actual cap after amplification and encounter balance PENDING. |
+| Modifiers | Three exact classes linked in existing registry, rank values read dynamically, icons/status texts added. No new thinker/summon/aura/loop. Existing engine default expiry/death/refresh/purge behavior is explicitly an owner gate; intrinsic dispel/Break/respawn must be tested. |
+| Resources | Five native particle roots/38unique recursively inspected files; beam/model/ring CP defects repaired, finite/inherited lifetimes documented. Exact Zeus bank decoded/preloaded; seven used event identities verified. R model disappearance, sound mixing/GPU/cleanup PENDING. |
+| Upgrades | Shared implemented Scepter40%ultimate spell amplification/25%CD, Shard15%spell amplification; false mana promise corrected. Acquisition/loss/consumed Blessing/reconnect/stacking PENDING. Hero-specific upgrade redesign remains a tracked product follow-up, not certified by generic bonuses. |
+| Localization | Four source languages/12mirrors updated; native modifier property substitutions/icon paths verified. Ability descriptions retain authored ranges/scaling; rank and status text rendering PENDING. |
+| Performance/state | No new manager, per-frame scan, unbounded summon/timer or profile state. Q at most20secondary radius queries per cast; R one battlefield query plus effect per recipient. Dense uncapped-wave CPU/GPU/audio and reconnect PENDING. |
+
+Owner test priorities: cold-start all five ranks1/10; Q lethal chains, W absorb/lethal beam, E rooted rejection/blocked-terrain landing/slow dispel, R lethal model impact/reflection/caster death/removal; positive/blocked passive procs and Boss cap; Scepter/Blessing/Shard acquisition/loss; UI/passive status values; repeated casts and VConsole. Latest full suite260hero behaviors/200ability rank sweeps/0failed. No owner test evidence supplied; no ENGINE_PASS claimed. No push or Workshop upload.

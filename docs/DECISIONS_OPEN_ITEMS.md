@@ -5,6 +5,9 @@
 
 # DECISIONS AND OPEN ITEMS
 
+## 2026-10-02 hero upgrade source findings — follow-up remains open
+- Zeus's current Mage Shard provides15%spell amplification. The shared Mage configuration also lists5%mana restoration but has no runtime mana handler. Zeus's four-language tooltip now describes implemented behavior; no mana mechanic was removed. The earlier unique hero Shard/Scepter request is not satisfied by these generic role/ultimate bonuses. Keep that design/implementation follow-up open while individual hero audits continue; do not count corrected text or generic acquisition checks as completing it.
+
 ## 2026-10-01 balance update — first eight Desktop items
 - Every 5th wave Boss grants a Boon vote; the match snapshot cadence is 5 waves.
 - Increase Boss Lumber rewards and keep the Gold→Lumber exchange in the four
