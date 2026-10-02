@@ -2464,8 +2464,19 @@ end
 
 modifier_enfos_legion_press_the_attack_buff=class({})
 function modifier_enfos_legion_press_the_attack_buff:GetTexture() return 'legion_commander_press_the_attack' end
-function modifier_enfos_legion_press_the_attack_buff:GetEffectName() return 'particles/units/heroes/hero_legion_commander/legion_commander_press.vpcf' end
-function modifier_enfos_legion_press_the_attack_buff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
+function modifier_enfos_legion_press_the_attack_buff:OnCreated()
+    if not IsServer() or self.press_particle then return end
+    local parent = self:GetParent()
+    self.press_particle = ParticleManager:CreateParticle(
+        'particles/units/heroes/hero_legion_commander/legion_commander_press.vpcf', PATTACH_ABSORIGIN_FOLLOW, parent)
+    for cp, name in ipairs({ 'attach_hitloc', 'attach_attack1', 'attach_attack2' }) do
+        local has_attachment = parent.ScriptLookupAttachment and parent:ScriptLookupAttachment(name) > 0
+        ParticleManager:SetParticleControlEnt(self.press_particle, cp, parent,
+            has_attachment and PATTACH_POINT_FOLLOW or PATTACH_ABSORIGIN_FOLLOW,
+            has_attachment and name or '', parent:GetAbsOrigin(), true)
+    end
+    self:AddParticle(self.press_particle, false, false, -1, false, false)
+end
 function modifier_enfos_legion_press_the_attack_buff:DeclareFunctions()
     return { MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
 end

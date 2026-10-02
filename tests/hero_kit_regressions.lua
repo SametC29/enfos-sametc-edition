@@ -1811,13 +1811,42 @@ test('Legion Press the Attack purges and buffs only a living ally', function()
     assert(ally.modifiers['modifier_enfos_legion_press_the_attack_buff'].params.duration == 6)
     assert(allocations == 0, 'Continuous Press children must not be allocated as an unowned released cast effect')
     local buff = ally.modifiers['modifier_enfos_legion_press_the_attack_buff']
-    assert(buff:GetEffectName() == 'particles/units/heroes/hero_legion_commander/legion_commander_press.vpcf'
-        and buff:GetEffectAttachType() == PATTACH_ABSORIGIN_FOLLOW,
-        'The recipient modifier lifetime must own the continuous native effect')
+    assert(type(buff.OnCreated)=='function' and not buff.GetEffectName,
+        'The modifier must explicitly bind its native secondary CPs without an automatic duplicate effect')
 
     ability.GetCursorTarget = function() return enemy end
     ability:OnSpellStart()
     assert(not enemy:HasModifier('modifier_enfos_legion_press_the_attack_buff'), 'Enemy target receives no buff')
+end)
+
+test('Legion Press binds body and hand CPs with a safe fallback for missing recipient attachments', function()
+    local ally=create_mock_unit('npc_dota_hero_sven',2,Vector(1600,2100,128))
+    ally.ScriptLookupAttachment=function(_,name) return ({attach_hitloc=1,attach_attack1=2})[name] or 0 end
+    local buff=modifier_enfos_legion_press_the_attack_buff()
+    buff.GetParent=function() return ally end
+    local oldCreate,oldEnt,oldRelease,oldPoint=ParticleManager.CreateParticle,ParticleManager.SetParticleControlEnt,
+        ParticleManager.ReleaseParticleIndex,PATTACH_POINT_FOLLOW
+    PATTACH_POINT_FOLLOW=924
+    local count,owned,releases,bindings=0,0,0,{}
+    ParticleManager.CreateParticle=function(_,path,attachment,owner)
+        assert(path=='particles/units/heroes/hero_legion_commander/legion_commander_press.vpcf'
+            and attachment==PATTACH_ABSORIGIN_FOLLOW and owner==ally)
+        count=count+1;return 924
+    end
+    ParticleManager.SetParticleControlEnt=function(_,id,cp,entity,attachment,name,origin)
+        assert(id==924 and entity==ally and origin==ally.origin)
+        bindings[cp]={attachment=attachment,name=name}
+    end
+    ParticleManager.ReleaseParticleIndex=function() releases=releases+1 end
+    buff.AddParticle=function(_,id) assert(id==924);owned=owned+1 end
+    buff:OnCreated();buff:OnCreated()
+    assert(count==1 and owned==1 and releases==0,'Repeated initialization must not allocate an unowned duplicate effect')
+    assert(bindings[1].attachment==924 and bindings[1].name=='attach_hitloc')
+    assert(bindings[2].attachment==924 and bindings[2].name=='attach_attack1')
+    assert(bindings[3].attachment==PATTACH_ABSORIGIN_FOLLOW and bindings[3].name=='',
+        'A recipient lacking attach_attack2 must fall back to its own origin without a missing attachment name')
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControlEnt,ParticleManager.ReleaseParticleIndex,
+        PATTACH_POINT_FOLLOW=oldCreate,oldEnt,oldRelease,oldPoint
 end)
 
 test('Legion Duel spell block prevents both sides entering the Duel', function()
