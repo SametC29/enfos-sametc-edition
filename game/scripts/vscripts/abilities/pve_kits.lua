@@ -3312,13 +3312,19 @@ function enfos_dazzle_shadow_wave:OnSpellStart()
         current = next_target
     end
 
+    local previous_position = c:GetAbsOrigin()
     for _, target in ipairs(jump_targets) do
+        local target_position = target:GetAbsOrigin()
         target:Heal(heal, self)
         apply_dazzle_weave(c, target)
-        effect('particles/units/heroes/hero_dazzle/dazzle_shadow_wave.vpcf', target)
         local radius = value(self, 'damage_radius')
         if radius <= 0 then radius = 200 end
-        for _, enemy in ipairs(enemies(c, target:GetAbsOrigin(), radius, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
+        local wave = ParticleManager:CreateParticle('particles/units/heroes/hero_dazzle/dazzle_shadow_wave.vpcf', PATTACH_WORLDORIGIN, target)
+        ParticleManager:SetParticleControl(wave, 0, previous_position)
+        ParticleManager:SetParticleControl(wave, 1, target_position)
+        ParticleManager:ReleaseParticleIndex(wave)
+        previous_position = target_position
+        for _, enemy in ipairs(enemies(c, target_position, radius, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
             apply_dazzle_weave(c, enemy)
             damage(self, enemy, heal, DAMAGE_TYPE_PHYSICAL)
         end

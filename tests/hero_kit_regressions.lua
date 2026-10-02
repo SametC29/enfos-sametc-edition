@@ -2686,6 +2686,15 @@ test('Dazzle Nothl Weave is suppressed by Break while active Poison Touch still 
 end)
 
 test('Dazzle Shadow Wave heals allies and includes immune enemies in its piercing physical damage', function()
+    local old_create,old_control,old_release=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex
+    local waves={}
+    ParticleManager.CreateParticle=function(_,path)
+        assert(path=='particles/units/heroes/hero_dazzle/dazzle_shadow_wave.vpcf','Wave feedback must use its native finite chain effect')
+        table.insert(waves,{})
+        return #waves
+    end
+    ParticleManager.SetParticleControl=function(_,index,cp,point) waves[index][cp]=point end
+    ParticleManager.ReleaseParticleIndex=function(_,index) waves[index].released=true end
     applied_damages = {}
     local dazzle = create_mock_unit('npc_dota_hero_dazzle', 2, Vector(0, 0, 0))
     dazzle.intellect = 80
@@ -2723,6 +2732,12 @@ test('Dazzle Shadow Wave heals allies and includes immune enemies in its piercin
     ab:OnSpellStart()
 
     FindUnitsInRadius=old_find
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex=old_create,old_control,old_release
+    assert(#waves==2 and waves[1][0] and waves[1][1] and waves[2][0] and waves[2][1],
+        'Each Shadow Wave link needs both a source and recipient control point')
+    assert(waves[1][0].x==0 and waves[1][1].x==200 and waves[2][0].x==200 and waves[2][1].x==0,
+        'First link must join caster to initial ally, then the selected bounce recipients')
+    assert(waves[1].released and waves[2].released,'Finite wave links must release their particle indices')
 
     -- Heal: 170 + (80 * 1.0) = 250
     assert(frontline.hp == 750, 'Frontline ally must be healed for 250')
