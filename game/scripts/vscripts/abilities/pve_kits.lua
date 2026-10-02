@@ -4263,9 +4263,11 @@ function modifier_enfos_pa_phantom_strike_buff:GetModifierAttackSpeedBonus_Const
 function modifier_enfos_pa_phantom_strike_buff:OnTakeDamage(params)
     if not IsServer() or not params then return end
     local c = self:GetParent()
+    local a = self:GetAbility()
+    if not c or c:IsNull() or not c:IsAlive() or not a or (a.IsNull and a:IsNull()) then return end
     if params.attacker == c and params.unit and not (params.unit.IsNull and params.unit:IsNull())
         and params.unit:GetTeamNumber() ~= c:GetTeamNumber() and params.damage and params.damage > 0 then
-        c:Heal(params.damage * value(self:GetAbility(), 'heal_pct') / 100, self:GetAbility())
+        c:Heal(params.damage * value(a, 'heal_pct') / 100, a)
     end
 end
 

@@ -3515,6 +3515,35 @@ test('Phantom Assassin Phantom Strike lands behind the target facing', function(
     assert(pa.origin.x == 100 and pa.origin.y == 40, 'expected destination 60 units behind the target facing')
 end)
 
+test('Phantom Strike healing accepts lethal hostile damage but rejects dead or removed recipients', function()
+    local pa=create_mock_unit('npc_dota_hero_phantom_assassin',2,Vector(0,0,0))
+    local enemy=create_mock_unit('pa_heal_enemy',3,Vector(100,0,0))
+    local ally=create_mock_unit('pa_heal_ally',2,Vector(50,0,0))
+    local a=enfos_pa_phantom_strike()
+    a.GetSpecialValueFor=function(_,key) return key=='heal_pct' and 25 or 0 end
+    local removedAbility=false
+    a.IsNull=function() return removedAbility end
+    local m=setmetatable({GetParent=function() return pa end,GetAbility=function() return a end},modifier_enfos_pa_phantom_strike_buff)
+    pa.hp=100
+    m:OnTakeDamage({attacker=pa,unit=enemy,damage=200})
+    enemy.alive=false
+    m:OnTakeDamage({attacker=pa,unit=enemy,damage=200})
+    assert(pa.hp==200,'Hostile damage including killing blows must heal by the authored percentage')
+    m:OnTakeDamage({attacker=pa,unit=ally,damage=200})
+    m:OnTakeDamage({attacker=pa,unit=enemy,damage=0})
+    assert(pa.hp==200,'Friendly or zero damage must not heal')
+    pa.alive=false
+    m:OnTakeDamage({attacker=pa,unit=enemy,damage=200})
+    assert(pa.hp==200,'A dead recipient must not receive active-buff healing')
+    pa.alive=true;removedAbility=true
+    m:OnTakeDamage({attacker=pa,unit=enemy,damage=200})
+    assert(pa.hp==200,'A removed Phantom Strike source must not issue healing')
+    removedAbility=false
+    pa.IsNull=function() return true end
+    pa.GetTeamNumber=function() error('A deleted recipient must not be dereferenced') end
+    m:OnTakeDamage({attacker=pa,unit=enemy,damage=200})
+end)
+
 test('Phantom Assassin Immaterial exposes its configured innate evasion', function()
     local ability = enfos_pa_immaterial()
     ability.GetSpecialValueFor = function(_, key) return key == 'evasion' and 10 or 0 end
