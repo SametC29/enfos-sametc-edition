@@ -4767,13 +4767,15 @@ local function wd_launch_ward_attack(ability, source, target, amount)
 end
 
 local function wd_ward_attack_impact(ability, target, extra)
+    if not ability or (ability.IsNull and ability:IsNull()) then return true end
     if not target or target:IsNull() or not target:IsAlive() then return true end
     local caster = ability:GetCaster()
     if not caster or caster:IsNull() or target:GetTeamNumber() == caster:GetTeamNumber() then return true end
     local amount = tonumber(extra and extra.damage) or 0
     if amount > 0 then
-        damage(ability, target, amount, DAMAGE_TYPE_PHYSICAL)
+        -- ApplyDamage may delete the victim synchronously; play impact while it is valid.
         target:EmitSound('Hero_WitchDoctor_Ward.ProjectileImpact')
+        damage(ability, target, amount, DAMAGE_TYPE_PHYSICAL)
     end
     return true
 end

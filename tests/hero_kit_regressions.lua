@@ -4137,6 +4137,41 @@ test('Witch Doctor Death Ward targeting includes spell-immune enemies', function
     ProjectileManager.CreateTrackingProjectile = originalProjectile
 end)
 
+test('Witch Doctor Ward and Shard preserve lethal impact audio before target deletion', function()
+    for _,constructor in ipairs({enfos_wd_death_ward,enfos_wd_voodoo_switcheroo}) do
+        local wd=create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(0,0,0))
+        local victim=create_mock_unit('wd_ward_deleted_impact',3,Vector(100,0,0))
+        local a=constructor();a.GetCaster=function() return wd end
+        local events={};local oldDamage=ApplyDamage
+        victim.EmitSound=function(_,name)
+            assert(not victim:IsNull(),'Impact sound must precede deletion')
+            events[#events+1]=name
+        end
+        ApplyDamage=function(info)
+            assert(info.victim==victim and info.damage==180 and info.damage_type==DAMAGE_TYPE_PHYSICAL)
+            assert(events[1]=='Hero_WitchDoctor_Ward.ProjectileImpact','Audio must precede lethal damage')
+            events[#events+1]='damage';victim.alive=false;victim.IsNull=function() return true end
+        end
+        -- Existing in-flight attacks retain their valid caster even after ordinary death.
+        wd.alive=false
+        local ok,err=pcall(function() assert(a:OnProjectileHit_ExtraData(victim,nil,{damage=180})==true) end)
+        ApplyDamage=oldDamage
+        assert(ok,err)
+        assert(#events==2 and events[2]=='damage','Exactly one sound and physical hit are expected')
+    end
+end)
+
+test('Witch Doctor Ward and Shard discard callbacks from deleted abilities', function()
+    for _,constructor in ipairs({enfos_wd_death_ward,enfos_wd_voodoo_switcheroo}) do
+        local a=constructor();a.IsNull=function() return true end
+        a.GetCaster=function() error('Deleted projectile ability must not be read') end
+        local victim=create_mock_unit('wd_ward_invalid_ability',3,Vector(100,0,0))
+        applied_damages={}
+        assert(a:OnProjectileHit_ExtraData(victim,nil,{damage=180})==true)
+        assert(#applied_damages==0,'A removed ability must not produce damage')
+    end
+end)
+
 test('Witch Doctor Gris-Gris does not pay while broken or to an illusion', function()
     local previous_player_resource = PlayerResource
     local paid = 0
