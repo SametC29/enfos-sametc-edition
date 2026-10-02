@@ -201,10 +201,10 @@ Change/test record: all five slots have MaxLevel 10; all multirank KV values hav
 Classification: PVE-CONVERT
 Native counterpart: `shadow_shaman_mass_serpent_ward` (installed native snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot mapping is authored).
 Decision and PvE identity rationale: PVE-CONVERT preserves the identified Dota hero fantasy while changing PvP-only targeting/control for wave, elite and boss play.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
+Expected behavior: point cast at600 range; spawns up to the KV count in a bounded ring, replacing the prior group. Stationary native ranged wards auto-acquire targets and remain player-owned/controllable; native projectile/model/sound set handle attacks. Each ward expires after the KV duration or when replaced. Static source review is recorded in the [individual ledger](../../audit/SHADOW_SHAMAN_INDIVIDUAL_REVIEW_2026-10-02.md); engine order, hit and cleanup behavior is PENDING.
+Normal-creep/boss attack and damage behavior is PENDING engine validation. Unit uses native `creep_piercing`; no custom immunity/dispel modifier is applied. The installed unit definition declares20–26 native gold and31 XP; actual Dota bounty behavior and its fit for PvEvP remain PENDING.
 Current/target rank: each Enfos slot has ten explicit KV levels. The match is capped at level 50; Q/W/E/R require 40 paid ranks total and passive ranks 2–10 require nine more; the fifth slot rank 1 is free, for 49 spendable points overall. Rank-up HUD/runtime acceptance remains pending.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
+Shard / Scepter / Blessing / Evolution / Ascended interactions: shared manager applies the role-based Support Shard and global Scepter40% ultimate-damage /25% ultimate-cooldown effects; the ward attack explicitly receives the40% Scepter damage multiplier. No ward-specific Shard evolution exists. Source behavior is STATIC_REVIEW; engine acquisition/description acceptance is PENDING.
 
 ### Resource and implementation evidence
 
@@ -221,19 +221,19 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | R levels 5–50 in five-level steps declared; ultimate HUD/point behavior remains PENDING. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
-| Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Static source review: native immobile serpent-ward unit and bounded shared summon manager. Damage/health behavior on the engine-special unit requires owner match test. |
+| Targeting | PENDING | Static source review: point target600; unit idle acquisition700 in shared helper. Owner order takeover and boss targetability require match test. |
+| Ranks | PENDING | Static KV review: ten explicit `ward_damage` entries; R gate levels5–50 every5. HUD/point allocation still owner pending. |
+| VFX | PENDING | Installed ward model and native `shadow_shaman_ward_base_attack.vpcf` projectile verified; no custom cast particle. Visual match test pending. |
+| SFX | PENDING | Native `Hero_ShadowShaman.SerpentWard` event and `ShadowShaman_Ward` unit sound set verified in installed bank/KV; audible match test pending. |
+| Animation | PENDING | Added native-model-verified `ACT_DOTA_CAST_ABILITY_4`; verify actual cast playback in Dota. |
+| Modifiers | PENDING | Uses native `modifier_kill` lifetime; no custom ward combat modifier. Engine special-unit health behavior pending. |
+| Precache | PENDING | Bootstrap calls `PrecacheUnitByNameSync` for `npc_dota_shadow_shaman_ward_1`; cold-start test pending. |
+| Cleanup | PENDING | Shared manager marks ownership, expires via `modifier_kill`, and ForceKills old group on recast. Recast/expiry/ability removal in engine pending. |
 | Boss | PENDING | Not evaluated in this dossier setup. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
-| Performance | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | EN/TR/RU/zh-CN sources use KV tokens; generated mirrors refreshed and localization check passes. Inspect tooltip rendering in Dota. |
+| Performance | PENDING | Eight wards per cast under20 global helper cap; no timers or per-frame scans added. Owner performance/runtime check pending. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
@@ -295,3 +295,5 @@ PVE-CONVERT remains. Decoded6943 root game config/model verifies both hands atta
 ## 2026-10-02 Shackles reciprocal removal and cast pairing
 
 PVE-CONVERT remains. Native6943 YES_STRONG now maps to explicit basic-purge false/strong true/stun identity and matching metadata. Recipient removal ends only its caster/target/ability/cast-generation channel; per-ability serial pairs both modifiers and refresh updates serial. Normal channel teardown clears pair before removing recipient, preventing recursive cancellation; stale same-target callback cannot interrupt newer cast. Missing recipient creation aborts before channel. Cast/recipient teardown and deleted source/ability guarded. Full checks286behavior regressions,zero failures; actual engine strong dispel/death/refresh/interrupt ordering remains owner pending. Hero-wide review still IN PROGRESS.
+
+2026-10-02 Mass Serpent Ward source audit: installed Dota6943 native identity, stationary ranged serpent-ward unit, native attack projectile/sound set, rank values, shared summon ownership, owner/recast cleanup, reward flags and current generic Aghanim effects are recorded in the individual review ledger. Added the model-verified native `ACT_DOTA_CAST_ABILITY_4` cast activity; corrected all four source locale tooltips to show KV-driven ward count, duration, health and rank damage (English/Russian/Chinese had stale hardcoded values). Focused regression and full checks passed. Actual control/order-vs-auto-acquire, boss damage, native serpent unit health/damage semantics, bounty, visual/audio and cold-start behavior remain owner ENGINE PENDING; this does not close Shadow Shaman.

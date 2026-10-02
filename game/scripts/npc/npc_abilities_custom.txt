@@ -3247,6 +3247,7 @@
 		"LevelsBetweenUpgrades"	"5"
 		"AbilityCastRange"			"600"
 		"AbilityCastPoint"			"0.3"
+		"AbilityCastAnimation"	"ACT_DOTA_CAST_ABILITY_4"
 		"AbilityCooldown"			"80 65 50 45 40 35 32 29 26 23"
 		"AbilityManaCost"			"150 200 250 275 300 325 350 375 400 425"
 		"MaxLevel"					"10"

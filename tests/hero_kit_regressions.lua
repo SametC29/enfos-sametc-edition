@@ -1249,8 +1249,11 @@ end)
 
 test('Shadow Shaman Scepter boosts summoned Serpent Ward attack damage', function()
     local oldSummons, oldAghanim = package.loaded['heroes/summons'], package.loaded['heroes/aghanim_manager']
-    local summonedDamage, hasScepter = nil, true
-    package.loaded['heroes/summons'] = { Units = function(_, _, _, _, _, _, damage, _) summonedDamage = damage end }
+    local summoned = {}
+    local hasScepter = true
+    package.loaded['heroes/summons'] = { Units = function(_, ability, name, position, count, duration, damage, health)
+        summoned = { ability = ability, name = name, position = position, count = count, duration = duration, damage = damage, health = health }
+    end }
     package.loaded['heroes/aghanim_manager'] = {
         SCEPTER_BONUSES = { ult_damage_amp_pct = 40 },
         HasScepter = function() return hasScepter end,
@@ -1259,13 +1262,21 @@ test('Shadow Shaman Scepter boosts summoned Serpent Ward attack damage', functio
     shaman.intellect = 100
     local ability = enfos_ss_mass_serpent_ward()
     ability.GetCaster = function() return shaman end
-    ability.GetCursorPosition = function() return Vector(0, 0, 0) end
+    local targetPosition = Vector(200, 300, 0)
+    ability.GetCursorPosition = function() return targetPosition end
     ability.GetSpecialValueFor = function(_, key) return ({ ward_damage = 100, ward_count = 8, ward_duration = 30, ward_health = 450 })[key] or 0 end
+    local emittedSound
+    shaman.EmitSound = function(_, event) emittedSound = event end
     ability:OnSpellStart()
-    assert(summonedDamage == 196, '140 base attack damage should receive the shared 40% Scepter bonus')
+    assert(summoned.ability == ability and summoned.name == 'npc_dota_shadow_shaman_ward_1' and summoned.position == targetPosition,
+        'Serpent Wards should be created through the shared summon owner at the chosen point')
+    assert(summoned.count == 8 and summoned.duration == 30 and summoned.health == 450,
+        'Ward count, lifetime and health should match their KV values')
+    assert(summoned.damage == 196, '140 base attack damage should receive the shared 40% Scepter bonus')
+    assert(emittedSound == 'Hero_ShadowShaman.SerpentWard', 'A successful cast should emit the native Serpent Ward sound')
     hasScepter = false
     ability:OnSpellStart()
-    assert(summonedDamage == 140, 'without Scepter, wards use the configured attack damage')
+    assert(summoned.damage == 140, 'without Scepter, wards use the configured attack damage')
     package.loaded['heroes/summons'], package.loaded['heroes/aghanim_manager'] = oldSummons, oldAghanim
 end)
 
