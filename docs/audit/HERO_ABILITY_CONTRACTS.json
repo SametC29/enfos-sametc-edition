@@ -1461,7 +1461,7 @@
           "slot": 3,
           "id": "enfos_zeus_heavenly_jump",
           "maxLevel": 10,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES",
           "callbacks": [
             "OnSpellStart"
           ],

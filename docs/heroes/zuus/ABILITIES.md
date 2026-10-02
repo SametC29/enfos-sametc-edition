@@ -11,7 +11,7 @@ Hero: `npc_dota_hero_zuus`; role: Mage. Progression target: hero level 50 / all 
 | --- | --- | --- | --- | --- | --- |
 | 1 | `enfos_zeus_arc_lightning` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | zuus_arc_lightning |
 | 2 | `enfos_zeus_lightning_bolt` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | zuus_lightning_bolt |
-| 3 | `enfos_zeus_heavenly_jump` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | zuus_heavenly_jump |
+| 3 | `enfos_zeus_heavenly_jump` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | abilities/pve_kits | zuus_heavenly_jump |
 | 4 | `enfos_zeus_thundergods_wrath` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | zuus_thundergods_wrath |
 | 5 | `enfos_zeus_static_field` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | zuus_static_field |
 
