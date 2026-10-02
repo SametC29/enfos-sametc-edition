@@ -164,6 +164,20 @@ check('Chaos Knight preserves native active-spell animations and preloads its na
   const soundLoop = startup.match(/for _,name in ipairs\(\{([^}]+)\}\) do\s*\n\s*PrecacheResource\("soundfile"[\s\S]*?\n\s*end/);
   if (!soundLoop || !/"chaos_knight"/.test(soundLoop[1])) throw new Error('Chaos Knight native sound bank is missing from startup precache');
 });
+check('Anti-Mage preserves native active-spell animations and preloads its native sound bank', () => {
+  const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
+  const expected = {
+    enfos_am_blink: 'ACT_DOTA_CAST_ABILITY_2',
+    enfos_am_counterspell: 'ACT_DOTA_CAST_ABILITY_3',
+    enfos_am_mana_void: 'ACT_DOTA_CAST_ABILITY_4',
+  };
+  for (const [id, animation] of Object.entries(expected)) {
+    if (abilities[id].AbilityCastAnimation !== animation) throw new Error(`${id}: expected native cast animation ${animation}`);
+  }
+  const startup = fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua', 'utf8');
+  const soundLoop = startup.match(/for _,name in ipairs\(\{([^}]+)\}\) do\s*\n\s*PrecacheResource\("soundfile"[\s\S]*?\n\s*end/);
+  if (!soundLoop || !/"antimage"/.test(soundLoop[1])) throw new Error('Anti-Mage native sound bank is missing from startup precache');
+});
 check('Lina exposes five ten-rank abilities, delayed Light Strike Array and a separate Enfos passive', () => {
   const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
   const curves = {

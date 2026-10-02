@@ -57,6 +57,8 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-02 source review: installed native AbilityDefinitions specify Blink `ACT_DOTA_CAST_ABILITY_2`, Counterspell `ACT_DOTA_CAST_ABILITY_3`, and Mana Void `ACT_DOTA_CAST_ABILITY_4`; these custom KV animation fields were absent and are now explicit. Native hero data points to `soundevents/game_sounds_heroes/game_sounds_antimage.vsndevts`; the bank was missing from startup precache even though the kit emits Anti-Mage events, so it is now included. Mana Break remains passive and has no added cast animation. Static checks cover the native presentation and bank list; Dota gestures/cold-client sound remain PENDING owner test.
+
 2026-09-30 level-50 migration: Q/W/E/Enfos passive gates start at level 1 with interval 1; R starts at level 5 with interval 5. Static contract test added; point/HUD and gameplay acceptance remain pending for owner live test.
 
 2026-09-30 static special-value repair: migrated all five Anti-Mage abilities to named `AbilityValues`, preserving the defined 10-rank arrays/scalars and adding a content contract. Native ability identity and the hero's separate Enfos passive remain as documented. The change follows Sven's verified Lua special-value failure; Counterspell, Blink, Mana Void and proc behavior/audio/visuals remain for the user's in-game verification.
