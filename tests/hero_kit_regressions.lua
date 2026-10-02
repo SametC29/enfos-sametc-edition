@@ -3725,6 +3725,45 @@ test('Tidehunter Ravage supplies five decoded ring radii at a fixed cast origin'
     ParticleManager=oldManager
 end)
 
+test('Tidehunter Ravage expands in five timed bands and hits each moving unit once per cast', function()
+    local oldRules=GameRules;local time=0;local contexts={}
+    local mode={SetContextThink=function(_,name,callback,delay) contexts[#contexts+1]={name=name,run=callback,delay=delay} end}
+    GameRules={GetGameTime=function() return time end,GetGameModeEntity=function() return mode end}
+    local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
+    local near=create_mock_unit('near_ravage_target',3,Vector(100,0,0))
+    local middle=create_mock_unit('middle_ravage_target',3,Vector(550,0,0))
+    local far=create_mock_unit('far_ravage_target',3,Vector(950,0,0))
+    local a=enfos_tide_ravage();a.GetCaster=function() return hero end
+    a.GetSpecialValueFor=function(_,k) return ({radius=1000,damage=100,strength_factor=1,stun_duration=3,boss_stun_duration=1})[k] or 0 end
+    mock_world_units={hero,near,middle,far};applied_damages={};a:OnSpellStart()
+    assert(#applied_damages==1 and applied_damages[1].victim==near,'Outer targets cannot take instant damage')
+    assert(#contexts==1 and contexts[1].delay==0.35)
+    assert(contexts[1].run()>0 and #applied_damages==1,'Paused game time cannot advance the wave')
+    hero:SetAbsOrigin(Vector(3000,0,0));near:SetAbsOrigin(Vector(350,0,0))
+    time=0.35;assert(contexts[1].run()>0 and #applied_damages==1,'Moving outward cannot duplicate the first hit')
+    time=0.7;assert(contexts[1].run()>0 and #applied_damages==2 and applied_damages[2].victim==middle)
+    time=1.05;assert(contexts[1].run()>0 and #applied_damages==2)
+    time=1.3;assert(contexts[1].run()==nil and #applied_damages==3 and applied_damages[3].victim==far)
+    for _,event in ipairs(applied_damages) do assert(event.damage==150) end
+    GameRules=oldRules
+end)
+
+test('Tidehunter Ravage overlaps own independent cast contexts and cancels removed sources', function()
+    local oldRules=GameRules;local time=0;local contexts={};local removed=false
+    local mode={SetContextThink=function(_,name,callback) contexts[#contexts+1]={name=name,run=callback} end}
+    GameRules={GetGameTime=function() return time end,GetGameModeEntity=function() return mode end}
+    local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
+    local target=create_mock_unit('outer_ravage_target',3,Vector(350,0,0))
+    local a=enfos_tide_ravage();a.GetCaster=function() return hero end
+    a.IsNull=function() return removed end
+    a.GetSpecialValueFor=function(_,k) assert(not removed,'Removed ability lookup');return k=='radius' and 1000 or 100 end
+    mock_world_units={hero,target};applied_damages={};a:OnSpellStart();a:OnSpellStart()
+    assert(#contexts==2 and contexts[1].name~=contexts[2].name)
+    time=0.35;contexts[1].run();contexts[2].run();assert(#applied_damages==2,'Each separate cast may hit the same unit once')
+    removed=true;assert(contexts[1].run()==nil and contexts[2].run()==nil and #applied_damages==2)
+    GameRules=oldRules
+end)
+
 test('Tidehunter Ravage uses the configured boss stun cap', function()
     applied_damages = {}
     local tide = create_mock_unit('npc_dota_hero_tidehunter', 2, Vector(0, 0, 0))

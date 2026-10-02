@@ -1102,7 +1102,7 @@
     "DOTA_Tooltip_Ability_enfos_tide_kraken_shell": "海妖外壳",
     "DOTA_Tooltip_Ability_enfos_tide_kraken_shell_Description": "被动格挡{{damage_block}} + 力量 × {{strength_factor}}点物理伤害，并提高{{bonus_hp_regen}}点生命恢复。累计受到{{purge_damage_threshold}}点伤害后，净化Tidehunter身上的负面效果。破坏效果会禁用这些被动效果。 若{{purge_reset_interval}}秒未受到伤害，累计伤害会重置。",
     "DOTA_Tooltip_Ability_enfos_tide_ravage": "毁灭",
-    "DOTA_Tooltip_Ability_enfos_tide_ravage_Description": "对{{radius}}范围内的敌人造成{{damage}} + 力量 × {{strength_factor}}点魔法伤害并眩晕{{stun_duration}}秒。首领最多眩晕{{boss_stun_duration}}秒。",
+    "DOTA_Tooltip_Ability_enfos_tide_ravage_Description": "对{{radius}}范围内的敌人造成{{damage}} + 力量 × {{strength_factor}}点魔法伤害并眩晕{{stun_duration}}秒。首领最多眩晕{{boss_stun_duration}}秒。 效果在1.3秒内以五个环带向外扩散，每个敌人每次施放最多被命中一次。",
     "DOTA_Tooltip_Ability_enfos_troll_battle_trance_Description": "{{duration}} sn boyunca +{{bonus_as}} saldırı hızı ve %{{move_speed_pct}} hareket hızı verir; düşmanlara verdiği hasarın %{{heal_pct}} kadarıyla iyileştirir ve canı 1’in altına düşmez.",
     "DOTA_Tooltip_Ability_enfos_troll_berserkers_rage_Description": "Yakın dövüş duruşuna geçip saldırı menzilini yakın dövüşe çevirir; +{{bonus_armor}} zırh ve +{{bonus_ms}} hareket hızı verir. Vuruşlar %{{stun_chance_pct}} şansla hedefe {{stun_duration}} sn sersemletme ve {{bonus_damage}} + Çeviklik x {{agility_factor}} fiziksel hasar uygular (boss sersemletmesi en fazla {{boss_stun_duration}} sn).",
     "DOTA_Tooltip_Ability_enfos_troll_fervor_Description": "Aynı düşmana arka arkaya vuruşlar, en fazla {{max_stacks}} kez biriken her yük başına +{{attack_speed_per_stack}} saldırı hızı kazandırır. Başka hedefe geçmek yükleri sıfırlar.",

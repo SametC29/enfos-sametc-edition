@@ -3929,19 +3929,47 @@ function enfos_tide_ravage:OnSpellStart()
     local dur = value(self, 'stun_duration')
     if dur <= 0 then dur = 2.8 end
 
-    for _, u in ipairs(enemies(c, origin, radius)) do
-        if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return end
-        if u and not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
-            local boss_dur = value(self, 'boss_stun_duration')
-            if boss_dur <= 0 then boss_dur = 1.0 end
-            local target_dur = is_boss(u) and math.min(dur, boss_dur) or dur
-            u:AddNewModifier(c, self, 'modifier_enfos_tide_ravage_stun', { duration = target_dur })
-            if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return end
-            if not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
-                damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
+    local boss_dur = value(self, 'boss_stun_duration')
+    if boss_dur <= 0 then boss_dur = 1.0 end
+    local hit = {}
+    local function impact(ring)
+        if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return false end
+        local inner, outer = radius * (ring - 1) / 5, radius * ring / 5
+        for _, u in ipairs(enemies(c, origin, outer)) do
+            if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return false end
+            if u and not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() and not hit[u] then
+                local distance = (u:GetAbsOrigin() - origin):Length2D()
+                if ring == 1 or distance > inner then
+                    hit[u] = true
+                    local target_dur = is_boss(u) and math.min(dur, boss_dur) or dur
+                    u:AddNewModifier(c, self, 'modifier_enfos_tide_ravage_stun', { duration = target_dur })
+                    if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return false end
+                    if not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
+                        damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
+                    end
+                end
             end
         end
+        return true
     end
+    if not impact(1) then return end
+    local mode = GameRules and GameRules.GetGameModeEntity and GameRules:GetGameModeEntity()
+    if not mode or not mode.SetContextThink or not GameRules.GetGameTime then return end
+    -- Fixed native particle emission times; changing these also requires a VFX review.
+    local starts = { 0, 0.35, 0.7, 1.05, 1.3 }
+    local cast_time = GameRules:GetGameTime()
+    local ring = 2
+    self.ravage_cast_serial = (self.ravage_cast_serial or 0) + 1
+    local owner_id = (self.entindex and self:entindex()) or c:entindex()
+    mode:SetContextThink('EnfosTideRavage_' .. tostring(owner_id) .. '_' .. tostring(self.ravage_cast_serial), function()
+        if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return nil end
+        local elapsed = GameRules:GetGameTime() - cast_time
+        if elapsed < starts[ring] then return math.max(0.03, starts[ring] - elapsed) end
+        if not impact(ring) then return nil end
+        ring = ring + 1
+        if ring > 5 then return nil end
+        return math.max(0.03, starts[ring] - elapsed)
+    end, starts[ring])
 end
 
 modifier_enfos_tide_ravage_stun=class({})
