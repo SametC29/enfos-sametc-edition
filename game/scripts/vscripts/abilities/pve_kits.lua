@@ -2692,6 +2692,7 @@ enfos_sniper_shrapnel=class({})
 function enfos_sniper_shrapnel:OnSpellStart()
     local c = self:GetCaster()
     local pos = self:GetCursorPosition()
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not pos then return end
     local r = value(self, 'radius')
     if r <= 0 then r = 450 end
     local dur = value(self, 'duration')
@@ -2716,16 +2717,24 @@ function modifier_enfos_sniper_shrapnel_thinker:OnCreated(kv)
     self:AddParticle(particle, false, false, -1, false, false)
 end
 function modifier_enfos_sniper_shrapnel_thinker:OnIntervalThink()
+    if not IsServer() then return end
     local c = self:GetCaster()
     local a = self:GetAbility()
     local p = self:GetParent()
+    if not c or (c.IsNull and c:IsNull()) or not a or (a.IsNull and a:IsNull())
+        or not p or (p.IsNull and p:IsNull()) then
+        self:Destroy()
+        return
+    end
     local agi = get_agi(c)
     local base = (a and value(a, 'shrapnel_damage')) or 75
     local dmg = base + (agi * 0.35)
 
     for _, u in ipairs(enemies(c, p:GetAbsOrigin(), self.radius)) do
         damage(a, u, dmg, DAMAGE_TYPE_PHYSICAL)
-        u:AddNewModifier(c, a, 'modifier_enfos_sniper_shrapnel_slow', { duration = 1.0 })
+        if u and not u:IsNull() and u:IsAlive() then
+            u:AddNewModifier(c, a, 'modifier_enfos_sniper_shrapnel_slow', { duration = 1.0 })
+        end
     end
 end
 

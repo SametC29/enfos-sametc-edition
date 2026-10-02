@@ -2064,6 +2064,34 @@ test('Sniper Shrapnel owns its persistent ground effect and supplies the configu
         PATTACH_WORLDORIGIN=oldCreate,oldControl,oldRelease,oldWorld
 end)
 
+test('Sniper Shrapnel stops invalid-owner callbacks and never slows a killed target', function()
+    local sniper=create_mock_unit('npc_dota_hero_sniper',2,Vector(0,0,0))
+    local thinker=create_mock_unit('thinker',2,Vector(200,0,0))
+    local enemy=create_mock_unit('enemy',3,Vector(200,0,0))
+    mock_world_units={sniper,enemy}
+    local a=enfos_sniper_shrapnel()
+    a.GetCaster=function() return sniper end
+    a.GetSpecialValueFor=function(_,key) return key=='shrapnel_damage' and 40 or 0 end
+    local m=modifier_enfos_sniper_shrapnel_thinker()
+    m.radius=450;m.GetParent=function() return thinker end
+    m.GetCaster=function() return sniper end;m.GetAbility=function() return a end
+    local oldDamage=ApplyDamage
+    local hits,stopped=0,0
+    ApplyDamage=function(info)
+        assert(info.damage==57.5 and info.damage_type==DAMAGE_TYPE_PHYSICAL)
+        hits=hits+1;info.victim.alive=false
+    end
+    m.Destroy=function() stopped=stopped+1 end
+    sniper.alive=false
+    m:OnIntervalThink()
+    assert(hits==1 and not enemy:HasModifier('modifier_enfos_sniper_shrapnel_slow'),
+        'An existing field survives caster death, but must not add slow after lethal damage')
+    m.GetCaster=function() return nil end
+    m:OnIntervalThink()
+    assert(stopped==1,'Removed caster must end the thinker instead of accessing its unit methods')
+    ApplyDamage=oldDamage
+end)
+
 test('Sniper Keen Eye pierces line behind primary target for secondary damage', function()
     applied_damages = {}
     local sniper = create_mock_unit('npc_dota_hero_sniper', 2, Vector(0, 0, 0))
