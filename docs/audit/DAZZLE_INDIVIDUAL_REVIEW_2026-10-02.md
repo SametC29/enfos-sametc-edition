@@ -19,3 +19,11 @@ MCP reference-only review of Boss Survival1571786267 `heroes/hero_dazzle/hero_da
 Focused repair moves the already precached root into the protection modifier's effect/attachment callbacks, explicitly makes it non-purgable and aligns W KV with native ally-immunity/non-dispellable policy. Keep expanded friendly-basic targeting, health floor, configured healing amplification and duration. No guessed CP1 halo-height override: current root has authored PreEmission control positions and actual height remains an owner visual gate.
 
 Extended existing positive save/heal regression first fails on standalone particle allocation, then requires no manual allocation, exact owned root/attachment and non-purgability while preserving1HPfloor/configured30%mock heal amplification. Actual lethal Boss damage/kill exceptions, immune allied targets, dispel, halo height, death/recast/expiry and cold-start VConsole remain OWNER ENGINE PENDING.
+
+Grave repair full checks:244behavior regressions,200abilities/223modifiers across ranks1–10,0failed checks. Source/mock only.
+
+## Shadow Wave piercing query
+
+Installed6943 native E and existing custom KV both declare physical damage with SPELL_IMMUNITY_ENEMIES_YES. Its shared radius query nevertheless used FLAG_NONE, excluding immune enemies before physical damage was applied. MCP current enum index confirms MAGIC_IMMUNE_ENEMIES; [KV targeting guide](https://moddota.com/abilities/ability-keyvalues) distinguishes targeting flags from damage/immunity metadata. No new piercing balance policy: align radius selection with the existing native/custom policy.
+
+Expanded existing heal/bounce regression with one immune and two ordinary enemies, using a flag-aware query fixture. Before repair the immune unit is omitted; after the E-local query flag it receives the same configured250physical damage while the ally still heals250 and receives first Weave armor stack. Other abilities/global query defaults unchanged. Actual debuff immunity and armor-stack behavior on immune Bosses remain owner engine pending.

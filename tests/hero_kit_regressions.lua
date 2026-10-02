@@ -2685,7 +2685,7 @@ test('Dazzle Nothl Weave is suppressed by Break while active Poison Touch still 
     assert(not enemy:HasModifier('modifier_enfos_dazzle_nothl_weave_debuff'), 'Break must suppress the Enfos passive Weave')
 end)
 
-test('Dazzle Shadow Wave heals allies and deals pure physical damage around each', function()
+test('Dazzle Shadow Wave heals allies and includes immune enemies in its piercing physical damage', function()
     applied_damages = {}
     local dazzle = create_mock_unit('npc_dota_hero_dazzle', 2, Vector(0, 0, 0))
     dazzle.intellect = 80
@@ -2693,7 +2693,18 @@ test('Dazzle Shadow Wave heals allies and deals pure physical damage around each
     frontline.hp = 500
     local e1 = create_mock_unit('swarm_1', 3, Vector(220, 0, 0))
     local e2 = create_mock_unit('swarm_2', 3, Vector(250, 0, 0))
-    mock_world_units = { dazzle, frontline, e1, e2 }
+    local immune = create_mock_unit('immune_swarm', 3, Vector(260, 0, 0))
+    mock_world_units = { dazzle, frontline, e1, e2, immune }
+    local old_find=FindUnitsInRadius
+    FindUnitsInRadius=function(team,point,cache,radius,search_team,search_type,flags,order,grow)
+        local units=old_find(team,point,cache,radius,search_team,search_type,flags,order,grow)
+        if search_team==DOTA_UNIT_TARGET_TEAM_ENEMY and flags~=DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES then
+            local filtered={}
+            for _,unit in ipairs(units) do if unit~=immune then table.insert(filtered,unit) end end
+            return filtered
+        end
+        return units
+    end
 
     local ab = enfos_dazzle_shadow_wave()
     ab.GetCaster = function() return dazzle end
@@ -2711,6 +2722,8 @@ test('Dazzle Shadow Wave heals allies and deals pure physical damage around each
 
     ab:OnSpellStart()
 
+    FindUnitsInRadius=old_find
+
     -- Heal: 170 + (80 * 1.0) = 250
     assert(frontline.hp == 750, 'Frontline ally must be healed for 250')
     local weave_buff = frontline:FindModifierByName('modifier_enfos_dazzle_nothl_weave_buff')
@@ -2718,7 +2731,7 @@ test('Dazzle Shadow Wave heals allies and deals pure physical damage around each
         'The first Weave application must start at one stack instead of granting zero armor')
     assert(weave_buff:GetModifierPhysicalArmorBonus() == 2, 'The first Weave stack grants configured armor')
     -- Damage: around frontline, both swarm_1 (dist 20) and swarm_2 (dist 50) are within 200 radius
-    assert(#applied_damages == 2, 'Both swarming creeps around frontline must take 250 physical damage')
+    assert(#applied_damages == 3, 'Both ordinary creeps and the immune creep must take configured piercing physical damage')
     assert(applied_damages[1].damage == 250 and applied_damages[1].damage_type == DAMAGE_TYPE_PHYSICAL)
     assert(applied_damages[2].damage == 250 and applied_damages[2].damage_type == DAMAGE_TYPE_PHYSICAL)
 end)

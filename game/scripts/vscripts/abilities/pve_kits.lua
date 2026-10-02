@@ -3318,7 +3318,7 @@ function enfos_dazzle_shadow_wave:OnSpellStart()
         effect('particles/units/heroes/hero_dazzle/dazzle_shadow_wave.vpcf', target)
         local radius = value(self, 'damage_radius')
         if radius <= 0 then radius = 200 end
-        for _, enemy in ipairs(enemies(c, target:GetAbsOrigin(), radius)) do
+        for _, enemy in ipairs(enemies(c, target:GetAbsOrigin(), radius, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
             apply_dazzle_weave(c, enemy)
             damage(self, enemy, heal, DAMAGE_TYPE_PHYSICAL)
         end
