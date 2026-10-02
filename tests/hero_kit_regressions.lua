@@ -4012,6 +4012,38 @@ test('Witch Doctor Paralyzing Cask bounces and reduces boss stun duration', func
     assert(creep_stun ~= nil and creep_stun.params.duration == 1.0, 'Creep stun duration must be 1.0s')
 end)
 
+test('Witch Doctor Cask continues around captured positions after lethal victim deletion', function()
+    local wd=create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(0,0,0));wd.intellect=50
+    local first=create_mock_unit('wd_cask_deleted_first',3,Vector(100,0,0))
+    local second=create_mock_unit('wd_cask_deleted_second',3,Vector(150,0,0))
+    local third=create_mock_unit('wd_cask_living',3,Vector(200,0,0))
+    local fourth=create_mock_unit('wd_cask_over_cap',3,Vector(250,0,0))
+    mock_world_units={wd,first,second,third,fourth}
+    local a=enfos_wd_paralyzing_cask();a.GetCaster=function() return wd end
+    a.GetCursorTarget=function() return first end
+    a.GetSpecialValueFor=function(_,key)
+        return ({damage=100,bounces=3,stun_duration=1,boss_stun_duration=0.3})[key] or 0
+    end
+    local oldDamage=ApplyDamage;local hits={}
+    ApplyDamage=function(info)
+        hits[#hits+1]=info
+        if info.victim==first or info.victim==second then
+            local u=info.victim;u.alive=false;u.IsNull=function() return true end
+            u.GetAbsOrigin=function() error('Deleted Cask victim position must not be read') end
+            u.AddNewModifier=function() error('Deleted Cask victim must not receive a stun') end
+        end
+    end
+    local ok,err=pcall(function() a:OnSpellStart() end)
+    ApplyDamage=oldDamage
+    assert(ok,err)
+    assert(#hits==3 and hits[1].victim==first and hits[2].victim==second and hits[3].victim==third,
+        'Consecutive lethal hits must not truncate the unique-target Cask chain or extend its cap')
+    for _,hit in ipairs(hits) do assert(hit.damage==120 and hit.damage_type==DAMAGE_TYPE_MAGICAL) end
+    assert(third.modifiers.modifier_enfos_wd_paralyzing_cask_stun.params.duration==1,
+        'A living third recipient must retain its configured stun')
+    assert(not fourth:HasModifier('modifier_enfos_wd_paralyzing_cask_stun'))
+end)
+
 test('Witch Doctor Maledict uses rank values and only bursts damage since the prior burst', function()
     applied_damages = {}
     local wd = create_mock_unit('npc_dota_hero_witch_doctor', 2, Vector(0, 0, 0))

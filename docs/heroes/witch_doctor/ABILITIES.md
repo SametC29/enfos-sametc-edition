@@ -358,3 +358,7 @@ engine termination after source removal, immunity and second-client precache
 remain owner runtime checks. Mock launch/impact tests pass for R and Shard.
 
 2026-09-30 level-cap integration: all five Witch Doctor hero slots now declare KV rank gates. Q/W/E and the Enfos passive use one rank per level; passive rank 1 remains a separate Enfos grant. Death Ward ranks 1–10 unlock on levels 5, 10, …, 50. Static KV contract passes; actual rank buttons, level-up points, ultimate badge and match-start level 6 remain PENDING for owner testing.
+
+## Individual review continuation — 2026-10-02
+
+Whole-kit status remains IN PROGRESS / ENGINE PENDING; see ../../audit/WITCH_DOCTOR_INDIVIDUAL_REVIEW_2026-10-02.md. Q Paralyzing Cask's consecutive lethal-deletion regression reproduced a stale post-damage stun call. The focused repair captures each victim's position and Boss stun before damage, applies stun only to living valid recipients and retains valid unvisited hostile chain targets. Full checks: 261 hero behavioral regressions and all 200 ability sweeps pass, zero failed checks. This does not certify native projectile presentation or actual Dota/VConsole behavior. W/E/R, Shard, passive and all acceptance areas continue in the same individual review.

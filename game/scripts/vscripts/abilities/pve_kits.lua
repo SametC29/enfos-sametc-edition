@@ -4597,7 +4597,9 @@ enfos_wd_paralyzing_cask=class({})
 function enfos_wd_paralyzing_cask:OnSpellStart()
     local c = self:GetCaster()
     local initial = self:GetCursorTarget()
-    if not c or not initial or not initial:IsAlive() or initial.GetTeamNumber and initial:GetTeamNumber() == c:GetTeamNumber() then return end
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive()
+        or not initial or (initial.IsNull and initial:IsNull()) or not initial:IsAlive()
+        or initial:GetTeamNumber() == c:GetTeamNumber() then return end
     if initial.TriggerSpellAbsorb and initial:TriggerSpellAbsorb(self) then return end
 
     c:EmitSound('Hero_WitchDoctor.Paralyzing_Cask_Cast')
@@ -4612,25 +4614,34 @@ function enfos_wd_paralyzing_cask:OnSpellStart()
     local visited = {}
 
     for i = 1, bounces do
-        if not current or not current:IsAlive() then break end
+        if (self.IsNull and self:IsNull()) or (c.IsNull and c:IsNull()) or not c:IsAlive()
+            or not current or (current.IsNull and current:IsNull()) or not current:IsAlive()
+            or current:GetTeamNumber() == c:GetTeamNumber() then break end
         local target_id = current.GetEntityIndex and current:GetEntityIndex() or current
         if visited[target_id] then break end
         visited[target_id] = true
-        damage(self, current, dmg, DAMAGE_TYPE_MAGICAL)
+        -- Damage callbacks may delete the victim; retain its chain center before impact.
+        local current_position = current:GetAbsOrigin()
         local stun_dur = value(self, 'stun_duration')
         if stun_dur <= 0 then stun_dur = 1.0 end
         if is_boss(current) then
             local boss_stun = value(self, 'boss_stun_duration')
             if boss_stun > 0 then stun_dur = math.min(stun_dur, boss_stun) end
         end
-        current:AddNewModifier(c, self, 'modifier_enfos_wd_paralyzing_cask_stun', { duration = stun_dur })
+        damage(self, current, dmg, DAMAGE_TYPE_MAGICAL)
+        if (self.IsNull and self:IsNull()) or (c.IsNull and c:IsNull()) then break end
+        if not (current.IsNull and current:IsNull()) and current:IsAlive() then
+            current:AddNewModifier(c, self, 'modifier_enfos_wd_paralyzing_cask_stun', { duration = stun_dur })
+        end
         effect('particles/units/heroes/hero_witchdoctor/witchdoctor_cask.vpcf', current)
 
-        local candidates = enemies(c, current:GetAbsOrigin(), 500)
+        local candidates = enemies(c, current_position, 500)
         local next_target = nil
         for _, u in ipairs(candidates) do
-            local candidate_id = u.GetEntityIndex and u:GetEntityIndex() or u
-            if not visited[candidate_id] then next_target = u break end
+            if u and not (u.IsNull and u:IsNull()) and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
+                local candidate_id = u.GetEntityIndex and u:GetEntityIndex() or u
+                if not visited[candidate_id] then next_target = u break end
+            end
         end
         current = next_target
     end
