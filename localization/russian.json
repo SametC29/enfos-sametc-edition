@@ -1118,7 +1118,7 @@
     "DOTA_Tooltip_Ability_enfos_wd_death_ward": "Тотем смерти",
     "DOTA_Tooltip_Ability_enfos_wd_death_ward_Description": "Во время канала длительностью 8 сек. атакует случайного врага в радиусе 700 от выбранной точки каждые 0,22 сек., нанося {{damage}} + 75% интеллекта физического урона.",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris": "Гри-Гри",
-    "DOTA_Tooltip_Ability_enfos_wd_gris_gris_Description": "Пассивная способность Enfos: каждые {{interval}} сек. даёт {{gold_per_interval}} надёжного золота.",
+    "DOTA_Tooltip_Ability_enfos_wd_gris_gris_Description": "Пассивная способность Enfos: каждые {{interval}} сек. даёт {{gold_per_interval}} надёжного золота, даже после смерти. Истощение приостанавливает доход. Иллюзии не создают золото.",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris_shard_description": "Исходящее лечение +25%.",
     "DOTA_Tooltip_Ability_enfos_wd_maledict": "Проклятие",
     "DOTA_Tooltip_Ability_enfos_wd_maledict_Description": "Проклинает врагов в радиусе {{radius}} на {{duration}} сек. Они получают {{base_dps}} магического урона в секунду; каждые {{burst_interval}} сек. взрыв наносит {{lost_health_pct}}% здоровья, потерянного с прошлого взрыва ({{boss_lost_health_pct}}% по боссам).",
@@ -1302,6 +1302,8 @@
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff": "Небесный прыжок",
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff_Description": "Скорость передвижения увеличена на %dMODIFIER_PROPERTY_TOOLTIP%%%.",
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow": "Замедление небесного прыжка",
-    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "Скорость передвижения снижена на %dMODIFIER_PROPERTY_TOOLTIP%%%."
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "Скорость передвижения снижена на %dMODIFIER_PROPERTY_TOOLTIP%%%.",
+    "DOTA_Tooltip_modifier_enfos_wd_gris_gris": "Гри-Гри",
+    "DOTA_Tooltip_modifier_enfos_wd_gris_gris_Description": "Даёт %dMODIFIER_PROPERTY_TOOLTIP% надёжного золота каждые %dMODIFIER_PROPERTY_TOOLTIP2% сек., даже после смерти. Истощение приостанавливает доход; иллюзии не создают золото."
   }
 }

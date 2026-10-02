@@ -4991,19 +4991,32 @@ modifier_enfos_wd_gris_gris=class({})
 function modifier_enfos_wd_gris_gris:IsHidden() return false end
 function modifier_enfos_wd_gris_gris:IsPurgable() return false end
 function modifier_enfos_wd_gris_gris:RemoveOnDeath() return false end
+function modifier_enfos_wd_gris_gris:GetTexture() return 'witch_doctor_voodoo_restoration' end
+function modifier_enfos_wd_gris_gris:DeclareFunctions()
+    return {MODIFIER_PROPERTY_TOOLTIP, MODIFIER_PROPERTY_TOOLTIP2}
+end
+function modifier_enfos_wd_gris_gris:OnTooltip() return value(self:GetAbility(), 'gold_per_interval') end
+function modifier_enfos_wd_gris_gris:OnTooltip2() return value(self:GetAbility(), 'interval') end
 function modifier_enfos_wd_gris_gris:OnCreated()
     if not IsServer() then return end
     local interval = value(self:GetAbility(), 'interval')
     self:StartIntervalThink(interval > 0 and interval or 3.0)
 end
 function modifier_enfos_wd_gris_gris:OnIntervalThink()
+    if not IsServer() then return end
     local hero = self:GetParent()
+    local ability = self:GetAbility()
     if not hero or (hero.IsNull and hero:IsNull())
-        or (hero.PassivesDisabled and hero:PassivesDisabled())
+        or not ability or (ability.IsNull and ability:IsNull()) then
+        self:Destroy()
+        return
+    end
+    -- Death does not suppress match-local income; Break and illusions do.
+    if (hero.PassivesDisabled and hero:PassivesDisabled())
         or (hero.IsIllusion and hero:IsIllusion()) then return end
     local player_id = hero.GetPlayerOwnerID and hero:GetPlayerOwnerID() or -1
     if player_id < 0 or not PlayerResource or not PlayerResource.IsValidPlayerID or not PlayerResource:IsValidPlayerID(player_id) then return end
-    local amount = value(self:GetAbility(), 'gold_per_interval')
+    local amount = value(ability, 'gold_per_interval')
     if amount > 0 then PlayerResource:ModifyGold(player_id, amount, true, DOTA_ModifyGold_Unspecified) end
 end
 

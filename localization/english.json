@@ -1180,7 +1180,7 @@
     "DOTA_Tooltip_Ability_enfos_wd_death_ward": "Death Ward",
     "DOTA_Tooltip_Ability_enfos_wd_death_ward_Description": "During an 8-second channel, attacks a random enemy within 700 of the chosen point every 0.22 seconds for {{damage}} + 75% of Intelligence as physical damage.",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris": "Gris-Gris",
-    "DOTA_Tooltip_Ability_enfos_wd_gris_gris_Description": "Enfos passive: gain {{gold_per_interval}} reliable gold every {{interval}} seconds.",
+    "DOTA_Tooltip_Ability_enfos_wd_gris_gris_Description": "Enfos passive: gain {{gold_per_interval}} reliable gold every {{interval}} seconds, including while dead. Break pauses this income. Illusions do not generate gold.",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris_shard_description": "Outgoing healing +25%.",
     "DOTA_Tooltip_Ability_enfos_wd_maledict": "Maledict",
     "DOTA_Tooltip_Ability_enfos_wd_maledict_Description": "Curses enemies within {{radius}} for {{duration}} sec. They take {{base_dps}} magical damage each second; every {{burst_interval}} sec, they burst for {{lost_health_pct}}% of the health lost since the previous burst ({{boss_lost_health_pct}}% against bosses).",
@@ -1362,6 +1362,8 @@
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff": "Heavenly Jump",
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff_Description": "Movement speed increased by %dMODIFIER_PROPERTY_TOOLTIP%%%.",
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow": "Heavenly Jump Slow",
-    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "Movement speed reduced by %dMODIFIER_PROPERTY_TOOLTIP%%%."
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "Movement speed reduced by %dMODIFIER_PROPERTY_TOOLTIP%%%.",
+    "DOTA_Tooltip_modifier_enfos_wd_gris_gris": "Gris-Gris",
+    "DOTA_Tooltip_modifier_enfos_wd_gris_gris_Description": "Grants %dMODIFIER_PROPERTY_TOOLTIP% reliable gold every %dMODIFIER_PROPERTY_TOOLTIP2% seconds, including while dead. Break pauses income; illusions do not generate gold."
   }
 }

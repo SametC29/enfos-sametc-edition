@@ -673,7 +673,7 @@
     "DOTA_Tooltip_Ability_enfos_wd_voodoo_switcheroo": "Voodoo Değişimi (Voodoo Switcheroo)",
     "DOTA_Tooltip_Ability_enfos_wd_voodoo_switcheroo_Description": "Aghanim Parçası ile açılır. 2 saniyeliğine Death Ward’a dönüşür, hasar almaz ve silahsız kalır. Yakındaki rastgele bir düşmana her 0,25 saniyede mermi atar; her isabet 120 + Zekânın %80’i kadar fiziksel hasar verir.",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris": "Gris-Gris",
-    "DOTA_Tooltip_Ability_enfos_wd_gris_gris_Description": "Enfos pasifi: her {{interval}} saniyede {{gold_per_interval}} güvenilir altın kazanır.",
+    "DOTA_Tooltip_Ability_enfos_wd_gris_gris_Description": "Enfos pasifi: ölü olduğunda da her {{interval}} saniyede {{gold_per_interval}} güvenilir altın kazanır. Kırılma bu geliri durdurur. İllüzyonlar altın üretmez.",
     "npc_dota_hero_bristleback": "Bristleback",
     "npc_dota_hero_bristleback_hype": "Tank rolünün sırtı bükülmez savaşçısı. Zırh kıran yapışkan sümüğü, aralıksız patlayan diken fırtınası ve arkadan alınan hasarı yutan çelik kabuğuyla düşmanları yıpratır.",
     "npc_dota_hero_slark": "Slark",
@@ -1733,6 +1733,8 @@
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff": "Gök Sıçraması",
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff_Description": "Hareket hızı %dMODIFIER_PROPERTY_TOOLTIP%%% artar.",
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow": "Gök Sıçraması Yavaşlatması",
-    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "Hareket hızı %dMODIFIER_PROPERTY_TOOLTIP%%% azalır."
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "Hareket hızı %dMODIFIER_PROPERTY_TOOLTIP%%% azalır.",
+    "DOTA_Tooltip_modifier_enfos_wd_gris_gris": "Gris-Gris",
+    "DOTA_Tooltip_modifier_enfos_wd_gris_gris_Description": "Ölü olduğunda da her %dMODIFIER_PROPERTY_TOOLTIP2% saniyede %dMODIFIER_PROPERTY_TOOLTIP% güvenilir altın kazanır. Kırılma geliri durdurur; illüzyonlar altın üretmez."
   }
 }

@@ -4324,6 +4324,52 @@ test('Witch Doctor Ward and Shard discard callbacks from deleted abilities', fun
     end
 end)
 
+test('Witch Doctor Gris-Gris destroys orphaned gold loops but preserves death payouts', function()
+    local previous_resource = PlayerResource
+    local paid = 0
+    PlayerResource = {
+        IsValidPlayerID = function(_, id) return id == 0 end,
+        ModifyGold = function(_, id, amount, reliable)
+            assert(reliable == true, 'Gris-Gris gold must remain reliable')
+            paid = paid + amount
+        end,
+    }
+    local ok, err = pcall(function()
+        for _, removed in ipairs({'ability', 'parent'}) do
+            local hero = create_mock_unit('npc_dota_hero_witch_doctor', 2, Vector(0,0,0))
+            hero.GetPlayerOwnerID = function() return 0 end
+            local ability = enfos_wd_gris_gris()
+            ability.GetSpecialValueFor = function() return 3 end
+            ability.IsNull = function() return removed == 'ability' end
+            hero.IsNull = function() return removed == 'parent' end
+            local passive = modifier_enfos_wd_gris_gris()
+            passive.GetParent = function() return hero end
+            passive.GetAbility = function() return ability end
+            local destroyed = false
+            passive.Destroy = function() destroyed = true end
+            passive:OnIntervalThink()
+            assert(destroyed, 'Removed '..removed..' must end the orphaned recurring gold modifier')
+            assert(paid == 0, 'Removed sources must never grant gold')
+        end
+        local hero = create_mock_unit('npc_dota_hero_witch_doctor', 2, Vector(0,0,0))
+        hero.GetPlayerOwnerID = function() return 0 end
+        hero.IsAlive = function() return false end
+        local amount = 1
+        local ability = enfos_wd_gris_gris()
+        ability.GetSpecialValueFor = function(_, key) return key == 'gold_per_interval' and amount or 3 end
+        local passive = modifier_enfos_wd_gris_gris()
+        passive.GetParent = function() return hero end
+        passive.GetAbility = function() return ability end
+        passive.Destroy = function() error('A dead hero is still a valid source') end
+        passive:OnIntervalThink()
+        amount = 3
+        passive:OnIntervalThink()
+        assert(paid == 4, 'Death-persistent gold must read current rank values')
+    end)
+    PlayerResource = previous_resource
+    assert(ok, err)
+end)
+
 test('Witch Doctor Gris-Gris does not pay while broken or to an illusion', function()
     local previous_player_resource = PlayerResource
     local paid = 0
