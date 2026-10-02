@@ -2527,6 +2527,12 @@
 	// =========================================================================
 	"enfos_wd_paralyzing_cask"
 	{
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_1"
+		"precache"
+		{
+			"soundfile" "soundevents/game_sounds_heroes/game_sounds_witchdoctor.vsndevts"
+			"particle" "particles/units/heroes/hero_witchdoctor/witchdoctor_cask.vpcf"
+		}
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
