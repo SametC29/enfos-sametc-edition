@@ -3898,7 +3898,8 @@ end
 
 function enfos_wk_wraithfire_blast:OnProjectileHit(target, location)
     local c = self:GetCaster()
-    if not c or (c.IsNull and c:IsNull()) or not target or (target.IsNull and target:IsNull()) or not target:IsAlive() then
+    if not c or (c.IsNull and c:IsNull()) or not target or (target.IsNull and target:IsNull()) or not target:IsAlive()
+        or target:GetTeamNumber() == c:GetTeamNumber() then
         return true
     end
 

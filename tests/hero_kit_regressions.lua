@@ -3253,6 +3253,12 @@ test('Wraith King Hellfire Blast rejects allies and stops at spell block', funct
     target.team = 2
     ab:OnSpellStart()
     assert(last_tracking_projectile == nil, 'Hellfire Blast must reject allied targets')
+    local damage_before = #applied_damages
+    ab:OnProjectileHit(target, target:GetAbsOrigin())
+    assert(#applied_damages == damage_before, 'A target that becomes allied during flight must not take impact damage')
+    assert(not target.modifiers.modifier_enfos_wk_wraithfire_blast_stun
+        and not target.modifiers.modifier_enfos_wk_wraithfire_blast_dot,
+        'A target that becomes allied during flight must not receive hostile debuffs')
 end)
 
 test('Wraith King Vampiric Aura heals attack damage and ignores spell damage callbacks', function()
