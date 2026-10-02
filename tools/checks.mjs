@@ -136,6 +136,20 @@ check('Monkey King Boundless Strike keeps its native cast animation and sound ba
   const soundLoop = startup.match(/for _,name in ipairs\(\{([^}]+)\}\) do\s*\n\s*PrecacheResource\("soundfile"[\s\S]*?\n\s*end/);
   if (!soundLoop || !/"monkey_king"/.test(soundLoop[1])) throw new Error('Monkey King native sound bank is missing from startup precache');
 });
+check('Troll Warlord preserves native active-spell animations and preloads its native sound bank', () => {
+  const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
+  const expected = {
+    enfos_troll_berserkers_rage: 'ACT_DOTA_CAST_ABILITY_1',
+    enfos_troll_whirling_axes: 'ACT_DOTA_CAST_ABILITY_3',
+    enfos_troll_battle_trance: 'ACT_DOTA_CAST_ABILITY_4',
+  };
+  for (const [id, animation] of Object.entries(expected)) {
+    if (abilities[id].AbilityCastAnimation !== animation) throw new Error(`${id}: expected native cast animation ${animation}`);
+  }
+  const startup = fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua', 'utf8');
+  const soundLoop = startup.match(/for _,name in ipairs\(\{([^}]+)\}\) do\s*\n\s*PrecacheResource\("soundfile"[\s\S]*?\n\s*end/);
+  if (!soundLoop || !/"troll_warlord"/.test(soundLoop[1])) throw new Error('Troll Warlord native sound bank is missing from startup precache');
+});
 check('Lina exposes five ten-rank abilities, delayed Light Strike Array and a separate Enfos passive', () => {
   const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
   const curves = {
