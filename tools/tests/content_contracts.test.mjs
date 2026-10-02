@@ -5,6 +5,25 @@ import fs from 'node:fs';
 import {parseKV} from '../lib/kv.mjs';
 const read=p=>parseKV(fs.readFileSync('game/scripts/npc/'+p,'utf8'));
 
+test('Dragon Knight release skill tooltips are localized and match Enfos values',()=>{
+  const abilities=['breathe_fire','dragon_tail','dragon_blood','elder_dragon_form','wyrm_vigor'];
+  const expected={english:/[A-Za-z]/,russian:/[А-Яа-яЁё]/,schinese:/[\u3400-\u9fff]/};
+  for(const [lang,script] of Object.entries(expected)){
+    const tokens=JSON.parse(fs.readFileSync(`localization/${lang}.json`,'utf8')).Tokens;
+    for(const id of abilities){
+      const text=tokens[`DOTA_Tooltip_Ability_enfos_dk_${id}_Description`];
+      assert.ok(text,`${lang}: missing Dragon Knight ${id} description`);
+      assert.match(text,script,`${lang}: Dragon Knight ${id} is not translated`);
+      assert.doesNotMatch(text,/[ıİşğüöç]/,`${lang}: Turkish fallback leaked into ${id}`);
+    }
+    assert.match(tokens.DOTA_Tooltip_Ability_enfos_dk_dragon_blood_Description,/5%/,
+      `${lang}: Dragon Blood tooltip must include the Strength-based regeneration implemented in Lua`);
+  }
+  const turkish=JSON.parse(fs.readFileSync('localization/turkish.json','utf8')).Tokens;
+  assert.match(turkish.DOTA_Tooltip_Ability_enfos_dk_dragon_blood_Description,/Gücünün %5/,
+    'Turkish Dragon Blood tooltip must expose its Strength-based regeneration');
+});
+
 
 test('Elites are fully retired from the NPC roster and wave runtime',()=>{
   const units=read('npc_units_custom.txt').DOTAUnits;
