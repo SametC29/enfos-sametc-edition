@@ -150,6 +150,20 @@ check('Troll Warlord preserves native active-spell animations and preloads its n
   const soundLoop = startup.match(/for _,name in ipairs\(\{([^}]+)\}\) do\s*\n\s*PrecacheResource\("soundfile"[\s\S]*?\n\s*end/);
   if (!soundLoop || !/"troll_warlord"/.test(soundLoop[1])) throw new Error('Troll Warlord native sound bank is missing from startup precache');
 });
+check('Chaos Knight preserves native active-spell animations and preloads its native sound bank', () => {
+  const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
+  const expected = {
+    enfos_ck_chaos_bolt: 'ACT_DOTA_CAST_ABILITY_1',
+    enfos_ck_reality_rift: 'ACT_DOTA_OVERRIDE_ABILITY_2',
+    enfos_ck_phantasm: 'ACT_DOTA_CAST_ABILITY_4',
+  };
+  for (const [id, animation] of Object.entries(expected)) {
+    if (abilities[id].AbilityCastAnimation !== animation) throw new Error(`${id}: expected native cast animation ${animation}`);
+  }
+  const startup = fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua', 'utf8');
+  const soundLoop = startup.match(/for _,name in ipairs\(\{([^}]+)\}\) do\s*\n\s*PrecacheResource\("soundfile"[\s\S]*?\n\s*end/);
+  if (!soundLoop || !/"chaos_knight"/.test(soundLoop[1])) throw new Error('Chaos Knight native sound bank is missing from startup precache');
+});
 check('Lina exposes five ten-rank abilities, delayed Light Strike Array and a separate Enfos passive', () => {
   const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
   const curves = {
