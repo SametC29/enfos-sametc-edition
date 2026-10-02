@@ -3547,7 +3547,7 @@ test('Tidehunter Kraken Shell respects Break and applies configured block and re
     tide.Purge = function() purges = purges + 1 end
     local ab = enfos_tide_kraken_shell()
     ab.GetLevel = function() return 1 end
-    ab.GetSpecialValueFor = function(_, key) return ({damage_block=70,bonus_hp_regen=12,purge_damage_threshold=100})[key] or 0 end
+    ab.GetSpecialValueFor = function(_, key) return ({damage_block=70,strength_factor=0.08,bonus_hp_regen=12,purge_damage_threshold=100})[key] or 0 end
     local mod = modifier_enfos_tide_kraken_shell_passive()
     mod.GetParent = function() return tide end
     mod.GetAbility = function() return ab end
@@ -3555,7 +3555,7 @@ test('Tidehunter Kraken Shell respects Break and applies configured block and re
     for _, property in ipairs(mod:DeclareFunctions()) do declared[property] = true end
     assert(declared[MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT],
         'Kraken Shell must register its health regeneration property with the engine')
-    assert(mod:GetModifierPhysical_ConstantBlock() == 72.5, 'configured block plus Strength scaling must be applied')
+    assert(mod:GetModifierPhysical_ConstantBlock() == 74, 'configured block plus named Strength scaling must be applied')
     assert(mod:GetModifierConstantHealthRegen() == 12)
     mod:OnTakeDamage({ unit=tide, damage=60 })
     assert(purges == 0, 'the configured purge threshold should accumulate damage before purging')
@@ -3593,10 +3593,11 @@ test('Tidehunter Ravage uses the configured boss stun cap', function()
     local ab = enfos_tide_ravage()
     ab.GetCaster = function() return tide end
     ab.GetSpecialValueFor = function(_, key)
-        return ({radius=1000,damage=300,stun_duration=3,boss_stun_duration=0.8})[key] or 0
+        return ({radius=1000,damage=300,strength_factor=1.5,stun_duration=3,boss_stun_duration=0.8})[key] or 0
     end
     ab:OnSpellStart()
     assert(boss.modifiers['modifier_enfos_tide_ravage_stun'].params.duration == 0.8)
+    assert(applied_damages[1].damage == 375, 'Ravage must use its named Strength factor, not a hidden fixed coefficient')
 end)
 
 test('Tidehunter passives reject unlearned, missing and removed ability sources', function()

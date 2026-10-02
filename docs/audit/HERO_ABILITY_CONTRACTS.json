@@ -2162,6 +2162,7 @@
           ],
           "specials": {
             "damage_block": "20 27 33 40 47 53 60 67 73 80",
+            "strength_factor": "0.05",
             "bonus_hp_regen": "5 7 8 10 12 13 15 17 18 20",
             "purge_damage_threshold": "450",
             "purge_reset_interval": "7"
@@ -2202,6 +2203,7 @@
           "specials": {
             "radius": "1000",
             "damage": "200 228 256 283 311 339 367 394 422 450",
+            "strength_factor": "2.0",
             "stun_duration": "2.4 2.5 2.6 2.7 2.8 2.8 2.9 3.0 3.1 3.2",
             "boss_stun_duration": "1.0"
           },

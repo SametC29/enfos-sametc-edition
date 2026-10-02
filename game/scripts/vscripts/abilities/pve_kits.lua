@@ -3783,7 +3783,7 @@ function modifier_enfos_tide_kraken_shell_passive:GetModifierPhysical_ConstantBl
     if not c then return 0 end
     local str = get_str(c)
     local base = value(a, 'damage_block')
-    return base + (str * 0.05)
+    return base + (str * value(a, 'strength_factor'))
 end
 function modifier_enfos_tide_kraken_shell_passive:GetModifierConstantHealthRegen()
     local c, a = tide_passive_sources(self)
@@ -3853,7 +3853,7 @@ function enfos_tide_ravage:OnSpellStart()
     local base = value(self, 'damage')
     if base <= 0 then base = 325 end
     local str = get_str(c)
-    local dmg = base + (str * 2.0)
+    local dmg = base + (str * value(self, 'strength_factor'))
     local dur = value(self, 'stun_duration')
     if dur <= 0 then dur = 2.8 end
 
