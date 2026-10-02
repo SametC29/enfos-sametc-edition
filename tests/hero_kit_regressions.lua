@@ -3475,6 +3475,10 @@ test('Phantom Assassin crit records preserve lethal splash and do not consume Bl
     local m=setmetatable({GetParent=function() return pa end,GetAbility=function() return a end},modifier_enfos_pa_coup_de_grace_passive)
     pa.RemoveModifierByName=function(self,name) self.modifiers[name]=nil end
     pa.modifiers.modifier_enfos_pa_blur_active={}
+    assert(type(m.GetCritDamage)=='function' and m:GetCritDamage()==4.25,
+        'Engine critical evaluation metadata must report a multiplier, not the percentage property value')
+    assert(pa:HasModifier('modifier_enfos_pa_blur_active') and not m.critRecords,
+        'Critical evaluation metadata must not roll, create attack records or consume Blur')
     m:GetModifierPreAttack_CriticalStrike()
     assert(pa:HasModifier('modifier_enfos_pa_blur_active'),'A property preview must not consume the active Blur guarantee')
     assert(m:GetModifierPreAttack_CriticalStrike({attacker=pa,target=primary,record=101})==425)

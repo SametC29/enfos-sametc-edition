@@ -4319,6 +4319,9 @@ function enfos_pa_coup_de_grace:GetIntrinsicModifierName() return 'modifier_enfo
 
 modifier_enfos_pa_coup_de_grace_passive=class({})
 function modifier_enfos_pa_coup_de_grace_passive:GetTexture() return 'phantom_assassin_coup_de_grace' end
+function modifier_enfos_pa_coup_de_grace_passive:GetCritDamage()
+    return value(self:GetAbility(), 'crit_mult') / 100
+end
 function modifier_enfos_pa_coup_de_grace_passive:DeclareFunctions()
     return { MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE, MODIFIER_EVENT_ON_ATTACK_LANDED, MODIFIER_EVENT_ON_ATTACK_RECORD_DESTROY }
 end
