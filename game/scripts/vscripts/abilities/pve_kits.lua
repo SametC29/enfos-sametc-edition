@@ -4461,7 +4461,13 @@ function enfos_zeus_lightning_bolt:OnSpellStart()
     if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
 
     c:EmitSound('Hero_Zuus.LightningBolt')
-    effect('particles/units/heroes/hero_zuus/zuus_lightning_bolt.vpcf', t)
+    -- Native bolt children trace CP0 -> CP1; CP3 impact is derived from CP1
+    -- by the root. Snapshot endpoints before damage can delete the victim.
+    local impact_position = t:GetAbsOrigin()
+    local bolt = ParticleManager:CreateParticle('particles/units/heroes/hero_zuus/zuus_lightning_bolt.vpcf', PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(bolt, 0, impact_position + Vector(0, 0, 1000))
+    ParticleManager:SetParticleControl(bolt, 1, impact_position)
+    ParticleManager:ReleaseParticleIndex(bolt)
 
     local base = value(self, 'damage')
     if base <= 0 then base = 300 end

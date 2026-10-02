@@ -3800,6 +3800,41 @@ test('Zeus Lightning Bolt respects spell block and rejects allied targets', func
     assert(#applied_damages == 0, 'Lightning Bolt must reject allied targets')
 end)
 
+test('Zeus Lightning Bolt captures vertical endpoints before lethal damage deletes its victim', function()
+    local zeus=create_mock_unit('npc_dota_hero_zuus',2,Vector(0,0,0))
+    zeus.intellect=50
+    local victim=create_mock_unit('zeus_bolt_deleted',3,Vector(400,100,20))
+    local a=enfos_zeus_lightning_bolt();a.GetCaster=function() return zeus end
+    a.GetCursorTarget=function() return victim end
+    a.GetSpecialValueFor=function(_,key) return key=='damage' and 150 or 0 end
+    local oldManager,oldDamage=ParticleManager,ApplyDamage
+    local particle,hit
+    ParticleManager={
+        CreateParticle=function(_,path,attachment,owner)
+            particle={path=path,attachment=attachment,owner=owner,cp={}};return 1
+        end,
+        SetParticleControl=function(_,index,cp,position) particle.cp[cp]=position end,
+        ReleaseParticleIndex=function() particle.released=true end
+    }
+    ApplyDamage=function(info)
+        assert(particle and particle.cp[0] and particle.cp[1],
+            'Both native bolt endpoints must be captured before lethal damage')
+        hit=info;victim.alive=false;victim.IsNull=function() return true end
+        victim.GetAbsOrigin=function() error('Deleted bolt victim origin must not be reread') end
+    end
+    local ok,err=pcall(function() a:OnSpellStart() end)
+    ParticleManager,ApplyDamage=oldManager,oldDamage
+    assert(ok,err)
+    assert(hit and hit.victim==victim and hit.damage==225 and hit.damage_type==DAMAGE_TYPE_MAGICAL)
+    assert(particle.path=='particles/units/heroes/hero_zuus/zuus_lightning_bolt.vpcf'
+        and particle.owner==nil and particle.released,
+        'The finite native bolt root must not depend on the deleted victim handle')
+    assert(particle.cp[0].x==400 and particle.cp[0].y==100
+        and particle.cp[0].z>20 and particle.cp[1].x==400
+        and particle.cp[1].y==100 and particle.cp[1].z==20,
+        'The lightning path must descend to the captured victim position')
+end)
+
 test('Zeus Heavenly Jump leaps while stationary and emits native launch/landing effects', function()
     applied_damages = {}
     local zeus = create_mock_unit('npc_dota_hero_zuus', 2, Vector(0, 0, 0))
