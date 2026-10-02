@@ -81,6 +81,26 @@ check('Drow exposes five ten-rank abilities without mislabeling the Enfos passiv
     throw new Error('Drow Multishot must preserve native magic-immunity targeting');
   }
 });
+check('Pudge preserves native cast/channel animations and preloads its native sound bank', () => {
+  const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
+  const expectedAnimations = {
+    enfos_pudge_meat_hook: ['ACT_DOTA_CAST_ABILITY_1', undefined],
+    enfos_pudge_rot: ['ACT_DOTA_CAST_ABILITY_2', undefined],
+    enfos_pudge_dismember: ['ACT_DOTA_CAST_ABILITY_4', 'ACT_DOTA_CHANNEL_ABILITY_4'],
+  };
+  for (const [id, [cast, channel]] of Object.entries(expectedAnimations)) {
+    const ability = abilities[id];
+    if (ability.AbilityCastAnimation !== cast) throw new Error(`${id}: expected native cast animation ${cast}`);
+    if ((ability.AbilityChannelAnimation || undefined) !== channel) throw new Error(`${id}: expected channel animation ${channel || 'none'}`);
+  }
+  if (!abilities.enfos_pudge_dismember.AbilityUnitTargetFlags.includes('MAGIC_IMMUNE_ENEMIES')
+      || abilities.enfos_pudge_dismember.SpellImmunityType !== 'SPELL_IMMUNITY_ENEMIES_YES') {
+    throw new Error('Dismember must keep its native magic-immune target filter and immunity capability aligned');
+  }
+  const startup = fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua', 'utf8');
+  const soundLoop = startup.match(/for _,name in ipairs\(\{([^}]+)\}\) do\s*\n\s*PrecacheResource\("soundfile"[\s\S]*?\n\s*end/);
+  if (!soundLoop || !/"pudge"/.test(soundLoop[1])) throw new Error('Pudge native sound bank is missing from startup precache');
+});
 check('Lina exposes five ten-rank abilities, delayed Light Strike Array and a separate Enfos passive', () => {
   const abilities = kv('game/scripts/npc/npc_abilities_custom.txt').DOTAAbilities;
   const curves = {
