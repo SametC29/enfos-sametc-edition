@@ -1416,6 +1416,9 @@
     "DOTA_Tooltip_Ability_enfos_lich_frost_shield_SummaryDescription": "Shields an ally for {{duration}} seconds, reducing incoming physical damage by {{damage_reduction}}%. Every {{pulse_interval}} seconds, the shield deals {{dps}} + 25% of Intellect magical damage to enemies within {{radius}} radius.",
     "DOTA_Tooltip_Ability_enfos_lich_frost_shield": "Frost Shield",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield": "Frost Shield",
-    "DOTA_Tooltip_modifier_enfos_lich_frost_shield_Description": "Incoming physical damage is reduced by %-dMODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE%%%. Periodically deals magical damage to nearby enemies."
+    "DOTA_Tooltip_modifier_enfos_lich_frost_shield_Description": "Incoming physical damage is reduced by %-dMODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE%%%. Periodically deals magical damage to nearby enemies. Can be dispelled.",
+    "DOTA_Tooltip_modifier_enfos_lich_frost_blast_slow": "Frost Blast",
+    "DOTA_Tooltip_modifier_enfos_lich_frost_blast_slow_Description": "Movement speed: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Attack speed: %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Can be removed with a basic dispel.",
+    "DOTA_Tooltip_modifier_enfos_lich_chain_frost_slow_Description": "Movement speed: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Attack speed: %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Can be removed with a basic dispel."
   }
 }

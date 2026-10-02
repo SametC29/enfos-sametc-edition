@@ -237,3 +237,27 @@ realPrint('Lich Q measured trace regression PASS')
   assert.equal(result.status,0,result.stderr||result.stdout);
   assert.match(result.stdout,/Lich Q measured trace regression PASS/,result.stderr);
 });
+
+test('Lich Q/W/R modifiers explicitly preserve native basic-dispel and icon identity',()=>{
+  const script=`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t) t.__index=t;return t end
+function LinkLuaModifier() end
+require('abilities/heroes/lich/q');require('abilities/heroes/lich/w');require('abilities/heroes/lich/r')
+local effects={
+  {modifier_enfos_lich_frost_blast_slow,'lich_frost_nova',true},
+  {modifier_enfos_lich_frost_shield,'lich_frost_shield',false},
+  {modifier_enfos_lich_chain_frost_slow,'lich_chain_frost',true},
+}
+for _,entry in ipairs(effects) do
+  local m,icon,debuff=entry[1],entry[2],entry[3]
+  assert(type(m.IsPurgable)=='function' and m:IsPurgable()==true,'Native Q/W/R effects allow basic dispel')
+  assert(m:GetTexture()==icon,'Modifier must display its own native ability icon')
+  assert(m:IsDebuff()==debuff,'Purge direction must match harmful slow vs positive allied shield')
+end
+print('Lich Q/W/R modifier dispel identity contract PASS')
+`;
+  const result=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});
+  assert.equal(result.status,0,result.stderr||result.stdout);
+  assert.match(result.stdout,/Lich Q\/W\/R modifier dispel identity contract PASS/,result.stderr);
+});

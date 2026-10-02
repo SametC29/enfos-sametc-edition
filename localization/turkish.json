@@ -1764,6 +1764,10 @@
     "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow_Description": "Hareket hızı değişimi: %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Saldırı hızı değişimi: %-dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Ejderha biçimindeki sıçrama saldırısından etkileniyor.",
     "DOTA_Tooltip_Ability_enfos_lich_frost_shield_SummaryDescription": "Hedef dosta {{duration}} saniyeliğine buz kalkanı verir ve aldığı fiziksel hasarı %{{damage_reduction}} azaltır. Kalkan her {{pulse_interval}} saniyede {{radius}} yarıçapındaki düşmanlara {{dps}} + Zekanın %25’i kadar büyü hasarı verir.",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield": "Don Kalkanı",
-    "DOTA_Tooltip_modifier_enfos_lich_frost_shield_Description": "Alınan fiziksel hasar %-dMODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE%%% azalır. Yakındaki düşmanlara düzenli olarak büyü hasarı verir."
+    "DOTA_Tooltip_modifier_enfos_lich_frost_shield_Description": "Alınan fiziksel hasar %-dMODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE%%% azalır. Yakındaki düşmanlara düzenli olarak büyü hasarı verir. Arındırılabilir.",
+    "DOTA_Tooltip_modifier_enfos_lich_frost_blast_slow": "Donma Patlaması",
+    "DOTA_Tooltip_modifier_enfos_lich_frost_blast_slow_Description": "Hareket hızı: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Saldırı hızı: %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Basit bir arındırmayla kaldırılabilir.",
+    "DOTA_Tooltip_modifier_enfos_lich_chain_frost_slow": "Zincirleme Don",
+    "DOTA_Tooltip_modifier_enfos_lich_chain_frost_slow_Description": "Hareket hızı: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Saldırı hızı: %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Basit bir arındırmayla kaldırılabilir."
   }
 }

@@ -28,6 +28,8 @@ function enfos_lich_frost_shield:OnSpellStart()
 end
 
 modifier_enfos_lich_frost_shield=class({})
+function modifier_enfos_lich_frost_shield:IsDebuff() return false end
+function modifier_enfos_lich_frost_shield:IsPurgable() return true end
 function modifier_enfos_lich_frost_shield:GetTexture() return 'lich_frost_shield' end
 function modifier_enfos_lich_frost_shield:OnCreated()
     if not IsServer() then return end

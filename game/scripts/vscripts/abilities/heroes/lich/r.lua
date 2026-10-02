@@ -110,6 +110,8 @@ function modifier_enfos_lich_chain_frost_slow:OnDestroy()
     if IsServer() then HeroTrace:Log('LICH','R','slow_removed target=%s owner=%s',HeroTrace:Name(self:GetParent()),HeroTrace:Name(self:GetCaster())) end
 end
 function modifier_enfos_lich_chain_frost_slow:IsDebuff() return true end
+function modifier_enfos_lich_chain_frost_slow:IsPurgable() return true end
+function modifier_enfos_lich_chain_frost_slow:GetTexture() return 'lich_chain_frost' end
 function modifier_enfos_lich_chain_frost_slow:DeclareFunctions()
     return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
 end

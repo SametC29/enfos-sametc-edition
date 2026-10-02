@@ -79,6 +79,8 @@ function modifier_enfos_lich_frost_blast_slow:OnCreated() lich_frost_blast_slow_
 function modifier_enfos_lich_frost_blast_slow:OnRefresh() lich_frost_blast_slow_trace(self, 'slow_refreshed') end
 function modifier_enfos_lich_frost_blast_slow:OnDestroy() lich_frost_blast_slow_trace(self, 'slow_removed') end
 function modifier_enfos_lich_frost_blast_slow:IsDebuff() return true end
+function modifier_enfos_lich_frost_blast_slow:IsPurgable() return true end
+function modifier_enfos_lich_frost_blast_slow:GetTexture() return 'lich_frost_nova' end
 function modifier_enfos_lich_frost_blast_slow:DeclareFunctions()
     return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
 end

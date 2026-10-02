@@ -1356,6 +1356,9 @@
     "DOTA_Tooltip_Ability_enfos_lich_frost_shield_SummaryDescription": "Накладывает на союзника ледяной щит на {{duration}} сек., уменьшая входящий физический урон на {{damage_reduction}}%. Каждые {{pulse_interval}} сек. щит наносит врагам в радиусе {{radius}} магический урон: {{dps}} + 25% интеллекта.",
     "DOTA_Tooltip_Ability_enfos_lich_frost_shield": "Морозный щит",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield": "Морозный щит",
-    "DOTA_Tooltip_modifier_enfos_lich_frost_shield_Description": "Входящий физический урон снижен на %-dMODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE%%%. Периодически наносит магический урон врагам поблизости."
+    "DOTA_Tooltip_modifier_enfos_lich_frost_shield_Description": "Входящий физический урон снижен на %-dMODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE%%%. Периодически наносит магический урон врагам поблизости. Можно развеять.",
+    "DOTA_Tooltip_modifier_enfos_lich_frost_blast_slow": "Ледяной взрыв",
+    "DOTA_Tooltip_modifier_enfos_lich_frost_blast_slow_Description": "Скорость передвижения: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Скорость атаки: %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Снимается обычным развеиванием.",
+    "DOTA_Tooltip_modifier_enfos_lich_chain_frost_slow_Description": "Скорость передвижения: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Скорость атаки: %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Снимается обычным развеиванием."
   }
 }

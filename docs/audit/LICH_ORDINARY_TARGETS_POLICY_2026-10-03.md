@@ -241,3 +241,31 @@ disabled silence, shared rate limiting and explicit unavailable measurements.
 These are diagnostic/mock checks, not actual Dota damage or duration results.
 Owner VConsole, audiovisual, immunity/dispel/status resistance and removal/
 recast evidence remain NOT TESTED. Full Lich source/upgrade acceptance is open.
+
+## Q/W/R explicit dispel and modifier identity
+
+Installed build6943 native Frost Nova, Frost Shield and Chain Frost all declare
+SPELL_DISPELLABLE_YES. Current Lua classes omitted IsPurgable; absence alone
+does not prove they were unpurgable, because the engine's Lua defaults were not
+observed. Make the native-compatible policy explicit on these three existing
+effects: IsPurgable=true, Q/R harmful slows, W positive allied shield. No stun
+or strong-only exception is introduced. E is excluded while its contributor
+ownership is unresolved; D aura policy is separate. Current Workshop MCP modifier
+API verifies IsPurgable on both realms. Data-driven KV default documentation is
+not used as proof of Lua modifier defaults.
+
+Q/R lacked explicit modifier textures and their own modifier name/description
+tokens. Assign their verified existing native ability icons; add localized
+modifier names, live movement/attack property text and basic-dispel information
+in EN/TR/RU/zh-CN. Shield's existing live mitigation description gains a dispel
+note. Regenerate only the existing localization mirrors. Descriptions use the
+project's existing modifier-property token syntax, not frozen rank1 numbers.
+Actual tooltip interpolation/display remains owner-engine verification.
+
+An explicit source contract checks the three modifier policies, positive vs
+negative identity and exact icon IDs; it failed before these declarations and
+passes afterwards. This proves authored declarations, not execution of Dota's
+Purge or particle disposal. Owner checklist: basic ally dispel removes Q/R
+slows; enemy dispel removes the W shield and its modifier-owned particle/pulses;
+strong dispel also works as applicable; names/icons/live values appear in all
+four locales. Full Lich source/upgrade and engine acceptance remain PENDING.
