@@ -434,7 +434,7 @@
     "DOTA_Tooltip_Ability_enfos_axe_blood_armor_shard_description": "+350生命，将15%敌方伤害以物理伤害反弹。",
     "DOTA_Tooltip_Ability_enfos_legion_duel_scepter_description": "决斗冷却时间减少25%。决斗中的攻击和胜利获得的力量不变。",
     "DOTA_Tooltip_Ability_enfos_legion_commanders_banner_shard_description": "+35攻速，攻击使目标移速降低25%、攻速降低25，持续3秒。",
-    "DOTA_Tooltip_Ability_enfos_sniper_assassinate_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
+    "DOTA_Tooltip_Ability_enfos_sniper_assassinate_scepter_description": "暗杀的物理技能伤害提高40%，冷却时间减少25%。不附加普通Dota中的施法前摇缩短或眩晕。",
     "DOTA_Tooltip_Ability_enfos_sniper_keen_eye_shard_description": "+15%移速，攻击额外造成12%纯粹伤害。",
     "DOTA_Tooltip_Ability_enfos_cm_freezing_field_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery_shard_description": "+15%法术增强。",
@@ -1246,6 +1246,10 @@
     "DOTA_Tooltip_modifier_enfos_legion_duel_buff": "决斗",
     "DOTA_Tooltip_modifier_enfos_legion_duel_buff_Description": "被迫攻击决斗中的对手。来自决斗外攻击者的伤害降低%dMODIFIER_PROPERTY_TOOLTIP%%%。任一参与者死亡或持续时间结束时决斗终止。",
     "DOTA_Tooltip_modifier_enfos_legion_commanders_banner_buff": "指挥官战旗",
-    "DOTA_Tooltip_modifier_enfos_legion_commanders_banner_buff_Description": "基础攻击伤害提高%dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%。攻击吸血数值取决于光环等级。光环来源受到破坏效果时，这些加成失效。"
+    "DOTA_Tooltip_modifier_enfos_legion_commanders_banner_buff_Description": "基础攻击伤害提高%dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%。攻击吸血数值取决于光环等级。光环来源受到破坏效果时，这些加成失效。",
+    "DOTA_Tooltip_modifier_enfos_sniper_shrapnel_slow": "榴霰弹",
+    "DOTA_Tooltip_modifier_enfos_sniper_shrapnel_slow_Description": "移动速度变化：%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。",
+    "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff": "瞄准",
+    "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff_Description": "攻击不会落空。移动速度提高%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。"
   }
 }

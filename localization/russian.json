@@ -434,7 +434,7 @@
     "DOTA_Tooltip_Ability_enfos_axe_blood_armor_shard_description": "+350 здоровья. Отражает 15% входящего вражеского урона физическим уроном.",
     "DOTA_Tooltip_Ability_enfos_legion_duel_scepter_description": "Перезарядка дуэли сокращена на 25%. Атаки в дуэли и сила за победу не меняются.",
     "DOTA_Tooltip_Ability_enfos_legion_commanders_banner_shard_description": "+35 скорости атаки. Атаки замедляют движение на 25% и атаки на 25 на 3 сек.",
-    "DOTA_Tooltip_Ability_enfos_sniper_assassinate_scepter_description": "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%.",
+    "DOTA_Tooltip_Ability_enfos_sniper_assassinate_scepter_description": "Физический урон заклинания Assassinate +40%; его перезарядка сокращена на 25%. Не добавляет сокращение подготовки выстрела или оглушение из обычной Dota.",
     "DOTA_Tooltip_Ability_enfos_sniper_keen_eye_shard_description": "+15% скорости передвижения. Атаки наносят дополнительно 12% чистого урона.",
     "DOTA_Tooltip_Ability_enfos_cm_freezing_field_scepter_description": "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%.",
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery_shard_description": "+15% усиления заклинаний.",
@@ -1246,6 +1246,10 @@
     "DOTA_Tooltip_modifier_enfos_legion_duel_buff": "Дуэль",
     "DOTA_Tooltip_modifier_enfos_legion_duel_buff_Description": "Вынужден атаковать противника по дуэли. Урон от остальных атакующих снижен на %dMODIFIER_PROPERTY_TOOLTIP%%%. Дуэль заканчивается при смерти любого участника или по истечении времени.",
     "DOTA_Tooltip_modifier_enfos_legion_commanders_banner_buff": "Знамя командира",
-    "DOTA_Tooltip_modifier_enfos_legion_commanders_banner_buff_Description": "Базовый урон от атак повышен на %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%. Атаки дают вампиризм согласно уровню ауры. Истощение источника ауры отключает бонусы."
+    "DOTA_Tooltip_modifier_enfos_legion_commanders_banner_buff_Description": "Базовый урон от атак повышен на %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%. Атаки дают вампиризм согласно уровню ауры. Истощение источника ауры отключает бонусы.",
+    "DOTA_Tooltip_modifier_enfos_sniper_shrapnel_slow": "Шрапнель",
+    "DOTA_Tooltip_modifier_enfos_sniper_shrapnel_slow_Description": "Изменение скорости передвижения: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff": "Прицеливание",
+    "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff_Description": "Атаки не промахиваются. Скорость передвижения повышена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
   }
 }

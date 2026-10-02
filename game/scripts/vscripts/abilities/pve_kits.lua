@@ -2745,6 +2745,7 @@ function modifier_enfos_sniper_shrapnel_thinker:OnIntervalThink()
 end
 
 modifier_enfos_sniper_shrapnel_slow=class({})
+function modifier_enfos_sniper_shrapnel_slow:GetTexture() return 'sniper_shrapnel' end
 function modifier_enfos_sniper_shrapnel_slow:IsDebuff() return true end
 function modifier_enfos_sniper_shrapnel_slow:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
 function modifier_enfos_sniper_shrapnel_slow:GetModifierMoveSpeedBonus_Percentage() return -value(self:GetAbility(), 'slow_pct') end
@@ -2753,6 +2754,7 @@ enfos_sniper_headshot=class({})
 function enfos_sniper_headshot:GetIntrinsicModifierName() return 'modifier_enfos_sniper_headshot_passive' end
 
 modifier_enfos_sniper_headshot_passive=class({})
+function modifier_enfos_sniper_headshot_passive:GetTexture() return 'sniper_headshot' end
 function modifier_enfos_sniper_headshot_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACK_LANDED } end
 function modifier_enfos_sniper_headshot_passive:OnAttackLanded(params)
     if not IsServer() then return end
@@ -2772,7 +2774,7 @@ function modifier_enfos_sniper_headshot_passive:OnAttackLanded(params)
     end
     if not RollPercentage(chance) then return end
 
-    c:EmitSound('Hero_Sniper.Headshot')
+    c:EmitSound('Hero_Sniper.HeadShot')
     local base = (a and value(a, 'headshot_damage')) or 120
     local agi = get_agi(c)
     local dmg = base + (agi * 0.75)
@@ -2795,6 +2797,7 @@ function enfos_sniper_take_aim:OnSpellStart()
 end
 
 modifier_enfos_sniper_take_aim_passive=class({})
+function modifier_enfos_sniper_take_aim_passive:GetTexture() return 'sniper_take_aim' end
 function modifier_enfos_sniper_take_aim_passive:IsHidden() return true end
 function modifier_enfos_sniper_take_aim_passive:DeclareFunctions() return { MODIFIER_PROPERTY_ATTACK_RANGE_BONUS } end
 function modifier_enfos_sniper_take_aim_passive:GetModifierAttackRangeBonus()
@@ -2804,6 +2807,7 @@ function modifier_enfos_sniper_take_aim_passive:GetModifierAttackRangeBonus()
 end
 
 modifier_enfos_sniper_take_aim_buff=class({})
+function modifier_enfos_sniper_take_aim_buff:GetTexture() return 'sniper_take_aim' end
 function modifier_enfos_sniper_take_aim_buff:GetEffectName() return 'particles/units/heroes/hero_sniper/sniper_take_aim_overhead.vpcf' end
 function modifier_enfos_sniper_take_aim_buff:GetEffectAttachType() return PATTACH_OVERHEAD_FOLLOW end
 function modifier_enfos_sniper_take_aim_buff:DeclareFunctions()
@@ -2859,6 +2863,7 @@ enfos_sniper_keen_eye=class({})
 function enfos_sniper_keen_eye:GetIntrinsicModifierName() return 'modifier_enfos_sniper_keen_eye_passive' end
 
 modifier_enfos_sniper_keen_eye_passive=class({})
+function modifier_enfos_sniper_keen_eye_passive:GetTexture() return 'sniper_take_aim' end
 function modifier_enfos_sniper_keen_eye_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACK_LANDED } end
 function modifier_enfos_sniper_keen_eye_passive:OnAttackLanded(params)
     if not IsServer() then return end

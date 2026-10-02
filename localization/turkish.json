@@ -1063,7 +1063,7 @@
     "DOTA_Tooltip_Ability_enfos_axe_blood_armor_shard_description": "+350 can. Düşmandan gelen hasarın %15’ini fiziksel olarak yansıtır.",
     "DOTA_Tooltip_Ability_enfos_legion_duel_scepter_description": "Düellonun bekleme süresi %25 azalır. Düello saldırıları ve zaferden kazanılan Kuvvet değişmez.",
     "DOTA_Tooltip_Ability_enfos_legion_commanders_banner_shard_description": "+35 saldırı hızı. Saldırılar hedefin hareket hızını %25, saldırı hızını 25 azaltır (3 sn).",
-    "DOTA_Tooltip_Ability_enfos_sniper_assassinate_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
+    "DOTA_Tooltip_Ability_enfos_sniper_assassinate_scepter_description": "Assassinate yeteneğinin fiziksel büyü hasarı +%40, bekleme süresi -%25. Normal Dota’daki atış hazırlığı kısaltması veya sersemletmeyi eklemez.",
     "DOTA_Tooltip_Ability_enfos_sniper_keen_eye_shard_description": "+%15 hareket hızı. Saldırılar hasarın %12’si kadar ek saf hasar verir.",
     "DOTA_Tooltip_Ability_enfos_cm_freezing_field_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery_shard_description": "+%15 büyü hasarı.",
@@ -1677,6 +1677,10 @@
     "DOTA_Tooltip_modifier_enfos_legion_duel_buff": "Düello",
     "DOTA_Tooltip_modifier_enfos_legion_duel_buff_Description": "Düellodaki rakibine saldırmak zorundadır. Düello dışındaki saldırganlardan alınan hasar %dMODIFIER_PROPERTY_TOOLTIP%%% azalır. Katılımcılardan biri öldüğünde veya süre dolduğunda sona erer.",
     "DOTA_Tooltip_modifier_enfos_legion_commanders_banner_buff": "Komutanın Sancağı",
-    "DOTA_Tooltip_modifier_enfos_legion_commanders_banner_buff_Description": "Temel saldırı hasarı %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%% artar. Saldırılar auranın rütbesine göre can çalma sağlar. Aura kaynağındaki Kırılma bu bonusları devre dışı bırakır."
+    "DOTA_Tooltip_modifier_enfos_legion_commanders_banner_buff_Description": "Temel saldırı hasarı %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%% artar. Saldırılar auranın rütbesine göre can çalma sağlar. Aura kaynağındaki Kırılma bu bonusları devre dışı bırakır.",
+    "DOTA_Tooltip_modifier_enfos_sniper_shrapnel_slow": "Şarapnel",
+    "DOTA_Tooltip_modifier_enfos_sniper_shrapnel_slow_Description": "Hareket hızı değişimi: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff": "Nişan Al",
+    "DOTA_Tooltip_modifier_enfos_sniper_take_aim_buff_Description": "Saldırılar ıskalamaz. Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% artar."
   }
 }
