@@ -2387,8 +2387,14 @@ function enfos_legion_overwhelming_odds:OnSpellStart()
     local creep_bonus = value(self, 'damage_per_unit')
     if creep_bonus <= 0 then creep_bonus = 35 end
 
-    c:EmitSound('Hero_LegionCommander.OverwhelmingOdds')
-    effect_at_position('particles/units/heroes/hero_legion_commander/legion_commander_odds.vpcf', point)
+    c:EmitSound('Hero_LegionCommander.Overwhelming.Cast')
+    EmitSoundOnLocationWithCaster(point, 'Hero_LegionCommander.Overwhelming.Location', c)
+    local odds_particle = ParticleManager:CreateParticle(
+        'particles/units/heroes/hero_legion_commander/legion_commander_odds.vpcf', PATTACH_WORLDORIGIN, c)
+    ParticleManager:SetParticleControl(odds_particle, 0, point)
+    -- The native rune children use CP4.x for radius; auxiliary components stay zero.
+    ParticleManager:SetParticleControl(odds_particle, 4, Vector(r, 0, 0))
+    ParticleManager:ReleaseParticleIndex(odds_particle)
 
     local hit_units = enemies(c, point, r)
     local creep_count = 0
@@ -2506,7 +2512,7 @@ function modifier_enfos_legion_moment_of_courage_passive:OnAttacked(params)
         self.last_boss_proc = now
     end
 
-    c:EmitSound('Hero_LegionCommander.MomentOfCourage')
+    c:EmitSound('Hero_LegionCommander.Courage')
     effect('particles/units/heroes/hero_legion_commander/legion_commander_courage_hit.vpcf', c)
 
     if attacker and not attacker:IsNull() and attacker:IsAlive() then

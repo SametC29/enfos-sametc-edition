@@ -25,6 +25,7 @@ end
 function LinkLuaModifier() end
 function IsServer() return true end
 function EmitGlobalSound() end
+function EmitSoundOnLocationWithCaster() end
 function RandomInt(min, max) return min end
 function RandomFloat(min, max) return min end
 function RollPercentage(pct) return true end
@@ -1737,6 +1738,35 @@ test('Legion Commander Overwhelming Odds scales with enemy count in AoE', functi
     assert(buff.bonus_as == 45, 'Bonus attack speed must match creep and boss counts')
 end)
 
+test('Legion Odds binds the native area radius and exact cast and location sound events', function()
+    local legion = create_mock_unit('npc_dota_hero_legion_commander', 2, Vector(1500,2000,128))
+    local point = Vector(1900,2000,128)
+    mock_world_units = {legion}
+    local ability = enfos_legion_overwhelming_odds()
+    ability.GetCaster = function() return legion end
+    ability.GetCursorPosition = function() return point end
+    ability.GetSpecialValueFor = function(_, key) return ({radius=600,damage=120,damage_per_unit=25,damage_per_hero_or_boss=100,
+        buff_duration=6,movespeed_cap=60})[key] or 0 end
+    local oldCreate,oldControl,oldRelease,oldLocation,oldWorld = ParticleManager.CreateParticle,ParticleManager.SetParticleControl,
+        ParticleManager.ReleaseParticleIndex,EmitSoundOnLocationWithCaster,PATTACH_WORLDORIGIN
+    local cp, sounds, released = {},{},false
+    PATTACH_WORLDORIGIN=921
+    legion.EmitSound=function(_,name) sounds[#sounds+1]=name end
+    EmitSoundOnLocationWithCaster=function(p,name,c) assert(p==point and c==legion);sounds[#sounds+1]=name end
+    ParticleManager.CreateParticle=function(_,path,attachment,owner)
+        assert(path=='particles/units/heroes/hero_legion_commander/legion_commander_odds.vpcf' and attachment==921 and owner==legion)
+        return 921
+    end
+    ParticleManager.SetParticleControl=function(_,id,index,v) assert(id==921);cp[index]=v end
+    ParticleManager.ReleaseParticleIndex=function(_,id) assert(id==921);released=true end
+    ability:OnSpellStart()
+    assert(cp[0]==point and cp[4] and cp[4].x==600 and cp[4].y==0 and cp[4].z==0 and released,
+        'Native rune radius reads CP4.x, which must use the actual damage radius')
+    assert(sounds[1]=='Hero_LegionCommander.Overwhelming.Cast' and sounds[2]=='Hero_LegionCommander.Overwhelming.Location')
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex,
+        EmitSoundOnLocationWithCaster,PATTACH_WORLDORIGIN=oldCreate,oldControl,oldRelease,oldLocation,oldWorld
+end)
+
 test('Legion Odds refreshes both bonuses and transmits them to a separate client modifier', function()
     local server = modifier_enfos_legion_overwhelming_odds_buff()
     local sends = 0
@@ -1859,12 +1889,18 @@ test('Legion Moment of Courage is disabled by Break and ignores allied attacks',
     local ability = enfos_legion_moment_of_courage()
     ability.GetSpecialValueFor = function(_, key) return key == 'trigger_chance' and 100 or 0 end
     local mod = setmetatable({ GetParent = function() return lc end, GetAbility = function() return ability end }, modifier_enfos_legion_moment_of_courage_passive)
+    local sound
+    lc.EmitSound = function(_, event) sound = event end
     mod:OnCreated()
     mod:OnAttacked({ attacker = ally, target = lc })
     assert(not mod.proc_active, 'Allied attacks must not trigger the counterattack')
     lc.PassivesDisabled = function() return true end
     mod:OnAttacked({ attacker = enemy, target = lc })
     assert(not mod.proc_active, 'Break must disable Moment of Courage')
+    assert(not sound, 'Rejected allied/Break events must not play a proc sound')
+    lc.PassivesDisabled = function() return false end
+    mod:OnAttacked({ attacker = enemy, target = lc })
+    assert(sound == 'Hero_LegionCommander.Courage', 'Actual counterattack must emit the installed native event')
 end)
 
 test('Legion Moment of Courage lifesteals only from its counterattack target and attack damage', function()
