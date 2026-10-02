@@ -422,9 +422,32 @@ modifier_enfos_pve_angel=class({})
 -- SVEN (TANK)
 -- =========================================================================
 
+local function sven_passive_source(modifier)
+    local c, a = modifier:GetParent(), modifier:GetAbility()
+    if not c or (c.IsNull and c:IsNull()) or not a or (a.IsNull and a:IsNull())
+        or (a.GetLevel and a:GetLevel() <= 0) or c:PassivesDisabled()
+        or (c.IsIllusion and c:IsIllusion()) then return nil end
+    return c, a
+end
+
+local function sven_storm_impact(target, position)
+    if not target or target:IsNull() then return end
+    local origin = position or target:GetAbsOrigin()
+    local fx = ParticleManager:CreateParticle(
+        'particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf',
+        PATTACH_ABSORIGIN_FOLLOW, target)
+    -- Native wave PositionLock reads CP1; root/flash/trails seed at CP3.
+    ParticleManager:SetParticleControl(fx, 0, origin)
+    ParticleManager:SetParticleControl(fx, 1, origin)
+    ParticleManager:SetParticleControl(fx, 3, origin)
+    ParticleManager:ReleaseParticleIndex(fx)
+end
+
 bulwark_shield_slam=class({})
 function bulwark_shield_slam:OnSpellStart()
+    if not IsServer() then return end
     local c = self:GetCaster()
+    if not c or c:IsNull() then return end
     local target = self:GetCursorTarget()
     local targetName = target and not target:IsNull() and target:GetUnitName() or "<none>"
     local level = self.GetLevel and self:GetLevel() or 0
@@ -458,6 +481,7 @@ function bulwark_shield_slam:OnSpellStart()
 end
 
 function bulwark_shield_slam:OnProjectileHit(target, location)
+    if not IsServer() then return true end
     local c = self:GetCaster()
     if not c or c:IsNull() then
         print("[SVEN_TRACE][Q] impact_cancelled reason=missing_caster")
@@ -474,12 +498,11 @@ function bulwark_shield_slam:OnProjectileHit(target, location)
         print("[SVEN_TRACE][Q] impact_cancelled reason=target_lost_or_dodged")
         return true
     end
+    if target:GetTeamNumber() == c:GetTeamNumber() then return true end
+    local targetName = target:GetUnitName()
 
     target:EmitSound('Hero_Sven.StormBoltImpact')
-    local p = ParticleManager:CreateParticle(
-        'particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf',
-        PATTACH_ABSORIGIN_FOLLOW, target)
-    ParticleManager:ReleaseParticleIndex(p)
+    sven_storm_impact(target, origin)
 
     -- Preserve the existing Enfos Scepter mobility upgrade, applied on impact.
     if c.HasScepter and c:HasScepter() and c.HasModifier
@@ -492,22 +515,25 @@ function bulwark_shield_slam:OnProjectileHit(target, location)
     local totalDamage = math.max(0, value(self, 'damage'))
     local affected = 0
     for _, enemy in ipairs(enemies(c, origin, radius)) do
+        if c:IsNull() or (self.IsNull and self:IsNull()) then break end
         affected = affected + 1
-        damage(self, enemy, totalDamage, DAMAGE_TYPE_MAGICAL)
         local bossStunCap = math.max(0, value(self, 'boss_stun_cap'))
         local actualStun = is_boss(enemy) and math.min(stunDuration, bossStunCap) or stunDuration
-        if actualStun > 0 then
+        damage(self, enemy, totalDamage, DAMAGE_TYPE_MAGICAL)
+        if c:IsNull() or (self.IsNull and self:IsNull()) then break end
+        if actualStun > 0 and not enemy:IsNull() and enemy:IsAlive() then
             enemy:AddNewModifier(c, self, 'modifier_stunned', { duration = actualStun })
         end
     end
     print(string.format("[SVEN_TRACE][Q] impact target=%s affected=%d damage=%s stun=%s",
-        target:GetUnitName(), affected, tostring(totalDamage), tostring(stunDuration)))
+        targetName, affected, tostring(totalDamage), tostring(stunDuration)))
     return true
 end
 
 bulwark_challenge=class({})
 function bulwark_challenge:Precache(context)
     PrecacheResource('particle', 'particles/units/heroes/hero_sven/sven_spell_warcry.vpcf', context)
+    PrecacheResource('particle', 'particles/units/heroes/hero_sven/sven_warcry_armor_buff_model.vpcf', context)
     PrecacheResource('soundfile', 'soundevents/game_sounds_heroes/game_sounds_sven.vsndevts', context)
 end
 function bulwark_challenge:OnSpellStart()
@@ -559,15 +585,32 @@ end
 function modifier_enfos_pve_warcry:OnCreated()
     local a = self:GetAbility()
     local c = self:GetCaster()
+    if not c or (c.IsNull and c:IsNull()) or not a or (a.IsNull and a:IsNull()) then
+        self.barrier = 0
+        if IsServer() then self:Destroy() end
+        return
+    end
     local base_barrier = value(a, 'barrier_hp')
 
     self.barrier = base_barrier + (c and get_str(c) * 1.5 or 0)
 
     -- Aghanim's Shard: Grants barrier equal to 25% of Sven's max health
-    if c and c.HasModifier and (c:HasModifier('modifier_item_aghanims_shard') or c:HasModifier('modifier_enfos_shard_upgrade')) then
+    if c and not (c.IsNull and c:IsNull()) and c.HasModifier and (c:HasModifier('modifier_item_aghanims_shard') or c:HasModifier('modifier_enfos_shard_upgrade')) then
         self.barrier = self.barrier + (c:GetMaxHealth() * 0.25)
     end
     if IsServer() and self.SetStackCount then self:SetStackCount(math.ceil(self.barrier)) end
+    if IsServer() and self.AddParticle and not self.warcryArmorFx then
+        local recipient = self:GetParent()
+        -- Native armor model and its glow child both position-lock to CP1.
+        -- Use the armor child directly; the legacy root also interprets CP1.x
+        -- as a scale, so an unconfigured GetEffectName cannot position it.
+        self.warcryArmorFx = ParticleManager:CreateParticle(
+            'particles/units/heroes/hero_sven/sven_warcry_armor_buff_model.vpcf',
+            PATTACH_ABSORIGIN_FOLLOW, recipient)
+        ParticleManager:SetParticleControlEnt(self.warcryArmorFx, 1, recipient,
+            PATTACH_OVERHEAD_FOLLOW, '', recipient:GetAbsOrigin(), true)
+        self:AddParticle(self.warcryArmorFx, false, false, -1, false, false)
+    end
     if IsServer() and c and SendOverheadEventMessage and OVERHEAD_ALERT_BLOCK then
         SendOverheadEventMessage(nil, OVERHEAD_ALERT_BLOCK, self:GetParent(), math.ceil(self.barrier), nil)
     end
@@ -593,23 +636,27 @@ function modifier_enfos_pve_warcry:OnTakeDamage(e)
     if e.damage_flags and bit and bit.band(e.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION or 16) ~= 0 then return end
     -- Shard: 40% physical damage reflection during Warcry
     local c = self:GetCaster()
-    if c and c.HasModifier and (c:HasModifier('modifier_item_aghanims_shard') or c:HasModifier('modifier_enfos_shard_upgrade')) then
+    if c and not (c.IsNull and c:IsNull()) and c.HasModifier and (c:HasModifier('modifier_item_aghanims_shard') or c:HasModifier('modifier_enfos_shard_upgrade')) then
         if e.damage_type~=DAMAGE_TYPE_PHYSICAL then return end
         local refl = (e.damage or 0) * 0.40
         if refl > 0 then damage(self:GetAbility(), e.attacker, refl, DAMAGE_TYPE_PHYSICAL, DOTA_DAMAGE_FLAG_REFLECTION) end
     end
 end
-function modifier_enfos_pve_warcry:GetEffectName() return 'particles/units/heroes/hero_sven/sven_warcry_buff.vpcf' end
 
 function modifier_enfos_pve_taunt:IsDebuff() return true end
+function modifier_enfos_pve_taunt:GetTexture() return 'sven_warcry' end
 function modifier_enfos_pve_taunt:DeclareFunctions() return { MODIFIER_EVENT_ON_DEATH } end
 function modifier_enfos_pve_taunt:CheckState() return { [MODIFIER_STATE_TAUNTED] = true } end
 function modifier_enfos_pve_taunt:OnCreated()
     if not IsServer() then return end
     local p = self:GetParent()
-    if p and p.SetForceAttackTarget then p:SetForceAttackTarget(self:GetCaster()) end
-    if p and p.MoveToTargetToAttack then p:MoveToTargetToAttack(self:GetCaster()) end
+    local c = self:GetCaster()
+    if not p or p:IsNull() or not p:IsAlive() or not c or c:IsNull() or not c:IsAlive()
+        or p:GetTeamNumber() == c:GetTeamNumber() then self:Destroy(); return end
+    if p.SetForceAttackTarget then p:SetForceAttackTarget(c) end
+    if p.MoveToTargetToAttack then p:MoveToTargetToAttack(c) end
 end
+function modifier_enfos_pve_taunt:OnRefresh() self:OnCreated() end
 function modifier_enfos_pve_taunt:OnDeath(event)
     local c = self:GetCaster()
     if event and event.unit == c then self:Destroy() end
@@ -618,7 +665,7 @@ function modifier_enfos_pve_taunt:OnDestroy()
     if IsServer() then
         local p = self:GetParent()
         local c = self:GetCaster()
-        if p and p.SetForceAttackTarget and p.GetForceAttackTarget
+        if p and not p:IsNull() and p.SetForceAttackTarget and p.GetForceAttackTarget
             and p:GetForceAttackTarget() == c then
             p:SetForceAttackTarget(nil)
         end
@@ -633,10 +680,10 @@ function modifier_bulwark_iron_guard:IsHidden() return false end
 function modifier_bulwark_iron_guard:GetTexture() return 'sven_great_cleave' end
 function modifier_bulwark_iron_guard:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACK_LANDED } end
 function modifier_bulwark_iron_guard:OnAttackLanded(e)
-    local c = self:GetParent()
+    if not IsServer() then return end
+    local c, a = sven_passive_source(self)
     local primary = e and e.target
-    if not IsServer() or not e or e.attacker ~= c or c:PassivesDisabled()
-        or (c.IsIllusion and c:IsIllusion()) or not primary
+    if not c or not e or e.attacker ~= c or not primary
         or (primary.IsNull and primary:IsNull())
         or primary:GetTeamNumber() == c:GetTeamNumber() then return end
 
@@ -657,8 +704,9 @@ end
 
 bulwark_fortress=class({})
 function bulwark_fortress:OnSpellStart()
+    if not IsServer() then return end
     local c = self:GetCaster()
-    if not c then return end
+    if not c or c:IsNull() then return end
     c:EmitSound('Hero_Sven.GodsStrength')
     local dur = value(self, 'duration')
     if dur <= 0 then dur = 15.0 end
@@ -688,35 +736,39 @@ function modifier_bulwark_fortress:DeclareFunctions()
     }
 end
 function modifier_bulwark_fortress:GetModifierBaseDamageOutgoing_Percentage()
-    local bonus = value(self:GetAbility(), 'bonus_damage_pct')
-    if bonus <= 0 then bonus = 150 end
-    return bonus
+    return value(self:GetAbility(), 'bonus_damage_pct')
 end
 function modifier_bulwark_fortress:GetModifierBonusStats_Strength() return value(self:GetAbility(), 'bonus_str') or 40 end
 function modifier_bulwark_fortress:GetModifierIncomingDamage_Percentage() return -value(self:GetAbility(), 'damage_reduction_pct') end
 function modifier_bulwark_fortress:GetModifierMoveSpeedBonus_Percentage() return value(self:GetAbility(), 'move_speed_pct') end
 function modifier_bulwark_fortress:GetModifierStatusResistanceStacking()
     local c = self:GetCaster()
-    return (c and c.HasScepter and c:HasScepter()) and value(self:GetAbility(), 'scepter_status_resistance') or 0
+    return (c and not c:IsNull() and c.HasScepter and c:HasScepter()) and value(self:GetAbility(), 'scepter_status_resistance') or 0
 end
 function modifier_bulwark_fortress:OnCreated()
     if not IsServer() then return end
-    self:StartIntervalThink(value(self:GetAbility(), 'shockwave_interval'))
+    local interval = value(self:GetAbility(), 'shockwave_interval')
+    self:StartIntervalThink(interval > 0 and interval or -1)
 end
 function modifier_bulwark_fortress:OnRefresh() self:OnCreated() end
 function modifier_bulwark_fortress:OnIntervalThink()
+    if not IsServer() then return end
     local c = self:GetParent()
     local a = self:GetAbility()
+    if not c or c:IsNull() or not c:IsAlive() or not a or (a.IsNull and a:IsNull()) then
+        self:Destroy(); return
+    end
     local str = get_str(c)
     local dmg = value(a, 'shockwave_damage') + (str * value(a, 'shockwave_strength_factor'))
     local targets = enemies(c, c:GetAbsOrigin(), value(a, 'radius'))
     local visualCount = 0
     for _, u in ipairs(targets) do
         damage(a, u, dmg, DAMAGE_TYPE_PHYSICAL)
+        if c:IsNull() or (a.IsNull and a:IsNull()) then return end
         -- The old Storm Hammer impact was drawn at Sven's feet. Attach the
         -- native impact feedback to affected units and cap particles per pulse.
         if visualCount < 6 then
-            effect('particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf', u)
+            sven_storm_impact(u)
             visualCount = visualCount + 1
         end
     end
@@ -758,8 +810,8 @@ function modifier_bulwark_unbreakable:DeclareFunctions()
     }
 end
 function modifier_bulwark_unbreakable:GetModifierConstantHealthRegen()
-    local c = self:GetParent()
-    if not c or (c.PassivesDisabled and c:PassivesDisabled()) then return 0 end
+    local c, a = sven_passive_source(self)
+    if not c then return 0 end
     local regen = value(self:GetAbility(), 'bonus_hp_regen')
     -- Shard: doubles HP regen when below 40% health
     if c and c.GetHealthPercent and c:GetHealthPercent() < 40 then
@@ -770,13 +822,13 @@ function modifier_bulwark_unbreakable:GetModifierConstantHealthRegen()
     return regen
 end
 function modifier_bulwark_unbreakable:GetModifierExtraHealthBonus()
-    local c = self:GetParent()
-    if not c or (c.PassivesDisabled and c:PassivesDisabled()) then return 0 end
+    local c, a = sven_passive_source(self)
+    if not c then return 0 end
     return value(self:GetAbility(), 'bonus_max_hp') or 0
 end
 function modifier_bulwark_unbreakable:GetModifierStatusResistanceStacking()
-    local c = self:GetParent()
-    if not c or (c.PassivesDisabled and c:PassivesDisabled()) then return 0 end
+    local c, a = sven_passive_source(self)
+    if not c then return 0 end
     return value(self:GetAbility(), 'status_resistance') or 0
 end
 

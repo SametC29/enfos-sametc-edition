@@ -1028,7 +1028,7 @@
     "DOTA_Tooltip_modifier_bulwark_iron_guard": "Great Cleave",
     "DOTA_Tooltip_modifier_bulwark_iron_guard_Description": "Sven attacks in a widening cone beyond the primary target, dealing {{cleave_pct}}% attack damage up to {{cleave_distance}} range. Cone width grows from {{cleave_starting_width}} to {{cleave_ending_width}}. Break disables this passive.",
     "DOTA_Tooltip_modifier_enfos_pve_warcry": "Warcry",
-    "DOTA_Tooltip_modifier_enfos_pve_warcry_Description": "For {{duration}}s, Sven and allies within {{radius}} gain {{bonus_armor}} armor, {{bonus_ms_pct}}% movement speed and a {{barrier_hp}} + Strength × 1.5 damage barrier each. Taunts enemies for the same duration (Boss 25%; Runners immune). Shard adds 25% of Sven’s maximum HP to each barrier and reflects 40% of physical damage actually taken.",
+    "DOTA_Tooltip_modifier_enfos_pve_warcry_Description": "Armor: +%dMODIFIER_PROPERTY_TOOLTIP%. Movement speed: +%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Remaining damage barrier: %dMODIFIER_PROPERTY_TOOLTIP2%. Shard reflects 40% of physical damage taken.",
     "DOTA_Tooltip_modifier_bulwark_fortress": "God's Strength",
     "DOTA_Tooltip_modifier_bulwark_fortress_Description": "For {{duration}}s gain {{bonus_damage_pct}}% base attack damage, {{bonus_str}} Strength, 20% movement speed and {{damage_reduction_pct}}% damage reduction. Every 1.5s deals {{shockwave_damage}} + Strength physical damage in {{radius}} radius. Scepter: +5s duration, 50% status resistance, and a refreshed 900-radius allied hero buff (+50% base damage, +10 armor).",
     "DOTA_Tooltip_Ability_bulwark_fortress_aghanim_description": "God’s Strength lasts 5s longer and grants 50% status resistance. Every 1.5s, allied heroes within 900 receive +50% base damage and +10 armor for 1.8s. Storm Hammer teleports Sven to its impact while the ultimate is active.",
@@ -1405,6 +1405,8 @@
     "DOTA_Tooltip_modifier_enfos_tide_ravage_stun": "Ravage",
     "DOTA_Tooltip_modifier_enfos_tide_ravage_stun_Description": "Stunned by Ravage. Can only be removed by a strong dispel.",
     "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff": "Colossal Presence",
-    "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff_Description": "Movement speed change: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Base attack damage change: %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%. Applied by a nearby Tidehunter."
+    "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff_Description": "Movement speed change: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Base attack damage change: %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%. Applied by a nearby Tidehunter.",
+    "DOTA_Tooltip_modifier_enfos_pve_taunt": "Taunted",
+    "DOTA_Tooltip_modifier_enfos_pve_taunt_Description": "Forced to attack Sven. The taunt ends if Sven dies."
   }
 }

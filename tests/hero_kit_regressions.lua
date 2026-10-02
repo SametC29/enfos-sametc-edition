@@ -8358,4 +8358,121 @@ test('Shared summon ownership removes native kill bounty as well as custom wave 
     package.loaded['heroes/summons']=oldLoaded
 end)
 
+test('Sven Q does not stun a victim removed by its damage callback', function()
+    local c=create_mock_unit('npc_dota_hero_sven',2,Vector(0,0,0))
+    local victim=create_mock_unit('enfos_creep',3,Vector(100,0,0))
+    local q=bulwark_shield_slam();q.GetCaster=function() return c end
+    q.GetSpecialValueFor=function(_,k) return ({radius=250,damage=140,stun_duration=1,boss_stun_cap=0.6})[k] or 0 end
+    mock_world_units={c,victim}
+    local oldDamage=ApplyDamage
+    ApplyDamage=function(e) e.victim.alive=false;e.victim.IsNull=function() return true end end
+    victim.AddNewModifier=function() error('Removed damage victim must not receive stun') end
+    victim.GetUnitName=function(self) assert(not self:IsNull(),'Trace must snapshot name before damage');return self.name end
+    q:OnProjectileHit(victim,victim:GetAbsOrigin())
+    ApplyDamage=oldDamage
+end)
+
+test('Sven unlearned and removed passive sources grant no cleave or durability', function()
+    local c=create_mock_unit('npc_dota_hero_sven',2,Vector(0,0,0))
+    local target=create_mock_unit('enfos_creep',3,Vector(100,0,0))
+    local oldCleave=DoCleaveAttack;local calls=0
+    DoCleaveAttack=function() calls=calls+1 end
+    for _,mode in ipairs({'unlearned','removed','illusion'}) do
+        local a={GetLevel=function() return mode=='unlearned' and 0 or 1 end,
+            IsNull=function() return mode=='removed' end,GetSpecialValueFor=function() return 100 end}
+        c.IsIllusion=function() return mode=='illusion' end
+        local e=c:AddNewModifier(c,a,'modifier_bulwark_iron_guard',{})
+        e:OnAttackLanded({attacker=c,target=target,original_damage=100})
+        local p=c:AddNewModifier(c,a,'modifier_bulwark_unbreakable',{})
+        assert(p:GetModifierConstantHealthRegen()==0 and p:GetModifierExtraHealthBonus()==0
+            and p:GetModifierStatusResistanceStacking()==0,mode..' must not grant passive stats')
+    end
+    assert(calls==0,'No engine cleave dispatch from inactive passive sources')
+    DoCleaveAttack=oldCleave
+end)
+
+test('Sven Warcry owns one overhead armor shield with recipient-bound CP1 across refresh', function()
+    local c=create_mock_unit('npc_dota_hero_sven',2,Vector(0,0,0))
+    local ally=create_mock_unit('npc_dota_hero_axe',2,Vector(1200,400,0))
+    local a={GetSpecialValueFor=function() return 100 end}
+    local m=ally:AddNewModifier(c,a,'modifier_enfos_pve_warcry',{})
+    local oldCreate,oldEnt,oldAttach=ParticleManager.CreateParticle,ParticleManager.SetParticleControlEnt,PATTACH_OVERHEAD_FOLLOW
+    PATTACH_OVERHEAD_FOLLOW=7
+    local created,bound,owned=0,0,0
+    ParticleManager.CreateParticle=function(_,path,attach,owner)
+        assert(path=='particles/units/heroes/hero_sven/sven_warcry_armor_buff_model.vpcf' and owner==ally)
+        created=created+1;return 101
+    end
+    ParticleManager.SetParticleControlEnt=function(_,id,cp,owner,attach)
+        assert(id==101 and cp==1 and owner==ally and attach==7);bound=bound+1
+    end
+    m.AddParticle=function(_,id) assert(id==101);owned=owned+1 end
+    m:OnCreated();m:OnRefresh()
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControlEnt,PATTACH_OVERHEAD_FOLLOW=oldCreate,oldEnt,oldAttach
+    assert(created==1 and bound==1 and owned==1,'Refresh must not duplicate persistent shield particles')
+    assert(modifier_enfos_pve_warcry.GetEffectName==nil,'No second unbound root particle')
+end)
+
+test('Sven taunt refresh switches forced attacks to the current live caster', function()
+    local c=create_mock_unit('npc_dota_hero_sven',2,Vector(0,0,0))
+    local other=create_mock_unit('npc_dota_hero_sven',2,Vector(100,0,0))
+    local enemy=create_mock_unit('enfos_creep',3,Vector(200,0,0))
+    enemy.SetForceAttackTarget=function(self,target) self.forced=target end
+    enemy.GetForceAttackTarget=function(self) return self.forced end
+    enemy.MoveToTargetToAttack=function(self,target) self.ordered=target end
+    local m=enemy:AddNewModifier(c,{},'modifier_enfos_pve_taunt',{})
+    m:OnCreated();assert(enemy.forced==c)
+    m.GetCaster=function() return other end
+    m:OnRefresh();assert(enemy.forced==other and enemy.ordered==other)
+    m:OnDestroy();assert(enemy.forced==nil)
+end)
+
+test('Sven ultimate gives no fallback damage or pulse from a removed ability', function()
+    local c=create_mock_unit('npc_dota_hero_sven',2,Vector(0,0,0))
+    local a={IsNull=function() return true end,GetSpecialValueFor=function() error('Removed R must not be read') end}
+    local m=c:AddNewModifier(c,a,'modifier_bulwark_fortress',{})
+    local stopped=false;m.StartIntervalThink=function(_,t) stopped=t==-1 end
+    assert(m:GetModifierBaseDamageOutgoing_Percentage()==0,'Removed R must not grant fallback +150% damage')
+    m:OnCreated();assert(stopped,'Removed R must stop its interval')
+    m:OnIntervalThink()
+end)
+
+test('Sven ultimate stops its pulse after damage removes its caster', function()
+    local c=create_mock_unit('npc_dota_hero_sven',2,Vector(0,0,0))
+    local first=create_mock_unit('enfos_creep',3,Vector(100,0,0))
+    local second=create_mock_unit('enfos_creep',3,Vector(200,0,0))
+    mock_world_units={c,first,second}
+    local a={GetCaster=function() return c end,GetSpecialValueFor=function(_,k) return ({shockwave_damage=100,radius=450})[k] or 0 end}
+    local m=c:AddNewModifier(c,a,'modifier_bulwark_fortress',{})
+    local oldDamage=ApplyDamage;local count=0
+    ApplyDamage=function() count=count+1;c.IsNull=function() return true end end
+    c.GetUnitName=function() error('Removed Sven must not be used for pulse traces') end
+    m:OnIntervalThink();ApplyDamage=oldDamage
+    assert(count==1,'Remaining pulse victims must not receive damage from a removed caster')
+end)
+
+test('Sven hammer and ultimate impact particles bind their CP1 and CP3 to the hit location', function()
+    local c=create_mock_unit('npc_dota_hero_sven',2,Vector(1200,400,128))
+    local enemy=create_mock_unit('enfos_creep',3,Vector(1300,400,128))
+    mock_world_units={c,enemy}
+    local q=bulwark_shield_slam();q.GetCaster=function() return c end
+    q.GetSpecialValueFor=function(_,k) return ({radius=250,damage=1})[k] or 0 end
+    local oldCreate,oldCP,oldRelease=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex
+    local roots,cp,releases=0,{},0
+    ParticleManager.CreateParticle=function(_,path)
+        assert(path=='particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf');roots=roots+1;return roots
+    end
+    ParticleManager.SetParticleControl=function(_,id,n,pos) cp[id]=cp[id] or {};cp[id][n]=pos end
+    ParticleManager.ReleaseParticleIndex=function() releases=releases+1 end
+    q:OnProjectileHit(enemy,enemy:GetAbsOrigin())
+    local r={GetCaster=function() return c end,GetSpecialValueFor=function(_,k) return ({shockwave_damage=1,radius=450})[k] or 0 end}
+    local m=c:AddNewModifier(c,r,'modifier_bulwark_fortress',{});m:OnIntervalThink()
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex=oldCreate,oldCP,oldRelease
+    assert(roots==2 and releases==2)
+    for id=1,2 do
+        for _,n in ipairs({1,3}) do assert(cp[id] and cp[id][n] and cp[id][n].x==1300 and cp[id][n].y==400 and cp[id][n].z==128,
+            'Native impact must be placed at the victim, not unbound world origin') end
+    end
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')

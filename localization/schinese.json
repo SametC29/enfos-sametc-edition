@@ -964,7 +964,7 @@
     "DOTA_Tooltip_modifier_bulwark_iron_guard": "巨力挥舞",
     "DOTA_Tooltip_modifier_bulwark_iron_guard_Description": "斯温的攻击会向主目标身后形成逐渐变宽的顺劈，对最多{{cleave_distance}}距离内的敌人造成{{cleave_pct}}%攻击伤害。锥形范围宽度从{{cleave_starting_width}}扩大至{{cleave_ending_width}}。破坏会禁用此被动。",
     "DOTA_Tooltip_modifier_enfos_pve_warcry": "挑衅咆哮",
-    "DOTA_Tooltip_modifier_enfos_pve_warcry_Description": "持续{{duration}}秒，为自身及{{radius}}范围友军提供{{bonus_armor}}护甲、{{bonus_ms_pct}}%移速及{{barrier_hp}}+力量×1.5的各自护盾。嘲讽敌人（首领持续25%，奔跑者免疫）。魔晶使护盾额外增加斯温最大生命的25%，并反弹实际受到物理伤害的40%。",
+    "DOTA_Tooltip_modifier_enfos_pve_warcry_Description": "护甲：+%dMODIFIER_PROPERTY_TOOLTIP%。移速：+%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。剩余伤害护盾：%dMODIFIER_PROPERTY_TOOLTIP2%。魔晶反弹受到物理伤害的40%。",
     "DOTA_Tooltip_modifier_bulwark_fortress": "钢铁堡垒",
     "DOTA_Tooltip_modifier_bulwark_fortress_Description": "持续{{duration}}秒，提供{{bonus_damage_pct}}%基础攻击力、{{bonus_str}}力量、20%移速与{{damage_reduction_pct}}%减伤。每1.5秒对{{radius}}范围造成{{shockwave_damage}}+力量物理伤害。神杖：延长5秒，50%状态抗性，为900范围友方英雄刷新50%基础攻击力及10护甲增益。",
     "DOTA_Tooltip_Ability_bulwark_fortress_aghanim_description": "神之力量延长5秒并提供50%状态抗性。每1.5秒为900范围友方英雄提供持续1.8秒的50%基础攻击力及10护甲。大招生效时风暴之拳传送斯温至打击点。",
@@ -1345,6 +1345,8 @@
     "DOTA_Tooltip_modifier_enfos_tide_ravage_stun": "毁灭",
     "DOTA_Tooltip_modifier_enfos_tide_ravage_stun_Description": "被毁灭眩晕。只能通过强驱散移除。",
     "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff": "巨人威势",
-    "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff_Description": "移动速度变化：%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。基础攻击伤害变化：%dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%。由附近的潮汐猎人施加。"
+    "DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff_Description": "移动速度变化：%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。基础攻击伤害变化：%dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%。由附近的潮汐猎人施加。",
+    "DOTA_Tooltip_modifier_enfos_pve_taunt": "被嘲讽",
+    "DOTA_Tooltip_modifier_enfos_pve_taunt_Description": "被迫攻击斯温。斯温死亡时嘲讽结束。"
   }
 }

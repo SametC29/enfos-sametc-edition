@@ -369,3 +369,17 @@ See [the current individual review](../../audit/SVEN_INDIVIDUAL_REVIEW_2026-10-0
 W presentation repair: current decoded native cast root's mouth child uses CP2 as head location; native Sven model declares `attach_head`. The no-target server cast now emits one native `sven_spell_warcry.vpcf` root with CP2 head binding and finite particle-index release. Explicit ability precache covers cast particle and Sven sound bank; KV keeps sole cast sound ownership. Existing persistent Warcry buff remains modifier-owned; its unresolved CP1 composition is still PENDING. No duplicate persistent particle or gesture is added.
 
 The four-language Scepter tooltip now correctly says the ally receives +50% of its **own base attack damage**, not 50% of Sven's bonus damage. The real allied Scepter modifier now has four-language name/description and synchronized generated mirrors. Current mock behavior suite:207 passing, full project checks pass. W/R VFX, SFX, animations, purge/death/recast, multi-caster and rank UI remain owner-runtime PENDING.
+
+### Owner-reopened full-kit review — 2026-10-02, ClientVersion6943
+
+The owner reported local Sven broken and requested the entire hero be rechecked.
+The [reopened review](../../audit/SVEN_REOPENED_REVIEW_2026-10-02.md) supersedes
+outdated implementation/next-step wording above; old live results remain historical
+and do not certify this revision. Q's post-damage lifetime guards, W's recipient-bound
+native armor-shield CP1 and taunt refresh, E/fifth learned-source guards, R's invalid
+source/interval/fallback handling, and Q/R impact CP1/CP3 bindings are repaired.
+W modifier tooltips now show live armor, speed and remaining barrier, and taunt
+name/description/icon exist. All four languages and generated mirrors updated.
+All five ten-rank curves, role, IDs, authored upgrades and match-only progression
+remain.325 mock behavior tests pass; current Dota visuals/audio/gameplay acceptance
+is **PENDING**, with an [owner checklist](../../audit/SVEN_RUNTIME_CHECKLIST.md).

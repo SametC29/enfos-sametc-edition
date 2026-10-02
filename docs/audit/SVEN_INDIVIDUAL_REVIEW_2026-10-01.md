@@ -1,4 +1,4 @@
-# Sven individual review — in progress
+# Sven individual review — current runtime acceptance pending
 
 This is a focused extension of `docs/heroes/sven/ABILITIES.md`, preserving its historical ClientVersion 6941 live evidence. Current source comparison: installed ClientVersion **6942**, SourceRevision **11055158**. Current native hero/source hash is in `HERO_NATIVE_PRESENTATION_2026-10-01.json`. No Dota launch or current-build engine acceptance.
 
