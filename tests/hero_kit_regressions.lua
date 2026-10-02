@@ -5279,6 +5279,38 @@ test('Dragon Knight Breathe Fire deals magic damage and reduces enemy attack dam
     assert(off_axis:FindModifierByName('modifier_enfos_dk_breathe_fire_debuff') == nil, 'Breathe Fire must respect its line width')
 end)
 
+test('Dragon Knight Breathe Fire follows the chosen planar direction across terrain heights', function()
+    -- This case needs 3D normalization; the shared fixture intentionally uses a planar vector.
+    local old_Vector=Vector
+    Vector=function(x,y,z)
+        local v=old_Vector(x,y,z)
+        function v:Normalized()
+            local length=math.sqrt(self.x*self.x+self.y*self.y+self.z*self.z)
+            if length==0 then return Vector(0,0,0) end
+            return Vector(self.x/length,self.y/length,self.z/length)
+        end
+        return v
+    end
+    local dk=create_mock_unit('npc_dota_hero_dragon_knight',2,Vector(0,0,200))
+    local intended=create_mock_unit('intended',3,Vector(0,200,200))
+    local forward=create_mock_unit('forward',3,Vector(200,0,200))
+    mock_world_units={intended,forward}
+    local a=enfos_dk_breathe_fire()
+    a.GetCaster=function() return dk end
+    a.GetCursorPosition=function() return Vector(0,500,0) end
+    a.GetSpecialValueFor=function(_,key) return ({damage=200,range=750,width=100,duration=4})[key] or 0 end
+    applied_damages={}
+    a:OnSpellStart()
+    assert(#applied_damages==1 and applied_damages[1].victim==intended,
+        'Height difference must not replace the selected sideways line with facing direction')
+    a.GetCursorPosition=function() return dk:GetAbsOrigin() end
+    applied_damages={}
+    a:OnSpellStart()
+    assert(#applied_damages==1 and applied_damages[1].victim==forward,
+        'A cursor at the caster must retain the forward fallback')
+    Vector=old_Vector
+end)
+
 test('Dragon Knight Dragon Tail rejects spell block and reads the boss stun cap from KV', function()
     applied_damages = {}
     local dk = create_mock_unit('npc_dota_hero_dragon_knight', 2, Vector(0, 0, 0))

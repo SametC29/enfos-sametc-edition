@@ -57,6 +57,14 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-02 Breathe Fire planar targeting: old3D normalization followed by
+Length2D<1 could discard the selected direction when terrain heights differ.
+Q now flattens z before the near-zero check and normalization, retaining its
+forward fallback. The shared planar mock initially hid this; a targeted3D fixture
+reproduced the before-edit failure and passes after repair.318 mocks/full checks
+pass. Range/width/damage and immediate timing unchanged; real terrain targeting,
+native travel/VFX and audio remain owner PENDING.
+
 2026-10-02 Q/W lifetime repair: targeted mock reproduced modifier application
 after damage removed a recipient. Both casts now validate owner/ability/target
 after damage; Q checks later recipients too. No new modifier is applied to

@@ -5241,8 +5241,10 @@ function enfos_dk_breathe_fire:OnSpellStart()
     local c = self:GetCaster()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
     local origin = c:GetAbsOrigin()
-    local dir = (self:GetCursorPosition() - origin):Normalized()
-    if dir:Length2D() < 1 then dir = c:GetForwardVector() end
+    local dir = self:GetCursorPosition() - origin
+    dir.z = 0
+    if dir:Length2D() < 1 then dir = c:GetForwardVector(); dir.z = 0 end
+    dir = dir:Normalized()
     c:EmitSound('Hero_DragonKnight.BreathFire')
     effect('particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire.vpcf', c)
 

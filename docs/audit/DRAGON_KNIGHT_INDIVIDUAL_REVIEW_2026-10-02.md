@@ -1,5 +1,31 @@
 # Dragon Knight individual review — 2026-10-02
 
+## Breathe Fire planar direction decision — 2026-10-02
+
+PVE-CONVERT targeting correction only. Q normalizes the cursor-origin vector
+including height, then checks Length2D<1. Any height difference makes a normalized
+3D vector's horizontal length below1, replacing the selected direction with the
+caster's forward direction. The same project already uses a planar vector before
+normalization in Lina/Pudge; reuse that established pattern without a new helper.
+Flatten z before checking near-zero length; select forward only for coincident
+cursor, flatten the fallback too, then normalize. Range/width remain named KV.
+Regression uses a sideways cursor at a different height, plus zero-distance
+fallback, to prove targeting rather than mirror arithmetic. No travel/particle
+redesign is claimed; native Breathe Fire travel/presentation remains under review.
+
+Result: the shared mock normalized vectors in2D, initially masking the defect.
+The targeted case now temporarily supplies3D normalization (restored afterwards)
+and the pre-change code fails by hitting the facing target rather than the chosen
+sideways target at a different height. Production flattens z before its
+near-zero direction test and normalization; coincident cursor still falls back
+to facing. Full checks pass,318 hero behavior mocks. Valve Source2 vector
+reference distinguishes normalized3D vectors and XY-only Length2D:
+https://developer.valvesoftware.com/wiki/Half-Life:_Alyx_Workshop_Tools/Scripting_API#Vector.
+That API/math evidence is not a Dota visual certification. Owner should cast
+sideways/uphill/downhill/on-flat-ground and at own feet at max range, measuring
+actual hit line/width and effects/audio. Current immediate line versus native
+travel remains a separate review item, not hidden by this correction.
+
 ## Q/W synchronous impact lifetime decision — 2026-10-02
 
 Keep the existing PVE-CONVERT casts, damage formulas, target flags, immediate
