@@ -3956,11 +3956,12 @@ enfos_wk_vampiric_aura=class({})
 function enfos_wk_vampiric_aura:GetIntrinsicModifierName() return 'modifier_enfos_wk_vampiric_aura' end
 
 local function apply_wk_lifesteal(ability, recipient, params)
-    if not IsServer() or not params or not recipient then return end
+    if not IsServer() or not params or not recipient or recipient:IsNull() or not recipient:IsAlive()
+        or not ability or (ability.IsNull and ability:IsNull()) then return end
     local caster = ability and ability.GetCaster and ability:GetCaster() or nil
     local target = params.target
     if not caster or (caster.IsNull and caster:IsNull()) or (caster.PassivesDisabled and caster:PassivesDisabled())
-        or params.attacker ~= recipient or not target or (target.IsNull and target:IsNull()) or not target:IsAlive()
+        or params.attacker ~= recipient or not target or (target.IsNull and target:IsNull())
         or (target.GetTeamNumber and recipient.GetTeamNumber and target:GetTeamNumber() == recipient:GetTeamNumber())
         or not params.damage or params.damage <= 0 then return end
     recipient:Heal(params.damage * value(ability, 'lifesteal_pct') / 100, ability)

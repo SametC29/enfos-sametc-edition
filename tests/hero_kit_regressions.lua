@@ -3252,10 +3252,19 @@ test('Wraith King Vampiric Aura heals attack damage and ignores spell damage cal
     aura_mod:OnAttackLanded({ attacker = wk, target = enemy, damage = 200 })
     buff:OnAttackLanded({ attacker = ally, target = enemy, damage = 200 })
     assert(wk.hp == 150 and ally.hp == 150, 'Owner and aura recipients must heal for the configured attack lifesteal')
+    enemy.alive=false
+    aura_mod:OnAttackLanded({attacker=wk,target=enemy,damage=200})
+    buff:OnAttackLanded({attacker=ally,target=enemy,damage=200})
+    assert(wk.hp==200 and ally.hp==200,'A lethal attack must still heal the surviving owner and aura recipient')
+    enemy.alive=true
+    ally.IsNull=function() return true end
+    buff:OnAttackLanded({attacker=ally,target=enemy,damage=200})
+    assert(ally.hp==200,'A deleted aura recipient must not receive healing')
+    ally.IsNull=function() return false end
     wk.PassivesDisabled = function() return true end
     aura_mod:OnAttackLanded({ attacker = wk, target = enemy, damage = 200 })
     buff:OnAttackLanded({ attacker = ally, target = enemy, damage = 200 })
-    assert(wk.hp == 150 and ally.hp == 150, 'Broken aura owner must stop granting lifesteal')
+    assert(wk.hp == 200 and ally.hp == 200, 'Broken aura owner must stop granting lifesteal')
     assert(buff:DeclareFunctions()[1] == MODIFIER_EVENT_ON_ATTACK_LANDED,
         'Aura must only receive landed-attack events, not generic spell damage events')
     assert(not aura_mod:IsAura(), 'Broken Wraith King must not emit the aura')
