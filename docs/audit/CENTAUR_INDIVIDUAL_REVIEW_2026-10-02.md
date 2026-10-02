@@ -19,3 +19,9 @@ New regression models lethal target deletion and removed caster; before repair i
 MCP reference-only Boss Survival1571786267 heroes/hero_centaur/hero_centaur.lua reviewed around its haste particle ownership: separate cast/haste effects, AddParticle ownership and movement event are visible source patterns. Its exact revision/license/live result unknown; no code/audio policy imported. Native resource/control-point and bank decoding is still pending in this individual audit.
 
 Checks:246behavior regressions,200abilities/223modifiers across ranks1–10,full checks0failed. Actual kill/corpse callback order, slow duration/resistance, other-ally continuation after caster death/removal, haste cleanup and VConsole remain OWNER ENGINE PENDING. This first repair does not close the whole hero.
+
+## Current resource investigation
+
+Decoded installed6943 full hero_centaur particle folder and `game_sounds_centaur.vsndevts_c` with VRF19.2. Exact existing HoofStomp2.078231sec, DoubleEdge1.612426sec and Stampede.Cast3.569002sec events exist; Movement6.003242sec and Stun1.718753sec are available but their use/termination has not yet been changed. Bank source does not itself certify audible emission or looping.
+
+Return root is a finite CP0→CP1 rope with sequential path/rope distance scale; current threshold-pulse generic helper supplies no endpoints, so its use as an AoE pulse needs a focused feedback decision after child/control review. Warstomp root is a container for dust/projected/warp/progressive ring/shockwave/weapon contact children. CP1 components drive child scale/speed and CP2 positions weapon contact; they are not interchangeable with a guessed radius vector. Shared helper changes are not authorized from these findings. Radius/time/location mapping and current model/animation must be resolved before a Q visual repair. Neither finding has been claimed engine confirmed or source closed.
