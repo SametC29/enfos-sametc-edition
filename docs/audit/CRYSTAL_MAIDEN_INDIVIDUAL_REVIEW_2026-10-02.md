@@ -19,3 +19,13 @@ MCP ref_search/ref_get of Boss Survival1571786267 addition_bosses/golden_queen.l
 Extended existing positive creep-DPS regression first fails on standalone allocation, then checks zero manual allocations, exact owned root/attachment and existing0.5sec/187.5magical damage tick. Actual expiry/purge/death/recast, model-bound ice on doubled Boss models, cold start, audio and VConsole remain OWNER ENGINE PENDING. Source/mock cannot prove visible cleanup.
 
 Frostbite validation:242behavior regressions,200/200abilities and223/223modifiers across ranks1–10; full checks0failed. OWNER ENGINE PENDING.
+
+## Freezing Field ambient versus finite pulse effects
+
+Confirmed high-frequency lifetime fault: each0.2sec damage tick allocated/released a persistent snow root at its target. Installed snow root has400/sec continuous emission, no finite duration, CP1.x ring radius0.6 and CP1.y thickness0.6; child chain includes the native caster effect. The standalone caster GetEffectName added another caster emitter while accumulating unowned snow per pulse. An eight-second channel could allocate up to40ongoing snow roots, not forty finite bursts.
+
+MCP reference-only review of Boss Survival1571786267 heroes/hero_crystal_maiden/hero_crystal_maiden.lua demonstrates one owned snow root with CP1(radius,radius,1), and a different WORLDORIGIN explosion per impact. Decoded installed root corroborates inputs; explosion children are instantaneous or finite0.2sec emitters/Decay, with root PreEmissionOperators providing authored CP1/2. No guessed CP1 position override and no import of unverified-licensed reference code.
+
+Focused repair owns one following snow root per channel with configured CP1(radius,radius,1), removes standalone caster callback (already a child), and uses a finite native explosion at each selected target. Existing eight-second0.2sec single-target damage, defenses, stack synergy and wind-stop path unchanged. Added exact explosion root to existing precache; one extra finite per pulse replaces one unbounded ambient allocation rather than adding a timer/global service.
+
+Extended positive pulse regression first fails because no owned snow exists on creation; afterward checks one owner/radius controls and21ticks yielding21released finite explosions and still one owned ambient root.242behavior regressions/full checks0failed,200abilities/223modifiers across ranks1–10;219icons/259literal paths verified in installed VPK. Real channel interruption/death/recast cleanup, radius/endcaps/finite explosion positioning, cold-start resources/audio and VConsole remain OWNER ENGINE PENDING.

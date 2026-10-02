@@ -3049,7 +3049,6 @@ end
 
 modifier_enfos_cm_freezing_field_channel=class({})
 function modifier_enfos_cm_freezing_field_channel:IsPurgable() return false end
-function modifier_enfos_cm_freezing_field_channel:GetEffectName() return 'particles/units/heroes/hero_crystalmaiden/maiden_freezing_field_caster.vpcf' end
 function modifier_enfos_cm_freezing_field_channel:OnDestroy()
     if IsServer() then
         local c = self:GetParent()
@@ -3063,6 +3062,13 @@ function modifier_enfos_cm_freezing_field_channel:GetModifierPhysicalArmorBonus(
 function modifier_enfos_cm_freezing_field_channel:GetModifierMagicalResistanceBonus() return value(self:GetAbility(), 'bonus_magic_resist') end
 function modifier_enfos_cm_freezing_field_channel:OnCreated()
     if not IsServer() then return end
+    local c = self:GetParent()
+    local radius = value(self:GetAbility(), 'radius')
+    if radius <= 0 then radius = 800 end
+    local snow = ParticleManager:CreateParticle(
+        'particles/units/heroes/hero_crystalmaiden/maiden_freezing_field_snow.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:SetParticleControl(snow, 1, Vector(radius, radius, 1))
+    self:AddParticle(snow, false, false, -1, false, false)
     self:StartIntervalThink(value(self:GetAbility(), 'tick_interval'))
 end
 function modifier_enfos_cm_freezing_field_channel:OnIntervalThink()
@@ -3079,7 +3085,7 @@ function modifier_enfos_cm_freezing_field_channel:OnIntervalThink()
         local t = targets[RandomInt(1, #targets)]
         damage(a, t, dmg, DAMAGE_TYPE_MAGICAL)
         t:AddNewModifier(c, a, 'modifier_enfos_cm_freezing_field_slow', { duration = value(a, 'slow_duration') })
-        effect('particles/units/heroes/hero_crystalmaiden/maiden_freezing_field_snow.vpcf', t)
+        effect_at_position('particles/units/heroes/hero_crystalmaiden/maiden_freezing_field_explosion.vpcf', t:GetAbsOrigin())
         local gm = c.FindAbilityByName and c:FindAbilityByName('enfos_cm_glacial_mastery')
         if gm and not (c.PassivesDisabled and c:PassivesDisabled()) then
             t:AddNewModifier(c, gm, 'modifier_enfos_cm_frost_stack', { duration = value(gm, 'frost_stack_duration') })

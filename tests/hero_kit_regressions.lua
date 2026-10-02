@@ -2486,16 +2486,38 @@ test('Crystal Maiden Freezing Field applies a configured random-target pulse and
         GetAbility = function() return ability end,
         StartIntervalThink = function(self, interval) self.interval = interval end,
     }, modifier_enfos_cm_freezing_field_channel)
+    local oldCreate,oldControl,oldRelease,oldWorld=ParticleManager.CreateParticle,ParticleManager.SetParticleControl,
+        ParticleManager.ReleaseParticleIndex,PATTACH_WORLDORIGIN
+    PATTACH_WORLDORIGIN=928
+    local snow,explosions,owned,released,cp=0,0,0,0,{}
+    ParticleManager.CreateParticle=function(_,path,attachment,owner)
+        if path=='particles/units/heroes/hero_crystalmaiden/maiden_freezing_field_snow.vpcf' then
+            assert(attachment==PATTACH_ABSORIGIN_FOLLOW and owner==cm)
+            snow=snow+1;return 928
+        end
+        assert(path=='particles/units/heroes/hero_crystalmaiden/maiden_freezing_field_explosion.vpcf' and attachment==928)
+        explosions=explosions+1;return 929
+    end
+    ParticleManager.SetParticleControl=function(_,id,index,value) if id==928 then cp[index]=value end end
+    ParticleManager.ReleaseParticleIndex=function(_,id) assert(id==929);released=released+1 end
+    modifier.AddParticle=function(_,id) assert(id==928);owned=owned+1 end
     modifier:OnCreated()
+    assert(snow==1 and owned==1 and released==0 and cp[1].x==300 and cp[1].y==300 and cp[1].z==1,
+        'Channel must own one area snow emitter with exact radius controls instead of releasing one every tick')
     modifier:OnIntervalThink()
     assert(modifier.interval == 0.25 and last_find_units_radius == 300)
     assert(#applied_damages == 1 and applied_damages[1].victim == enemy)
     assert(applied_damages[1].damage == 110 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
     assert(enemy:FindModifierByName('modifier_enfos_cm_freezing_field_slow').params.duration == 1)
+    for _=1,20 do modifier:OnIntervalThink() end
+    assert(snow==1 and owned==1 and explosions==21 and released==21,
+        'Repeated damage ticks must allocate only finite explosions, not more unowned ambient snow')
     local stopped
     cm.StopSound = function(_, event) stopped = event end
     modifier:OnDestroy()
     assert(stopped == 'hero_Crystal.freezingField.wind', 'channel cleanup must stop its looping wind event')
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControl,ParticleManager.ReleaseParticleIndex,
+        PATTACH_WORLDORIGIN=oldCreate,oldControl,oldRelease,oldWorld
 end)
 
 test('Dazzle Poison Touch only refreshes and ramps slow on Dazzle attacks', function()
