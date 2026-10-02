@@ -8722,4 +8722,41 @@ test('Lich Gaze channel finish clears ownership before removing only its own con
     assert(removed==1 and a.gazeTarget==nil)
 end)
 
+test('Lich Chain Frost continues from a lethal removed target without using its handle',function()
+    local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+    local first=create_mock_unit('enfos_creep_first',3,Vector(100,0,0))
+    local nextTarget=create_mock_unit('enfos_creep_next',3,Vector(200,0,0))
+    local a=enfos_lich_chain_frost()
+    a.GetCaster=function() return c end;a.GetCursorTarget=function() return first end
+    a.GetSpecialValueFor=function(_,k) return ({jump_count=2,damage=100,slow_duration=2.5})[k] or 0 end
+    mock_world_units={c,first,nextTarget};applied_damages={}
+    local oldDamage=ApplyDamage;local removed=false;local oldOrigin=first.GetAbsOrigin
+    first.IsNull=function() return removed end
+    first.GetAbsOrigin=function(self) assert(not removed,'Removed target position access');return oldOrigin(self) end
+    first.AddNewModifier=function() error('Cannot slow a removed victim') end
+    local sound
+    first.EmitSound=function(_,event) sound=event end
+    ApplyDamage=function(e)
+        oldDamage(e)
+        if e.victim==first then removed=true;mock_world_units={c,nextTarget} end
+    end
+    local ok,err=pcall(function() a:OnSpellStart() end);ApplyDamage=oldDamage
+    assert(ok,err);assert(#applied_damages==2,'Lethal hit must preserve remaining spread')
+    assert(sound=='Hero_Lich.ChainFrostImpact.Creep','Use current bank creep impact event')
+end)
+
+test('Lich Chain Frost stops after synchronous damage removes its caster',function()
+    local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+    local p=create_mock_unit('enfos_creep_first',3,Vector(100,0,0))
+    local other=create_mock_unit('enfos_creep_next',3,Vector(200,0,0))
+    local a=enfos_lich_chain_frost();a.GetCaster=function() return c end;a.GetCursorTarget=function() return p end
+    a.GetSpecialValueFor=function(_,k) return k=='jump_count' and 2 or 100 end
+    mock_world_units={c,p,other};applied_damages={}
+    local oldDamage=ApplyDamage;local removed=false;c.IsNull=function() return removed end
+    p.AddNewModifier=function() error('Removed source cannot add a slow') end
+    ApplyDamage=function(e) oldDamage(e);removed=true end
+    local ok,err=pcall(function() a:OnSpellStart() end);ApplyDamage=oldDamage
+    assert(ok,err);assert(#applied_damages==1)
+end)
+
 print(passed .. ' hero kit regression tests passed (mock engine).')

@@ -320,3 +320,10 @@ removed ability. Server guards, native icon and partial lifecycle traces added.
 See the individual Lich review for three focused regressions and remaining
 Gaze resource, timing, movement, absorb and owner engine gates. No runtime
 certification or rank/balance change is implied.
+
+2026-10-03 R individual follow-up: snapshot impact origin/control timing before
+lethal damage; skip corpse control, preserve remaining spread and stop on removed
+source. Current decoded sound bank supplies hero/creep impact events and explicit
+bank precache. Two meaningful regressions and partial synchronous-hit tracing
+are recorded in the Lich individual review. Native projectile identity, resources,
+upgrades and engine acceptance remain open; this is not full R certification.

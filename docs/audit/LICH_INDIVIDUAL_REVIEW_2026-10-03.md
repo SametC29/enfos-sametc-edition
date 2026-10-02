@@ -7,13 +7,15 @@
 - DESIGN DECISION: Q TUNE; W PVE-CONVERT; E PVE-CONVERT; R PVE-CONVERT;
   D REPLACE. Rationales and unresolved comparisons follow below.
 - PROVEN DEFECTS: Q post-damage handles, W orphan pulses/invalid cast and undefined
-  W sound, D recipient-vs-source Break ownership and E control/channel teardown
-  repaired; other findings under review.
-- MOCK/REGRESSION VALIDATION: PASS for the recorded Q/W/E/D cases (341 suite cases).
+  W sound, D recipient-vs-source Break ownership, E control/channel teardown,
+  R lethal-victim/source access and undefined impact sound repaired;
+  projectile identity and other findings remain under review.
+- MOCK/REGRESSION VALIDATION: PASS for the recorded five-slot cases (343 suite cases).
 - RUNTIME TRACE COVERAGE: PARTIAL, Q cast/absorb/source-loss/primary/splash summary;
   W cast/pulse/source-loss, E channel/control lifecycle and D source/recipient
-  lifecycle added; detailed W lifecycle, D live Break/rank transitions,
-  E resources/absorb and R remain open.
+  lifecycle and R current synchronous hit/spread records added; detailed W
+  lifecycle, D live Break/rank transitions, E resources/absorb and R actual
+  projectile lifecycle remain open.
 - OWNER RUNTIME TRACE EVIDENCE: NOT TESTED.
 - OWNER VISUAL/AUDIO VERIFICATION: NOT TESTED.
 - OWNER ENGINE ACCEPTANCE: NOT TESTED.
@@ -165,3 +167,28 @@ animation, absorb cancellation, resistance timing, movement/pathing and
 Shard/Scepter remain open. Three new regressions plus the amended dead-target
 fixture verify ownership, invalid-source cleanup and finish re-entry:341 suite
 cases pass, project checks0fail. These are mock/source evidence, not engine PASS.
+
+## R lethal-victim/source guards and verified impact events
+
+Retain PVE-CONVERT, current authored once-per-victim policy,600-radius spread,
+ranked damage/INT1.0 and boss35% slow duration. Before damage, capture the impact
+origin and boss-adjusted slow duration. After synchronous lethal removal, skip
+control on the corpse and search from the saved origin so the rest of the spread
+survives. Removed caster/ability stops further damage/control dispatch. Cast is
+server-only and rejects invalid/dead caster/target; candidate selection skips
+removed units. Two regression fixtures fail before repair and pass afterwards:
+removed lethal victim, and source removed during damage. The mock world excludes
+a deleted victim from subsequent radius searches, matching entity removal rather
+than forcing production to work around an impossible radius result.
+
+The decoded installed6943 Lich bank has ChainFrostImpact.Hero and
+ChainFrostImpact.Creep, not the used Hero_Lich.ChainFrost.Impact. Choose the
+verified impact event by IsHero and precache its declaring bank explicitly.
+Audible hero/creep impact plus cold-start loading remain NOT TESTED. Bounded
+R records describe current cast/hit/next-target/source cancellation; they do
+not pretend a projectile launched. Existing root particle at each recipient
+and synchronous for-loop are still open: actual travel/projectile, resource
+CP/attachment/lifetime, spell block, immunity, resistance, death/recast and
+upgrades require further review. No premature projectile/visual acceptance.
+343 behavior mocks pass and full project checks0fail; inventory refreshed only
+for new callback metadata. All owner runtime gates remain NOT TESTED.
