@@ -3295,6 +3295,7 @@
 	// =========================================================================
 	"enfos_tide_gush"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -3314,6 +3315,10 @@
 		"AbilityValues"
 		{
 			"gush_damage" "110 137 163 190 217 243 270 297 323 350"
+			"scepter_range" "2200"
+			"scepter_radius" "260"
+			"scepter_speed" "1500"
+			"scepter_cooldown" "7"
 			"projectile_speed" "2500"
 			"strength_factor" "1.0"
 			"armor_reduction" "4 5 5 6 6 7 8 8 9 10"
@@ -3371,7 +3376,6 @@
 	"enfos_tide_ravage"
 	{
 		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
-		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"

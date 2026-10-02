@@ -472,7 +472,7 @@
     "DOTA_Tooltip_Ability_enfos_sf_feast_of_souls_shard_description": "+15%法术增强。",
     "DOTA_Tooltip_Ability_enfos_ss_mass_serpent_ward_scepter_description": "其中一个蛇棒变为超级蛇棒，伤害和生命值为4倍，外观大小为2倍。蛇棒总数不变；终极技能冷却时间缩短25%。",
     "DOTA_Tooltip_Ability_enfos_ss_hex_shard_description": "妖术还会变形主目标附近的有限数量敌人，替代通用辅助治疗加成。",
-    "DOTA_Tooltip_Ability_enfos_tide_ravage_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
+    "DOTA_Tooltip_Ability_enfos_tide_gush_scepter_description": "Scepter：Gush变为向指定地点发射的穿透波。射程2200，碰撞半径260，速度1500，基础冷却最多7秒。命中的每个敌人受到Gush伤害、减甲和减速。替代通用终极技能伤害和冷却加成。",
     "DOTA_Tooltip_Ability_enfos_tide_colossal_presence_shard_description": "+350生命，将15%敌方伤害以物理伤害反弹。",
     "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_scepter_description": "阿哈利姆神杖：终极技能法术伤害提高40%，终极技能冷却时间缩短25%。",
     "DOTA_Tooltip_Ability_enfos_dk_wyrm_vigor_shard_description": "坦克碎片加成：+350生命值，并将受到的敌方伤害的15%以物理伤害反弹。",

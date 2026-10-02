@@ -472,7 +472,7 @@
     "DOTA_Tooltip_Ability_enfos_sf_feast_of_souls_shard_description": "+15% усиления заклинаний.",
     "DOTA_Tooltip_Ability_enfos_ss_mass_serpent_ward_scepter_description": "Один тотем группы становится мега-тотемом с 4-кратными уроном и здоровьем и двойным размером. Число тотемов не меняется; перезарядка ультимейта сокращается на 25%.",
     "DOTA_Tooltip_Ability_enfos_ss_hex_shard_description": "Сглаз также превращает ограниченное число врагов рядом с основной целью. Заменяет общий бонус лечения поддержки.",
-    "DOTA_Tooltip_Ability_enfos_tide_ravage_scepter_description": "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%.",
+    "DOTA_Tooltip_Ability_enfos_tide_gush_scepter_description": "Scepter: Gush превращается в проникающую волну, направляемую в выбранную точку. Дальность 2200, радиус столкновения 260, скорость 1500, базовая перезарядка не более 7 сек. Каждый задетый враг получает урон, снижение брони и замедление Gush. Заменяет общий бонус урона и перезарядки ультимейта.",
     "DOTA_Tooltip_Ability_enfos_tide_colossal_presence_shard_description": "+350 здоровья. Отражает 15% входящего вражеского урона физическим уроном.",
     "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_scepter_description": "Скипетр: +40% к урону заклинаний ультимейта и перезарядка ультимейта снижена на 25%.",
     "DOTA_Tooltip_Ability_enfos_dk_wyrm_vigor_shard_description": "Бонус осколка для танка: +350 здоровья и отражение 15% получаемого от врагов урона физическим уроном.",

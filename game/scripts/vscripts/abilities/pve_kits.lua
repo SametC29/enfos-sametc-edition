@@ -3702,8 +3702,46 @@ end
 -- ----------------------------------------------------------------------------
 
 enfos_tide_gush=class({})
+function enfos_tide_gush:GetBehavior()
+    local c = self:GetCaster()
+    return c and not c:IsNull() and c.HasScepter and c:HasScepter()
+        and DOTA_ABILITY_BEHAVIOR_POINT or DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
+end
+function enfos_tide_gush:GetCastRange(location, target)
+    local c = self:GetCaster()
+    if c and not c:IsNull() and c.HasScepter and c:HasScepter() then return value(self, 'scepter_range') end
+    return self.BaseClass.GetCastRange(self, location, target)
+end
+function enfos_tide_gush:GetCooldown(level)
+    local c = self:GetCaster()
+    local ordinary = self.BaseClass.GetCooldown(self, level)
+    if c and not c:IsNull() and c.HasScepter and c:HasScepter() then return math.min(ordinary, value(self, 'scepter_cooldown')) end
+    return ordinary
+end
 function enfos_tide_gush:OnSpellStart()
     local c = self:GetCaster()
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
+    if c.HasScepter and c:HasScepter() then
+        if not ProjectileManager or not ProjectileManager.CreateLinearProjectile then return end
+        local origin = c:GetAbsOrigin()
+        local direction = self:GetCursorPosition() - origin
+        direction.z = 0
+        if direction:Length2D() <= 0.01 then direction = c:GetForwardVector() end
+        direction = direction:Normalized()
+        ProjectileManager:CreateLinearProjectile({
+            Source = c, Ability = self, vSpawnOrigin = origin,
+            EffectName = 'particles/units/heroes/hero_tidehunter/tidehunter_gush_upgrade.vpcf',
+            fDistance = value(self, 'scepter_range'),
+            fStartRadius = value(self, 'scepter_radius'), fEndRadius = value(self, 'scepter_radius'),
+            vVelocity = direction * value(self, 'scepter_speed'),
+            iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+            iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+            iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
+            bDeleteOnHit = false, bProvidesVision = false,
+            ExtraData = { piercing = 1 }
+        })
+        return
+    end
     local t = self:GetCursorTarget()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or (t.IsNull and t:IsNull())
         or not t:IsAlive() or t:GetTeamNumber() == c:GetTeamNumber() then return end
@@ -3722,6 +3760,11 @@ function enfos_tide_gush:OnSpellStart()
         bVisibleToEnemies = true,
         bProvidesVision = false
     })
+end
+
+function enfos_tide_gush:OnProjectileHit_ExtraData(target, location, data)
+    self:OnProjectileHit(target)
+    return not (data and tonumber(data.piercing) == 1)
 end
 
 function enfos_tide_gush:OnProjectileHit(t)

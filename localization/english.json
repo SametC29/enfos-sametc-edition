@@ -516,7 +516,7 @@
     "DOTA_Tooltip_Ability_enfos_sf_feast_of_souls_shard_description": "+15% spell amplification.",
     "DOTA_Tooltip_Ability_enfos_ss_mass_serpent_ward_scepter_description": "One ward in the group becomes a mega ward with 4x damage and health, and 2x visual size. Total ward count is unchanged; ultimate cooldown is reduced by 25%.",
     "DOTA_Tooltip_Ability_enfos_ss_hex_shard_description": "Hex also transforms a limited number of enemies near its primary target. Replaces the generic Support healing bonus.",
-    "DOTA_Tooltip_Ability_enfos_tide_ravage_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
+    "DOTA_Tooltip_Ability_enfos_tide_gush_scepter_description": "Scepter: Gush becomes a piercing point-target wave. Range 2200, collision radius 260, speed 1500, base cooldown at most 7s. Each enemy hit receives Gush damage, armor reduction and slow. Replaces the generic ultimate damage/cooldown bonus.",
     "DOTA_Tooltip_Ability_enfos_tide_colossal_presence_shard_description": "+350 health. Reflects 15% of incoming enemy damage as physical damage.",
     "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_scepter_description": "Scepter: +40% ultimate spell damage and 25% reduced ultimate cooldown.",
     "DOTA_Tooltip_Ability_enfos_dk_wyrm_vigor_shard_description": "Tank Shard bonus: +350 health and reflect 15% of incoming enemy damage as physical damage.",

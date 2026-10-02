@@ -122,7 +122,9 @@ test('every hero exposes correct ultimate/evolution contracts and migrated Enfos
     assert.equal(abilities[h.Ability5].Innate,undefined,id+': Enfos passive must not be marked as Dota innate');
     assert.ok(abilities[h.Ability5].AbilityBehavior?.includes('DOTA_ABILITY_BEHAVIOR_PASSIVE'),id+': fifth Enfos ability must be passive');
     assert.equal(abilities[h.Ability4].AbilityType,'DOTA_ABILITY_TYPE_ULTIMATE',id);
-    assert.equal(abilities[h.Ability4].HasScepterUpgrade,'1',id);
+    const scepterAbility=id==='npc_dota_hero_tidehunter'?h.Ability1:h.Ability4;
+    assert.equal(abilities[scepterAbility].HasScepterUpgrade,'1',id);
+    if(id==='npc_dota_hero_tidehunter') assert.equal(abilities[h.Ability4].HasScepterUpgrade,undefined,'Ravage must not advertise the removed generic Scepter');
     const shardAbility=id==='npc_dota_hero_shadow_shaman'?h.Ability2:h.Ability5;
     assert.equal(abilities[shardAbility].HasShardUpgrade,'1',id);
     if(id==='npc_dota_hero_shadow_shaman') assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Fowl Play must not advertise the replaced generic Shard');
@@ -132,7 +134,7 @@ test('every hero exposes correct ultimate/evolution contracts and migrated Enfos
     assert.equal(h.Ability25,'generic_hidden',id+': native Ability25 bonus must be hidden');
     for(const lang of ['turkish','english','russian','schinese']){
       const tokens=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens;
-      assert.ok(tokens['DOTA_Tooltip_Ability_'+h.Ability4+'_scepter_description']);
+      assert.ok(tokens['DOTA_Tooltip_Ability_'+scepterAbility+'_scepter_description']);
       assert.ok(tokens['DOTA_Tooltip_Ability_'+shardAbility+'_shard_description']);
     }
   }
@@ -311,6 +313,23 @@ test('Tidehunter active abilities preserve verified native cast presentation met
   assert.match(bootstrap,/"zuus","tidehunter"/,
     'the native Tidehunter event bank must be explicitly included in hero sound precache');
 });
+test('Tidehunter Scepter metadata and localized values belong to the piercing Gush upgrade',()=>{
+  const abilities=read('npc_abilities_custom.txt').DOTAAbilities;
+  const gush=abilities.enfos_tide_gush;
+  assert.equal(gush.HasScepterUpgrade,'1');
+  assert.equal(abilities.enfos_tide_ravage.HasScepterUpgrade,undefined);
+  const fields={scepter_range:'2200',scepter_radius:'260',scepter_speed:'1500',scepter_cooldown:'7'};
+  for(const [key,value] of Object.entries(fields)) assert.equal(gush.AbilityValues[key],value);
+  for(const lang of ['english','turkish','russian','schinese']){
+    const tokens=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens;
+    const desc=tokens.DOTA_Tooltip_Ability_enfos_tide_gush_scepter_description;
+    assert.ok(desc && Object.values(fields).every(value=>desc.includes(value)),lang+': upgrade tooltip values must match KV');
+    assert.equal(tokens.DOTA_Tooltip_Ability_enfos_tide_ravage_scepter_description,undefined);
+  }
+  const bootstrap=fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua','utf8');
+  assert.ok(bootstrap.includes('"particles/units/heroes/hero_tidehunter/tidehunter_gush_upgrade.vpcf"'));
+});
+
 test('Dragon Knight rank gates fit all ten ability ranks inside the match level cap',()=>{
   const heroes=read('npc_heroes_custom.txt').DOTAHeroes,abilities=read('npc_abilities_custom.txt').DOTAAbilities;
   const hero=heroes.npc_dota_hero_dragon_knight;
