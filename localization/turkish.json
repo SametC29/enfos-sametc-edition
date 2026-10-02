@@ -1729,10 +1729,10 @@
     "DOTA_Tooltip_modifier_enfos_pa_blur_active": "Bulanıklık",
     "DOTA_Tooltip_modifier_enfos_pa_blur_active_Description": "Görünmez. Coup de Grace, kritik saldırıyı garanti etmek için bu etkiyi tüketir.",
     "DOTA_Tooltip_modifier_enfos_zeus_static_field_passive": "Statik Alan",
-    "DOTA_Tooltip_modifier_enfos_zeus_static_field_passive_Description": "Yaşayan bir düşmana pozitif büyü hasarı verdiğinde mevcut canının %tooltip%%% kadarı kadar ek büyü hasarı verir. Bosslara verilen temel hasar 500 ile sınırlıdır. Break etkisiyle devre dışı kalır.",
+    "DOTA_Tooltip_modifier_enfos_zeus_static_field_passive_Description": "Yaşayan bir düşmana pozitif büyü hasarı verdiğinde mevcut canının %dMODIFIER_PROPERTY_TOOLTIP%%% kadarı kadar ek büyü hasarı verir. Bosslara verilen temel hasar 500 ile sınırlıdır. Break etkisiyle devre dışı kalır.",
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff": "Gök Sıçraması",
-    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff_Description": "Hareket hızı %tooltip%%% artar.",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff_Description": "Hareket hızı %dMODIFIER_PROPERTY_TOOLTIP%%% artar.",
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow": "Gök Sıçraması Yavaşlatması",
-    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "Hareket hızı %tooltip%%% azalır."
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "Hareket hızı %dMODIFIER_PROPERTY_TOOLTIP%%% azalır."
   }
 }

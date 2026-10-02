@@ -1298,10 +1298,10 @@
     "DOTA_Tooltip_modifier_enfos_pa_blur_active": "Размытие",
     "DOTA_Tooltip_modifier_enfos_pa_blur_active_Description": "Невидимость. Coup de Grace расходует этот эффект, гарантируя критическую атаку.",
     "DOTA_Tooltip_modifier_enfos_zeus_static_field_passive": "Статическое поле",
-    "DOTA_Tooltip_modifier_enfos_zeus_static_field_passive_Description": "При положительном уроне заклинаниями живому врагу наносит дополнительный магический урон: %tooltip%%% его текущего здоровья. Базовый урон боссам ограничен 500. Отключается истощением.",
+    "DOTA_Tooltip_modifier_enfos_zeus_static_field_passive_Description": "При положительном уроне заклинаниями живому врагу наносит дополнительный магический урон: %dMODIFIER_PROPERTY_TOOLTIP%%% его текущего здоровья. Базовый урон боссам ограничен 500. Отключается истощением.",
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff": "Небесный прыжок",
-    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff_Description": "Скорость передвижения увеличена на %tooltip%%%.",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff_Description": "Скорость передвижения увеличена на %dMODIFIER_PROPERTY_TOOLTIP%%%.",
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow": "Замедление небесного прыжка",
-    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "Скорость передвижения снижена на %tooltip%%%."
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "Скорость передвижения снижена на %dMODIFIER_PROPERTY_TOOLTIP%%%."
   }
 }

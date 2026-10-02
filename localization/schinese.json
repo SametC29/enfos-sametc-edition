@@ -1298,10 +1298,10 @@
     "DOTA_Tooltip_modifier_enfos_pa_blur_active": "模糊",
     "DOTA_Tooltip_modifier_enfos_pa_blur_active_Description": "隐身。恩赐解脱会消耗此效果，保证一次暴击攻击。",
     "DOTA_Tooltip_modifier_enfos_zeus_static_field_passive": "静电场",
-    "DOTA_Tooltip_modifier_enfos_zeus_static_field_passive_Description": "对存活敌人造成正数法术伤害时，额外造成相当于其当前生命值%tooltip%%%的魔法伤害。对首领的基础伤害上限为500。破坏效果使其失效。",
+    "DOTA_Tooltip_modifier_enfos_zeus_static_field_passive_Description": "对存活敌人造成正数法术伤害时，额外造成相当于其当前生命值%dMODIFIER_PROPERTY_TOOLTIP%%%的魔法伤害。对首领的基础伤害上限为500。破坏效果使其失效。",
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff": "神圣一跃",
-    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff_Description": "移动速度提高%tooltip%%%。",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff_Description": "移动速度提高%dMODIFIER_PROPERTY_TOOLTIP%%%。",
     "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow": "神圣一跃减速",
-    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "移动速度降低%tooltip%%%。"
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "移动速度降低%dMODIFIER_PROPERTY_TOOLTIP%%%。"
   }
 }
