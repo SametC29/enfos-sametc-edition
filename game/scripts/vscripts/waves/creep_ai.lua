@@ -218,6 +218,7 @@ function CreepAI:OnThink(state)
 	if unit:IsStunned() or unit:IsRooted() or unit:IsChanneling()
 		or casting
 		or unit:HasModifier("modifier_enfos_axe_call_taunt")
+		or unit:HasModifier("modifier_enfos_legion_duel_buff")
 		or (not state.isRunner and unit:HasModifier("modifier_enfos_pve_taunt")) then
 		state.stuckTimer = 0
 		return THINK_INTERVAL

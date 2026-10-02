@@ -1795,6 +1795,63 @@ test('Legion Duel spell block prevents both sides entering the Duel', function()
         'Spell block must cancel the paired Duel modifiers')
 end)
 
+test('Legion Duel forces paired attacks and ends both sides on death without duplicate victory', function()
+    local legion = create_mock_unit('npc_dota_hero_legion_commander', 2, Vector(0,0,0))
+    local enemy = create_mock_unit('enfos_creep_melee', 4, Vector(100,0,0))
+    local other = create_mock_unit('npc_dota_hero_sven', 2, Vector(0,100,0))
+    mock_world_units = { legion, enemy, other }
+    local ability = enfos_legion_duel()
+    ability.GetSpecialValueFor = function(_, key) return ({creep_victory_strength=10,boss_victory_strength=30})[key] or 0 end
+    local function participant(unit, opponent)
+        unit.SetForceAttackTarget = function(self, target) self.forced = target end
+        unit.GetForceAttackTarget = function(self) return self.forced end
+        unit.MoveToTargetToAttack = function(self, target) self.ordered = target end
+        local m = modifier_enfos_legion_duel_buff()
+        m.caster = legion
+        m.GetParent = function() return unit end
+        m.GetCaster = function() return legion end
+        m.GetAbility = function() return ability end
+        m.Destroy = function(self)
+            if self.destroyed then return end
+            self.destroyed = true
+            unit.modifiers['modifier_enfos_legion_duel_buff'] = nil
+            self:OnDestroy()
+        end
+        unit.modifiers['modifier_enfos_legion_duel_buff'] = m
+        m:OnCreated({target_idx=opponent:entindex()})
+        return m
+    end
+    local ours = participant(legion, enemy)
+    local theirs = participant(enemy, legion)
+    assert(legion.forced == enemy and enemy.forced == legion and legion.ordered == enemy and enemy.ordered == legion,
+        'Duel states alone must not leave the participants without their paired attack target')
+    enemy.alive = false
+    ours:OnDeath({unit=enemy})
+    ours:OnDeath({unit=enemy})
+    theirs:OnDeath({unit=enemy})
+    assert(legion.strength == 60 and ours.destroyed and theirs.destroyed and not legion.forced and not enemy.forced,
+        'Target death grants one reward and releases both participants immediately')
+    enemy.alive = true
+    ours = participant(legion, enemy); theirs = participant(enemy, legion)
+    enemy.alive = false
+    theirs:OnDeath({unit=enemy})
+    ours:OnDeath({unit=enemy})
+    assert(legion.strength == 70 and ours.destroyed and theirs.destroyed,
+        'Victory must be awarded once even when the enemy modifier receives death first')
+    enemy.alive = true
+    ours = participant(legion, enemy); theirs = participant(enemy, legion)
+    legion.forced = other
+    ours:Destroy()
+    assert(legion.forced == other and theirs.destroyed and not enemy.forced,
+        'Expiry ends the pair without clearing another forced target')
+    ours = participant(legion, enemy); theirs = participant(enemy, legion)
+    legion.alive = false
+    theirs:OnDeath({unit=legion})
+    ours:OnDeath({unit=legion})
+    assert(legion.strength == 70 and ours.destroyed and theirs.destroyed and not enemy.forced,
+        'Caster death ends the pair and cannot grant a victory')
+end)
+
 test('Legion Moment of Courage is disabled by Break and ignores allied attacks', function()
     local lc = create_mock_unit('npc_dota_hero_legion_commander', 2, Vector(0, 0, 0))
     local enemy = create_mock_unit('enemy', 3, Vector(100, 0, 0))

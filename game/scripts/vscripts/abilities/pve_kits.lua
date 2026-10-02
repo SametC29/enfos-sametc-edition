@@ -2542,6 +2542,11 @@ function enfos_legion_duel:OnSpellStart()
     if dur <= 0 then dur = 4.5 end
 
     c:EmitSound('Hero_LegionCommander.Duel.Cast')
+    -- End any previous pair before replacing either participant's modifier.
+    for _, participant in ipairs({ c, t }) do
+        local old_duel = participant:FindModifierByName('modifier_enfos_legion_duel_buff')
+        if old_duel then old_duel:Destroy() end
+    end
     c:AddNewModifier(c, self, 'modifier_enfos_legion_duel_buff', { duration = dur, target_idx = t:entindex() })
     t:AddNewModifier(c, self, 'modifier_enfos_legion_duel_buff', { duration = dur, target_idx = c:entindex() })
 end
@@ -2550,13 +2555,38 @@ modifier_enfos_legion_duel_buff=class({})
 function modifier_enfos_legion_duel_buff:IsPurgable() return false end
 function modifier_enfos_legion_duel_buff:IsDebuff() return self:GetParent() ~= self:GetCaster() end
 function modifier_enfos_legion_duel_buff:CheckState()
-    return { [MODIFIER_STATE_SILENCED] = true, [MODIFIER_STATE_MUTED] = true, [MODIFIER_STATE_TAUNTED] = true }
+    return { [MODIFIER_STATE_SILENCED] = true, [MODIFIER_STATE_MUTED] = true,
+        [MODIFIER_STATE_TAUNTED] = true, [MODIFIER_STATE_COMMAND_RESTRICTED] = true }
 end
 function modifier_enfos_legion_duel_buff:DeclareFunctions()
     return { MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE, MODIFIER_EVENT_ON_DEATH }
 end
 function modifier_enfos_legion_duel_buff:OnCreated(kv)
     self.target_idx = kv and kv.target_idx
+    if not IsServer() then return end
+    local parent = self:GetParent()
+    self.parent_idx = parent:entindex()
+    self.target = self.target_idx and EntIndexToHScript(self.target_idx)
+    if not self.target or self.target:IsNull() or not self.target:IsAlive() or not parent:IsAlive() then
+        self:Destroy()
+        return
+    end
+    parent:SetForceAttackTarget(self.target)
+    parent:MoveToTargetToAttack(self.target)
+end
+function modifier_enfos_legion_duel_buff:OnDestroy()
+    if not IsServer() or self.ending then return end
+    self.ending = true
+    local parent = self:GetParent()
+    if not parent:IsNull() and parent:GetForceAttackTarget() == self.target then
+        parent:SetForceAttackTarget(nil)
+    end
+    local target = self.target
+    if not target or target:IsNull() then return end
+    local partner = target:FindModifierByNameAndCaster('modifier_enfos_legion_duel_buff', self:GetCaster())
+    if partner and not partner.ending and partner.target_idx == self.parent_idx then
+        partner:Destroy()
+    end
 end
 function modifier_enfos_legion_duel_buff:GetModifierIncomingDamage_Percentage(params)
     if params.attacker and params.attacker:entindex() ~= self.target_idx then
@@ -2565,14 +2595,20 @@ function modifier_enfos_legion_duel_buff:GetModifierIncomingDamage_Percentage(pa
     return 0
 end
 function modifier_enfos_legion_duel_buff:OnDeath(params)
-    if not IsServer() then return end
+    if not IsServer() or self.ending or not params or not params.unit then return end
+    local parent = self:GetParent()
+    if params.unit ~= parent and params.unit:entindex() ~= self.target_idx then return end
     local c = self:GetCaster()
-    if params.unit and params.unit:entindex() == self.target_idx and params.unit ~= c then
+    local owner_duel = c and not c:IsNull() and c:FindModifierByNameAndCaster('modifier_enfos_legion_duel_buff', c)
+    if owner_duel and not owner_duel.ending and not owner_duel.rewarded and c:IsAlive()
+        and params.unit:entindex() == owner_duel.target_idx and params.unit ~= c then
+        owner_duel.rewarded = true
         local bonus = value(self:GetAbility(), is_boss(params.unit) and 'boss_victory_strength' or 'creep_victory_strength')
         c:EmitSound('Hero_LegionCommander.Duel.Victory')
         effect('particles/units/heroes/hero_legion_commander/legion_commander_duel_victory.vpcf', c)
         if c.ModifyStrength then c:ModifyStrength(bonus) end
     end
+    self:Destroy()
 end
 
 enfos_legion_commanders_banner=class({})

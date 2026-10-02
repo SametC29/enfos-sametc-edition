@@ -117,6 +117,24 @@ test('Axe Call prevents route orders and leaks for normal creeps and runners unt
  end
 end)
 
+test('Legion Duel suspends normal and runner route progress until it ends',function()
+ local AI=require('waves/creep_ai');local orders,leaks=0,0;local dueling=true
+ ExecuteOrderFromTable=function() orders=orders+1 end
+ local unit={IsNull=function() return false end,IsAlive=function() return true end,
+  GetAbsOrigin=function() return Vector(6000,0,0) end,IsStunned=function() return false end,
+  IsRooted=function() return false end,IsChanneling=function() return false end,
+  HasModifier=function(_,name) return dueling and name=='modifier_enfos_legion_duel_buff' end}
+ for _,runner in ipairs({false,true}) do
+  local state={unit=unit,route={Vector(0,0,0),Vector(6000,0,0)},waypointIndex=2,isRunner=runner,
+   lastPos=Vector(6000,0,0),stuckTimer=5,onLeakCallback=function() leaks=leaks+1 end}
+  dueling=true;AI:OnThink(state)
+  assert(orders==0 and leaks==0 and state.waypointIndex==2 and state.stuckTimer==0,
+   'A Duel participant must not leak at the Life Core while forced to fight')
+  dueling=false;AI:OnThink(state);assert(leaks==1,'Route resumes after Duel ends')
+  leaks=0
+ end
+end)
+
 test('point-targeted Spellbringer summons continue from the selected location',function()
  local AI=require('waves/creep_ai')
  local base=AI.ROUTES[3].center
