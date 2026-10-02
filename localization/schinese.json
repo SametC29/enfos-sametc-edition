@@ -1130,7 +1130,7 @@
     "DOTA_Tooltip_Ability_enfos_wd_voodoo_switcheroo_Description": "由阿哈利姆魔晶解锁。持续 2 秒无敌且缴械，每 0.25 秒攻击附近随机敌人，造成 120 + 80% 智力的物理伤害。",
     "DOTA_Tooltip_Ability_enfos_wk_mortal_strike_Description": "攻击有{{crit_chance|percent}}几率造成{{crit_mult|percent}}暴击伤害。暴击还会对{{cleave_radius}}范围内的敌人造成{{cleave_pct|percent}}伤害。",
     "DOTA_Tooltip_Ability_enfos_wk_vampiric_aura_Description": "附近友军攻击造成的伤害会按{{lifesteal_pct|percent}}转化为生命恢复。",
-    "DOTA_Tooltip_Ability_enfos_wk_wraithfire_blast_Description": "发射追踪幽冥火焰弹。命中时造成{{damage}} + {{strength_damage_factor}} × 力量的魔法伤害，并眩晕{{stun_duration}}秒（首领最多{{boss_stun_duration}}秒）；随后每秒造成{{dot_damage}}魔法伤害，持续{{dot_duration}}秒，并减速{{slow_pct|percent}}。",
+    "DOTA_Tooltip_Ability_enfos_wk_wraithfire_blast_Description": "发射追踪幽冥火焰弹。命中时造成{{damage}} + {{strength_damage_factor}} × 力量的魔法伤害，并眩晕{{stun_duration}}秒（首领最多{{boss_stun_duration}}秒）；随后每秒造成{{dot_damage}} + 0.3 × 力量的魔法伤害，持续{{dot_duration}}秒，并减速{{slow_pct|percent}}。",
     "DOTA_Tooltip_Ability_enfos_zeus_arc_lightning_Description": "闪电击中目标，并跳跃至500范围内最多{{jump_count}}个附近敌人。每次命中造成{{damage}}点魔法伤害，外加60%智力值。",
     "DOTA_Tooltip_Ability_enfos_zeus_heavenly_jump_Description": "向前跃进450距离，获得{{bonus_ms_pct|percent}}移动速度，持续{{buff_duration}}秒，并震击最多{{max_targets}}个附近敌人，造成{{damage}}点魔法伤害，外加80%智力值；使其减速{{slow_pct|percent}}，持续{{slow_duration}}秒。",
     "DOTA_Tooltip_Ability_enfos_zeus_lightning_bolt_Description": "召唤闪电击中目标，造成{{damage}}点魔法伤害，外加150%智力值。",

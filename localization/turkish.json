@@ -635,7 +635,7 @@
     "DOTA_Tooltip_Ability_enfos_centaur_colossal_hide": "Devasa Zırh (Colossal Hide)",
     "DOTA_Tooltip_Ability_enfos_centaur_colossal_hide_Description": "Enfos pasifi: {{damage_block}} + Kuvvet × {{strength_block_factor}} fiziksel hasarı engeller ve {{bonus_health_pct}}% azami can kazandırır. Kırılma pasifi devre dışı bırakır.",
     "DOTA_Tooltip_Ability_enfos_wk_wraithfire_blast": "Hortlak Ateşi Patlaması (Wraithfire Blast)",
-    "DOTA_Tooltip_Ability_enfos_wk_wraithfire_blast_Description": "Hortlak ateşi takipli bir mermi olarak fırlatılır. İsabette {{damage}} + {{strength_damage_factor}} × Kuvvet büyü hasarı verir, {{stun_duration}} sn sersemletir (bosslarda en fazla {{boss_stun_duration}} sn); ardından {{dot_duration}} sn boyunca her saniye {{dot_damage}} büyü hasarı verir ve hareket hızını {{slow_pct|percent}} azaltır.",
+    "DOTA_Tooltip_Ability_enfos_wk_wraithfire_blast_Description": "Hortlak ateşi takipli bir mermi olarak fırlatılır. İsabette {{damage}} + {{strength_damage_factor}} × Kuvvet büyü hasarı verir, {{stun_duration}} sn sersemletir (bosslarda en fazla {{boss_stun_duration}} sn); ardından {{dot_duration}} sn boyunca her saniye {{dot_damage}} + 0.3 × Kuvvet büyü hasarı verir ve hareket hızını {{slow_pct|percent}} azaltır.",
     "DOTA_Tooltip_Ability_enfos_wk_vampiric_aura": "Vampirik Aura (Vampiric Aura)",
     "DOTA_Tooltip_Ability_enfos_wk_vampiric_aura_Description": "Yakındaki müttefik birimler saldırı hasarlarının {{lifesteal_pct|percent}} kadarını can olarak geri kazanır.",
     "DOTA_Tooltip_Ability_enfos_wk_mortal_strike": "Ölümcül Vuruş (Mortal Strike)",
