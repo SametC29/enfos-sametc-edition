@@ -15,6 +15,7 @@ acceptance. Record build, ability ranks and Shard/Scepter/Blessing state.
 | W taunt | Normal creeps attack Sven, runners unaffected, boss duration25%. Expiry/purge/Sven death release owned forced attack. Two Svens recasting switch target correctly. | PENDING |
 | Shard | Adds25% Sven maxHP barrier per recipient; reflects40% physical damage actually taken, no magical/friendly/reflection recursion; fifth regen doubled strictly below40% HP. | PENDING |
 | E normal/R | Lethal primary still cleaves others; attack damage/armor/cone fit rank curve. Native cleave effect at hit, stronger R variant. Break/illusions do not cleave. | PENDING |
+| E intermittent-hit retest | Learn E, attack a tight pack repeatedly away from map origin, then attack from a side angle and with critical-hit item. Confirm secondary damage follows actual landed hits and native side reach; distinguish geometry misses from missing dispatch. Record failed hit context and fresh VConsole if any. | PENDING |
 | R rank1/10 | Damage/STR/defense increase, native burst and sustained transform, every1.5s physical pulse within450; expiration restores stats. Main buff cannot be purged. | PENDING |
 | Scepter/Blessing | R +5s/+50% status resistance, nearby allied heroes +50% their own base damage/+10 armor refreshed1.8s; Q teleports during R. Verify removal/expiry and two Svens. | PENDING |
 | Fifth passive | Live regen/maxHP/status resistance track rank; Break disables all three, removing source grants none; death/reconnect do not duplicate free ranks/points. | PENDING |

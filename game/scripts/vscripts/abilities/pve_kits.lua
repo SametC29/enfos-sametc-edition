@@ -687,19 +687,22 @@ function modifier_bulwark_iron_guard:OnAttackLanded(e)
         or (primary.IsNull and primary:IsNull())
         or primary:GetTeamNumber() == c:GetTeamNumber() then return end
 
-    local distance = math.max(0, value(self:GetAbility(), 'cleave_distance'))
-    local startWidth = math.max(0, value(self:GetAbility(), 'cleave_starting_width')) * 0.5
-    local endWidth = math.max(0, value(self:GetAbility(), 'cleave_ending_width')) * 0.5
-    local percent = math.max(0, value(self:GetAbility(), 'cleave_pct')) / 100
-    local baseDamage = e.original_damage or get_atk(c, primary)
+    local distance = math.max(0, value(a, 'cleave_distance'))
+    local startWidth = math.max(0, value(a, 'cleave_starting_width'))
+    local endWidth = math.max(0, value(a, 'cleave_ending_width'))
+    local percent = math.max(0, value(a, 'cleave_pct')) / 100
+    -- OnAttackLanded supplies the resolved attack, including critical hits.
+    -- Do not substitute average attack damage or let original_damage=0 erase it.
+    local baseDamage = tonumber(e.damage) or tonumber(e.original_damage) or 0
     local splashDamage = math.max(0, baseDamage * percent)
+    if splashDamage <= 0 or distance <= 0 then return end
     local particle = 'particles/units/heroes/hero_sven/sven_spell_great_cleave.vpcf'
     if c.HasModifier and c:HasModifier('modifier_bulwark_fortress') then
         particle = 'particles/units/heroes/hero_sven/sven_spell_great_cleave_gods_strength.vpcf'
     end
     -- Use the engine's physical cleave and particle contract, not target-attached
-    -- copies of a cleave root. Enfos KV widths remain full widths; API takes radii.
-    DoCleaveAttack(c, primary, self:GetAbility(), splashDamage, startWidth, endWidth, distance, particle)
+    -- copies of a cleave root. Native width specials map directly to API radii.
+    DoCleaveAttack(c, primary, a, splashDamage, startWidth, endWidth, distance, particle)
 end
 
 bulwark_fortress=class({})

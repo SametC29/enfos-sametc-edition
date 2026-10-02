@@ -355,7 +355,8 @@ test('Sven Great Cleave delegates native damage and visuals with tuned widths an
     ParticleManager.CreateParticle=function() error('Engine owns cleave VFX; no manual target-attached copies') end
     mod:OnAttackLanded({attacker=sven,target=primary,original_damage=200})
     assert(#calls==1 and calls[1][1]==sven and calls[1][2]==primary and calls[1][3]==ab)
-    assert(calls[1][4]==100 and calls[1][5]==75 and calls[1][6]==135 and calls[1][7]==300)
+    assert(calls[1][4]==100 and calls[1][5]==150 and calls[1][6]==270 and calls[1][7]==300,
+        'Native cleave width specials are passed directly, never halved again')
     assert(calls[1][8]=='particles/units/heroes/hero_sven/sven_spell_great_cleave.vpcf')
     primary.alive=false
     mod:OnAttackLanded({attacker=sven,target=primary,original_damage=200})
@@ -8491,6 +8492,23 @@ test('Dragon Knight form cast rejects removed caster and never executes on the c
     IsServer=function() return false end
     a.GetCaster=function() error('Client cast must have no gameplay side effects') end
     a:OnSpellStart();IsServer=oldServer
+end)
+
+test('Sven cleave uses actual landed attack damage including zero-original and critical hits',function()
+    local c=create_mock_unit('npc_dota_hero_sven',2,Vector(0,0,0))
+    local t=create_mock_unit('enfos_creep',3,Vector(100,0,0))
+    local a={GetLevel=function() return 1 end,GetSpecialValueFor=function(_,k)
+        return ({cleave_pct=50,cleave_starting_width=150,cleave_ending_width=270,cleave_distance=400})[k] or 0 end}
+    local m=c:AddNewModifier(c,a,'modifier_bulwark_iron_guard',{})
+    local oldCleave=DoCleaveAttack;local hits={}
+    DoCleaveAttack=function(_,_,_,damage) hits[#hits+1]=damage end
+    m:OnAttackLanded({attacker=c,target=t,damage=200,original_damage=0})
+    assert(hits[1]==100,'Positive landed damage must not be erased by a zero original_damage field')
+    m:OnAttackLanded({attacker=c,target=t,damage=600})
+    assert(hits[2]==300,'Use the real critical-hit event, not average attack damage')
+    m:OnAttackLanded({attacker=c,target=t,damage=0,original_damage=200})
+    assert(#hits==2,'A zero-damage landed attack must not invent cleave damage')
+    DoCleaveAttack=oldCleave
 end)
 
 print(passed .. ' hero kit regression tests passed (mock engine).')

@@ -89,3 +89,46 @@ left untouched and excluded from this work unit.
 
 No Dota launch, NVIDIA changes, Workshop upload or remote publication in this work
 unit. Owner retains runtime testing. See [owner checklist](SVEN_RUNTIME_CHECKLIST.md).
+
+## 2026-10-03: owner reports intermittent E; prior width assumption corrected
+
+No chance roll, cooldown or intentional alternating-hit rule exists in E. A valid
+learned real Sven's landed hostile attack should dispatch cleave unless Break is
+active or resolved damage is zero; eligible secondary targets still depend on
+native cone collision. The owner reports E sometimes failing in local testing;
+the actual failed hit has not been captured. MCP stream health probe failed after
+the available buffer showed game shutdown; an empty follow-up cannot certify an
+error-free match. Disk log has only the earlier unrelated tree-shop errors in the
+inspected filter. Owner engine reproduction remains required.
+
+Re-read current6943 native `sven_great_cleave`: starting width150, ending
+270/300/330/360, distance400/500/600/700. Current MCP's eight-argument
+`DoCleaveAttack` declaration names startRadius/endRadius. Reference-only Workshop
+1571786267 `heroes/hero_sven/sven_great_cleave_lua/sven_great_cleave_lua.lua`
+passes150/360 directly and computes cleave from `params.damage`. No imported code;
+source version/license remains unresolved. An attempted raw Elfansoer path404ed
+and was not used as evidence.
+
+The previous conversion commit `2f00cd6` halved the authored width values because
+the reviewer treated them as full cone widths. This was an unsupported mapping
+for the native convention. The previous mock expected those same half values,
+so passing it did not validate the convention. **That earlier source acceptance
+was too broad.** Retain TUNE identity and native engine dispatch, remove the extra
+halving; authored KV numbers/ten-rank percentages/distance are unchanged. Actual
+side reach doubles relative to the faulty conversion; localized descriptions now
+explicitly describe side reach from the centerline in all four languages.
+
+The old `e.original_damage or get_atk(...)` also ignores `e.damage`: an explicit
+zero original_damage is truthy in Lua and yields zero cleave despite positive
+landed damage; absent original_damage substitutes an average rather than the
+actual critical hit. E now prioritizes numeric landed `damage`, uses original_damage
+only if that field is absent, and invents no average damage. Nonpositive resolved
+damage/distance dispatches nothing. Break, illusion, learned-source and lethal
+primary checks remain.
+
+Updated geometry dispatch regression first failed before repair. Added landed
+damage cases:damage200/original0 =>100 cleave at50%; critical600 without original
+=>300; damage0/original200 =>no dispatch.328 hero mock tests and project checks
+pass. Native collision, event fields/armor interaction, actual secondary damage
+and visible effect still need owner verification; these source defects are
+plausible contributors, not a proven diagnosis of the specific missed hit.

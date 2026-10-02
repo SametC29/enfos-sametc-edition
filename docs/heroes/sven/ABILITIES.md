@@ -372,6 +372,14 @@ The four-language Scepter tooltip now correctly says the ally receives +50% of i
 
 ### Owner-reopened full-kit review — 2026-10-02, ClientVersion6943
 
+2026-10-03 intermittent E follow-up supersedes the prior half-width convention:
+native width specials now pass directly to DoCleaveAttack; no extra division by2.
+Use landed attack `damage` before original_damage, never an average fallback;
+critical damage is retained, zero-original no longer erases positive hit damage,
+and truly zero-damage attacks dispatch no cleave. No random proc/cooldown was
+introduced.328 mocks/checks pass, but the owner's actual missed secondary hit is
+still not captured in engine. See the reopened ledger for corrected evidence.
+
 The owner reported local Sven broken and requested the entire hero be rechecked.
 The [reopened review](../../audit/SVEN_REOPENED_REVIEW_2026-10-02.md) supersedes
 outdated implementation/next-step wording above; old live results remain historical
