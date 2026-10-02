@@ -1276,6 +1276,12 @@
     "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_buff": "Плетение Нотла",
     "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_buff_Description": "Изменение брони: %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%.",
     "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff": "Плетение Нотла",
-    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff_Description": "Изменение брони: %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%."
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff_Description": "Изменение брони: %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%.",
+    "DOTA_Tooltip_modifier_enfos_centaur_hoof_stomp_stun": "Удар копытами",
+    "DOTA_Tooltip_modifier_enfos_centaur_hoof_stomp_stun_Description": "Оглушение. Снимается сильным развеиванием. Длительность на боссе сокращена согласно настройкам способности.",
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_buff": "Нашествие",
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_buff_Description": "Скорость передвижения: %dMODIFIER_PROPERTY_MOVESPEED_ABSOLUTE%; изменение входящего урона: %dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%. Проходит сквозь существ и топчет каждого врага один раз за применение.",
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_slow": "Нашествие",
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_slow_Description": "Изменение скорости передвижения: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
   }
 }

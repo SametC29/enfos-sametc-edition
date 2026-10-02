@@ -1336,6 +1336,12 @@
     "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_buff": "Nothl Weave",
     "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_buff_Description": "Armor adjusted by %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%.",
     "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff": "Nothl Weave",
-    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff_Description": "Armor adjusted by %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%."
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff_Description": "Armor adjusted by %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%.",
+    "DOTA_Tooltip_modifier_enfos_centaur_hoof_stomp_stun": "Hoof Stomp",
+    "DOTA_Tooltip_modifier_enfos_centaur_hoof_stomp_stun_Description": "Stunned. Removed by strong dispels. Boss duration is reduced according to Hoof Stomp.",
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_buff": "Stampede",
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_buff_Description": "Movement speed set to %dMODIFIER_PROPERTY_MOVESPEED_ABSOLUTE%; incoming damage adjusted by %dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%. Move through units and trample each enemy once per cast.",
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_slow": "Stampede",
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_slow_Description": "Movement speed adjusted by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
   }
 }

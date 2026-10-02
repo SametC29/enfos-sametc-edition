@@ -1707,6 +1707,12 @@
     "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_buff": "Nothl Örgüsü",
     "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_buff_Description": "Zırh değişimi: %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%.",
     "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff": "Nothl Örgüsü",
-    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff_Description": "Zırh değişimi: %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%."
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff_Description": "Zırh değişimi: %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%.",
+    "DOTA_Tooltip_modifier_enfos_centaur_hoof_stomp_stun": "Toynak Darbesi",
+    "DOTA_Tooltip_modifier_enfos_centaur_hoof_stomp_stun_Description": "Sersemletildi. Güçlü arındırmayla kaldırılır. Boss süresi Toynak Darbesi ayarına göre azaltılır.",
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_buff": "İzdiham",
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_buff_Description": "Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_ABSOLUTE%; alınan hasar değişimi %dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%. Birimlerin içinden geçer ve her kullanımda her düşmanı bir kez ezer.",
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_slow": "İzdiham",
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_slow_Description": "Hareket hızı değişimi: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
   }
 }

@@ -2218,6 +2218,7 @@ function enfos_centaur_hoof_stomp:OnSpellStart()
 end
 
 modifier_enfos_centaur_hoof_stomp_stun=class({})
+function modifier_enfos_centaur_hoof_stomp_stun:GetTexture() return 'centaur_hoof_stomp' end
 function modifier_enfos_centaur_hoof_stomp_stun:IsDebuff() return true end
 function modifier_enfos_centaur_hoof_stomp_stun:IsPurgable() return false end
 function modifier_enfos_centaur_hoof_stomp_stun:IsPurgeException() return true end
@@ -2264,6 +2265,7 @@ enfos_centaur_return=class({})
 function enfos_centaur_return:GetIntrinsicModifierName() return 'modifier_enfos_centaur_return_passive' end
 
 modifier_enfos_centaur_return_passive=class({})
+function modifier_enfos_centaur_return_passive:GetTexture() return 'centaur_return' end
 function modifier_enfos_centaur_return_passive:IsPurgable() return false end
 function modifier_enfos_centaur_return_passive:IsDebuff() return false end
 function modifier_enfos_centaur_return_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_TAKEDAMAGE } end
@@ -2334,6 +2336,7 @@ function enfos_centaur_stampede:OnSpellStart()
 end
 
 modifier_enfos_centaur_stampede_buff=class({})
+function modifier_enfos_centaur_stampede_buff:GetTexture() return 'centaur_stampede' end
 function modifier_enfos_centaur_stampede_buff:IsPurgable() return false end
 function modifier_enfos_centaur_stampede_buff:GetEffectName() return 'particles/units/heroes/hero_centaur/centaur_stampede_haste.vpcf' end
 function modifier_enfos_centaur_stampede_buff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
@@ -2393,6 +2396,7 @@ function modifier_enfos_centaur_stampede_buff:OnIntervalThink()
 end
 
 modifier_enfos_centaur_stampede_slow=class({})
+function modifier_enfos_centaur_stampede_slow:GetTexture() return 'centaur_stampede' end
 function modifier_enfos_centaur_stampede_slow:IsDebuff() return true end
 function modifier_enfos_centaur_stampede_slow:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
 function modifier_enfos_centaur_stampede_slow:GetModifierMoveSpeedBonus_Percentage() return -value(self:GetAbility(), 'slow_pct') end
@@ -2401,6 +2405,7 @@ enfos_centaur_colossal_hide=class({})
 function enfos_centaur_colossal_hide:GetIntrinsicModifierName() return 'modifier_enfos_centaur_colossal_hide_passive' end
 
 modifier_enfos_centaur_colossal_hide_passive=class({})
+function modifier_enfos_centaur_colossal_hide_passive:GetTexture() return 'centaur_mount' end
 function modifier_enfos_centaur_colossal_hide_passive:IsPurgable() return false end
 function modifier_enfos_centaur_colossal_hide_passive:IsDebuff() return false end
 function modifier_enfos_centaur_colossal_hide_passive:DeclareFunctions()

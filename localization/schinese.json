@@ -1276,6 +1276,12 @@
     "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_buff": "诺斯编织",
     "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_buff_Description": "护甲变化：%fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%。",
     "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff": "诺斯编织",
-    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff_Description": "护甲变化：%fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%。"
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff_Description": "护甲变化：%fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%。",
+    "DOTA_Tooltip_modifier_enfos_centaur_hoof_stomp_stun": "马蹄践踏",
+    "DOTA_Tooltip_modifier_enfos_centaur_hoof_stomp_stun_Description": "受到眩晕。可被强驱散移除。首领的持续时间按马蹄践踏的设置缩短。",
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_buff": "奔袭冲撞",
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_buff_Description": "移动速度设为%dMODIFIER_PROPERTY_MOVESPEED_ABSOLUTE%；受到的伤害调整%dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%。可穿过单位，每次施放对每个敌人践踏一次。",
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_slow": "奔袭冲撞",
+    "DOTA_Tooltip_modifier_enfos_centaur_stampede_slow_Description": "移动速度调整%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。"
   }
 }
