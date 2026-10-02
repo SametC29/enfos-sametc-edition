@@ -2,6 +2,10 @@
 
 Status: IN PROGRESS / ENGINE PENDING. Order16of40. Local commits only; owner controls Dota.
 
+## Review handoff checkpoint
+
+Five-slot source/mock review and focused repairs are recorded below; actual engine acceptance remains pending the linked owner checklist. Native ancillary confusion chickens are absent and not silently claimed. Status-resistance duration behavior is explicitly an engine gate: the MCP API index did not resolve `CDOTA_Modifier_Lua:IgnoreTenacity`, exact ModDota/Valve web searches returned no definitive current documentation, and Workshop Boss Survival Adventure 1571786267 examples plus the IMBA modifier filter show differing custom handling. These are reference-only observations, not proof of current automatic duration adjustment. No speculative resistance multiplier or blanket filter was added. Test Hex and Shackles against ordinary/Boss targets with measured status resistance; record actual duration and channel termination before accepting. Work proceeds to the next hero with this unresolved engine gate retained.
+
 ## Sol re-review: passive rank and removed handles
 
 ### Unique Scepter decision before implementation
