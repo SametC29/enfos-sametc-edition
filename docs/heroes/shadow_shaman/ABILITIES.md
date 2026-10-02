@@ -279,3 +279,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 Change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
 
 2026-09-30 level-cap integration: all five Shadow Shaman abilities now declare KV rank gates. Q/W/E and the Enfos passive use one rank per level; passive rank 1 remains a separate Enfos grant. Mass Serpent Ward ranks 1–10 unlock on levels 5, 10, …, 50. Static KV contract passes; actual rank buttons, level-up points, ultimate badge and match-start level 6 remain PENDING for owner testing.
+
+## 2026-10-02 individual audit started: Shackles lifetime
+
+Current installed6943 native definitions reread directly (same SHA256 as historical snapshot). Classification PVE-CONVERT remains for each stable slot; detailed native/current comparison in [individual ledger](../../audit/SHADOW_SHAMAN_INDIVIDUAL_REVIEW_2026-10-02.md). Shackles now terminates removed/dead source/deleted ability intervals, avoids post-damage stale healing, rejects switched-allied recipient, safely ends lost-target channels, and clears its scoped recipient before teardown without deleted-caster calls. Regression failed before repair;283behavior tests/full checks pass after. No damage/rank/timing balance changed. Entire hero remains IN PROGRESS; particle ownership, audio, cast/control/model/upgrade/resource and owner-engine acceptance are not closed by this lifetime fix.

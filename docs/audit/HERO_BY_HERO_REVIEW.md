@@ -23,7 +23,7 @@ Per hero: read its instructions/dossier; compare installed native definitions; t
 | 13 | Phantom Assassin | SOURCE REVIEW COMPLETE / ENGINE PENDING — projectile lifetime/CPs, critical records/evaluation metadata/lethal splash, recipient heal guards, Blur/Strike owned/model effects, cast/root/bank/icons and four-locale text repaired; individual ledger retains native deviations and owner gates |
 | 14 | Zeus | SOURCE REVIEW COMPLETE / ENGINE PENDING — deleted-target/caster guards, beam/model/ring CPs, casts/root/bank/status text repaired; individual ledger tracks owner gates and remaining unique-upgrade design follow-up |
 | 15 | Witch Doctor | SOURCE REVIEW COMPLETE / ENGINE PENDING — tracking Cask, owned Maledict/Restoration effects, ward spawn/origin/lifetime, Switcheroo model, Gris-Gris lifecycle and four-locale modifier/dispel text repaired; individual ledger retains unique-upgrade and owner gates |
-| 16 | Shadow Shaman | NOT STARTED |
+| 16 | Shadow Shaman | IN PROGRESS — native6943 comparison and Shackles lifetime diagnosis recorded; individual kit review underway |
 | 17 | Bristleback | NOT STARTED |
 | 18 | Slark | NOT STARTED |
 | 19 | Luna | NOT STARTED |

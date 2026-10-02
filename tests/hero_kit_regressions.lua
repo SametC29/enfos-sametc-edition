@@ -966,6 +966,61 @@ test('Shadow Shaman Fowl Play does not consume its save until lethal damage is p
     assert(cooldownStarts == 1, 'the same cooldown cannot trigger twice')
 end)
 
+test('Shadow Shaman Shackles stops invalid channel sources and rejects stale post-damage healing', function()
+    for _, state in ipairs({'dead_source','deleted_source','deleted_ability','source_deleted_by_damage'}) do
+        local hero = create_mock_unit('npc_dota_hero_shadow_shaman',2,Vector(0,0,0))
+        local target = create_mock_unit('ss_shackles_lifetime',3,Vector(100,0,0))
+        mock_world_units = {hero,target}
+        local removed = state == 'deleted_source'
+        hero.IsNull = function() return removed end
+        hero.IsAlive = function() return state ~= 'dead_source' end
+        hero.Heal = function() error('Invalid source must never be healed') end
+        local a = enfos_ss_shackles()
+        a.GetCaster = function() return hero end
+        a.IsNull = function() return state == 'deleted_ability' end
+        a.GetSpecialValueFor = function() return 80 end
+        a.EndChannel = function() error('Invalid ability must not be dereferenced to end channel') end
+        local m = modifier_enfos_ss_shackles_channel()
+        m.GetParent = function() return hero end
+        m.GetAbility = function() return a end
+        m.target_idx = target:entindex()
+        local ended = false
+        m.Destroy = function() ended = true end
+        local old_damage = ApplyDamage
+        ApplyDamage = function()
+            assert(state == 'source_deleted_by_damage','Invalid source must not deal damage')
+            removed = true
+            return 55
+        end
+        local ok, err = pcall(function() m:OnIntervalThink() end)
+        ApplyDamage = old_damage
+        assert(ok,err)
+        assert(ended,'Invalid channel must terminate its owned interval')
+    end
+end)
+
+test('Shadow Shaman Shackles teardown is scoped once and avoids deleted casters', function()
+    for _, removed in ipairs({false,true}) do
+        local hero = create_mock_unit('npc_dota_hero_shadow_shaman',2,Vector(0,0,0))
+        hero.IsNull = function() return removed end
+        hero.StopSound = function() assert(not removed,'Deleted source must not receive StopSound') end
+        local target = create_mock_unit('ss_scoped_teardown',3,Vector(100,0,0))
+        mock_world_units = {hero,target}
+        local removals = 0
+        target.RemoveModifierByNameAndCaster = function(_,name,caster)
+            assert(name == 'modifier_enfos_ss_shackles_debuff' and caster == hero and not removed)
+            removals = removals + 1
+        end
+        local m = modifier_enfos_ss_shackles_channel()
+        m.GetCaster = function() return hero end
+        m.target_idx = target:entindex()
+        m:OnDestroy()
+        m:OnDestroy()
+        assert(m.target_idx == nil and removals == (removed and 0 or 1),
+            'Teardown must remove its own debuff once without passing a deleted caster')
+    end
+end)
+
 test('Shadow Shaman Shackles shortens boss channel with its boss control duration', function()
     local ability = enfos_ss_shackles()
     local target = create_mock_unit('enfos_boss_test', 3, Vector(0, 0, 0))

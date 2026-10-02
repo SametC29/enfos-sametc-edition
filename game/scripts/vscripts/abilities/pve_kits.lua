@@ -6684,6 +6684,7 @@ function enfos_ss_shackles:OnSpellStart()
 end
 function enfos_ss_shackles:OnChannelFinish(interrupted)
     local c = self:GetCaster()
+    if not c or (c.IsNull and c:IsNull()) then return end
     c:RemoveModifierByName('modifier_enfos_ss_shackles_channel')
 end
 
@@ -6692,7 +6693,10 @@ function modifier_enfos_ss_shackles_channel:OnDestroy()
     if not IsServer() then return end
     local caster=self:GetCaster()
     local target=self.target_idx and EntIndexToHScript(self.target_idx)
-    if target and not target:IsNull() then target:RemoveModifierByNameAndCaster('modifier_enfos_ss_shackles_debuff',caster) end
+    self.target_idx = nil
+    if target and not target:IsNull() and caster and not caster:IsNull() then
+        target:RemoveModifierByNameAndCaster('modifier_enfos_ss_shackles_debuff',caster)
+    end
     if caster and not caster:IsNull() then caster:StopSound('Hero_ShadowShaman.Shackles') end
 end
 function modifier_enfos_ss_shackles_channel:OnCreated(kv)
@@ -6703,16 +6707,22 @@ end
 function modifier_enfos_ss_shackles_channel:OnIntervalThink()
     local c = self:GetParent()
     local a = self:GetAbility()
-    local t = EntIndexToHScript(self.target_idx or 0)
-    if not t or (t.IsNull and t:IsNull()) or not t:IsAlive() then
-        if a and a.EndChannel then a:EndChannel(true) else self:Destroy() end
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive()
+        or not a or (a.IsNull and a:IsNull()) then self:Destroy(); return end
+    local t = self.target_idx and EntIndexToHScript(self.target_idx) or nil
+    if not t or (t.IsNull and t:IsNull()) or not t:IsAlive()
+        or t:GetTeamNumber() == c:GetTeamNumber() then
+        if a.EndChannel then a:EndChannel(true) end
+        self:Destroy()
         return
     end
 
-    local base = (a and value(a, 'dps')) or 140
+    local base = value(a, 'dps')
     local int = get_int(c)
     local dmg = (base + (int * 0.6)) * 0.5
     damage(a, t, dmg, DAMAGE_TYPE_MAGICAL)
+    -- Damage callbacks may remove the source or granted ability synchronously.
+    if (c.IsNull and c:IsNull()) or not c:IsAlive() or (a.IsNull and a:IsNull()) then self:Destroy(); return end
     c:Heal(dmg, a)
     effect('particles/units/heroes/hero_shadowshaman/shadowshaman_shackle.vpcf', t)
 end

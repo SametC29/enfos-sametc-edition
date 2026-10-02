@@ -1,0 +1,21 @@
+# Shadow Shaman individual review — 2026-10-02
+
+Status: IN PROGRESS / ENGINE PENDING. Order16of40. Local commits only; owner controls Dota.
+
+## Sources and classification before implementation
+
+Read hero AGENTS/dossier, current pve_kits/npc_abilities/hero slots and relevant shared research/hero contracts. Installed Dota6943/SourceRevision11069754 native scripts/npc/heroes/npc_dota_hero_shadow_shaman.txt reread directly: SHA256762dfd6468712a21ed5c0e8bb16b23580e7da8edbbf35f5f0654313b143a4539. Native definition output cached locally; no C++ behavior inferred as certified. ModDota https://moddota.com/abilities/ability-keyvalues (accessed2026-10-02) is metadata guidance. MCP corpus finds Pathfinders2208582400 native-derived Shackles KV, no external code/assets imported.
+
+| Stable ability | Class | Native/current comparison |
+| --- | --- | --- |
+| enfos_ss_ether_shock | PVE-CONVERT | Native cone radii200/300,length600,3→9targets; custom radius600 around target, bounded rank target count, damage+INT and6%Bossmaxhealthcap. Target priority/beam CPs/lethal callbacks under review; no native cone parity claimed. |
+| enfos_ss_hex | PVE-CONVERT | Native strong-dispellable transformation,100movespeed; custom silence/disarm/mute and140movespeed, Boss35%duration. Model/hex identity/dispel/icons under review. |
+| enfos_ss_shackles | PVE-CONVERT | Native0.1tick,2.4→4.2channel,strongdispellable,heal_percentage100; custom0.5tick,3.5channel(Boss35%),rankDPS+0.6INT and matching raw tick healing. Own channel/debuff, generic effect per tick. Lifecycle/persistent effect likely faults. |
+| enfos_ss_mass_serpent_ward | PVE-CONVERT | Native10wards45sec,hit-countHP, mega variant; custom8wards30sec450HP,damage+0.4INT via existing bounded summon manager; generic Scepter multiplier. Summon resource/ownership/limits and unique upgrade remain review gates. |
+| enfos_ss_fowl_play | PVE-CONVERT | Native lethal-save chicken/brief reduction identity with120CD; custom minimumhealth/cooldown/movement save. Break/illusions, cooldown/refresh/death/event/VFX/SFX and descriptions remain review gates. |
+
+## Shackles periodic lifetime diagnosis before repair
+
+Channel tick validates only recipient. Removed/dead caster can still reach Heal; deleted ability can reach EndChannel when recipient is lost. ApplyDamage may synchronously delete caster/ability before Heal. Repair invalid source/ability loop termination before rank/entity calls, reject switched-allied recipient, and revalidate source/ability after damage before raw-heal and particle. Preserve current configured damage/heal amounts, tick/channel/Boss timings and exact stable IDs. EndChannel only on valid ability, then destroy owned periodic modifier; OnChannelFinish ignores removed caster. Teardown must clear target handle before removal and never pass deleted caster to RemoveModifierByNameAndCaster. MCP EndChannel(bool) signature verified. Actual engine channel callbacks and stun/audio cleanup remain owner PENDING. Persistent particle misuse is separate unfinished work, not fixed by guards.
+
+Shackles focused result: regression first failed when an invalid source still dealt damage. Invalid/dead caster or deleted ability now destroys the interval before damage/healing; source/ability is revalidated after damage, and switched-allied/lost target interrupts only a valid ability and destroys the owned interval. Finish ignores removed caster; teardown clears recipient index before scoped removal and never passes a removed caster. If caster entity itself is removed, its finite recipient debuff expires by existing duration rather than guessing another caster handle. Matching raw tick healing and0.5cadence/3.5(Boss35%)channel remain unchanged. Full checks pass with283behavior regressions,200ability/223modifier sweeps,zero failures. Mocks cover initial invalid sources, synchronous source deletion and repeated/deleted-source teardown. Actual engine death/channel timing, purge/control/VFX/SFX and raw-versus-effective heal acceptance remain pending; generic released Shackles particle per tick remains unresolved.
