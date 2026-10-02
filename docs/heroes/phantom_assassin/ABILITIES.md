@@ -10,7 +10,7 @@ Hero: `npc_dota_hero_phantom_assassin`; role: Carry. Progression target: hero le
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
 | 1 | `enfos_pa_stifling_dagger` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | phantom_assassin_stifling_dagger |
-| 2 | `enfos_pa_phantom_strike` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | phantom_assassin_phantom_strike |
+| 2 | `enfos_pa_phantom_strike` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | abilities/pve_kits | phantom_assassin_phantom_strike |
 | 3 | `enfos_pa_blur` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | phantom_assassin_blur |
 | 4 | `enfos_pa_coup_de_grace` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | phantom_assassin_coup_de_grace |
 | 5 | `enfos_pa_immaterial` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | phantom_assassin_immaterial |

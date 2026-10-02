@@ -2284,6 +2284,8 @@
 	// =========================================================================
 	"enfos_pa_stifling_dagger"
 	{
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_1"
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -2315,8 +2317,11 @@
 
 	"enfos_pa_phantom_strike"
 	{
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_2"
+		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_YES"
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES"
 		"BaseClass"					"ability_lua"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityTextureName"		"phantom_assassin_phantom_strike"
@@ -2338,6 +2343,7 @@
 
 	"enfos_pa_blur"
 	{
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_3"
 		"IsBreakable" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"

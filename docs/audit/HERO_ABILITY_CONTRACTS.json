@@ -1351,7 +1351,7 @@
           "slot": 2,
           "id": "enfos_pa_phantom_strike",
           "maxLevel": 10,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES",
           "callbacks": [
             "OnSpellStart"
           ],
