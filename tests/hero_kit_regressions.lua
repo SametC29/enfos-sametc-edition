@@ -3264,6 +3264,42 @@ test('Wraith King Reincarnation uses configured delay and separates boss slow du
     assert(slow:GetModifierMoveSpeedBonus_Percentage() == -40)
 end)
 
+test('Wraith King lethal Q and rebirth damage do not apply control to deleted targets',function()
+    local wk=create_mock_unit('npc_dota_hero_skeleton_king',2,Vector(0,0,0))
+    local victim=create_mock_unit('lethal_wk_target',3,Vector(100,0,0))
+    victim.AddNewModifier=function() error('post-lethal modifier recipient') end
+    local q=enfos_wk_wraithfire_blast();q.GetCaster=function() return wk end
+    q.GetSpecialValueFor=function(_,key) return ({damage=200,stun_duration=1.5,dot_duration=2})[key] or 0 end
+    local oldDamage=ApplyDamage
+    ApplyDamage=function(event) event.victim.IsNull=function() return true end;event.victim.alive=false end
+    local qok,qerror=pcall(function() q:OnProjectileHit(victim,victim:GetAbsOrigin()) end)
+    victim.IsNull=function() return false end;victim.alive=true;mock_world_units={wk,victim}
+    wk.IsReincarnating=function() return true end
+    local r=enfos_wk_reincarnation();r.IsNull=function() return false end;r.UseResources=function() end
+    r.GetSpecialValueFor=function(_,key) return ({damage=200,slow_radius=900,slow_duration=2})[key] or 0 end
+    local m=setmetatable({GetParent=function() return wk end,GetAbility=function() return r end},modifier_enfos_wk_reincarnation_passive)
+    local rok,rerror=pcall(function() m:OnDeath({unit=wk}) end)
+    ApplyDamage=oldDamage
+    assert(qok,'Lethal Q must stop before post-hit control: '..tostring(qerror))
+    assert(rok,'Lethal rebirth burst must skip post-hit slow: '..tostring(rerror))
+end)
+
+test('Wraith King DoT stops for removed sources but survives a valid dead caster',function()
+    local wk=create_mock_unit('npc_dota_hero_skeleton_king',2,Vector(0,0,0))
+    wk.strength=100;wk.alive=false
+    local enemy=create_mock_unit('wk_dot_target',3,Vector(100,0,0))
+    local removed=false
+    local a={IsNull=function() return removed end,GetCaster=function() return wk end,
+        GetSpecialValueFor=function(_,key) return key=='dot_damage' and 40 or 0 end}
+    local destroyed=false
+    local m=setmetatable({GetCaster=function() return wk end,GetParent=function() return enemy end,
+        GetAbility=function() return a end,Destroy=function() destroyed=true end},modifier_enfos_wk_wraithfire_blast_dot)
+    applied_damages={};m:OnIntervalThink()
+    assert(#applied_damages==1 and applied_damages[1].damage==70,'Valid caster death must not cancel an applied DoT')
+    removed=true;m:OnIntervalThink()
+    assert(destroyed and #applied_damages==1,'Removed ability must end the DoT without stale damage')
+end)
+
 test('Wraith King Skeleton Army charges ignore friendly deaths and respect KV cap', function()
     local wk = create_mock_unit('npc_dota_hero_skeleton_king', 2, Vector(0, 0, 0))
     local enemy = create_mock_unit('creep_enemy', 3, Vector(100, 0, 0))

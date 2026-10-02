@@ -3907,6 +3907,7 @@ function enfos_wk_wraithfire_blast:OnProjectileHit(target, location)
     if base <= 0 then base = 200 end
     local damage_amount = base + (get_str(c) * value(self, 'strength_damage_factor'))
     damage(self, target, damage_amount, DAMAGE_TYPE_MAGICAL)
+    if target:IsNull() or not target:IsAlive() then return true end
 
     local stun_duration = value(self, 'stun_duration')
     if stun_duration <= 0 then stun_duration = 1.5 end
@@ -3937,11 +3938,18 @@ function modifier_enfos_wk_wraithfire_blast_dot:OnCreated()
     self:StartIntervalThink(1.0)
 end
 function modifier_enfos_wk_wraithfire_blast_dot:OnIntervalThink()
+    if not IsServer() then return end
     local c = self:GetCaster()
     local p = self:GetParent()
+    local a = self:GetAbility()
+    if not c or c:IsNull() or not p or p:IsNull() or not p:IsAlive()
+        or not a or (a.IsNull and a:IsNull()) then
+        self:Destroy()
+        return
+    end
     local str = get_str(c)
-    local base = (self.GetAbility and value(self:GetAbility(), 'dot_damage')) or 80
-    damage(self:GetAbility(), p, base + (str * 0.3), DAMAGE_TYPE_MAGICAL)
+    local base = value(a, 'dot_damage')
+    damage(a, p, base + (str * 0.3), DAMAGE_TYPE_MAGICAL)
 end
 
 enfos_wk_vampiric_aura=class({})
@@ -4044,12 +4052,14 @@ function modifier_enfos_wk_reincarnation_passive:OnDeath(params)
 
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), value(a, 'slow_radius'))) do
         damage(a, u, dmg, DAMAGE_TYPE_MAGICAL)
-        local slow_duration = value(a, 'slow_duration')
-        if is_boss(u) then
-            local boss_duration = value(a, 'boss_slow_duration')
-            if boss_duration > 0 then slow_duration = boss_duration end
+        if not u:IsNull() and u:IsAlive() then
+            local slow_duration = value(a, 'slow_duration')
+            if is_boss(u) then
+                local boss_duration = value(a, 'boss_slow_duration')
+                if boss_duration > 0 then slow_duration = boss_duration end
+            end
+            u:AddNewModifier(c, a, 'modifier_enfos_wk_rebirth_slow', {duration=slow_duration})
         end
-        u:AddNewModifier(c, a, 'modifier_enfos_wk_rebirth_slow', {duration=slow_duration})
     end
 end
 
