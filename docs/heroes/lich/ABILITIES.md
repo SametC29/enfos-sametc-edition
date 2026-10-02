@@ -262,6 +262,14 @@ Change/test record: all five abilities now expose ten KV ranks; the complete 200
 
 ## Slot 5: `enfos_lich_ice_aura`
 
+2026-10-03 individual ownership repair: external armor/mana buffs now follow the
+actual Lich caster's Break and learned/valid ability state; recipient Break does
+not disable another hero's aura. Source/recipient lifecycle diagnostics are
+debug-gated and bounded, with no getter logging or extra gameplay operations.
+See [individual ledger](../../audit/LICH_INDIVIDUAL_REVIEW_2026-10-03.md).
+Engine linger, multiple sources, rank replication, death and illusion policy
+verification remain pending; no runtime acceptance is implied.
+
 Classification: REPLACE
 Native counterpart: `Project-specific Enfos passive; native Lich innates remain distinct` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
 Decision and PvE identity rationale: REPLACE because this fifth ability is an Enfos-authored passive with no direct native counterpart; its hero identity comes from the adjacent Dota kit.

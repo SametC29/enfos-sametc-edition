@@ -7544,6 +7544,7 @@ test('Lich Ice Aura stops benefiting allies while its source is broken', functio
     local lich = create_mock_unit('npc_dota_hero_lich', 2, Vector(0, 0, 0))
     local aura = modifier_enfos_lich_ice_aura()
     aura.GetParent = function() return lich end
+    aura.GetAbility = function() return {GetLevel=function() return 1 end} end
     lich.PassivesDisabled = function() return false end
     assert(aura:IsAura() == true, 'Lich Ice Aura should be active while passives are enabled')
     lich.PassivesDisabled = function() return true end
@@ -8657,6 +8658,24 @@ test('Lich shield cast uses the verified sound event and precaches its declaring
     a:Precache({});PrecacheResource=oldPrecache
     assert(bank=='soundevents/game_sounds_heroes/game_sounds_lich.vsndevts')
     assert(modifier_enfos_lich_frost_shield:GetTexture()=='lich_frost_shield')
+end)
+
+test('Lich external aura follows caster Break rather than recipient Break',function()
+    local c=create_mock_unit('npc_dota_hero_lich',2,Vector(0,0,0))
+    local ally=create_mock_unit('npc_dota_hero_sven',2,Vector(100,0,0))
+    local rank=1;local removed=false
+    local a={GetLevel=function() return rank end,IsNull=function() return removed end,
+        GetSpecialValueFor=function(_,k) return ({bonus_armor=8,mana_regen=4,radius=900})[k] or 0 end}
+    local m=ally:AddNewModifier(c,a,'modifier_enfos_lich_ice_aura_buff',{})
+    ally.PassivesDisabled=function() return true end
+    assert(m:GetModifierPhysicalArmorBonus()==8 and m:GetModifierConstantManaRegen()==4,
+        'Break on another hero does not disable Lich external aura')
+    c.PassivesDisabled=function() return true end
+    assert(m:GetModifierPhysicalArmorBonus()==0 and m:GetModifierConstantManaRegen()==0,
+        'Lingering aura buff must honor Break on its actual source')
+    c.PassivesDisabled=function() return false end
+    rank=0;assert(m:GetModifierPhysicalArmorBonus()==0 and m:GetModifierConstantManaRegen()==0)
+    rank=1;removed=true;assert(m:GetModifierPhysicalArmorBonus()==0 and m:GetModifierConstantManaRegen()==0)
 end)
 
 print(passed .. ' hero kit regression tests passed (mock engine).')

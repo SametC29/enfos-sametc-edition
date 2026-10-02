@@ -7,10 +7,11 @@
 - DESIGN DECISION: Q TUNE; W PVE-CONVERT; E PVE-CONVERT; R PVE-CONVERT;
   D REPLACE. Rationales and unresolved comparisons follow below.
 - PROVEN DEFECTS: Q post-damage handles, W orphan pulses/invalid cast and undefined
-  W sound repaired; other findings under review.
-- MOCK/REGRESSION VALIDATION: PASS for the recorded Q/W cases (337 suite cases).
+  W sound, D recipient-vs-source Break ownership repaired; other findings under review.
+- MOCK/REGRESSION VALIDATION: PASS for the recorded Q/W/D cases (338 suite cases).
 - RUNTIME TRACE COVERAGE: PARTIAL, Q cast/absorb/source-loss/primary/splash summary;
-  W cast/pulse/source-loss added; detailed W lifecycle and E/R/D remain open.
+  W cast/pulse/source-loss and D source/recipient lifecycle added; detailed
+  W lifecycle, D live Break/rank transitions and E/R remain open.
 - OWNER RUNTIME TRACE EVIDENCE: NOT TESTED.
 - OWNER VISUAL/AUDIO VERIFICATION: NOT TESTED.
 - OWNER ENGINE ACCEPTANCE: NOT TESTED.
@@ -98,3 +99,36 @@ reference/design inspection, not an undocumented change in this lifetime fix.
 337 behavior mocks pass after repair. Generated structural inventory is refreshed
 only for Precache/GetTexture callbacks; project checks verify repository contracts
 and do not certify cold-start asset loading or in-match particles/audio.
+
+## D external-aura ownership and inactive sources
+
+Retain REPLACE: Ice Aura is authored allied armor/mana support, not native Death
+Charge. Installed MCP CDOTA_Buff:GetCaster identifies the ability's owner;
+GetParent identifies the recipient. [Current API docs](https://docs.moddota.com/lua_server/)
+agree. Existing recipient properties instead tested the ally's PassivesDisabled,
+so Break on Sven removed Lich's external buff while a lingering buff after Break
+on Lich still supplied armor/mana. The former aura mock tested only IsAura and
+never covered the recipient properties; it could not establish correct ownership.
+Project Crystal Maiden's recipient contract was also inspected for consistency.
+Reference-only Workshop1571786267 item_speed_rare grep shows source-owned
+PassivesDisabled gating; no code imported and no license/version assumption.
+
+Both properties now resolve active learned valid ability and actual caster; Break
+on the caster zeros both, ally Break alone does not. Aura emission uses the same
+source contract. Removed/unlearned sources and invalid recipients grant nothing.
+Keep the existing illusion-recipient exclusion; do not silently redesign that
+policy. Source-illusion duplication, engine linger/removal, two-Lich strongest
+buff selection, live rank replication and death/respawn remain pending tests.
+
+New source/recipient create/refresh/remove callbacks emit only bounded diagnostic
+records when the common flag is on; no timer, new state modifier, search or
+cleanup is added. No getter is logged. Explicit verified frost_nova icons are
+provided. Trace flags reflect source eligibility, not proof of stats received;
+engine recipient values and illusion exclusions must still be verified.
+
+The independent regression failed before repair with a Broken recipient. It now
+checks caster/recipient Break separately plus unlearned and removed abilities.
+The historical IsAura fixture now supplies an ability because a real intrinsic
+modifier has one; missing-source emission is no longer accepted.338 behavior
+mocks pass. Engine aura timing, visuals/tooltips and all advanced interactions
+remain NOT TESTED/PENDING.
