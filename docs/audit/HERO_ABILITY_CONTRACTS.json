@@ -1381,7 +1381,7 @@
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
           "hasSound": true,
-          "hasParticle": false
+          "hasParticle": true
         },
         {
           "slot": 4,

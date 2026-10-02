@@ -4298,6 +4298,10 @@ end
 
 modifier_enfos_pa_blur_active=class({})
 function modifier_enfos_pa_blur_active:GetTexture() return 'phantom_assassin_blur' end
+function modifier_enfos_pa_blur_active:GetEffectName()
+    return 'particles/units/heroes/hero_phantom_assassin/phantom_assassin_active_blur.vpcf'
+end
+function modifier_enfos_pa_blur_active:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_pa_blur_active:CheckState() return { [MODIFIER_STATE_INVISIBLE] = true } end
 
 enfos_pa_coup_de_grace=class({})
