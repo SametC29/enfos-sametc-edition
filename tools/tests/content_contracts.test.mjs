@@ -36,6 +36,12 @@ test('Dragon Knight native sound bank is included in the addon precache list',()
     'Dragon Knight Lua abilities emit Hero_DragonKnight events and need its native sound bank precached');
 });
 
+test('Dragon Knight Elder Dragon Form keeps its native no-cast-animation behavior',()=>{
+  const abilities=read('npc_abilities_custom.txt').DOTAAbilities;
+  assert.equal(abilities.enfos_dk_elder_dragon_form.AbilityCastAnimation,'ACT_INVALID',
+    'native Elder Dragon Form explicitly suppresses a cast gesture during transformation');
+});
+
 
 test('Elites are fully retired from the NPC roster and wave runtime',()=>{
   const units=read('npc_units_custom.txt').DOTAUnits;
