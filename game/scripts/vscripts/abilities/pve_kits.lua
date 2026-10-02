@@ -4863,21 +4863,29 @@ function enfos_wd_death_ward:OnProjectileHit_ExtraData(target, location, extra)
 end
 function enfos_wd_death_ward:OnSpellStart()
     local c = self:GetCaster()
+    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
     local pos = self:GetCursorPosition()
     c:EmitSound('Hero_WitchDoctor.Death_WardBuild')
     local channel_duration = value(self, 'channel_duration')
     channel_duration = channel_duration > 0 and channel_duration or 8.0
     local ward = CreateUnitByName and CreateUnitByName('npc_dota_witch_doctor_death_ward', pos, true, c, c, c:GetTeamNumber()) or nil
-    if ward and not ward:IsNull() then
-        if ward.SetOwner then ward:SetOwner(c) end
-        if ward.SetIdleAcquire then ward:SetIdleAcquire(false) end
-        if ward.SetAcquisitionRange then ward:SetAcquisitionRange(0) end
-        ward:AddNewModifier(c, self, 'modifier_enfos_wd_death_ward_visual', { duration = channel_duration })
-        effect('particles/units/heroes/hero_witchdoctor/witchdoctor_ward_summon.vpcf', ward)
+    if not ward or ward:IsNull() then
+        c:StopSound('Hero_WitchDoctor.Death_WardBuild')
+        return
+    end
+    if ward.SetOwner then ward:SetOwner(c) end
+    if ward.SetIdleAcquire then ward:SetIdleAcquire(false) end
+    if ward.SetAcquisitionRange then ward:SetAcquisitionRange(0) end
+    ward:AddNewModifier(c, self, 'modifier_enfos_wd_death_ward_visual', { duration = channel_duration })
+    if ParticleManager then
+        -- Summon offsets [-24,-8,-140] are authored from the native attack attachment.
+        local p = ParticleManager:CreateParticle('particles/units/heroes/hero_witchdoctor/witchdoctor_ward_summon.vpcf', PATTACH_POINT_FOLLOW, ward)
+        ParticleManager:SetParticleControlEnt(p, 0, ward, PATTACH_POINT_FOLLOW, 'attach_attack1', ward:GetAbsOrigin(), false)
+        ParticleManager:ReleaseParticleIndex(p)
     end
     c:AddNewModifier(c, self, 'modifier_enfos_wd_death_ward_channel', {
         duration = channel_duration, x = pos.x, y = pos.y, z = pos.z,
-        ward_idx = ward and not ward:IsNull() and ward:entindex() or nil,
+        ward_idx = ward:entindex(),
     })
 end
 function enfos_wd_death_ward:OnChannelFinish(interrupted)

@@ -4228,6 +4228,40 @@ test('Witch Doctor Maledict removes its tick when the ability is deleted', funct
     assert(destroyed and #applied_damages==0,'Invalid ability must stop without dealing damage')
 end)
 
+test('Witch Doctor Death Ward rejects invalid sources and stops failed summon channels', function()
+    local old_create = CreateUnitByName
+    local ok, err = pcall(function()
+        for _, state in ipairs({'removed', 'dead'}) do
+            local hero = create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(0,0,0))
+            hero.IsNull = function() return state == 'removed' end
+            hero.IsAlive = function() return state ~= 'dead' end
+            hero.EmitSound = function() error('Invalid source must not start WardBuild') end
+            local a = enfos_wd_death_ward()
+            a.GetCaster = function() return hero end
+            a.GetCursorPosition = function() error('Invalid source must be rejected before cast-position access') end
+            a:OnSpellStart()
+        end
+        local hero = create_mock_unit('npc_dota_hero_witch_doctor',2,Vector(0,0,0))
+        local started, stopped, channel = 0, 0, false
+        hero.EmitSound = function() started = started + 1 end
+        hero.StopSound = function(_,event)
+            assert(event == 'Hero_WitchDoctor.Death_WardBuild')
+            stopped = stopped + 1
+        end
+        hero.AddNewModifier = function() channel = true end
+        CreateUnitByName = function() return nil end
+        local a = enfos_wd_death_ward()
+        a.GetCaster = function() return hero end
+        a.GetCursorPosition = function() return Vector(300,200,0) end
+        a.GetSpecialValueFor = function() return 8 end
+        a:OnSpellStart()
+        assert(started == 1 and stopped == 1 and not channel,
+            'Failed ward creation must stop its sound and never start a recurring channel')
+    end)
+    CreateUnitByName = old_create
+    assert(ok, err)
+end)
+
 test('Witch Doctor Death Ward creates the native ward and removes it when channel ends', function()
     local wd = create_mock_unit('npc_dota_hero_witch_doctor', 2, Vector(0, 0, 0))
     local ward = create_mock_unit('npc_dota_witch_doctor_death_ward', 2, Vector(300, 200, 0))
