@@ -2929,10 +2929,12 @@ function enfos_cm_crystal_nova:OnSpellStart()
 
     for _, u in ipairs(enemies(c, pos, r)) do
         damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
-        u:AddNewModifier(c, self, 'modifier_enfos_cm_crystal_nova_slow', { duration = value(self, 'duration') })
-        local gm = c:FindAbilityByName('enfos_cm_glacial_mastery')
-        if gm and not (c.PassivesDisabled and c:PassivesDisabled()) then
-            u:AddNewModifier(c, gm, 'modifier_enfos_cm_frost_stack', { duration = value(gm, 'frost_stack_duration') })
+        if u and not u:IsNull() and u:IsAlive() then
+            u:AddNewModifier(c, self, 'modifier_enfos_cm_crystal_nova_slow', { duration = value(self, 'duration') })
+            local gm = c:FindAbilityByName('enfos_cm_glacial_mastery')
+            if gm and not (c.PassivesDisabled and c:PassivesDisabled()) then
+                u:AddNewModifier(c, gm, 'modifier_enfos_cm_frost_stack', { duration = value(gm, 'frost_stack_duration') })
+            end
         end
     end
 end
@@ -2982,7 +2984,7 @@ function modifier_enfos_cm_frostbite_debuff:OnIntervalThink()
     damage(a, p, dmg, DAMAGE_TYPE_MAGICAL)
     local gm = c and c.FindAbilityByName and c:FindAbilityByName('enfos_cm_glacial_mastery')
     if c and c.PassivesDisabled and c:PassivesDisabled() then gm = nil end
-    if gm then
+    if gm and p and not p:IsNull() and p:IsAlive() then
         p:AddNewModifier(c, gm, 'modifier_enfos_cm_frost_stack', { duration = value(gm, 'frost_stack_duration') })
     end
 end
@@ -3083,12 +3085,15 @@ function modifier_enfos_cm_freezing_field_channel:OnIntervalThink()
     local targets = enemies(c, c:GetAbsOrigin(), radius)
     if #targets > 0 then
         local t = targets[RandomInt(1, #targets)]
+        local origin = t:GetAbsOrigin()
         damage(a, t, dmg, DAMAGE_TYPE_MAGICAL)
-        t:AddNewModifier(c, a, 'modifier_enfos_cm_freezing_field_slow', { duration = value(a, 'slow_duration') })
-        effect_at_position('particles/units/heroes/hero_crystalmaiden/maiden_freezing_field_explosion.vpcf', t:GetAbsOrigin())
+        effect_at_position('particles/units/heroes/hero_crystalmaiden/maiden_freezing_field_explosion.vpcf', origin)
         local gm = c.FindAbilityByName and c:FindAbilityByName('enfos_cm_glacial_mastery')
-        if gm and not (c.PassivesDisabled and c:PassivesDisabled()) then
-            t:AddNewModifier(c, gm, 'modifier_enfos_cm_frost_stack', { duration = value(gm, 'frost_stack_duration') })
+        if not t:IsNull() and t:IsAlive() then
+            t:AddNewModifier(c, a, 'modifier_enfos_cm_freezing_field_slow', { duration = value(a, 'slow_duration') })
+            if gm and not (c.PassivesDisabled and c:PassivesDisabled()) then
+                t:AddNewModifier(c, gm, 'modifier_enfos_cm_frost_stack', { duration = value(gm, 'frost_stack_duration') })
+            end
         end
     end
 end

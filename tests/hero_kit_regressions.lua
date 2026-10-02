@@ -2446,6 +2446,42 @@ test('Crystal Maiden Frostbite tick reads ranked values and boosts creep damage'
         'creep tick = (100 DPS + 50 Int scaling) x 0.5 sec x 3 multiplier')
 end)
 
+test('Crystal Maiden damage callbacks do not add control or frost stacks to removed lethal targets', function()
+    local oldDamage=ApplyDamage
+    for _,skill in ipairs({'nova','frostbite','field'}) do
+        local cm=create_mock_unit('npc_dota_hero_crystal_maiden',2,Vector(0,0,0))
+        local enemy=create_mock_unit('enemy',3,Vector(100,0,0))
+        mock_world_units={cm,enemy}
+        local gm=enfos_cm_glacial_mastery()
+        gm.GetSpecialValueFor=function() return 5 end
+        cm.FindAbilityByName=function() return gm end
+        local origin=enemy.origin
+        ApplyDamage=function(info)
+            info.victim.alive=false
+            info.victim.IsNull=function() return true end
+            info.victim.GetAbsOrigin=function() error('Removed lethal target cannot supply a new position') end
+        end
+        if skill=='nova' then
+            local a=enfos_cm_crystal_nova()
+            a.GetCaster=function() return cm end;a.GetCursorPosition=function() return origin end
+            a.GetSpecialValueFor=function(_,key) return ({radius=425,damage=130,duration=4.5,int_damage_factor=1.2})[key] or 0 end
+            a:OnSpellStart()
+        else
+            local a=skill=='frostbite' and enfos_cm_frostbite() or enfos_cm_freezing_field()
+            a.GetCaster=function() return cm end
+            a.GetSpecialValueFor=function(_,key)
+                return ({radius=800,explosion_damage=120,damage_per_second=100,damage_interval=0.5,creep_damage_multiplier=3})[key] or 0
+            end
+            local m=skill=='frostbite' and modifier_enfos_cm_frostbite_debuff() or modifier_enfos_cm_freezing_field_channel()
+            m.GetParent=function() return skill=='frostbite' and enemy or cm end
+            m.GetCaster=function() return cm end;m.GetAbility=function() return a end
+            m:OnIntervalThink()
+        end
+        assert(next(enemy.modifiers)==nil,'Lethal '..skill..' damage must not apply control or frost stack to a removed target')
+    end
+    ApplyDamage=oldDamage
+end)
+
 test('Crystal Maiden Arcane Aura grants configured ally and owner values and honors Break', function()
     local cm = create_mock_unit('npc_dota_hero_crystal_maiden', 2, Vector(0, 0, 0))
     local ally = create_mock_unit('cm_aura_ally', 2, Vector(100, 0, 0))
