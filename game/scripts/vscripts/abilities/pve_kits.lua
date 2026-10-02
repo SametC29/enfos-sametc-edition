@@ -3214,6 +3214,7 @@ function enfos_dazzle_poison_touch:OnSpellStart()
 end
 
 modifier_enfos_dazzle_poison_touch_debuff=class({})
+function modifier_enfos_dazzle_poison_touch_debuff:GetTexture() return 'dazzle_poison_touch' end
 function modifier_enfos_dazzle_poison_touch_debuff:GetEffectName() return 'particles/units/heroes/hero_dazzle/dazzle_poison_debuff.vpcf' end
 function modifier_enfos_dazzle_poison_touch_debuff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_dazzle_poison_touch_debuff:IsDebuff() return true end
@@ -3275,6 +3276,7 @@ function enfos_dazzle_shallow_grave:OnSpellStart()
 end
 
 modifier_enfos_dazzle_shallow_grave_buff=class({})
+function modifier_enfos_dazzle_shallow_grave_buff:GetTexture() return 'dazzle_shallow_grave' end
 function modifier_enfos_dazzle_shallow_grave_buff:IsPurgable() return false end
 function modifier_enfos_dazzle_shallow_grave_buff:GetEffectName() return 'particles/units/heroes/hero_dazzle/dazzle_shallow_grave.vpcf' end
 function modifier_enfos_dazzle_shallow_grave_buff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
@@ -3349,7 +3351,7 @@ function enfos_dazzle_bad_juju:OnSpellStart()
     local cost = c:GetHealth() * cost_pct / 100
     if c:GetHealth() > cost then c:SetHealth(math.max(1, math.floor(c:GetHealth() - cost))) end
 
-    c:EmitSound('Hero_Dazzle.BadJuju.Cast')
+    c:EmitSound('Hero_Dazzle.BadJuJu.Cast')
     for _, u in ipairs(enemies(c, c:GetAbsOrigin(), value(self, 'radius'))) do
         u:AddNewModifier(c, self, 'modifier_enfos_dazzle_bad_juju_debuff', { duration = duration })
         apply_dazzle_weave(c, u)
@@ -3361,6 +3363,8 @@ function enfos_dazzle_bad_juju:OnSpellStart()
 end
 
 modifier_enfos_dazzle_bad_juju_passive=class({})
+function modifier_enfos_dazzle_bad_juju_passive:IsHidden() return true end
+function modifier_enfos_dazzle_bad_juju_passive:GetTexture() return 'dazzle_bad_juju' end
 function modifier_enfos_dazzle_bad_juju_passive:IsPurgable() return false end
 function modifier_enfos_dazzle_bad_juju_passive:IsDebuff() return false end
 function modifier_enfos_dazzle_bad_juju_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_ABILITY_FULLY_CAST } end
@@ -3381,6 +3385,8 @@ function modifier_enfos_dazzle_bad_juju_passive:OnAbilityFullyCast(params)
 end
 
 modifier_enfos_dazzle_bad_juju_buff=class({})
+function modifier_enfos_dazzle_bad_juju_buff:GetTexture() return 'dazzle_bad_juju' end
+function modifier_enfos_dazzle_bad_juju_buff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_dazzle_bad_juju_buff:GetEffectName() return 'particles/units/heroes/hero_dazzle/dazzle_armor_friend.vpcf' end
 function modifier_enfos_dazzle_bad_juju_buff:DeclareFunctions() return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS } end
 function modifier_enfos_dazzle_bad_juju_buff:GetModifierPhysicalArmorBonus()
@@ -3388,6 +3394,8 @@ function modifier_enfos_dazzle_bad_juju_buff:GetModifierPhysicalArmorBonus()
 end
 
 modifier_enfos_dazzle_bad_juju_debuff=class({})
+function modifier_enfos_dazzle_bad_juju_debuff:GetTexture() return 'dazzle_bad_juju' end
+function modifier_enfos_dazzle_bad_juju_debuff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_dazzle_bad_juju_debuff:IsDebuff() return true end
 function modifier_enfos_dazzle_bad_juju_debuff:GetEffectName() return 'particles/units/heroes/hero_dazzle/dazzle_armor_enemy.vpcf' end
 function modifier_enfos_dazzle_bad_juju_debuff:DeclareFunctions() return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS } end
@@ -3399,10 +3407,13 @@ enfos_dazzle_nothl_weave=class({})
 function enfos_dazzle_nothl_weave:GetIntrinsicModifierName() return 'modifier_enfos_dazzle_nothl_weave_aura' end
 
 modifier_enfos_dazzle_nothl_weave_aura=class({})
+function modifier_enfos_dazzle_nothl_weave_aura:GetTexture() return 'dazzle_weave' end
 function modifier_enfos_dazzle_nothl_weave_aura:IsHidden() return true end
 function modifier_enfos_dazzle_nothl_weave_aura:IsPurgable() return false end
 
 modifier_enfos_dazzle_nothl_weave_buff=class({})
+function modifier_enfos_dazzle_nothl_weave_buff:GetTexture() return 'dazzle_weave' end
+function modifier_enfos_dazzle_nothl_weave_buff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_dazzle_nothl_weave_buff:IsPurgable() return false end
 function modifier_enfos_dazzle_nothl_weave_buff:GetEffectName() return 'particles/units/heroes/hero_dazzle/dazzle_armor_friend.vpcf' end
 function modifier_enfos_dazzle_nothl_weave_buff:DeclareFunctions() return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS } end
@@ -3411,6 +3422,8 @@ function modifier_enfos_dazzle_nothl_weave_buff:GetModifierPhysicalArmorBonus()
 end
 
 modifier_enfos_dazzle_nothl_weave_debuff=class({})
+function modifier_enfos_dazzle_nothl_weave_debuff:GetTexture() return 'dazzle_weave' end
+function modifier_enfos_dazzle_nothl_weave_debuff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 function modifier_enfos_dazzle_nothl_weave_debuff:IsDebuff() return true end
 function modifier_enfos_dazzle_nothl_weave_debuff:IsPurgable() return false end
 function modifier_enfos_dazzle_nothl_weave_debuff:GetEffectName() return 'particles/units/heroes/hero_dazzle/dazzle_armor_enemy.vpcf' end

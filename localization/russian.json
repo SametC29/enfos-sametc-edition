@@ -438,7 +438,7 @@
     "DOTA_Tooltip_Ability_enfos_sniper_keen_eye_shard_description": "+15% скорости передвижения. Атаки наносят дополнительно 12% чистого урона.",
     "DOTA_Tooltip_Ability_enfos_cm_freezing_field_scepter_description": "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%.",
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery_shard_description": "+15% усиления заклинаний.",
-    "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju_scepter_description": "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%.",
+    "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju_scepter_description": "Перезарядка Bad Juju сокращается на 25%. Броня и пассивное сокращение перезарядок не меняются; ультимейт не наносит прямого урона для усиления.",
     "DOTA_Tooltip_Ability_enfos_dazzle_nothl_weave_shard_description": "Исходящее лечение +25%.",
     "DOTA_Tooltip_Ability_enfos_centaur_stampede_scepter_description": "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%.",
     "DOTA_Tooltip_Ability_enfos_centaur_colossal_hide_shard_description": "+350 здоровья. Отражает 15% входящего вражеского урона физическим уроном.",
@@ -1019,7 +1019,7 @@
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery": "Ледяное мастерство",
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery_Description": "Заклинания накладывают на врагов заряды Льда на {{frost_stack_duration}} сек. При {{frost_stack_limit}} зарядах цель замораживается на {{freeze_duration}} сек. и получает {{max_hp_damage_pct}}% от максимального здоровья плюс {{shatter_damage}} магического урона (дополнительный урон боссам ограничен {{boss_shatter_damage_cap}}); ближайшие враги тоже получают урон.",
     "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju": "Дурное вуду",
-    "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju_Description": "Тратит {{self_health_cost_pct}}% текущего здоровья, давая союзникам поблизости +{{ally_armor}} брони и снижая броню врагов на {{enemy_armor_reduction}} на {{effect_duration}} сек. Также сокращает перезарядку других способностей на {{cooldown_reduction}} сек.",
+    "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju_Description": "Тратит {{self_health_cost_pct}}% текущего здоровья, оставляя минимум 1. На {{effect_duration}} сек. даёт союзникам в радиусе {{radius}} +{{ally_armor}} брони и снижает броню врагов на {{enemy_armor_reduction}}. Пассивно: применение другой способности, не предмета, сокращает оставшиеся перезарядки остальных способностей на {{cooldown_reduction}} сек. Сам Bad Juju это не активирует; истощение отключает пассивный эффект.",
     "DOTA_Tooltip_Ability_enfos_dazzle_nothl_weave": "Плетение Нотл",
     "DOTA_Tooltip_Ability_enfos_dazzle_nothl_weave_Description": "Способности Dazzle повышают броню затронутых союзников и снижают броню затронутых врагов. Каждый заряд изменяет броню на {{armor_change}}, складывается до {{max_stacks}} раз и длится {{duration}} сек.",
     "DOTA_Tooltip_Ability_enfos_dazzle_poison_touch": "Ядовитое касание",
@@ -1264,6 +1264,18 @@
     "DOTA_Tooltip_modifier_enfos_cm_frost_stack": "Мороз",
     "DOTA_Tooltip_modifier_enfos_cm_frost_stack_Description": "При %dMODIFIER_PROPERTY_TOOLTIP% зарядах цель замерзает и раскалывается. Новые применения обновляют время зарядов. Истощение источника предотвращает новые срабатывания.",
     "DOTA_Tooltip_modifier_enfos_cm_frozen": "Заморожен",
-    "DOTA_Tooltip_modifier_enfos_cm_frozen_Description": "Оглушен и заморожен. Для боссов время заморозки сокращено множителем пассивной способности."
+    "DOTA_Tooltip_modifier_enfos_cm_frozen_Description": "Оглушен и заморожен. Для боссов время заморозки сокращено множителем пассивной способности.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_poison_touch_debuff": "Ядовитое касание",
+    "DOTA_Tooltip_modifier_enfos_dazzle_poison_touch_debuff_Description": "Периодический физический урон от яда. Атаки Dazzle обновляют длительность. Число зарядов показывает дополнительные проценты замедления. Изменение скорости: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_shallow_grave_buff": "Неглубокая могила",
+    "DOTA_Tooltip_modifier_enfos_dazzle_shallow_grave_buff_Description": "Обычный урон не снижает здоровье ниже 1 во время защиты. Получаемое лечение увеличено на %dMODIFIER_PROPERTY_HEAL_AMPLIFY_PERCENTAGE_TARGET%%%.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_bad_juju_buff": "Плохое джуджу",
+    "DOTA_Tooltip_modifier_enfos_dazzle_bad_juju_buff_Description": "Изменение брони: %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_bad_juju_debuff": "Плохое джуджу",
+    "DOTA_Tooltip_modifier_enfos_dazzle_bad_juju_debuff_Description": "Изменение брони: %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_buff": "Плетение Нотла",
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_buff_Description": "Изменение брони: %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff": "Плетение Нотла",
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff_Description": "Изменение брони: %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%."
   }
 }

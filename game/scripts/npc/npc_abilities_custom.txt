@@ -1905,6 +1905,7 @@
 	// =========================================================================
 	"enfos_dazzle_poison_touch"
 	{
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_PHYSICAL"
@@ -1932,6 +1933,7 @@
 
 	"enfos_dazzle_shallow_grave"
 	{
+		"AbilityCastAnimation" "ACT_DOTA_SHALLOW_GRAVE"
 		"SpellImmunityType" "SPELL_IMMUNITY_ALLIES_YES"
 		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
 		"BaseClass"					"ability_lua"
@@ -1956,6 +1958,7 @@
 
 	"enfos_dazzle_shadow_wave"
 	{
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_3"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
@@ -1983,6 +1986,7 @@
 
 	"enfos_dazzle_bad_juju"
 	{
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_4"
 		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"

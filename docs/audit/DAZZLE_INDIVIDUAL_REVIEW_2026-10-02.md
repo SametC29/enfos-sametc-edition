@@ -1,4 +1,4 @@
-# Dazzle individual review — in progress / owner engine pending
+# Dazzle individual review — source complete / owner engine pending
 
 Own AGENTS/full ABILITIES, shared research/hero/reference contracts read. All five current Lua/KV slots and Weave helper read; native definitions freshly extracted from installed ClientVersion6943 / SourceRevision11069754 / Oct01 2026. Historical6941 dossier does not certify the current patch. Local commits only; agent does not launch Dota or upload Workshop.
 
@@ -51,3 +51,29 @@ Add verified debuff root to existing addon precache. Preserve existing projectil
 ## Bad Juju minimum health input
 
 At1HP the percentage cost passed0.9HP to SetHealth, whose current MCP signature accepts an integer. That sub-one fractional input cannot safely express a living1HP result; actual engine conversion/crash/death was not observed. Added an explicit integer floor with minimum1 while preserving the configured current-health percentage and existing insufficient-health branch. Extended current cost/CDR regression first fails on sub-one HP, then passes both1000→800HP and1→1HP. This is a source input-boundary repair, not evidence of an observed runtime death.
+
+## Presentation, animation and upgrades
+
+Decoded installed6943 Dazzle model explicitly lists ACT_DOTA_CAST_ABILITY_1, ACT_DOTA_SHALLOW_GRAVE, ACT_DOTA_CAST_ABILITY_3 and ACT_DOTA_CAST_ABILITY_4, including cosmetic variants. Fresh native definitions agree for Q/W/E and retained legacy Bad Juju R. Custom slots omitted explicit animations; carry the verified four activity declarations rather than assuming a slot fallback. R zero cast point versus native0.2sec is retained; gesture visibility at zero cast point remains owner pending. No guessed animation rate, resume-attack suppression or channel added.
+
+Installed Dazzle sound bank has finite Poison_Touch3.29297sec, Shallow_Grave5.348458sec, Shadow_Wave2.821633sec and BadJuJu.Cast2.703605sec. R now uses exact event spelling; case sensitivity of prior BadJuju spelling is unproven. No new looping sound/timer. Q remains cast audio plus owned poison feedback; no fabricated projectile travel or periodic Poison_Tick emission. Real audible timing/Grave sound exceeding low-rank duration and cold-start bank loading remain pending.
+
+Eight modifiers have native texture IDs; six visible statuses have four-language names/property descriptions, twelve mirrors regenerated. Armor effects explicitly follow recipients and remain modifier-owned. Hidden Bad Juju intrinsic no longer adds an unexplained separate buff icon; its passive is described on R. Visible Poison count describes bonus slow percentage points, not number of attacks. Source currently initializes first Weave stack at1 and caps/refreshes same-caster stacks; real different-caster and hostile/friendly coexistence pending.
+
+Shared Support Shard supplies25%outgoing heal amplification, not native Weave60heal. Generic Scepter supplies25%R cooldown reduction; its40%ultimate spell amplifier has no direct R damage here and does not amplify Q/E/fifth. Four-language R Scepter descriptions now state this limitation rather than promise damage. R description distinguishes active armor swing from another-non-item-cast passive CDR, excludes its own cast and describes Break suppression. Native Nothl Projection, native E Scepter mode and native Weave Shard are not implemented/promised. Inventory/consumed/Ascended Blessing recognition and actual cooldown/heal getters remain owner gates.
+
+## Source closure / owner acceptance
+
+All five current implementations and fresh native counterparts, Weave helper, roster/ten-rank gates, shared upgrade manager, translations and decoded native particles/bank/model reviewed individually. No external code imported, full hero replacement, permanent progression/talent system or new global service. Final checks245behavior regressions,200/200abilities and223/223modifiers across ranks1–10,0failed checks. No Dota launch or Workshop upload; source closure permits the next queued hero, not an ENGINE PASS.
+
+| Area | Source evidence / remaining owner gate |
+| --- | --- |
+| Gameplay/targeting | Q radial8cap/own-attack refresh/replicated slow and stale tick, W friendly save/nonpurge, E selected bounded chain/immune physical radius, R percentage cost/armor/other-cast CDR, fifth per-recipient armor/Break reviewed. Native cone/travel deviation retained. Spell block/reflect/immune, actual healing and corpse/reflection callbacks pending. |
+| Ranks/progression | Five stable slots/ten ranks Q/W/E/fifth1/1 and R5/5; free fifth rank, level50 and49ordinary points preserved. Actual unlock buttons, point budget, intrinsic area, rank refresh/death/reconnect pending. |
+| VFX/SFX/animation | Owned poison/Grave/armor roots, finite E CP0/1 links, exact finite event names, native model activities and precache verified from installed resources. Moving recipients, link vertical alignment, Grave halo height, poison/endcap cleanup, cosmetic variants and cast visibility pending. |
+| Modifiers/cleanup | No unowned immediate radial projectile or Grave root; poison invalid owner/ability stops; integer bonus slow replicated. Native nonpurge Grave explicitly enforced. Strong purge/kill exceptions, Weave different-caster refresh, actual property sync, lost owner and death cleanup pending. |
+| Boss/upgrades | E immune physical selection aligned; Q/R retain nonpiercing query. Generic Support Shard25%healing and Scepter25%R cooldown documented, no R direct-damage amp promised. Actual Boss armor/control/phase/health-floor exceptions, healing/category getters and native/consumed upgrade state pending. |
+| Performance/reconnect | Eight Q recipients, six E jumps plus initial, existing R600queries/ability6slot CDR remain bounded; no new timers/global scan. Dense overlapping waves, same-caster refresh, particle endcaps, shared manager respawn/reconnect restoration pending. |
+| Localization/VConsole | Four source languages/twelve mirrors synchronized; decoded new native poison root added to existing precache. Rendered modifier/ability numeric values, all languages, cold start and owner VConsole capture pending. |
+
+Owner evening checklist: fresh local Dazzle match; Q capped radial targets versus immunity, own/ally attacks,27→60%slow/visible stack values,6sec refresh/purge/caster death/removal; W self/ally/basic/immune target,1HPsurvival,heal amplification,expiry/dispel/recast/native kill exceptions and halo/audio; E targeted heal/six jumps/no duplicate recipients, two moving endpoints/finite cleanup, physical damage around each ally including immune Boss and Weave stacks; R10%cost at normal/1HP,±5armor8sec, another spell versus own cast/item/Break CDR, Scepter/Blessing25%R cooldown and Shard25%heal; fifth stack1→5/6sec refresh/Break/different casters, ten-rank HUD/free passive/points/reconnect, all translations/effects/audio and fresh VConsole. All ENGINE PENDING.

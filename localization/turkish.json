@@ -611,7 +611,7 @@
     "DOTA_Tooltip_Ability_enfos_dazzle_shadow_wave": "Gölge Dalgası (Shadow Wave)",
     "DOTA_Tooltip_Ability_enfos_dazzle_shadow_wave_Description": "Hedef dostu ve yakınındaki en fazla {{max_bounces}} dost birimi iyileştirir: her hedefe {{heal_amount}} + Zekânın {{int_heal_factor}} katı can verir. İyileştirilen her dostun çevresindeki {{damage_radius}} menzilli düşmanlar aynı miktarda fiziksel hasar alır.",
     "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju": "Kara Büyü (Bad Juju)",
-    "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju_Description": "Canının %{{self_health_cost_pct}}’ini harcayarak 600 menzildeki dostlara {{effect_duration}} saniyeliğine +{{ally_armor}} zırh, düşmanlara -{{enemy_armor_reduction}} zırh verir. Ayrıca diğer yeteneklerin bekleme süresini {{cooldown_reduction}} saniye azaltır.",
+    "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju_Description": "Mevcut canın %{{self_health_cost_pct}} kadarını harcar, can en az 1 kalır. {{radius}} alanındaki müttefiklere {{effect_duration}} sn boyunca +{{ally_armor}} zırh verir, düşman zırhını {{enemy_armor_reduction}} azaltır. Pasif: başka bir eşya dışı yetenek kullanmak, diğer yeteneklerin kalan bekleme sürelerini {{cooldown_reduction}} sn azaltır. Kötü Juju’nun kendi kullanımı bu azaltımı tetiklemez; Kırılma pasifi devre dışı bırakır.",
     "DOTA_Tooltip_Ability_enfos_dazzle_nothl_weave": "Nothl Örgüsü (Nothl Weave)",
     "DOTA_Tooltip_Ability_enfos_dazzle_nothl_weave_Description": "Enfos pasifi: Dazzle’ın yetenekleri etkiledikleri dostlara zırh kazandırır, düşmanların zırhını azaltır. Her yük {{armor_change}} zırh değiştirir; en fazla {{max_stacks}} yük birikir ve {{duration}} sn sürer. Kırılma bu pasifi devre dışı bırakır.",
     "npc_dota_hero_centaur": "Centaur Warrunner",
@@ -1067,7 +1067,7 @@
     "DOTA_Tooltip_Ability_enfos_sniper_keen_eye_shard_description": "+%15 hareket hızı. Saldırılar hasarın %12’si kadar ek saf hasar verir.",
     "DOTA_Tooltip_Ability_enfos_cm_freezing_field_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery_shard_description": "+%15 büyü hasarı.",
-    "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
+    "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju_scepter_description": "Kötü Juju bekleme süresi %25 azalır. Zırh etkileri ve pasif bekleme süresi azaltımı değişmez; bu ulti doğrudan hasar vermediği için hasarı artırılmaz.",
     "DOTA_Tooltip_Ability_enfos_dazzle_nothl_weave_shard_description": "Verilen iyileştirme +%25.",
     "DOTA_Tooltip_Ability_enfos_centaur_stampede_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_centaur_colossal_hide_shard_description": "+350 can. Düşmandan gelen hasarın %15’ini fiziksel olarak yansıtır.",
@@ -1695,6 +1695,18 @@
     "DOTA_Tooltip_modifier_enfos_cm_frost_stack": "Ayaz",
     "DOTA_Tooltip_modifier_enfos_cm_frost_stack_Description": "%dMODIFIER_PROPERTY_TOOLTIP% yükte hedef donar ve parçalanır. Yeni uygulamalar yüklerin süresini yeniler. Kaynaktaki Kırılma yeni yük tetiklenmesini engeller.",
     "DOTA_Tooltip_modifier_enfos_cm_frozen": "Donmuş",
-    "DOTA_Tooltip_modifier_enfos_cm_frozen_Description": "Sersemletilmiş ve donmuştur. Bossların donma süresi pasifte ayarlanan Boss çarpanı ile azaltılır."
+    "DOTA_Tooltip_modifier_enfos_cm_frozen_Description": "Sersemletilmiş ve donmuştur. Bossların donma süresi pasifte ayarlanan Boss çarpanı ile azaltılır.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_poison_touch_debuff": "Zehirli Dokunuş",
+    "DOTA_Tooltip_modifier_enfos_dazzle_poison_touch_debuff_Description": "Periyodik fiziksel zehir hasarı alır. Dazzle’ın saldırıları süreyi yeniler. Yük sayısı ek yavaşlatma yüzdesini gösterir. Hareket hızı değişimi: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_shallow_grave_buff": "Sığ Mezar",
+    "DOTA_Tooltip_modifier_enfos_dazzle_shallow_grave_buff_Description": "Koruma sırasında sıradan hasar canı 1’in altına düşüremez. Alınan iyileştirme artışı: %dMODIFIER_PROPERTY_HEAL_AMPLIFY_PERCENTAGE_TARGET%%%.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_bad_juju_buff": "Kötü Juju",
+    "DOTA_Tooltip_modifier_enfos_dazzle_bad_juju_buff_Description": "Zırh değişimi: %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_bad_juju_debuff": "Kötü Juju",
+    "DOTA_Tooltip_modifier_enfos_dazzle_bad_juju_debuff_Description": "Zırh değişimi: %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_buff": "Nothl Örgüsü",
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_buff_Description": "Zırh değişimi: %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff": "Nothl Örgüsü",
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff_Description": "Zırh değişimi: %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%."
   }
 }

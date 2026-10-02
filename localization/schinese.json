@@ -438,7 +438,7 @@
     "DOTA_Tooltip_Ability_enfos_sniper_keen_eye_shard_description": "+15%移速，攻击额外造成12%纯粹伤害。",
     "DOTA_Tooltip_Ability_enfos_cm_freezing_field_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery_shard_description": "+15%法术增强。",
-    "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
+    "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju_scepter_description": "邪能冷却时间减少25%。护甲效果及被动冷却缩减不变；该终极技能没有可增幅的直接伤害。",
     "DOTA_Tooltip_Ability_enfos_dazzle_nothl_weave_shard_description": "施加的治疗效果+25%。",
     "DOTA_Tooltip_Ability_enfos_centaur_stampede_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
     "DOTA_Tooltip_Ability_enfos_centaur_colossal_hide_shard_description": "+350生命，将15%敌方伤害以物理伤害反弹。",
@@ -1019,7 +1019,7 @@
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery": "冰川精通",
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery_Description": "技能会使敌人获得持续{{frost_stack_duration}}秒的冰霜层数。达到{{frost_stack_limit}}层时冻结目标{{freeze_duration}}秒，并造成其最大生命值{{max_hp_damage_pct}}%的伤害及{{shatter_damage}}点魔法伤害（首领额外伤害上限{{boss_shatter_damage_cap}}）；附近敌人也会受到爆裂伤害。",
     "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju": "邪恶巫术",
-    "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju_Description": "消耗当前生命值的 {{self_health_cost_pct}}%，使附近友军获得 +{{ally_armor}} 护甲并使敌人护甲降低 {{enemy_armor_reduction}}，持续 {{effect_duration}} 秒。还会使其他技能冷却缩短 {{cooldown_reduction}} 秒。",
+    "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju_Description": "消耗当前生命值的{{self_health_cost_pct}}%，至少保留1点生命值。为{{radius}}范围内友军增加{{ally_armor}}护甲，降低敌人{{enemy_armor_reduction}}护甲，持续{{effect_duration}}秒。被动：施放其他非物品技能，使其余技能的剩余冷却时间减少{{cooldown_reduction}}秒。邪能本身不会触发此效果；破坏使被动失效。",
     "DOTA_Tooltip_Ability_enfos_dazzle_nothl_weave": "诺斯之织",
     "DOTA_Tooltip_Ability_enfos_dazzle_nothl_weave_Description": "戴泽的技能会提升受影响友军的护甲并降低受影响敌人的护甲。每层改变{{armor_change}}点护甲，最多叠加{{max_stacks}}层，持续{{duration}}秒。",
     "DOTA_Tooltip_Ability_enfos_dazzle_poison_touch": "剧毒之触",
@@ -1264,6 +1264,18 @@
     "DOTA_Tooltip_modifier_enfos_cm_frost_stack": "冰霜",
     "DOTA_Tooltip_modifier_enfos_cm_frost_stack_Description": "达到%dMODIFIER_PROPERTY_TOOLTIP%层时冻结并碎裂。新的施加刷新层数持续时间。来源被破坏时不会产生新的触发。",
     "DOTA_Tooltip_modifier_enfos_cm_frozen": "冻结",
-    "DOTA_Tooltip_modifier_enfos_cm_frozen_Description": "被眩晕并冻结。首领的冻结时间按被动技能设定的首领倍率缩短。"
+    "DOTA_Tooltip_modifier_enfos_cm_frozen_Description": "被眩晕并冻结。首领的冻结时间按被动技能设定的首领倍率缩短。",
+    "DOTA_Tooltip_modifier_enfos_dazzle_poison_touch_debuff": "剧毒之触",
+    "DOTA_Tooltip_modifier_enfos_dazzle_poison_touch_debuff_Description": "持续受到物理毒伤。戴泽的攻击刷新持续时间。层数表示额外减速百分点。移动速度变化：%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。",
+    "DOTA_Tooltip_modifier_enfos_dazzle_shallow_grave_buff": "薄葬",
+    "DOTA_Tooltip_modifier_enfos_dazzle_shallow_grave_buff_Description": "保护期间普通伤害不会使生命值低于1。受到的治疗增加%dMODIFIER_PROPERTY_HEAL_AMPLIFY_PERCENTAGE_TARGET%%%。",
+    "DOTA_Tooltip_modifier_enfos_dazzle_bad_juju_buff": "邪能",
+    "DOTA_Tooltip_modifier_enfos_dazzle_bad_juju_buff_Description": "护甲变化：%fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%。",
+    "DOTA_Tooltip_modifier_enfos_dazzle_bad_juju_debuff": "邪能",
+    "DOTA_Tooltip_modifier_enfos_dazzle_bad_juju_debuff_Description": "护甲变化：%fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%。",
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_buff": "诺斯编织",
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_buff_Description": "护甲变化：%fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%。",
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff": "诺斯编织",
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff_Description": "护甲变化：%fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%。"
   }
 }

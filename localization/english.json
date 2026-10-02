@@ -482,7 +482,7 @@
     "DOTA_Tooltip_Ability_enfos_sniper_keen_eye_shard_description": "+15% movement speed. Attacks deal 12% additional pure damage.",
     "DOTA_Tooltip_Ability_enfos_cm_freezing_field_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery_shard_description": "+15% spell amplification.",
-    "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
+    "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju_scepter_description": "Bad Juju cooldown reduced by 25%. Its armor effects and passive cooldown reduction are unchanged; this ultimate deals no direct damage to amplify.",
     "DOTA_Tooltip_Ability_enfos_dazzle_nothl_weave_shard_description": "Outgoing healing +25%.",
     "DOTA_Tooltip_Ability_enfos_centaur_stampede_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
     "DOTA_Tooltip_Ability_enfos_centaur_colossal_hide_shard_description": "+350 health. Reflects 15% of incoming enemy damage as physical damage.",
@@ -1081,7 +1081,7 @@
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery": "Glacial Mastery",
     "DOTA_Tooltip_Ability_enfos_cm_glacial_mastery_Description": "Abilities apply Frost stacks to enemies for {{frost_stack_duration}}s. At {{frost_stack_limit}} stacks, the target is frozen for {{freeze_duration}}s and takes {{max_hp_damage_pct}}% of its max health plus {{shatter_damage}} magical damage (bonus boss damage capped at {{boss_shatter_damage_cap}}); nearby enemies are also hit.",
     "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju": "Bad Juju",
-    "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju_Description": "Spends {{self_health_cost_pct}}% of current health to grant nearby allies +{{ally_armor}} armor and reduce enemy armor by {{enemy_armor_reduction}} for {{effect_duration}} seconds. Also reduces other abilities' cooldowns by {{cooldown_reduction}} seconds.",
+    "DOTA_Tooltip_Ability_enfos_dazzle_bad_juju_Description": "Spends {{self_health_cost_pct}}% of current health, keeping at least 1 health, to grant allies within {{radius}} +{{ally_armor}} armor and reduce enemy armor by {{enemy_armor_reduction}} for {{effect_duration}}s. Passive: casting another non-item ability reduces the remaining cooldowns of your other abilities by {{cooldown_reduction}}s. Bad Juju’s own cast does not trigger this reduction; Break disables the passive.",
     "DOTA_Tooltip_Ability_enfos_dazzle_nothl_weave": "Nothl Weave",
     "DOTA_Tooltip_Ability_enfos_dazzle_nothl_weave_Description": "Dazzle's abilities grant armor to affected allies and reduce armor on affected enemies. Each stack changes armor by {{armor_change}}, stacks up to {{max_stacks}} times, and lasts {{duration}}s.",
     "DOTA_Tooltip_Ability_enfos_dazzle_poison_touch": "Poison Touch",
@@ -1324,6 +1324,18 @@
     "DOTA_Tooltip_modifier_enfos_cm_frost_stack": "Frost",
     "DOTA_Tooltip_modifier_enfos_cm_frost_stack_Description": "At %dMODIFIER_PROPERTY_TOOLTIP% stacks, freezes and shatters. Further applications refresh the stack duration. Break on the source prevents new stack triggers.",
     "DOTA_Tooltip_modifier_enfos_cm_frozen": "Frozen",
-    "DOTA_Tooltip_modifier_enfos_cm_frozen_Description": "Stunned and frozen. Boss freeze duration is reduced by the passive’s configured Boss multiplier."
+    "DOTA_Tooltip_modifier_enfos_cm_frozen_Description": "Stunned and frozen. Boss freeze duration is reduced by the passive’s configured Boss multiplier.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_poison_touch_debuff": "Poison Touch",
+    "DOTA_Tooltip_modifier_enfos_dazzle_poison_touch_debuff_Description": "Periodic physical poison damage. Dazzle’s attacks refresh duration. The stack count shows added slow percentage points. Movement speed adjusted by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_shallow_grave_buff": "Shallow Grave",
+    "DOTA_Tooltip_modifier_enfos_dazzle_shallow_grave_buff_Description": "Health cannot fall below 1 through ordinary damage while protected. Healing received increased by %dMODIFIER_PROPERTY_HEAL_AMPLIFY_PERCENTAGE_TARGET%%%.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_bad_juju_buff": "Bad Juju",
+    "DOTA_Tooltip_modifier_enfos_dazzle_bad_juju_buff_Description": "Armor adjusted by %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_bad_juju_debuff": "Bad Juju",
+    "DOTA_Tooltip_modifier_enfos_dazzle_bad_juju_debuff_Description": "Armor adjusted by %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_buff": "Nothl Weave",
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_buff_Description": "Armor adjusted by %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%.",
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff": "Nothl Weave",
+    "DOTA_Tooltip_modifier_enfos_dazzle_nothl_weave_debuff_Description": "Armor adjusted by %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%."
   }
 }
