@@ -6622,7 +6622,11 @@ function enfos_ss_ether_shock:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or t:IsNull() or not t:IsAlive() then return end
+    if t:GetTeamNumber() == c:GetTeamNumber() then return end
     if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
+
+    local center = t:GetAbsOrigin()
+    local nearby = enemies(c, center, 600)
 
     c:EmitSound('Hero_ShadowShaman.EtherShock')
     local base = value(self, 'damage')
@@ -6630,14 +6634,33 @@ function enfos_ss_ether_shock:OnSpellStart()
     local int = get_int(c)
     local dmg = base + (int * 1.0)
 
-    local count = 0
     local max_targets = math.max(1, math.floor(value(self, 'targets')))
-    for _, u in ipairs(enemies(c, t:GetAbsOrigin(), 600)) do
-        local hit = is_boss(u) and math.min(dmg, u:GetMaxHealth() * 0.06) or dmg
-        damage(self, u, hit, DAMAGE_TYPE_MAGICAL)
-        effect('particles/units/heroes/hero_shadowshaman/shadowshaman_ether_shock.vpcf', u)
-        count = count + 1
-        if count >= max_targets then break end
+    -- The radius query is unordered; the chosen enemy always owns the first hit.
+    local targets = {t}
+    local seen = {[t] = true}
+    for _, u in ipairs(nearby) do
+        if #targets >= max_targets then break end
+        if u and not seen[u] and not (u.IsNull and u:IsNull()) and u:IsAlive()
+            and u:GetTeamNumber() ~= c:GetTeamNumber() then
+            targets[#targets+1] = u
+            seen[u] = true
+        end
+    end
+    for _, u in ipairs(targets) do
+        if (self.IsNull and self:IsNull()) or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
+        if u and not (u.IsNull and u:IsNull()) and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
+            -- Native finite beam: path 0 -> 1, impact children consume recipient model CP1.
+            -- Create before damage because death callbacks may remove either endpoint.
+            if ParticleManager then
+                local p = ParticleManager:CreateParticle('particles/units/heroes/hero_shadowshaman/shadowshaman_ether_shock.vpcf', PATTACH_CUSTOMORIGIN, c)
+                ParticleManager:SetParticleControlEnt(p, 0, c, PATTACH_POINT_FOLLOW, 'attach_attack1', c:GetAbsOrigin(), true)
+                ParticleManager:SetParticleControlEnt(p, 1, u, PATTACH_ABSORIGIN_FOLLOW, '', u:GetAbsOrigin(), true)
+                ParticleManager:ReleaseParticleIndex(p)
+            end
+            if u == t then u:EmitSound('Hero_ShadowShaman.EtherShock.Target') end
+            local hit = is_boss(u) and math.min(dmg, u:GetMaxHealth() * 0.06) or dmg
+            damage(self, u, hit, DAMAGE_TYPE_MAGICAL)
+        end
     end
 end
 

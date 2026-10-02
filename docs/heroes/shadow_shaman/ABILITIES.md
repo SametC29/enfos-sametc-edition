@@ -68,8 +68,8 @@ Follow-up static repairs (2026-09-30): Shackles now uses the same 35% boss durat
 Classification: PVE-CONVERT
 Native counterpart: `shadow_shaman_ether_shock` (installed native snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot mapping is authored).
 Decision and PvE identity rationale: PVE-CONVERT preserves the identified Dota hero fantasy while changing PvP-only targeting/control for wave, elite and boss play.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
+Expected cast/travel/impact/ongoing/cleanup behavior: source-reviewed2026-10-02; instant magical hit, cursor target first, then bounded unique secondary enemies in its600radius. Native finite beam binds caster attack1/CP0 and recipient origin/modelCP1 before lethal damage callbacks; each one-shot index released. Source/ability deletion ends remaining hits. Dota geometry/audio and cold start PENDING.
+Normal creep / elite / boss, immunity / dispel / resistance rules: no Elite spawns. Hero/basic enemy KV, ENEMIES_NO immunity, primary TriggerSpellAbsorb consumes cast before effects; radius query uses FLAG_NONE. Boss raw damage capped at6%maxHP before mitigation. Actual immunity/absorb interaction and source-death callback ordering PENDING owner.
 Current/target rank: each Enfos slot has ten explicit KV levels. The match is capped at level 50; Q/W/E/R require 40 paid ranks total and passive ranks 2–10 require nine more; the fifth slot rank 1 is free, for 49 spendable points overall. Rank-up HUD/runtime acceptance remains pending.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
@@ -105,6 +105,8 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
 Change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
+
+2026-10-02 Ether Shock acceptance update: IN PROGRESS / ENGINE PENDING. Installed6943 hero definition/model verified ACT_DOTA_CAST_ABILITY_1 and attach_attack1. Decoded root creates pathCP0→CP1; impact children use recipient modelCP1; internally derivedCP4/3 not assigned externally. Root/children are finite (child_c continuous emitter has0.5s emission duration); release owns the Lua index, native decay owns effect expiry. Verified native bank EtherShock/EtherShock.Target; explicit ability precache bank/root and cast1 animation. Native icon name matches hero ability, but cold-start texture display remains pending. Target-order regression failed before repair; targeted mock evidence and final full-check counts recorded in individual ledger. All four localization sources and three generated mirrors per language now disclose existing Boss cap. No unique Shard or Scepter behavior added by this Q repair; shared upgrades still require the hero-wide audit. No new modifier/thinker/timer/reconnect state. Native cone comparison is documented; Enfos600radius design retained.
 
 ## Slot 2: `enfos_ss_hex`
 

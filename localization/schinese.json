@@ -1089,7 +1089,7 @@
     "DOTA_Tooltip_Ability_enfos_sniper_shrapnel": "榴霰弹",
     "DOTA_Tooltip_Ability_enfos_sniper_take_aim": "瞄准",
     "DOTA_Tooltip_Ability_enfos_sniper_take_aim_Description": "被动增加{{bonus_range}}攻击距离。主动使用后获得必中效果和{{bonus_movespeed_pct}}%移动速度，持续{{duration}}秒。",
-    "DOTA_Tooltip_Ability_enfos_ss_ether_shock_Description": "对主目标周围600范围内最多{{targets}}名敌人造成{{damage}} + 智力值的魔法伤害。",
+    "DOTA_Tooltip_Ability_enfos_ss_ether_shock_Description": "对主目标周围600范围内最多{{targets}}名敌人造成{{damage}} + 智力值的魔法伤害。 对首领的伤害在减伤前最多为其最大生命值的6%。",
     "DOTA_Tooltip_Ability_enfos_ss_shackles_Description": "眩晕目标{{duration}}秒。持续施法期间每秒造成{{dps}} + 智力值60%的魔法伤害，并为暗影萨满回复造成伤害的一半。",
     "DOTA_Tooltip_Ability_enfos_tide_anchor_smash": "锚击",
     "DOTA_Tooltip_Ability_enfos_tide_anchor_smash_Description": "挥舞船锚，对{{radius}}范围内敌人造成攻击伤害 +{{attack_damage_bonus}} + 力量 × {{strength_factor}}的物理伤害。使其基础攻击伤害降低{{damage_reduction}}%，持续{{duration}}秒。",

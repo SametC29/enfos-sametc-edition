@@ -1089,7 +1089,7 @@
     "DOTA_Tooltip_Ability_enfos_sniper_shrapnel": "Шрапнель",
     "DOTA_Tooltip_Ability_enfos_sniper_take_aim": "Прицеливание",
     "DOTA_Tooltip_Ability_enfos_sniper_take_aim_Description": "Пассивно увеличивает дальность атаки на {{bonus_range}}. При активации дает True Strike и {{bonus_movespeed_pct}}% скорости передвижения на {{duration}} сек.",
-    "DOTA_Tooltip_Ability_enfos_ss_ether_shock_Description": "Наносит {{damage}} + интеллект магического урона максимум {{targets}} врагам в радиусе 600 от основной цели.",
+    "DOTA_Tooltip_Ability_enfos_ss_ether_shock_Description": "Наносит {{damage}} + интеллект магического урона максимум {{targets}} врагам в радиусе 600 от основной цели. Урон по боссам до уменьшения ограничен 6% от их максимального здоровья.",
     "DOTA_Tooltip_Ability_enfos_ss_shackles_Description": "Оглушает цель на {{duration}} сек. Во время поддержания наносит {{dps}} + 60% интеллекта магического урона в секунду и лечит Shadow Shaman на половину нанесённого урона.",
     "DOTA_Tooltip_Ability_enfos_tide_anchor_smash": "Удар якорем",
     "DOTA_Tooltip_Ability_enfos_tide_anchor_smash_Description": "Наносит врагам в радиусе {{radius}} физический урон: урон атаки +{{attack_damage_bonus}} + сила × {{strength_factor}}. Снижает базовый урон их атак на {{damage_reduction}}% на {{duration}} сек.",

@@ -3143,6 +3143,12 @@
 
 	"enfos_ss_ether_shock"
 	{
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_1"
+		"precache"
+		{
+			"soundfile" "soundevents/game_sounds_heroes/game_sounds_shadowshaman.vsndevts"
+			"particle" "particles/units/heroes/hero_shadowshaman/shadowshaman_ether_shock.vpcf"
+		}
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"

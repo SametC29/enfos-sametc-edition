@@ -725,7 +725,7 @@
     "DOTA_Tooltip_Ability_enfos_sf_feast_of_souls": "Ruh Şöleni (Feast of Souls)",
     "DOTA_Tooltip_Ability_enfos_sf_feast_of_souls_Description": "Shadow Fiend bir düşman öldürdüğünde {{hp_per_kill}} can ve {{mana_per_kill}} mana yeniler.",
     "DOTA_Tooltip_Ability_enfos_ss_ether_shock": "Eter Şoku (Ether Shock)",
-    "DOTA_Tooltip_Ability_enfos_ss_ether_shock_Description": "Ana hedefin 600 birim çevresindeki en fazla {{targets}} düşmana {{damage}} + Zekâ kadar büyü hasarı verir.",
+    "DOTA_Tooltip_Ability_enfos_ss_ether_shock_Description": "Ana hedefin 600 birim çevresindeki en fazla {{targets}} düşmana {{damage}} + Zekâ kadar büyü hasarı verir. Bosslara verilen hasar, azaltımlar uygulanmadan önce azami canlarının %6’sı ile sınırlıdır.",
     "DOTA_Tooltip_Ability_enfos_ss_hex": "Dönüşüm (Hex)",
     "DOTA_Tooltip_Ability_enfos_ss_hex_Description": "Hedef düşmanı {{duration}} saniye susturur, silahsızlandırır ve eşyalarını kullanmasını engeller. Hedef yavaşlatılır; tamamen hareketsiz kalmaz.",
     "DOTA_Tooltip_Ability_enfos_ss_shackles": "Prangalar (Shackles)",

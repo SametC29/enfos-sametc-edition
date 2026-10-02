@@ -1151,7 +1151,7 @@
     "DOTA_Tooltip_Ability_enfos_sniper_shrapnel": "Shrapnel",
     "DOTA_Tooltip_Ability_enfos_sniper_take_aim": "Take Aim",
     "DOTA_Tooltip_Ability_enfos_sniper_take_aim_Description": "Passively grants {{bonus_range}} attack range. Activate to gain True Strike and {{bonus_movespeed_pct}}% movement speed for {{duration}}s.",
-    "DOTA_Tooltip_Ability_enfos_ss_ether_shock_Description": "Deals {{damage}} + Intelligence magical damage to up to {{targets}} enemies within 600 of the primary target.",
+    "DOTA_Tooltip_Ability_enfos_ss_ether_shock_Description": "Deals {{damage}} + Intelligence magical damage to up to {{targets}} enemies within 600 of the primary target. Against bosses, damage is capped at 6% of their maximum health before reductions.",
     "DOTA_Tooltip_Ability_enfos_ss_shackles_Description": "Stuns the target for {{duration}} seconds. While channeling, deals {{dps}} + 60% of Intelligence as magical damage per second and heals Shadow Shaman for half the damage dealt.",
     "DOTA_Tooltip_Ability_enfos_tide_anchor_smash": "Anchor Smash",
     "DOTA_Tooltip_Ability_enfos_tide_anchor_smash_Description": "Swings the anchor, dealing attack damage +{{attack_damage_bonus}} + Strength × {{strength_factor}} as physical damage to enemies in a {{radius}} radius. Reduces their base attack damage by {{damage_reduction}}% for {{duration}} seconds.",

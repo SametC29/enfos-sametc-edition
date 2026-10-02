@@ -941,6 +941,87 @@ test('Juggernaut Blade Fury supplies native radius CP and modifier-owned particl
   'one server-created effect, owned by the modifier; no duplicate automatic effect')
 end)
 
+test('Shadow Shaman Ether Shock reserves the primary hit in a crowded unordered result', function()
+    local hero=create_mock_unit('npc_dota_hero_shadow_shaman',2,Vector(0,0,0))
+    local target=create_mock_unit('ss_primary',3,Vector(100,0,0))
+    local units={}
+    for i=1,6 do units[i]=create_mock_unit('ss_secondary_'..i,3,Vector(100+i,0,0)) end
+    units[7]=target
+    mock_world_units=units
+    local a=enfos_ss_ether_shock()
+    a.GetCaster=function() return hero end
+    a.GetCursorTarget=function() return target end
+    a.GetSpecialValueFor=function(_,key) return ({damage=140,targets=4})[key] or 0 end
+    applied_damages={};a:OnSpellStart()
+    assert(#applied_damages==4 and applied_damages[1].victim==target,
+        'cursor target must reserve one of four hits even when it is last in the radius result')
+    local seen={}
+    for _,hit in ipairs(applied_damages) do
+        assert(not seen[hit.victim] and hit.damage==190);seen[hit.victim]=true
+    end
+end)
+
+test('Shadow Shaman Ether Shock binds finite beams before lethal callbacks and stops deleted sources', function()
+    local hero=create_mock_unit('npc_dota_hero_shadow_shaman',2,Vector(10,20,0))
+    local target=create_mock_unit('enfos_boss_ss_primary',3,Vector(100,0,0),1000)
+    local secondary=create_mock_unit('ss_secondary',3,Vector(101,0,0))
+    mock_world_units={target,secondary}
+    local a=enfos_ss_ether_shock()
+    a.GetCaster=function() return hero end
+    a.GetCursorTarget=function() return target end
+    a.GetSpecialValueFor=function(_,key) return ({damage=140,targets=4})[key] or 0 end
+    local deleted=false
+    hero.IsNull=function() return deleted end
+    local create,ent,release,apply=ParticleManager.CreateParticle,ParticleManager.SetParticleControlEnt,ParticleManager.ReleaseParticleIndex,ApplyDamage
+    local cp,created,released,hits={},0,0,0
+    ParticleManager.CreateParticle=function(_,path,attachment,owner)
+        assert(not deleted and path=='particles/units/heroes/hero_shadowshaman/shadowshaman_ether_shock.vpcf' and owner==hero)
+        created=created+1;return 192
+    end
+    ParticleManager.SetParticleControlEnt=function(_,id,point,unit,attachment,bone)
+        assert(not deleted and id==192)
+        cp[point]=unit
+        if point==0 then assert(unit==hero and bone=='attach_attack1') end
+        if point==1 then assert(unit==target and bone=='') end
+    end
+    ParticleManager.ReleaseParticleIndex=function(_,id) assert(id==192);released=released+1 end
+    ApplyDamage=function(hit)
+        assert(cp[0]==hero and cp[1]==target and released==1,'beam must be bound before lethal callbacks')
+        assert(hit.victim==target and hit.damage==60,'Boss cap remains six percent before mitigation')
+        hits=hits+1;deleted=true
+    end
+    a:OnSpellStart()
+    ParticleManager.CreateParticle,ParticleManager.SetParticleControlEnt,ParticleManager.ReleaseParticleIndex,ApplyDamage=create,ent,release,apply
+    assert(hits==1 and created==1 and released==1,'deleted source cannot continue secondary hits or effects')
+end)
+
+test('Shadow Shaman Ether Shock snapshots targets before death and stops a removed ability', function()
+    local hero=create_mock_unit('npc_dota_hero_shadow_shaman',2,Vector(0,0,0))
+    local target=create_mock_unit('ss_deleted_primary',3,Vector(100,0,0))
+    local nextTarget=create_mock_unit('ss_secondary_after_death',3,Vector(101,0,0))
+    local lastTarget=create_mock_unit('ss_late_secondary',3,Vector(102,0,0))
+    mock_world_units={nextTarget,lastTarget,target}
+    local a=enfos_ss_ether_shock()
+    a.GetCaster=function() return hero end
+    a.GetCursorTarget=function() return target end
+    a.GetSpecialValueFor=function(_,key) return ({damage=140,targets=3})[key] or 0 end
+    local removedTarget,removedAbility=false,false
+    a.IsNull=function() return removedAbility end
+    target.IsNull=function() return removedTarget end
+    local origin=target.GetAbsOrigin
+    target.GetAbsOrigin=function(unit) assert(not removedTarget,'cannot query a deleted primary');return origin(unit) end
+    local original=ApplyDamage
+    local victims={}
+    ApplyDamage=function(hit)
+        victims[#victims+1]=hit.victim
+        if hit.victim==target then removedTarget=true;target.alive=false end
+        if hit.victim==nextTarget then removedAbility=true end
+    end
+    a:OnSpellStart();ApplyDamage=original
+    assert(#victims==2 and victims[1]==target and victims[2]==nextTarget,
+        'primary death must not erase secondary hits; ability deletion must stop the remaining hit')
+end)
+
 test('Shadow Shaman Fowl Play does not consume its save until lethal damage is prevented', function()
     local shaman = create_mock_unit('npc_dota_hero_shadow_shaman', 2, Vector(0, 0, 0), 1000)
     local ability = enfos_ss_fowl_play()
