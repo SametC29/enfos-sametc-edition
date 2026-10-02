@@ -38,7 +38,9 @@ function enfos_lich_frost_blast:OnSpellStart()
     local slow_duration = value(self, 'duration')
     if slow_duration <= 0 then slow_duration = 4 end
     local primary_slow_duration = slow_duration
-    damage(self, t, primary, DAMAGE_TYPE_MAGICAL)
+    local primary_dealt = damage(self, t, primary, DAMAGE_TYPE_MAGICAL)
+    HeroTrace:Log('LICH','Q','damage_result target=%s requested_damage=%s actual_damage=%s',
+        HeroTrace:Name(t),tostring(primary),type(primary_dealt)=='number' and tostring(primary_dealt) or '<unavailable>')
     if c:IsNull() or (self.IsNull and self:IsNull()) then
         HeroTrace:Log('LICH','Q','impact_cancelled reason=source_removed_after_primary_damage')
         return
@@ -48,13 +50,14 @@ function enfos_lich_frost_blast:OnSpellStart()
     if not t:IsNull() and t:IsAlive() then
         t:AddNewModifier(c, self, 'modifier_enfos_lich_frost_blast_slow', { duration = primary_slow_duration })
     end
-    local affected = 0
+    local affected, splash_actual, splash_measured = 0, 0, true
     for _, u in ipairs(enemies(c, origin, radius)) do
         if c:IsNull() or (self.IsNull and self:IsNull()) then break end
         if u ~= t then
         local splash = rdmg + (int * 0.5)
         local dur = slow_duration
-        damage(self, u, splash, DAMAGE_TYPE_MAGICAL)
+        local dealt = damage(self, u, splash, DAMAGE_TYPE_MAGICAL)
+        if type(dealt)=='number' then splash_actual=splash_actual+dealt else splash_measured=false end
         affected = affected + 1
         if c:IsNull() or (self.IsNull and self:IsNull()) then break end
         if not u:IsNull() and u:IsAlive() then
@@ -62,10 +65,19 @@ function enfos_lich_frost_blast:OnSpellStart()
         end
         end
     end
-    HeroTrace:Log('LICH','Q','impact_summary splash_targets=%d radius=%s',affected,tostring(radius))
+    HeroTrace:Log('LICH','Q','impact_summary splash_targets=%d radius=%s splash_actual_total=%s',
+        affected,tostring(radius),splash_measured and tostring(splash_actual) or '<unavailable>')
 end
 
 modifier_enfos_lich_frost_blast_slow=class({})
+local function lich_frost_blast_slow_trace(modifier, event)
+    if not IsServer() or not HeroTrace:Enabled() then return end
+    HeroTrace:Log('LICH','Q','%s target=%s owner=%s',event,
+        HeroTrace:Name(modifier:GetParent()),HeroTrace:Name(modifier:GetCaster()))
+end
+function modifier_enfos_lich_frost_blast_slow:OnCreated() lich_frost_blast_slow_trace(self, 'slow_created') end
+function modifier_enfos_lich_frost_blast_slow:OnRefresh() lich_frost_blast_slow_trace(self, 'slow_refreshed') end
+function modifier_enfos_lich_frost_blast_slow:OnDestroy() lich_frost_blast_slow_trace(self, 'slow_removed') end
 function modifier_enfos_lich_frost_blast_slow:IsDebuff() return true end
 function modifier_enfos_lich_frost_blast_slow:DeclareFunctions()
     return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }

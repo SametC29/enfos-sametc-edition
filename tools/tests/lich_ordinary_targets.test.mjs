@@ -179,3 +179,61 @@ print('Lich shield immediate ownership regression PASS')
   assert.equal(result.status,0,result.stderr||result.stdout);
   assert.match(result.stdout,/Lich shield immediate ownership regression PASS/,result.stderr);
 });
+
+test('Lich Frost Blast traces measured damage and slow lifecycle without changing combat',()=>{
+  const script=`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t) t.__index=t;return t end
+function LinkLuaModifier() end
+local server,enabled=true,false
+function IsServer() return server end
+Convars={GetBool=function() return enabled end}
+GameRules={GetGameTime=function() return 1 end}
+DAMAGE_TYPE_MAGICAL=2;PATTACH_ABSORIGIN_FOLLOW=1
+DOTA_UNIT_TARGET_TEAM_ENEMY=1;DOTA_UNIT_TARGET_HERO=1;DOTA_UNIT_TARGET_BASIC=2
+DOTA_UNIT_TARGET_FLAG_NONE=0;FIND_ANY_ORDER=0
+function Vector(x,y,z) return {x=x,y=y,z=z} end
+ParticleManager={CreateParticle=function() return 1 end,SetParticleControl=function() end,ReleaseParticleIndex=function() end}
+local events,lines={},{}
+local realPrint=print
+print=function(line) lines[#lines+1]=line end
+function ApplyDamage(e) events[#events+1]=e.damage;return e.damage*0.5 end
+local function unit(team,name)
+  return {IsNull=function() return false end,IsAlive=function() return true end,
+    GetTeamNumber=function() return team end,GetUnitName=function() return name end,
+    GetAbsOrigin=function() return Vector(0,0,0) end,GetIntellect=function() return 100 end,
+    EmitSound=function() end,AddNewModifier=function(self,c,a,name,kv) self.slow=kv.duration end}
+end
+local c,p,s=unit(2,'lich'),unit(3,'primary'),unit(3,'splash')
+function FindUnitsInRadius() return {p,s} end
+require('abilities/heroes/lich/q')
+local a=setmetatable({GetCaster=function() return c end,GetCursorTarget=function() return p end,
+  GetLevel=function() return 1 end,GetSpecialValueFor=function(_,k)
+  return ({target_damage=100,radius_damage=50,radius=250,duration=4})[k] or 0 end},enfos_lich_frost_blast)
+local trace=require('lib/hero_trace')
+a:OnSpellStart();assert(#lines==0 and events[1]==180 and events[2]==100 and p.slow==4 and s.slow==4)
+events={};enabled=true;a:OnSpellStart()
+assert(#events==2 and events[1]==180 and events[2]==100 and p.slow==4 and s.slow==4,'Logging must preserve damage/control')
+local joined=table.concat(lines,'|')
+local requested,actual=joined:match('requested_damage=([%d%.]+) actual_damage=([%d%.]+)')
+assert(tonumber(requested)==180 and tonumber(actual)==90,'Primary trace must report the ApplyDamage return')
+assert(tonumber(joined:match('splash_actual_total=([%d%.]+)'))==50,'Splash summary must distinguish actual mitigation from requested damage')
+local m=setmetatable({GetParent=function() return p end,GetCaster=function() return c end},modifier_enfos_lich_frost_blast_slow)
+m:OnCreated();m:OnRefresh();m:OnDestroy()
+joined=table.concat(lines,'|')
+for _,event in ipairs({'slow_created','slow_refreshed','slow_removed'}) do assert(joined:find(event,1,true),'Missing Q lifecycle trace '..event) end
+local before=#lines;server=false;m:OnCreated();m:OnRefresh();m:OnDestroy();assert(#lines==before,'Client callbacks stay silent')
+server=true;enabled=false;m:OnCreated();m:OnRefresh();m:OnDestroy();assert(#lines==before,'Disabled tracing stays silent')
+enabled=true;for i=1,150 do m:OnRefresh() end
+assert(trace.count==100 and #lines==100,'Shared trace rate cap remains bounded')
+GameRules.GetGameTime=function() return 2 end
+lines={};ApplyDamage=function(e) events[#events+1]=e.damage end
+a:OnSpellStart();joined=table.concat(lines,'|')
+assert(joined:find('actual_damage=<unavailable>',1,true) and joined:find('splash_actual_total=<unavailable>',1,true),
+  'Unavailable engine measurements must not be reported as zero damage')
+realPrint('Lich Q measured trace regression PASS')
+`;
+  const result=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});
+  assert.equal(result.status,0,result.stderr||result.stdout);
+  assert.match(result.stdout,/Lich Q measured trace regression PASS/,result.stderr);
+});

@@ -214,3 +214,30 @@ incoming-physical callback; no callback signature, modifier ID, shared manager,
 KV or tooltip meaning changes. No Boss branch is added. Engine damage ordering,
 client prediction, death/dispel cleanup and actual recast remain owner checks.
 Full Lich source/design/upgrade review is still PENDING.
+
+## Q measured damage and control lifecycle instrumentation
+
+Existing Q primary trace contained only requested damage and cast-configured
+slow duration. Capture the existing damage helper's ApplyDamage return separately
+for primary impact and aggregate numeric splash returns in the existing loop.
+Use actual_damage / splash_actual_total; unavailable returns are explicitly
+<unavailable>, never a guessed zero or the requested number. Requested damage
+continues to describe the authored formula, not an assertion that mitigation,
+immunity or absorption was bypassed. The result is recorded even if damage
+callbacks remove the source; safe-name logging handles removed entities.
+
+Add diagnostic-only OnCreated/OnRefresh/OnDestroy records to Q's existing slow
+modifier using the current modifier callback declarations. They do not create,
+refresh, destroy or otherwise alter any modifier/particle/timer. They use the
+existing server-only, default-off, shared100-per-game-second trace cap. No new
+gameplay scan/state or Boss exception. Ability-class inventory callbacks remain
+unchanged; concurrent inventory/E edits are not regenerated or committed.
+
+The real-Q regression checks requested180 vs measured90 primary and measured50
+splash with a50% mock ApplyDamage return; before this change the missing result
+record fails. Enabled/disabled tracing yields identical requested damage and
+slow durations. It verifies all three slow lifecycle records, client silence,
+disabled silence, shared rate limiting and explicit unavailable measurements.
+These are diagnostic/mock checks, not actual Dota damage or duration results.
+Owner VConsole, audiovisual, immunity/dispel/status resistance and removal/
+recast evidence remain NOT TESTED. Full Lich source/upgrade acceptance is open.
