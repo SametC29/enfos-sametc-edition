@@ -1135,7 +1135,7 @@
     "DOTA_Tooltip_Ability_enfos_zeus_heavenly_jump_Description": "Прыгает вперёд на 450 единиц, получая {{bonus_ms_pct|percent}} скорости передвижения на {{buff_duration}} сек. и поражая до {{max_targets}} ближайших врагов: {{damage}} + 80% интеллекта магического урона и замедление на {{slow_pct|percent}} на {{slow_duration}} сек.",
     "DOTA_Tooltip_Ability_enfos_zeus_lightning_bolt_Description": "Поражает цель молнией, нанося {{damage}} + 150% вашего интеллекта магического урона.",
     "DOTA_Tooltip_Ability_enfos_zeus_static_field_Description": "Ваши заклинания наносят дополнительный магический урон в размере {{damage_pct|percent}} от текущего здоровья поражённой цели. Урон боссам ограничен 500.",
-    "DOTA_Tooltip_Ability_enfos_zeus_static_field_shard_description": "+15% к усилению заклинаний. Восстанавливает ману от урона молнией.",
+    "DOTA_Tooltip_Ability_enfos_zeus_static_field_shard_description": "+15% к усилению заклинаний.",
     "DOTA_Tooltip_Ability_enfos_zeus_thundergods_wrath_Description": "Поражает всех врагов на поле боя, нанося {{damage}} + 200% вашего интеллекта магического урона.",
     "DOTA_Tooltip_modifier_enfos_ursa_fury_swipes_passive_Description": "Ursa’nın saldırıları düşmanda biriken fiziksel pençe hasarı ve çevreye sıçrayan hasar oluşturur.",
     "DOTA_Tooltip_modifier_enfos_ursa_minor_passive_Description": "Pasif olarak hareket hızı kazandırır; Pasifleri Devre Dışı Bırak etkisiyle kapanır.",
@@ -1296,6 +1296,12 @@
     "DOTA_Tooltip_modifier_enfos_pa_phantom_strike_buff": "Призрачный удар",
     "DOTA_Tooltip_modifier_enfos_pa_phantom_strike_buff_Description": "Скорость атаки увеличена на %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Восстанавливает здоровье в размере %dMODIFIER_PROPERTY_TOOLTIP%%% урона, нанесённого врагам.",
     "DOTA_Tooltip_modifier_enfos_pa_blur_active": "Размытие",
-    "DOTA_Tooltip_modifier_enfos_pa_blur_active_Description": "Невидимость. Coup de Grace расходует этот эффект, гарантируя критическую атаку."
+    "DOTA_Tooltip_modifier_enfos_pa_blur_active_Description": "Невидимость. Coup de Grace расходует этот эффект, гарантируя критическую атаку.",
+    "DOTA_Tooltip_modifier_enfos_zeus_static_field_passive": "Статическое поле",
+    "DOTA_Tooltip_modifier_enfos_zeus_static_field_passive_Description": "При положительном уроне заклинаниями живому врагу наносит дополнительный магический урон: %tooltip%%% его текущего здоровья. Базовый урон боссам ограничен 500. Отключается истощением.",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff": "Небесный прыжок",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff_Description": "Скорость передвижения увеличена на %tooltip%%%.",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow": "Замедление небесного прыжка",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "Скорость передвижения снижена на %tooltip%%%."
   }
 }

@@ -1197,7 +1197,7 @@
     "DOTA_Tooltip_Ability_enfos_zeus_heavenly_jump_Description": "Leap 450 units forward, gain {{bonus_ms_pct|percent}} movement speed for {{buff_duration}} seconds, and shock up to {{max_targets}} nearby enemies for {{damage}} plus 80% of your Intelligence as magical damage, slowing them by {{slow_pct|percent}} for {{slow_duration}} seconds.",
     "DOTA_Tooltip_Ability_enfos_zeus_lightning_bolt_Description": "Call down lightning on a target, dealing {{damage}} plus 150% of your Intelligence as magical damage.",
     "DOTA_Tooltip_Ability_enfos_zeus_static_field_Description": "Your spells deal bonus magical damage equal to {{damage_pct|percent}} of the target’s current health when they hit. Damage against bosses is capped at 500.",
-    "DOTA_Tooltip_Ability_enfos_zeus_static_field_shard_description": "+15% spell amplification. Restore mana from your lightning damage.",
+    "DOTA_Tooltip_Ability_enfos_zeus_static_field_shard_description": "+15% spell amplification.",
     "DOTA_Tooltip_Ability_enfos_zeus_thundergods_wrath_Description": "Strike every enemy across the battlefield for {{damage}} plus 200% of your Intelligence as magical damage.",
     "DOTA_Tooltip_modifier_enfos_ursa_fury_swipes_passive_Description": "Ursa’nın saldırıları düşmanda biriken fiziksel pençe hasarı ve çevreye sıçrayan hasar oluşturur.",
     "DOTA_Tooltip_modifier_enfos_ursa_minor_passive_Description": "Pasif olarak hareket hızı kazandırır; Pasifleri Devre Dışı Bırak etkisiyle kapanır.",
@@ -1356,6 +1356,12 @@
     "DOTA_Tooltip_modifier_enfos_pa_phantom_strike_buff": "Phantom Strike",
     "DOTA_Tooltip_modifier_enfos_pa_phantom_strike_buff_Description": "Attack speed increased by %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Heals for %dMODIFIER_PROPERTY_TOOLTIP%%% of damage dealt to enemies.",
     "DOTA_Tooltip_modifier_enfos_pa_blur_active": "Blur",
-    "DOTA_Tooltip_modifier_enfos_pa_blur_active_Description": "Invisible. Coup de Grace consumes this effect to guarantee a critical attack."
+    "DOTA_Tooltip_modifier_enfos_pa_blur_active_Description": "Invisible. Coup de Grace consumes this effect to guarantee a critical attack.",
+    "DOTA_Tooltip_modifier_enfos_zeus_static_field_passive": "Static Field",
+    "DOTA_Tooltip_modifier_enfos_zeus_static_field_passive_Description": "Dealing positive spell damage to a living enemy deals bonus magical damage equal to %tooltip%%% of its current health. Base damage against bosses is capped at 500. Disabled by Break.",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff": "Heavenly Jump",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff_Description": "Movement speed increased by %tooltip%%%.",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow": "Heavenly Jump Slow",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "Movement speed reduced by %tooltip%%%."
   }
 }

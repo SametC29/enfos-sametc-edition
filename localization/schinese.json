@@ -1135,7 +1135,7 @@
     "DOTA_Tooltip_Ability_enfos_zeus_heavenly_jump_Description": "向前跃进450距离，获得{{bonus_ms_pct|percent}}移动速度，持续{{buff_duration}}秒，并震击最多{{max_targets}}个附近敌人，造成{{damage}}点魔法伤害，外加80%智力值；使其减速{{slow_pct|percent}}，持续{{slow_duration}}秒。",
     "DOTA_Tooltip_Ability_enfos_zeus_lightning_bolt_Description": "召唤闪电击中目标，造成{{damage}}点魔法伤害，外加150%智力值。",
     "DOTA_Tooltip_Ability_enfos_zeus_static_field_Description": "你的法术命中目标时，额外造成相当于其当前生命值{{damage_pct|percent}}的魔法伤害。对首领的伤害上限为500。",
-    "DOTA_Tooltip_Ability_enfos_zeus_static_field_shard_description": "+15%法术增强。根据闪电伤害恢复法力。",
+    "DOTA_Tooltip_Ability_enfos_zeus_static_field_shard_description": "+15%法术增强。",
     "DOTA_Tooltip_Ability_enfos_zeus_thundergods_wrath_Description": "打击战场上的所有敌人，造成{{damage}}点魔法伤害，外加200%智力值。",
     "DOTA_Tooltip_modifier_enfos_ursa_fury_swipes_passive_Description": "Ursa’nın saldırıları düşmanda biriken fiziksel pençe hasarı ve çevreye sıçrayan hasar oluşturur.",
     "DOTA_Tooltip_modifier_enfos_ursa_minor_passive_Description": "Pasif olarak hareket hızı kazandırır; Pasifleri Devre Dışı Bırak etkisiyle kapanır.",
@@ -1296,6 +1296,12 @@
     "DOTA_Tooltip_modifier_enfos_pa_phantom_strike_buff": "幻影突袭",
     "DOTA_Tooltip_modifier_enfos_pa_phantom_strike_buff_Description": "攻击速度提高%dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%。对敌人造成伤害的%dMODIFIER_PROPERTY_TOOLTIP%%%转化为治疗。",
     "DOTA_Tooltip_modifier_enfos_pa_blur_active": "模糊",
-    "DOTA_Tooltip_modifier_enfos_pa_blur_active_Description": "隐身。恩赐解脱会消耗此效果，保证一次暴击攻击。"
+    "DOTA_Tooltip_modifier_enfos_pa_blur_active_Description": "隐身。恩赐解脱会消耗此效果，保证一次暴击攻击。",
+    "DOTA_Tooltip_modifier_enfos_zeus_static_field_passive": "静电场",
+    "DOTA_Tooltip_modifier_enfos_zeus_static_field_passive_Description": "对存活敌人造成正数法术伤害时，额外造成相当于其当前生命值%tooltip%%%的魔法伤害。对首领的基础伤害上限为500。破坏效果使其失效。",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff": "神圣一跃",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff_Description": "移动速度提高%tooltip%%%。",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow": "神圣一跃减速",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "移动速度降低%tooltip%%%。"
   }
 }

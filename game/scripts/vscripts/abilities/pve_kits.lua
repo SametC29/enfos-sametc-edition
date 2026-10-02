@@ -4483,7 +4483,9 @@ enfos_zeus_static_field=class({})
 function enfos_zeus_static_field:GetIntrinsicModifierName() return 'modifier_enfos_zeus_static_field_passive' end
 
 modifier_enfos_zeus_static_field_passive=class({})
-function modifier_enfos_zeus_static_field_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_TAKEDAMAGE } end
+function modifier_enfos_zeus_static_field_passive:GetTexture() return 'zuus_static_field' end
+function modifier_enfos_zeus_static_field_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_TAKEDAMAGE, MODIFIER_PROPERTY_TOOLTIP } end
+function modifier_enfos_zeus_static_field_passive:OnTooltip() return value(self:GetAbility(), 'damage_pct') end
 function modifier_enfos_zeus_static_field_passive:OnTakeDamage(params)
     if not IsServer() or not params then return end
     -- A blocked/zero-damage source is not a successful spell hit. Do not turn
@@ -4570,12 +4572,16 @@ function enfos_zeus_heavenly_jump:OnSpellStart()
 end
 
 modifier_enfos_zeus_heavenly_jump_buff=class({})
-function modifier_enfos_zeus_heavenly_jump_buff:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
+function modifier_enfos_zeus_heavenly_jump_buff:GetTexture() return 'zuus_heavenly_jump' end
+function modifier_enfos_zeus_heavenly_jump_buff:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_TOOLTIP } end
+function modifier_enfos_zeus_heavenly_jump_buff:OnTooltip() return value(self:GetAbility(), 'bonus_ms_pct') end
 function modifier_enfos_zeus_heavenly_jump_buff:GetModifierMoveSpeedBonus_Percentage() return value(self:GetAbility(), 'bonus_ms_pct') end
 
 modifier_enfos_zeus_heavenly_jump_slow=class({})
+function modifier_enfos_zeus_heavenly_jump_slow:GetTexture() return 'zuus_heavenly_jump' end
 function modifier_enfos_zeus_heavenly_jump_slow:IsDebuff() return true end
-function modifier_enfos_zeus_heavenly_jump_slow:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
+function modifier_enfos_zeus_heavenly_jump_slow:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_TOOLTIP } end
+function modifier_enfos_zeus_heavenly_jump_slow:OnTooltip() return value(self:GetAbility(), 'slow_pct') end
 function modifier_enfos_zeus_heavenly_jump_slow:GetModifierMoveSpeedBonus_Percentage() return -value(self:GetAbility(), 'slow_pct') end
 
 -- ----------------------------------------------------------------------------

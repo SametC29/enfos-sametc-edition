@@ -1579,7 +1579,7 @@
     "DOTA_Tooltip_Ability_enfos_pa_immaterial": "Maddi Olmama (Immaterial)",
     "DOTA_Tooltip_Ability_enfos_pa_immaterial_Description": "Sürekli olarak {{evasion|percent}} saldırı kaçınması kazanırsın.",
     "DOTA_Tooltip_Ability_enfos_pa_immaterial_shard_description": "+%15 hareket hızı. Saldırılar %12 ek saf hasar verir.",
-    "DOTA_Tooltip_Ability_enfos_zeus_static_field_shard_description": "+%15 büyü hasarı. Uyguladığın yıldırım hasarına bağlı olarak mana yenilersin.",
+    "DOTA_Tooltip_Ability_enfos_zeus_static_field_shard_description": "+%15 büyü güçlendirmesi.",
     "enfos_evo_stat_attack_damage_bonus": "Hasar",
     "DOTA_Tooltip_modifier_enfos_ursa_fury_swipes_passive_Description": "Ursa’nın saldırıları düşmanda biriken fiziksel pençe hasarı ve çevreye sıçrayan hasar oluşturur.",
     "DOTA_Tooltip_modifier_enfos_ursa_minor_passive_Description": "Pasif olarak hareket hızı kazandırır; Pasifleri Devre Dışı Bırak etkisiyle kapanır.",
@@ -1727,6 +1727,12 @@
     "DOTA_Tooltip_modifier_enfos_pa_phantom_strike_buff": "Hayalet Saldırı",
     "DOTA_Tooltip_modifier_enfos_pa_phantom_strike_buff_Description": "Saldırı hızı %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT% artar. Düşmanlara verilen hasarın %dMODIFIER_PROPERTY_TOOLTIP%%% kadarıyla iyileşir.",
     "DOTA_Tooltip_modifier_enfos_pa_blur_active": "Bulanıklık",
-    "DOTA_Tooltip_modifier_enfos_pa_blur_active_Description": "Görünmez. Coup de Grace, kritik saldırıyı garanti etmek için bu etkiyi tüketir."
+    "DOTA_Tooltip_modifier_enfos_pa_blur_active_Description": "Görünmez. Coup de Grace, kritik saldırıyı garanti etmek için bu etkiyi tüketir.",
+    "DOTA_Tooltip_modifier_enfos_zeus_static_field_passive": "Statik Alan",
+    "DOTA_Tooltip_modifier_enfos_zeus_static_field_passive_Description": "Yaşayan bir düşmana pozitif büyü hasarı verdiğinde mevcut canının %tooltip%%% kadarı kadar ek büyü hasarı verir. Bosslara verilen temel hasar 500 ile sınırlıdır. Break etkisiyle devre dışı kalır.",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff": "Gök Sıçraması",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_buff_Description": "Hareket hızı %tooltip%%% artar.",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow": "Gök Sıçraması Yavaşlatması",
+    "DOTA_Tooltip_modifier_enfos_zeus_heavenly_jump_slow_Description": "Hareket hızı %tooltip%%% azalır."
   }
 }
