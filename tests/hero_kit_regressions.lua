@@ -3546,6 +3546,7 @@ test('Tidehunter Kraken Shell respects Break and applies configured block and re
     local purges = 0
     tide.Purge = function() purges = purges + 1 end
     local ab = enfos_tide_kraken_shell()
+    ab.GetLevel = function() return 1 end
     ab.GetSpecialValueFor = function(_, key) return ({damage_block=70,bonus_hp_regen=12,purge_damage_threshold=100})[key] or 0 end
     local mod = modifier_enfos_tide_kraken_shell_passive()
     mod.GetParent = function() return tide end
@@ -3598,9 +3599,34 @@ test('Tidehunter Ravage uses the configured boss stun cap', function()
     assert(boss.modifiers['modifier_enfos_tide_ravage_stun'].params.duration == 0.8)
 end)
 
+test('Tidehunter passives reject unlearned, missing and removed ability sources', function()
+    local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
+    local purges=0;hero.Purge=function() purges=purges+1 end
+    for _,mode in ipairs({'unlearned','removed','missing'}) do
+        local a=enfos_tide_kraken_shell()
+        a.IsNull=function() return mode=='removed' end
+        a.GetLevel=function() assert(mode~='removed','removed ability rank read');return mode=='unlearned' and 0 or 1 end
+        a.GetSpecialValueFor=function() assert(mode~='removed','removed ability value read');return 100 end
+        local w=modifier_enfos_tide_kraken_shell_passive()
+        local p=modifier_enfos_tide_colossal_presence_aura()
+        for _,m in ipairs({w,p}) do
+            m.GetParent=function() return hero end
+            m.GetAbility=function() if mode~='missing' then return a end end
+        end
+        w:OnCreated()
+        assert(w:GetModifierPhysical_ConstantBlock()==0,'An inactive Kraken source cannot grant residual Strength block')
+        assert(w:GetModifierConstantHealthRegen()==0,'An unlearned Kraken source cannot grant regen')
+        w:OnTakeDamage({unit=hero,damage=1000})
+        assert(purges==0 and w.damage_counter==0,'An inactive Kraken source cannot charge or trigger cleanse')
+        assert(not p:IsAura() and p:GetModifierExtraHealthBonus()==0 and p:GetModifierPhysicalArmorBonus()==0,
+            'Colossal Presence requires a live learned source for aura and stats')
+    end
+end)
+
 test('Tidehunter Colossal Presence grants configured stats and shuts off under Break', function()
     local tide = create_mock_unit('npc_dota_hero_tidehunter', 2, Vector(0, 0, 0))
     local ab = enfos_tide_colossal_presence()
+    ab.GetLevel = function() return 1 end
     ab.GetSpecialValueFor = function(_, key) return ({bonus_health=180,bonus_armor=8,radius=850})[key] or 0 end
     local mod = modifier_enfos_tide_colossal_presence_aura()
     mod.GetParent = function() return tide end

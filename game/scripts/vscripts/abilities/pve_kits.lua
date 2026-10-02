@@ -3758,6 +3758,14 @@ end
 enfos_tide_kraken_shell=class({})
 function enfos_tide_kraken_shell:GetIntrinsicModifierName() return 'modifier_enfos_tide_kraken_shell_passive' end
 
+local function tide_passive_sources(modifier)
+    local c = modifier:GetParent()
+    if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled()) then return nil end
+    local a = modifier:GetAbility()
+    if not a or (a.IsNull and a:IsNull()) or (a.GetLevel and a:GetLevel() <= 0) then return nil end
+    return c, a
+end
+
 modifier_enfos_tide_kraken_shell_passive=class({})
 function modifier_enfos_tide_kraken_shell_passive:DeclareFunctions()
     return {
@@ -3771,30 +3779,30 @@ function modifier_enfos_tide_kraken_shell_passive:OnCreated()
     self.last_damage_time = nil
 end
 function modifier_enfos_tide_kraken_shell_passive:GetModifierPhysical_ConstantBlock()
-    local c = self:GetParent()
-    if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled()) then return 0 end
+    local c, a = tide_passive_sources(self)
+    if not c then return 0 end
     local str = get_str(c)
-    local base = (self.GetAbility and value(self:GetAbility(), 'damage_block')) or 50
+    local base = value(a, 'damage_block')
     return base + (str * 0.05)
 end
 function modifier_enfos_tide_kraken_shell_passive:GetModifierConstantHealthRegen()
-    local c = self:GetParent()
-    if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled()) then return 0 end
-    return (self.GetAbility and value(self:GetAbility(), 'bonus_hp_regen')) or 0
+    local c, a = tide_passive_sources(self)
+    if not c then return 0 end
+    return value(a, 'bonus_hp_regen')
 end
 function modifier_enfos_tide_kraken_shell_passive:OnTakeDamage(params)
     if not IsServer() or not params then return end
-    local c = self:GetParent()
-    if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled()) or params.unit ~= c then return end
+    local c, a = tide_passive_sources(self)
+    if not c or params.unit ~= c then return end
     local received = params.damage or 0
     if received <= 0 then return end
     local now = GameRules and GameRules.GetGameTime and GameRules:GetGameTime() or 0
-    local reset = value(self:GetAbility(), 'purge_reset_interval')
+    local reset = value(a, 'purge_reset_interval')
     if reset <= 0 then reset = 7 end
     if self.last_damage_time and now - self.last_damage_time >= reset then self.damage_counter = 0 end
     self.last_damage_time = now
     self.damage_counter = (self.damage_counter or 0) + received
-    local threshold = value(self:GetAbility(), 'purge_damage_threshold')
+    local threshold = value(a, 'purge_damage_threshold')
     if threshold <= 0 then threshold = 450 end
     if self.damage_counter >= threshold then
         self.damage_counter = self.damage_counter % threshold
@@ -3868,8 +3876,7 @@ function enfos_tide_colossal_presence:GetIntrinsicModifierName() return 'modifie
 modifier_enfos_tide_colossal_presence_aura=class({})
 function modifier_enfos_tide_colossal_presence_aura:IsHidden() return true end
 function modifier_enfos_tide_colossal_presence_aura:IsAura()
-    local c = self:GetParent()
-    return c and not (c.IsNull and c:IsNull()) and not (c.PassivesDisabled and c:PassivesDisabled())
+    return tide_passive_sources(self) ~= nil
 end
 function modifier_enfos_tide_colossal_presence_aura:GetAuraRadius()
     return (self.GetAbility and value(self:GetAbility(), 'radius')) or 900
@@ -3881,14 +3888,14 @@ function modifier_enfos_tide_colossal_presence_aura:DeclareFunctions()
     return { MODIFIER_PROPERTY_EXTRA_HEALTH_BONUS, MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS }
 end
 function modifier_enfos_tide_colossal_presence_aura:GetModifierExtraHealthBonus()
-    local c = self:GetParent()
-    if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled()) then return 0 end
-    return (self.GetAbility and value(self:GetAbility(), 'bonus_health')) or 0
+    local c, a = tide_passive_sources(self)
+    if not c then return 0 end
+    return value(a, 'bonus_health')
 end
 function modifier_enfos_tide_colossal_presence_aura:GetModifierPhysicalArmorBonus()
-    local c = self:GetParent()
-    if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled()) then return 0 end
-    return (self.GetAbility and value(self:GetAbility(), 'bonus_armor')) or 0
+    local c, a = tide_passive_sources(self)
+    if not c then return 0 end
+    return value(a, 'bonus_armor')
 end
 
 modifier_enfos_tide_colossal_presence_debuff=class({})
