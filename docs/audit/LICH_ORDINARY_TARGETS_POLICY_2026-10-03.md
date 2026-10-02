@@ -147,3 +147,39 @@ native Frost Nova, Shield and Gaze declare SPELL_DISPELLABLE_YES; current
 [modifier API declarations](https://docs.moddota.com/lua_server/docs) expose
 IsPurgable/IsPurgeException/IsStunDebuff. No guessed engine default or unrelated
 aura purge policy is changed in this orphan-property repair.
+
+## D source/rank ownership checkpoint
+
+Inspected isolated D, intrinsic/recipient links, current production KV and the
+shared safe value/trace helpers. D is an authored Enfos support passive, not a
+native Death Charge implementation: provisionally REPLACE for this fifth Enfos
+slot, preserving frost-themed allied sustain without pretending that native
+creep sacrifice and this aura are interchangeable. The native-first decision
+for retaining this custom mechanic and its balance remains open in the full
+hero review; no ability behavior was changed in this checkpoint.
+
+Actual current values are flat8 armor at all ten ranks, mana regeneration
+4/4.6/5.2/5.8/6.4/7/7.6/8.2/8.8/9.4 and radius
+400/450/500/550/600/650/700/750/800/900. Do not report armor growth per rank or
+use the old unverified900-radius assumption at rank1. Property getters read
+live ability values; they do not cache the initial rank.
+
+Extended the isolated regression with real D classes and production curves.
+Across all ten ranks it checks allied hero/basic aura selection, live rank
+changes, Break on the actual aura source, restoration after Break, an externally
+Broken recipient retaining the source's buff, recipient illusion exclusion,
+unlearned source, removed source/ability and restoration of a valid source.
+The removed-ability getter throws if accessed. Expectations for armor and mana
+progression are stated independently of the getters rather than comparing one
+getter to itself. Existing source guards pass these cases; no speculative
+production patch was made to manufacture a defect.
+
+These tests call real Lua getters, not the engine aura distributor. Death and
+aura linger, multiple Lich casters/stacking, source illusions, allegiance changes,
+client tooltip updates, respawn/reconnect and rank/point HUD remain NOT TESTED.
+The current [modifier API](https://docs.moddota.com/lua_server/docs) separately
+declares IsAuraActiveOnDeath, GetAuraDuration, GetAuraEntityReject and
+AllowIllusionDuplicate; their existence does not establish defaults or prove
+this aura's runtime behavior. No guessed death/purge/illusion policy, aura timer
+or new global scan was added. Concurrent E/main-ledger/dossier work remains
+excluded. Full hero source and engine acceptance remain PENDING.

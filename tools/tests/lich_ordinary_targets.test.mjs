@@ -88,3 +88,57 @@ print('Lich ordinary targets ten-rank regression PASS')
   assert.equal(result.status,0,result.stderr||result.stdout);
   assert.match(result.stdout,/Lich ordinary targets ten-rank regression PASS/,result.stderr);
 });
+
+test('Lich aura uses its actual source for Break, rank changes and removed-source ownership',()=>{
+  const script=`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t) t.__index=t;return t end
+function LinkLuaModifier() end
+DOTA_UNIT_TARGET_TEAM_FRIENDLY=2;DOTA_UNIT_TARGET_HERO=1;DOTA_UNIT_TARGET_BASIC=2
+require('abilities/heroes/lich/d')
+local rank,sourceBroken,recipientBroken,sourceRemoved,abilityRemoved,illusion=1,false,false,false,false,false
+local armor={${curve('enfos_lich_ice_aura','bonus_armor')}}
+local mana={${curve('enfos_lich_ice_aura','mana_regen')}}
+local radius={${curve('enfos_lich_ice_aura','radius')}}
+local source={IsNull=function() return sourceRemoved end,PassivesDisabled=function() return sourceBroken end}
+local recipient={IsNull=function() return false end,IsIllusion=function() return illusion end,
+  PassivesDisabled=function() return recipientBroken end}
+local a={IsNull=function() return abilityRemoved end,GetLevel=function() return rank end,
+  GetSpecialValueFor=function(_,key)
+    assert(not abilityRemoved,'Never read a removed aura ability')
+    if key=='bonus_armor' then return armor[rank] or armor[1] end
+    if key=='mana_regen' then return mana[rank] end
+    if key=='radius' then return radius[rank] end
+    error('Unexpected aura value '..key)
+  end}
+local intrinsic=setmetatable({GetParent=function() return source end,GetAbility=function() return a end},modifier_enfos_lich_ice_aura)
+local buff=setmetatable({GetParent=function() return recipient end,GetCaster=function() return source end,
+  GetAbility=function() return a end},modifier_enfos_lich_ice_aura_buff)
+local function bonuses(expectedArmor,expectedMana)
+  assert(buff:GetModifierPhysicalArmorBonus()==expectedArmor,'Aura armor/source ownership')
+  assert(math.abs(buff:GetModifierConstantManaRegen()-expectedMana)<0.000001,'Aura mana/source ownership')
+end
+assert(intrinsic:GetAuraSearchTeam()==DOTA_UNIT_TARGET_TEAM_FRIENDLY)
+assert(intrinsic:GetAuraSearchType()==DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_BASIC)
+assert(intrinsic:GetModifierAura()=='modifier_enfos_lich_ice_aura_buff')
+for nextRank=1,10 do
+  rank=nextRank
+  assert(intrinsic:IsAura(),'Learned, unbroken source emits aura')
+  -- Authored support contract: flat 8 armor, +0.6 mana regen per additional rank.
+  bonuses(8,4+(rank-1)*0.6)
+  assert(intrinsic:GetAuraRadius()==radius[rank])
+  recipientBroken=true;bonuses(8,4+(rank-1)*0.6);recipientBroken=false
+  sourceBroken=true;assert(not intrinsic:IsAura());bonuses(0,0)
+  sourceBroken=false;bonuses(8,4+(rank-1)*0.6)
+  illusion=true;bonuses(0,0);illusion=false
+end
+rank=0;assert(not intrinsic:IsAura());bonuses(0,0)
+rank=10;abilityRemoved=true;assert(not intrinsic:IsAura());bonuses(0,0)
+abilityRemoved=false;sourceRemoved=true;assert(not intrinsic:IsAura());bonuses(0,0)
+sourceRemoved=false;bonuses(8,9.4)
+print('Lich aura source/rank regression PASS')
+`;
+  const result=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});
+  assert.equal(result.status,0,result.stderr||result.stdout);
+  assert.match(result.stdout,/Lich aura source\/rank regression PASS/,result.stderr);
+});
