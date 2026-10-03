@@ -8,6 +8,117 @@ const abilities=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.t
 const curve=(id,key)=>String(abilities[id].AbilityValues[key]).split(/\s+/).map(Number);
 const q='enfos_lich_frost_blast',r='enfos_lich_chain_frost';
 
+test('Lich Shard death Nova uses learned Q splash with safe point ownership and ranked snapshots',()=>{
+  const script=`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t) t.__index=t;return t end
+function LinkLuaModifier() end
+local server=true;function IsServer() return server end
+DOTA_UNIT_TARGET_HERO=1;DOTA_UNIT_TARGET_BASIC=2;DOTA_UNIT_TARGET_TEAM_ENEMY=3
+DOTA_UNIT_TARGET_FLAG_NONE=0;FIND_ANY_ORDER=0;DAMAGE_TYPE_MAGICAL=2
+PATTACH_WORLDORIGIN=8;PATTACH_ABSORIGIN_FOLLOW=1
+function Vector(x,y,z) return {x=x,y=y,z=z} end
+local units={};local expectedRadius,expectedDamage,expectedDuration
+local origin={x=31,y=42,z=0};local sounds,particles,releases=0,0,0
+function FindUnitsInRadius(team,pos,_,radius)
+ assert(team==2 and pos==origin and radius==expectedRadius);return units
+end
+local caster={removed=false,alive=true,int=40}
+function caster:IsNull() return self.removed end
+function caster:IsAlive() return self.alive end
+function caster:GetTeamNumber() return 2 end
+function caster:GetIntellect() return self.int end
+function EmitSoundOnLocationWithCaster(pos,event,owner)
+ assert(pos==origin and event=='Ability.FrostNova' and owner==caster);sounds=sounds+1
+end
+ParticleManager={}
+function ParticleManager:CreateParticle(path,attachment,owner)
+ assert(path=='particles/units/heroes/hero_lich/lich_frost_nova.vpcf')
+ assert(attachment==8 and owner==caster,'Death Nova must not attach to removed Spire')
+ particles=particles+1;return particles
+end
+function ParticleManager:SetParticleControl(id,cp,v)
+ if cp==0 then assert(v==origin) else
+ assert(cp==1 and v.x==expectedRadius and v.y==expectedRadius and v.z==expectedRadius) end
+end
+function ParticleManager:ReleaseParticleIndex() releases=releases+1 end
+require('abilities/heroes/lich/q')
+local splash={${curve(q,'radius_damage')}}
+local radii={${curve(q,'radius')}}
+local durations={${curve(q,'duration')}}
+local rank=1;local removed=false
+local a=setmetatable({GetCaster=function() return caster end,GetLevel=function() return rank end,
+ IsNull=function() return removed end,GetSpecialValueFor=function(_,key)
+ return key=='radius_damage' and splash[rank] or key=='radius' and radii[rank]
+ or key=='duration' and durations[rank] or key=='target_damage' and 99999 or 0 end},enfos_lich_frost_blast)
+local function victim(team,boss)
+ local u={team=team,isBoss=boss,alive=true,removed=false,slows=0}
+ function u:IsNull() return self.removed end
+ function u:IsAlive() return self.alive end
+ function u:GetTeamNumber() return self.team end
+ function u:AddNewModifier(c,ab,id,kv)
+ assert(c==caster and ab==a and id=='modifier_enfos_lich_frost_blast_slow')
+ assert(kv.duration==expectedDuration);self.slows=self.slows+1 end
+ return u
+end
+local hits={};local afterDamage
+function ApplyDamage(e)
+ assert(e.attacker==caster and e.ability==a and e.damage_type==2)
+ assert(e.damage==expectedDamage,'Death Nova has splash only, not primary target bonus')
+ hits[#hits+1]=e.victim
+ if afterDamage then afterDamage(e.victim) end
+ return e.damage*0.75
+end
+for n=1,10 do
+ rank=n;expectedRadius=radii[n];expectedDuration=durations[n];expectedDamage=splash[n]+20
+ local normal,boss,ally,dead,deleted=victim(3,false),victim(3,true),victim(2,false),victim(3,false),victim(3,false)
+ dead.alive=false;deleted.removed=true;units={normal,boss,ally,dead,deleted};hits={}
+ local count,actual=a:BlastAtPoint(origin)
+ assert(count==2 and #hits==2 and actual==expectedDamage*1.5)
+ assert(normal.slows==1 and boss.slows==1 and ally.slows==0)
+ assert(particles==n and releases==n and sounds==n,'One finite particle and one sound per Nova')
+end
+-- Unlearned/removed/client paths must produce no damage, visuals or sounds.
+local before=particles
+rank=0;assert(a:BlastAtPoint(origin)==0);rank=1
+removed=true;assert(a:BlastAtPoint(origin)==0);removed=false
+caster.removed=true;assert(a:BlastAtPoint(origin)==0);caster.removed=false
+server=false;assert(a:BlastAtPoint(origin)==0);server=true
+assert(a:BlastAtPoint(nil)==0 and particles==before and sounds==before)
+-- A still-existing dead owner is supported without a fake cast or mana payment.
+expectedRadius=radii[1];expectedDuration=durations[1];expectedDamage=splash[1]+20
+units={victim(3,false)};caster.alive=false;assert(a:BlastAtPoint(origin)==1);caster.alive=true
+-- Earlier damage may delete a later search result; no stale entity/modifier access.
+local first,second=victim(3,false),victim(3,true);units={first,second};hits={}
+afterDamage=function(u) u.alive=false;second.removed=true end
+assert(a:BlastAtPoint(origin)==1 and #hits==1 and first.slows==0)
+afterDamage=function() caster.removed=true end
+first,second=victim(3,false),victim(3,true);units={first,second};hits={}
+assert(a:BlastAtPoint(origin)==1 and #hits==1 and first.slows==0);caster.removed=false
+afterDamage=function() removed=true end
+units={victim(3,false),victim(3,true)};hits={}
+assert(a:BlastAtPoint(origin)==1 and #hits==1);removed=false;afterDamage=nil
+-- Targeted Q's original pre-primary snapshot is passed unchanged to splash.
+local primary=victim(3,false);function primary:GetAbsOrigin() return origin end
+function primary:EmitSound() end
+function a:GetCursorTarget() return primary end
+ParticleManager.CreateParticle=function() return 1 end
+ParticleManager.ReleaseParticleIndex=function() end
+local originalSplash=a.ApplySplashAtPoint;local called=false
+function a:ApplySplashAtPoint(pos,excluded,snapshot)
+ assert(pos==origin and excluded==primary and snapshot.damage==splash[1]+20)
+ assert(snapshot.radius==radii[1] and snapshot.duration==durations[1]);called=true;return 0,0
+end
+ApplyDamage=function() caster.int=1000;rank=10;return 1 end
+rank=1;caster.int=40;a:OnSpellStart();assert(called)
+a.ApplySplashAtPoint=originalSplash
+print('Lich Shard Q death Nova regression PASS')
+`;
+  const result=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});
+  assert.equal(result.status,0,result.stderr||result.stdout);
+  assert.match(result.stdout,/Lich Shard Q death Nova regression PASS/,result.stderr);
+});
+
 test('Shield pulses restore native short slow without slowing dead victims or changing damage',()=>{
   const script=`
 package.path='game/scripts/vscripts/?.lua;'..package.path

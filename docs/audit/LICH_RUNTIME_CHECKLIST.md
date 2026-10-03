@@ -43,6 +43,14 @@ and no-pull observations describe superseded source, not intended policy.
 
 ## Advanced checks (each NOT TESTED)
 
+- Shard integration is IN PROGRESS under
+  [Ice Spire implementation ledger](LICH_SHARD_IMPLEMENTATION_2026-10-03.md).
+  Point Nova exists only as a Q prerequisite; no Shard controller calls it yet.
+  Once connected, verify captured world position after Spire destruction, one
+  Nova particle/sound, learned-Q splash without primary bonus, living victim
+  slows, caster-death survival versus deleted caster, and no duplicate Nova on
+  recast/Shard-loss retirement. Do not test/accept a not-yet-exposed extra ability.
+
 - Q/R normal and Boss recipients with equivalent relevant properties use ordinary
   formulas; differences in armor/resistance/status resistance are recorded.
 - Basic dispel removes allied Q/R slow; enemy dispel removes W buff and its

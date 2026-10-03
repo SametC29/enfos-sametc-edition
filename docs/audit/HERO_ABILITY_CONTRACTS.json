@@ -4076,6 +4076,8 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
           "callbacks": [
+            "ApplySplashAtPoint",
+            "BlastAtPoint",
             "GetBehavior",
             "OnSpellStart"
           ],

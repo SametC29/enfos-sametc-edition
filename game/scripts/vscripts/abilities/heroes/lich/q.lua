@@ -52,23 +52,60 @@ function enfos_lich_frost_blast:OnSpellStart()
     if not t:IsNull() and t:IsAlive() then
         t:AddNewModifier(c, self, 'modifier_enfos_lich_frost_blast_slow', { duration = primary_slow_duration })
     end
-    local affected, splash_actual, splash_measured = 0, 0, true
-    for _, u in ipairs(enemies(c, origin, radius)) do
+    -- Preserve the pre-primary snapshot even if a damage callback changes rank/INT.
+    local affected, splash_actual = self:ApplySplashAtPoint(origin, t,
+        {radius=radius, damage=rdmg + int * 0.5, duration=slow_duration})
+    HeroTrace:Log('LICH','Q','impact_summary splash_targets=%d radius=%s splash_actual_total=%s',
+        affected,tostring(radius),type(splash_actual)=='number' and tostring(splash_actual) or '<unavailable>')
+end
+
+-- Shared splash calculation for targeted Q and the native-style Shard death Nova.
+-- No primary target bonus, resource payment, spell block, or extra cast is added.
+function enfos_lich_frost_blast:ApplySplashAtPoint(origin, excluded, snapshot)
+    if not IsServer() or (self.IsNull and self:IsNull()) then return 0, 0 end
+    local c = self:GetCaster()
+    if not origin or not c or c:IsNull() then return 0, 0 end
+    local affected, actual, measured = 0, 0, true
+    for _, u in ipairs(enemies(c, origin, snapshot.radius)) do
         if c:IsNull() or (self.IsNull and self:IsNull()) then break end
-        if u ~= t then
-        local splash = rdmg + (int * 0.5)
-        local dur = slow_duration
-        local dealt = damage(self, u, splash, DAMAGE_TYPE_MAGICAL)
-        if type(dealt)=='number' then splash_actual=splash_actual+dealt else splash_measured=false end
-        affected = affected + 1
-        if c:IsNull() or (self.IsNull and self:IsNull()) then break end
-        if not u:IsNull() and u:IsAlive() then
-            u:AddNewModifier(c, self, 'modifier_enfos_lich_frost_blast_slow', { duration = dur })
-        end
+        -- Damage callbacks can delete/kill later members of the search snapshot.
+        if u ~= excluded and u and not u:IsNull() and u:IsAlive()
+            and u:GetTeamNumber() ~= c:GetTeamNumber() then
+            local dealt = damage(self, u, snapshot.damage, DAMAGE_TYPE_MAGICAL)
+            if type(dealt)=='number' then actual=actual+dealt else measured=false end
+            affected=affected+1
+            if c:IsNull() or (self.IsNull and self:IsNull()) then break end
+            if not u:IsNull() and u:IsAlive() then
+                u:AddNewModifier(c, self, 'modifier_enfos_lich_frost_blast_slow',
+                    {duration=snapshot.duration})
+            end
         end
     end
-    HeroTrace:Log('LICH','Q','impact_summary splash_targets=%d radius=%s splash_actual_total=%s',
-        affected,tostring(radius),splash_measured and tostring(splash_actual) or '<unavailable>')
+    return affected, measured and actual or nil
+end
+
+function enfos_lich_frost_blast:BlastAtPoint(origin)
+    if not IsServer() or (self.IsNull and self:IsNull()) or self:GetLevel() < 1 then return 0, 0 end
+    local c = self:GetCaster()
+    -- A surviving Spire may detonate after its owner dies; deleted owners cannot.
+    if not origin or not c or c:IsNull() then return 0, 0 end
+    local radius = value(self, 'radius')
+    if radius <= 0 then radius=250 end
+    local duration = value(self, 'duration')
+    if duration <= 0 then duration=4 end
+    local snapshot = {radius=radius, duration=duration,
+        damage=value(self, 'radius_damage') + get_int(c) * 0.5}
+    EmitSoundOnLocationWithCaster(origin, 'Ability.FrostNova', c)
+    -- The dead/removed Spire is not used as particle owner or attachment.
+    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_lich/lich_frost_nova.vpcf', PATTACH_WORLDORIGIN, c)
+    ParticleManager:SetParticleControl(fx, 0, origin)
+    ParticleManager:SetParticleControl(fx, 1, Vector(radius, radius, radius))
+    ParticleManager:ReleaseParticleIndex(fx)
+    local affected, actual = self:ApplySplashAtPoint(origin, nil, snapshot)
+    HeroTrace:Log('LICH','Q','spire_nova position=%s rank=%s affected=%d requested_damage=%s actual_total=%s particle=%s cleanup=finite_resource_release',
+        tostring(origin),tostring(self:GetLevel()),affected,tostring(snapshot.damage),
+        type(actual)=='number' and tostring(actual) or '<unavailable>',tostring(fx))
+    return affected, actual
 end
 
 modifier_enfos_lich_frost_blast_slow=class({})
