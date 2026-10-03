@@ -1,4 +1,26 @@
 -- Vengeful Spirit R: isolated existing implementation; review gates remain pending.
+-- Model-bound particle wiring adapted from ModDota/ValveExamples (MIT),
+-- vengefulspirit_nether_swap_lua.lua, commit 9a438c475a8b2c3d0df9dc2de2f99a8471037174.
+-- Copyright (c) 2016 ModDota. See docs/reference-analysis/licenses/ValveExamples-MIT.txt.
+--[[
+MIT License
+Copyright (c) 2016 ModDota
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+]]
 local Helpers = require('abilities/shared/pve_helpers')
 local value, get_agi, damage = Helpers.value, Helpers.get_agi, Helpers.damage
 local HeroTrace = require('lib/hero_trace')
@@ -29,22 +51,21 @@ function enfos_vs_nether_swap:OnSpellStart()
     local p_target = t:GetAbsOrigin()
     local p_caster = c:GetAbsOrigin()
 
-    local fx1 = ParticleManager:CreateParticle('particles/units/heroes/hero_vengeful/vengeful_nether_swap.vpcf', PATTACH_WORLDORIGIN, nil)
-    ParticleManager:SetParticleControl(fx1, 0, p_caster)
-    ParticleManager:SetParticleControl(fx1, 1, p_target)
-    ParticleManager:ReleaseParticleIndex(fx1)
-
-    local fx2 = ParticleManager:CreateParticle('particles/units/heroes/hero_vengeful/vengeful_nether_swap_target.vpcf', PATTACH_WORLDORIGIN, nil)
-    ParticleManager:SetParticleControl(fx2, 0, p_target)
-    ParticleManager:SetParticleControl(fx2, 1, p_caster)
-    ParticleManager:ReleaseParticleIndex(fx2)
-
     c:SetAbsOrigin(p_target)
     FindClearSpaceForUnit(c, p_target, true)
     if not alive(c) or not alive(t) or (self.IsNull and self:IsNull()) then return end
     t:SetAbsOrigin(p_caster)
     FindClearSpaceForUnit(t, p_caster, true)
     if not alive(c) or not alive(t) or (self.IsNull and self:IsNull()) then return end
+    -- Native roots create on their owner model; CP1 moves/locks to the other
+    -- model's hitboxes/bones. A world-position-only CP has no such binding.
+    local fx1 = ParticleManager:CreateParticle('particles/units/heroes/hero_vengeful/vengeful_nether_swap.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
+    ParticleManager:SetParticleControlEnt(fx1, 1, t, PATTACH_ABSORIGIN_FOLLOW, '', t:GetAbsOrigin(), false)
+    ParticleManager:ReleaseParticleIndex(fx1)
+    local fx2 = ParticleManager:CreateParticle('particles/units/heroes/hero_vengeful/vengeful_nether_swap_target.vpcf', PATTACH_ABSORIGIN_FOLLOW, t)
+    ParticleManager:SetParticleControlEnt(fx2, 1, c, PATTACH_ABSORIGIN_FOLLOW, '', c:GetAbsOrigin(), false)
+    ParticleManager:ReleaseParticleIndex(fx2)
+    HeroTrace:Log('VENGEFUL_SPIRIT','R','swap_effects roots=2 model_bound=true lifetime_owner=particle release_indices=true')
     HeroTrace:Log('VENGEFUL_SPIRIT','R','swap caster_destination=%s target_destination=%s',tostring(p_target),tostring(p_caster))
     local dmg = value(self, 'damage')
     local agi = get_agi(c)

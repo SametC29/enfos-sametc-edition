@@ -47,7 +47,7 @@ for slot,cls in ipairs(classes) do
    return mode=='absorbed'
   end
   ParticleManager={CreateParticle=function()calls.particles=calls.particles+1;return 1 end,
-   SetParticleControl=function()end,ReleaseParticleIndex=function()end}
+   SetParticleControl=function()end,SetParticleControlEnt=function()end,ReleaseParticleIndex=function()end}
   ProjectileManager={CreateTrackingProjectile=function(_,p)assert(p.iMoveSpeed==1350);calls.projectiles=calls.projectiles+1;return 9 end}
   function FindClearSpaceForUnit()end
   function ApplyDamage(e)calls.damage=calls.damage+1;assert(e.damage==(slot==1 and 290 or 320),'Boss/normal formula changed');return e.damage end

@@ -485,3 +485,44 @@ implicit hybrid resources are not proven by static inspection. If alias is
 incompatible, retain a documented unresolved engine gate and choose an evidenced
 alternative; do not conceal failure with a broad replacement summon service.
 Q timing and R tree/target/CP leads remain open. No owner runtime evidence yet.
+
+## R model-bound particle repair
+
+Build-6943 decoded native roots `vengeful_nether_swap.vpcf` and `_target.vpcf`
+use `C_INIT_CreateOnModel`, CP1 `C_OP_MoveToHitbox` and `C_OP_LockToBone`;
+`m_bShouldHitboxesFallbackToRenderBounds=false`. Custom roots used nil owners
+at PATTACH_WORLDORIGIN and static vector CP1, providing no required model/bone
+binding. Root decoded SHA256: 64fa6d5945a98145ac52e90a9e72700c77a3f499dede0e3de61d901a576763d7;
+target: 59a19464f0b15bc4416f5146cc9ae7a9f30e6eca086ec3a4ba4a42883a7e143d.
+Both emit instantaneous particles with .35–.6s lifetimes and decay. Children
+`_b` are instantaneous; `_c`, `_blue`, `_pink` continuous emitters explicitly
+stop after .2s and include decay. Existing startup precaches both roots.
+
+LICENSED_REUSE import inventory: adapted the two root/CP1/release wiring
+patterns from ModDota/ValveExamples, commit
+`9a438c475a8b2c3d0df9dc2de2f99a8471037174`,
+`game/lua_ability_example/scripts/vscripts/vengefulspirit_nether_swap_lua.lua`
+lines 74–79. [Pinned source](https://github.com/ModDota/ValveExamples/blob/9a438c475a8b2c3d0df9dc2de2f99a8471037174/game/lua_ability_example/scripts/vscripts/vengefulspirit_nether_swap_lua.lua).
+MIT, Copyright (c) 2016 ModDota; full notice is embedded in production R Lua
+and retained at `docs/reference-analysis/licenses/ValveExamples-MIT.txt`.
+Permissive distribution is compatible, preserving notices. Imported scope is
+API particle wiring only: no assets, helper libraries, target restrictions,
+old Scepter behavior, trees or channel gesture copied. Native Valve resources
+stay references to the installed Dota archive; MIT does not license those assets.
+
+MCP verifies SetParticleControlEnt's both-realm entity/attachment/offset API.
+Our adaptation binds caster-owned root CP1 to target and target-owned root CP1
+to caster with PATTACH_ABSORIGIN_FOLLOW, empty attachment and current position.
+Creation follows both clear-space placements and revalidation. Invalid placement
+callbacks therefore cannot bind removed models. Each root index is released
+once; native finite particle definitions own lifetime, no Lua timers or retained
+handles. Existing swap formula, interruption, target policy and defense remain.
+
+Independent fixture performs 20 casts, checks model owners, opposite CP1 entity,
+attachment, fresh post-placement offset, 40 creations/bindings/releases and
+no change to swap positions. A clear-space callback invalidating target creates
+no roots. Ordinary/Boss/ally/absorb/interruption regression still passes. Fixture
+validates Lua wiring/ownership only, not renderer behavior. Owner NOT TESTED:
+both colored model-transfer effects, cold child/material loading, consecutive
+casts, death during finite effect and actual particle/performance/VConsole.
+Q timing and R tree radius/custom target semantics remain open source leads.

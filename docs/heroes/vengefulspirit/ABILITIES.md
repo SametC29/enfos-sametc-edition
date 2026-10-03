@@ -43,6 +43,14 @@ Death, copied custom spells/ranks, XP, respawn, upgrade loss, VFX/precache and
 native alias compatibility remain mandatory owner Dota/VConsole tests. See the
 individual ledger for evidence and constraints. Hero remains NOT DONE.
 
+2026-10-03 R particle repair: installed roots create particles on a model and
+move/lock to the opposite model's CP1 hitboxes/bones. World-origin roots with
+nil owners and position-only CP1 were incorrect. R now creates model-following
+roots after safe placement, binds opposite units and releases both finite
+roots. Installed source + MIT ValveExamples wiring and 20-cast mock evidence
+are in the individual ledger. Actual visuals/cold-load/performance remain
+owner NOT TESTED; this is not whole-hero acceptance.
+
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
 
