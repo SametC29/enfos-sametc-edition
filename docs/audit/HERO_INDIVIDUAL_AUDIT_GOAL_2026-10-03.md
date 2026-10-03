@@ -427,3 +427,16 @@ Runtime acceptance may remain pending where owner testing has not yet occurred, 
 Do not declare the overall goal complete merely because all automated checks pass.
 
 Do not declare all 40 heroes engine-accepted unless owner live-test evidence actually supports that conclusion.
+
+
+## Owner steering and basic playtest evidence, 2026-10-03
+
+Owner directly reports the following 19 heroes work in play, and will test Lion after its review. This is aggregate basic-playability evidence, without per-slot, rank, upgrade, Break/dispel/death/reconnect, VConsole or audiovisual detail. Record OWNER BASIC PLAYABILITY: OWNER REPORTED WORKING; do not elevate SOURCE REVIEW or comprehensive ENGINE ACCEPTANCE, erase known defects, or certify subsequent untested changes. Historical source/audit gaps remain open.
+
+Sven | Juggernaut | Drow Ranger | Lina | Omniknight | Axe | Legion Commander | Sniper | Crystal Maiden | Dazzle | Centaur Warrunner | Wraith King | Phantom Assassin | Zeus | Witch Doctor | Shadow Shaman | Jakiro | Vengeful Spirit | Lich
+
+Updated immediate priority: finish Lion, then prioritize heroes outside that owner-working list, retaining reverse authoritative roster order among those heroes. Listed-working heroes are deferred for remaining detailed audit/advanced evidence; they are not dropped from the 40-hero objective. “Not in the working list” is unconfirmed status, not proof of a particular failure.
+
+Remaining immediate queue (including current Lion): Lion → Puck → Invoker → Leshrac → Storm Spirit → Terrorblade → Medusa → Faceless Void → Anti-Mage → Chaos Knight → Troll Warlord → Monkey King → Ursa → Underlord → Pudge → Dragon Knight → Tidehunter → Shadow Fiend → Luna → Slark → Bristleback.
+
+Owner additionally authorizes GitHub push and the existing live Workshop update after Lion is finished (latest explicit request in this thread). This one release request supersedes the earlier local-only restriction for that Lion checkpoint; do not publish before then or infer standing publication authority for later heroes. Owner Dota testing remains distinct and pending where not supplied. Preserve concurrent Lich edits; publish only reviewed, validated content without silently absorbing contributor work.
