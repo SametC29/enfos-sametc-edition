@@ -5279,7 +5279,7 @@
 		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
@@ -5296,6 +5296,7 @@
 		"AbilityValues"
 		{
 			"splash_radius"	"325"
+			"scepter_bonus_damage" "100"
 			"damage"	"600 850 1100 1200 1300 1400 1500 1600 1700 1800"
 			"int_scaling_pct" "250"
 			"kill_stack_cap" "20"

@@ -3843,13 +3843,15 @@
           "slot": 4,
           "id": "enfos_lion_finger_of_death",
           "maxLevel": 10,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE",
           "callbacks": [
+            "GetAOERadius",
             "GetIntrinsicModifierName",
             "OnSpellStart"
           ],
           "specials": {
             "splash_radius": "325",
+            "scepter_bonus_damage": "100",
             "damage": "600 850 1100 1200 1300 1400 1500 1600 1700 1800",
             "int_scaling_pct": "250",
             "kill_stack_cap": "20",

@@ -6448,6 +6448,7 @@ test('Lion Finger of Death splashes damage in AoE and increments stack on kill',
     applied_damages = {}
     local lion = create_mock_unit('npc_dota_hero_lion', 2, Vector(0, 0, 0))
     lion.intellect = 80
+    lion.HasScepter = function() return true end
     local target = create_mock_unit('target_lion', 3, Vector(100, 0, 0), 100)
     local splash_creep = create_mock_unit('splash_lion', 3, Vector(120, 0, 0), 500)
     mock_world_units = { lion, target, splash_creep }
@@ -6458,6 +6459,7 @@ test('Lion Finger of Death splashes damage in AoE and increments stack on kill',
     ab.GetSpecialValueFor = function(_, k)
         if k == 'damage' then return 850 end
         if k == 'splash_radius' then return 325 end
+        if k == 'scepter_bonus_damage' then return 100 end
         if k == 'int_scaling_pct' then return 250 end
         if k == 'kill_stack_cap' then return 20 end
         if k == 'kill_stack_damage' then return 40 end
@@ -6471,23 +6473,23 @@ test('Lion Finger of Death splashes damage in AoE and increments stack on kill',
     local counter = lion:AddNewModifier(lion, ab, 'modifier_enfos_lion_finger_counter', {})
 
     ab:OnSpellStart()
-    -- dmg = 850 + (80 * 2.5 = 200) = 1050
+    -- dmg = 850 + (80 * 2.5 = 200) + Scepter100 = 1150
     assert(#applied_damages == 2)
-    assert(applied_damages[1].damage == 1050 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
-    assert(applied_damages[2].damage == 1050 and applied_damages[2].damage_type == DAMAGE_TYPE_MAGICAL)
+    assert(applied_damages[1].damage == 1150 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
+    assert(applied_damages[2].damage == 1150 and applied_damages[2].damage_type == DAMAGE_TYPE_MAGICAL)
 
     counter:SetStackCount(25)
     assert(counter:GetModifierSpellAmplify_Percentage() == 30, 'spell amplification must stop at the 20-stack cap')
     applied_damages = {}
     ab:OnSpellStart()
-    assert(applied_damages[1].damage == 1850, 'Finger bonus damage must also clamp to the configured stack cap')
+    assert(applied_damages[1].damage == 1950, 'Finger bonus damage must also clamp to the configured stack cap')
 
     local boss = create_mock_unit('enfos_boss_test', 3, Vector(100, 0, 0), 1000)
     mock_world_units = { lion, boss }
     applied_damages = {}
     counter:SetStackCount(0)
     ab:OnSpellStart()
-    assert(applied_damages[1].damage == 1050, 'Boss damage uses the ordinary base plus INT formula')
+    assert(applied_damages[1].damage == 1150, 'Boss damage uses the ordinary base plus INT formula')
 end)
 
 test('Lion Earth Spike uses KV geometry and Hex uses ordinary control on every target', function()

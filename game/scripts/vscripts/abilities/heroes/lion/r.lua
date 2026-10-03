@@ -1,6 +1,7 @@
 -- Lion R: finite targeted burst; native delay/grace/upgrade review remains pending.
 local H=require('abilities/shared/pve_helpers')
 local Trace=require('lib/hero_trace')
+local Upgrades=require('abilities/heroes/lion/upgrades')
 local function valid(x) return x and not (x.IsNull and x:IsNull()) end
 local function eligible(c,t)
     return valid(c) and c:IsAlive() and valid(t) and t:IsAlive()
@@ -21,6 +22,10 @@ end
 LinkLuaModifier('modifier_enfos_lion_finger_counter', 'abilities/heroes/lion/r', LUA_MODIFIER_MOTION_NONE)
 
 enfos_lion_finger_of_death=class({})
+function enfos_lion_finger_of_death:GetAOERadius()
+    if not valid(self) or not valid(self:GetCaster()) then return 0 end
+    return Upgrades.HasScepter(self:GetCaster()) and H.value(self,'splash_radius') or 0
+end
 function enfos_lion_finger_of_death:GetIntrinsicModifierName() return 'modifier_enfos_lion_finger_counter' end
 function enfos_lion_finger_of_death:OnSpellStart()
     if not IsServer() or not valid(self) then return end
@@ -33,14 +38,20 @@ function enfos_lion_finger_of_death:OnSpellStart()
     local mod=c:FindModifierByName('modifier_enfos_lion_finger_counter')
     local cap=math.max(0,H.value(self,'kill_stack_cap'))
     local stacks=valid(mod) and math.min(math.max(0,mod:GetStackCount()),cap) or 0
-    local total=base+H.get_int(c)*H.value(self,'int_scaling_pct')/100+stacks*H.value(self,'kill_stack_damage')
-    local radius=H.value(self,'splash_radius')
-    if radius<=0 then return end
+    local upgraded=Upgrades.HasScepter(c)
+    local total=base+(upgraded and H.value(self,'scepter_bonus_damage') or 0)+H.get_int(c)*H.value(self,'int_scaling_pct')/100+stacks*H.value(self,'kill_stack_damage')
+    local radius=upgraded and math.max(0,H.value(self,'splash_radius')) or 0
     local origin=t:GetAbsOrigin()
     c:EmitSound('Hero_Lion.FingerOfDeath')
     if not valid(self) or not eligible(c,t) or not beam(self,c,t) then return end
     Trace:Log('LION','R','cast damage=%.1f radius=%.1f stacks=%.0f',total,radius,stacks)
-    for _,u in ipairs(H.enemies(c,origin,radius)) do
+    local targets,seen={t},{[t]=true}
+    if radius>0 then
+        for _,u in ipairs(H.enemies(c,origin,radius)) do
+            if not seen[u] then seen[u]=true;targets[#targets+1]=u end
+        end
+    end
+    for _,u in ipairs(targets) do
         if not valid(self) or not valid(c) or not c:IsAlive() then break end
         if eligible(c,u) then
             H.damage(self,u,total,DAMAGE_TYPE_MAGICAL)

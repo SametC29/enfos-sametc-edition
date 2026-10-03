@@ -12,8 +12,8 @@ test('Lion Finger uses ordinary authored ten-rank damage on normal and Boss reci
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end;function LinkLuaModifier()end;function IsServer()return true end
 DAMAGE_TYPE_MAGICAL=2;DOTA_UNIT_TARGET_TEAM_ENEMY=1;DOTA_UNIT_TARGET_HERO=2;DOTA_UNIT_TARGET_BASIC=4;DOTA_UNIT_TARGET_FLAG_NONE=0;FIND_ANY_ORDER=0;PATTACH_ABSORIGIN_FOLLOW=7
-local recipients,hits={},{};local roots,releases=0,0;local bound,destroyed={},{};local particleHook,damageHook,soundHook,absorbHook
-function FindUnitsInRadius(team,p,_,radius,enemy,types,flags)assert(team==2 and radius==325 and types==6 and flags==0);return recipients end
+local recipients,hits={},{};local queries=0;local roots,releases=0,0;local bound,destroyed={},{};local particleHook,damageHook,soundHook,absorbHook
+function FindUnitsInRadius(team,p,_,radius,enemy,types,flags)queries=queries+1;assert(team==2 and radius==325 and types==6 and flags==0);return recipients end
 function ApplyDamage(p)assert(p.damage_type==2);hits[#hits+1]=p;p.victim.health=p.victim.health-p.damage;if damageHook then damageHook(p.victim)end;return p.damage end
 ParticleManager={CreateParticle=function(_,path,attach,c)roots=roots+1;if particleHook then particleHook('create')end;return roots end,
  SetParticleControlEnt=function(_,id,cp,u,attach,name,pos,lock)assert(attach==7 and name=='' and pos==u.pos and not lock);bound[id]=bound[id] or {};bound[id][cp]=u;if particleHook then particleHook('cp'..cp)end end,
@@ -28,23 +28,41 @@ local function unit(boss)
  function u:EmitSound(s)assert(s=='Hero_Lion.FingerOfDeath');if soundHook then soundHook()end end;function u:GetIntellect()return self.int or 100 end
  return u
 end
-local c=unit();c.team=2;local normal,boss=unit(),unit(true);local counter={stacks=0}
+local c=unit();c.team=2;c.scepter=true;function c:HasScepter()return self.scepter end;local normal,boss=unit(),unit(true);local counter={stacks=0}
 function counter:IsNull()return self.removed end
 function counter:GetStackCount()assert(not self.removed);return self.stacks end;function counter:SetStackCount(n)self.stacks=n end
 function c:FindModifierByName(n)assert(n=='modifier_enfos_lion_finger_counter');return counter end
 local a=setmetatable({rank=1},enfos_lion_finger_of_death);local base={${values.damage.split(/\s+/).join(',')}}
-local specials={int_scaling_pct=${values.int_scaling_pct},kill_stack_cap=${values.kill_stack_cap},kill_stack_damage=${values.kill_stack_damage},kill_stack_spell_amp_pct=${values.kill_stack_spell_amp_pct},splash_radius=${values.splash_radius},boss_damage_cap_pct=12}
+local specials={int_scaling_pct=${values.int_scaling_pct},kill_stack_cap=${values.kill_stack_cap},kill_stack_damage=${values.kill_stack_damage},kill_stack_spell_amp_pct=${values.kill_stack_spell_amp_pct},scepter_bonus_damage=${values.scepter_bonus_damage},splash_radius=${values.splash_radius},boss_damage_cap_pct=12}
 function a:GetSpecialValueFor(k)return k=='damage' and base[self.rank] or specials[k] or 0 end
 function a:IsNull()return self.removed end;function a:GetCaster()return c end;function a:GetCursorTarget()return normal end
+recipients={normal,boss}
+assert(a:GetAOERadius()==325);c.scepter=false;assert(a:GetAOERadius()==0)
+hits={};a:OnSpellStart();assert(#hits==1 and hits[1].victim==normal and hits[1].damage==850,'Base Finger is single-target')
+c.scepter=true;recipients={boss,boss};hits={};a:OnSpellStart();assert(#hits==2 and hits[1].victim==normal and hits[2].victim==boss and hits[1].damage==950,'Scepter primary cannot be omitted or duplicated')
 recipients={normal,boss}
 for rank=1,10 do
  a.rank=rank
  for _,stacks in ipairs({0,3,20,25})do
   counter.stacks=stacks;hits={};normal.health=1000000;boss.health=1000000;boss.max=rank*100
-  a:OnSpellStart();assert(bound[roots][0]==c and bound[roots][1]==normal,'Finite beam source/target must be separate');local expected=base[rank]+250+math.min(stacks,20)*40
+  a:OnSpellStart();assert(bound[roots][0]==c and bound[roots][1]==normal,'Finite beam source/target must be separate');local expected=base[rank]+100+250+math.min(stacks,20)*40
   assert(#hits==2 and hits[1].damage==expected and hits[2].damage==expected,'Boss must receive ordinary damage at every rank')
  end
 end
+c.scepter=false
+for rank=1,10 do
+ a.rank=rank
+ for _,isBoss in ipairs({false,true})do
+  normal=unit(isBoss);boss=unit();recipients={normal,boss}
+  for _,stacks in ipairs({0,3,20,25})do
+   normal.health=1000000;counter.stacks=stacks;hits={};local q=queries
+   a:OnSpellStart();assert(#hits==1 and queries==q and hits[1].victim==normal and hits[1].damage==base[rank]+250+math.min(stacks,20)*40,'All base ranks are single-target without a radius query')
+  end
+ end
+end
+c.scepter=true;counter.stacks=0;normal=unit();boss=unit();recipients={normal,boss};hits={}
+soundHook=function()c.scepter=false end;a:OnSpellStart();soundHook=nil
+assert(#hits==2 and hits[1].damage==base[10]+350,'Upgrade is snapshotted before callbacks');c.scepter=true
 counter.stacks=19;normal.health=1;boss.health=1;a:OnSpellStart();assert(counter.stacks==20,'Ordinary lethal kills retain bounded stack ownership')
 normal.health=1000000;normal.absorb=true;local n=roots;hits={};a:OnSpellStart();assert(#hits==0 and roots==n,'Spell block is unchanged');normal.absorb=false
 for _,mode in ipairs({'friendly','dead','removed','magic','debuff','building'})do
