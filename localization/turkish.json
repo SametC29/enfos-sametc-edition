@@ -913,7 +913,7 @@
     "DOTA_Tooltip_Ability_enfos_jakiro_macropyre": "Cehennem Ateşi",
     "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_Description": "Önünde {{length}} menzillik alev denizi yaratarak saniye başına {{damage_per_sec}} büyü hasarı yakar.",
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble": "Çifte Baş",
-    "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_Description": "Pasif olarak +{{bonus_int}} zeka ve +{{bonus_as}} saldırı hızı kazandırır.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_Description": "Öğrenildiğinde +{{bonus_int}} zeka ve +{{bonus_as}} saldırı hızı kazandırır. Kırılma sırasında devre dışıdır; illüzyonlar bonus kazanmaz. Dağıtılamaz.",
     "DOTA_Tooltip_Ability_enfos_vs_magic_missile": "Büyü Füzesi",
     "DOTA_Tooltip_Ability_enfos_vs_magic_missile_Description": "Düşmana kaçınılabilir bir füze fırlatır. İsabette {{damage}} + Çeviklik × 0,9 büyü hasarı verir ve {{stun_duration}} saniye sersemletir. Bosslarda aynı hasar ve sersemletme süresi kullanılır; normal bağışıklık ve durum direnci kuralları geçerlidir. Büyü engellemesi, Shard sıçraması dahil, isabette kontrol edilir.",
     "DOTA_Tooltip_Ability_enfos_vs_wave_of_terror": "Dehşet Dalgası",
@@ -1796,6 +1796,8 @@
     "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura_scepter_description": "Scepter: Auranın kendine sağladığı ek faydayı %25’ten %35’e çıkarır. Ölümde %100 hasar veren ve alan, tüm yetenekleri kullanabilen güçlü bir illüzyon oluşturur. İllüzyonun kazandığı deneyim Vengeful Spirit’e gider. Yeniden doğduğunda Vengeful Spirit yaşayan illüzyonun yerini alır. Genel ulti hasarı/bekleme süresi bonusunun yerini alır.",
     "DOTA_Tooltip_Ability_enfos_vs_scepter_native": "İntikam Aurası",
     "DOTA_Tooltip_Ability_enfos_vs_scepter_native_Description": "Scepter: Auranın kendine sağladığı ek faydayı %25’ten %35’e çıkarır. Ölümde %100 hasar veren ve alan, tüm yetenekleri kullanabilen güçlü bir illüzyon oluşturur. İllüzyonun kazandığı deneyim Vengeful Spirit’e gider. Yeniden doğduğunda Vengeful Spirit yaşayan illüzyonun yerini alır. Genel ulti hasarı/bekleme süresi bonusunun yerini alır.",
-    "enfos_vs_swap_invalid_target": "Geçersiz yer değiştirme hedefi."
+    "enfos_vs_swap_invalid_target": "Geçersiz yer değiştirme hedefi.",
+    "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble": "Çifte Baş",
+    "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble_Description": "+%dMODIFIER_PROPERTY_TOOLTIP% zeka ve +%dMODIFIER_PROPERTY_TOOLTIP2% saldırı hızı. Kırılma sırasında bonuslar devre dışıdır."
   }
 }

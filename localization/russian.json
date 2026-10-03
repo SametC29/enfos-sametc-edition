@@ -1394,6 +1394,9 @@
     "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura_scepter_description": "Scepter: Увеличивает дополнительный эффект ауры на самой Vengeful Spirit с 25% до 35%. После смерти создаёт сильную иллюзию, которая наносит и получает 100% урона и может использовать все способности. Полученный ею опыт передаётся Vengeful Spirit. При возрождении герой заменяет выжившую иллюзию. Заменяет общий бонус урона и перезарядки ультимейта.",
     "DOTA_Tooltip_Ability_enfos_vs_scepter_native": "Аура возмездия",
     "DOTA_Tooltip_Ability_enfos_vs_scepter_native_Description": "Scepter: Увеличивает дополнительный эффект ауры на самой Vengeful Spirit с 25% до 35%. После смерти создаёт сильную иллюзию, которая наносит и получает 100% урона и может использовать все способности. Полученный ею опыт передаётся Vengeful Spirit. При возрождении герой заменяет выжившую иллюзию. Заменяет общий бонус урона и перезарядки ультимейта.",
-    "enfos_vs_swap_invalid_target": "Недопустимая цель для обмена."
+    "enfos_vs_swap_invalid_target": "Недопустимая цель для обмена.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_Description": "После изучения даёт +{{bonus_int}} интеллекта и +{{bonus_as}} скорости атаки. Отключается истощением; иллюзии не получают бонусов. Не развеивается.",
+    "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble": "Двойная сила",
+    "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble_Description": "+%dMODIFIER_PROPERTY_TOOLTIP% интеллекта и +%dMODIFIER_PROPERTY_TOOLTIP2% скорости атаки. Истощение отключает бонусы."
   }
 }

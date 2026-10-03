@@ -77,3 +77,13 @@ Independent lifecycle fixture covers no hit before0.5s, initial and later entran
 Remaining W acceptance: actual Dota delay/late-entry, native hull/width comparison, ordinary immunity/resistance/strong dispel, independent overlapping caster stun cleanup, decoded child VFX timing/scale and audio startup/termination, dense-wave cost, native vision comparison and reconnect. NONE established by mocks. No source closure/owner runtime acceptance claimed; other Jakiro slots still open.
 
 Final persistent-path verification: full node tools/checks.mjs PASS (0 failed) after activation guard and bootstrap inventory update. All six Jakiro modifier classes resolve one owner; cold/legacy bootstrap tests pass. No Dota launch or live promotion.
+
+## D learned-rank and intrinsic presentation repair
+
+Preflight independent fixture reproduced unlearned rank-zero receiving rank-one stat values. Keep REPLACE: the authored fifth Enfos slot grants INT20–38/AS30–57, distinct from native nonlearnable innate second attack; keep all ten ranks/free-rank progression unchanged. Valid parent/ability and learned-rank gates now precede stat queries. Break/illusion return zero, explicit nonpurge/death-retained ownership prevents ordinary dispel/death dropping this passive. This explicit lifecycle is authored policy, not evidence of an observed engine purge bug.
+
+Retain verified existing jakiro_liquid_fire icon (installed VPK spellicons); no jakiro_double_trouble icon exists in inspected prefix listing, so do not invent an asset. Visible modifier has two dynamic tooltip properties and four locales. No particle, sound, animation or interval/global scan added for this stat passive. Lifecycle apply/refresh/remove traces use existing bounded default-off diagnostics, never getter spam. ModDota current Lua modifier API consulted: https://docs.moddota.com/lua_server/ . No foreign implementation imported.
+
+Independent fixture covers ranks0–10, removed handles, Break/illusion, ordinary death retained ownership, tooltip values, default-off/client traces and repeated getter queries. Engine refresh/respawn/reconnect/HUD icon and translated tooltip formatting remain owner NOT TESTED. Existing generic Support Shard healing and native E/R upgrade fidelity remain OPEN; D repair does not certify them or overall hero source closure.
+
+D focused verification: independent fixture FAIL before repair / PASS after; full node tools/checks.mjs PASS, 0 failed checks. Source-only unit; broader Jakiro review remains OPEN.

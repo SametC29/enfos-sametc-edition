@@ -1454,6 +1454,9 @@
     "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura_scepter_description": "Scepter: Increases the extra self aura benefit from 25% to 35%. On death, creates a strong illusion that deals and receives 100% damage and can use all abilities. Experience earned by it goes to Vengeful Spirit. On respawn, Vengeful Spirit replaces the surviving illusion. Replaces the generic ultimate damage/cooldown bonus.",
     "DOTA_Tooltip_Ability_enfos_vs_scepter_native": "Vengeance Aura",
     "DOTA_Tooltip_Ability_enfos_vs_scepter_native_Description": "Scepter: Increases the extra self aura benefit from 25% to 35%. On death, creates a strong illusion that deals and receives 100% damage and can use all abilities. Experience earned by it goes to Vengeful Spirit. On respawn, Vengeful Spirit replaces the surviving illusion. Replaces the generic ultimate damage/cooldown bonus.",
-    "enfos_vs_swap_invalid_target": "Invalid swap target."
+    "enfos_vs_swap_invalid_target": "Invalid swap target.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_Description": "When learned, grants +{{bonus_int}} intelligence and +{{bonus_as}} attack speed. Disabled by Break; illusions receive no bonus. Cannot be dispelled.",
+    "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble": "Double Trouble",
+    "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble_Description": "+%dMODIFIER_PROPERTY_TOOLTIP% intelligence and +%dMODIFIER_PROPERTY_TOOLTIP2% attack speed. Bonuses are disabled by Break."
   }
 }

@@ -1394,6 +1394,9 @@
     "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura_scepter_description": "神杖：光环对自身的额外加成由25%提高至35%。死亡时产生强幻象，造成并承受100%伤害，可使用全部技能。幻象获得的经验归复仇之魂所有。复活时，英雄替换仍存活的幻象。此升级取代通用的终极技能伤害和冷却加成。",
     "DOTA_Tooltip_Ability_enfos_vs_scepter_native": "复仇光环",
     "DOTA_Tooltip_Ability_enfos_vs_scepter_native_Description": "神杖：光环对自身的额外加成由25%提高至35%。死亡时产生强幻象，造成并承受100%伤害，可使用全部技能。幻象获得的经验归复仇之魂所有。复活时，英雄替换仍存活的幻象。此升级取代通用的终极技能伤害和冷却加成。",
-    "enfos_vs_swap_invalid_target": "无效的交换目标。"
+    "enfos_vs_swap_invalid_target": "无效的交换目标。",
+    "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_Description": "学习后获得+{{bonus_int}}智力和+{{bonus_as}}攻击速度。破坏期间失效；幻象不获得加成。无法驱散。",
+    "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble": "双头之力",
+    "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble_Description": "+%dMODIFIER_PROPERTY_TOOLTIP%智力和+%dMODIFIER_PROPERTY_TOOLTIP2%攻击速度。破坏期间加成失效。"
   }
 }
