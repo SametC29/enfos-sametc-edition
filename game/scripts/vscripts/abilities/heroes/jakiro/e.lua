@@ -165,13 +165,7 @@ end
 function modifier_enfos_jakiro_liquid_fire_passive:GetModifierProjectileName()
     -- This engine getter has no attack-record argument. Query eligibility only;
     -- never fund an attack or carry a stale visual override between flights.
-    if not IsServer() or self.closed then return end
-    local c,a=self:GetParent(),self:GetAbility()
-    if not valid(c) or not valid(a) or not c:IsAlive() or c:IsIllusion() or a:GetLevel()<1 then return end
-    if (c.IsSilenced and c:IsSilenced()) or (c.IsDisarmed and c:IsDisarmed()) then return end
-    local target=a.manual_target or (c.GetAggroTarget and c:GetAggroTarget())
-    if not enemy(c,target) or not target:IsAlive() then return end
-    if a.manual_target==target or (a:GetAutoCastState() and a.IsFullyCastable and a:IsFullyCastable()) then
+    if require('abilities/heroes/jakiro/e_visuals').ProjectileTarget(self) then
         return 'particles/units/heroes/hero_jakiro/jakiro_base_attack_fire.vpcf'
     end
 end

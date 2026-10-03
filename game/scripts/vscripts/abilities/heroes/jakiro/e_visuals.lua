@@ -1,7 +1,16 @@
--- Local ready-mouth art only. Never changes attack funding, damage or resources.
+-- Local ready-mouth and projectile queries. Never changes attack funding or resources.
 local Visuals = {}
 local Trace = require('lib/hero_trace')
 local function valid(x) return x and not (x.IsNull and x:IsNull()) end
+function Visuals.ProjectileTarget(m)
+    if not IsServer() or m.closed then return end
+    local c,a=m:GetParent(),m:GetAbility()
+    if not valid(c) or not valid(a) or not c:IsAlive() or c:IsIllusion() or a:GetLevel()<1 then return end
+    if (c.IsSilenced and c:IsSilenced()) or (c.IsDisarmed and c:IsDisarmed()) then return end
+    local t=a.manual_target or (c.GetAggroTarget and c:GetAggroTarget())
+    if not valid(t) or not t:IsAlive() or t:GetTeamNumber()==c:GetTeamNumber() then return end
+    if a.manual_target==t or (a:GetAutoCastState() and a.IsFullyCastable and a:IsFullyCastable()) then return t end
+end
 function Visuals.Clear(m)
     if not IsServer() then return end
     local p=m.ready_particle

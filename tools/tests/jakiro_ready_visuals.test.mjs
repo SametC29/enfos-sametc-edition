@@ -44,6 +44,24 @@ local a2={removed=false,IsNull=function(self)return self.removed end,GetLevel=fu
 local m=setmetatable({GetParent=function()return c2 end,GetAbility=function()return a2 end,StartIntervalThink=function()end},modifier_enfos_jakiro_liquid_fire_passive)
 local oldBindings=bindings;onCreate=function()a2.removed=true end;m:OnCreated();onCreate=nil;assert(m.ready_particle==nil and bindings==oldBindings and released==created)
 a2.removed=false;onBind=function()m:OnDestroy()end;m:OnCreated();onBind=nil;assert(m.ready_particle==nil and released==created)
+-- Projectile queries are readonly, server-only and use the installed attack root.
+local target={IsNull=function()return false end,IsAlive=function()return true end,GetTeamNumber=function()return 3 end,IsBuilding=function(self)return self.building end}
+function c:GetTeamNumber()return 2 end;function ic:GetTeamNumber()return 2 end
+function c:GetAggroTarget()assert(server);return target end;function ic:GetAggroTarget()assert(server);return target end
+function a:GetAutoCastState()return self.auto end;function ia:GetAutoCastState()return self.auto end
+fire.closed=false;ice.closed=false;a.auto=true;ia.auto=true
+local firePath='particles/units/heroes/hero_jakiro/jakiro_base_attack_fire.vpcf'
+local icePath='particles/units/heroes/hero_jakiro/jakiro_liquid_ice_projectile_attack.vpcf'
+for i=1,100 do assert(fire:GetModifierProjectileName()==firePath and ice:GetModifierProjectileName()==icePath)end
+target.building=true;assert(fire:GetModifierProjectileName()==firePath and ice:GetModifierProjectileName()==nil);target.building=false
+for _,mode in ipairs({'rank0','unready','dead','illusion','silenced','disarmed','removed_ability','removed_caster','closed','autocast_off'})do
+ if mode=='rank0' then ia.rank=0 elseif mode=='unready' then ia.ready=false elseif mode=='dead' then ic.alive=false elseif mode=='illusion' then ic.illusion=true elseif mode=='silenced' then ic.silenced=true elseif mode=='disarmed' then ic.disarmed=true elseif mode=='removed_ability' then ia.removed=true elseif mode=='removed_caster' then ic.removed=true elseif mode=='closed' then ice.closed=true else ia.auto=false end
+ assert(ice:GetModifierProjectileName()==nil,mode)
+ ia.rank=1;ia.ready=true;ic.alive=true;ic.illusion=false;ic.silenced=false;ic.disarmed=false;ia.removed=false;ic.removed=false;ice.closed=false;ia.auto=true
+end
+ia.auto=false;ia.ready=false;ia.manual_target=target;assert(ice:GetModifierProjectileName()==icePath);ia.manual_target=nil;assert(ice:GetModifierProjectileName()==nil)
+server=false;assert(fire:GetModifierProjectileName()==nil and ice:GetModifierProjectileName()==nil);server=true
+assert(released==created,'Projectile queries must not create extra particles')
 print('Jakiro ready visuals PASS')
 `;
  const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});assert.equal(r.status,0,r.stderr);assert.match(r.stdout,/Jakiro ready visuals PASS/,r.stderr);

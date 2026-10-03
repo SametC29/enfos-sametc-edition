@@ -56,7 +56,13 @@ function modifier_enfos_jakiro_liquid_frost_orb:GetReadyEffect()
     return 'particles/units/heroes/hero_jakiro/jakiro_liquid_ice_ready.vpcf','attach_attack2'
 end
 function modifier_enfos_jakiro_liquid_frost_orb:DeclareFunctions()
-    return {MODIFIER_EVENT_ON_ATTACK,MODIFIER_EVENT_ON_ATTACK_LANDED,MODIFIER_EVENT_ON_ATTACK_FAIL,MODIFIER_EVENT_ON_ATTACK_RECORD_DESTROY}
+    return {MODIFIER_PROPERTY_PROJECTILE_NAME,MODIFIER_EVENT_ON_ATTACK,MODIFIER_EVENT_ON_ATTACK_LANDED,MODIFIER_EVENT_ON_ATTACK_FAIL,MODIFIER_EVENT_ON_ATTACK_RECORD_DESTROY}
+end
+function modifier_enfos_jakiro_liquid_frost_orb:GetModifierProjectileName()
+    local t=require('abilities/heroes/jakiro/e_visuals').ProjectileTarget(self)
+    if t and not (t.IsBuilding and t:IsBuilding()) then
+        return 'particles/units/heroes/hero_jakiro/jakiro_liquid_ice_projectile_attack.vpcf'
+    end
 end
 function modifier_enfos_jakiro_liquid_frost_orb:OnAttack(params)
     local t=params and params.target
