@@ -20,3 +20,7 @@ Independent regression rejects ANY registration call, imports repeatedly in alte
 Owner local addon is a junction to this workspace game directory, so fresh local startup uses the changed file; no Workshop publication. A fresh local match/Tools restart is needed to eliminate already-loaded old Lua. Actual owner restart and VConsole absence of the fatal remain PENDING. Lich/Venge gameplay, resource and visual/audio gates remain NOT TESTED; startup repair does not certify their kits.
 
 Validation: full node tools/checks.mjs PASS, 0 failed checks. SHA256 of repository and installed junction hero_trace.lua both 00CA8F2EAD7C84342838EBA7BB25974E36DE90FB440B08858333A41044EF0DDD. Targeted regression also covers missing/erroring legacy cvar, explicit-off precedence and retained shared output cap. Engine restart remains owner PENDING.
+
+## Owner runtime confirmation — 2026-10-03
+
+After being asked to retest the Lich/Venge startup fatal, owner reports: “denedim çalışıyolar” (tested, they work). Record owner-observed in-game startup acceptance for this registration crash on both heroes. No agent Dota launch/control, captured VConsole log or full-kit visual/audio/rank/upgrades certification is implied. This confirmation supersedes the pending owner retest above for this specific fatal only; broader hero gates remain unchanged.
