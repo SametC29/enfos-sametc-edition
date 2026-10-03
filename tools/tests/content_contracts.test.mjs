@@ -126,8 +126,12 @@ test('every hero exposes correct ultimate/evolution contracts and migrated Enfos
     assert.equal(abilities[scepterAbility].HasScepterUpgrade,'1',id);
     if(id==='npc_dota_hero_tidehunter') assert.equal(abilities[h.Ability4].HasScepterUpgrade,undefined,'Ravage must not advertise the removed generic Scepter');
     if(id==='npc_dota_hero_lich') assert.equal(abilities[h.Ability4].HasScepterUpgrade,undefined,'Chain Frost must not advertise the replaced generic Scepter');
-    const shardAbility=id==='npc_dota_hero_lich'?h.Ability6:['npc_dota_hero_shadow_shaman','npc_dota_hero_tidehunter'].includes(id)?h.Ability2:h.Ability5;
+    const shardAbility=id==='npc_dota_hero_vengefulspirit'?h.Ability1:id==='npc_dota_hero_lich'?h.Ability6:['npc_dota_hero_shadow_shaman','npc_dota_hero_tidehunter'].includes(id)?h.Ability2:h.Ability5;
     assert.equal(abilities[shardAbility].HasShardUpgrade,'1',id);
+    if(id==='npc_dota_hero_vengefulspirit'){
+      assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Retribution must not advertise unrelated healing');
+      assert.equal(abilities[h.Ability1].AbilityValues.bounce_range_pct,'75','Magic Missile uses native Shard bounce range');
+    }
     if(id==='npc_dota_hero_lich'){
       assert.equal(h.Ability6,'enfos_lich_ice_spire');
       assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Aura must not advertise the replaced generic Shard');

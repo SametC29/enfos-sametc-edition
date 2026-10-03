@@ -3982,10 +3982,13 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
           "callbacks": [
+            "LaunchShardBounce",
             "OnProjectileHit",
+            "OnProjectileHit_ExtraData",
             "OnSpellStart"
           ],
           "specials": {
+            "bounce_range_pct": "75",
             "magic_missile_speed": "1350",
             "damage": "120 200 280 360 400 440 480 520 560 600",
             "stun_duration": "1.4 1.6 1.8 2 2.2 2.4 2.6 2.8 3 3.2"

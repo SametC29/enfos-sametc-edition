@@ -1124,7 +1124,6 @@
     "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_shard_description": "Verilen iyileştirme +%25.",
     "DOTA_Tooltip_Ability_enfos_vs_nether_swap_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
-    "DOTA_Tooltip_Ability_enfos_vs_retribution_shard_description": "Verilen iyileştirme +%25.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Lore": "Jilet keskinliğindeki zırhlara sahip bu manto, fedakâr şehitlerin savaştaki seçimi.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note0": "Hasar Yansıtması herhangi bir azaltmadan önce hesaplanır.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note1": "Yansıtılan hasar alınan hasar türü ile aynıdır.",
@@ -1789,6 +1788,7 @@
     "DOTA_Tooltip_modifier_enfos_vs_retribution": "Misilleme",
     "DOTA_Tooltip_modifier_enfos_vs_retribution_Description": "Çeviklik +%dMODIFIER_PROPERTY_STATS_AGILITY_BONUS%, saldırı hızı +%dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Kırılma etkisinde devre dışıdır.",
     "DOTA_Tooltip_modifier_enfos_vs_vengeance_aura_buff": "İntikam Halesi",
-    "DOTA_Tooltip_modifier_enfos_vs_vengeance_aura_buff_Description": "Temel saldırı hasarı %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%% artar. Hale kaynağı Kırılma etkisindeyken devre dışıdır."
+    "DOTA_Tooltip_modifier_enfos_vs_vengeance_aura_buff_Description": "Temel saldırı hasarı %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%% artar. Hale kaynağı Kırılma etkisindeyken devre dışıdır.",
+    "DOTA_Tooltip_Ability_enfos_vs_magic_missile_shard_description": "Büyülü Füze ilk hedefinden, güncel atış menzilinin %75’i içindeki başka bir düşmana bir kez seker. Kahramanlara öncelik verir; ikinci füze aynı hasarı ve sersemletmeyi uygular."
   }
 }

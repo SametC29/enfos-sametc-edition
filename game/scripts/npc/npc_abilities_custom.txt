@@ -5428,6 +5428,7 @@
 
 	"enfos_vs_magic_missile"
 	{
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_1"
         "ScriptFile"				"abilities/heroes/vengefulspirit/q"
@@ -5446,6 +5447,7 @@
 
 		"AbilityValues"
 		{
+            "bounce_range_pct" "75"
             "magic_missile_speed" "1350"
 			"damage"	"120 200 280 360 400 440 480 520 560 600"
 			"stun_duration"	"1.4 1.6 1.8 2 2.2 2.4 2.6 2.8 3 3.2"
@@ -5526,8 +5528,7 @@
 
 	"enfos_vs_retribution"
 	{
-		"IsBreakable" "1"		"HasShardUpgrade" "1"
-		"BaseClass"					"ability_lua"
+		"IsBreakable" "1"		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/heroes/vengefulspirit/d"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"vengefulspirit_command_aura"

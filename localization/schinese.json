@@ -509,7 +509,6 @@
     "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_shard_description": "施加的治疗效果+25%。",
     "DOTA_Tooltip_Ability_enfos_vs_nether_swap_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
-    "DOTA_Tooltip_Ability_enfos_vs_retribution_shard_description": "施加的治疗效果+25%。",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Lore": "覆盖着尖锐剃刀的盔甲，战斗中可以用来做出不顾自身安危的烈士行为。",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note0": "反弹的均为减免前的伤害。",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note1": "反弹伤害的类型与受到时相同。",
@@ -1387,6 +1386,7 @@
     "DOTA_Tooltip_modifier_enfos_vs_retribution": "复仇",
     "DOTA_Tooltip_modifier_enfos_vs_retribution_Description": "敏捷提高 %dMODIFIER_PROPERTY_STATS_AGILITY_BONUS%，攻击速度提高 %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%。受到破坏效果时失效。",
     "DOTA_Tooltip_modifier_enfos_vs_vengeance_aura_buff": "复仇光环",
-    "DOTA_Tooltip_modifier_enfos_vs_vengeance_aura_buff_Description": "基础攻击伤害提高 %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%。光环来源受到破坏效果时失效。"
+    "DOTA_Tooltip_modifier_enfos_vs_vengeance_aura_buff_Description": "基础攻击伤害提高 %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%。光环来源受到破坏效果时失效。",
+    "DOTA_Tooltip_Ability_enfos_vs_magic_missile_shard_description": "魔法箭从首个目标弹射一次，攻击当前施法距离75%范围内的另一名敌人，优先选择英雄。第二枚魔法箭造成相同伤害和眩晕。"
   }
 }

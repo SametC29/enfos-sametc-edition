@@ -2,6 +2,13 @@
 
 This dossier starts UNASSESSED/PENDING. It is a work reference, not proof that the kit works. The existing [structural inventory](../../audit/HERO_ABILITY_CONTRACTS.json) remains the source for static audit candidates.
 
+2026-10-03 Q Shard correction: the installed native one-bounce upgrade now
+belongs to `enfos_vs_magic_missile`, using 75% of current effective cast range
+and hero priority. D no longer advertises unrelated healing amplification.
+See the [individual ledger](../../audit/VENGEFUL_SPIRIT_INDIVIDUAL_REVIEW_2026-10-03.md)
+for provenance, bounded projectile policy, regression evidence and outstanding
+Scepter/W/E source work. Actual Dota/VConsole acceptance remains owner-pending.
+
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
 

@@ -123,7 +123,7 @@ function AghanimManager:HasShard(hero)
 	if hero.HasModifier then
 		-- Installed native localization identifies this permanent Shard buff.
 		-- Introduce the compatibility branch only for the hero under review.
-		if hero.GetUnitName and hero:GetUnitName()=="npc_dota_hero_lich"
+		if hero.GetUnitName and (hero:GetUnitName()=="npc_dota_hero_lich" or hero:GetUnitName()=="npc_dota_hero_vengefulspirit")
 			and hero:HasModifier("modifier_item_aghanims_shard_permanent_buff") then return true end
 		if hero:HasModifier("modifier_item_aghanims_shard_consumed") or
 		   hero:HasModifier("modifier_aghanims_shard_consumed") then
@@ -341,7 +341,7 @@ end
 
 function modifier_enfos_shard_upgrade:GetModifierHealAmplify_PercentageSource()
 	local parent = self.GetParent and self:GetParent()
-	if parent and parent.GetUnitName and parent:GetUnitName() == "npc_dota_hero_lich" then return 0 end
+	if parent and parent.GetUnitName and (parent:GetUnitName() == "npc_dota_hero_lich" or parent:GetUnitName() == "npc_dota_hero_vengefulspirit") then return 0 end
 	if parent and parent.GetUnitName and parent:GetUnitName() == "npc_dota_hero_shadow_shaman" then return 0 end
 	if self.role == "Support" then return 25 end
 	return 0

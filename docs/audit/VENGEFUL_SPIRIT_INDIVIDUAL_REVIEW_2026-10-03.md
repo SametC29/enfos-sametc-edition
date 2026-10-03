@@ -247,3 +247,40 @@ support implementation, not visual/audio acceptance.
 Native particle CP/attachment/impact presentation, cold-start playback, gesture
 appearance and audible timing remain PENDING OWNER TEST. Source review remains
 PENDING for upgrades, W native attack reduction/vision and immunity interactions.
+
+## Q Shard: native one-bounce restoration
+
+Installed build 6943 hero KV and `resource/localization/abilities_english.txt`
+(Q Shard token near line 1403) specify one bounce, enemy hero priority and
+`bounce_range_pct` 75% of current cast range from the first impact. Native
+localization identifies `modifier_item_aghanims_shard_permanent_buff` as the
+consumed item modifier. MCP confirms server `GetEffectiveCastRange` includes
+modifiers. Native C++ is unavailable; this is a custom implementation of the
+documented behavior, not certification of identical engine semantics.
+
+Previous Q had no bounce; D advertised a generic +25% outgoing-heal upgrade
+despite having no healing mechanic. Q now owns HasShardUpgrade and the native
+percentage value; D's flag and misleading four-language description are removed.
+Permanent Shard detection and removal of unrelated Support heal amplification
+are scoped to Venge (and preserve the earlier Lich exception). Other Support
+heroes retain their existing behavior pending their individual audits.
+
+Cast captures a single numeric bounce entitlement in projectile ExtraData.
+First impact saves its position before damage, so a lethal hit can still bounce.
+One radius search prioritizes a valid enemy hero over a closer basic unit,
+excludes the first target, and starts a dodgeable second missile from the impact
+position. Its remaining count is zero; no chain table, timer or global scan is
+retained. Losing Shard after launch does not revoke that projectile entitlement;
+damage/stun still use the existing live impact values. A lost/disjointed first
+target cancels the chain. Existing caster-death and spell-block behavior is
+preserved for the dedicated immunity/death-semantics review, not asserted native.
+
+Baseline fixture reproduces missing entitlement. Repaired fixture covers native
+consumed Shard, modified 900 range -> 675 search radius, hero priority, lethal
+first impact, one-bounce limit, disjoint, no-Shard cast and unchanged unreviewed
+Support healing behavior. Four languages and all localization mirrors include
+the actual Q upgrade. Source fixtures are PASS; real Shard consumption, flight
+origin/impact visuals, effective-range behavior, target immunity/absorb and
+client tooltip rendering remain PENDING OWNER TEST. Scepter, W native attack
+reduction/vision/recipient presentation and E emitter rank gate remain open;
+do not advance to Jakiro or mark this hero DONE yet.
