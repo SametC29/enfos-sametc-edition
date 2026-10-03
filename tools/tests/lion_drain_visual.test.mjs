@@ -12,7 +12,7 @@ package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end;function LinkLuaModifier()end
 local server=true;function IsServer()return server end;Convars={GetBool=function()return false end}
 PATTACH_ABSORIGIN_FOLLOW=3;DAMAGE_TYPE_MAGICAL=2
-local units={};function EntIndexToHScript(i)return units[i]end
+local clock=0;local units={};function EntIndexToHScript(i)return units[i]end
 local created,destroyed,released,binds=0,{},{},{};local hook;local hits,mana=0,0;local lastVictim,lastDamage,damageHook,manaHook,slowHook
 ParticleManager={CreateParticle=function(_,path,attach,c)
  assert(path=='particles/units/heroes/hero_lion/lion_spell_mana_drain.vpcf' and attach==3)
@@ -41,14 +41,14 @@ local function modifier()
  local m=setmetatable({intervals=0},modifier_enfos_lion_mana_drain_channel)
  function m:Destroy()self:OnDestroy()end
  function m:GetCaster()return c end;function m:GetParent()return c end;function m:GetAbility()return a end
- function m:StartIntervalThink(n)assert(n==.5);self.intervals=self.intervals+1 end
+ function m:StartIntervalThink(n)assert(n==.5);self.intervals=self.intervals+1;self.nextTick=clock+n end
  return m
 end
 local m=modifier();m:OnCreated({target_idx=1});assert(created==1 and m.drain_fx==1 and m.intervals==1)
 assert(binds[1][0]==c and binds[1][1]==t)
 for i=1,100 do m:OnIntervalThink()end
 assert(created==1 and hits==100 and mana==10000,'Ticks retain existing damage/mana, but cannot spawn more beams')
-local t2=unit();units[2]=t2;m:OnRefresh({target_idx=2});assert(created==2 and destroyed[1] and released[1] and m.drain_target==t2 and t.cleared==1 and m.intervals==1)
+local t2=unit();units[2]=t2;m:OnRefresh({target_idx=2});assert(created==2 and destroyed[1] and released[1] and m.drain_target==t2 and t.cleared==1 and m.intervals==2)
 assert(binds[2][0]==c and binds[2][1]==t2)
 units[2]=unit();m:OnIntervalThink();assert(lastVictim==t2,'Tick must use saved recipient instead of reused index');m:OnDestroy();m:OnDestroy();assert(destroyed[2] and released[2] and t2.cleared==1 and units[2].cleared==0 and c.stopped==1,'Teardown uses saved target, not recycled entity index')
 local n=hits;m:OnIntervalThink();assert(hits==n)
@@ -59,6 +59,16 @@ for _,phase in ipairs({'create','cp0','cp1'})do
 end
 local x=modifier();x:OnCreated({target_idx=1});c.removed=true;t.removed=true;x:OnDestroy();assert(destroyed[created] and released[created]);c.removed=false;t.removed=false
 local count=created;server=false;local client=modifier();client:OnCreated({target_idx=1});client:OnRefresh({target_idx=2});client:OnDestroy();assert(created==count);server=true
+-- Recasts start their own half-second cadence, without an immediate full tick.
+for _,same in ipairs({false,true})do
+ c,t=unit(2),unit();units[1]=t;units[2]=same and t or unit();a.removed=false;a.channeling=true
+ clock=0;local x=modifier();x:OnCreated({target_idx=1});assert(x.nextTick==.5)
+ clock=.49;local h,g=hits,mana;x:OnRefresh({target_idx=2})
+ assert(x.intervals==2 and x.nextTick==.99,'Refreshed recipients must receive a new half-second cadence')
+ assert(hits==h and mana==g,'Refresh must not award immediate damage/mana')
+ x:OnDestroy()
+end
+clock=0
 -- Source invalidation must stop without stale reads or mana side effects.
 for _,mode in ipairs({'ability','caster','dead caster','removed target','dead target','damage removes caster','damage removes ability','damage removes target','damage closes modifier','mana removes caster','lethal damage','friendly target','immune target','building target','damage converts target','mana converts target','hidden target','invisible target','damage hides target','mana hides target'})do
  c,t=unit(2),unit();units[1]=t;a.removed=false
@@ -171,6 +181,7 @@ for _,phase in ipairs({'create','cp0','cp1'})do
  local x=modifier();local outer=created+1
  hook=function(p)if p==phase then hook=nil;x:OnRefresh({target_idx=3})end end
  x:OnCreated({target_idx=1});hook=nil
+ assert(x.intervals==1,'Superseded creation cannot restart the newer refresh interval')
  assert(x.drain_target==nextTarget and x.drain_fx==created and x.drain_fx~=outer,'Fresh beam owns handle after '..phase..' refresh')
  assert(destroyed[outer] and released[outer],'Obsolete unowned emitter closes once')
  local current=x.drain_fx;x:OnDestroy();assert(destroyed[current] and released[current])

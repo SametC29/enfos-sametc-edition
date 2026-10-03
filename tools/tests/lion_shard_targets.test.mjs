@@ -115,7 +115,7 @@ for _,phase in ipairs({'slow','create','cp0','cp1'})do
  for _,u in ipairs({extra1,extra2})do for _,slow in ipairs(u.slows)do assert(slow.closed,phase)end end
 end
 reset(true);m:OnCreated({target_idx=1});local old=m.extra_drains;registry[2]=unit(3,300);m:OnRefresh({target_idx=2})
-assert(old[1].closed and old[2].closed and active_beams()==3 and m.intervals==1);m:OnDestroy()
+assert(old[1].closed and old[2].closed and active_beams()==3 and m.intervals==2);m:OnDestroy()
 -- Nested recast during an extra resource or damage callback preserves new revision.
 for _,phase in ipairs({'create','cp0','cp1','damage','mana'})do
  reset(true);m:OnCreated({target_idx=1});registry[2]=unit(3,300)

@@ -112,11 +112,12 @@ end
 function modifier_enfos_lion_mana_drain_channel:OnCreated(kv)
     if not IsServer() then return end
     self.revision=(self.revision or 0)+1
+    local revision=self.revision
     self.target_idx=kv and kv.target_idx or nil
     self.drain_target=self.target_idx and EntIndexToHScript(self.target_idx)
     self:StartVisual()
-    if not self.closed then Extras.Start(self,visible_enemy,value(self:GetAbility(),'shard_bonus_targets')) end
-    if not self.closed then self:StartIntervalThink(0.5) end
+    if not self.closed and self.revision==revision then Extras.Start(self,visible_enemy,value(self:GetAbility(),'shard_bonus_targets')) end
+    if not self.closed and self.revision==revision then self:StartIntervalThink(0.5) end
 end
 function modifier_enfos_lion_mana_drain_channel:OnRefresh(kv)
     if not IsServer() or self.closed then return end
@@ -134,6 +135,8 @@ function modifier_enfos_lion_mana_drain_channel:OnRefresh(kv)
     if self.closed or self.revision~=revision then return end
     Extras.Start(self,visible_enemy,value(self:GetAbility(),'shard_bonus_targets'))
     if self.closed or self.revision~=revision then return end
+    -- The new recipients own a fresh cadence, not the previous cast's deadline.
+    self:StartIntervalThink(0.5)
     Trace:Log('LION','E','channel visual refreshed')
 end
 function modifier_enfos_lion_mana_drain_channel:Abort(reason)
