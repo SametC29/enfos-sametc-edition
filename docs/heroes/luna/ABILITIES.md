@@ -115,7 +115,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Localization | PENDING | Not evaluated in this dossier setup. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | FAIL | Owner log 2026-10-04: Luna extension modifiers unknown. Isolated loading repair awaits owner retest. |
+| VConsole | PENDING | Prior Luna loading warnings absent from latest owner log; Q/R cast and measured-damage coverage not supplied. |
 
 Historical pre-migration change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
 
@@ -205,7 +205,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Localization | PENDING | Not evaluated in this dossier setup. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | FAIL | Owner log 2026-10-04: Luna extension modifiers unknown. Isolated loading repair awaits owner retest. |
+| VConsole | PASS | Latest owner log: zero Luna runtime/unknown-modifier errors; owner reports E works. All-rank/lifecycle coverage still pending. |
 
 Historical pre-migration change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
 
@@ -250,7 +250,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Localization | PENDING | Not evaluated in this dossier setup. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | FAIL | Owner log 2026-10-04: Luna extension modifiers unknown. Isolated loading repair awaits owner retest. |
+| VConsole | PENDING | Prior Luna loading warnings absent from latest owner log; Q/R cast and measured-damage coverage not supplied. |
 
 Historical pre-migration change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
 
@@ -335,3 +335,5 @@ checklists are invalid for this host; use script_reload_code for the probe.
 2026-10-04 owner confirms post-bootstrap client class visibility PASS: all three Luna extension globals are true with server=false. Expected server_context_unavailable guard is not an error. Full new-log warning clearance, actual Q/R damage and E armor/speed, lifecycle and ten-rank/upgrade acceptance remain pending owner evidence; no complete pilot acceptance claimed.
 
 2026-10-04 full owner log: unknown Luna modifier warnings cleared (0); client globals all present. New E lifecycle FAIL: 20 IsAlive nil errors in aura/recipient callbacks. Verified IsAlive server-only and GetHealth both-context. Local Luna helper now uses authoritative IsAlive on server and replicated health on client; 19 focused tests/full checks pass. Lifecycle repair awaits owner engine retest; native ten-rank/Q-R damage acceptance remains pending.
+
+2026-10-04 latest owner E test: owner reports E works; full supplied log has zero Luna unknown-modifier warnings and zero Luna runtime errors, clearing the prior client IsAlive failure for that session. Exact E rank, measured armor/speed and Break/death/respawn coverage remain pending. TreeShop map errors still exist. Q/R and full pilot acceptance remain open.

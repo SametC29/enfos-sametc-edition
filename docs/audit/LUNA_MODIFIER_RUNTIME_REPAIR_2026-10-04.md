@@ -271,3 +271,24 @@ Continue Q/R damage, ten-rank and upgrades acceptance independently. Separate
 TreeShop/CourierZone and native Boss base unknown-modifier errors remain in the
 supplied log and are outside this focused Luna repair. Owner requested motor
 tests be performed by the owner; no new game-control command was sent.
+
+
+## Owner E confirmation and clean Luna log — 2026-10-04
+
+Owner reports "E works" and supplies attachment
+86de2921-3b0e-45d5-8a6a-6232a6d6ca6e. SHA256:
+9d067772930df3a8b77afeee3c1b3863eb7a4175f16d7a434f3534cae29cbe39.
+The 1887-line log records Luna selection at line1740 and contains **0 unknown
+Luna modifier warnings and 0 Luna Script Runtime Error records**. In particular,
+the prior IsAlive faults no longer appear. The owner confirms E functionality
+in this observed session; exact rank, measured armor/speed, Break/death/respawn,
+multiple sources and all-rank coverage are unspecified and remain pending.
+
+Result: E reported working and Luna loading/client-lifecycle errors cleared for
+the supplied session. This narrower owner engine evidence does not close Q/R
+measured damage, ten-rank engine safety, upgrades, reconnect or the full pilot.
+
+Non-Luna Script Runtime Error entries remain: TreeShop_OnStartTouch and
+TreeShop_OnEndTouch nil callbacks (lines1863/1879). Do not call the full match
+console error-free or claim those unrelated map errors were repaired. No new
+source edit, engine-control command, remote push or publication in this unit.
