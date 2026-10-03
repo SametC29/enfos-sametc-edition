@@ -1,6 +1,6 @@
 # Shadow Fiend: ability evidence dossier
 
-This dossier starts UNASSESSED/PENDING. It is a work reference, not proof that the kit works. The existing [structural inventory](../../audit/HERO_ABILITY_CONTRACTS.json) remains the source for static audit candidates.
+The native-first pilot source is implemented; all engine acceptance remains PENDING OWNER TEST. It is a work reference, not proof that the kit works. The existing [structural inventory](../../audit/HERO_ABILITY_CONTRACTS.json) remains the source for static audit candidates.
 
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
@@ -9,13 +9,13 @@ Hero: `npc_dota_hero_nevermore`; role: Mage. Progression target: hero level 50 /
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_sf_shadowraze` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | nevermore_shadowraze1 |
-| 2 | `enfos_sf_necromastery` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | nevermore_necromastery |
+| 1 | `enfos_sf_shadowraze` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/heroes/nevermore/q | nevermore_shadowraze1 |
+| 2 | `enfos_sf_necromastery` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/nevermore/w | nevermore_necromastery |
 | 3 | `enfos_sf_presence_of_the_dark_lord` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE \| DOTA_ABILITY_BEHAVIOR_AURA | NOT_EXPLICIT | nevermore_dark_lord |
-| 4 | `enfos_sf_requiem_of_souls` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | nevermore_requiem |
+| 4 | `enfos_sf_requiem_of_souls` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/heroes/nevermore/r | nevermore_requiem |
 | 5 | `enfos_sf_feast_of_souls` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/nevermore/d | nevermore_frenzy |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [abilities/heroes/nevermore/d](../../../game/scripts/vscripts/abilities/heroes/nevermore/d.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/nevermore/q](../../../game/scripts/vscripts/abilities/heroes/nevermore/q.lua), [abilities/heroes/nevermore/w](../../../game/scripts/vscripts/abilities/heroes/nevermore/w.lua), [abilities/heroes/nevermore/r](../../../game/scripts/vscripts/abilities/heroes/nevermore/r.lua), [abilities/heroes/nevermore/d](../../../game/scripts/vscripts/abilities/heroes/nevermore/d.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -48,10 +48,10 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ### Per-ability review leads
 
-- `enfos_sf_shadowraze`: cast/impact/modifier contract and lifetime.
-- `enfos_sf_necromastery`: intrinsic modifier, Break/illusion behavior, live rank refresh.
+- `enfos_sf_shadowraze`: static unreferenced-special candidates: damage, radius, intelligence_multiplier (not confirmed defects).
+- `enfos_sf_necromastery`: intrinsic modifier, Break/illusion behavior, live rank refresh; static unreferenced-special candidates: damage_per_soul, souls_per_kill, souls_per_hero_kill, spell_amp_per_soul (not confirmed defects).
 - `enfos_sf_presence_of_the_dark_lord`: intrinsic modifier, Break/illusion behavior, live rank refresh.
-- `enfos_sf_requiem_of_souls`: ultimate unlock curve, Scepter/Blessing and boss burst.
+- `enfos_sf_requiem_of_souls`: ultimate unlock curve, Scepter/Blessing and boss burst; static unreferenced-special candidates: damage_per_wave, radius, intelligence_multiplier (not confirmed defects).
 - `enfos_sf_feast_of_souls`: Enfos passive free starting rank, native innate separation, respawn/point budget; intrinsic modifier, Break/illusion behavior, live rank refresh.
 
 <!-- END GENERATED INVENTORY -->
@@ -76,8 +76,8 @@ classification/acceptance rows below are not native migration certification.
 ## Slot 1: `enfos_sf_shadowraze`
 
 Classification: PVE-CONVERT
-Native counterpart: `nevermore_shadowraze1/2/3` (installed native snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot mapping is authored).
-Decision and PvE identity rationale: PVE-CONVERT preserves the identified Dota hero fantasy while changing PvP-only targeting/control for wave, elite and boss play.
+Native counterpart: `nevermore_shadowraze1/2/3` (installed build6943/revision11069754; engine validation pending).
+Decision and PvE identity rationale: One paid Q invokes three exact native providers. Native stacking, targeting, particles, sounds and Shard handling remain engine-owned; a bounded controller relays cooldown reductions.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current/target rank: each Enfos slot has ten explicit KV levels. The match is capped at level 50; Q/W/E/R require 40 paid ranks total and passive ranks 2–10 require nine more; the fifth slot rank 1 is free, for 49 spendable points overall. Rank-up HUD/runtime acceptance remains pending.
@@ -85,7 +85,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
 
-- Native ability data source + build + hash/revision: PENDING.
+- Native ability data source + build + hash/revision: verified in the [pilot source snapshot](../../audit/SHADOW_FIEND_NATIVE_SOURCE_2026-10-04.json); runtime pending.
 - Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
 - Sound events + declaring banks + emission target + loop termination: PENDING.
 - Model/animation/gesture/icon evidence: PENDING.
@@ -98,7 +98,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Native integration source and focused mocks pass; actual C++ behavior unverified. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | Q levels 1–10 gate declared; in-game HUD/point behavior remains PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
@@ -109,7 +109,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
 | Boss | PENDING | Not evaluated in this dossier setup. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | Four-language source/mirrors updated to current keys; actual HUD pending. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
@@ -118,9 +118,9 @@ Change/test record: all five slots have MaxLevel 10; all multirank KV values hav
 
 ## Slot 2: `enfos_sf_necromastery`
 
-Classification: PVE-CONVERT
-Native counterpart: `nevermore_necromastery` (installed native snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot mapping is authored).
-Decision and PvE identity rationale: PVE-CONVERT preserves the identified Dota hero fantasy while changing PvP-only targeting/control for wave, elite and boss play.
+Classification: TUNE
+Native counterpart: `nevermore_necromastery` (installed build6943/revision11069754; engine validation pending).
+Decision and PvE identity rationale: One native intrinsic owns collection, stacks, attack damage, Break and death loss. A raw-value override tunes ten paid ranks; the extension adds spell amplification from the same soul count.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current/target rank: each Enfos slot has ten explicit KV levels. The match is capped at level 50; Q/W/E/R require 40 paid ranks total and passive ranks 2–10 require nine more; the fifth slot rank 1 is free, for 49 spendable points overall. Rank-up HUD/runtime acceptance remains pending.
@@ -128,7 +128,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
 
-- Native ability data source + build + hash/revision: PENDING.
+- Native ability data source + build + hash/revision: verified in the [pilot source snapshot](../../audit/SHADOW_FIEND_NATIVE_SOURCE_2026-10-04.json); runtime pending.
 - Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
 - Sound events + declaring banks + emission target + loop termination: PENDING.
 - Model/animation/gesture/icon evidence: PENDING.
@@ -141,7 +141,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Native integration source and focused mocks pass; actual C++ behavior unverified. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | W levels 1–10 gate declared; in-game HUD/point behavior remains PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
@@ -152,7 +152,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
 | Boss | PENDING | Not evaluated in this dossier setup. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | Four-language source/mirrors updated to current keys; actual HUD pending. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
@@ -204,9 +204,9 @@ Change/test record: all five slots have MaxLevel 10; all multirank KV values hav
 
 ## Slot 4: `enfos_sf_requiem_of_souls`
 
-Classification: PVE-CONVERT
-Native counterpart: `nevermore_requiem` (installed native snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot mapping is authored).
-Decision and PvE identity rationale: PVE-CONVERT preserves the identified Dota hero fantasy while changing PvP-only targeting/control for wave, elite and boss play.
+Classification: REPLACE
+Native counterpart: `nevermore_requiem` (installed build6943/revision11069754; engine validation pending).
+Decision and PvE identity rationale: Replaces custom lines/fear/Boss compensation with one exact native provider for casts and death release. The paid controller forwards phase, interruption and cast; native Scepter replaces generic Mage bonuses.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current/target rank: each Enfos slot has ten explicit KV levels. The match is capped at level 50; Q/W/E/R require 40 paid ranks total and passive ranks 2–10 require nine more; the fifth slot rank 1 is free, for 49 spendable points overall. Rank-up HUD/runtime acceptance remains pending.
@@ -214,7 +214,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
 
-- Native ability data source + build + hash/revision: PENDING.
+- Native ability data source + build + hash/revision: verified in the [pilot source snapshot](../../audit/SHADOW_FIEND_NATIVE_SOURCE_2026-10-04.json); runtime pending.
 - Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
 - Sound events + declaring banks + emission target + loop termination: PENDING.
 - Model/animation/gesture/icon evidence: PENDING.
@@ -227,7 +227,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Native integration source and focused mocks pass; actual C++ behavior unverified. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | R levels 5–50 in five-level steps declared; ultimate HUD/point behavior remains PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
@@ -238,7 +238,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
 | Boss | PENDING | Not evaluated in this dossier setup. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | Four-language source/mirrors updated to current keys; actual HUD pending. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
@@ -291,3 +291,5 @@ Change/test record: all five slots have MaxLevel 10; all multirank KV values hav
 2026-09-30 level-cap integration: all five Shadow Fiend abilities now declare KV rank gates. Q/W/E and the Enfos passive use one rank per level; passive rank 1 remains a separate Enfos grant. Requiem of Souls ranks 1–10 unlock on levels 5, 10, …, 50. Static KV contract passes; actual rank buttons, level-up points, ultimate badge and match-start level 6 remain PENDING for owner testing.
 
 2026-09-30 global Break metadata audit: Added KV `IsBreakable 1` to `enfos_sf_necromastery`, `enfos_sf_presence_of_the_dark_lord`, `enfos_sf_feast_of_souls` because its linked Lua passive implementation check `PassivesDisabled()`. Automated content validation now rejects this metadata mismatch. Actual Dota Break behavior remains PENDING.
+
+2026-10-04 native pilot source: Q/W/R now use exact hidden providers at native rank 1 (R remains rank 0 until trained); paid ENFOS slots retain ten ranks. Shared existing innate restoration installs the scaling modifier first and finds/reuses providers. Native souls are never duplicated/reset on restore; W rank-up refreshes the same native modifier. Two SF classes join the existing server/client bootstrap without loading server managers. Old SF Q/W/R classes, soul counter and fear modifier are removed from pve_kits. Generic Mage Scepter/Shard are bypassed only for ENFOS SF; native Boss SF remains unchanged. Shard belongs to Q, not D. All engine/VFX/SFX/death/respawn/reconnect/rank10/upgrades remain PENDING OWNER TEST. See the [source delivery and test protocol](../../audit/SHADOW_FIEND_NATIVE_PILOT_2026-10-04.md). Table-driven override reads are tested but remain static audit candidates because the analyzer does not follow routing tables.

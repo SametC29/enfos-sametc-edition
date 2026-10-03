@@ -132,7 +132,7 @@ test('every hero exposes correct ultimate/evolution contracts and migrated Enfos
       assert.equal(abilities[h.Ability6].BaseClass,'vengefulspirit_command_aura');
       assert.equal(abilities[h.Ability6].AbilityValues.bonus_base_damage,'0','Native lifecycle bridge must not stack a second damage aura');
     }
-    const shardAbility=['npc_dota_hero_jakiro','npc_dota_hero_lion'].includes(id)?h.Ability3:id==='npc_dota_hero_vengefulspirit'?h.Ability1:id==='npc_dota_hero_lich'?h.Ability6:['npc_dota_hero_shadow_shaman','npc_dota_hero_tidehunter','npc_dota_hero_luna'].includes(id)?h.Ability2:h.Ability5;
+    const shardAbility=['npc_dota_hero_jakiro','npc_dota_hero_lion'].includes(id)?h.Ability3:['npc_dota_hero_vengefulspirit','npc_dota_hero_nevermore'].includes(id)?h.Ability1:id==='npc_dota_hero_lich'?h.Ability6:['npc_dota_hero_shadow_shaman','npc_dota_hero_tidehunter','npc_dota_hero_luna'].includes(id)?h.Ability2:h.Ability5;
     assert.equal(abilities[shardAbility].HasShardUpgrade,'1',id);
     if(id==='npc_dota_hero_vengefulspirit'){
       assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Retribution must not advertise unrelated healing');

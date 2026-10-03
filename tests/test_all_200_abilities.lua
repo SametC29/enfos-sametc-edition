@@ -272,6 +272,7 @@ function create_mock_unit(name, team, origin, hp)
         PassivesDisabled = function() return false end,
         IsIllusion = function() return false end,
         IsHero = function() return true end,
+        IsRealHero = function() return true end,
         IsMagicImmune = function() return false end,
         IsInvulnerable = function() return false end,
         MoveToTargetToAttack = function(self, target) end,
@@ -291,6 +292,7 @@ function create_mock_unit(name, team, origin, hp)
         AddNewModifier = function(self, caster, ability, mod_name, params)
             local cls = _G[mod_name]
             local mod = cls and cls() or {}
+            mod.IsNull = function() return false end
             mod.caster = caster
             mod.ability = ability
             mod.params = params
@@ -331,10 +333,28 @@ function create_mock_unit(name, team, origin, hp)
         end,
         Heal = function(self, amount, source) self.hp = math.min(self.max_hp, self.hp + amount) end,
         Purge = function() end,
+        -- Native SF helpers are dispatch-only mocks. C++ damage/death/VFX remain pending.
+        AddAbility = function(self, id)
+            assert(self.name=='npc_dota_hero_nevermore')
+            local known={nevermore_shadowraze1=true,nevermore_shadowraze2=true,nevermore_shadowraze3=true,
+                nevermore_necromastery=true,nevermore_requiem=true}
+            assert(known[id], 'Unexpected native SF provider '..id)
+            self.sfProviders=self.sfProviders or {}
+            assert(not self.sfProviders[id], 'Duplicate native provider')
+            local a={level=0,IsNull=function()return false end,GetLevel=function(m)return m.level end,
+                SetLevel=function(m,v)assert(v==0 or v==1);m.level=v end,
+                SetHidden=function(_,v)assert(v)end,SetActivated=function()end,
+                GetCooldownTimeRemaining=function()return 0 end,StartCooldown=function()end,
+                OnSpellStart=function()end,OnAbilityPhaseStart=function()return true end,
+                OnAbilityPhaseInterrupted=function()end}
+            self.sfProviders[id]=a;return a
+        end,
         FindAbilityByName = function(self, ab_name)
+            if self.sfProviders and self.sfProviders[ab_name] then return self.sfProviders[ab_name] end
             local cls = _G[ab_name]
             if cls then
                 local a = cls()
+                a.IsNull = function() return false end
                 a.GetCaster = function() return self end
                 a.GetSpecialValueFor = function(_, k) return special(ab_name,k) end
                 a.IsItem = function() return false end
@@ -382,6 +402,7 @@ for _, hero_info in ipairs(roster) do
             table.insert(failed_abilities, { hero = hero_info.name, ability = ab_name, err = 'Class not found in global namespace' })
         else
             local ab = cls()
+            ab.IsNull = function() return false end
             ab.GetCaster = function() return hero end
             ab.GetCursorTarget = function() return enemy end
             ab.GetCursorPosition = function() return enemy:GetAbsOrigin() end

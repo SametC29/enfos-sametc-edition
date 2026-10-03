@@ -217,7 +217,7 @@ LUA_MODIFIER_MOTION_NONE=0
 local links={};local count=0
 function LinkLuaModifier(name,path,motion)
  assert(client and motion==0)
- assert(path=='abilities/heroes/luna/modifiers' or path=='abilities/heroes/nevermore/d')
+ assert(path=='abilities/heroes/luna/modifiers' or path=='abilities/heroes/nevermore/d' or path=='abilities/heroes/nevermore/modifiers')
  assert(type(_G[name])=='table' and not links[name])
  links[name]=true;count=count+1
 end
@@ -225,9 +225,10 @@ local entry='game/scripts/vscripts/addon_game_mode_client.lua'
 assert(loadfile(entry))();assert(count==0)
 client=true
 assert(loadfile(entry))();assert(loadfile(entry))()
-assert(count==4 and links.modifier_enfos_luna_native_scaling)
+assert(count==5 and links.modifier_enfos_luna_native_scaling)
 assert(links.modifier_enfos_luna_blessing_extension and links.modifier_enfos_luna_blessing_extension_buff)
 assert(links.modifier_enfos_sf_feast_of_souls_passive)
+assert(links.modifier_enfos_sf_native_scaling)
 for _,name in ipairs({'abilities/heroes/luna/integration','abilities/heroes/luna/scaling',
  'abilities/heroes/luna/e','heroes/innates','heroes/aghanim_manager','enfos_sametc','abilities/pve_kits'}) do
  assert(package.loaded[name]==nil,'Client imported server service '..name)

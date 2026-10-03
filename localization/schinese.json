@@ -469,8 +469,7 @@
     "DOTA_Tooltip_Ability_enfos_luna_lunar_orbit": "月之轨道 (Lunar Orbit)",
     "DOTA_Tooltip_Ability_enfos_luna_lunar_orbit_Description": "持续{{rotating_glaives_duration}}秒，{{rotating_glaives}}把月刃在露娜周围{{rotating_glaives_movement_radius}}半径内旋转。碰撞的敌人受到攻击伤害{{rotating_glaives_collision_damage}}%的物理伤害。受到的伤害降低{{rotating_glaives_damage_reduction}}%。",
     "DOTA_Tooltip_Ability_enfos_luna_lunar_orbit_shard_description": "月之轨道生效期间额外降低10%受到的伤害，并提供20%移动速度。",
-    "DOTA_Tooltip_Ability_enfos_sf_requiem_of_souls_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
-    "DOTA_Tooltip_Ability_enfos_sf_feast_of_souls_shard_description": "+15%法术增强。",
+    "DOTA_Tooltip_Ability_enfos_sf_requiem_of_souls_scepter_description": "原生魂之挽歌会返回，造成伤害并治疗影魔。冷却时间减少30秒，最低为1秒。",
     "DOTA_Tooltip_Ability_enfos_ss_mass_serpent_ward_scepter_description": "其中一个蛇棒变为超级蛇棒，伤害和生命值为4倍，外观大小为2倍。蛇棒总数不变；终极技能冷却时间缩短25%。",
     "DOTA_Tooltip_Ability_enfos_ss_hex_shard_description": "妖术还会变形主目标附近的有限数量敌人，替代通用辅助治疗加成。",
     "DOTA_Tooltip_Ability_enfos_tide_gush_scepter_description": "Scepter：Gush变为向指定地点发射的穿透波。射程2200，碰撞半径260，速度1500，基础冷却最多7秒。命中的每个敌人受到Gush伤害、减甲和减速。替代通用终极技能伤害和冷却加成。",
@@ -1430,6 +1429,21 @@
     "DOTA_Tooltip_Ability_enfos_sf_presence_of_the_dark_lord_SummaryDescription": "降低周围{{presence_radius}}范围内敌人{{presence_armor_reduction|abs}}点护甲。破坏效果下失效。",
     "DOTA_Tooltip_ability_enfos_sf_presence_of_the_dark_lord": "魔王降临",
     "DOTA_Tooltip_ability_enfos_sf_presence_of_the_dark_lord_Description": "降低周围{{presence_radius}}范围内敌人{{presence_armor_reduction|abs}}点护甲。破坏效果下失效。",
-    "DOTA_Tooltip_ability_enfos_sf_presence_of_the_dark_lord_SummaryDescription": "降低周围{{presence_radius}}范围内敌人{{presence_armor_reduction|abs}}点护甲。破坏效果下失效。"
+    "DOTA_Tooltip_ability_enfos_sf_presence_of_the_dark_lord_SummaryDescription": "降低周围{{presence_radius}}范围内敌人{{presence_armor_reduction|abs}}点护甲。破坏效果下失效。",
+    "DOTA_Tooltip_Ability_enfos_sf_shadowraze_Description": "在200、450和700距离释放原生毁灭阴影。每次在{{radius}}范围内造成{{damage}} + {{intelligence_multiplier}} × 智力的魔法伤害；保留原生叠加和灵魂伤害。",
+    "DOTA_Tooltip_Ability_enfos_sf_shadowraze_SummaryDescription": "在200、450和700距离释放原生毁灭阴影。每次在{{radius}}范围内造成{{damage}} + {{intelligence_multiplier}} × 智力的魔法伤害；保留原生叠加和灵魂伤害。",
+    "DOTA_Tooltip_ability_enfos_sf_shadowraze_Description": "在200、450和700距离释放原生毁灭阴影。每次在{{radius}}范围内造成{{damage}} + {{intelligence_multiplier}} × 智力的魔法伤害；保留原生叠加和灵魂伤害。",
+    "DOTA_Tooltip_ability_enfos_sf_shadowraze_SummaryDescription": "在200、450和700距离释放原生毁灭阴影。每次在{{radius}}范围内造成{{damage}} + {{intelligence_multiplier}} × 智力的魔法伤害；保留原生叠加和灵魂伤害。",
+    "DOTA_Tooltip_Ability_enfos_sf_necromastery_Description": "每击杀单位收集{{souls_per_kill}}个灵魂，击杀英雄收集{{souls_per_hero_kill}}个，最多{{max_souls}}个。每个灵魂提供{{damage_per_soul}}攻击力和{{spell_amp_per_soul}}%法术增强。死亡时按原生规则损失灵魂。",
+    "DOTA_Tooltip_Ability_enfos_sf_necromastery_SummaryDescription": "每击杀单位收集{{souls_per_kill}}个灵魂，击杀英雄收集{{souls_per_hero_kill}}个，最多{{max_souls}}个。每个灵魂提供{{damage_per_soul}}攻击力和{{spell_amp_per_soul}}%法术增强。死亡时按原生规则损失灵魂。",
+    "DOTA_Tooltip_ability_enfos_sf_necromastery_Description": "每击杀单位收集{{souls_per_kill}}个灵魂，击杀英雄收集{{souls_per_hero_kill}}个，最多{{max_souls}}个。每个灵魂提供{{damage_per_soul}}攻击力和{{spell_amp_per_soul}}%法术增强。死亡时按原生规则损失灵魂。",
+    "DOTA_Tooltip_ability_enfos_sf_necromastery_SummaryDescription": "每击杀单位收集{{souls_per_kill}}个灵魂，击杀英雄收集{{souls_per_hero_kill}}个，最多{{max_souls}}个。每个灵魂提供{{damage_per_soul}}攻击力和{{spell_amp_per_soul}}%法术增强。死亡时按原生规则损失灵魂。",
+    "DOTA_Tooltip_Ability_enfos_sf_requiem_of_souls_Description": "根据储存的灵魂释放原生魂之挽歌。每道向外的波造成{{damage_per_wave}} + {{intelligence_multiplier}} × 智力的魔法伤害。保留原生恐惧和死亡释放。",
+    "DOTA_Tooltip_Ability_enfos_sf_requiem_of_souls_SummaryDescription": "根据储存的灵魂释放原生魂之挽歌。每道向外的波造成{{damage_per_wave}} + {{intelligence_multiplier}} × 智力的魔法伤害。保留原生恐惧和死亡释放。",
+    "DOTA_Tooltip_ability_enfos_sf_requiem_of_souls_Description": "根据储存的灵魂释放原生魂之挽歌。每道向外的波造成{{damage_per_wave}} + {{intelligence_multiplier}} × 智力的魔法伤害。保留原生恐惧和死亡释放。",
+    "DOTA_Tooltip_ability_enfos_sf_requiem_of_souls_SummaryDescription": "根据储存的灵魂释放原生魂之挽歌。每道向外的波造成{{damage_per_wave}} + {{intelligence_multiplier}} × 智力的魔法伤害。保留原生恐惧和死亡释放。",
+    "DOTA_Tooltip_Ability_enfos_sf_shadowraze_shard_description": "原生毁灭阴影减速敌人，命中敌方英雄时缩短冷却时间。",
+    "DOTA_Tooltip_ability_enfos_sf_requiem_of_souls_scepter_description": "原生魂之挽歌会返回，造成伤害并治疗影魔。冷却时间减少30秒，最低为1秒。",
+    "DOTA_Tooltip_ability_enfos_sf_shadowraze_shard_description": "原生毁灭阴影减速敌人，命中敌方英雄时缩短冷却时间。"
   }
 }

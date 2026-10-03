@@ -352,3 +352,12 @@ when implementing the addition; update count/role checks rather than disabling
 them. This owner request supersedes the prior40-only roster constraint for
 local development, without authorizing remote publication. No new hero is
 implemented or runtime-certified by this plan.
+
+## Shadow Fiend native Scepter cooldown floor — provisional, 2026-10-04
+
+Installed native Requiem Scepter subtracts30 seconds, while authored ENFOS
+ranks8–10 have29/26/23-second cooldowns. The pilot clamps the paid cast to a
+minimum1 second rather than allowing a negative cooldown. This is a reversible
+source default, not owner balance acceptance. Owner rank10/Scepter testing must
+review this potentially strong interaction before marking SF complete. Native
+returning lines/heal replace the previous generic40% damage/25% cooldown bonus.

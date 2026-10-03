@@ -1968,12 +1968,17 @@
           ],
           "specials": {
             "damage": "120 180 240 300 330 360 390 420 450 480",
-            "radius": "250"
+            "radius": "250",
+            "intelligence_multiplier": "1.0"
           },
-          "unreferencedSpecials": [],
+          "unreferencedSpecials": [
+            "damage",
+            "radius",
+            "intelligence_multiplier"
+          ],
           "legacyLuaSpecials": [],
-          "hasSound": true,
-          "hasParticle": true
+          "hasSound": false,
+          "hasParticle": false
         },
         {
           "slot": 2,
@@ -1981,13 +1986,22 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
           "callbacks": [
-            "GetIntrinsicModifierName"
+            "GetIntrinsicModifierName",
+            "OnUpgrade"
           ],
           "specials": {
             "max_souls": "36 38 40 42 44 46 48 50 52 54",
-            "damage_per_soul": "3 3.5 4 4.5 5 5.5 6 6.5 7 7.5"
+            "damage_per_soul": "3 3.5 4 4.5 5 5.5 6 6.5 7 7.5",
+            "souls_per_kill": "2",
+            "souls_per_hero_kill": "4",
+            "spell_amp_per_soul": "1.0"
           },
-          "unreferencedSpecials": [],
+          "unreferencedSpecials": [
+            "damage_per_soul",
+            "souls_per_kill",
+            "souls_per_hero_kill",
+            "spell_amp_per_soul"
+          ],
           "legacyLuaSpecials": [],
           "hasSound": false,
           "hasParticle": false
@@ -2018,16 +2032,26 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
           "callbacks": [
-            "OnSpellStart"
+            "GetCooldown",
+            "OnAbilityPhaseInterrupted",
+            "OnAbilityPhaseStart",
+            "OnSpellStart",
+            "OnUpgrade"
           ],
           "specials": {
             "damage_per_wave": "120 170 220 260 300 340 380 420 460 500",
-            "radius": "1000"
+            "radius": "1000",
+            "intelligence_multiplier": "1.8",
+            "AbilityCooldown": "80 65 50 45 40 35 32 29 26 23"
           },
-          "unreferencedSpecials": [],
+          "unreferencedSpecials": [
+            "damage_per_wave",
+            "radius",
+            "intelligence_multiplier"
+          ],
           "legacyLuaSpecials": [],
-          "hasSound": true,
-          "hasParticle": true
+          "hasSound": false,
+          "hasParticle": false
         },
         {
           "slot": 5,

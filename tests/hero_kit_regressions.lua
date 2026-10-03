@@ -7726,32 +7726,7 @@ test('Vengeful Wave of Terror falls back to facing for a zero-length aim and hit
     assert(#applied_damages == 1 and applied_damages[1].victim == in_line)
 end)
 
-test('Shadow Fiend passives honor Break and reject illusion death triggers', function()
-    local sf = create_mock_unit('npc_dota_hero_nevermore', 2, Vector(0, 0, 0))
-    local creep = create_mock_unit('enfos_creep_melee', 3, Vector(100, 0, 0))
-    local ability = enfos_sf_necromastery()
-    ability.GetSpecialValueFor = function(_, key)
-        if key == 'damage_per_soul' then return 4 end
-        if key == 'max_souls' then return 10 end
-        return 0
-    end
-    local modifier = modifier_enfos_sf_necromastery_passive()
-    modifier.GetParent = function() return sf end
-    modifier.GetAbility = function() return ability end
-    modifier.stacks = 3
-    modifier.GetStackCount = function(self) return self.stacks end
-    modifier.SetStackCount = function(self, count) self.stacks = count end
-    assert(modifier:GetModifierPreAttack_BonusDamage() == 12)
-    sf.PassivesDisabled = function() return true end
-    assert(modifier:GetModifierPreAttack_BonusDamage() == 0)
-    modifier:OnDeath({ attacker = sf, unit = creep })
-    assert(modifier.stacks == 3, 'Necromastery should not gain souls while Broken')
-    sf.PassivesDisabled = function() return false end
-    sf.IsIllusion = function() return true end
-    assert(modifier:GetModifierPreAttack_BonusDamage() == 0)
-    modifier:OnDeath({ attacker = sf, unit = creep })
-    assert(modifier.stacks == 3, 'illusions should not gain Necromastery souls')
-end)
+-- Native soul ownership and ENFOS overrides are covered by focused SF integration tests.
 
 -- Native Presence contracts live in shadow_fiend_native.test.mjs; mocks do not
 -- execute or certify the C++ aura.

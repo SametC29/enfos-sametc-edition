@@ -13,7 +13,8 @@ function IsServer()return server end
 MODIFIER_EVENT_ON_DEATH=1
 local links=0
 function LinkLuaModifier(name,path)
- assert(name=='modifier_enfos_sf_feast_of_souls_passive' and path=='abilities/heroes/nevermore/d');links=links+1
+ assert((name=='modifier_enfos_sf_feast_of_souls_passive' and path=='abilities/heroes/nevermore/d')
+ or (name=='modifier_enfos_sf_native_scaling' and path=='abilities/heroes/nevermore/modifiers'));links=links+1
 end
 require('abilities/heroes/nevermore/modifier_links')
 local rank=1
@@ -57,7 +58,7 @@ d:OnDeath(event);assert(heals==25 and mana==0)
 `));
 
 test('SF class registration is idempotent and client events never call server-only APIs',()=>lua(`
-require('abilities/heroes/nevermore/modifier_links');assert(links==1)
+require('abilities/heroes/nevermore/modifier_links');assert(links==2)
 server=false;caster.IsAlive=function()error('server-only API')end
 d.GetParent=function()error('client event must be inert before any handle lookup')end
 d:OnDeath(event);assert(heals==0 and mana==0)

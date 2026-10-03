@@ -13,6 +13,9 @@ function Innates:Apply(hero)
         require('abilities/heroes/luna/integration').OnPassiveRankRestored(ability)
         require('abilities/heroes/luna/integration').Restore(hero)
     end
+    if id=='enfos_sf_feast_of_souls' then
+        require('abilities/heroes/nevermore/integration').Restore(hero)
+    end
     return true
 end
 return Innates

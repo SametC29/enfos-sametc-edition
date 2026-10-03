@@ -265,6 +265,7 @@ function modifier_enfos_scepter_upgrade:IsHidden()
     local name = parent and parent.GetUnitName and parent:GetUnitName()
     return name == "npc_dota_hero_lion" or name == "npc_dota_hero_jakiro" or name == "npc_dota_hero_vengefulspirit" or name == "npc_dota_hero_lich" or name == "npc_dota_hero_sven" or name == "npc_dota_hero_shadow_shaman" or name == "npc_dota_hero_tidehunter"
         or require('abilities/heroes/luna/integration').UsesNativeScepter(parent)
+        or require('abilities/heroes/nevermore/ownership').IsEnfos(parent)
 end
 function modifier_enfos_scepter_upgrade:IsPurgable() return false end
 function modifier_enfos_scepter_upgrade:IsPermanent() return true end
@@ -278,6 +279,7 @@ function modifier_enfos_scepter_upgrade:DeclareFunctions()
 	}
 end
 function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event)
+    if require('abilities/heroes/nevermore/ownership').IsEnfos(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/luna/integration').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_lion" then return 0 end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_jakiro" then return 0 end
@@ -290,6 +292,7 @@ function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event
 	return a and a:GetAbilityType()==DOTA_ABILITY_TYPE_ULTIMATE and 40 or 0
 end
 function modifier_enfos_scepter_upgrade:GetModifierPercentageCooldown(event)
+    if require('abilities/heroes/nevermore/ownership').IsEnfos(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/luna/integration').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_lion" then return 0 end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_jakiro" then return 0 end
@@ -308,6 +311,7 @@ function modifier_enfos_shard_upgrade:IsHidden()
     local name = parent and parent.GetUnitName and parent:GetUnitName()
     return name == "npc_dota_hero_lion" or name == "npc_dota_hero_jakiro" or name == "npc_dota_hero_lich" or name == "npc_dota_hero_sven" or name == "npc_dota_hero_shadow_shaman" or name == "npc_dota_hero_tidehunter"
         or require('abilities/heroes/luna/integration').UsesNativeShard(parent)
+        or require('abilities/heroes/nevermore/ownership').IsEnfos(parent)
 end
 function modifier_enfos_shard_upgrade:IsPurgable() return false end
 function modifier_enfos_shard_upgrade:IsPermanent() return true end
@@ -352,6 +356,7 @@ function modifier_enfos_shard_upgrade:GetModifierMoveSpeedBonus_Percentage()
 end
 
 function modifier_enfos_shard_upgrade:GetModifierSpellAmplify_Percentage()
+    if require('abilities/heroes/nevermore/ownership').IsEnfos(self.GetParent and self:GetParent()) then return 0 end
 	if self.role == "Mage" then return 15 end
 	return 0
 end

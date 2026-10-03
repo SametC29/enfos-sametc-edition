@@ -250,8 +250,6 @@ local modifier_list = {
     'modifier_enfos_void_chronosphere_thinker',
     'modifier_enfos_void_chronosphere_freeze',
     'modifier_enfos_void_backtrack_passive',
-    'modifier_enfos_sf_necromastery_passive',
-    'modifier_enfos_sf_requiem_fear',
     'modifier_enfos_storm_static_remnant_thinker',
     'modifier_enfos_storm_electric_vortex_debuff',
     'modifier_enfos_storm_overload_passive',
@@ -6375,75 +6373,7 @@ end
 -- SHADOW FIEND: SHADOWRAZE, NECROMASTERY, PRESENCE, REQUIEM, FEAST OF SOULS
 -- ----------------------------------------------------------------------------
 
-enfos_sf_shadowraze=class({})
-function enfos_sf_shadowraze:OnSpellStart()
-    local c = self:GetCaster()
-    local fwd = c:GetForwardVector()
-    c:EmitSound('Hero_Nevermore.Shadowraze')
-
-    local base = value(self, 'damage')
-    if base <= 0 then base = 200 end
-    local int = get_int(c)
-    local dmg = base + (int * 1.0)
-
-    -- Triple raze in front
-    for _, dist in ipairs({ 200, 450, 700 }) do
-        local pos = c:GetAbsOrigin() + (fwd * dist)
-        for _, u in ipairs(enemies(c, pos, value(self, 'radius'))) do
-            damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
-            effect('particles/units/heroes/hero_nevermore/nevermore_shadowraze.vpcf', u)
-        end
-    end
-end
-
-enfos_sf_necromastery=class({})
-function enfos_sf_necromastery:GetIntrinsicModifierName() return 'modifier_enfos_sf_necromastery_passive' end
-
-modifier_enfos_sf_necromastery_passive=class({})
-function modifier_enfos_sf_necromastery_passive:DeclareFunctions()
-    return { MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE, MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE, MODIFIER_EVENT_ON_DEATH }
-end
-function modifier_enfos_sf_necromastery_passive:GetModifierPreAttack_BonusDamage()
-    local c = self:GetParent()
-    if c and ((c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion())) then return 0 end
-    return (self:GetStackCount() or 0) * value(self:GetAbility(), 'damage_per_soul')
-end
-function modifier_enfos_sf_necromastery_passive:GetModifierSpellAmplify_Percentage()
-    local c = self:GetParent()
-    if c and ((c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion())) then return 0 end
-    return (self:GetStackCount() or 0) * 1.0
-end
-function modifier_enfos_sf_necromastery_passive:OnDeath(params)
-    if not IsServer() then return end
-    local c = self:GetParent()
-    if not c or (c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion()) then return end
-    if not params or params.attacker ~= c or params.unit == c or not params.unit then return end
-    local delta = is_boss(params.unit) and 10 or 2
-    self:SetStackCount(math.min(value(self:GetAbility(), 'max_souls'), (self:GetStackCount() or 0) + delta))
-end
-
--- Presence is a reviewed native alias; no custom aura/debuff replica.
-
-enfos_sf_requiem_of_souls=class({})
-function enfos_sf_requiem_of_souls:OnSpellStart()
-    local c = self:GetCaster()
-    c:EmitSound('Hero_Nevermore.RequiemOfSouls')
-    effect('particles/units/heroes/hero_nevermore/nevermore_requiemofsouls.vpcf', c)
-    local int = get_int(c)
-    local dmg = value(self, 'damage_per_wave') + (int * 1.8)
-
-    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), value(self, 'radius'))) do
-        local hit = dmg
-        if is_boss(u) then hit = math.min(hit, u:GetMaxHealth() * 0.1) end
-        damage(self, u, hit, DAMAGE_TYPE_MAGICAL)
-        local dur = is_boss(u) and 0.5 or 1.5
-        u:AddNewModifier(c, self, 'modifier_enfos_sf_requiem_fear', { duration = dur })
-    end
-end
-
-modifier_enfos_sf_requiem_fear=class({})
-function modifier_enfos_sf_requiem_fear:IsDebuff() return true end
-function modifier_enfos_sf_requiem_fear:CheckState() return { [MODIFIER_STATE_FEARED] = true } end
+-- Q/W/R delegate native mechanics through isolated controllers; E is native.
 
 -- ENFOS Feast of Souls is isolated in nevermore/d, not a Frenzy replica.
 

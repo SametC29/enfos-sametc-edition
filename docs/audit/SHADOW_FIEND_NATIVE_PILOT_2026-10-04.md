@@ -1,8 +1,8 @@
 # Shadow Fiend native-first pilot — source investigation
 
 Scope: only npc_dota_hero_nevermore, Mage. Owner selected this hero after
-confirming Luna working. No gameplay migration has shipped at this checkpoint.
-SOURCE_REVIEW: IN PROGRESS. OWNER ENGINE ACCEPTANCE: NOT TESTED.
+confirming Luna working. Native-first pilot source is now implemented locally.
+SOURCE_REVIEW: COMPLETE FOR CURRENT CANDIDATE. OWNER ENGINE ACCEPTANCE: NOT TESTED.
 
 ## Authoritative source
 
@@ -81,7 +81,7 @@ provider methods above. Reference-only searches found Aghanim's Pathfinders
 custom approach, not proof of native delegate compatibility. No code imported,
 no license assumption and no reference-game runtime certification claimed.
 
-Next: implement and test the native provider/progression integration and
+Historical pre-implementation next step: implement and test the native provider/progression integration and
 independent native E alias, then isolate D and remove old SF duplicates. Provide
 owner a short, supported probe/test checklist once the build is ready. Runtime
 cases: Q all three ranges/overlap/stacking/costs, W collection/limits/loss/Break,
@@ -140,3 +140,77 @@ expects the three Luna classes plus the single SF passive class, still without
 server services or gameplay context. No Luna gameplay implementation changed.
 Runtime sustain/respawn/HUD acceptance remains PENDING OWNER TEST. Q/W/R native
 provider integration is still outstanding; do not call the full hero migrated.
+
+## Q/W/R final source delivery (2026-10-04)
+
+Q uses one ENFOS cast and three exact native providers at ranges200/450/700.
+Native damage stacking, soul bonus, immunity, VFX/SFX and Shard remain native;
+the controller mirrors the paid cooldown and relays only native reductions.
+W uses one native Necromastery intrinsic, never an extra Lua soul counter.
+Raw-value overrides preserve max souls36–54, attack damage3–7.5 per soul,
+2 souls/unit and4/hero; the existing1% amplification/soul reads the same native
+stack count. W upgrade refreshes the same modifier without replacing its handle.
+R replaces custom lines/fear/Boss logic with one exact native Requiem provider.
+The visible cast delegates phase/interruption/cast. The provider alone owns
+native death release and Scepter returning lines; it stays active when trained.
+Installed Scepter subtracts30 seconds; the authored rank10 cooldown23 therefore
+clamps to1 second. This explicit tuning remains subject to owner balance review.
+No old Boss-specific soul yield/fear compensation survives this SF migration.
+
+Ten paid ranks live in the stable ENFOS slots. Five hidden providers stay within
+native C++ rank range1 (Requiem0 until trained); the scaler is installed before
+the native soul intrinsic reads values. Exact provider reuse preserves souls.
+The existing innate restoration invokes this bounded integration; no extra
+respawn listener, global scan, timer, unit or thinker is created. Native soul
+modifier ID was separately verified in installed
+resource/localization/abilities_english.txt (DOTA_Tooltip_modifier_nevermore_necromastery).
+Pure modifier registration is shared by server/client. Generic Mage upgrades
+are skipped only for ENFOS SF, not the native Boss. Shard now belongs to Q.
+Four-language descriptions and twelve generated mirrors match current values.
+
+Removed obsolete monolithic Q/W/R ability classes, custom souls and fear. D
+remains isolated custom kill sustain; E remains the native alias. Static audit
+unreferenced-special candidates persist for table-routed values: focused tests
+exercise rank1/10 raw lookups; no runtime certification is inferred from them.
+
+Focused checks:117 pass across SF native/sustain/integration, shared Luna and
+content contracts. Six native-integration mocks cover idempotence, native rank
+bounds, untrained slots, triple cast/cooldown forwarding, phase interruption,
+raw scaling, W refresh, client safety, upgrade ownership and read-only probe.
+Existing353 hero-kit mocks previously passed after obsolete SF mocks removal.
+Final full source checks are recorded below when complete.
+
+**All five slots: IMPLEMENTED BUT NOT ENGINE-VERIFIED.** Native C++ may read
+AbilityDamage through a getter that bypasses a special override. The read-only
+probe prints both special query and GetAbilityDamage; owner must confirm actual
+Requiem damage as well. Calling native phase/cast helpers and the native death
+path also require real engine evidence. A mock passing does not resolve these.
+
+### Owner test protocol
+
+Structural KV/bootstrap changes require a full Dota restart. Launch Enfos and
+select Shadow Fiend. First small test: train Q/W/R, kill a few wave units, cast Q
+and R, then provide VConsole and whether animations, sounds, three Raze ranges
+and soul display work. Run the read-only supported command:
+
+```text
+script_reload_code tools/sf_health
+```
+
+A client-only server=false response is expected diagnostic scope, not a broken
+hero and not proof of server readiness. Do not suggest the unsupported script
+command. No probe restores, trains, spawns, enables trace or edits state.
+
+After initial success, record rank1/10 damage/radius/armor, costs/cooldowns and
+HUD points; souls collection/limit/death loss; Break/recovery; one death release
+and respawn restoration; manual R cancellation; Shard slowing/hero-hit cooldown
+and Scepter return/heal; repeated casts and persistent cleanup; Boss native
+immunity rules; reconnect without duplicate stacks/ranks/points; dense-wave
+performance and clean SF errors. Owner sees/hears VFX/SFX. Complete only after
+these required cases are confirmed or explicitly recorded as pending.
+
+Owner-expanded rollout order and Necrophos addition are tracked in
+[NATIVE_FIRST_HERO_ROLLOUT_GOAL_2026-10-04.md](NATIVE_FIRST_HERO_ROLLOUT_GOAL_2026-10-04.md).
+Shadow Fiend acceptance is the next gate; no publication or remote push.
+
+Final source validation: the full check runner passed all gates except two old mock fixtures lacking native-integration APIs. Those fixtures were repaired and rerun successfully (player feedback and all200 abilities/all219 modifiers at ranks1–10). The remaining npm-chain wave-pressure and installed-native Boss gates were run separately and pass. No gameplay edit was required to hide mock failures; no full-suite repeat. Diff whitespace check passes. Native runtime acceptance remains pending.
