@@ -264,3 +264,46 @@ working-tree hero regressions and0failed checks. Independently loading indexed
 E and indexed historical tests passes352 hero regressions without contributor
 changes. These are source/static/mock results only. No owner runtime evidence,
 remote push, Dota launch or Workshop publication.
+
+## Native range-ring evidence and ownership — fifth work unit
+
+Decoded the entire installed `lich_ice_spire*` particle family and
+`models/heroes/lich/ice_spire.vmdl_c` read-only with VRF19.2. The model declares
+attach_hitloc, attach_top and attach_bot, plus spawn/idle/bounce/death animation
+sequences. This is source availability evidence, not proof of the native C++
+particle control map. The root's preview offsets alone remain insufficient.
+Workshop reference corpus search for the exact root path/ice_spire returned no
+files; do not claim a shipping reference implementation was verified.
+
+The decoded native child `lich_ice_spire_outer_ring.vpcf` is usable independently:
+C_INIT_RingWave reads its initial radius from CP5.y with direct mapping; its
+centre uses the default CP0. It emits continuously at512 particles/sec, with
+literal one-second particle lifetime, FadeAndKill and bounded max particles512.
+This supplies a verified range ring without guessing the root's model links.
+The authored binding uses ward world position at CP0 and actual aura radius at
+CP5.y. The immobile ward's existing controller creates one ring, registers it
+with AddParticle once and relies on modifier-engine teardown. No additional
+thinker, polling, target search, particle refresh or manual double-release.
+Added explicit particle precache and bounded creation/teardown trace ownership.
+
+This is incremental visual implementation, not substitution for the requested
+full native Spire presentation: root/model attachment mapping, bounce feedback
+animation/particle and actual rendering/audio/cold-start remain open. MCP verifies
+CreateParticle, SetParticleControl, AddParticle and PATTACH_WORLDORIGIN; the
+[ModDota server declarations](https://docs.moddota.com/lua_server/declaration)
+provide an independent API cross-check. No third-party code or asset is copied.
+
+The real controller fixture independently asserts world position400/700 versus
+map origin, CP5.y550 instead of a guessed CP, single modifier ownership, no new
+ring during lifetime polling and no manual particle destruction/release. Existing
+recast, expiry, attacks, failed replacement, source/team/owner loss and client
+cases remain covered. The mock verifies ownership declarations, not actual
+engine particle removal. Owner must observe radius/position and complete cleanup
+on recast, death, expiry, Shard loss and invalid source; all remain NOT TESTED.
+
+Decoded-source SHA256: outer ring
+`7c80902a59e0f01403257c39d9799f0fbe56680e2d2f03e58039a95e533eafe0`;
+modeldoc `ba6d6de9f3115375ce6f768f6a70f040bcf9677ba98c4bb27b46d61677a657f4`.
+These are inspection artifacts in temporary storage, not copied addon assets.
+Validation: all5 dedicated Spire tests and full checks PASS,0failed. Source/mock
+results do not establish visible cleanup or dense-wave renderer performance.

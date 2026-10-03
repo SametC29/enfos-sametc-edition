@@ -76,6 +76,7 @@ function enfos_lich_ice_spire:Precache(context)
     PrecacheResource('soundfile', 'soundevents/game_sounds_heroes/game_sounds_lich.vsndevts', context)
     -- Q's death Nova is possible even if Q has not been manually cast this match.
     PrecacheResource('particle', 'particles/units/heroes/hero_lich/lich_frost_nova.vpcf', context)
+    PrecacheResource('particle', 'particles/units/heroes/hero_lich/lich_ice_spire_outer_ring.vpcf', context)
 end
 function enfos_lich_ice_spire:GetAOERadius() return Helpers.value(self, 'aura_radius') end
 function enfos_lich_ice_spire:OnSpellStart()
@@ -128,6 +129,14 @@ function modifier_enfos_lich_ice_spire:OnCreated()
     self.maxHits=creepHits;self.heroCost=creepHits/heroHits;self.remaining=creepHits
     -- Health communicates attack-count durability, independent of attack damage.
     parent:SetBaseMaxHealth(creepHits);parent:SetMaxHealth(creepHits);parent:SetHealth(creepHits)
+    -- Decoded native child: RingWave uses CP5.y as radius and CP0 as centre.
+    -- The immobile ward's modifier owns the continuous emitter and its teardown.
+    local radius=Helpers.value(ability,'aura_radius')
+    local fx=ParticleManager:CreateParticle('particles/units/heroes/hero_lich/lich_ice_spire_outer_ring.vpcf', PATTACH_WORLDORIGIN, parent)
+    ParticleManager:SetParticleControl(fx, 0, parent:GetAbsOrigin())
+    ParticleManager:SetParticleControl(fx, 5, Vector(0, radius, 0))
+    self:AddParticle(fx, false, false, -1, false, false)
+    HeroTrace:Log('LICH','D','spire_ring_created particle=%s radius=%s particle_owner=modifier',tostring(fx),tostring(radius))
     self:StartIntervalThink(0.5)
 end
 function modifier_enfos_lich_ice_spire:DeclareFunctions()
@@ -187,7 +196,7 @@ function modifier_enfos_lich_ice_spire:Terminate(reason, blast)
         if valid(q) and q:GetLevel()>0 then q:BlastAtPoint(origin) end
     end
     if live(parent) then parent:ForceKill(false) end
-    HeroTrace:Log('LICH','D','spire_removed reason=%s nova_requested=%s cleanup=unit_and_modifier',reason,tostring(blast))
+    HeroTrace:Log('LICH','D','spire_removed reason=%s nova_requested=%s cleanup=unit_and_modifier particle_cleanup=modifier_engine',reason,tostring(blast))
 end
 function modifier_enfos_lich_ice_spire:IsAura()
     return IsServer() and not self.terminated and valid(self:GetAbility()) and Spire.IsEnabled(self:GetCaster(), self:GetParent())

@@ -104,7 +104,7 @@ local other={GetUnitName=function() return 'npc_dota_hero_omniknight' end}
 m.GetParent=function() return other end;assert(m:GetModifierHealAmplify_PercentageSource()==25,'Other supports retain existing generic bonus')
 local contexts={};function PrecacheUnitByNameSync(name,context,player) assert(name==Spire.unitName and context==contexts and player==nil) end
 local precaches=0;function PrecacheResource(kind,path,context) assert(context==contexts);precaches=precaches+1 end
-ability:Precache(contexts);assert(precaches==3,'Unit, model, bank and death Nova are precached')
+ability:Precache(contexts);assert(precaches==4,'Unit, model, bank, death Nova and Spire ring are precached')
 print('Lich Shard acquisition regression PASS')
 `;
   const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});
@@ -243,6 +243,16 @@ function LinkLuaModifier() end
 local server=true;function IsServer() return server end
 local Spire=require('abilities/heroes/lich/spire')
 local caster={removed=false,alive=true};local sounds,blasts,kills,spawned=0,0,0,{}
+PATTACH_WORLDORIGIN=8
+function Vector(x,y,z) return {x=x,y=y,z=z} end
+local particles={};ParticleManager={}
+function ParticleManager:CreateParticle(path,attach,owner)
+ assert(server and path=='particles/units/heroes/hero_lich/lich_ice_spire_outer_ring.vpcf' and attach==8)
+ particles[#particles+1]={owner=owner,cp={}};return #particles
+end
+function ParticleManager:SetParticleControl(id,cp,v) particles[id].cp[cp]=v end
+function ParticleManager:DestroyParticle() error('Modifier owns teardown; do not destroy twice') end
+function ParticleManager:ReleaseParticleIndex() error('Modifier owns release; do not release twice') end
 function caster:HasModifier(id) return id=='modifier_item_aghanims_shard_consumed' end
 local q={GetLevel=function() return 1 end,IsNull=function() return false end}
 function q:BlastAtPoint(origin) assert(origin);blasts=blasts+1 end
@@ -278,6 +288,10 @@ local function unit()
    local m=setmetatable({GetParent=function() return self end,GetCaster=function() return caster end,
      GetAbility=function() return ability end,IsNull=function() return false end,
      StartIntervalThink=function(_,n) assert(n==0.5) end},modifier_enfos_lich_ice_spire)
+   function m:AddParticle(id,immediate,status,priority,hero,overhead)
+     assert(not self.fx and not immediate and not status and priority==-1 and not hero and not overhead)
+     assert(particles[id].owner==self:GetParent());self.fx=id
+   end
    self.mod=m;m:OnCreated();return m
  end
  function u:ForceKill(reincarnate)
@@ -296,6 +310,10 @@ local function attack(hero,team)
  GetTeamNumber=function() return team or 3 end,IsHero=function() return hero end}
 end
 ability:OnSpellStart();local first=Spire.Get(caster);assert(first and first.health==8 and sounds==1)
+assert(#particles==1 and first.mod.fx==1)
+assert(particles[1].cp[0].x==400 and particles[1].cp[0].y==700 and particles[1].cp[0].z==0,'Ring captures ward position, never map origin')
+assert(particles[1].cp[5].x==0 and particles[1].cp[5].y==550 and particles[1].cp[5].z==0,'Decoded radius is CP5.y, not CP1 or world coordinates')
+first.mod:OnIntervalThink();assert(#particles==1,'Lifetime polling cannot duplicate continuous ring')
 assert(first.mod:IsAura() and first.mod:GetAuraRadius()==550 and first.mod:GetAuraDuration()==0.5)
 assert(first.mod:GetAbsoluteNoDamagePhysical()==1 and first.mod:GetAbsoluteNoDamageMagical()==1 and first.mod:GetAbsoluteNoDamagePure()==1)
 first.mod:OnAttackLanded({target=first,attacker=attack(true,2)});assert(first.health==8,'Friendly attack does not count')

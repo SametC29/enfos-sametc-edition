@@ -58,6 +58,10 @@ and no-pull observations describe superseded source, not intended policy.
   immunity, OnAttackLanded under absolute damage protection, expiry Nova,
   different owners/recast/stale callbacks, dead versus deleted owner, and lifetime
   cleanup. Native Spire persistent particle attachment remains source work.
+  One native child range ring is now bound to ward world position and actual
+  aura radius550. Observe it after cold start and verify one ring, correct centre/
+  radius, no ring on failed creation, and no old ring after recast/expiry/Shard
+  loss/source loss. Full root attachment/bounce feedback remains source work.
   Test R direct Spire selection, foreign Spire
   rejection, ordinary enemy filtering, four bridge hits versus eight creep hits,
   repeated enemy after bridge,601 versus600 range, W repair during chain,
