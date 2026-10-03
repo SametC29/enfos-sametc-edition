@@ -9,13 +9,13 @@ Hero: `npc_dota_hero_lion`; role: Support. Progression target: hero level 50 / a
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_lion_earth_spike` | 10 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | lion_impale |
-| 2 | `enfos_lion_hex` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | lion_voodoo |
-| 3 | `enfos_lion_mana_drain` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_CHANNELLED | abilities/pve_kits | lion_mana_drain |
-| 4 | `enfos_lion_finger_of_death` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | lion_finger_of_death |
-| 5 | `enfos_lion_demon_soul` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | lion_mana_drain |
+| 1 | `enfos_lion_earth_spike` | 10 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/heroes/lion/q | lion_impale |
+| 2 | `enfos_lion_hex` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/heroes/lion/w | lion_voodoo |
+| 3 | `enfos_lion_mana_drain` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_CHANNELLED | abilities/heroes/lion/e | lion_mana_drain |
+| 4 | `enfos_lion_finger_of_death` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/heroes/lion/r | lion_finger_of_death |
+| 5 | `enfos_lion_demon_soul` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/lion/d | lion_mana_drain |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/lion/q](../../../game/scripts/vscripts/abilities/heroes/lion/q.lua), [abilities/heroes/lion/w](../../../game/scripts/vscripts/abilities/heroes/lion/w.lua), [abilities/heroes/lion/e](../../../game/scripts/vscripts/abilities/heroes/lion/e.lua), [abilities/heroes/lion/r](../../../game/scripts/vscripts/abilities/heroes/lion/r.lua), [abilities/heroes/lion/d](../../../game/scripts/vscripts/abilities/heroes/lion/d.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -310,3 +310,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 Change/test record: all five abilities now expose ten KV ranks; the complete 200-ability Lua mock suite passes. This confirms static/mock behavior only; in-match Dota VFX, SFX, rank-up HUD, boss and VConsole acceptance remain PENDING.
 
 2026-09-30 global Break metadata audit: Added KV `IsBreakable 1` to `enfos_lion_demon_soul` because its linked Lua passive implementation check `PassivesDisabled()`. Automated content validation now rejects this metadata mismatch. Actual Dota Break behavior remains PENDING.
+
+## 2026-10-03 isolated source checkpoint
+
+Q/W/E/R/D now route to abilities/heroes/lion/{q,w,e,r,d}; six modifiers have explicit owners and a compatibility init. This unit preserves all handler bodies and all KV values except ScriptFile. Independent regression compares against immutable pre-extraction commit3044af6 and cold-loads all modules before the monolith, rejecting duplicate modifier links/class ownership. Focused and full tools/checks.mjs PASS,0 failed checks. Gameplay bugs and authored Boss exceptions identified in the individual ledger remain OPEN; no runtime/visual/audio or full hero source acceptance. Earlier generic PVE-CONVERT dossier labels are superseded by the current evidence-led slot decisions in docs/audit/LION_INDIVIDUAL_REVIEW_2026-10-03.md; native counterparts are not inferred from icons. No foreign code imported; existing shared helpers reused unchanged.

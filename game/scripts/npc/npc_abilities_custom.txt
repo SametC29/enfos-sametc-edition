@@ -5209,7 +5209,7 @@
 			"distance" "450"
 			"int_scaling_pct" "110"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/lion/q"
 	}
 
 	"enfos_lion_hex"
@@ -5232,7 +5232,7 @@
 			"boss_duration" "0.8"
 			"base_move_speed" "140"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/lion/w"
 	}
 
 	"enfos_lion_mana_drain"
@@ -5258,7 +5258,7 @@
 			"channel_duration" "4"
 			"slow_pct" "35"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/lion/e"
 	}
 
 	"enfos_lion_finger_of_death"
@@ -5289,7 +5289,7 @@
 			"kill_stack_damage" "40"
 			"kill_stack_spell_amp_pct" "1.5"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/lion/r"
 	}
 
 	"enfos_lion_demon_soul"
@@ -5306,7 +5306,7 @@
 			"cast_range_bonus"	"150 200 250 300 350 400 450 500 550 600"
 			"spell_amp"	"2 4 6 8 10 12 14 16 18 20"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/lion/d"
 	}
 // JAKIRO ABILITIES (Batch 5 PvE Kit)
 	// =========================================================================
