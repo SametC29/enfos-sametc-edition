@@ -3,6 +3,12 @@ local H=require('abilities/shared/pve_helpers')
 local Trace=require('lib/hero_trace')
 local Upgrades=require('abilities/heroes/lion/upgrades')
 local function valid(x) return x and not (x.IsNull and x:IsNull()) end
+local function counter_owner(m)
+    if not valid(m) or m.closed then return end
+    local c,a=m:GetParent(),m:GetAbility()
+    if not valid(c) or not valid(a) or a:GetLevel()<=0 or a:GetCaster()~=c then return end
+    return c,a
+end
 local function eligible(c,t)
     return valid(c) and c:IsAlive() and valid(t) and t:IsAlive()
         and t:GetTeamNumber()~=c:GetTeamNumber()
@@ -36,6 +42,8 @@ function enfos_lion_finger_of_death:OnSpellStart()
     local base=H.value(self,'damage')
     if base<=0 then return end
     local mod=c:FindModifierByName('modifier_enfos_lion_finger_counter')
+    local owner,source=counter_owner(mod)
+    if owner~=c or source~=self then mod=nil end
     local cap=math.max(0,H.value(self,'kill_stack_cap'))
     local stacks=valid(mod) and math.min(math.max(0,mod:GetStackCount()),cap) or 0
     local upgraded=Upgrades.HasScepter(c)
@@ -76,9 +84,8 @@ end
 
 modifier_enfos_lion_finger_counter=class({})
 local function counter_bonus(m,key)
-    if m.closed or not valid(m) or not valid(m:GetParent()) then return 0 end
-    local a=m:GetAbility()
-    if not valid(a) or a:GetLevel()<=0 then return 0 end
+    local c,a=counter_owner(m)
+    if not c then return 0 end
     local stacks=math.min(math.max(0,m:GetStackCount()),math.max(0,H.value(a,'kill_stack_cap')))
     return stacks*H.value(a,key)
 end
@@ -88,12 +95,6 @@ function modifier_enfos_lion_finger_counter:RemoveOnDeath() return false end
 function modifier_enfos_lion_finger_counter:GetTexture() return 'lion_finger_of_death' end
 function modifier_enfos_lion_finger_counter:DeclareFunctions()
     return {MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,MODIFIER_PROPERTY_TOOLTIP,MODIFIER_PROPERTY_TOOLTIP2,MODIFIER_EVENT_ON_DEATH}
-end
-local function counter_owner(m)
-    if not valid(m) or m.closed then return end
-    local c,a=m:GetParent(),m:GetAbility()
-    if not valid(c) or not valid(a) or a:GetLevel()<=0 or a:GetCaster()~=c then return end
-    return c,a
 end
 function modifier_enfos_lion_finger_counter:MarkFingerTarget(t,grace,source)
     if not IsServer() or grace<=0 then return end

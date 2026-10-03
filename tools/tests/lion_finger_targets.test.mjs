@@ -33,14 +33,22 @@ local function unit(boss)
 end
 local c=unit();c.team=2;c.scepter=true;function c:HasScepter()return self.scepter end;local normal,boss=unit(),unit(true);local a;local counter=setmetatable({stacks=0},modifier_enfos_lion_finger_counter)
 function counter:IsNull()return self.removed end
-function counter:GetParent()return c end;function counter:GetAbility()return a end
-function counter:GetStackCount()assert(not self.removed);return self.stacks end;function counter:SetStackCount(n)self.stacks=n end
+function counter:GetParent()return self.otherParent or c end;function counter:GetAbility()return self.otherAbility or a end
+function counter:GetStackCount()assert(not self.removed and not self.closed and not self.otherParent and not self.otherAbility,'Rejected counter must not be queried');return self.stacks end;function counter:SetStackCount(n)self.stacks=n end
 function c:FindModifierByName(n)assert(n=='modifier_enfos_lion_finger_counter');return counter end
 a=setmetatable({rank=1},enfos_lion_finger_of_death);local base={${values.damage.split(/\s+/).join(',')}}
 local specials={grace_period=${values.grace_period},damage_delay=${values.damage_delay},int_scaling_pct=${values.int_scaling_pct},kill_stack_cap=${values.kill_stack_cap},kill_stack_damage=${values.kill_stack_damage},kill_stack_spell_amp_pct=${values.kill_stack_spell_amp_pct},scepter_bonus_damage=${values.scepter_bonus_damage},splash_radius=${values.splash_radius},boss_damage_cap_pct=12}
 function a:GetSpecialValueFor(k)return k=='damage' and base[self.rank] or specials[k] or 0 end
 function a:IsNull()return self.removed end;function a:GetCaster()return c end;function a:GetCursorTarget()return normal end;function a:GetLevel()return self.rank end
 counter:OnCreated()
+-- A same-name stale counter must not supply stacks to a different R or parent.
+for _,mode in ipairs({'ability','parent','closed'})do
+ counter.stacks=20;normal.health=1000000;hits={};c.scepter=false
+ if mode=='ability' then counter.otherAbility={GetLevel=function()return 1 end,GetCaster=function()return c end} elseif mode=='parent' then counter.otherParent=unit() else counter.closed=true end
+ a:OnSpellStart();assert(#hits==1 and hits[1].damage==850,'Finger cannot read a foreign/closed counter: '..mode)
+ counter.otherAbility=nil;counter.otherParent=nil;counter.closed=false
+end
+counter.stacks=0;c.scepter=true
 recipients={normal,boss}
 assert(a:GetAOERadius()==325);c.scepter=false;assert(a:GetAOERadius()==0)
 hits={};a:OnSpellStart();assert(#hits==1 and hits[1].victim==normal and hits[1].damage==850,'Base Finger is single-target')

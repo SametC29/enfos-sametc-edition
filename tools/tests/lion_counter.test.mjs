@@ -16,10 +16,11 @@ ${baseline?`assert(load([==[${baseline}]==]))()`:`require('abilities/heroes/lion
 local c={};function c:IsNull()return self.removed end
 local a={rank=0};function a:IsNull()return self.removed end
 function a:GetLevel()assert(not self.removed);return self.rank end
+function a:GetCaster()assert(not self.removed);return self.foreign or c end
 local values={kill_stack_cap=${v.kill_stack_cap},kill_stack_damage=${v.kill_stack_damage},kill_stack_spell_amp_pct=${v.kill_stack_spell_amp_pct}}
 function a:GetSpecialValueFor(k)assert(not self.removed);return values[k]end
 local m=setmetatable({stacks=3,GetParent=function()return c end,GetAbility=function()return a end},modifier_enfos_lion_finger_counter)
-function m:GetStackCount()assert(not self.removed);return self.stacks end
+function m:GetStackCount()assert(not self.removed and not a.foreign,'Rejected source must not be queried for stacks');return self.stacks end
 function m:IsNull()return self.removed end
 assert(m:GetModifierSpellAmplify_Percentage()==0,'Unlearned R cannot grant accumulated spell amplification')
 m:OnCreated();assert(m:GetTexture()=='lion_finger_of_death' and not m:IsHidden())
@@ -32,9 +33,16 @@ for _,side in ipairs({true,false})do
    m.stacks=stacks;m:OnRefresh();local n=math.min(20,math.max(0,stacks))
    assert(m:OnTooltip()==n*40 and m:OnTooltip2()==n*1.5 and m:GetModifierSpellAmplify_Percentage()==n*1.5)
    assert(m.stacks==stacks,'Readonly presentation cannot reset or grant stacks')
+   a.foreign={}
+   assert(m:OnTooltip()==0 and m:OnTooltip2()==0 and m:GetModifierSpellAmplify_Percentage()==0,'Ownership gates every rank and stack value on both sides')
+   assert(m.stacks==stacks,'Rejected source cannot mutate earned stacks')
+   a.foreign=nil
   end
  end
 end
+c.foreignOwner={};a.foreign=c.foreignOwner
+assert(m:OnTooltip()==0 and m:OnTooltip2()==0 and m:GetModifierSpellAmplify_Percentage()==0,'Borrowed ability cannot grant another parent its earned counter bonuses')
+a.foreign=nil;c.foreignOwner=nil
 c.removed=true;assert(m:OnTooltip()==0 and m:OnTooltip2()==0);c.removed=false
 a.removed=true;assert(m:OnTooltip()==0 and m:OnTooltip2()==0);a.removed=false
 m.removed=true;assert(m:OnTooltip()==0 and m:OnTooltip2()==0);m.removed=false
