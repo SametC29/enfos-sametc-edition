@@ -5,11 +5,11 @@ All rows **PENDING** until owner observation plus current-build VConsole evidenc
 Start a fresh local match; reloading an old match does not establish resource/rank
 acceptance. Record build, ability ranks and Shard/Scepter/Blessing state.
 
-For current partial diagnostics, set `enfos_hero_trace 1` in VConsole and restore
-`enfos_hero_trace 0` after capture. Q/W/E/R events use these slot labels; the fifth
+For current partial diagnostics, set `script require('lib/hero_trace'):SetEnabled(true)` in VConsole and restore
+`script require('lib/hero_trace'):SetEnabled(false)` after capture. Q/W/E/R events use these slot labels; the fifth
 slot D trace coverage is not complete yet. Output is capped across heroes at100
 lines per game-clock second, so missing individual lines under a dense burst are
-not evidence that a gameplay branch failed. Console registration/use is itself
+not evidence that a gameplay branch failed. Console Lua toggle/use is itself
 PENDING owner verification.
 
 | Check | Expected behavior | Status |

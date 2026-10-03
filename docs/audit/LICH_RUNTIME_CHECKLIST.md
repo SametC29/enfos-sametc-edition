@@ -14,8 +14,8 @@ E/KV/tests/main-ledger/dossier currently contain contributor changes not include
 in the isolated review commits. A commit ID alone does not reproduce that E.
 An older Workshop package is a separate version and cannot validate local fixes.
 
-For trace capture use `enfos_hero_trace 1`; restore `enfos_hero_trace 0` afterwards.
-This is the existing default-off diagnostic convar, capped at100 lines across
+For trace capture use `script require('lib/hero_trace'):SetEnabled(true)`; restore `script require('lib/hero_trace'):SetEnabled(false)` afterwards.
+This is the server-only, default-off Lua diagnostic switch, capped at100 lines across
 all heroes per game-clock second. Missing lines during saturation are inconclusive.
 Never equate requested damage with observed health loss. Actual trace numbers
 come from ApplyDamage returns; unavailable results are explicitly labelled.

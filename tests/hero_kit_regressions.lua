@@ -8573,15 +8573,15 @@ end)
 test('Hero tracing is default-off, bounded, server-only and safe for removed entities',function()
     local oldConvars,oldRules,oldPrint,oldServer=Convars,GameRules,print,IsServer
     local oldModule=package.loaded['lib/hero_trace'];package.loaded['lib/hero_trace']=nil
-    local enabled=false;local now=10;local lines={};local registration
-    Convars={RegisterConvar=function(_,name,default,help,flags) registration={name,default,flags} end,
+    local enabled=false;local now=10;local lines={};local registrations=0
+    Convars={RegisterConvar=function() registrations=registrations+1;error('Diagnostics must not register an engine cvar') end,
         GetBool=function() return enabled end}
     GameRules={GetGameTime=function() return now end}
     IsServer=function() return true end
     local trace=require('lib/hero_trace')
     print=function(message) lines[#lines+1]=message end
     trace:Log('SVEN','E','cleave damage=%d',100)
-    assert(#lines==0 and registration[1]=='enfos_hero_trace' and registration[2]=='0')
+    assert(#lines==0 and registrations==0)
     enabled=true;trace:Log('SVEN','R','pulse damage=%d',100)
     assert(lines[1]=='[SVEN_TRACE][R] pulse damage=100')
     assert(trace:Name(nil)=='<none>')

@@ -1,12 +1,21 @@
 -- Diagnostic only: no gameplay timers, entity searches or lifecycle operations.
-local Trace = { convar = 'enfos_hero_trace', window = nil, count = 0, limit = 100 }
+local Trace = { convar = 'enfos_hero_trace', override = nil, window = nil, count = 0, limit = 100 }
 
-if Convars and Convars.RegisterConvar then
-    Convars:RegisterConvar(Trace.convar, '0', 'Enable bounded diagnostic hero traces', 0)
+-- Never register an engine ConVar from an ability/module import. The owner
+-- observed a Source 2 fatal error in RegisterConVar on this path. Lua pcall
+-- cannot be relied on to recover from a native fatal dialog.
+-- Server console: script require('lib/hero_trace'):SetEnabled(true/false)
+function Trace:SetEnabled(enabled)
+    if not IsServer or not IsServer() or type(enabled) ~= 'boolean' then return false end
+    self.override = enabled
+    return true
 end
 
 function Trace:Enabled()
-    if IsServer and not IsServer() then return false end
+    if not IsServer or not IsServer() then return false end
+    if self.override ~= nil then return self.override end
+    -- Read-only compatibility if an older host already owns this optional cvar.
+    -- Missing cvar/API stays disabled; this module never creates or sets one.
     if not Convars or not Convars.GetBool then return false end
     local ok, enabled = pcall(Convars.GetBool, Convars, self.convar)
     return ok and enabled == true
