@@ -21,11 +21,13 @@ local function unit(team)
  return u
 end
 local c,t=unit(2),unit(3);local a={rank=0,value=${kv.AbilityValues.slow_pct}}
+function a:GetCaster()return self.foreign or c end
 function a:IsNull()return self.removed end;function a:GetLevel()assert(not self.removed);return self.rank end
 function a:GetSpecialValueFor(k)assert(not self.removed and k=='slow_pct');return self.value end
 local m=setmetatable({GetParent=function()return t end,GetCaster=function()return c end,GetAbility=function()return a end},modifier_enfos_lion_mana_drain_debuff)
 function m:IsNull()return self.removed end
 assert(m:GetModifierMoveSpeedBonus_Percentage()==0,'Rank0 cannot slow a recipient')
+a.rank=1;a.foreign=unit(2);assert(m:GetModifierMoveSpeedBonus_Percentage()==0,'Borrowed ability cannot slow a recipient');a.foreign=nil;a.rank=0
 m:OnCreated();assert(m:IsDebuff() and not m:IsHidden() and not m:IsPurgable() and not m:IsPurgeException() and m:GetTexture()=='lion_mana_drain')
 for _,side in ipairs({true,false})do
  server=side

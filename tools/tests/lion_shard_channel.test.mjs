@@ -19,7 +19,7 @@ function c:IsNull()return self.removed end;function c:IsAlive()return self.alive
 function c:HasModifier(n)return self.shard and n=='modifier_item_aghanims_shard_permanent_buff' end
 function c:HasItemInInventory()return false end
 local a=setmetatable({rank=1,channeling=true},enfos_lion_mana_drain)
-function a:IsNull()return self.removed end;function a:GetCaster()return c end;function a:GetLevel()return self.rank end
+function a:IsNull()return self.removed end;function a:GetCaster()return self.foreign or c end;function a:GetLevel()return self.rank end
 function a:IsChanneling()assert(server,'Server-only query called from client');return self.channeling end
 function a:GetSpecialValueFor(k)return ({break_distance=1100,shard_break_distance_bonus=200,shard_magic_resistance=60})[k] or 0 end
 local m=setmetatable({GetParent=function()return c end,GetAbility=function()return a end},modifier_enfos_lion_mana_drain_channel)
@@ -34,6 +34,8 @@ for _,side in ipairs({true,false})do
  end
 end
 server=true;a.rank=0;assert(m:GetModifierMagicalResistanceBonus()==0 and not m:CheckState()[56]);a.rank=10
+for _,side in ipairs({true,false})do server=side;a.foreign={};assert(m:GetModifierMagicalResistanceBonus()==0 and not m:CheckState()[56],'Borrowed source cannot grant Shard defense');a.foreign=nil end
+server=true
 for _,mode in ipairs({'closed','removed modifier','removed ability','removed caster','dead caster','stopped channel'})do
  if mode=='closed' then m.closed=true elseif mode=='removed modifier' then m.removed=true elseif mode=='removed ability' then a.removed=true
  elseif mode=='removed caster' then c.removed=true elseif mode=='dead caster' then c.alive=false else a.channeling=false end

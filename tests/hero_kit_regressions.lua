@@ -6573,7 +6573,7 @@ test('Lion Mana Drain ends the engine channel when its target dies', function()
     target.alive = false
     mock_world_units = { lion, target }
     local ended = false
-    local ability = { EndChannel = function(_, interrupted) ended = interrupted == true end }
+    local ability = { GetLevel = function() return 1 end, GetCaster = function() return lion end, EndChannel = function(_, interrupted) ended = interrupted == true end }
     local channel = setmetatable({
         target_idx = target:entindex(),
         drain_target = target,

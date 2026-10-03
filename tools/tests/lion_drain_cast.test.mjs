@@ -31,8 +31,8 @@ local function unit(team)
 end
 local function reset()
  adds,sounds=0,0;hook=nil;c,t=unit(2),unit(3)
- a=setmetatable({},enfos_lion_mana_drain)
- function a:IsNull()return self.removed end
+ a=setmetatable({rank=1},enfos_lion_mana_drain)
+ function a:IsNull()return self.removed end;function a:GetLevel()return self.rank end
  function a:GetCaster()return c end;function a:GetCursorTarget()return t end
  function a:GetSpecialValueFor(k)assert(not self.removed and k=='channel_duration');return 4 end
 end
@@ -48,6 +48,10 @@ for _,phase in ipairs({'absorb','sound','modifier'})do
   a:OnSpellStart();assert(adds==(phase=='modifier' and 1 or 0),phase..' invalidates '..who)
  end
 end
+for _,phase in ipairs({'absorb','sound','modifier'})do
+ reset();hook=function(p)if p==phase then a.rank=0 end end;a:OnSpellStart();assert(adds==(phase=='modifier' and 1 or 0),'Rank loss during '..phase..' cannot create new effects')
+end
+reset();a.rank=0;a:OnSpellStart();assert(adds==0 and sounds==0,'Unlearned Drain cannot cast or emit sound')
 reset();server=false;a:OnSpellStart();assert(adds==0 and sounds==0)
 print('Lion drain cast PASS')
 `;

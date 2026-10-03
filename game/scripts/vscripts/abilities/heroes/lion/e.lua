@@ -4,6 +4,9 @@ local Trace = require('lib/hero_trace')
 local Upgrades = require('abilities/heroes/lion/upgrades')
 local Extras = require('abilities/heroes/lion/drain_extras')
 local function valid(x) return x and not (x.IsNull and x:IsNull()) end
+local function learned_source(a,c)
+    return valid(a) and valid(c) and a:GetLevel()>0 and a:GetCaster()==c
+end
 local function eligible(c,t)
     return valid(c) and c:IsAlive() and valid(t) and t:IsAlive()
         and c:GetTeamNumber()~=t:GetTeamNumber()
@@ -29,16 +32,17 @@ end
 function enfos_lion_mana_drain:OnSpellStart()
     if not IsServer() or not valid(self) then return end
     local c = self:GetCaster()
+    if not learned_source(self,c) then return end
     local t = self:GetCursorTarget()
     if not visible_enemy(c,t) then return end
     if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
-    if not valid(self) or not visible_enemy(c,t) then return end
+    if not learned_source(self,c) or not visible_enemy(c,t) then return end
     local duration = value(self, 'channel_duration')
     if duration <= 0 then return end
     c:EmitSound('Hero_Lion.ManaDrain')
-    if not valid(self) or not visible_enemy(c,t) then return end
+    if not learned_source(self,c) or not visible_enemy(c,t) then return end
     c:AddNewModifier(c, self, 'modifier_enfos_lion_mana_drain_channel', { duration = duration, target_idx = t:entindex() })
-    if not valid(self) or not visible_enemy(c,t) then return end
+    if not learned_source(self,c) or not visible_enemy(c,t) then return end
     t:AddNewModifier(c, self, 'modifier_enfos_lion_mana_drain_debuff', { duration = duration })
 end
 function enfos_lion_mana_drain:OnChannelFinish(interrupted)
@@ -52,7 +56,7 @@ modifier_enfos_lion_mana_drain_channel=class({})
 local function shard_channel_active(m)
     if m.closed or not valid(m) then return false end
     local c,a=m:GetParent(),m:GetAbility()
-    if not valid(c) or not c:IsAlive() or not valid(a) or a:GetLevel()<=0 then return false end
+    if not learned_source(a,c) or not c:IsAlive() then return false end
     if IsServer() and not a:IsChanneling() then return false end
     return Upgrades.HasShard(c)
 end
@@ -80,9 +84,9 @@ function modifier_enfos_lion_mana_drain_channel:StartVisual()
     local revision=self.revision
     self:ClearVisual()
     local c,t=self:GetParent(),self.drain_target
-    if self.closed or self.revision~=revision or not valid(c) or not valid(t) then return end
+    if self.closed or self.revision~=revision or not learned_source(self:GetAbility(),c) or not valid(t) then return end
     local fx=ParticleManager:CreateParticle('particles/units/heroes/hero_lion/lion_spell_mana_drain.vpcf',PATTACH_ABSORIGIN_FOLLOW,c)
-    local function active() return not self.closed and self.revision==revision and valid(c) and valid(t) end
+    local function active() return not self.closed and self.revision==revision and learned_source(self:GetAbility(),c) and valid(t) end
     if active() then ParticleManager:SetParticleControlEnt(fx,0,c,PATTACH_ABSORIGIN_FOLLOW,'',c:GetAbsOrigin(),false) end
     if active() then ParticleManager:SetParticleControlEnt(fx,1,t,PATTACH_ABSORIGIN_FOLLOW,'',t:GetAbsOrigin(),false) end
     if not active() then
@@ -137,7 +141,7 @@ function modifier_enfos_lion_mana_drain_channel:Abort(reason)
     local revision=self.revision
     local c,a=self:GetParent(),self:GetAbility()
     Trace:Log('LION','E','channel aborted reason=%s',reason)
-    if valid(c) and valid(a) then a:EndChannel(true) end
+    if valid(c) and valid(a) and a:GetCaster()==c then a:EndChannel(true) end
     if not self.closed and self.revision==revision then self:Destroy() end
 end
 function modifier_enfos_lion_mana_drain_channel:OnIntervalThink()
@@ -145,7 +149,7 @@ function modifier_enfos_lion_mana_drain_channel:OnIntervalThink()
     local revision=self.revision
     local c,a,t=self:GetParent(),self:GetAbility(),self.drain_target
     if not valid(c) or not c:IsAlive() then self:Abort('caster');return end
-    if not valid(a) then self:Abort('ability');return end
+    if not learned_source(a,c) then self:Abort('ability rank or owner');return end
     if not valid(t) or not t:IsAlive() then self:Abort('target');return end
     if not visible_enemy(c,t) then self:Abort('target rules or visibility');return end
     if not a:IsChanneling() then
@@ -161,13 +165,13 @@ function modifier_enfos_lion_mana_drain_channel:OnIntervalThink()
     damage(a,t,tick_dmg,DAMAGE_TYPE_MAGICAL)
     -- Damage can kill/remove entities, close the modifier, or start another cast.
     if self.closed or self.revision~=revision then return end
-    if not valid(c) or not c:IsAlive() or not valid(a) then self:Abort('source after damage');return end
+    if not learned_source(a,c) or not c:IsAlive() then self:Abort('source after damage');return end
     if not a:IsChanneling() then self:Destroy();return end
     if not valid(t) then self:Abort('target after damage');return end
     if t:IsAlive() and not visible_enemy(c,t) then self:Abort('target rules or visibility after damage');return end
     if c.GiveMana then c:GiveMana(tick_dmg) end
     if self.closed or self.revision~=revision then return end
-    if not valid(c) or not c:IsAlive() or not valid(a) then self:Abort('source after mana');return end
+    if not learned_source(a,c) or not c:IsAlive() then self:Abort('source after mana');return end
     if not a:IsChanneling() then self:Destroy();return end
     if not valid(t) or not t:IsAlive() then self:Abort('target after tick');return end
     if not visible_enemy(c,t) then self:Abort('target rules or visibility after mana');return end
@@ -186,7 +190,7 @@ function modifier_enfos_lion_mana_drain_debuff:DeclareFunctions() return { MODIF
 function modifier_enfos_lion_mana_drain_debuff:GetModifierMoveSpeedBonus_Percentage()
     if self.closed or not valid(self) then return 0 end
     local a=self:GetAbility()
-    if not valid(a) or a:GetLevel()<=0 or not eligible(self:GetCaster(),self:GetParent()) then return 0 end
+    if not learned_source(a,self:GetCaster()) or not eligible(self:GetCaster(),self:GetParent()) then return 0 end
     return -value(a,'slow_pct')
 end
 function modifier_enfos_lion_mana_drain_debuff:TraceLifecycle(event)

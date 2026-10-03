@@ -715,6 +715,7 @@ do
     }) do
         local a=_G[row[1]]()
         if row[1]=='enfos_lion_mana_drain' then
+            a.GetLevel=function() return 1 end
             a.IsChanneling=function() return false end
             a.GetSpecialValueFor=function(_,key) return special(row[1],key) end
         end

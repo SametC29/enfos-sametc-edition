@@ -53,7 +53,7 @@ local function reset(shard)
  registry[1]=t;candidates={t,extra1,extra1,extra2,unit(3,250)}
  local castSource=c
  a=setmetatable({rate=120,channeling=true},enfos_lion_mana_drain)
- function a:IsNull()return self.removed end;function a:GetCaster()return castSource end
+ function a:IsNull()return self.removed end;function a:GetCaster()return self.foreign or castSource end;function a:GetLevel()return self.rank or 1 end
  function a:IsChanneling()return self.channeling end;function a:EndChannel()self.channeling=false end
  function a:GetSpecialValueFor(k)return k=='mana_per_second' and self.rate or k=='break_distance' and 1100 or k=='shard_break_distance_bonus' and 200 or k=='shard_bonus_targets' and 2 or k=='channel_duration' and 4 or 0 end
  m=setmetatable({intervals=0},modifier_enfos_lion_mana_drain_channel)
@@ -159,6 +159,20 @@ first:OnDestroy();assert(firstSlow.closed and not secondSlow.closed and active_b
 m:OnDestroy();assert(secondSlow.closed and active_beams()==0)
 reset(true);registry[1]=nil;m:OnCreated({target_idx=1});assert(#(m.extra_drains or {})==0);m:OnDestroy();assert(active_beams()==0)
 reset(true);server=false;q=searches;m:OnCreated({target_idx=1});assert(searches==q and active_beams()==0);server=true
+for _,phase in ipairs({'before','primary damage','extra damage','extra mana'})do
+ for _,loss in ipairs({'rank','owner'})do
+  reset(true);m:OnCreated({target_idx=1});local h,g=#hits,mana
+  local function lose()if loss=='rank' then a.rank=0 else a.foreign=unit(2)end end
+  if phase=='before' then lose()
+  elseif phase=='primary damage' then damageHook=function(u)if u==t then lose()end end
+  elseif phase=='extra damage' then damageHook=function(u)if u==extra1 then lose()end end
+  else manaHook=function()if #hits==h+2 then lose()end end end
+  m:OnIntervalThink();damageHook=nil;manaHook=nil
+  local expected={['before']={0,0},['primary damage']={1,0},['extra damage']={2,100},['extra mana']={2,200}}
+  assert(#hits==h+expected[phase][1] and mana==g+expected[phase][2],'Source loss stops remaining Shard rewards: '..phase..' '..loss)
+  m:OnIntervalThink();m:OnDestroy();assert(active_beams()==0)
+ end
+end
 print('Lion Shard recipients PASS')
 `;
  const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:lua,encoding:'utf8'});

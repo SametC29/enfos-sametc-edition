@@ -35,7 +35,7 @@ local function unit(team)
  return u
 end
 local c,t=unit(2),unit();units[1]=t
-local ended=0;local a={rate=120,channeling=true,IsChanneling=function(self)return self.channeling end,EndChannel=function()ended=ended+1 end,GetCaster=function()return c end,GetSpecialValueFor=function(self,k)return k=='mana_per_second' and self.rate or k=='break_distance' and 1100 or k=='shard_break_distance_bonus' and 200 or 0 end}
+local ended=0;local a={rank=1,rate=120,channeling=true,GetLevel=function(self)return self.rank end,IsChanneling=function(self)return self.channeling end,EndChannel=function()ended=ended+1 end,GetCaster=function(self)return self.foreign or c end,GetSpecialValueFor=function(self,k)return k=='mana_per_second' and self.rate or k=='break_distance' and 1100 or k=='shard_break_distance_bonus' and 200 or 0 end}
 setmetatable(a,enfos_lion_mana_drain)
 local function modifier()
  local m=setmetatable({intervals=0},modifier_enfos_lion_mana_drain_channel)
@@ -120,6 +120,30 @@ end
 c,t=unit(2),unit();units[1]=t;a.removed=false;a.channeling=false
 local stopped=modifier();stopped:OnCreated({target_idx=1});local h,g=hits,mana;stopped:OnIntervalThink()
 assert(stopped.closed and hits==h and mana==g,'Stopped ability cannot keep channel thinker damage running');a.channeling=true
+-- Learned rank and original ability ownership govern all channel side effects.
+for _,mode in ipairs({'rank before tick','owner before tick','rank during damage','owner during damage','rank during mana','owner during mana'})do
+ c,t=unit(2),unit();units[1]=t;a.removed=false;a.channeling=true;a.rank=1;a.rate=120;a.foreign=nil
+for _,phase in ipairs({'create','cp0','cp1'})do
+ c,t=unit(2),unit();units[1]=t;a.rank=1;a.foreign=nil
+ local x=modifier();local n=created;hook=function(p)if p==phase then a.rank=0 end end
+ x:OnCreated({target_idx=1});hook=nil
+ assert(created==n+1 and destroyed[created] and released[created] and x.drain_fx==nil,'Source loss during beam callbacks cannot retain an effect')
+ x:OnDestroy()
+end
+a.rank=1
+
+ local x=modifier();x:OnCreated({target_idx=1});local h,g,e=hits,mana,ended
+ local function lose()if mode:find('rank',1,true)then a.rank=0;a.rate=0 else a.foreign=unit(2)end end
+ if mode:find('before',1,true)then lose() elseif mode:find('damage',1,true)then damageHook=lose else manaHook=lose end
+ x:OnIntervalThink();damageHook=nil;manaHook=nil
+ assert(x.closed,'Invalid learned-source channel must close: '..mode)
+ assert(hits==h+(mode:find('before',1,true) and 0 or 1),mode)
+ assert(mana==g+(mode:find('mana',1,true) and 100 or 0),'No reward after source loss: '..mode)
+ if mode:find('owner',1,true)then assert(ended==e,'Cannot EndChannel on another caster ability')end
+ local oldHits,oldMana=hits,mana;x:OnIntervalThink();assert(hits==oldHits and mana==oldMana)
+end
+a.rank=1;a.rate=120;a.foreign=nil
+
 c,t=unit(2),unit();units[1]=t;local moved=modifier();moved:OnCreated({target_idx=1});moved:OnIntervalThink();t.pos={x=1200,y=0,z=0}
 h,g=hits,mana;moved:OnIntervalThink();assert(moved.closed and hits==h and mana==g,'Moving out of leash interrupts before next tick')
 local special=a.GetSpecialValueFor;a.GetSpecialValueFor=function(_,k)return k=='break_distance' and 0 or special(a,k)end

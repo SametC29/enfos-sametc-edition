@@ -8,7 +8,7 @@ local function valid(x) return x and not (x.IsNull and x:IsNull()) end
 local function current(m,revision)
     if m.closed or m.revision~=revision then return false end
     local c,a=m:GetParent(),m:GetAbility()
-    return valid(c) and c:IsAlive() and valid(a) and a:IsChanneling()
+    return valid(c) and c:IsAlive() and valid(a) and a:GetLevel()>0 and a:GetCaster()==c and a:IsChanneling()
 end
 local function within(c,t,r)
     local p,q=c:GetAbsOrigin(),t:GetAbsOrigin()
