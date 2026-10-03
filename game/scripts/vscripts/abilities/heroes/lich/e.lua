@@ -37,6 +37,10 @@ end
 
 modifier_enfos_lich_sinister_gaze_debuff=class({})
 function modifier_enfos_lich_sinister_gaze_debuff:IsDebuff() return true end
+-- Native Gaze allows basic dispel. Hypnosis blocks actions but is not a
+-- strong-dispel-only stun for purge classification.
+function modifier_enfos_lich_sinister_gaze_debuff:IsPurgable() return true end
+function modifier_enfos_lich_sinister_gaze_debuff:IsStunDebuff() return false end
 function modifier_enfos_lich_sinister_gaze_debuff:GetTexture() return 'lich_sinister_gaze' end
 function modifier_enfos_lich_sinister_gaze_debuff:CheckState()
     return { [MODIFIER_STATE_STUNNED] = true }

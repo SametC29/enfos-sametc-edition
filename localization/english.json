@@ -1427,6 +1427,8 @@
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_Description": "Nearby allied heroes and basic units gain armor and mana regeneration. Disabled by Break on Lich. Illusions receive no bonuses.",
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff": "Ice Aura",
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "Armor: +%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Mana regeneration: +%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% per second.",
-    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_SummaryDescription": "Channels for {{duration}} sec, draining {{mana_drain_pct}}% of the target's maximum mana per second and restoring it to Lich. Stuns and pulls the target."
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_SummaryDescription": "Channels for {{duration}} sec, draining {{mana_drain_pct}}% of the target's maximum mana per second and restoring it to Lich. Stuns and pulls the target.",
+    "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff": "Sinister Gaze",
+    "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff_Description": "Hypnotized: unable to act while Lich channels, with mana drained and movement pulled toward him. A basic dispel removes this effect and ends its channel."
   }
 }

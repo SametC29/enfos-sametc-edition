@@ -2507,6 +2507,8 @@
 		"DOTA_Tooltip_modifier_enfos_lich_ice_aura_Description" "Yakındaki dost kahramanlar ve temel birimler zırh ve mana yenilenmesi kazanır. Lich üzerindeki Kırılma etkisi bonusları devre dışı bırakır. İllüzyonlar bonus kazanmaz."
 		"DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff" "Buzul Halesi"
 		"DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description" "Zırh: +%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Mana yenilenmesi: saniyede +%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT%."
+		"DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff" "Uğursuz Bakış"
+		"DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff_Description" "Hipnotize: Lich kanal açarken hareket edemez ve eylem gerçekleştiremez; manası emilir ve Lich’e doğru çekilir. Basit arındırma etkiyi kaldırır ve ona ait kanalı bitirir."
 		"DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive" "İblis Ruhu"
 		"DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive_Description" "Pasif olarak yetenek kullanım menzilini +150 / 200 / 250 / 300 / 350 / 400 / 450 / 500 / 550 / 600 ve büyü hasarını %2 / 4 / 6 / 8 / 10 / 12 / 14 / 16 / 18 / 20 artırır."
 		"DOTA_Tooltip_modifier_enfos_lion_finger_counter" "Ölüm Parmağı"

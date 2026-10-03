@@ -386,3 +386,24 @@ regressions:352 cases pass. Execute the new ten-rank ordinary/Boss fixture again
 that staged E too:PASS. This avoids relying only on contributor code that the
 isolated commit will not contain. Native engine distribution/mitigation remains
 outside these mocks; no engine acceptance is asserted.
+
+## E explicit dispel policy and channel-removal regression
+
+Installed build6943 native `scripts/npc/heroes/npc_dota_hero_lich.txt`,
+`lich_sinister_gaze`, declares `SpellDispellableType=SPELL_DISPELLABLE_YES`.
+[Current Lua API](https://docs.moddota.com/lua_server/docs) distinguishes
+`IsPurgable` from `IsStunDebuff` (stun classification for purge reasons).
+The custom modifier previously left both policies implicit. Declare purgable=true
+and stun-debuff=false to preserve native hypnosis basic-dispel intent while
+retaining its existing action lock. This makes policy explicit; it does not prove
+the previous engine default was faulty, or certify actual Purge behavior.
+Disposition remains PVE-CONVERT; no duration, damage, pull or Boss-owned rule changes.
+
+New real-module regression checks ownership detach before EndChannel callback,
+matching-channel interruption, duplicate removal, stale target versus newer cast,
+another active ability, removed source and client-side cleanup. It does not
+simulate engine Purge or establish actual visual/audio cleanup. Add explicit
+four-locale control modifier names/descriptions and generated mirrors.
+Basic/strong dispel, repeated casts and native hypnosis classification remain
+PENDING OWNER TEST. Existing contributor E work remains uncommitted and excluded
+from the isolated index entry.

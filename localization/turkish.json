@@ -1774,6 +1774,8 @@
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_Description": "Yakındaki dost kahramanlar ve temel birimler zırh ve mana yenilenmesi kazanır. Lich üzerindeki Kırılma etkisi bonusları devre dışı bırakır. İllüzyonlar bonus kazanmaz.",
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff": "Buzul Halesi",
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "Zırh: +%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Mana yenilenmesi: saniyede +%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT%.",
-    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_SummaryDescription": "{{duration}} sn kanallayarak hedefin saniyede maksimum manasının %{{mana_drain_pct}} kadarını çeker ve Lich'e aktarır. Hedefi sersemletip kendine çeker."
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_SummaryDescription": "{{duration}} sn kanallayarak hedefin saniyede maksimum manasının %{{mana_drain_pct}} kadarını çeker ve Lich'e aktarır. Hedefi sersemletip kendine çeker.",
+    "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff": "Uğursuz Bakış",
+    "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff_Description": "Hipnotize: Lich kanal açarken hareket edemez ve eylem gerçekleştiremez; manası emilir ve Lich’e doğru çekilir. Basit arındırma etkiyi kaldırır ve ona ait kanalı bitirir."
   }
 }

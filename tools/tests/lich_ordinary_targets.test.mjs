@@ -8,6 +8,50 @@ const abilities=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.t
 const curve=(id,key)=>String(abilities[id].AbilityValues[key]).split(/\s+/).map(Number);
 const q='enfos_lich_frost_blast',r='enfos_lich_chain_frost';
 
+test('Gaze basic-dispel contract and removal preserve channel ownership',()=>{
+  const script=`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t) t.__index=t;return t end
+function LinkLuaModifier() end
+local server=true
+function IsServer() return server end
+require('abilities/heroes/lich/e')
+local cls=modifier_enfos_lich_sinister_gaze_debuff
+assert(cls:IsPurgable() and not cls:IsStunDebuff(),'Native Gaze hypnosis allows basic dispel despite action lock')
+assert(cls:IsDebuff() and cls:GetTexture()=='lich_sinister_gaze','Harmful hypnosis keeps native icon')
+local target,newTarget={},{}
+local ended,active,removed=0,nil,false
+local caster={IsNull=function() return false end,GetCurrentActiveAbility=function() return active end}
+local ability={IsNull=function() return removed end,gazeTarget=target}
+function ability:EndChannel(interrupted)
+  assert(interrupted and self.gazeTarget==nil,'Detach ownership before callback to prevent recursive cleanup')
+  ended=ended+1
+end
+local m=setmetatable({GetAbility=function() return ability end,GetCaster=function() return caster end,
+  GetParent=function() return target end},cls)
+active=ability;m:OnDestroy()
+assert(ended==1 and ability.gazeTarget==nil,'Dispel/expiry interrupts matching channel once')
+m:OnDestroy();assert(ended==1,'Repeated removal cannot interrupt twice')
+ability.gazeTarget=newTarget;m:OnDestroy()
+assert(ended==1 and ability.gazeTarget==newTarget,'Old target cannot erase or interrupt new cast')
+ability.gazeTarget=target;active={};m:OnDestroy()
+assert(ended==1 and ability.gazeTarget==nil,'Other active ability must not be interrupted')
+ability.gazeTarget=target;active=ability;removed=true;m:OnDestroy()
+assert(ended==1 and ability.gazeTarget==target,'Removed ability is not mutated')
+removed=false;server=false;m:OnDestroy()
+assert(ended==1 and ability.gazeTarget==target,'Client cleanup cannot mutate server ownership')
+print('Lich E dispel ownership regression PASS')
+`;
+  const result=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});
+  assert.equal(result.status,0,result.stderr||result.stdout);
+  assert.match(result.stdout,/Lich E dispel ownership regression PASS/,result.stderr);
+  for(const lang of ['english','turkish','russian','schinese']){
+    const tokens=JSON.parse(fs.readFileSync(`localization/${lang}.json`,'utf8')).Tokens;
+    assert.ok(tokens.DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff,lang+': explicit control name');
+    assert.ok(tokens.DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff_Description,lang+': explicit control description');
+  }
+});
+
 test('Lich aura has explicit four-locale ability and recipient tooltips',()=>{
   for(const lang of ['english','turkish','russian','schinese']){
     const tokens=JSON.parse(fs.readFileSync(`localization/${lang}.json`,'utf8')).Tokens;

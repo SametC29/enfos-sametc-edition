@@ -1367,6 +1367,8 @@
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_Description": "附近友方英雄和普通单位获得护甲和魔法恢复。巫妖受到破坏时加成失效。幻象不获得加成。",
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff": "寒冰光环",
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "护甲：+%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%。魔法恢复：每秒+%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT%点。",
-    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_SummaryDescription": "引导{{duration}}秒，每秒抽取目标最大法力值的{{mana_drain_pct}}%并转移给巫妖。眩晕并拉近目标。"
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_SummaryDescription": "引导{{duration}}秒，每秒抽取目标最大法力值的{{mana_drain_pct}}%并转移给巫妖。眩晕并拉近目标。",
+    "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff": "阴邪凝视",
+    "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff_Description": "被催眠：巫妖持续施法期间无法行动，魔法被汲取并被拉向巫妖。基础驱散可移除此效果并结束其持续施法。"
   }
 }

@@ -1367,6 +1367,8 @@
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_Description": "Союзные герои и обычные существа поблизости получают броню и восстановление маны. Истощение на Личе отключает бонусы. Иллюзии не получают бонусов.",
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff": "Ледяная аура",
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "Броня: +%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Восстановление маны: +%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% в секунду.",
-    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_SummaryDescription": "Каналирует {{duration}} сек., вытягивая {{mana_drain_pct}}% максимального запаса маны цели в секунду и передавая её Личу. Оглушает и притягивает цель."
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_SummaryDescription": "Каналирует {{duration}} сек., вытягивая {{mana_drain_pct}}% максимального запаса маны цели в секунду и передавая её Личу. Оглушает и притягивает цель.",
+    "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff": "Зловещий взгляд",
+    "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff_Description": "Гипноз: цель не может действовать, пока Лич поддерживает заклинание; её мана истощается, а цель притягивается к нему. Базовое развеивание снимает эффект и прекращает его поддержание."
   }
 }

@@ -51,6 +51,9 @@ and no-pull observations describe superseded source, not intended policy.
 - Switch immunity during R travel; loss/removal/movement of source/recipients;
   two Lich casters, same/different-target refresh and ownership after expiry.
 - D death/linger, overlapping auras, source illusions and allegiance changes.
+- E basic dispel must remove hypnosis and end only its matching channel; strong
+  dispel, recast and another active ability are separate owner tests. The authored
+  action lock is explicitly not classified as a stun for purge purposes.
 - EN/TR/RU/zh-CN skill/modifier names/icons/live values. D must show its radius,
   allied recipients and source Break; actual decimal/signed formatting is pending.
 - Current Shard is generic healing25%, Scepter ultimate40% amplification/25%
