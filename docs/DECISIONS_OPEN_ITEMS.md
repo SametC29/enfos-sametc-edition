@@ -329,3 +329,8 @@ Prove early:
   Continue the hero-by-hero static kit audit; keep every Dota gameplay, VFX, SFX,
   HUD and VConsole acceptance item pending until owner live testing.
 - See audit/HERO_ABILITY_RESEARCH_2026-09-29.md and HERO_ABILITY_REFERENCE.md.
+
+
+## Lion Mana Drain recipient economy decision — owner answer pending, 2026-10-03
+
+The current authored E damages every eligible hostile recipient and produces equal mana, even when that recipient has mana. Native Mana Drain is a mana-transfer ability. Owner preference was requested: use actual target mana drain on mana-bearing enemies with a defined conversion fallback on mana-less PvE creeps, or explicitly retain the authored damage/mana conversion for all recipients. No dependent mana-economy implementation is authorized by an unanswered preference; source/cleanup/Shard work can continue independently. Also review native allied mana-transfer targeting, empty-mana effects and final partial/channel-expiry timing before closing E. Lion remains OPEN; no mock or source check constitutes owner engine acceptance.

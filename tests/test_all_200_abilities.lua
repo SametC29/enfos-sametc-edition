@@ -298,7 +298,12 @@ function create_mock_unit(name, team, origin, hp)
             mod.GetStackCount = function(m) return m.stacks or 0 end
             mod.SetStackCount = function(m, count) m.stacks = count end
             mod.SetDuration = function(m, dur, refresh) end
-            mod.Destroy = function(m) self.modifiers[mod_name] = nil end
+            mod.Destroy = function(m)
+                if m.mock_destroyed then return end
+                m.mock_destroyed = true
+                if m.OnDestroy then m:OnDestroy() end
+                if self.modifiers[mod_name] == m then self.modifiers[mod_name] = nil end
+            end
             mod.SetHasCustomTransmitterData = function() end
             mod.SendBuffRefreshToClients = function() end
             mod.GetElapsedTime = function() return 0 end

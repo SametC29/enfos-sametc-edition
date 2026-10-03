@@ -49,7 +49,11 @@ function enfos_lion_mana_drain:OnChannelFinish(interrupted)
     if not IsServer() or not valid(self) then return end
     local c = self:GetCaster()
     if not valid(c) then return end
-    c:RemoveModifierByName('modifier_enfos_lion_mana_drain_channel')
+    local m = c:FindModifierByName('modifier_enfos_lion_mana_drain_channel')
+    -- A finish callback owns its source, not every same-name channel on the unit.
+    -- Rank loss must still allow the legitimately owned channel to clean up.
+    if not valid(m) or m.closed or m:GetAbility()~=self or m:GetParent()~=c then return end
+    m:Destroy()
 end
 
 modifier_enfos_lion_mana_drain_channel=class({})
