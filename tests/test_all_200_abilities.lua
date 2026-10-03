@@ -747,14 +747,15 @@ do
     ProjectileManager.CreateTrackingProjectile=oldProjectile
     mock_world_units={hero,enemy,other}
 
-    local fire=enfos_jakiro_liquid_fire();local automatic,ready=false,true
+    local fire=enfos_jakiro_liquid_fire();local automatic,ready=false,true;local fireMana=40
     fire.GetCaster=function() return hero end
     fire.GetCursorTarget=function() return enemy end
     fire.GetLevel=function() return 4 end
     fire.GetSpecialValueFor=function(_,key) return special('enfos_jakiro_liquid_fire',key) end
     fire.GetAutoCastState=function() return automatic end
     fire.IsCooldownReady=function() return ready end
-    fire.UseResources=function() ready=false end
+    fire.IsFullyCastable=function() return ready and fireMana>=20 end
+    fire.UseResources=function(_,mana,health,gold,cooldown) assert(mana and not health and not gold and cooldown);fireMana=fireMana-20;ready=false end
     local passive=hero:AddNewModifier(hero,fire,'modifier_enfos_jakiro_liquid_fire_passive',{})
     hits=0;passive:OnAttackLanded({attacker=hero,target=enemy});assert(hits==0)
     automatic=true;passive:OnAttackLanded({attacker=hero,target=enemy});assert(hits==2 and not ready)

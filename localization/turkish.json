@@ -909,7 +909,7 @@
     "DOTA_Tooltip_Ability_enfos_jakiro_ice_path": "Buz Yolu",
     "DOTA_Tooltip_Ability_enfos_jakiro_ice_path_Description": "{{path_delay}} sn uyarıdan sonra {{path_duration}} sn süren, {{path_length}} uzunluğunda ve {{path_radius}} yarıçaplı bir buz yolu oluşturur. Yola giren her düşman kullanım başına bir kez {{damage}} + Zekânın %60’ı kadar büyü hasarı alır ve en fazla {{stun_duration}} sn sersemletilir; yol bitince sersemletme de biter. Zayıflatma bağışıklığını delmez; güçlü arındırma sersemletmeyi kaldırır.",
     "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire": "Sıvı Ateş",
-    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_Description": "Elle kullanılabilir; otomatik kullanım açık ve yetenek hazırsa saldırılarda da tetiklenir. {{radius}} alanda {{bonus_damage}} + 0,3 × Zeka büyü hasarı verir ve 4 saniye boyunca saldırı hızını {{slow_as}} azaltır. Otomatik kullanım bekleme süresini başlatır.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_Description": "Elle kullanılabilir; otomatik kullanım açık, yeterli mana var ve yetenek hazırsa isabet eden saldırılarda da tetiklenir. {{radius}} alanda {{bonus_damage}} + zekanın %30’u kadar büyü hasarı verir ve 4 saniye boyunca saldırı hızını {{slow_as}} azaltır. Otomatik kullanım mana ve bekleme süresini tüketir. Yavaşlatma isabette belirlenir ve dağıtılabilir.",
     "DOTA_Tooltip_Ability_enfos_jakiro_macropyre": "Cehennem Ateşi",
     "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_Description": "Önünde {{length}} menzillik alev denizi yaratarak saniye başına {{damage_per_sec}} büyü hasarı yakar.",
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble": "Çifte Baş",
@@ -1802,6 +1802,8 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_slow": "Çifte Nefes",
     "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_slow_Description": "Hareket hızı -%dMODIFIER_PROPERTY_TOOLTIP%%%; saldırı hızı -%dMODIFIER_PROPERTY_TOOLTIP2%. Dağıtılabilir.",
     "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_burn": "Çifte Nefes: Yanma",
-    "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_burn_Description": "Saniyede %fMODIFIER_PROPERTY_TOOLTIP% büyü hasarı. Dağıtılabilir; kalan hasar erken kaldırıldığında verilmez."
+    "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_burn_Description": "Saniyede %fMODIFIER_PROPERTY_TOOLTIP% büyü hasarı. Dağıtılabilir; kalan hasar erken kaldırıldığında verilmez.",
+    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow": "Sıvı Ateş",
+    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "Saldırı hızı -%dMODIFIER_PROPERTY_TOOLTIP%. Dağıtılabilir."
   }
 }

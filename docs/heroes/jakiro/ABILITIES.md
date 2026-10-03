@@ -119,7 +119,7 @@ pending the owner's live Dota test.
 
 ## Slot 2: `enfos_jakiro_ice_path`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `jakiro_ice_path` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
 Decision and PvE identity rationale: TUNE — the native mechanic already fits creeps; ten authored ranks/INT scaling require compatibility review. See the 2026-10-03 individual ledger for identified source defects and pending repair; no blanket PvP conversion is justified.
 Expected behavior: Snapshot a planar path at cast origin, show matching endpoint warning, then use engine line targeting after 0.5 seconds with ordinary ranked engine stun for all valid enemies. A finite modifier now catches later entrants once per cast, snapshots each path, bounds late stuns by remaining lifetime and owns effect cleanup. Actual engine/particle timing and parity remain pending under the current individual ledger.
@@ -162,8 +162,8 @@ Change/test record: all five abilities now expose ten KV ranks; the complete 200
 
 ## Slot 3: `enfos_jakiro_liquid_fire`
 
-Classification: PVE-CONVERT
-Native counterpart: `jakiro_liquid_fire` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
+Classification: TUNE
+Native counterpart: `jakiro_liquid_fire` (installed native hero snapshot, ClientVersion 6943 / SourceRevision 11069754; rechecked 2026-10-03; Enfos slot assignment is project-specific).
 Decision and PvE identity rationale: TUNE — the native mechanic already fits creeps; ten authored ranks/INT scaling require compatibility review. See the 2026-10-03 individual ledger for identified source defects and pending repair; no blanket PvP conversion is justified.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
@@ -185,18 +185,18 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Independent resource/invalid-callback fixture PASS; landed-event instant impact is interim, native attack/burn conversion OPEN. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
+| Modifiers | PENDING | Independent slow snapshot/client/refresh/immune fixture PASS; hidden nonpurge/death-retained proc owner explicit. Engine lifecycle and Break/orb fidelity OPEN. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
+| Boss | PENDING | Ordinary/Boss equivalent fixture damage120; no authored Boss branch. Engine damage/resistance acceptance PENDING. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | Four locales and12 mirrors describe current resource/impact/slow rules and dynamic modifier tooltip. Actual rendering PENDING. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
@@ -205,7 +205,7 @@ Change/test record: all five abilities now expose ten KV ranks; the complete 200
 
 ## Slot 4: `enfos_jakiro_macropyre`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `jakiro_macropyre` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
 Decision and PvE identity rationale: TUNE — the native mechanic already fits creeps; ten authored ranks/INT scaling require compatibility review. See the 2026-10-03 individual ledger for identified source defects and pending repair; no blanket PvP conversion is justified.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
@@ -302,3 +302,5 @@ Change/test record: all five abilities now expose ten KV ranks; the complete 200
 2026-10-03 D focused repair: learned-rank and removed-handle gates, explicit nonpurge/death-retained intrinsic, visible verified Liquid Fire icon, dynamic INT/AS modifier tooltip and bounded lifecycle traces. Rank-zero defect reproduced before repair; independent ranks0–10/Break/illusion/removed-owner/tooltip/logging fixture. All engine/respawn/reconnect/tooltip presentation gates remain PENDING. No native second attack claimed.
 
 2026-10-03 Q modifier-focused repair: hit snapshots freeze move/attack slow, custom transmitter restores client values, recast refreshes, getters avoid invalid ability, basic purge/native icon/dynamic tooltip explicit. Independent fixture reproduced absent application ownership before repair; actual client/server tooltip, dispel/status resistance remain PENDING. Traveling ice/fire cones and burn remain OPEN, current circleburst is not certified native behavior.
+
+2026-10-03 E focused resource/safety repair:20 mana authored KV matching installed ordinary cost; IsFullyCastable before automatic proc, UseResources(true,false,false,true) once; manual engine spend not repeated. Server/learned/removed-owner/team and absorb/resource/damage callback guards; valid killed attack target retains impact origin. Slow snapshots/custom client transmitter/native icon/basic purge; hidden nonpurge/death-retained proc owner; bounded impact/resource/modifier lifecycle traces. Independent fixture FAIL before resource repair / PASS after. Native attack launch/record/miss/projectile, five-second DoT/building rules/Break fidelity and Shard Liquid Ice/mana0/cooldown linkage remain OPEN; engine gates PENDING.
