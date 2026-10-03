@@ -4100,6 +4100,7 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
           "callbacks": [
+            "CastFilterResultTarget",
             "GetBehavior",
             "OnSpellStart",
             "Precache"
@@ -4147,6 +4148,7 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
           "callbacks": [
+            "CastFilterResultTarget",
             "GetBehavior",
             "LaunchChainProjectile",
             "OnProjectileHit_ExtraData",

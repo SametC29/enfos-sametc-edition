@@ -56,6 +56,13 @@ and no-pull observations describe superseded source, not intended policy.
   immunity, OnAttackLanded under absolute damage protection, expiry Nova,
   different owners/recast/stale callbacks, dead versus deleted owner, and lifetime
   cleanup. Native Spire persistent particle attachment remains source work.
+  W/R source links and bootstrap routes are now present; extra-ability acquisition
+  is still absent. Once exposed, test R direct Spire selection, foreign Spire
+  rejection, ordinary enemy filtering, four bridge hits versus eight creep hits,
+  repeated enemy after bridge,601 versus600 range, W repair during chain,
+  maximum18 total enemy/ward impacts, ownership loss in flight and lethal ward
+  continuation. Confirm ward impact sound, captured Nova/orb positions and
+  Scepter channel-cast behavior independently from the mock fixtures.
 
 - Q/R normal and Boss recipients with equivalent relevant properties use ordinary
   formulas; differences in armor/resistance/status resistance are recorded.

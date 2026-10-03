@@ -374,6 +374,7 @@ package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t) t.__index=t;return t end
 function LinkLuaModifier() end
 DOTA_DAMAGE_CATEGORY_ATTACK=1;DOTA_DAMAGE_CATEGORY_SPELL=0
+function IsServer() return true end
 require('abilities/heroes/lich/w')
 local rank,sourceRemoved,recipientRemoved,abilityRemoved,recipientAlive,sourceAlive,recipientTeam=1,false,false,false,true,true,2
 local reductions={${curve('enfos_lich_frost_shield','damage_reduction')}}

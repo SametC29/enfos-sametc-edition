@@ -3,11 +3,15 @@ local Helpers = require('abilities/shared/pve_helpers')
 local value, enemies, is_boss, get_int, damage = Helpers.value, Helpers.enemies, Helpers.is_boss, Helpers.get_int, Helpers.damage
 local HeroTrace = require('lib/hero_trace')
 local Upgrades = require('abilities/heroes/lich/upgrades')
+local Spire = require('abilities/heroes/lich/spire')
 
 LinkLuaModifier('modifier_enfos_lich_chain_frost_slow', 'abilities/heroes/lich/r', LUA_MODIFIER_MOTION_NONE)
 
 enfos_lich_chain_frost=class({})
 function enfos_lich_chain_frost:GetBehavior() return Upgrades.CastBehavior(self) end
+function enfos_lich_chain_frost:CastFilterResultTarget(target)
+    return Spire.TargetFilter(self:GetCaster(), target, DOTA_UNIT_TARGET_TEAM_ENEMY)
+end
 function enfos_lich_chain_frost:Precache(context)
     PrecacheResource('soundfile', 'soundevents/game_sounds_heroes/game_sounds_lich.vsndevts', context)
     PrecacheResource('particle', 'particles/units/heroes/hero_lich/lich_chain_frost.vpcf', context)
@@ -17,11 +21,13 @@ function enfos_lich_chain_frost:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not c or c:IsNull() or not c:IsAlive() or not t or t:IsNull() or not t:IsAlive() then return end
-    if t:GetTeamNumber() == c:GetTeamNumber() then
+    local spire = Spire.IsOwned(c, t)
+    if t:GetTeamNumber() == c:GetTeamNumber() and not spire then
         HeroTrace:Log('LICH','R','cast_cancelled reason=friendly_primary target=%s',HeroTrace:Name(t))
         return
     end
-    if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then
+    if t.IsOther and t:IsOther() and not spire then return end
+    if not spire and t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then
         HeroTrace:Log('LICH','R','cast_cancelled reason=spell_absorb target=%s',HeroTrace:Name(t))
         return
     end
@@ -65,37 +71,59 @@ function enfos_lich_chain_frost:OnProjectileHit_ExtraData(target, location, data
     if not data or type(data.hits) ~= 'number' or type(data.limit) ~= 'number'
         or type(data.damage) ~= 'number' or type(data.slow_duration) ~= 'number'
         or data.hits < 0 or data.hits ~= math.floor(data.hits) or data.hits >= data.limit or data.limit > 18 then return true end
-    if not target or target:IsNull() or not target:IsAlive() or target:GetTeamNumber() == c:GetTeamNumber() then
+    local spire = Spire.IsOwned(c, target)
+    if not target or target:IsNull() or not target:IsAlive()
+        or (target:GetTeamNumber() == c:GetTeamNumber() and not spire)
+        or (target.IsOther and target:IsOther() and not spire) then
         HeroTrace:Log('LICH','R','chain_end reason=target_lost_or_invalid hit_index=%s',tostring(data.hits + 1))
         return true
     end
     local targetId = target:entindex()
-    for i = 1, data.hits do if data['hit_' .. i] == targetId then return true end end
+    if not spire and data.bridge~=1 then
+        for i = 1, data.hits do if data['hit_' .. i] == targetId then return true end end
+    end
     local origin = target:GetAbsOrigin()
     local duration = data.slow_duration
     data.hits = data.hits + 1
     data['hit_' .. data.hits] = targetId
-    target:EmitSound(target:IsHero() and 'Hero_Lich.ChainFrostImpact.Hero' or 'Hero_Lich.ChainFrostImpact.Creep')
-    HeroTrace:Log('LICH','R','projectile_impact target=%s index=%s boss=%s requested_damage=%s slow_duration=%s',HeroTrace:Name(target),tostring(data.hits),tostring(is_boss(target)),tostring(data.damage),tostring(duration))
-    local dealt = damage(self, target, data.damage, DAMAGE_TYPE_MAGICAL)
-    HeroTrace:Log('LICH','R','damage_result actual=%s',tostring(dealt))
-    if c:IsNull() or (self.IsNull and self:IsNull()) then
-        HeroTrace:Log('LICH','R','chain_end reason=source_removed_after_damage')
-        return true
+    if spire then
+        -- A bridge consumes the same finite hit budget, but no spell damage or
+        -- hostile slow is applied to the allied ward. A surviving or lethal Spire
+        -- impact may return to one previously hit enemy from captured origin.
+        data.bridge=1
+        -- Reuse the verified non-hero Chain Frost impact event before lethal hit.
+        target:EmitSound('Hero_Lich.ChainFrostImpact.Creep')
+        if not Spire.HeroHit(c, target) then return true end
+        HeroTrace:Log('LICH','R','spire_impact index=%s alive=%s',tostring(data.hits),tostring(not target:IsNull() and target:IsAlive()))
+    else
+        data.bridge=0
+        target:EmitSound(target:IsHero() and 'Hero_Lich.ChainFrostImpact.Hero' or 'Hero_Lich.ChainFrostImpact.Creep')
+        HeroTrace:Log('LICH','R','projectile_impact target=%s index=%s boss=%s requested_damage=%s slow_duration=%s',HeroTrace:Name(target),tostring(data.hits),tostring(is_boss(target)),tostring(data.damage),tostring(duration))
+        local dealt = damage(self, target, data.damage, DAMAGE_TYPE_MAGICAL)
+        HeroTrace:Log('LICH','R','damage_result actual=%s',tostring(dealt))
+        if c:IsNull() or (self.IsNull and self:IsNull()) then
+            HeroTrace:Log('LICH','R','chain_end reason=source_removed_after_damage')
+            return true
+        end
+        if not target:IsNull() and target:IsAlive() then
+            target:AddNewModifier(c, self, 'modifier_enfos_lich_chain_frost_slow', { duration = duration })
+        end
     end
-    if not target:IsNull() and target:IsAlive() then
-        target:AddNewModifier(c, self, 'modifier_enfos_lich_chain_frost_slow', { duration = duration })
-    end
+    if c:IsNull() or (self.IsNull and self:IsNull()) then return true end
     if data.hits >= data.limit then
         HeroTrace:Log('LICH','R','chain_end reason=hit_limit hits=%s',tostring(data.hits))
         return true
     end
     for _, u in ipairs(enemies(c, origin, 600)) do
-        if u and not u:IsNull() and u:IsAlive() then
+        if u and not u:IsNull() and u:IsAlive() and u:GetTeamNumber()~=c:GetTeamNumber() then
             local visited = false
             for i = 1, data.hits do if data['hit_' .. i] == u:entindex() then visited = true; break end end
-            if not visited then self:LaunchChainProjectile(u, origin, data); return true end
+            if not visited or data.bridge==1 then self:LaunchChainProjectile(u, origin, data); return true end
         end
+    end
+    local bridge = Spire.Get(c)
+    if not spire and bridge and (bridge:GetAbsOrigin()-origin):Length2D()<=600 then
+        self:LaunchChainProjectile(bridge, origin, data); return true
     end
     HeroTrace:Log('LICH','R','chain_end reason=no_unvisited_target hits=%s',tostring(data.hits))
     return true

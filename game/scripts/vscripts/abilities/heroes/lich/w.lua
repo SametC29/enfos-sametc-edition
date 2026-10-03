@@ -3,12 +3,19 @@ local Helpers = require('abilities/shared/pve_helpers')
 local value, enemies, is_boss, get_int, damage = Helpers.value, Helpers.enemies, Helpers.is_boss, Helpers.get_int, Helpers.damage
 local HeroTrace = require('lib/hero_trace')
 local Upgrades = require('abilities/heroes/lich/upgrades')
+local Spire = require('abilities/heroes/lich/spire')
+local function allowed_ward(caster, unit)
+    return not unit.IsOther or not unit:IsOther() or Spire.IsOwned(caster, unit)
+end
 
 LinkLuaModifier('modifier_enfos_lich_frost_shield', 'abilities/heroes/lich/w', LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier('modifier_enfos_lich_frost_shield_slow', 'abilities/heroes/lich/w', LUA_MODIFIER_MOTION_NONE)
 
 enfos_lich_frost_shield=class({})
 function enfos_lich_frost_shield:GetBehavior() return Upgrades.CastBehavior(self) end
+function enfos_lich_frost_shield:CastFilterResultTarget(target)
+    return Spire.TargetFilter(self:GetCaster(), target, DOTA_UNIT_TARGET_TEAM_FRIENDLY)
+end
 function enfos_lich_frost_shield:Precache(context)
     PrecacheResource('soundfile', 'soundevents/game_sounds_heroes/game_sounds_lich.vsndevts', context)
     PrecacheResource('particle', 'particles/units/heroes/hero_lich/lich_ice_age.vpcf', context)
@@ -23,6 +30,7 @@ function enfos_lich_frost_shield:OnSpellStart()
         HeroTrace:Log('LICH','W','cast_cancelled reason=enemy_recipient target=%s',HeroTrace:Name(t))
         return
     end
+    if not allowed_ward(c, t) then return end
     local dur = value(self, 'duration')
     if dur <= 0 then dur = 6.0 end
     t:EmitSound('Hero_Lich.IceAge')
@@ -38,7 +46,8 @@ function modifier_enfos_lich_frost_shield:OnCreated()
     if not IsServer() then return end
     local p, c, ab = self:GetParent(), self:GetCaster(), self:GetAbility()
     if not p or p:IsNull() or not p:IsAlive() or not c or c:IsNull()
-        or p:GetTeamNumber() ~= c:GetTeamNumber() or not ab or (ab.IsNull and ab:IsNull()) then self:Destroy(); return end
+        or p:GetTeamNumber() ~= c:GetTeamNumber() or not allowed_ward(c,p)
+        or not ab or (ab.IsNull and ab:IsNull()) then self:Destroy(); return end
     local radius = value(ab, 'radius')
     if radius <= 0 then radius = 600 end
     local interval = value(ab, 'pulse_interval')
@@ -68,11 +77,15 @@ function modifier_enfos_lich_frost_shield:OnIntervalThink()
     local ab = self:GetAbility()
     if not p or p:IsNull() or not p:IsAlive() or not c or c:IsNull()
         or p:GetTeamNumber() ~= c:GetTeamNumber()
+        or not allowed_ward(c,p)
         or not ab or (ab.IsNull and ab:IsNull()) then
         HeroTrace:Log('LICH','W','pulse_cancelled reason=invalid_source_or_recipient recipient=%s',HeroTrace:Name(p))
         self:Destroy(); return
     end
     local dps = value(ab, 'dps')
+    -- An owned Spire uses attack-count durability; do not route this through HP
+    -- healing amplification or apply healing to ordinary shield recipients.
+    Spire.Repair(c, p)
     local int = get_int(c)
     local total_dps = dps + (int * 0.25)
     local affected, bosses, actual = 0, 0, 0
@@ -125,6 +138,7 @@ function modifier_enfos_lich_frost_shield:GetShieldReduction()
     -- Property evaluation may precede the next pulse's ownership/cleanup check.
     if not p or p:IsNull() or not p:IsAlive() or not c or c:IsNull()
         or p:GetTeamNumber() ~= c:GetTeamNumber()
+        or (IsServer() and not allowed_ward(c,p))
         or not ab or (ab.IsNull and ab:IsNull()) then return 0 end
     return value(ab, 'damage_reduction')
 end

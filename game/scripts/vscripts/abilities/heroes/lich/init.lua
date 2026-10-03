@@ -12,4 +12,6 @@ return {
     ['modifier_enfos_lich_chain_frost_slow'] = 'abilities/heroes/lich/r',
     ['modifier_enfos_lich_ice_aura'] = 'abilities/heroes/lich/d',
     ['modifier_enfos_lich_ice_aura_buff'] = 'abilities/heroes/lich/d',
+    ['modifier_enfos_lich_ice_spire'] = 'abilities/heroes/lich/spire',
+    ['modifier_enfos_lich_ice_spire_slow'] = 'abilities/heroes/lich/spire',
 }

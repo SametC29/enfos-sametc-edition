@@ -334,3 +334,13 @@ source. Current decoded sound bank supplies hero/creep impact events and explici
 bank precache. Two meaningful regressions and partial synchronous-hit tracing
 are recorded in the Lich individual review. Native projectile identity, resources,
 upgrades and engine acceptance remain open; this is not full R certification.
+
+## Ice Spire integration follow-up — 2026-10-03
+
+W remains TUNE: native Shield behavior plus own-Spire one-hero-hit pulse repair.
+R remains TUNE: authored finite distinct-target orb plus native-style own-Spire
+bridge; ward contacts consume the same impact budget and permit the next enemy
+revisit. Stable five-slot IDs/ranks remain unchanged. Source integration and
+per-case evidence are recorded in [Shard implementation ledger](../../audit/LICH_SHARD_IMPLEMENTATION_2026-10-03.md).
+Extra Shard acquisition is still pending. Owner runtime/visual/audio/engine
+acceptance remains NOT TESTED; source/mock results are not engine certification.

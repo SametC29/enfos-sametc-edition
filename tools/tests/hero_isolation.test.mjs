@@ -24,7 +24,7 @@ test('Lich KV resolves isolated classes once, with reachable shared dependencies
     assert.equal(abilities[id].ScriptFile,`abilities/heroes/lich/${slots[i]}`);
     assert.equal(defined.get(id),`game/scripts/vscripts/${abilities[id].ScriptFile}.lua`);
   });
-  assert.equal([...defined.keys()].filter(id=>id.startsWith('modifier_')).length,7);
+  assert.equal([...defined.keys()].filter(id=>id.startsWith('modifier_')).length,9);
   assert.equal(defined.get('modifier_enfos_lich_frost_shield_slow'),'game/scripts/vscripts/abilities/heroes/lich/w.lua');
   assert.ok(sources.has('game/scripts/vscripts/abilities/shared/pve_helpers.lua'));
   assert.ok(sources.has('game/scripts/vscripts/lib/hero_trace.lua'));
@@ -48,7 +48,7 @@ for name,path in pairs(routes) do
   assert(type(_G[name])=='table')
   require(path)
 end
-assert(count==7)
+assert(count==9)
 assert(routes.modifier_enfos_lich_frost_shield_slow=='abilities/heroes/lich/w')
 ${ids.map(id=>`assert(type(${id})=='table')`).join('\n')}
 assert(type(enfos_lich_frost_blast.OnSpellStart)=='function')

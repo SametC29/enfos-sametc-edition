@@ -7,9 +7,22 @@ local function live(entity) return valid(entity) and entity:IsAlive() end
 
 function Spire.IsOwned(caster, unit)
     -- GetOwnerEntity is server-only in the current VScript API.
-    return IsServer() and valid(caster) and live(unit) and unit:GetUnitName()==Spire.unitName
+    return IsServer() and valid(caster) and live(unit) and unit.GetUnitName and unit:GetUnitName()==Spire.unitName
         and unit:GetTeamNumber()==caster:GetTeamNumber()
         and unit:GetOwnerEntity()==caster
+end
+function Spire.TargetFilter(caster, unit, team)
+    if not valid(caster) or not valid(unit) then return UF_FAIL_OTHER end
+    if not unit:IsAlive() then return UF_FAIL_DEAD end
+    if unit.GetUnitName and unit:GetUnitName()==Spire.unitName then
+        -- Client can predict candidate selection; only the server checks owner.
+        if unit:GetTeamNumber()==caster:GetTeamNumber() and (not IsServer() or Spire.IsOwned(caster, unit)) then
+            return UF_SUCCESS
+        end
+        return UF_FAIL_OTHER
+    end
+    return UnitFilter(unit, team, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+        DOTA_UNIT_TARGET_FLAG_NONE, caster:GetTeamNumber())
 end
 function Spire.Get(caster)
     local unit = valid(caster) and caster.enfosLichSpire

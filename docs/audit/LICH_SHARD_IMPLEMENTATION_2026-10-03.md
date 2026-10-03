@@ -148,3 +148,58 @@ Second-unit validation: all14 focused Lich tests PASS (10 ordinary-target,
 correction and invalid-lifetime guard; the focused fixture passes after that
 guard. Ordinary checks do not load the dormant module; the dedicated controller
 fixture loads its actual source. No owner runtime/visual/audio evidence supplied.
+
+## W/R integration — third work unit
+
+Connected actual W and R to the isolated controller without yet granting the
+extra Shard ability. Their KV types include Other; R's broad team metadata is
+BOTH solely to admit the allied Spire, with a Lua filter restoring ordinary
+enemy Hero/Basic selection for every other target. W remains FRIENDLY. Verified
+UnitFilter and UnitFilterResult retain ordinary type/immunity/target rejection;
+no guessed GetAbilityTargetFlags client call (current API marks it server-only).
+Both core definitions previously had no target flags, so their filter uses NONE.
+Client predicts only named friendly Spire; ownership is checked authoritatively
+on the server. Foreign or ordinary ward targets are rejected. Recheck allegiance/
+ownership in W creation/pulses and R impacts, including ownership loss in flight.
+Shield mitigation checks ward ownership only on server; client tooltip values
+do not invoke server-only GetOwnerEntity. The two modifier routes now belong to
+the shared bootstrap and are tested for single registration/cold import.
+
+W calls capped one-hero-hit repair once per existing pulse, before ordinary
+damage/slow. It does not add HP healing, healing amplification, extra timers or
+repair ordinary heroes/creeps. Rank damage, radius, mitigation and finite shield
+duration remain unchanged. Losing ward ownership stops both protection and pulse.
+
+R may initially target own live Spire, bypassing hostile spell absorption only
+for that friendly ward. Each ward contact spends one hero hit of durability and
+one normal impact from the existing ten-rank, maximum18 budget. No magical damage
+or hostile slow is applied to a ward. The existing native non-hero Chain Frost
+impact sound is reused before possible destruction; this is an explicit feedback
+choice, not a proven C++ ward-audio mapping. Projectile VFX remain engine-owned.
+
+Normal enemy traversal retains distinct-target history. If no unvisited enemy is
+within the existing600 bounce radius, an owned Spire within600 is eligible as a
+bridge. Only a bridge permits the next enemy to have been previously hit. Its
+contact remains in numeric bounded history, and bridge state is a numeric
+ExtraData field. A lethal ward impact may resume from captured origin; if Q death
+Nova kills every enemy, the search ends. An invalid/lost ward during projectile
+flight terminates normally. No delayed fallback timer or retained global chain
+table is added. Continuous W repair cannot make a chain exceed the original
+impact budget. Multiple projectiles retain independent serialized history.
+
+Four-language W/R descriptions now explain repair, repeats and total impacts
+accurately; EN/RU/zh descriptions no longer promise exclusively different enemies
+when Ice Spire is used. Scepter channel-cast flags remain unchanged.
+
+The real W/R + real controller regression covers capped actual-pulse repair,
+lost ownership, server/client filters and tooltip boundary, hostile/friendly
+filtering, numeric projectile serialization/speeds, lone-enemy repeated bridge,
+lethal ward continuation, direct ward cast, repaired18-impact limit,601-range
+rejection and allegiance loss in flight. Ordinary ten-rank and historical kit
+checks still exercise non-Shard behavior. All17 focused Lich tests and full
+working-tree checks PASS; these do not prove engine filtering, projectile lifetime,
+native ward effects, HUD/resource/audio or cold-start acceptance.
+
+Remaining: extra ability KV/slot and manager acquisition/loss/consumed-Shard
+paths, removing Lich-only generic healing bonus, extra ability localization,
+resource/animation and owner-engine checks. This unit still exposes no Shard cast.
