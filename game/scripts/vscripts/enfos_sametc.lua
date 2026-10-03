@@ -33,6 +33,8 @@ function EnfosSametC:InitGameMode()
 	self.initializedHeroAbilityPoints = {}
 	-- Install native team markers before the engine creates selected heroes.
 	require("map/hero_spawns"):Init()
+	-- Remove obsolete compiled-map areas before selected heroes can touch them.
+	require("map/retired_triggers"):Init()
 
 	-- Basic game settings
 	GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 5)

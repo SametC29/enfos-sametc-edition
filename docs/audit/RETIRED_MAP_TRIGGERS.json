@@ -1,0 +1,14 @@
+{
+  "map": "game/maps/enfos.vpk",
+  "mapSha256": "b1fa84fd3d14becfd0fc29e6fec16e0ca6115837090bc72bf6bca2f06ba4fa51",
+  "entityResource": "maps/enfos/entities/default_ents.vents_c",
+  "entityDumpSha256": "5a30cf2b18348d85f013ecbd82307b88ddf16b7921fc1e1eee71c17b3e2d36c9",
+  "extractionTool": "Source2Viewer-CLI 19.2",
+  "retired": [
+    {"sourceId": 22, "name": "[PR#]treeshopradiant", "classname": "trigger_dota", "script": "wood_system.lua", "callbacks": ["TreeShop_OnStartTouch", "TreeShop_OnEndTouch"]},
+    {"sourceId": 140, "name": "[PR#]courier_safe_zone", "classname": "trigger_dota", "script": "courier_safe_zone.lua", "callbacks": ["CourierZone_Enter", "CourierZone_Leave"]},
+    {"sourceId": 141, "name": "[PR#]courier_safe_zone", "classname": "trigger_dota", "script": "courier_safe_zone.lua", "callbacks": ["CourierZone_Enter", "CourierZone_Leave"]}
+  ],
+  "preserved": {"sourceId": 20, "name": "[PR#]treeshopdire", "classname": "trigger_shop", "shoptype": 1},
+  "runtimeStatus": "PENDING_OWNER_TEST"
+}

@@ -108,11 +108,13 @@ Progression and rewards are match-scoped. Do not load account profiles, store pe
 - structured aggregate event schema,
 - never blocks gameplay.
 
-`CourierService`
-- flying courier,
-- own-arena restriction,
-- delivery buffer,
-- PvE untargetability.
+Couriers are removed by owner decision; purchases use native shop/direct
+inventory delivery. Do not implement the former CourierService boundary.
+The approved compiled map still contains retired wood TreeShop/CourierZone I/O.
+`map/retired_triggers` removes only their exact-name `trigger_dota` entities once
+at startup; two entity-script retirement adapters resolve pre-Activate loads.
+Native `trigger_shop` and Ascended access are preserved. Runtime acceptance is
+pending owner testing; see [retirement evidence](audit/RETIRED_MAP_TRIGGERS_2026-10-04.md).
 
 `DotaCompatibilityAudit`
 - base item IDs,

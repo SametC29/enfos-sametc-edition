@@ -400,5 +400,9 @@ check('hero instructions, current references and skill evidence ledgers', () => 
   console.log(result.stdout);
   if (result.status !== 0 || result.stderr) throw new Error(result.stderr || result.stdout);
 });
+check('retired compiled-map TreeShop and CourierZone compatibility', () => {
+  const result = spawnSync(process.execPath, ['--test', 'tools/tests/retired_map_triggers.test.mjs'], { stdio: 'inherit' });
+  if (result.status !== 0) throw new Error('Retired map trigger regressions failed');
+});
 console.log(`${failures} failed check(s). Engine playtests remain separate.`);
 process.exitCode = failures ? 1 : 0;
