@@ -77,3 +77,20 @@ debuff timing; aura source Break vs recipient Break and linger; R ally/enemy/Bos
 movement, absorb and immunity; D Break/rank/respawn; Shard/Scepter/Blessing;
 all cast/impact/ongoing resources and audio; recast/death/reconnect and dense waves.
 The agent does not launch/control Dota or publish this work.
+
+## Focused E source-ownership repair
+
+`vengefulspirit_aura.test.mjs` reproduced the attached-recipient bug before the
+repair: source Break left the base-attack bonus active. The recipient getter now
+checks its actual `GetCaster()` source, including engine-owned aura linger; an
+unrelated recipient Break cannot switch off an external aura. Removed/missing
+source, recipient, ability and rank-zero ability yield zero without stale reads.
+The prior illusion-recipient exclusion and live special-value lookup remain.
+There is no new interval, thinker, particle, sound or aura-lifetime override.
+MCP API confirms `CDOTA_Buff:GetCaster(): CDOTA_BaseNPC|nil` is available on both
+server and client and returns the ability owner. The native E is marked Breakable.
+
+Regression covers ordinary recipient, source Break/recovery, recipient Break,
+illusion, live rank changes, rank zero, removed ability/source/recipient and
+missing source. Engine aura removal/linger and actual damage output remain
+PENDING OWNER TEST; no runtime or visual/audio acceptance is claimed.

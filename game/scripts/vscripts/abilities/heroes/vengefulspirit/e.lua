@@ -21,7 +21,12 @@ modifier_enfos_vs_vengeance_aura_buff=class({})
 function modifier_enfos_vs_vengeance_aura_buff:DeclareFunctions() return { MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE } end
 function modifier_enfos_vs_vengeance_aura_buff:GetModifierBaseDamageOutgoing_Percentage()
     local p = self:GetParent()
-    if p and ((p.PassivesDisabled and p:PassivesDisabled()) or (p.IsIllusion and p:IsIllusion())) then return 0 end
+    if not p or (p.IsNull and p:IsNull()) or (p.IsIllusion and p:IsIllusion()) then return 0 end
+    -- The source owns this passive; recipient Break does not disable external buffs.
+    -- Check again while the engine-owned aura modifier lingers after source Break.
+    local c = self:GetCaster()
+    if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled()) then return 0 end
     local ab = self:GetAbility()
-    return ab and value(ab, 'bonus_damage_pct') or 20
+    if not ab or (ab.IsNull and ab:IsNull()) or (ab.GetLevel and ab:GetLevel() <= 0) then return 0 end
+    return value(ab, 'bonus_damage_pct')
 end

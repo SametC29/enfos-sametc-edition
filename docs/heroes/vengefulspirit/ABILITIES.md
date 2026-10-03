@@ -57,6 +57,17 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-03 reverse-roster individual review: see
+[the current five-slot ledger](../../audit/VENGEFUL_SPIRIT_INDIVIDUAL_REVIEW_2026-10-03.md).
+Its build-6943 native evidence and TUNE/TUNE/TUNE/TUNE/REPLACE decisions supersede
+the historical blanket PVE-CONVERT wording below. The five stable classes are
+isolated; source review, upgrades and owner engine tests are still pending.
+Focused E regression reproduced an attached aura retaining damage during source
+Break. The recipient getter now checks its source, handles removed/rank-zero
+abilities and retains live ranks and the existing illusion-recipient policy.
+Recipient Break alone does not disable this external aura. Dota linger/damage
+verification remains pending owner testing.
+
 2026-09-30 level-50 migration: Q/W/E/Enfos passive gates start at level 1 with interval 1; R starts at level 5 with interval 5. Static contract test added; point/HUD and gameplay acceptance remain pending for owner live test.
 
 2026-09-30 static repair: Wave of Terror now flattens the cast direction and falls back to Vengeful Spirit's facing if the cursor overlaps her position, avoiding a degenerate line/particle direction. Its mock now exercises that zero-length aim while checking that only an enemy inside the line is hit. Live projectile/particle direction, visual alignment, audio and runtime targeting remain PENDING owner testing.
