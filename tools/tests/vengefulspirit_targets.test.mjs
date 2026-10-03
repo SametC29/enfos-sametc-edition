@@ -62,7 +62,10 @@ for slot,cls in ipairs(classes) do
   assert(ok,'slot '..slot..' '..mode..': '..tostring(err))
   local interrupted_invalid=slot==2 and (mode=='removed_interrupt' or mode=='caster_removed_interrupt' or mode=='ability_removed_interrupt')
   local cancelled=mode=='removed_absorb' or mode=='caster_removed_absorb' or mode=='ability_removed_absorb' or mode=='absorbed' or mode=='client' or interrupted_invalid
-  if cancelled then assert(calls.damage==0 and calls.projectiles==0 and calls.mods==0 and calls.sounds==0 and calls.moves==0 and calls.particles==0,'Rejected cast must have no gameplay/feedback')
+  if cancelled then
+   local launched=slot==1 and mode~='client'
+   assert(calls.damage==0 and calls.mods==0 and calls.moves==0 and calls.particles==0,'Rejected impact/cast must have no gameplay')
+   assert(calls.projectiles==(launched and 1 or 0) and calls.sounds==(launched and 1 or 0),'Q block is checked at impact; R block still prevents casting')
   elseif slot==1 and (mode=='ally' or mode=='impact_removed' or mode=='impact_ally') then assert(calls.damage==0 and calls.mods==0)
   elseif slot==2 and mode=='ally' then assert(calls.damage==0 and calls.moves==2 and calls.mods==1)
   else assert(calls.damage==1 and calls.mods==1);if slot==2 then assert(calls.moves==2,'Boss must be swapped like ordinary valid target');assert(c.pos.x==90 and t.pos.x==10) end end

@@ -526,3 +526,49 @@ validates Lua wiring/ownership only, not renderer behavior. Owner NOT TESTED:
 both colored model-transfer effects, cold child/material loading, consecutive
 casts, death during finite effect and actual particle/performance/VConsole.
 Q timing and R tree radius/custom target semantics remain open source leads.
+
+### Q pre-implementation timing decision (TUNE)
+
+Pinned ValveExamples `vengefulspirit_magic_missile_lua.lua` at
+9a438c475a8b2c3d0df9dc2de2f99a8471037174 checks TriggerSpellAbsorb at projectile
+impact and declares ATTACK_2 source attachment. Current custom Q consumes spell
+block before launch and never checks a block acquired during flight; its Shard
+secondary target never receives an absorption check. Installed build-6943 KV
+confirms the native projectile ID/speed but does not expose internal absorption
+timing. Adopt the supported impact-check pattern for our custom Q, with safe
+callback revalidation and bounded secondary impact handling; do not claim this
+as proof of current C++ parity. Keep the existing caster-death policy pending
+owner/native timing evidence; do not silently change it in this fix. Native
+post-7.33 immunity semantics are not copied from the old example's IsMagicImmune
+early return. No author-defined Boss exception. No external code imported for
+this timing change; our guarded implementation is written independently from
+the documented behavior. Actual spell block during flight and Shard interactions
+remain owner engine acceptance gates.
+
+### Q implementation and regression receipt
+
+The launch path no longer consumes spell block. Each valid impact now calls
+TriggerSpellAbsorb before origin reads, stun, damage, impact audio or Shard
+bounce. A non-absorbing callback is followed by source/target/ability/team
+revalidation. Absorbed primary impacts do not bounce; secondary impacts receive
+their own check and cannot cause another bounce. Caster alive checks remain
+unchanged; this receipt does not resolve the earlier dead-caster parity lead.
+Initial projectile source uses DOTA_PROJECTILE_ATTACHMENT_ATTACK_2; the MCP
+DOTAProjectileAttachment_t enum confirms member value 2. Native installed hero
+showcase metadata exposes attach_attack2 and the pinned Valve example uses the
+same source attachment. Secondary projectile retains its explicit impact origin.
+
+An independent fixture reproduces old pre-flight block consumption, then checks
+new no-launch-consumption behavior, late/expired block, blocked secondary,
+disjoint, callback-removed source/target/ability, callback team change and the
+unchanged dead-source cancellation. It checks exact damage/stun/impact-feedback
+and bounded search/projectile counts. Existing ordinary/Boss/ally Q/R fixture
+now distinguishes launch feedback from rejected-impact feedback. Shard lethal
+hit regression remains. Four language descriptions expose impact-time blocking.
+No new manager, timer, entity table, global scan, damage formula or Boss policy.
+
+Owner NOT TESTED: real Linken/Counterspell interaction while projectile travels,
+secondary absorption, engine source attachment, native compare for caster death,
+and actual post-7.33 debuff immunity. Old Valve example's IsMagicImmune return is
+deliberately not transplanted. Target immunity/reflect/bounce interactions still
+require real Dota/VConsole evidence; mocks certify only authored flow boundaries.

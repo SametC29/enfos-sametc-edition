@@ -14,11 +14,6 @@ function enfos_vs_magic_missile:OnSpellStart()
     local t = self:GetCursorTarget()
     if not alive(c) or not alive(t) or c == t then return end
     if t:GetTeamNumber()==c:GetTeamNumber() then return end
-    if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then
-        HeroTrace:Log('VENGEFUL_SPIRIT','Q','cast_cancelled reason=spell_absorb')
-        return
-    end
-    if not alive(c) or not alive(t) or (self.IsNull and self:IsNull()) or t:GetTeamNumber()==c:GetTeamNumber() then return end
     HeroTrace:Log('VENGEFUL_SPIRIT','Q','cast caster=%s target=%s rank=%s',HeroTrace:Name(c),HeroTrace:Name(t),tostring(self.GetLevel and self:GetLevel() or 0))
     c:EmitSound('Hero_VengefulSpirit.MagicMissile')
     local speed = value(self, 'magic_missile_speed')
@@ -29,6 +24,7 @@ function enfos_vs_magic_missile:OnSpellStart()
         Ability = self,
         EffectName = 'particles/units/heroes/hero_vengeful/vengeful_magic_missle.vpcf',
         iMoveSpeed = speed,
+        iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_2,
         bDodgeable = true,
         bVisibleToEnemies = true,
         bProvidesVision = false,
@@ -47,6 +43,12 @@ function enfos_vs_magic_missile:OnProjectileHit_ExtraData(target, loc, data)
         HeroTrace:Log('VENGEFUL_SPIRIT','Q','impact_cancelled reason=invalid_source_or_target target=%s',HeroTrace:Name(target))
         return true
     end
+    if target.TriggerSpellAbsorb and target:TriggerSpellAbsorb(self) then
+        HeroTrace:Log('VENGEFUL_SPIRIT','Q','impact_cancelled reason=spell_absorb target=%s',HeroTrace:Name(target))
+        return true
+    end
+    -- Spell-block callbacks may synchronously remove or change target/source.
+    if not alive(c) or not alive(target) or (self.IsNull and self:IsNull()) or target:GetTeamNumber()==c:GetTeamNumber() then return true end
     local impact_origin = target:GetAbsOrigin()
     target:EmitSound('Hero_VengefulSpirit.MagicMissileImpact')
     local dmg = value(self, 'damage')

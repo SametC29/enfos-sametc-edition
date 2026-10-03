@@ -51,6 +51,14 @@ roots. Installed source + MIT ValveExamples wiring and 20-cast mock evidence
 are in the individual ledger. Actual visuals/cold-load/performance remain
 owner NOT TESTED; this is not whole-hero acceptance.
 
+2026-10-03 Q timing repair: spell block is checked at each projectile impact,
+including Shard secondary impact, with callback invalidation revalidation before
+damage/stun/impact feedback or bounce. Initial source attachment uses verified
+ATTACK_2. The pinned Valve example supports this custom implementation pattern;
+it does not certify current native C++ timing. Late/expired block, disjoint,
+removed entities/ability and team change fixtures pass. Existing caster-death
+policy is unchanged and remains a separate owner/native verification gate.
+
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
 
