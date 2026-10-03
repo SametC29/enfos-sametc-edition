@@ -5307,7 +5307,7 @@
 
 	"enfos_lion_demon_soul"
 	{
-		"IsBreakable" "1"		"HasShardUpgrade" "1"
+		"IsBreakable" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"lion_mana_drain"

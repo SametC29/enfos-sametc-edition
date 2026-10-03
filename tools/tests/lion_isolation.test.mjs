@@ -11,7 +11,7 @@ const ids=names.map(x=>'enfos_lion_'+x),slots=['q','w','e','r','d'];
 const abilities=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.txt','utf8')).DOTAAbilities;
 test('Lion passive preserves authored ten-rank KV after its individual source repair',()=>{
  const old=parseKV(execFileSync('git',['show','3044af6:game/scripts/npc/npc_abilities_custom.txt'],{encoding:'utf8'})).DOTAAbilities.enfos_lion_demon_soul;
- old.ScriptFile='abilities/heroes/lion/d';assert.deepEqual(abilities.enfos_lion_demon_soul,old);
+ delete old.HasShardUpgrade;old.ScriptFile='abilities/heroes/lion/d';assert.deepEqual(abilities.enfos_lion_demon_soul,old);
 });
 test('Lion production classes have unique owners and cold loading cannot relink modifiers',()=>{
  const defined=new Map();
