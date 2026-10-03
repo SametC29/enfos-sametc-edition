@@ -11,4 +11,6 @@ test('Venge active abilities declare installed native animations and preload the
  const startup=fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua','utf8');
  const loop=startup.match(/for _,name in ipairs\(\{([^}]+)\}\) do\s*\n\s*PrecacheResource\("soundfile","soundevents\/game_sounds_heroes\/game_sounds_"/);
  assert.ok(loop && /"vengefulspirit"/.test(loop[1]),'Venge bank missing from actual startup sound precache loop');
+ const recipient='particles/units/heroes/hero_vengeful/vengeful_wave_of_terror_recipient.vpcf';
+ assert.ok(startup.includes(`PrecacheResource("particle", "${recipient}", context)`),'Recipient effect missing from actual startup precache');
 });

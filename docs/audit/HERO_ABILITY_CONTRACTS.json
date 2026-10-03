@@ -4005,9 +4005,12 @@
           "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
           "callbacks": [
             "OnProjectileHit_ExtraData",
+            "OnProjectileThink_ExtraData",
             "OnSpellStart"
           ],
           "specials": {
+            "vision_aoe": "350",
+            "vision_duration": "4",
             "attack_reduction": "10 15 20 25 25 25 25 25 25 25",
             "wave_distance": "1400",
             "wave_speed": "2000",

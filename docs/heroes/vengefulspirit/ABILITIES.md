@@ -20,6 +20,12 @@ and Venge herself receives the native 25% extra aura benefit (relative to the
 aura bonus). Ally curves and source Break behavior are preserved. See the
 individual ledger for source/fixture evidence and pending Scepter/engine gates.
 
+2026-10-03 W presentation/vision correction: native recipient root is bound to
+the debuff and preloaded by the existing startup owner. The traveling wave now
+grants caster-team 350-radius vision and leaves engine-expiring 4-second viewers
+on its actual path. Native root/child CP evidence and outstanding visual/FOW/
+performance owner tests are recorded in the individual ledger.
+
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
 

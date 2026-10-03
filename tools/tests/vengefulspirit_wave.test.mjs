@@ -27,7 +27,7 @@ function c:GetForwardVector()return Vector(1,0,0)end
 function c:GetTeamNumber()return 2 end
 function c:GetAgility()return self.agi end
 function c:EmitSound()end
-local specials={damage=100,duration=8,armor_reduction=4,attack_reduction=15,wave_distance=1400,wave_speed=2000,wave_width=325}
+local specials={damage=100,duration=8,armor_reduction=4,attack_reduction=15,wave_distance=1400,wave_speed=2000,wave_width=325,vision_aoe=350,vision_duration=4}
 local a=setmetatable({GetCaster=function()return c end,GetCursorPosition=function()return c:GetAbsOrigin()end,
  GetSpecialValueFor=function(_,k)return specials[k] or 0 end,GetLevel=function()return 1 end},enfos_vs_wave_of_terror)
 ProjectileManager={CreateLinearProjectile=function(_,p)waves[#waves+1]=p;return #waves end}
@@ -41,6 +41,18 @@ assert(p.vVelocity.x==2000 and p.vVelocity.y==0 and p.vVelocity.z==0,'Zero aim m
 assert(p.fDistance==1400 and p.fStartRadius==325 and p.fEndRadius==325)
 assert(p.bDeleteOnHit==false and p.bReplaceExisting==false)
 assert(p.ExtraData.attack_reduction==15,'Native W attack reduction must be captured at cast')
+assert(p.bProvidesVision==true and p.iVisionRadius==350 and p.iVisionTeamNumber==2,'Wave must grant caster-team vision')
+local viewers={}
+function AddFOWViewer(team,location,radius,duration,blocked)
+ viewers[#viewers+1]={team=team,location=location,radius=radius,duration=duration,blocked=blocked}
+end
+a:OnProjectileThink_ExtraData(Vector(300,300,40),p.ExtraData)
+assert(#viewers==1 and viewers[1].team==2 and viewers[1].radius==350 and viewers[1].duration==4 and viewers[1].blocked==false)
+specials.vision_aoe=900;specials.vision_duration=20
+a:OnProjectileThink_ExtraData(Vector(500,300,40),p.ExtraData)
+assert(viewers[2].radius==350 and viewers[2].duration==4,'In-flight vision keeps its cast snapshot')
+server=false;a:OnProjectileThink_ExtraData(Vector(600,300,40),p.ExtraData);assert(#viewers==2,'Client must not create vision')
+server=true;a:OnProjectileThink_ExtraData(nil,p.ExtraData);a:OnProjectileThink_ExtraData(Vector(600,300,40),{});assert(#viewers==2)
 assert(p.EffectName=='particles/units/heroes/hero_vengeful/vengeful_wave_of_terror.vpcf')
 local t={team=3,removed=false,dead=false,isBoss=true}
 function t:IsNull()return self.removed end
@@ -73,6 +85,9 @@ server=false;assert(armor:GetModifierPhysicalArmorBonus()==-12,'Refresh replaces
 assert(client:GetModifierDamageOutgoing_Percentage()==-25 and calls.sends==1,'Refresh transmits the new attack reduction')
 armor:OnRefresh({armor_reduction=99,attack_reduction=99});assert(calls.sends==1,'Client cannot refresh authoritative stats')
 assert(armor:IsDebuff() and armor:IsPurgable())
+PATTACH_ABSORIGIN_FOLLOW=1
+assert(armor:GetEffectName()=='particles/units/heroes/hero_vengeful/vengeful_wave_of_terror_recipient.vpcf')
+assert(armor:GetEffectAttachType()==PATTACH_ABSORIGIN_FOLLOW,'Modifier-owned native root follows target origin')
 print('Vengeful Spirit traveling wave PASS')
 `;
  const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});

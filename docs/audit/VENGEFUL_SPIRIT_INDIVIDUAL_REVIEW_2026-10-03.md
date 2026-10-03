@@ -353,3 +353,43 @@ IsAura and GetAuraRadius; installed native KV/localization supplies the gameplay
 evidence. Real self/ally damage, rank-up/respawn/reconnect and aura presentation
 remain PENDING OWNER DOTA/VCONSOLE TEST. Scepter, W vision/VFX and Q/R immunity
 semantics remain open; this unit does not close the hero review.
+
+## W native recipient root and temporary path vision
+
+Installed native W values are vision_aoe 350 and vision_duration 4 (build 6943).
+Our projectile explicitly disabled vision and had no FOW callback. It now uses
+engine projectile vision for its caster team, plus temporary viewers along the
+actual OnProjectileThink_ExtraData path and final nil-target location. Radius,
+duration and team are numeric cast snapshots; no future path is revealed at cast.
+Caster death does not change the recorded team or cancel an otherwise existing
+wave. AddFOWViewer expires viewers in the engine; there is no retained Lua cast
+table, timer, dummy unit, world/entity scan or per-think diagnostic output.
+Viewer creation runs at engine projectile callback frequency for the finite
+1400/2000 travel, not an independent indefinite loop. Dense recasts/FOW cost are
+an owner performance gate. `obstructedVision=false` selects unobstructed path
+vision; terrain/obstruction parity needs owner comparison, not a native C++ claim.
+
+MCP resolves `ProjectileManager:CreateLinearProjectile`,
+`CDOTA_Ability_Lua:OnProjectileThink_ExtraData` and AddFOWViewer. Initial lookup
+under CProjectileManager failed; API search resolved the correct owner.
+[ModDota projectile documentation](https://moddota.com/scripting/particle-attachment)
+confirms vision fields; no external implementation was imported.
+
+VPK confirms recipient root plus _b/_c/_reduction children. VRF-decoded root
+SHA256 is `c02070c4d625ec59762cd02bb5f02195952570421976634e811195202baff701`.
+Root emits one terror-head model, jaw_bite sequence, finite 1.5-second particle,
+PositionLock and Decay. It internally drives CP1 from its particle for _b; its
+reduction child has continuous emission and endcap decay. Bind the full root
+through modifier GetEffectName / PATTACH_ABSORIGIN_FOLLOW so parent-origin CP0
+follows the victim and child CP1 retains its native internal driver. Do not
+manually overwrite CP1 or create a duplicate free particle. The modifier/engine
+owns cleanup on expiry, dispel and death. Added root to existing startup precache;
+children/model remain native dependencies, not copied custom assets.
+
+Updated fixture reproduces missing vision before repair and verifies caster team,
+350/4 snapshots despite later rank values, client/malformed callback suppression,
+root identity/attachment and startup precache. Four languages disclose path
+vision. Source bindings are implemented; actual cold-start head/swirl appearance,
+refresh/expiry/purge cleanup, FOW trail duration, terrain behavior and dense-wave
+performance remain PENDING OWNER DOTA/VCONSOLE TEST. Q/R immunity/death semantics
+and dedicated Scepter remain source-open; this is not whole-hero completion.

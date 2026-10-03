@@ -1380,7 +1380,7 @@
     "DOTA_Tooltip_Ability_enfos_lich_ice_spire_shard_description": "魔晶：获得冰柱。持续%duration%秒，使%aura_radius%范围内敌人减速25%。承受%max_hero_attacks%次英雄攻击或%max_creep_attacks%次小兵攻击。冰霜护盾恢复耐久；连环霜冻可通过冰柱弹跳。替代巫妖的通用对外治疗加成。",
     "DOTA_Tooltip_Ability_enfos_vs_magic_missile_Description": "向敌人发射可躲避的导弹。命中时造成 {{damage}} + 0.9 × 敏捷的魔法伤害并眩晕 {{stun_duration}} 秒。首领使用相同伤害公式和眩晕时间；普通免疫与状态抗性规则仍然生效。",
     "DOTA_Tooltip_Ability_enfos_vs_nether_swap_Description": "立即与目标交换位置。敌人受到 {{damage}} + 1.2 × 敏捷的魔法伤害；友军不受伤害。复仇之魂获得持续4秒的30%伤害减免。符合目标规则的首领也可交换位置。",
-    "DOTA_Tooltip_Ability_enfos_vs_wave_of_terror_Description": "释放一道以{{wave_speed}}速度前进、最远达到{{wave_distance}}的波动。命中路径{{wave_width}}范围内的敌人时，造成{{damage}} + 0.6 × 敏捷的魔法伤害，降低{{armor_reduction}}护甲和{{attack_reduction}}%总攻击伤害，持续{{duration}}秒。波动穿过敌人；减益可以被驱散。",
+    "DOTA_Tooltip_Ability_enfos_vs_wave_of_terror_Description": "释放一道以{{wave_speed}}速度前进、最远达到{{wave_distance}}的波动。命中路径{{wave_width}}范围内的敌人时，造成{{damage}} + 0.6 × 敏捷的魔法伤害，降低{{armor_reduction}}护甲和{{attack_reduction}}%总攻击伤害，持续{{duration}}秒。波动穿过敌人；减益可以被驱散。 提供波动路径{{vision_aoe}}范围内的视野，持续{{vision_duration}}秒。",
     "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura_Description": "被动使{{radius}}范围内的友方英雄和普通单位的基础攻击伤害提高{{bonus_damage_pct}}%。复仇之魂从自身光环获得{{self_multiplier}}%额外增益。光环需要已学习的技能等级；来源受到破坏效果时光环失效。",
     "DOTA_Tooltip_Ability_enfos_vs_retribution_Description": "提供 +{{bonus_agi}} 敏捷和 +{{bonus_as}} 攻击速度。破坏效果会禁用加成；幻象不获得这些加成。",
     "DOTA_Tooltip_modifier_enfos_vs_retribution": "复仇",
