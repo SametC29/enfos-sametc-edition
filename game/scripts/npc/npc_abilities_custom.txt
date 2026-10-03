@@ -5298,6 +5298,7 @@
 			"splash_radius"	"325"
 			"scepter_bonus_damage" "100"
 			"damage_delay" "0.25"
+			"grace_period" "3"
 			"damage"	"600 850 1100 1200 1300 1400 1500 1600 1700 1800"
 			"int_scaling_pct" "250"
 			"kill_stack_cap" "20"

@@ -12,9 +12,9 @@ test('Lion Finger uses ordinary authored ten-rank damage on normal and Boss reci
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end;function LinkLuaModifier()end;function IsServer()return true end
 DAMAGE_TYPE_MAGICAL=2;DOTA_UNIT_TARGET_TEAM_ENEMY=1;DOTA_UNIT_TARGET_HERO=2;DOTA_UNIT_TARGET_BASIC=4;DOTA_UNIT_TARGET_FLAG_NONE=0;FIND_ANY_ORDER=0;PATTACH_ABSORIGIN_FOLLOW=7
-local contexts={};local autoRun=true;local contextId=0
+local contexts={};local expiryContexts={};local autoRun=true;local contextId=0
 function DoUniqueString(seed)contextId=contextId+1;return seed..contextId end
-GameRules={GetGameModeEntity=function()return {SetContextThink=function(_,name,callback,delay)assert(delay==.25);contexts[#contexts+1]={name=name,callback=callback,delay=delay};if autoRun then callback()end end}end}
+GameRules={GetGameTime=function()return 0 end,GetGameModeEntity=function()return {SetContextThink=function(_,name,callback,delay)if name:find('EnfosLionFingerGrace',1,true)then assert(delay==3);expiryContexts[#expiryContexts+1]={callback=callback};return end;assert(delay==.25);contexts[#contexts+1]={name=name,callback=callback,delay=delay};if autoRun then callback()end end}end}
 local recipients,hits={},{};local queries=0;local roots,releases=0,0;local bound,destroyed={},{};local particleHook,damageHook,soundHook,absorbHook
 function FindUnitsInRadius(team,p,_,radius,enemy,types,flags)queries=queries+1;assert(team==2 and radius==325 and types==6 and flags==0);return recipients end
 function ApplyDamage(p)assert(p.damage_type==2);hits[#hits+1]=p;p.victim.health=p.victim.health-p.damage;if damageHook then damageHook(p.victim)end;return p.damage end
@@ -31,14 +31,16 @@ local function unit(boss)
  function u:EmitSound(s)assert(s=='Hero_Lion.FingerOfDeath');if soundHook then soundHook()end end;function u:GetIntellect()return self.int or 100 end
  return u
 end
-local c=unit();c.team=2;c.scepter=true;function c:HasScepter()return self.scepter end;local normal,boss=unit(),unit(true);local counter={stacks=0}
+local c=unit();c.team=2;c.scepter=true;function c:HasScepter()return self.scepter end;local normal,boss=unit(),unit(true);local a;local counter=setmetatable({stacks=0},modifier_enfos_lion_finger_counter)
 function counter:IsNull()return self.removed end
+function counter:GetParent()return c end;function counter:GetAbility()return a end
 function counter:GetStackCount()assert(not self.removed);return self.stacks end;function counter:SetStackCount(n)self.stacks=n end
 function c:FindModifierByName(n)assert(n=='modifier_enfos_lion_finger_counter');return counter end
-local a=setmetatable({rank=1},enfos_lion_finger_of_death);local base={${values.damage.split(/\s+/).join(',')}}
-local specials={damage_delay=${values.damage_delay},int_scaling_pct=${values.int_scaling_pct},kill_stack_cap=${values.kill_stack_cap},kill_stack_damage=${values.kill_stack_damage},kill_stack_spell_amp_pct=${values.kill_stack_spell_amp_pct},scepter_bonus_damage=${values.scepter_bonus_damage},splash_radius=${values.splash_radius},boss_damage_cap_pct=12}
+a=setmetatable({rank=1},enfos_lion_finger_of_death);local base={${values.damage.split(/\s+/).join(',')}}
+local specials={grace_period=${values.grace_period},damage_delay=${values.damage_delay},int_scaling_pct=${values.int_scaling_pct},kill_stack_cap=${values.kill_stack_cap},kill_stack_damage=${values.kill_stack_damage},kill_stack_spell_amp_pct=${values.kill_stack_spell_amp_pct},scepter_bonus_damage=${values.scepter_bonus_damage},splash_radius=${values.splash_radius},boss_damage_cap_pct=12}
 function a:GetSpecialValueFor(k)return k=='damage' and base[self.rank] or specials[k] or 0 end
-function a:IsNull()return self.removed end;function a:GetCaster()return c end;function a:GetCursorTarget()return normal end
+function a:IsNull()return self.removed end;function a:GetCaster()return c end;function a:GetCursorTarget()return normal end;function a:GetLevel()return self.rank end
+counter:OnCreated()
 recipients={normal,boss}
 assert(a:GetAOERadius()==325);c.scepter=false;assert(a:GetAOERadius()==0)
 hits={};a:OnSpellStart();assert(#hits==1 and hits[1].victim==normal and hits[1].damage==850,'Base Finger is single-target')
@@ -119,7 +121,7 @@ assert(contexts[1].callback()==nil and #hits==2);n=#hits;assert(contexts[1].call
 GameRules.IsGamePaused=nil;autoRun=true;normal=unit();boss=unit();recipients={normal,boss};hits={}
 local trace=require('lib/hero_trace');local oldPrint=print;local lines={};print=function(x)lines[#lines+1]=x end
 trace:SetEnabled(false);a:OnSpellStart();assert(#lines==0)
-trace:SetEnabled(true);a:OnSpellStart();assert(#lines==3 and lines[1]:find('[LION_TRACE][R] cast',1,true));trace:SetEnabled(false);print=oldPrint
+trace:SetEnabled(true);a:OnSpellStart();assert(#lines==5 and lines[1]:find('[LION_TRACE][R] cast',1,true));trace:SetEnabled(false);print=oldPrint
 assert(roots==releases,'Existing finite effect ownership remains unchanged')
 print('Lion Finger ordinary targets PASS')
 `;

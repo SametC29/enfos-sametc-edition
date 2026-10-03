@@ -11,7 +11,7 @@ test('Lion Finger counter gates learned source and exposes bounded live bonuses 
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end;function LinkLuaModifier()end
 local server=true;function IsServer()return server end;Convars={GetBool=function()return false end}
-MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE=1;MODIFIER_PROPERTY_TOOLTIP=2;MODIFIER_PROPERTY_TOOLTIP2=3
+MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE=1;MODIFIER_PROPERTY_TOOLTIP=2;MODIFIER_PROPERTY_TOOLTIP2=3;MODIFIER_EVENT_ON_DEATH=220
 ${baseline?`assert(load([==[${baseline}]==]))()`:`require('abilities/heroes/lion/r')`}
 local c={};function c:IsNull()return self.removed end
 local a={rank=0};function a:IsNull()return self.removed end
@@ -23,7 +23,7 @@ function m:GetStackCount()assert(not self.removed);return self.stacks end
 function m:IsNull()return self.removed end
 assert(m:GetModifierSpellAmplify_Percentage()==0,'Unlearned R cannot grant accumulated spell amplification')
 m:OnCreated();assert(m:GetTexture()=='lion_finger_of_death' and not m:IsHidden())
-local properties=m:DeclareFunctions();assert(#properties==3 and properties[2]==2 and properties[3]==3)
+local properties=m:DeclareFunctions();assert(#properties==4 and properties[2]==2 and properties[3]==3 and properties[4]==220)
 for _,side in ipairs({true,false})do
  server=side
  for rank=1,10 do

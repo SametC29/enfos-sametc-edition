@@ -6449,7 +6449,7 @@ test('Lion Finger of Death splashes damage in AoE and increments stack on kill',
     local contextSerial=0
     DoUniqueString=function(seed)contextSerial=contextSerial+1;return seed..contextSerial end
     local queuedImpact
-    GameRules={GetGameModeEntity=function()return {SetContextThink=function(_,name,callback,delay)assert(delay==0.25);queuedImpact=callback end}end}
+    GameRules={GetGameTime=function()return 0 end,GetGameModeEntity=function()return {SetContextThink=function(_,name,callback,delay)if name:find('EnfosLionFingerGrace',1,true)then assert(delay==3);return end;assert(delay==0.25);queuedImpact=callback end}end}
     applied_damages = {}
     local lion = create_mock_unit('npc_dota_hero_lion', 2, Vector(0, 0, 0))
     lion.intellect = 80
@@ -6466,6 +6466,7 @@ test('Lion Finger of Death splashes damage in AoE and increments stack on kill',
         if k == 'splash_radius' then return 325 end
         if k == 'scepter_bonus_damage' then return 100 end
         if k == 'damage_delay' then return 0.25 end
+        if k == 'grace_period' then return 3 end
         if k == 'int_scaling_pct' then return 250 end
         if k == 'kill_stack_cap' then return 20 end
         if k == 'kill_stack_damage' then return 40 end
