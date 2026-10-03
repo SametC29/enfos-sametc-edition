@@ -5429,7 +5429,7 @@
 	"enfos_vs_magic_missile"
 	{
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/vengefulspirit/q"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
@@ -5453,7 +5453,7 @@
 	"enfos_vs_wave_of_terror"
 	{
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/vengefulspirit/w"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"vengefulspirit_wave_of_terror"
@@ -5477,7 +5477,7 @@
 	{
 		"IsBreakable" "1"
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/vengefulspirit/e"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"vengefulspirit_command_aura"
 		"MaxLevel"					"10"
@@ -5495,7 +5495,7 @@
 	{
 		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/vengefulspirit/r"
 		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_BOTH"
@@ -5521,7 +5521,7 @@
 	{
 		"IsBreakable" "1"		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/vengefulspirit/d"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"vengefulspirit_command_aura"
 		"MaxLevel"					"10"

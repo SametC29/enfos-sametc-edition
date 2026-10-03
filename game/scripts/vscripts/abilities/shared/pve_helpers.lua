@@ -17,6 +17,15 @@ local function is_boss(target)
     return name:find("enfos_boss_", 1, true) ~= nil
 end
 
+local function get_agi(c)
+    if not c or (c.IsNull and c:IsNull()) then return 0 end
+    if c.GetAgility then
+        local ok, val = pcall(c.GetAgility, c)
+        if ok and type(val) == "number" then return val end
+    end
+    return 0
+end
+
 local function get_int(c)
     if not c or (c.IsNull and c:IsNull()) then return 0 end
     if c.GetIntellect then
@@ -42,4 +51,4 @@ local function damage(a, target, amount, kind, flags)
     end
 end
 
-return { value = value, enemies = enemies, is_boss = is_boss, get_int = get_int, damage = damage }
+return { value = value, enemies = enemies, is_boss = is_boss, get_int = get_int, get_agi = get_agi, damage = damage }

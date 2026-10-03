@@ -9,13 +9,13 @@ Hero: `npc_dota_hero_vengefulspirit`; role: Support. Progression target: hero le
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_vs_magic_missile` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | vengefulspirit_magic_missile |
-| 2 | `enfos_vs_wave_of_terror` | 10 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/pve_kits | vengefulspirit_wave_of_terror |
-| 3 | `enfos_vs_vengeance_aura` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | vengefulspirit_command_aura |
-| 4 | `enfos_vs_nether_swap` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | vengefulspirit_nether_swap |
-| 5 | `enfos_vs_retribution` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | vengefulspirit_command_aura |
+| 1 | `enfos_vs_magic_missile` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/heroes/vengefulspirit/q | vengefulspirit_magic_missile |
+| 2 | `enfos_vs_wave_of_terror` | 10 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/heroes/vengefulspirit/w | vengefulspirit_wave_of_terror |
+| 3 | `enfos_vs_vengeance_aura` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/vengefulspirit/e | vengefulspirit_command_aura |
+| 4 | `enfos_vs_nether_swap` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/heroes/vengefulspirit/r | vengefulspirit_nether_swap |
+| 5 | `enfos_vs_retribution` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/vengefulspirit/d | vengefulspirit_command_aura |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/vengefulspirit/q](../../../game/scripts/vscripts/abilities/heroes/vengefulspirit/q.lua), [abilities/heroes/vengefulspirit/w](../../../game/scripts/vscripts/abilities/heroes/vengefulspirit/w.lua), [abilities/heroes/vengefulspirit/e](../../../game/scripts/vscripts/abilities/heroes/vengefulspirit/e.lua), [abilities/heroes/vengefulspirit/r](../../../game/scripts/vscripts/abilities/heroes/vengefulspirit/r.lua), [abilities/heroes/vengefulspirit/d](../../../game/scripts/vscripts/abilities/heroes/vengefulspirit/d.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 

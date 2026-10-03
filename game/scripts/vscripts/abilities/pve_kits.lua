@@ -42,14 +42,7 @@ end
 
 
 
-local function get_agi(c)
-    if not c or (c.IsNull and c:IsNull()) then return 0 end
-    if c.GetAgility then
-        local ok, val = pcall(c.GetAgility, c)
-        if ok and type(val) == "number" then return val end
-    end
-    return 0
-end
+local get_agi = Helpers.get_agi
 
 local function get_str(c)
     if not c or (c.IsNull and c:IsNull()) then return 0 end
@@ -369,6 +362,9 @@ local modifier_list = {
 _G.ENFOS_PVE_MODIFIER_LIST = modifier_list
 
 local isolatedModifiers = require('abilities/heroes/lich/init')
+for name, path in pairs(require('abilities/heroes/vengefulspirit/init')) do
+    isolatedModifiers[name] = path
+end
 for _, mod_name in ipairs(modifier_list) do
     if not isolatedModifiers[mod_name] then
         LinkLuaModifier(mod_name, 'abilities/pve_kits', LUA_MODIFIER_MOTION_NONE)
@@ -8925,164 +8921,6 @@ end
 -- VENGEFUL SPIRIT (SUPPORT)
 -- -------------------------------------------------------------------------
 
-enfos_vs_magic_missile=class({})
-function enfos_vs_magic_missile:OnSpellStart()
-    local c = self:GetCaster()
-    local t = self:GetCursorTarget()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or t:IsNull() or not t:IsAlive() then return end
-    if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
-    c:EmitSound('Hero_VengefulSpirit.MagicMissile')
-    local proj = {
-        Target = t,
-        Source = c,
-        Ability = self,
-        EffectName = 'particles/units/heroes/hero_vengeful/vengeful_magic_missle.vpcf',
-        iMoveSpeed = 1250,
-        bDodgeable = true,
-        bVisibleToEnemies = true,
-        bProvidesVision = false
-    }
-    ProjectileManager:CreateTrackingProjectile(proj)
-end
-function enfos_vs_magic_missile:OnProjectileHit(target, loc)
-    if not target or target:IsNull() or not target:IsAlive() then return true end
-    local c = self:GetCaster()
-    target:EmitSound('Hero_VengefulSpirit.MagicMissileImpact')
-    local dmg = value(self, 'damage')
-    local agi = get_agi(c)
-    local total_dmg = dmg + (agi * 0.9)
-    if is_boss(target) then total_dmg = math.min(total_dmg, target:GetMaxHealth() * 0.1) end
-    local stun_dur = value(self, 'stun_duration')
-    if stun_dur <= 0 then stun_dur = 1.6 end
-    if is_boss(target) then stun_dur = stun_dur * 0.4 end
-    target:AddNewModifier(c, self, 'modifier_generic_stunned_lua', { duration = stun_dur })
-    damage(self, target, total_dmg, DAMAGE_TYPE_MAGICAL)
-    return true
-end
-
-enfos_vs_wave_of_terror=class({})
-function enfos_vs_wave_of_terror:OnSpellStart()
-    local c = self:GetCaster()
-    local p = self:GetCursorPosition()
-    local origin = c:GetAbsOrigin()
-    local dir = p - origin
-    dir.z = 0
-    if dir:Length2D() < 1 then
-        dir = c:GetForwardVector()
-        dir.z = 0
-    end
-    dir = dir:Normalized()
-    c:EmitSound('Hero_VengefulSpirit.WaveOfTerror')
-    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_vengeful/vengeful_wave_of_terror.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
-    ParticleManager:SetParticleControl(fx, 0, origin)
-    ParticleManager:SetParticleControl(fx, 1, dir * 1400)
-    ParticleManager:ReleaseParticleIndex(fx)
-    local dmg = value(self, 'damage')
-    local agi = get_agi(c)
-    local total_dmg = dmg + (agi * 0.6)
-    local dur = value(self, 'duration')
-    if dur <= 0 then dur = 8.0 end
-
-    for _, u in ipairs(enemies(c, origin + (dir * 700), 800)) do
-        local offset = u:GetAbsOrigin() - origin
-        local along = offset.x * dir.x + offset.y * dir.y
-        local side = (offset - (dir * along)):Length2D()
-        if along >= 0 and along <= 1400 and side <= 140 then
-        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
-        u:AddNewModifier(c, self, 'modifier_enfos_vs_wave_debuff', { duration = dur })
-        end
-    end
-end
-
-modifier_enfos_vs_wave_debuff=class({})
-function modifier_enfos_vs_wave_debuff:IsDebuff() return true end
-function modifier_enfos_vs_wave_debuff:DeclareFunctions() return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS } end
-function modifier_enfos_vs_wave_debuff:GetModifierPhysicalArmorBonus()
-    local ab = self:GetAbility()
-    local red = ab and value(ab, 'armor_reduction') or 4
-    return -red
-end
-
-enfos_vs_vengeance_aura=class({})
-function enfos_vs_vengeance_aura:GetIntrinsicModifierName() return 'modifier_enfos_vs_vengeance_aura' end
-
-modifier_enfos_vs_vengeance_aura=class({})
-function modifier_enfos_vs_vengeance_aura:IsAura()
-    local c = self:GetParent()
-    return c and not (c.IsNull and c:IsNull()) and not (c.PassivesDisabled and c:PassivesDisabled())
-end
-function modifier_enfos_vs_vengeance_aura:GetAuraRadius() return value(self:GetAbility(), 'radius') end
-function modifier_enfos_vs_vengeance_aura:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_FRIENDLY end
-function modifier_enfos_vs_vengeance_aura:GetAuraSearchType() return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end
-function modifier_enfos_vs_vengeance_aura:GetModifierAura() return 'modifier_enfos_vs_vengeance_aura_buff' end
-
-modifier_enfos_vs_vengeance_aura_buff=class({})
-function modifier_enfos_vs_vengeance_aura_buff:DeclareFunctions() return { MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE } end
-function modifier_enfos_vs_vengeance_aura_buff:GetModifierBaseDamageOutgoing_Percentage()
-    local p = self:GetParent()
-    if p and ((p.PassivesDisabled and p:PassivesDisabled()) or (p.IsIllusion and p:IsIllusion())) then return 0 end
-    local ab = self:GetAbility()
-    return ab and value(ab, 'bonus_damage_pct') or 20
-end
-
-enfos_vs_nether_swap=class({})
-function enfos_vs_nether_swap:GetCastRange() return value(self, 'cast_range') end
-function enfos_vs_nether_swap:OnSpellStart()
-    local c = self:GetCaster()
-    local t = self:GetCursorTarget()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or t:IsNull() or not t:IsAlive() then return end
-    if t.TriggerSpellAbsorb and t:GetTeamNumber() ~= c:GetTeamNumber() and t:TriggerSpellAbsorb(self) then return end
-    c:EmitSound('Hero_VengefulSpirit.NetherSwap')
-    t:EmitSound('Hero_VengefulSpirit.NetherSwap')
-    local p_target = t:GetAbsOrigin()
-    local p_caster = c:GetAbsOrigin()
-
-    local fx1 = ParticleManager:CreateParticle('particles/units/heroes/hero_vengeful/vengeful_nether_swap.vpcf', PATTACH_WORLDORIGIN, nil)
-    ParticleManager:SetParticleControl(fx1, 0, p_caster)
-    ParticleManager:SetParticleControl(fx1, 1, p_target)
-    ParticleManager:ReleaseParticleIndex(fx1)
-
-    local fx2 = ParticleManager:CreateParticle('particles/units/heroes/hero_vengeful/vengeful_nether_swap_target.vpcf', PATTACH_WORLDORIGIN, nil)
-    ParticleManager:SetParticleControl(fx2, 0, p_target)
-    ParticleManager:SetParticleControl(fx2, 1, p_caster)
-    ParticleManager:ReleaseParticleIndex(fx2)
-
-    c:SetAbsOrigin(p_target)
-    FindClearSpaceForUnit(c, p_target, true)
-    if not is_boss(t) then
-        t:SetAbsOrigin(p_caster)
-        FindClearSpaceForUnit(t, p_caster, true)
-    end
-    local dmg = value(self, 'damage')
-    local agi = get_agi(c)
-    local total_dmg = dmg + (agi * 1.2)
-    if t:GetTeamNumber() ~= c:GetTeamNumber() then
-        if is_boss(t) then total_dmg = math.min(total_dmg, t:GetMaxHealth() * 0.1) end
-        damage(self, t, total_dmg, DAMAGE_TYPE_MAGICAL)
-    end
-    c:AddNewModifier(c, self, 'modifier_enfos_vs_nether_swap_buff', { duration = 4.0 })
-end
-
-modifier_enfos_vs_nether_swap_buff=class({})
-function modifier_enfos_vs_nether_swap_buff:DeclareFunctions() return { MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE } end
-function modifier_enfos_vs_nether_swap_buff:GetModifierIncomingDamage_Percentage() return -30 end
-
-enfos_vs_retribution=class({})
-function enfos_vs_retribution:GetIntrinsicModifierName() return 'modifier_enfos_vs_retribution' end
-
-modifier_enfos_vs_retribution=class({})
-function modifier_enfos_vs_retribution:DeclareFunctions()
-    return { MODIFIER_PROPERTY_STATS_AGILITY_BONUS, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
-end
-function modifier_enfos_vs_retribution:GetModifierBonusStats_Agility()
-    local c = self:GetParent()
-    if c and ((c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion())) then return 0 end
-    return value(self:GetAbility(), 'bonus_agi')
-end
-function modifier_enfos_vs_retribution:GetModifierAttackSpeedBonus_Constant()
-    local c = self:GetParent()
-    if c and ((c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion())) then return 0 end
-    return value(self:GetAbility(), 'bonus_as')
-end
+-- Vengeful Spirit is loaded above through its isolated compatibility module.
 
 -- Lich is loaded above through its isolated compatibility module.
