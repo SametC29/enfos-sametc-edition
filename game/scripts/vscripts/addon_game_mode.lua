@@ -56,7 +56,7 @@ function Precache(context)
 			if definition.ProjectileModel then PrecacheResource("particle",definition.ProjectileModel,context) end
 		end
 	end
-	for _,name in ipairs({"sven","juggernaut","drowranger","lina","omniknight","centaur","skeletonking","phantom_assassin","zuus","tidehunter","dragon_knight","pudge","abyssal_underlord","ursa","monkey_king","troll_warlord","chaos_knight","antimage","vengefulspirit","jakiro"}) do
+	for _,name in ipairs({"sven","juggernaut","drowranger","lina","omniknight","centaur","skeletonking","phantom_assassin","zuus","tidehunter","dragon_knight","pudge","abyssal_underlord","ursa","monkey_king","troll_warlord","chaos_knight","antimage","vengefulspirit","jakiro","luna"}) do
 		PrecacheResource("soundfile","soundevents/game_sounds_heroes/game_sounds_"..name..".vsndevts",context)
 	end
 	-- Spellbringer can cast without these native heroes being selected.
@@ -275,6 +275,14 @@ function Precache(context)
 	PrecacheResource("particle", "particles/units/heroes/hero_slark/slark_essence_shift_hit_glow.vpcf", context)
 	PrecacheResource("particle", "particles/units/heroes/hero_slark/slark_shard_fish_bait_impact_splash.vpcf", context)
 	PrecacheResource("particle", "particles/units/heroes/hero_luna/luna_lucent_beam.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_luna/luna_lucent_beam_precast.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_luna/luna_base_attack.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_luna/luna_base_attack_impact.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_luna/luna_ambient_moon_glaive.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_luna/luna_ambient_lunar_blessing.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_luna/luna_moon_glaive_shield.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_luna/luna_eclipse_cast.vpcf", context)
+	PrecacheResource("particle", "particles/units/heroes/hero_luna/luna_eclipse_impact_notarget.vpcf", context)
 	PrecacheResource("particle", "particles/units/heroes/hero_luna/luna_eclipse.vpcf", context)
 	PrecacheResource("particle", "particles/units/heroes/hero_nevermore/nevermore_shadowraze.vpcf", context)
 	PrecacheResource("particle", "particles/units/heroes/hero_nevermore/nevermore_requiemofsouls.vpcf", context)
