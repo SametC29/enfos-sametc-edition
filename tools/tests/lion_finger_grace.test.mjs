@@ -46,7 +46,7 @@ local function counter()
  function n:GetStackCount()return self.stacks end;function n:SetStackCount(k)self.stacks=k end
  n:OnCreated();return n
 end
-m=counter();function c:FindModifierByName()return m end
+m=counter();function c:FindModifierByName(name)return name=='modifier_enfos_lion_finger_counter' and m or nil end
 local function latest(prefix)
  for i=#contexts,1,-1 do if contexts[i].name:find(prefix,1,true)then return contexts[i]end end
  error('Missing context '..prefix)

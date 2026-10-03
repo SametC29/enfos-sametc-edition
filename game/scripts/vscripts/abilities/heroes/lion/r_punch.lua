@@ -63,6 +63,23 @@ function Punch.SyncCounter(counter)
         m.stack_bonus=m:ReadStackBonus();m:SendBuffRefreshToClients()
     end
 end
+function Punch.CreditKill(counter,event)
+    if not IsServer() or not valid(counter) or counter.closed or not event then return false end
+    local c,a=counter:GetParent(),counter:GetAbility()
+    if not valid(c) or not valid(a) or a:GetCaster()~=c or a:GetLevel()<=0 then return false end
+    local m=c:FindModifierByName('modifier_enfos_lion_finger_punch')
+    if source(m)~=c or m:GetAbility()~=a then return false end
+    if event.attacker~=c then return false end
+    local t=event.unit
+    if not valid(t) or t:IsAlive() or t:GetTeamNumber()==c:GetTeamNumber()
+        or (t.IsBuilding and t:IsBuilding()) or (t.IsIllusion and t:IsIllusion()) then return false end
+    local melee=event.damage_category==DOTA_DAMAGE_CATEGORY_ATTACK and event.inflictor==nil and event.ranged_attack==false
+    local cleave=m.cleaving and event.inflictor==a and event.damage_category==DOTA_DAMAGE_CATEGORY_SPELL
+    if not melee and not cleave then return false end
+    if not counter:AwardKill(t) then return false end
+    Trace:Log('LION','R','kill stack credited by empowered fist')
+    return true
+end
 function modifier_enfos_lion_finger_punch:GetActivityTranslationModifiers()
     if source(self) then return 'melee' end
 end
@@ -73,8 +90,14 @@ function modifier_enfos_lion_finger_punch:OnTooltip() return self:GetModifierPre
 function modifier_enfos_lion_finger_punch:OnTooltip2() return source(self) and (self.cleave_pct or 0) or 0 end
 function modifier_enfos_lion_finger_punch:OnAttackStart(event)
     if not IsServer() or not event then return end
-    local c=source(self)
-    if c and event.attacker==c then c:EmitSound('Hero_Lion.Punch.PreAttack') end
+    local c,a=source(self)
+    if c and event.attacker==c then
+        local counter=c:FindModifierByName('modifier_enfos_lion_finger_counter')
+        if valid(counter) and not counter.closed and counter:GetAbility()==a and counter:GetParent()==c then
+            counter:BeginPunchAttack(event.target,a)
+        end
+        c:EmitSound('Hero_Lion.Punch.PreAttack')
+    end
 end
 function modifier_enfos_lion_finger_punch:OnAttackLanded(event)
     if not IsServer() or not event or self.cleaving then return end

@@ -112,6 +112,7 @@ function modifier_enfos_lion_finger_counter:MarkFingerTarget(t,grace,source)
     if not c or (source and source~=a) or not eligible(c,t) then return end
     local pending=self.pendingFingerHits
     if not pending then pending={};self.pendingFingerHits=pending end
+    if self.creditedVictims then self.creditedVictims[t]=nil end
     local receipt={expires=GameRules:GetGameTime()+grace,ability=a,team=c:GetTeamNumber(),targetTeam=t:GetTeamNumber()}
     pending[t]=receipt -- Refresh one target window; never accumulate duplicate claims.
     Trace:Log('LION','R','kill window opened duration=%.2f',grace)
@@ -148,10 +149,30 @@ function modifier_enfos_lion_finger_counter:CreditFingerKill(t,expected)
     if receipt.ability~=a or GameRules:GetGameTime()>receipt.expires
         or receipt.team~=c:GetTeamNumber() or receipt.targetTeam~=t:GetTeamNumber()
         or t:GetTeamNumber()==c:GetTeamNumber() or (t.IsBuilding and t:IsBuilding()) then return false end
-    local cap=math.max(0,H.value(a,'kill_stack_cap'))
-    self:SetStackCount(math.min(cap,math.max(0,self:GetStackCount())+1))
+    if not self:AwardKill(t) then return false end
     Trace:Log('LION','R','kill stack credited within grace window')
     return true
+end
+function modifier_enfos_lion_finger_counter:AwardKill(t)
+    if not IsServer() then return false end
+    local c,a=counter_owner(self)
+    if not c or not valid(t) or t:IsAlive() or t:GetTeamNumber()==c:GetTeamNumber()
+        or (t.IsBuilding and t:IsBuilding()) then return false end
+    local count=math.max(0,self:GetStackCount())
+    local cap=math.max(0,H.value(a,'kill_stack_cap'))
+    if count>=cap then return false end
+    local claimed=self.creditedVictims
+    if not claimed then claimed=setmetatable({},{__mode='k'});self.creditedVictims=claimed end
+    if claimed[t] then return false end
+    claimed[t]=true -- Own this death before native stack callbacks can reenter.
+    self:SetStackCount(math.min(cap,count+1))
+    return true
+end
+function modifier_enfos_lion_finger_counter:BeginPunchAttack(t,ability)
+    if not IsServer() then return end
+    local c,a=counter_owner(self)
+    if c and a==ability and valid(t) and t:IsAlive() and t:GetTeamNumber()~=c:GetTeamNumber()
+        and not (t.IsBuilding and t:IsBuilding()) and self.creditedVictims then self.creditedVictims[t]=nil end
 end
 function modifier_enfos_lion_finger_counter:OnDeath(event)
     if event and Trace:Enabled() then
@@ -165,7 +186,7 @@ function modifier_enfos_lion_finger_counter:OnDeath(event)
                 tostring(event.inflictor~=nil),tostring(event.inflictor==a))
         end
     end
-    if event then self:CreditFingerKill(event.unit) end
+    if event and not self:CreditFingerKill(event.unit) then Punch.CreditKill(self,event) end
 end
 function modifier_enfos_lion_finger_counter:OnStackCountChanged()
     Punch.SyncCounter(self)
@@ -182,7 +203,7 @@ function modifier_enfos_lion_finger_counter:TraceLifecycle(event)
 end
 function modifier_enfos_lion_finger_counter:OnCreated()
     self.closed=false
-    if IsServer() then self.pendingFingerHits={};self.fingerCleanupArmed=false;self.fingerCleanupToken=nil end
+    if IsServer() then self.pendingFingerHits={};self.creditedVictims=setmetatable({},{__mode='k'});self.fingerCleanupArmed=false;self.fingerCleanupToken=nil end
     self:TraceLifecycle('applied')
 end
 function modifier_enfos_lion_finger_counter:OnRefresh()
@@ -193,6 +214,7 @@ function modifier_enfos_lion_finger_counter:OnDestroy()
     self:TraceLifecycle('removed')
     self.closed=true
     self.pendingFingerHits=nil
+    self.creditedVictims=nil
     self.fingerCleanupArmed=false
     self.fingerCleanupToken=nil
     Punch.SyncCounter(self) -- Publish zero live stack damage to an existing fist buff.
