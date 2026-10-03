@@ -912,12 +912,12 @@ test('Witch Doctor Death Ward precaches its verified native unit and summon part
   assert.ok(mode.includes(`PrecacheResource("particle", "${particle}"`));
   assert.ok(mode.includes('PrecacheUnitByNameSync("npc_dota_witch_doctor_death_ward"'));
 });
-test('Bristleback Warpath uses and precaches its native buff particle',()=>{
+test('Bristleback Warpath delegates buff ownership to native and retains explicit particle precache',()=>{
   const lua=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');
   const mode=fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua','utf8');
   const particle='particles/units/heroes/hero_bristleback/bristleback_warpath.vpcf';
-  assert.ok(lua.includes(`return '${particle}'`));
-  assert.ok(lua.includes('function modifier_enfos_bb_warpath_buff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end'));
+  assert.equal(read('npc_abilities_custom.txt').DOTAAbilities.enfos_bb_warpath.BaseClass,'bristleback_warpath');
+  assert.doesNotMatch(lua,/modifier_enfos_bb_warpath_(?:buff|passive)/);
   assert.ok(mode.includes(`PrecacheResource("particle", "${particle}"`));
 });
 test('Bristleback rank gates fit the level-50 cap and preserve its current R/Scepter pairing',()=>{

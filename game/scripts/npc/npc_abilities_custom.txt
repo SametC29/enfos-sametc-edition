@@ -2771,7 +2771,10 @@
 		"HasShardUpgrade" "1"
 
 
-		"BaseClass"					"ability_lua"
+		"BaseClass"					"bristleback_warpath"
+		"AbilityType" "DOTA_ABILITY_TYPE_BASIC"
+		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_5"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"bristleback_warpath"
 		"RequiredLevel"	"1"
@@ -2780,11 +2783,11 @@
 		"AbilityValues"
 		{
 			"damage_per_stack" "15 17 19 22 24 26 28 31 33 35"
-			"ms_per_stack" "2 2.2 2.4 2.7 2.9 3.1 3.3 3.6 3.8 4"
+			"move_speed_per_stack" "2 2.2 2.4 2.7 2.9 3.1 3.3 3.6 3.8 4"
+			"aspd_per_stack" "0"
 			"max_stacks" "10"
 			"stack_duration" "10.0"
 		}
-		"ScriptFile"				"abilities/pve_kits"
 	}
 
 	"enfos_bb_hairball"

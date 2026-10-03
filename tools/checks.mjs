@@ -405,7 +405,7 @@ check('retired compiled-map TreeShop and CourierZone compatibility', () => {
   if (result.status !== 0) throw new Error('Retired map trigger regressions failed');
 });
 check('Shadow Fiend reviewed native ability contracts', () => {
-  const result = spawnSync(process.execPath, ['--test', 'tools/tests/shadow_fiend_native.test.mjs', 'tools/tests/shadow_fiend_sustain.test.mjs', 'tools/tests/shadow_fiend_integration.test.mjs', 'tools/tests/hero_health.test.mjs', 'tools/tests/hero_runtime_log_report.test.mjs'], { stdio: 'inherit' });
+  const result = spawnSync(process.execPath, ['--test', 'tools/tests/shadow_fiend_native.test.mjs', 'tools/tests/bristleback_native.test.mjs', 'tools/tests/shadow_fiend_sustain.test.mjs', 'tools/tests/shadow_fiend_integration.test.mjs', 'tools/tests/hero_health.test.mjs', 'tools/tests/hero_runtime_log_report.test.mjs'], { stdio: 'inherit' });
   if (result.status !== 0) throw new Error('Shadow Fiend native contracts failed');
 });
 console.log(`${failures} failed check(s). Engine playtests remain separate.`);

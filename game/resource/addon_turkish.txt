@@ -2434,8 +2434,6 @@
 		"DOTA_Tooltip_modifier_enfos_axe_culling_blade_buff_Description" "Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%, saldırı hızı %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT% artar."
 		"DOTA_Tooltip_modifier_enfos_bb_bristleback_passive" "Dikenli Sırt (Bristleback)"
 		"DOTA_Tooltip_modifier_enfos_bb_bristleback_passive_Description" "Önden alınan hasarı azaltmaz. Yanlardan gelen hasarı %15 / 17 / 18 / 20 / 22 / 23 / 25 / 27 / 28 / 30, arkadan gelen hasarı %25 / 27 / 28 / 30 / 32 / 33 / 35 / 37 / 38 / 40 azaltır (yan açı 110°, arka açı 70°). Arkadan toplam 200 hasar alınca Quill Spray tetikler. Kırılma pasifi devre dışı bırakır."
-		"DOTA_Tooltip_modifier_enfos_bb_warpath_passive" "Savaş Yolu (Warpath)"
-		"DOTA_Tooltip_modifier_enfos_bb_warpath_passive_Description" "Her yetenek kullanımı 10.0 sn süren bir yük kazandırır. Yük başına 15 / 17 / 19 / 22 / 24 / 26 / 28 / 31 / 33 / 35 saldırı hasarı ve %2 / 2.2 / 2.4 / 2.7 / 2.9 / 3.1 / 3.3 / 3.6 / 3.8 / 4 hareket hızı verir; en fazla 10 yük birikir. Kırılma pasifi devre dışı bırakır."
 		"DOTA_Tooltip_modifier_enfos_centaur_colossal_hide_passive" "Devasa Zırh (Colossal Hide)"
 		"DOTA_Tooltip_modifier_enfos_centaur_colossal_hide_passive_Description" "Enfos pasifi: 40 / 45 / 50 / 55 / 60 / 65 / 70 / 75 / 80 / 85 + Kuvvet × 0.05 fiziksel hasarı engeller ve 20 / 22 / 24 / 26 / 28 / 30 / 32 / 34 / 36 / 38% azami can kazandırır. Kırılma pasifi devre dışı bırakır."
 		"DOTA_Tooltip_modifier_enfos_centaur_hoof_stomp_stun" "Toynak Darbesi"

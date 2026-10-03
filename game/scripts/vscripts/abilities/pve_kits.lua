@@ -171,8 +171,6 @@ local modifier_list = {
     'modifier_enfos_bb_viscous_nasal_goo_debuff',
     'modifier_enfos_bb_quill_spray_debuff',
     'modifier_enfos_bb_bristleback_passive',
-    'modifier_enfos_bb_warpath_passive',
-    'modifier_enfos_bb_warpath_buff',
     -- Tidehunter
     'modifier_enfos_tide_gush_debuff',
     'modifier_enfos_tide_kraken_shell_passive',
@@ -3472,49 +3470,6 @@ function modifier_enfos_bb_bristleback_passive:OnTakeDamage(params)
         self.accumulated_damage = self.accumulated_damage - threshold
         bristleback_quill_spray(c, qs, c:GetAbsOrigin(), false, nil, true)
     end
-end
-
-enfos_bb_warpath=class({})
-function enfos_bb_warpath:GetIntrinsicModifierName() return 'modifier_enfos_bb_warpath_passive' end
-
-modifier_enfos_bb_warpath_passive=class({})
-function modifier_enfos_bb_warpath_passive:IsHidden() return true end
-function modifier_enfos_bb_warpath_passive:DeclareFunctions()
-    return { MODIFIER_EVENT_ON_ABILITY_FULLY_CAST }
-end
-function modifier_enfos_bb_warpath_passive:OnAbilityFullyCast(params)
-    if not IsServer() then return end
-    if not params then return end
-    local c = self:GetParent()
-    if c.PassivesDisabled and c:PassivesDisabled() then return end
-    local cast_ability = params and params.ability
-    if params.unit ~= c or not cast_ability or (cast_ability.IsItem and cast_ability:IsItem()) then return end
-    local a = self:GetAbility()
-    local buff = c:FindModifierByName('modifier_enfos_bb_warpath_buff')
-    local duration = value(a, 'stack_duration')
-    if not buff then buff = c:AddNewModifier(c, a, 'modifier_enfos_bb_warpath_buff', { duration = duration }) end
-    if not buff then return end
-    buff:SetStackCount(math.min(value(a, 'max_stacks'), buff:GetStackCount() + 1))
-    buff:SetDuration(duration, true)
-end
-
-modifier_enfos_bb_warpath_buff=class({})
-function modifier_enfos_bb_warpath_buff:GetEffectName()
-    return 'particles/units/heroes/hero_bristleback/bristleback_warpath.vpcf'
-end
-function modifier_enfos_bb_warpath_buff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
-function modifier_enfos_bb_warpath_buff:DeclareFunctions()
-    return { MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE, MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE }
-end
-function modifier_enfos_bb_warpath_buff:GetModifierPreAttack_BonusDamage()
-    local c = self:GetCaster()
-    if c.PassivesDisabled and c:PassivesDisabled() then return 0 end
-    return self:GetStackCount() * value(self:GetAbility(), 'damage_per_stack')
-end
-function modifier_enfos_bb_warpath_buff:GetModifierMoveSpeedBonus_Percentage()
-    local c = self:GetCaster()
-    if c.PassivesDisabled and c:PassivesDisabled() then return 0 end
-    return self:GetStackCount() * value(self:GetAbility(), 'ms_per_stack')
 end
 
 enfos_bb_hairball=class({})

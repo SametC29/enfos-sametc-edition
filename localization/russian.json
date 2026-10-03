@@ -999,7 +999,7 @@
     "DOTA_Tooltip_Ability_enfos_bb_viscous_nasal_goo": "Липкая носовая слизь",
     "DOTA_Tooltip_Ability_enfos_bb_viscous_nasal_goo_Description": "Снижает броню цели на {{armor_reduction}} за заряд и замедляет на {{base_slow_pct}}% + {{slow_per_stack}}% за заряд на {{duration}} сек. До {{max_stacks}} зарядов.",
     "DOTA_Tooltip_Ability_enfos_bb_warpath": "Военная тропа",
-    "DOTA_Tooltip_Ability_enfos_bb_warpath_Description": "Каждое применение способности дает заряд на {{stack_duration}} сек. Каждый заряд дает {{damage_per_stack}} к урону атаки и {{ms_per_stack}}% к скорости передвижения; максимум {{max_stacks}} зарядов.",
+    "DOTA_Tooltip_Ability_enfos_bb_warpath_Description": "Каждое применение способности дает заряд на {{stack_duration}} сек. Каждый заряд дает {{damage_per_stack}} к урону атаки и {{move_speed_per_stack}}% к скорости передвижения; максимум {{max_stacks}} зарядов.",
     "DOTA_Tooltip_Ability_enfos_ck_chaos_bolt_Description": "Hedefe takip eden büyülü bir mermi fırlatır; çarptığında {{damage}} + Güç x {{strength_factor}} büyü hasarı verir ve {{stun_min}}–{{stun_max}} sn sersemletir (boss süresi en fazla {{boss_stun_duration}} sn).",
     "DOTA_Tooltip_Ability_enfos_ck_chaos_strike_Description": "Saldırılara +{{bonus_damage}} bonus hasar ve %{{crit_chance}} şansla {{crit_mult}}% kritik sağlar. Saldırı hasarının %{{lifesteal}} kadarıyla iyileştirir ve yakındaki düşmanlara %{{cleave_pct}} hasar sıçratır.",
     "DOTA_Tooltip_Ability_enfos_ck_entropy_Description": "Pasif olarak +{{bonus_strength}} güç ve +{{bonus_speed}} saldırı hızı sağlar; Pasifleri Devre Dışı Bırak etkisiyle kapanır.",

@@ -3253,40 +3253,6 @@ test('Bristleback Goo spell block prevents the stack and its impact effect', fun
     assert(not target:HasModifier('modifier_enfos_bb_viscous_nasal_goo_debuff'), 'Spell block must cancel Goo')
 end)
 
-test('Bristleback Warpath gains one bounded stack per non-item spell cast', function()
-    local bb = create_mock_unit('npc_dota_hero_bristleback', 2, Vector(0, 0, 0))
-    local warpath = { GetSpecialValueFor = function(_, key)
-        return ({ max_stacks = 3, stack_duration = 10, damage_per_stack = 20, ms_per_stack = 4 })[key] or 0
-    end }
-    local passive = modifier_enfos_bb_warpath_passive()
-    passive.GetParent = function() return bb end
-    passive.GetAbility = function() return warpath end
-    local cast = { IsItem = function() return false end }
-    passive:OnAbilityFullyCast({ unit = bb, ability = cast })
-    local buff = bb:FindModifierByName('modifier_enfos_bb_warpath_buff')
-    assert(buff and buff:GetStackCount() == 1)
-    assert(buff:GetEffectName() == 'particles/units/heroes/hero_bristleback/bristleback_warpath.vpcf',
-        'Warpath buff must use its native visual effect')
-    assert(buff:GetEffectAttachType() == PATTACH_ABSORIGIN_FOLLOW,
-        'Warpath visual must follow Bristleback for the buff lifetime')
-    assert(buff:GetModifierPreAttack_BonusDamage() == 20 and buff:GetModifierMoveSpeedBonus_Percentage() == 4)
-    passive:OnAbilityFullyCast({ unit = bb, ability = { IsItem = function() return true end } })
-    assert(buff:GetStackCount() == 1, 'Items must not build native Warpath stacks')
-    passive:OnAbilityFullyCast({ unit = bb, ability = cast })
-    passive:OnAbilityFullyCast({ unit = bb, ability = cast })
-    passive:OnAbilityFullyCast({ unit = bb, ability = cast })
-    assert(buff:GetStackCount() == 3, 'Warpath stacks must respect the configured cap')
-end)
-
-test('Bristleback Warpath stops stacking and grants no bonus while Broken', function()
-    local bb = create_mock_unit('npc_dota_hero_bristleback', 2, Vector(0, 0, 0))
-    bb.PassivesDisabled = function() return true end
-    local warpath = { GetSpecialValueFor = function(_, key) return key == 'stack_duration' and 10 or 0 end }
-    local passive = setmetatable({ GetParent = function() return bb end, GetAbility = function() return warpath end }, modifier_enfos_bb_warpath_passive)
-    passive:OnAbilityFullyCast({ unit = bb, ability = { IsItem = function() return false end } })
-    assert(not bb:HasModifier('modifier_enfos_bb_warpath_buff'), 'Break must suppress Warpath stack gain')
-end)
-
 test('Bristleback Hairball applies Goo and Quill Spray at the cursor point', function()
     applied_damages = {}
     local bb = create_mock_unit('npc_dota_hero_bristleback', 2, Vector(0, 0, 0))

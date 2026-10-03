@@ -13,7 +13,7 @@ Hero: `npc_dota_hero_bristleback`; role: Tank. Progression target: hero level 50
 | 2 | `enfos_bb_quill_spray` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | bristleback_quill_spray |
 | 3 | `enfos_bb_bristleback` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | bristleback_bristleback |
 | 4 | `enfos_bb_hairball` | 10 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_AOE | abilities/pve_kits | bristleback_hairball |
-| 5 | `enfos_bb_warpath` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | bristleback_warpath |
+| 5 | `enfos_bb_warpath` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | NOT_EXPLICIT | bristleback_warpath |
 
 Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
@@ -57,6 +57,27 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 <!-- END GENERATED INVENTORY -->
 
 ## Human decisions and runtime evidence (preserve on refresh)
+
+2026-10-04 native-first reopening: the following 2026-09-30 records are historical
+custom-implementation evidence. Current per-slot classifications are TUNE, with
+native/minimal-extension choices and linked Q/W/E/R boundaries recorded in
+[the current source review](../../audit/BRISTLEBACK_NATIVE_FIRST_REVIEW_2026-10-04.md).
+[Installed build 6943 definitions](../../audit/BRISTLEBACK_NATIVE_SOURCE_2026-10-04.json)
+confirm the same hero-file SHA256 as the older snapshot. No new ENGINE_PASS,
+visual/audio acceptance or owner test is implied. The review tracks independent
+native Warpath first, then the linked kit and upgrades; whole-hero source closure
+remains open.
+
+Warpath source update2026-10-04: D now delegates to native
+`bristleback_warpath`; custom cast listener and both custom modifiers are removed.
+The same ten-rank damage/movement values use native `move_speed_per_stack`;
+aspd_per_stack is explicitly zero. D remains BASIC with separate free rank,
+and Hairball remains the R ultimate. Existing generic Shard is temporarily
+preserved until the linked native upgrade unit. Two native-source contracts and
+351 mock hero-kit regressions pass; native ten-rank indexing, stacks/expiry,
+Break, lifecycle, VFX/SFX, upgrades and cold-start remain PENDING OWNER TEST.
+Historical Warpath custom-modifier evidence below does not certify this native
+replacement.
 
 ## Slot 1: `enfos_bb_viscous_nasal_goo`
 

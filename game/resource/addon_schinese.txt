@@ -2436,8 +2436,6 @@
 		"DOTA_Tooltip_modifier_enfos_axe_culling_blade_buff_Description" "移动速度提高%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%，攻击速度提高%dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%。"
 		"DOTA_Tooltip_modifier_enfos_bb_bristleback_passive" "钢背兽"
 		"DOTA_Tooltip_modifier_enfos_bb_bristleback_passive_Description" "正面受击不减伤。侧面伤害降低15 / 17 / 18 / 20 / 22 / 23 / 25 / 27 / 28 / 30%，背后伤害降低25 / 27 / 28 / 30 / 32 / 33 / 35 / 37 / 38 / 40%（侧面角度110°，背后角度70°）。背后累计受到200点伤害时触发刺针扫射。"
-		"DOTA_Tooltip_modifier_enfos_bb_warpath_passive" "战意"
-		"DOTA_Tooltip_modifier_enfos_bb_warpath_passive_Description" "每次施放技能获得一层效果，持续10.0秒。每层提高15 / 17 / 19 / 22 / 24 / 26 / 28 / 31 / 33 / 35点攻击伤害和2 / 2.2 / 2.4 / 2.7 / 2.9 / 3.1 / 3.3 / 3.6 / 3.8 / 4%移动速度，最多10层。"
 		"DOTA_Tooltip_modifier_enfos_centaur_colossal_hide_passive" "巨躯之皮"
 		"DOTA_Tooltip_modifier_enfos_centaur_colossal_hide_passive_Description" "Enfos 被动：每次受到攻击时格挡 40 / 45 / 50 / 55 / 60 / 65 / 70 / 75 / 80 / 85 + 力量 × 0.05 点物理伤害，并使最大生命值提高 20 / 22 / 24 / 26 / 28 / 30 / 32 / 34 / 36 / 38%。破坏效果会使该被动失效。"
 		"DOTA_Tooltip_modifier_enfos_centaur_hoof_stomp_stun" "马蹄践踏"

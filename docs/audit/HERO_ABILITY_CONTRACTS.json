@@ -1708,19 +1708,21 @@
           "id": "enfos_bb_warpath",
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
-          "callbacks": [
-            "GetIntrinsicModifierName"
-          ],
+          "callbacks": [],
+          "implementationOwner": "NATIVE",
+          "nativeBaseClass": "bristleback_warpath",
+          "engineAcceptance": "PENDING OWNER TEST",
           "specials": {
             "damage_per_stack": "15 17 19 22 24 26 28 31 33 35",
-            "ms_per_stack": "2 2.2 2.4 2.7 2.9 3.1 3.3 3.6 3.8 4",
+            "move_speed_per_stack": "2 2.2 2.4 2.7 2.9 3.1 3.3 3.6 3.8 4",
+            "aspd_per_stack": "0",
             "max_stacks": "10",
             "stack_duration": "10.0"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
           "hasSound": false,
-          "hasParticle": true
+          "hasParticle": false
         }
       ]
     },

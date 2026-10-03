@@ -691,7 +691,7 @@
     "DOTA_Tooltip_Ability_enfos_bb_bristleback": "Dikenli Sırt (Bristleback)",
     "DOTA_Tooltip_Ability_enfos_bb_bristleback_Description": "Önden alınan hasarı azaltmaz. Yanlardan gelen hasarı %{{side_damage_reduction}}, arkadan gelen hasarı %{{back_damage_reduction}} azaltır (yan açı {{side_angle}}°, arka açı {{rear_angle}}°). Arkadan toplam {{quill_damage_threshold}} hasar alınca Quill Spray tetikler. Kırılma pasifi devre dışı bırakır.",
     "DOTA_Tooltip_Ability_enfos_bb_warpath": "Savaş Yolu (Warpath)",
-    "DOTA_Tooltip_Ability_enfos_bb_warpath_Description": "Her yetenek kullanımı {{stack_duration}} sn süren bir yük kazandırır. Yük başına {{damage_per_stack}} saldırı hasarı ve %{{ms_per_stack}} hareket hızı verir; en fazla {{max_stacks}} yük birikir. Kırılma pasifi devre dışı bırakır.",
+    "DOTA_Tooltip_Ability_enfos_bb_warpath_Description": "Her yetenek kullanımı {{stack_duration}} sn süren bir yük kazandırır. Yük başına {{damage_per_stack}} saldırı hasarı ve %{{move_speed_per_stack}} hareket hızı verir; en fazla {{max_stacks}} yük birikir. Kırılma pasifi devre dışı bırakır.",
     "DOTA_Tooltip_Ability_enfos_bb_hairball": "Kıl Yumağı (Hairball)",
     "DOTA_Tooltip_Ability_enfos_bb_hairball_Description": "Hedef noktadaki {{radius}} yarıçapında düşmanlara iki Yapışkan Burun Salgısı yükü uygular ve Quill Spray’i aynı noktada patlatır.",
     "DOTA_Tooltip_Ability_enfos_slark_dark_pact": "Karanlık Anlaşma (Dark Pact)",
