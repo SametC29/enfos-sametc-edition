@@ -214,3 +214,24 @@ Owner-expanded rollout order and Necrophos addition are tracked in
 Shadow Fiend acceptance is the next gate; no publication or remote push.
 
 Final source validation: the full check runner passed all gates except two old mock fixtures lacking native-integration APIs. Those fixtures were repaired and rerun successfully (player feedback and all200 abilities/all219 modifiers at ranks1–10). The remaining npm-chain wave-pressure and installed-native Boss gates were run separately and pass. No gameplay edit was required to hide mock failures; no full-suite repeat. Diff whitespace check passes. Native runtime acceptance remains pending.
+
+## Final resource/restore audit (2026-10-04)
+
+Current installed build remains6943/revision11069754. Native SF sound bank is
+now explicitly included in the existing startup soundfile loop, avoiding reliance
+on selected-hero implicit loading for hidden providers. Existing native Raze and
+Requiem particle precaches are retained: custom creation is removed, but native
+providers still consume these resources. No new synchronous hero preload is
+added; the prior setup-stall safeguard remains. Compiled VPK evidence:
+
+| Resource | Bytes | SHA256 |
+| --- | --- | --- |
+| soundevents/game_sounds_heroes/game_sounds_nevermore.vsndevts_c | 3160 | 509e928f5f77b86ec090a1c9a4dc3feddee50a80179d0dfc92041ccad1cc8824 |
+| particles/units/heroes/hero_nevermore/nevermore_shadowraze.vpcf_c | 4122 | 5c576f6be06cc56a7f38876c3a25ac8b34898f3579018f4ebd90f39970eaa83f |
+| particles/units/heroes/hero_nevermore/nevermore_requiemofsouls.vpcf_c | 2441 | aa36b7e445ef77c241ad3ff15dd93e5b5437e3984024b782fd7904a7f16e07d7 |
+
+This proves resource existence, not audible/visual or cold-start acceptance.
+Shared respawn.lua remains unchanged and only sets the player death timer.
+SF native death release/soul loss and existing restoration must be observed
+after owner restart; no engine test was run by the agent. The remaining
+completion blocker is owner runtime evidence, not a failing source gate.
