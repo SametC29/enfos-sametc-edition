@@ -901,7 +901,7 @@
     "DOTA_Tooltip_Ability_enfos_lion_mana_drain": "Mana Çekme",
     "DOTA_Tooltip_Ability_enfos_lion_mana_drain_Description": "4 saniye kanal boyunca saniyede {{mana_per_second}} + Zekâ'nın %80'i kadar büyü hasarı verir, aynı miktarda mana yeniler ve hedefi %35 yavaşlatır. Hedef ölürse kanal sona erer.",
     "DOTA_Tooltip_Ability_enfos_lion_finger_of_death": "Ölüm Parmağı",
-    "DOTA_Tooltip_Ability_enfos_lion_finger_of_death_Description": "Hedef çevresindeki {{splash_radius}} yarıçapta {{damage}} + Zekâ'nın %250'si kadar büyü hasarı verir. Her öldürme yığını Ölüm Parmağı'na +{{kill_stack_damage}} hasar ve +%{{kill_stack_spell_amp_pct}} büyü gücü verir; en fazla {{kill_stack_cap}} yığın.",
+    "DOTA_Tooltip_Ability_enfos_lion_finger_of_death_Description": "Hedef çevresindeki {{splash_radius}} yarıçapta {{damage}} + Zekâ’nın %{{int_scaling_pct}} değeri kadar büyü hasarı verir. Her öldürme yığını Ölüm Parmağı’na +{{kill_stack_damage}} hasar ve +%{{kill_stack_spell_amp_pct}} büyü gücü verir; en fazla {{kill_stack_cap}} yığın. Bosslarda da aynı hasar formülü kullanılır; normal bağışıklık ve direnç kuralları geçerlidir.",
     "DOTA_Tooltip_Ability_enfos_lion_demon_soul": "İblis Ruhu",
     "DOTA_Tooltip_Ability_enfos_lion_demon_soul_Description": "Pasif olarak yetenek kullanım menzilini +{{cast_range_bonus}} ve büyü hasarını %{{spell_amp}} artırır.",
     "DOTA_Tooltip_Ability_enfos_jakiro_dual_breath": "Çifte Nefes",

@@ -5289,7 +5289,6 @@
 			"splash_radius"	"325"
 			"damage"	"600 850 1100 1200 1300 1400 1500 1600 1700 1800"
 			"int_scaling_pct" "250"
-			"boss_damage_cap_pct" "12"
 			"kill_stack_cap" "20"
 			"kill_stack_damage" "40"
 			"kill_stack_spell_amp_pct" "1.5"

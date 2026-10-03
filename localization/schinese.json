@@ -1056,7 +1056,7 @@
     "DOTA_Tooltip_Ability_enfos_lina_light_strike_array_Description": "0.5 秒后，火柱打击 {{radius}} 范围，造成 {{damage}} + 智力的魔法伤害并眩晕 {{stun_duration}} 秒。首领眩晕时间为普通值的 35%。",
     "DOTA_Tooltip_Ability_enfos_lion_demon_soul_Description": "被动增加{{cast_range_bonus}}施法距离和{{spell_amp}}%法术增强。",
     "DOTA_Tooltip_Ability_enfos_lion_earth_spike_Description": "发射以{{speed}}速度前进、半宽{{width}}的地刺，距离比基础施法距离多{{length_buffer}}。每次命中造成{{damage}} + 智力的{{int_scaling_pct}}%魔法伤害并眩晕{{stun_duration}}秒。眩晕需要强驱散。首领与其他敌人均遵循正常免疫和抗性规则。",
-    "DOTA_Tooltip_Ability_enfos_lion_finger_of_death_Description": "对目标周围{{splash_radius}}范围内敌人造成{{damage}} + 250%智力的魔法伤害。每次击杀使死亡之指额外造成{{kill_stack_damage}}伤害并获得{{kill_stack_spell_amp_pct}}%法术增强，最多{{kill_stack_cap}}层。",
+    "DOTA_Tooltip_Ability_enfos_lion_finger_of_death_Description": "对目标周围{{splash_radius}}范围内敌人造成{{damage}} + {{int_scaling_pct}}%智力的魔法伤害。每次击杀使死亡之指额外造成{{kill_stack_damage}}伤害并获得{{kill_stack_spell_amp_pct}}%法术增强，最多{{kill_stack_cap}}层。首领使用相同的伤害公式，并遵循普通免疫与抗性规则。",
     "DOTA_Tooltip_Ability_enfos_lion_hex_Description": "将敌人变成青蛙，持续{{duration}}秒，使其沉默、缴械并禁止使用物品，移动速度变为{{base_move_speed}}。不会禁用被动技能。强驱散可以移除妖术。所有目标（包括首领）均遵循普通免疫与抗性规则。",
     "DOTA_Tooltip_Ability_enfos_lion_mana_drain_Description": "持续施法4秒，每秒造成{{mana_per_second}} + 80%智力的魔法伤害，恢复等量魔法并使目标减速35%。目标死亡时结束施法。",
     "DOTA_Tooltip_Ability_enfos_mk_boundless_strike_Description": "{{range}} menzillik hatta saldırı hasarının %{{strike_damage}} kadarıyla fiziksel hasar verir ve düşmanları sersemletir; normal sersemletme {{stun_duration}} sn, boss {{boss_stun_duration}} sn ile sınırlıdır.",

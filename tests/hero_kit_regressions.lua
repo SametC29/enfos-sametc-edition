@@ -6457,7 +6457,6 @@ test('Lion Finger of Death splashes damage in AoE and increments stack on kill',
         if k == 'damage' then return 850 end
         if k == 'splash_radius' then return 325 end
         if k == 'int_scaling_pct' then return 250 end
-        if k == 'boss_damage_cap_pct' then return 12 end
         if k == 'kill_stack_cap' then return 20 end
         if k == 'kill_stack_damage' then return 40 end
         if k == 'kill_stack_spell_amp_pct' then return 1.5 end
@@ -6484,7 +6483,7 @@ test('Lion Finger of Death splashes damage in AoE and increments stack on kill',
     applied_damages = {}
     counter:SetStackCount(0)
     ab:OnSpellStart()
-    assert(applied_damages[1].damage == 120, 'boss damage must respect the KV-configured 12% max-health cap')
+    assert(applied_damages[1].damage == 1050, 'Boss damage uses the ordinary base plus INT formula')
 end)
 
 test('Lion Earth Spike uses KV geometry and Hex uses ordinary control on every target', function()

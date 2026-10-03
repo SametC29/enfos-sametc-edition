@@ -1,6 +1,6 @@
--- Lion R: byte-preserving isolation; gameplay audit remains pending.
+-- Lion R: ordinary authored damage on all targets; remaining native review pending.
 local H = require('abilities/shared/pve_helpers')
-local value, enemies, is_boss, get_int, damage, effect = H.value, H.enemies, H.is_boss, H.get_int, H.damage, H.effect
+local value, enemies, get_int, damage, effect = H.value, H.enemies, H.get_int, H.damage, H.effect
 LinkLuaModifier('modifier_enfos_lion_finger_counter', 'abilities/heroes/lion/r', LUA_MODIFIER_MOTION_NONE)
 
 enfos_lion_finger_of_death=class({})
@@ -25,9 +25,7 @@ function enfos_lion_finger_of_death:OnSpellStart()
     local splash_radius = value(self, 'splash_radius')
     if splash_radius <= 0 then splash_radius = 325 end
     for _, u in ipairs(enemies(c, t:GetAbsOrigin(), splash_radius)) do
-        local hit = total_dmg
-        if is_boss(u) then hit = math.min(hit, u:GetMaxHealth() * value(self, 'boss_damage_cap_pct') / 100) end
-        damage(self, u, hit, DAMAGE_TYPE_MAGICAL)
+        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
         if not u:IsAlive() and mod and mod.SetStackCount then
             mod:SetStackCount(math.min(value(self, 'kill_stack_cap'), mod:GetStackCount() + 1))
         end
