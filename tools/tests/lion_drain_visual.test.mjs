@@ -22,15 +22,16 @@ ParticleManager={CreateParticle=function(_,path,attach,c)
  ReleaseParticleIndex=function(_,id)assert(not released[id]);released[id]=true end}
 function ApplyDamage(p)hits=hits+1;lastVictim=p.victim;if damageHook then damageHook()end;return p.damage end
 ${baseline?`assert(load([==[${baseline}]==]))()`:`require('abilities/heroes/lion/e')`}
-local function unit()
- local u={pos={x=1,y=2,z=0},removed=false,alive=true,stopped=0,cleared=0}
+local function unit(team)
+ local u={team=team or 3,pos={x=1,y=2,z=0},removed=false,alive=true,stopped=0,cleared=0}
  function u:IsNull()return self.removed end;function u:IsAlive()return self.alive end;function u:GetAbsOrigin()return self.pos end
+ function u:GetTeamNumber()return self.team end;function u:IsBuilding()return self.building end;function u:IsMagicImmune()return self.magic end;function u:IsDebuffImmune()return self.debuff end
  function u:GetIntellect()return 100 end;function u:GiveMana(n)mana=mana+n;if manaHook then manaHook()end end
  function u:StopSound(s)assert(s=='Hero_Lion.ManaDrain');self.stopped=self.stopped+1 end
  function u:RemoveModifierByNameAndCaster(n,c)assert(n=='modifier_enfos_lion_mana_drain_debuff');self.cleared=self.cleared+1 end
  return u
 end
-local c,t=unit(),unit();units[1]=t
+local c,t=unit(2),unit();units[1]=t
 local ended=0;local a={EndChannel=function()ended=ended+1 end,GetCaster=function()return c end,GetSpecialValueFor=function(_,k)return k=='mana_per_second' and 120 or 0 end}
 local function modifier()
  local m=setmetatable({intervals=0},modifier_enfos_lion_mana_drain_channel)
@@ -55,8 +56,8 @@ end
 local x=modifier();x:OnCreated({target_idx=1});c.removed=true;t.removed=true;x:OnDestroy();assert(destroyed[created] and released[created]);c.removed=false;t.removed=false
 local count=created;server=false;local client=modifier();client:OnCreated({target_idx=1});client:OnRefresh({target_idx=2});client:OnDestroy();assert(created==count);server=true
 -- Source invalidation must stop without stale reads or mana side effects.
-for _,mode in ipairs({'ability','caster','dead caster','removed target','dead target','damage removes caster','damage removes ability','damage removes target','damage closes modifier','mana removes caster','lethal damage'})do
- c,t=unit(),unit();units[1]=t;a.removed=false
+for _,mode in ipairs({'ability','caster','dead caster','removed target','dead target','damage removes caster','damage removes ability','damage removes target','damage closes modifier','mana removes caster','lethal damage','friendly target','immune target','building target','damage converts target','mana converts target'})do
+ c,t=unit(2),unit();units[1]=t;a.removed=false
  function a:IsNull()return self.removed end
  local x=modifier();x:OnCreated({target_idx=1});local gain=mana;local beforeHits=hits
  if mode=='ability' then a.removed=true
@@ -69,14 +70,19 @@ for _,mode in ipairs({'ability','caster','dead caster','removed target','dead ta
  elseif mode=='damage removes target' then damageHook=function()t.removed=true end
  elseif mode=='damage closes modifier' then damageHook=function()x:OnDestroy()end
  elseif mode=='mana removes caster' then manaHook=function()c.removed=true end
- elseif mode=='lethal damage' then damageHook=function()t.alive=false end end
+ elseif mode=='lethal damage' then damageHook=function()t.alive=false end
+ elseif mode=='friendly target' then t.team=2
+ elseif mode=='immune target' then t.magic=true
+ elseif mode=='building target' then t.building=true
+ elseif mode=='damage converts target' then damageHook=function()t.team=2 end
+ elseif mode=='mana converts target' then manaHook=function()t.team=2 end end
  x:OnIntervalThink();damageHook=nil;manaHook=nil
  assert(x.closed and destroyed[created] and released[created],mode)
- if mode=='mana removes caster' or mode=='lethal damage' then assert(mana==gain+100,mode)else assert(mana==gain,mode)end
+ if mode=='mana removes caster' or mode=='lethal damage' or mode=='mana converts target' then assert(mana==gain+100,mode)else assert(mana==gain,mode)end
  if mode=='ability' or mode=='caster' or mode=='dead caster' or mode=='removed target' or mode=='dead target' then assert(hits==beforeHits,mode)end
  local h,g=hits,mana;x:OnIntervalThink();assert(hits==h and mana==g,'Closed interval cannot run')
 end
-c,t=unit(),unit();units[1]=t;a.removed=false
+c,t=unit(2),unit();units[1]=t;a.removed=false
 local trace=require('lib/hero_trace');local lines={};local oldPrint=print;print=function(s)lines[#lines+1]=s end
 trace:SetEnabled(false);local off=modifier();off:OnCreated({target_idx=1});off:OnDestroy();assert(#lines==0)
 trace:SetEnabled(true);local on=modifier();on:OnCreated({target_idx=1});on:OnRefresh({target_idx=1});on:OnDestroy();trace:SetEnabled(false);print=oldPrint

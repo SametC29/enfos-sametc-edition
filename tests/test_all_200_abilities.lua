@@ -705,6 +705,9 @@ do
         {'enfos_lion_mana_drain','modifier_enfos_lion_mana_drain_debuff'},
     }) do
         local a=_G[row[1]]()
+        if row[1]=='enfos_lion_mana_drain' then
+            a.GetSpecialValueFor=function(_,key) return special(row[1],key) end
+        end
         a.GetCaster=function() return hero end
         a.GetCursorTarget=function() return enemy end
         a:OnSpellStart()
