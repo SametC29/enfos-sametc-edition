@@ -1777,7 +1777,10 @@ function enfos_luna_moon_glaives:OnProjectileHit_ExtraData(hTarget, vLocation, e
     local c = self:GetCaster()
     if not c or (c.IsNull and c:IsNull()) or hTarget:GetTeamNumber() == c:GetTeamNumber() then return true end
     local amount = tonumber(extraData and extraData.damage) or 0
-    if amount > 0 then damage(self, hTarget, amount, DAMAGE_TYPE_PHYSICAL) end
+    if amount > 0 then
+        hTarget:EmitSound('Hero_Luna.MoonGlaive.Impact')
+        damage(self, hTarget, amount, DAMAGE_TYPE_PHYSICAL)
+    end
     return true
 end
 
@@ -1830,13 +1833,22 @@ enfos_luna_lunar_blessing=class({})
 function enfos_luna_lunar_blessing:GetIntrinsicModifierName() return 'modifier_enfos_luna_lunar_blessing' end
 
 modifier_enfos_luna_lunar_blessing=class({})
-function modifier_enfos_luna_lunar_blessing:IsAura() return true end
+function modifier_enfos_luna_lunar_blessing:IsHidden() return true end
+function modifier_enfos_luna_lunar_blessing:IsPurgable() return false end
+function modifier_enfos_luna_lunar_blessing:IsDebuff() return false end
+function modifier_enfos_luna_lunar_blessing:IsAura()
+    local c = self:GetParent()
+    return c and not (c.IsNull and c:IsNull()) and not (c.PassivesDisabled and c:PassivesDisabled())
+end
 function modifier_enfos_luna_lunar_blessing:GetAuraRadius() return value(self:GetAbility(), 'radius') or 1200 end
 function modifier_enfos_luna_lunar_blessing:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_FRIENDLY end
 function modifier_enfos_luna_lunar_blessing:GetAuraSearchType() return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end
 function modifier_enfos_luna_lunar_blessing:GetModifierAura() return 'modifier_enfos_luna_lunar_blessing_aura' end
 
 modifier_enfos_luna_lunar_blessing_aura=class({})
+function modifier_enfos_luna_lunar_blessing_aura:IsHidden() return true end
+function modifier_enfos_luna_lunar_blessing_aura:IsPurgable() return false end
+function modifier_enfos_luna_lunar_blessing_aura:IsDebuff() return false end
 function modifier_enfos_luna_lunar_blessing_aura:DeclareFunctions()
     return { MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE, MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS }
 end
@@ -1869,8 +1881,16 @@ function modifier_enfos_luna_eclipse_thinker:OnIntervalThink()
     if #targets == 0 then return end
     local valid_targets = {}
     for _, u in ipairs(targets) do
-        local hits = self.hit_counts[u:entindex()] or 0
-        if hits < value(a, 'max_hits_per_target') then table.insert(valid_targets, u) end
+        local id = u:entindex()
+        local hits = self.hit_counts[id] or 0
+        local boss_cap_remaining = true
+        if is_boss(u) then
+            local cap = u:GetMaxHealth() * value(a, 'boss_damage_pct') / 100
+            boss_cap_remaining = cap - (self.boss_damage[id] or 0) > 0
+        end
+        if hits < value(a, 'max_hits_per_target') and boss_cap_remaining then
+            table.insert(valid_targets, u)
+        end
     end
     if #valid_targets == 0 then return end
     local target = valid_targets[RandomInt(1, #valid_targets)]
