@@ -50,7 +50,13 @@ end
 function Spire.HeroHit(caster, unit)
     if not Spire.IsEnabled(caster, unit) then return false end
     local controller = Spire.Controller(caster, unit)
-    if controller then return controller:SpendHits(controller.heroCost, 'chain_frost') end
+    if controller then
+        -- Installed model maps its finite ice_spire_bounce sequence to ATTACK.
+        -- This is visual feedback only; the immobile ward performs no attack order.
+        unit:StartGesture(ACT_DOTA_ATTACK)
+        HeroTrace:Log('LICH','R','spire_bounce_animation activity=ACT_DOTA_ATTACK unit=%s',HeroTrace:Name(unit))
+        return controller:SpendHits(controller.heroCost, 'chain_frost')
+    end
     return false
 end
 function Spire.Repair(caster, unit)

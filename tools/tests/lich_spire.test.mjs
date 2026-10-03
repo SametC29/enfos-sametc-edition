@@ -132,7 +132,8 @@ local caster={GetTeamNumber=function() return 2 end,GetIntellect=function() retu
  IsNull=function() return false end,IsAlive=function() return true end,GetAbsOrigin=function() return origin end,
  EmitSound=function() end,FindAbilityByName=function() return nil end}
 function EmitSoundOnLocationWithCaster() end
-local ward={alive=true,owner=caster,team=2,pos=origin,health=8,absorb=0}
+ACT_DOTA_ATTACK=1503
+local ward={alive=true,owner=caster,team=2,pos=origin,health=8,absorb=0,gestures=0}
 function ward:IsNull() return false end
 function ward:IsAlive() return self.alive end
 function ward:GetUnitName() return Spire.unitName end
@@ -142,6 +143,7 @@ function ward:IsOther() return true end
 function ward:GetAbsOrigin() return self.pos end
 function ward:entindex() return 99 end
 function ward:EmitSound(event) assert(event=='Hero_Lich.ChainFrostImpact.Creep') end
+function ward:StartGesture(activity) assert(activity==1503 and self.alive);self.gestures=self.gestures+1 end
 function ward:SetHealth(n) self.health=n end
 function ward:TriggerSpellAbsorb() self.absorb=self.absorb+1;return true end
 function ward:ForceKill() assert(self.alive);self.alive=false;self.mod:OnDeath({unit=self});self.mod:OnDestroy() end
@@ -244,6 +246,7 @@ local server=true;function IsServer() return server end
 local Spire=require('abilities/heroes/lich/spire')
 local caster={removed=false,alive=true};local sounds,blasts,kills,spawned=0,0,0,{}
 PATTACH_WORLDORIGIN=8
+ACT_DOTA_ATTACK=1503
 function Vector(x,y,z) return {x=x,y=y,z=z} end
 local particles={};ParticleManager={}
 function ParticleManager:CreateParticle(path,attach,owner)
@@ -278,6 +281,7 @@ local function unit()
  function u:GetTeamNumber() return self.team end
  function u:GetOwnerEntity() assert(server,'Server-only owner API');return self.owner end
  function u:GetAbsOrigin() return {x=400,y=700,z=0} end
+ function u:StartGesture(activity) assert(activity==1503 and self.alive);self.gestures=(self.gestures or 0)+1 end
  function u:SetBaseMaxHealth(n) assert(n==8) end
  function u:SetMaxHealth(n) assert(n==8) end
  function u:SetHealth(n) assert(n>=1 and n<=8);self.health=n end
@@ -325,6 +329,8 @@ assert(Spire.Repair(caster,first)==1 and first.health==8,'Partial repair cannot 
 for i=1,3 do first.mod:OnAttackLanded({target=first,attacker=attack(true)}) end
 assert(first.health==2 and blasts==0)
 assert(Spire.HeroHit(caster,first));assert(not first.alive and blasts==1 and caster.enfosLichSpire==nil and kills==1)
+assert(first.gestures==1,'One finite bounce gesture precedes a lethal R contact; ordinary attacks do not trigger it')
+assert(not Spire.HeroHit(caster,first) and first.gestures==1,'Dead ward cannot replay gesture or spend durability')
 first.mod:OnDestroy();first.mod:OnDeath({unit=first});assert(blasts==1 and kills==1,'Reentrant death/expiry only one Nova and kill')
 ability:OnSpellStart();local second=Spire.Get(caster)
 for i=1,8 do second.mod:OnAttackLanded({target=second,attacker=attack(false)}) end

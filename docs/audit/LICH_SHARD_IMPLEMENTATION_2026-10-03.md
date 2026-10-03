@@ -307,3 +307,23 @@ modeldoc `ba6d6de9f3115375ce6f768f6a70f040bcf9677ba98c4bb27b46d61677a657f4`.
 These are inspection artifacts in temporary storage, not copied addon assets.
 Validation: all5 dedicated Spire tests and full checks PASS,0failed. Source/mock
 results do not establish visible cleanup or dense-wave renderer performance.
+
+## Finite R bounce animation — sixth work unit
+
+The installed decoded Ice Spire model explicitly maps its non-looping
+`ice_spire_bounce` sequence to ACT_DOTA_ATTACK. MCP confirms GameActivity1503 and
+server-only StartGesture. Successful controller-owned R ward contacts now start
+that gesture before spending durability, including the lethal final contact.
+Ordinary attacker hits and invalid/dead/foreign ward contacts do not trigger it.
+No attack order, attack record, new damage, thinker or retained gesture state is
+introduced; model/unit teardown owns normal completion. The bounded trace records
+the actual activity call. This is a source-grounded native model cue, not proof
+of visible animation playback or an exact C++ bounce-particle implementation.
+
+Real-controller and W/R fixtures preserve original hit budgets/repair/damage and
+assert one gesture on lethal R contact, none on ordinary attacks, and no replay
+on a dead ward. Owner must observe the cue, rapid successive bounces, lethal
+contact/death and cleanup. All engine/visual/audio statuses remain NOT TESTED;
+full root control map and native finite bounce particle remain open.
+Validation: all5 dedicated Spire tests PASS; full project checks0failed. No Dota
+process was launched and no owner runtime evidence was supplied for this unit.

@@ -67,6 +67,9 @@ and no-pull observations describe superseded source, not intended policy.
   repeated enemy after bridge,601 versus600 range, W repair during chain,
   maximum18 total enemy/ward impacts, ownership loss in flight and lethal ward
   continuation. Confirm ward impact sound, captured Nova/orb positions and
+  the source-grounded non-looping Ice Spire bounce animation on each R contact
+  (ordinary creep attacks must not trigger this R cue), including the final hit.
+  Confirm
   Scepter channel-cast behavior (including unlocked point-target Ice Spire)
   independently from the mock fixtures. All observations remain NOT TESTED.
 
