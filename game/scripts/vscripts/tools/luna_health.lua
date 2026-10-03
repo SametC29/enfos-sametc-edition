@@ -1,14 +1,11 @@
--- Read-only probe. Run: script_reload_code tools/luna_health.
+-- Read-only probe. Server: script_reload_code tools/luna_health.
+-- Client: cl_script_reload_code tools/luna_health.
 -- Do not require integration here: observe the existing registry without repairing it.
 local server=IsServer and IsServer() or false
 local rules=rawget(_G,'GameRules')
 local players=rawget(_G,'PlayerResource')
 local function log(message) print('[LUNA_HEALTH] '..message) end
-if not server or not rules or not players then
-    log('server_context_unavailable IsServer='..tostring(server))
-    return
-end
-log('server=true state='..tostring(rules:State_Get()))
+log('server='..tostring(server))
 local names={
     'modifier_enfos_luna_native_scaling',
     'modifier_enfos_luna_blessing_extension',
@@ -17,6 +14,11 @@ local names={
 for _,name in ipairs(names) do
     log('class='..name..' lua_global='..tostring(type(rawget(_G,name))=='table'))
 end
+if not server or not rules or not players then
+    log('server_context_unavailable IsServer='..tostring(server))
+    return
+end
+log('state='..tostring(rules:State_Get()))
 local found=false
 for id=0,23 do
     if players:IsValidPlayerID(id) then

@@ -18,7 +18,7 @@ and innates sources matched repository sources after newline normalization;
 stale files are not supported as the explanation. No LUNA_TRACE occurs in this
 log. It proves creation failures, not damage totals or rank/upgrade coverage.
 
-Confirmed integration defect: engine class loading and server restore services
+Observed pre-repair architecture: engine class loading and server restore services
 shared self-linked files returning unrelated service tables. The previous mocks
 made LinkLuaModifier a no-op and therefore did not exercise engine file scope.
 That mixed loading boundary is the repair target. Whether the exact engine
@@ -127,3 +127,37 @@ Probe validation: 16 focused Luna tests pass, including client-context rejection
 live/missing modifier inspection and absence of repair side effects. Full
 npm.cmd run check exits0 with 0 failed checks. Engine execution of the new probe
 remains pending owner output.
+
+
+## Owner server probe — 2026-10-04
+
+Owner output confirms server=true/state10, all three class globals present,
+all three live Luna modifier handles present, and the hidden native Beam
+provider at rank1. Q/W/E/R ranks1 and D rank2 at hero level6/points0 are
+consistent with five spent ordinary starting points plus the separate free D
+rank. This is limited starting-budget evidence, not all-rank acceptance.
+
+The hypothesis that these warnings indicate failed server modifier creation
+is contradicted by this output and is withdrawn. Server class/handle presence
+does not prove the property callbacks affect damage/armor/speed, nor identify
+which side emitted the warnings. Client registry/loading is the next evidence
+boundary; do not perform another speculative native gameplay rewrite.
+
+The installed game/dota/bin/win64/client.dll contains the exact command
+cl_script_reload_code. The read-only health probe now prints class visibility
+before its server-context guard, so the same file can inspect the client:
+
+    cl_script_reload_code tools/luna_health
+
+Expected context is server=false; a trailing server_context_unavailable is
+normal for this client run. Three lua_global fields are diagnostic observations,
+not by themselves proof of engine registry ownership. This run does not import,
+link, restore or create classes/modifiers. The probe and 16 focused Luna tests
+pass after this change. No gameplay or asset source changed in this unit.
+
+Filesystem correction: installed enfos_sametc is a junction targeting the
+repository game directory. There is no separate copy step for these source
+files; prior owner copying instructions were unnecessary. The owner explicitly
+requested copying, and the attempted same-file copy was rejected without
+changing the file. Its installed path already resolves to the current source.
+No agent game-control command was sent.

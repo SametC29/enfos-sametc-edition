@@ -327,3 +327,5 @@ probe confirms active server game context (state10/mapenfos/Luna6). Acceptance
 remains FAIL; a read-only tools/luna_health probe now separates visible globals,
 live modifier handles and current ranks. Standalone script commands in earlier
 checklists are invalid for this host; use script_reload_code for the probe.
+
+2026-10-04 server probe: owner confirms three class globals and three live modifier handles, plus native Beam provider. Server creation failure hypothesis withdrawn; client registry/loading investigation remains pending. Starting Q/W/E/R1 and D2 with zero remaining points is consistent with five spent points and free D1. No actual damage/bonus or rank10 acceptance established.

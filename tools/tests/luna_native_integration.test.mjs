@@ -186,7 +186,8 @@ function IsServer()return false end
 local lines={};print=function(s)lines[#lines+1]=s end
 local probe='game/scripts/vscripts/tools/luna_health.lua'
 assert(loadfile(probe))()
-assert(#lines==1 and lines[1]:find('server_context_unavailable',1,true))
+assert(#lines==5 and lines[1]:find('server=false',1,true))
+assert(lines[2]:find('lua_global=false',1,true) and lines[5]:find('server_context_unavailable',1,true))
 function IsServer()return true end
 GameRules={State_Get=function()return 10 end}
 local live={IsNull=function()return false end}
