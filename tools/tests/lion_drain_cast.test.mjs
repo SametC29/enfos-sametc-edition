@@ -17,6 +17,7 @@ local function reset()
  function c:RemoveModifierByName()broad=broad+1 end
  a=setmetatable({rank=1},enfos_lion_mana_drain)
  function a:IsNull()return self.removed end;function a:GetCaster()return c end;function a:GetLevel()return self.rank end
+ function a:IsChanneling()assert(server,'Client cannot query engine channel state');return self.channeling or false end
  m={parent=c,ability=a};function m:IsNull()return self.removed end
  function m:GetParent()return self.parent end;function m:GetAbility()return self.ability end
  function m:Destroy()assert(not self.removed);destroyed=destroyed+1;self.closed=true;self.removed=true;if self.hook then self.hook()end end
@@ -39,6 +40,13 @@ end
 reset();local replacement={}
 m.hook=function()current=replacement end;a:OnChannelFinish(false)
 assert(current==replacement and destroyed==1 and broad==0,'Destroy reentrancy must leave the replacement modifier alone')
+for _,interrupted in ipairs({false,true})do
+ reset();a.channeling=true
+ a:OnChannelFinish(interrupted)
+ assert(destroyed==0 and current==m and not m.closed,'An old finish cannot tear down the actively channeling replacement')
+ a.channeling=false;a:OnChannelFinish(interrupted)
+ assert(destroyed==1,'Once the engine stops channeling, normal source-owned cleanup still runs')
+end
 print('Lion drain finish ownership PASS')
 `;
  const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:lua,encoding:'utf8'});

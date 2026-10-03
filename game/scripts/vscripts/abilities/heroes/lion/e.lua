@@ -54,6 +54,9 @@ function enfos_lion_mana_drain:OnChannelFinish(interrupted)
     -- A finish callback owns its source, not every same-name channel on the unit.
     -- Rank loss must still allow the legitimately owned channel to clean up.
     if not valid(m) or m.closed or m:GetAbility()~=self or m:GetParent()~=c then return end
+    -- Finish has no session ID. Do not tear down an actively channeling recast.
+    -- If native finish precedes state clearing, the existing interval/expiry cleans up.
+    if self:IsChanneling() then return end
     m:Destroy()
 end
 
