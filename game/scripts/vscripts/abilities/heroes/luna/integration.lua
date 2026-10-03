@@ -1,10 +1,6 @@
 -- Diagnostics at existing ENFOS integration points; native abilities have no Lua wrappers.
 local Trace = require('lib/hero_trace')
--- Register engine-only classes independently from the server restore modules.
-require('abilities/heroes/luna/modifiers')
-LinkLuaModifier('modifier_enfos_luna_native_scaling','abilities/heroes/luna/modifiers',LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier('modifier_enfos_luna_blessing_extension','abilities/heroes/luna/modifiers',LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier('modifier_enfos_luna_blessing_extension_buff','abilities/heroes/luna/modifiers',LUA_MODIFIER_MOTION_NONE)
+require('abilities/heroes/luna/modifier_links')
 local Scaling = require('abilities/heroes/luna/scaling')
 local Blessing = require('abilities/heroes/luna/e')
 local Integration = {}

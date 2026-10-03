@@ -206,3 +206,29 @@ assert(log:find('ability=enfos_luna_moon_glaives rank=1',1,true))
 assert(log:find('ability=luna_lucent_beam rank=missing',1,true))
 assert(not package.loaded['abilities/heroes/luna/integration'],'Probe must not load repair integration')
 `));
+
+
+test('Client bootstrap registers only Luna classes once without loading server services',()=>lua(`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t)t.__index=t;return t end
+local client=false;function IsClient()return client end
+function IsServer()return not client end
+LUA_MODIFIER_MOTION_NONE=0
+local links={};local count=0
+function LinkLuaModifier(name,path,motion)
+ assert(client and path=='abilities/heroes/luna/modifiers' and motion==0)
+ assert(type(_G[name])=='table' and not links[name])
+ links[name]=true;count=count+1
+end
+local entry='game/scripts/vscripts/addon_game_mode_client.lua'
+assert(loadfile(entry))();assert(count==0)
+client=true
+assert(loadfile(entry))();assert(loadfile(entry))()
+assert(count==3 and links.modifier_enfos_luna_native_scaling)
+assert(links.modifier_enfos_luna_blessing_extension and links.modifier_enfos_luna_blessing_extension_buff)
+for _,name in ipairs({'abilities/heroes/luna/integration','abilities/heroes/luna/scaling',
+ 'abilities/heroes/luna/e','heroes/innates','heroes/aghanim_manager','enfos_sametc','abilities/pve_kits'}) do
+ assert(package.loaded[name]==nil,'Client imported server service '..name)
+end
+assert(GameRules==nil and PlayerResource==nil,'Client registration requires no server context')
+`));

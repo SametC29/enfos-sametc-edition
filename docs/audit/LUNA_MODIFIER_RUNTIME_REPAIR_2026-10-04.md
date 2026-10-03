@@ -161,3 +161,50 @@ files; prior owner copying instructions were unnecessary. The owner explicitly
 requested copying, and the attempted same-file copy was rejected without
 changing the file. Its installed path already resolves to the current source.
 No agent game-control command was sent.
+
+
+## Client bootstrap repair — 2026-10-04
+
+The owner client probe reports server=false and all three class globals false.
+A subsequent user-authorized MCP command run reproduces the same split in the
+current Enfos map session: all server globals/handles present, all client globals
+absent. This map launch was not a certified full process restart. Missing client
+import coverage is nevertheless established in the source: no client entry file
+existed; Luna native aliases have no Lua ScriptFile; integration was imported
+only through server bootstrap/innates. It is the narrow repair target, not a
+claim that every prior warning was conclusively assigned to its emitting VM.
+
+Per owner suggestion, Lich/Lion/Jakiro instructions and current inventories were
+read, followed by init.lua and representative Q modules. Each has five Lua
+ScriptFile paths that load the ability module's LinkLuaModifier calls; their
+init maps also preserve explicit modifier ownership in the server bootstrap.
+Luna's native slots cannot depend on those Lua ability load paths. No code or
+dossier for those heroes was changed; existing contributor Lich edits remain
+unstaged. Replacing Luna's native abilities with wrappers is unnecessary.
+
+The current installed game/dota/bin/win64/client.dll contains the exact string
+addon_game_mode_client. Together with the current both-context LinkLuaModifier
+and IsClient APIs, this verifies the intended client entry identifier. Historical
+Valve Diretide content also used the entry (secondary corroboration:
+https://steamdb.info/patchnotes/5757124/); no reference code was imported.
+
+Changes: new addon_game_mode_client.lua imports only Luna modifier_links when
+IsClient is true. New Luna modifier_links.lua contains the three existing class
+registrations and pure modifier import; existing server integration uses that
+same module. It has no restore services, manager startup, entity creation,
+point/rank changes, listeners or timers. Repeated require calls do not relink
+within the same VM. Native ability mechanics, numerical curves, resources and
+other heroes remain unchanged.
+
+17 focused Luna tests pass, including fresh client registration without any
+server gameplay modules and a server guard; full npm.cmd run check exits0 with
+0 failed checks. Client engine execution remains **PENDING OWNER RETEST**.
+Previously supplied logs still count as failed acceptance, not passes.
+
+Files are already visible to the installed addon through its junction. Fully
+close and reopen Dota/Workshop Tools for the new client entry, select Luna, run
+script_reload_code tools/luna_health then cl_script_reload_code tools/luna_health.
+Client expectation: all three lua_global fields true and no new unknown Luna
+modifier warnings. A trailing server_context_unavailable on the client is normal.
+Verify actual Q/R damage, E armor/speed, HUD and respawn separately. No publication,
+remote push or additional hero rollout was performed; owner performs engine tests.

@@ -329,3 +329,5 @@ live modifier handles and current ranks. Standalone script commands in earlier
 checklists are invalid for this host; use script_reload_code for the probe.
 
 2026-10-04 server probe: owner confirms three class globals and three live modifier handles, plus native Beam provider. Server creation failure hypothesis withdrawn; client registry/loading investigation remains pending. Starting Q/W/E/R1 and D2 with zero remaining points is consistent with five spent points and free D1. No actual damage/bonus or rank10 acceptance established.
+
+2026-10-04 client loading repair: owner and user-authorized MCP probes show three server classes/handles present but three client globals absent. Native slots have no Lua ScriptFile path to load their extensions on the client. Added addon_game_mode_client.lua and shared Luna modifier_links registration; Lich/Lion/Jakiro loading reviewed read-only. 17 focused tests and full checks pass; new client entry requires owner full restart/retest. Runtime acceptance remains pending retest, not PASS.
