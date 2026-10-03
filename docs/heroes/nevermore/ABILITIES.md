@@ -301,3 +301,8 @@ both-context GetModifierStackCount(modifierName,hero), with strict client API
 regression passing; engine retest pending. R special query183/194.88 differs
 from GetAbilityDamage80: actual native line damage unresolved, not certified.
 Full log hash and scoped observations are in the focused pilot ledger.
+
+2026-10-04 owner follow-up: Q three blasts and R waves/VFX/SFX and R reducing
+enemy health confirmed ('evet çalıştı'). Basic Q/R cast presentation accepted
+for the submitted run. Numeric damage tuning and post-fix client retest remain
+pending; this is not full hero acceptance.

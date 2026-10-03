@@ -270,3 +270,10 @@ established. No Boss AI change is made under the SF-only pilot. One Q order15
 cooldown rejection also occurs; it does not alone establish a cast defect.
 VFX/SFX, manual R damage, death/respawn, upgrades and rank10 still require owner
 observations. No launch/console control, push or publication by the agent.
+
+Owner follow-up confirms Q's three blasts and R's waves appeared, their sounds
+were audible, and R reduced enemy health (answer: 'evet çalıştı'). Record
+Q/R visual/audio and basic cast damage effect as OWNER CONFIRMED for this run.
+This does not measure authored damage numbers, rank10, death release, Scepter,
+Shard or post-fix client getter behavior. The client-safe repair was committed
+after the submitted run; its engine acceptance remains pending a new run.
