@@ -150,6 +150,7 @@ ProjectileManager = {
     CreateLinearProjectile = function() return 1 end,
     CreateTrackingProjectile = function() return 1 end,
 }
+GridNav = { DestroyTreesAroundPoint = function() end }
 
 function FindUnitsInRadius(team, pos, cache, radius, target_team, target_type, flags, order, find_clear)
     local res = {}

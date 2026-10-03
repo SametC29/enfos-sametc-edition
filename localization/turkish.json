@@ -921,7 +921,7 @@
     "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura": "İntikam Halesi",
     "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura_Description": "{{radius}} menzil içindeki dost kahramanların ve temel birimlerin taban saldırı hasarını pasif olarak %{{bonus_damage_pct}} artırır. Vengeful Spirit kendi aurasından %{{self_multiplier}} daha fazla fayda alır. Aura öğrenilmiş bir rank gerektirir; kaynak kahraman Kırılma etkisindeyken devre dışıdır.",
     "DOTA_Tooltip_Ability_enfos_vs_nether_swap": "Ruh Takası",
-    "DOTA_Tooltip_Ability_enfos_vs_nether_swap_Description": "Hedef birimle anında yer değiştirir. Düşmana {{damage}} + Çeviklik × 1,2 büyü hasarı verir; dostlara hasar vermez. Vengeful Spirit 4 saniye boyunca %30 hasar azaltma kazanır. Geçerli Boss hedefleriyle de yer değiştirebilir. Hedefin kanal kullanımını keser.",
+    "DOTA_Tooltip_Ability_enfos_vs_nether_swap_Description": "Hedef birimle anında yer değiştirir. Düşmana {{damage}} + Çeviklik × 1,2 büyü hasarı verir; dostlara hasar vermez. Vengeful Spirit 4 saniye boyunca %30 hasar azaltma kazanır. Geçerli Boss hedefleriyle de yer değiştirebilir. Hedefin kanal kullanımını keser. Yer değiştirme noktalarının ikisinde de 300 yarıçapındaki ağaçları temizler. Kendini hedefleyemez.",
     "DOTA_Tooltip_Ability_enfos_vs_retribution": "Misilleme",
     "DOTA_Tooltip_Ability_enfos_vs_retribution_Description": "+{{bonus_agi}} Çeviklik ve +{{bonus_as}} saldırı hızı verir. Kırılma etkisi bonusları durdurur; illüzyonlar bu bonusları almaz.",
     "DOTA_Tooltip_Ability_enfos_lich_frost_blast": "Donma Patlaması",
@@ -1795,6 +1795,7 @@
     "DOTA_Tooltip_modifier_enfos_vs_nether_swap_buff_Description": "Alınan hasar değişimi: %dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%. Dağıtılabilir.",
     "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura_scepter_description": "Scepter: Auranın kendine sağladığı ek faydayı %25’ten %35’e çıkarır. Ölümde %100 hasar veren ve alan, tüm yetenekleri kullanabilen güçlü bir illüzyon oluşturur. İllüzyonun kazandığı deneyim Vengeful Spirit’e gider. Yeniden doğduğunda Vengeful Spirit yaşayan illüzyonun yerini alır. Genel ulti hasarı/bekleme süresi bonusunun yerini alır.",
     "DOTA_Tooltip_Ability_enfos_vs_scepter_native": "İntikam Aurası",
-    "DOTA_Tooltip_Ability_enfos_vs_scepter_native_Description": "Scepter: Auranın kendine sağladığı ek faydayı %25’ten %35’e çıkarır. Ölümde %100 hasar veren ve alan, tüm yetenekleri kullanabilen güçlü bir illüzyon oluşturur. İllüzyonun kazandığı deneyim Vengeful Spirit’e gider. Yeniden doğduğunda Vengeful Spirit yaşayan illüzyonun yerini alır. Genel ulti hasarı/bekleme süresi bonusunun yerini alır."
+    "DOTA_Tooltip_Ability_enfos_vs_scepter_native_Description": "Scepter: Auranın kendine sağladığı ek faydayı %25’ten %35’e çıkarır. Ölümde %100 hasar veren ve alan, tüm yetenekleri kullanabilen güçlü bir illüzyon oluşturur. İllüzyonun kazandığı deneyim Vengeful Spirit’e gider. Yeniden doğduğunda Vengeful Spirit yaşayan illüzyonun yerini alır. Genel ulti hasarı/bekleme süresi bonusunun yerini alır.",
+    "enfos_vs_swap_invalid_target": "Geçersiz yer değiştirme hedefi."
   }
 }

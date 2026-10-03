@@ -31,6 +31,15 @@ LinkLuaModifier('modifier_enfos_vs_nether_swap_buff', 'abilities/heroes/vengeful
 
 enfos_vs_nether_swap=class({})
 function enfos_vs_nether_swap:GetCastRange() return value(self, 'cast_range') end
+function enfos_vs_nether_swap:CastFilterResultTarget(target)
+    local c = self:GetCaster()
+    if not c or (c.IsNull and c:IsNull()) or not target or (target.IsNull and target:IsNull()) or c == target then return UF_FAIL_CUSTOM end
+    return UnitFilter(target, self:GetAbilityTargetTeam(), self:GetAbilityTargetType(), self:GetAbilityTargetFlags(), c:GetTeamNumber())
+end
+function enfos_vs_nether_swap:GetCustomCastErrorTarget(target)
+    if target and target == self:GetCaster() then return '#dota_hud_error_cant_cast_on_self' end
+    return '#enfos_vs_swap_invalid_target'
+end
 function enfos_vs_nether_swap:OnSpellStart()
     if not IsServer() or (self.IsNull and self:IsNull()) then return end
     local c = self:GetCaster()
@@ -51,6 +60,14 @@ function enfos_vs_nether_swap:OnSpellStart()
     local p_target = t:GetAbsOrigin()
     local p_caster = c:GetAbsOrigin()
 
+    local tree_radius = value(self, 'tree_clear_radius')
+    if tree_radius > 0 then
+        GridNav:DestroyTreesAroundPoint(p_caster, tree_radius, false)
+        if not alive(c) or not alive(t) or (self.IsNull and self:IsNull()) then return end
+        GridNav:DestroyTreesAroundPoint(p_target, tree_radius, false)
+        if not alive(c) or not alive(t) or (self.IsNull and self:IsNull()) then return end
+        HeroTrace:Log('VENGEFUL_SPIRIT','R','trees_cleared origins=2 radius=%s',tostring(tree_radius))
+    end
     c:SetAbsOrigin(p_target)
     FindClearSpaceForUnit(c, p_target, true)
     if not alive(c) or not alive(t) or (self.IsNull and self:IsNull()) then return end

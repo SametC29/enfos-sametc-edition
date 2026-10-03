@@ -59,6 +59,15 @@ it does not certify current native C++ timing. Late/expired block, disjoint,
 removed entities/ability and team change fixtures pass. Existing caster-death
 policy is unchanged and remains a separate owner/native verification gate.
 
+2026-10-03 R targeting/terrain repair: reject self before spending the cast,
+delegate hero/basic both-team filtering to native UnitFilter with KV immunity
+piercing flags, and clear trees at both endpoints before placement. Radius 300
+is an authored reference-backed value, not a certified current C++ constant.
+Tree callback invalidation aborts further operations. Four locales disclose
+clearance and self restriction. Ordinary/Boss/ally, rejected casts, client filter
+and tree invalidation regressions pass; real target filtering, native-radius
+comparison and map tree behavior remain owner NOT TESTED.
+
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
 

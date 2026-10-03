@@ -4050,12 +4050,15 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
           "callbacks": [
+            "CastFilterResultTarget",
             "GetCastRange",
+            "GetCustomCastErrorTarget",
             "OnSpellStart"
           ],
           "specials": {
             "damage": "250 400 550 600 650 700 750 800 850 900",
-            "cast_range": "700 850 1000 1100 1200 1300 1400 1500 1600 1700"
+            "cast_range": "700 850 1000 1100 1200 1300 1400 1500 1600 1700",
+            "tree_clear_radius": "300"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],

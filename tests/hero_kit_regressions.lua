@@ -90,6 +90,7 @@ ParticleManager = {
     SetParticleControlEnt = function() end,
 }
 local create_mock_unit
+GridNav = { DestroyTreesAroundPoint = function() end }
 
 ProjectileManager = {
     CreateLinearProjectile = function(_, options) _G.last_linear_projectile = options return 1 end,

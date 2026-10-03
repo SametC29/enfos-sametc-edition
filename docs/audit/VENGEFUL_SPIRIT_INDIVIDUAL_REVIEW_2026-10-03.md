@@ -572,3 +572,54 @@ secondary absorption, engine source attachment, native compare for caster death,
 and actual post-7.33 debuff immunity. Old Valve example's IsMagicImmune return is
 deliberately not transplanted. Target immunity/reflect/bounce interactions still
 require real Dota/VConsole evidence; mocks certify only authored flow boundaries.
+
+### R pre-implementation tree/target decision (TUNE)
+
+Installed English Nether Swap Note1 explicitly states nearby trees are destroyed;
+our R never calls GridNav, so placement can be displaced by trees. The pinned
+MIT Valve example clears both origins within 300 before placement. Use an
+authored configurable 300-radius tree clearance, independently implemented and
+documented as a supported reference value, not a claim that current closed C++
+uses exactly 300. No change to map geometry or general pathing. Revalidate tree
+callbacks before another operation or placement.
+
+Reject self-target before spending the cast, then delegate ordinary hero/basic,
+both-team unit filtering to UnitFilter using the ability's own KV. Explicit
+MAGIC_IMMUNE_ENEMIES target flag matches native R immunity piercing. Keep PvE
+creeps/Bosses eligible under the existing hero/basic policy; do not transplant
+the old example's Scepter-required creep restriction or Ancient exclusion.
+This restores cast UX without inventing a Boss exception. Current native
+CUSTOM target C++ semantics and exact radius remain owner comparison gates.
+
+### R implementation and terrain regression receipt
+
+Added both-realm CastFilterResultTarget: self/missing/removed handles fail custom,
+other units delegate to native UnitFilter and retain its rejection code. The
+ability's team/type/flags come from KV, with native-piercing enemy immunity flag.
+Built-in self-target error key comes from the pinned primary example; invalid
+custom target key is provided in all four locales. This custom PvE target policy
+allows ordinary basic units/Bosses independently of Scepter; native CUSTOM's
+closed exact restrictions are not claimed to be reproduced.
+
+R clears trees at both saved origins before placement, through verified server
+GridNav:DestroyTreesAroundPoint(position,300,false), then revalidates caster,
+target and ability after each tree operation. Radius is data-driven and unchanged
+by target identity. No world scan, map rewrite, global pathing flag or new timer.
+New diagnostic records two cleared origins/radius under existing bounded switch.
+The engine owns tree-regrowth behavior; no Lua tree restoration service added.
+
+Focused fixture checks self/missing target rejection without delegating, forwarded
+native rejection, client filtering, exact KV inputs and clearance-before-movement
+for normal/Boss/ally targets. Blocked/client casts clear no trees; a tree callback
+removing caster/target/ability prevents subsequent clears, movement or particles.
+All-200 and historical mock fixtures now provide the real GridNav API surface;
+those stubs are not map/pathing simulation. No contributor Lich changes included.
+
+Owner NOT TESTED: self cast rejected without mana/cooldown, target filter against
+real immunity/invulnerability/buildings/basic-unit categories, tree geometry and
+regrowth, legal clear-space landing near walls/cliffs and normal/Boss swaps.
+Explicitly compare authored 300 radius to native behavior when runtime evidence
+is available. Existing 4s/30% defense is authored tuning, not a claim of current
+native barrier parity (installed English describes a damage-sized barrier while
+KV's reduction special is zero). Q caster-death parity and upgrade alias remain
+engine gates; passive modifier dispel/death behavior still needs source review.
