@@ -1359,6 +1359,13 @@
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield_Description": "Входящий физический урон снижен на %-dMODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE%%%. Периодически наносит магический урон врагам поблизости. Можно развеять.",
     "DOTA_Tooltip_modifier_enfos_lich_frost_blast_slow": "Ледяной взрыв",
     "DOTA_Tooltip_modifier_enfos_lich_frost_blast_slow_Description": "Скорость передвижения: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Скорость атаки: %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Снимается обычным развеиванием.",
-    "DOTA_Tooltip_modifier_enfos_lich_chain_frost_slow_Description": "Скорость передвижения: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Скорость атаки: %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Снимается обычным развеиванием."
+    "DOTA_Tooltip_modifier_enfos_lich_chain_frost_slow_Description": "Скорость передвижения: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Скорость атаки: %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Снимается обычным развеиванием.",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_aura": "Ледяная аура",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_aura_Description": "Союзные герои и обычные существа в радиусе {{radius}} получают {{bonus_armor}} брони и {{mana_regen}} восстановления маны в секунду. Истощение на Личе отключает эти бонусы. Иллюзии не получают бонусов.",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_aura_SummaryDescription": "Союзные герои и обычные существа в радиусе {{radius}} получают {{bonus_armor}} брони и {{mana_regen}} восстановления маны в секунду. Истощение на Личе отключает эти бонусы. Иллюзии не получают бонусов.",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura": "Ледяная аура",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_Description": "Союзные герои и обычные существа поблизости получают броню и восстановление маны. Истощение на Личе отключает бонусы. Иллюзии не получают бонусов.",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff": "Ледяная аура",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "Броня: +%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Восстановление маны: +%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% в секунду."
   }
 }

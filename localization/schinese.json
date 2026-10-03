@@ -1359,6 +1359,13 @@
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield_Description": "受到的物理伤害降低%-dMODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE%%%。周期性对周围敌人造成魔法伤害。可被驱散。",
     "DOTA_Tooltip_modifier_enfos_lich_frost_blast_slow": "寒霜爆发",
     "DOTA_Tooltip_modifier_enfos_lich_frost_blast_slow_Description": "移动速度：%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。攻击速度：%dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%。可被弱驱散移除。",
-    "DOTA_Tooltip_modifier_enfos_lich_chain_frost_slow_Description": "移动速度：%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。攻击速度：%dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%。可被弱驱散移除。"
+    "DOTA_Tooltip_modifier_enfos_lich_chain_frost_slow_Description": "移动速度：%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。攻击速度：%dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%。可被弱驱散移除。",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_aura": "寒冰光环",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_aura_Description": "{{radius}}范围内的友方英雄和普通单位获得{{bonus_armor}}点护甲和每秒{{mana_regen}}点魔法恢复。巫妖受到破坏时这些加成失效。幻象不获得加成。",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_aura_SummaryDescription": "{{radius}}范围内的友方英雄和普通单位获得{{bonus_armor}}点护甲和每秒{{mana_regen}}点魔法恢复。巫妖受到破坏时这些加成失效。幻象不获得加成。",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura": "寒冰光环",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_Description": "附近友方英雄和普通单位获得护甲和魔法恢复。巫妖受到破坏时加成失效。幻象不获得加成。",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff": "寒冰光环",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "护甲：+%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%。魔法恢复：每秒+%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT%点。"
   }
 }

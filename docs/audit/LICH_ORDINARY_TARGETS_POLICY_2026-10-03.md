@@ -323,3 +323,26 @@ no stale audio/particle after removal. Retain this evidence while waiting for
 the editor ownership clarification; E, contributor tests/KV/main ledger/dossier
 are unchanged. E Boss35% duration and no-pull remain known pending policy
 removals. No Lich source/visual/audio/engine completion is claimed.
+
+## D four-language passive and recipient tooltip repair
+
+Runtime-checklist preparation exposed a source localization defect: only Turkish
+authored D title/description; EN/RU/zh-CN generated mirrors silently fell back to
+Turkish. The description omitted friendly recipients, ranked radius, source
+Break and recipient illusion exclusion. The recipient aura buff had no authored
+localized property description. These are observed source omissions, not a
+claimed engine tooltip failure.
+
+Author explicit D title/description/summary plus intrinsic and recipient modifier
+names/descriptions in all four locales. Ability text uses real radius/armor/mana
+KV placeholders and explains existing source-Break and illusion behavior. Buff
+text uses current armor and constant-mana property placeholders instead of
+freezing rank1 values. The intrinsic tooltip describes aura ownership; it does
+not claim the intrinsic itself grants property bonuses. Gameplay, rank curves,
+engine aura distribution and death/linger policies stay unchanged.
+
+Regression requires explicit locale keys, three ranked ability placeholders and
+both actual recipient property references, preventing missing text from being
+masked by Turkish fallback. Existing localization generator synchronizes source
+mirrors. Actual signed/decimal property interpolation, range display and passive
+HUD integration remain owner tests; source texts and mocks are not visual PASS.

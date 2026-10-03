@@ -1419,6 +1419,13 @@
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield_Description": "Incoming physical damage is reduced by %-dMODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE%%%. Periodically deals magical damage to nearby enemies. Can be dispelled.",
     "DOTA_Tooltip_modifier_enfos_lich_frost_blast_slow": "Frost Blast",
     "DOTA_Tooltip_modifier_enfos_lich_frost_blast_slow_Description": "Movement speed: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Attack speed: %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Can be removed with a basic dispel.",
-    "DOTA_Tooltip_modifier_enfos_lich_chain_frost_slow_Description": "Movement speed: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Attack speed: %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Can be removed with a basic dispel."
+    "DOTA_Tooltip_modifier_enfos_lich_chain_frost_slow_Description": "Movement speed: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Attack speed: %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Can be removed with a basic dispel.",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_aura": "Ice Aura",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_aura_Description": "Allied heroes and basic units within {{radius}} radius gain {{bonus_armor}} armor and {{mana_regen}} mana regeneration per second. Break on Lich disables these bonuses. Illusions receive no bonuses.",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_aura_SummaryDescription": "Allied heroes and basic units within {{radius}} radius gain {{bonus_armor}} armor and {{mana_regen}} mana regeneration per second. Break on Lich disables these bonuses. Illusions receive no bonuses.",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura": "Ice Aura",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_Description": "Nearby allied heroes and basic units gain armor and mana regeneration. Disabled by Break on Lich. Illusions receive no bonuses.",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff": "Ice Aura",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "Armor: +%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Mana regeneration: +%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% per second."
   }
 }

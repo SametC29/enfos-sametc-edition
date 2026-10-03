@@ -933,7 +933,7 @@
     "DOTA_Tooltip_Ability_enfos_lich_chain_frost": "Zincirleme Don",
     "DOTA_Tooltip_Ability_enfos_lich_chain_frost_Description": "Düşmanlar arasında en fazla {{jump_count}} kez seken buz küresi her vuruşta {{damage}} + Zeka hasarı verir; hedefleri {{slow_pct}}% yavaşlatır ve saldırı hızlarını düşürür. Yavaşlatma {{slow_duration}} sn sürer.",
     "DOTA_Tooltip_Ability_enfos_lich_ice_aura": "Buzul Halesi",
-    "DOTA_Tooltip_Ability_enfos_lich_ice_aura_Description": "Pasif olarak +{{bonus_armor}} zırh ve +{{mana_regen}} mana yenilenmesi bahşeder.",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_aura_Description": "{{radius}} yarıçapındaki dost kahramanlar ve temel birimler {{bonus_armor}} zırh ve saniyede {{mana_regen}} mana yenilenmesi kazanır. Lich üzerindeki Kırılma bu bonusları devre dışı bırakır. İllüzyonlar bonus kazanmaz.",
     "enfos_wave_state_idle": "Bekleniyor",
     "enfos_wave_state_preparation": "Hazırlık",
     "enfos_wave_state_boss_incoming": "BOSS GELİYOR",
@@ -1768,6 +1768,11 @@
     "DOTA_Tooltip_modifier_enfos_lich_frost_blast_slow": "Donma Patlaması",
     "DOTA_Tooltip_modifier_enfos_lich_frost_blast_slow_Description": "Hareket hızı: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Saldırı hızı: %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Basit bir arındırmayla kaldırılabilir.",
     "DOTA_Tooltip_modifier_enfos_lich_chain_frost_slow": "Zincirleme Don",
-    "DOTA_Tooltip_modifier_enfos_lich_chain_frost_slow_Description": "Hareket hızı: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Saldırı hızı: %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Basit bir arındırmayla kaldırılabilir."
+    "DOTA_Tooltip_modifier_enfos_lich_chain_frost_slow_Description": "Hareket hızı: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Saldırı hızı: %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Basit bir arındırmayla kaldırılabilir.",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_aura_SummaryDescription": "{{radius}} yarıçapındaki dost kahramanlar ve temel birimler {{bonus_armor}} zırh ve saniyede {{mana_regen}} mana yenilenmesi kazanır. Lich üzerindeki Kırılma bu bonusları devre dışı bırakır. İllüzyonlar bonus kazanmaz.",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura": "Buzul Halesi",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_Description": "Yakındaki dost kahramanlar ve temel birimler zırh ve mana yenilenmesi kazanır. Lich üzerindeki Kırılma etkisi bonusları devre dışı bırakır. İllüzyonlar bonus kazanmaz.",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff": "Buzul Halesi",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "Zırh: +%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Mana yenilenmesi: saniyede +%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT%."
   }
 }

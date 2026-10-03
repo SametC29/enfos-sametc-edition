@@ -8,6 +8,21 @@ const abilities=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.t
 const curve=(id,key)=>String(abilities[id].AbilityValues[key]).split(/\s+/).map(Number);
 const q='enfos_lich_frost_blast',r='enfos_lich_chain_frost';
 
+test('Lich aura has explicit four-locale ability and recipient tooltips',()=>{
+  for(const lang of ['english','turkish','russian','schinese']){
+    const tokens=JSON.parse(fs.readFileSync(`localization/${lang}.json`,'utf8')).Tokens;
+    const key='DOTA_Tooltip_Ability_enfos_lich_ice_aura';
+    assert.ok(tokens[key],`${lang}: explicit passive title`);
+    for(const suffix of ['_Description','_SummaryDescription']){
+      for(const value of ['radius','bonus_armor','mana_regen'])
+        assert.ok(tokens[key+suffix]?.includes(`{{${value}}}`),`${lang}: authored ${value} shown without rank1 snapshots`);
+    }
+    const buff=tokens.DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description;
+    for(const property of ['PHYSICAL_ARMOR_BONUS','MANA_REGEN_CONSTANT'])
+      assert.ok(buff?.includes(`MODIFIER_PROPERTY_${property}`),`${lang}: live recipient ${property}`);
+  }
+});
+
 test('Lich Q and R use ordinary ranked formulas on both normal and Boss recipients',()=>{
   const script=`
 package.path='game/scripts/vscripts/?.lua;'..package.path
