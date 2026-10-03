@@ -7402,11 +7402,21 @@ test('Puck Dream Coil stuns and damages with boss duration reduction', function(
 end)
 
 test('Jakiro Ice Path delays damage and control until the configured path warning', function()
-    local previous_game_rules = GameRules
+    local old_factory=CreateModifierThinker
     local callback, callback_delay
-    GameRules = { GetGameModeEntity = function()
-        return { SetContextThink = function(_, name, fn, delay) callback, callback_delay = fn, delay end }
-    end }
+    CreateModifierThinker=function(caster,ability,name,params,origin,team)
+        local parent=create_mock_unit('ice_path_thinker',team,origin)
+        local elapsed=0
+        local zone=modifier_enfos_jakiro_ice_path_zone()
+        zone.GetParent=function()return parent end;zone.GetCaster=function()return caster end
+        zone.GetAbility=function()return ability end;zone.GetElapsedTime=function()return elapsed end
+        zone.StartIntervalThink=function(_,delay)if not callback then callback_delay=delay end end
+        zone.Destroy=function(self)self:OnDestroy()end
+        zone:OnCreated(params)
+        callback=function()elapsed=0.5;zone:OnIntervalThink();return nil end
+        zone:OnIntervalThink()
+        return parent
+    end
     applied_damages = {}
     local jakiro = create_mock_unit('npc_dota_hero_jakiro', 2, Vector(0, 0, 0))
     jakiro.intellect = 100
@@ -7429,7 +7439,7 @@ test('Jakiro Ice Path delays damage and control until the configured path warnin
     assert(#applied_damages == 2 and applied_damages[1].damage == 260)
     assert(creep:FindModifierByName('modifier_stunned').params.duration == 2)
     assert(boss:FindModifierByName('modifier_stunned').params.duration == 2, 'Boss metadata cannot shorten ordinary Ice Path stun')
-    GameRules = previous_game_rules
+    CreateModifierThinker=old_factory
 end)
 
 test('Jakiro Dual Breath damages in cone with Int scaling and applies slow', function()

@@ -296,6 +296,7 @@ function create_mock_unit(name, team, origin, hp)
             mod.Destroy = function(m) self.modifiers[mod_name] = nil end
             mod.SetHasCustomTransmitterData = function() end
             mod.SendBuffRefreshToClients = function() end
+            mod.GetElapsedTime = function() return 0 end
             mod.StartIntervalThink = function() end
             mod.AddParticle = function() end
             self.modifiers[mod_name] = mod
@@ -414,6 +415,7 @@ for _, hero_info in ipairs(roster) do
                     mod.SetStackCount = function() end
                     mod.SetHasCustomTransmitterData = function() end
                     mod.SendBuffRefreshToClients = function() end
+                    mod.GetElapsedTime = function() return 0 end
                     mod.StartIntervalThink = function() end
                     if mod.OnCreated then mod:OnCreated({}) end
                     if mod.OnAttackLanded then
@@ -493,6 +495,7 @@ for _, mod_name in ipairs(modifier_list) do
             mod.SetStackCount = function() end
             mod.SetHasCustomTransmitterData = function() end
             mod.SendBuffRefreshToClients = function() end
+            mod.GetElapsedTime = function() return 0 end
             mod.StartIntervalThink = function() end
             mod.AddParticle = function() end
             mod.SetDuration = function() end

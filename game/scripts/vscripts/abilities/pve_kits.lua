@@ -321,6 +321,7 @@ local modifier_list = {
     'modifier_enfos_puck_phase_shift',
     'modifier_enfos_puck_faerie_magic',
     -- Jakiro
+    'modifier_enfos_jakiro_ice_path_zone',
     'modifier_enfos_jakiro_dual_breath_slow',
     'modifier_enfos_jakiro_liquid_fire_passive',
     'modifier_enfos_jakiro_double_trouble',

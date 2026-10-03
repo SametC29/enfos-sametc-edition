@@ -21,7 +21,8 @@ require('abilities/heroes/jakiro/w')
 for _,mode in ipairs({'ordinary','rank10','zero','client','removed_ability','removed_caster','stun_removes_target','stun_removes_ability','stun_removes_caster'})do
  server=mode~='client'
  local callbacks,particles,hits,mods={}, {}, {}, {}
- local a,c
+ local a,c,zone
+ local elapsed=0
  local function unit(id,x,y,boss)
   local u={id=id,pos=Vector(x,y),removed=false,isBoss=boss,team=3}
   function u:IsNull()return self.removed end
@@ -53,12 +54,26 @@ for _,mode in ipairs({'ordinary','rank10','zero','client','removed_ability','rem
  function a:entindex()return 41 end
  function a:GetSpecialValueFor(key)
   assert(not self.removed)
-  return ({damage=200,stun_duration=mode=='rank10' and 6 or 1.5,path_delay=0.5,path_length=1200,path_radius=150})[key] or 0
+  return ({damage=200,stun_duration=mode=='rank10' and 6 or 1.5,path_delay=0.5,path_length=1200,path_radius=150,path_duration=mode=='rank10' and 7.5 or 3})[key] or 0
  end
  ParticleManager={CreateParticle=function()local id=#particles+1;particles[id]={};return id end,
  SetParticleControl=function(_,id,cp,v)particles[id][cp]=v end,
- ReleaseParticleIndex=function(_,id)particles[id].released=true end}
- GameRules={GetGameModeEntity=function()return {SetContextThink=function(_,name,cb,delay)callbacks[#callbacks+1]={cb=cb,delay=delay,name=name}end}end}
+ ReleaseParticleIndex=function(_,id)particles[id].released=true end,
+ DestroyParticle=function(_,id)particles[id].destroyed=true end}
+ function UTIL_Remove(e)e.removed=true end
+ function CreateModifierThinker(caster,ability,name,params,origin,team,phantom)
+  local parent=unit(9,origin.x,origin.y);parent.team=team
+  function parent:EmitSound(sound)assert(sound=='Hero_Jakiro.IcePath')end
+  function parent:StopSound(sound)assert(sound=='Hero_Jakiro.IcePath')end
+  zone=setmetatable({GetParent=function()return parent end,GetCaster=function()return c end,
+   GetAbility=function()return a end,GetElapsedTime=function()return elapsed end},modifier_enfos_jakiro_ice_path_zone)
+  function zone:StartIntervalThink(delay)
+   if #callbacks==0 then callbacks[1]={delay=delay,cb=function()elapsed=0.5;zone:OnIntervalThink();return nil end} end
+  end
+  function zone:Destroy()self:OnDestroy()end
+  zone:OnCreated(params);zone:OnIntervalThink() -- no hit at elapsed 0
+  return parent
+ end
  function FindUnitsInRadius()return {creep,boss,off}end
  function FindUnitsInLine(team,origin,last,cache,width,tf,ty,flags)
   assert(team==2 and origin.x==0 and last.x==1200 and last.y==0 and last.z==0)
@@ -69,7 +84,7 @@ for _,mode in ipairs({'ordinary','rank10','zero','client','removed_ability','rem
  a:OnSpellStart()
  if mode=='client' then assert(#particles==0 and #callbacks==0) else
   assert(#particles==1 and particles[1][1].x==1200 and particles[1][1].z==0,'Visual path endpoint must match actual line')
-  assert(particles[1].released and #callbacks==1 and callbacks[1].delay==0.5)
+  assert(not particles[1].released and #callbacks==1 and callbacks[1].delay==0.5)
   assert(next(hits)==nil,'No hit before the configured warning')
   c.pos=Vector(7000,0) -- Callback must preserve cast origin.
   if mode=='removed_ability' then a.removed=true end
@@ -80,6 +95,7 @@ for _,mode in ipairs({'ordinary','rank10','zero','client','removed_ability','rem
   else
    assert(hits[creep]==260 and hits[boss]==260 and not hits[off] and not mods[off])
   end
+  zone:OnDestroy();assert(particles[1].released and particles[1].destroyed)
  end
 end
 print('Jakiro Ice Path geometry/ordinary stun/callback PASS')
