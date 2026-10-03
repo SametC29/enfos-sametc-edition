@@ -372,3 +372,14 @@ engine/VFX/SFX/damage/lifecycle acceptance pending. No Dota control or publishin
 authorization is added. SF Q remains its verified native directional no-target
 cast. Selected-hero diagnostics now run automatically once on initial real hero
 spawn, after point initialization, without gameplay modification.
+
+## Owner cancels automatic external collection, 2026-10-04
+
+Owner decides local/remote collection is unnecessary and will save console logs
+and provide them manually. The optional loopback receiver and HTTP sender were
+removed by reverting the agent-only collector unit. Keep automatic selected-hero
+Health console reports and the offline analyzer for voluntarily supplied logs.
+No collector, upload, public endpoint or HTTP diagnostic transmission remains.
+Nine automatic-health/SF integration checks pass after removal. Do not restore
+collection services without a new owner request. Overnight hero source rollout
+and deferred owner engine validation remain unchanged.

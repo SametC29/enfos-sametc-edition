@@ -35,3 +35,9 @@ server snapshots and10 repeated instances of one Lua error plus415 rejected
 unseen-target orders. These reproduce the manually inspected findings in
 SHADOW_FIEND_OWNER_LOG_REPORT_2026-10-04.json. No automatic code fixing or native
 Boss attribution follows from order counts alone.
+
+Owner correction2026-10-04: automatic external collection is cancelled. Owner
+will save console logs and share them manually. The loopback collector/sender
+pilot was reverted; retain only automatic console Health reporting and offline
+analysis of supplied files. No future endpoint/retention decision is pending
+for the current scope.
