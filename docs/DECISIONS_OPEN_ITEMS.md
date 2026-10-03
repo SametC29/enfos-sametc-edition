@@ -339,3 +339,16 @@ The current authored E damages every eligible hostile recipient and produces equ
 ## Lion E economy implementation default, 2026-10-03
 
 The earlier unanswered question requested a preference, not permission. No owner answer is claimed. Proceeding under the existing native-first hero mandate with a stated implementation default: mana-bearing hostile recipients lose actual mana, and Lion receives only the observed amount lost; zero-maximum-mana PvE recipients retain the authored damage/mana conversion. A mana-bearing recipient at zero current mana is not a mana-less recipient and cannot generate fallback mana. Primary and Shard recipients use one policy with ordinary targeting/resistance rules and source/revision guards. This supersedes the prior inferred requirement to wait for permission before any economy work. Balance, ally transfer and exact engine timing remain separately recorded; no runtime acceptance from mocks.
+
+
+## Owner native-first rollout extension, 2026-10-04
+
+After Shadow Fiend, continue the eighteen heroes in the exact order recorded
+in [the rollout goal](audit/NATIVE_FIRST_HERO_ROLLOUT_GOAL_2026-10-04.md),
+using Luna lessons and separate owner engine acceptance. This supersedes the
+previous stop-after-SF instruction. The additional hero is confirmed as Dota2
+Necrophos (npc_dota_hero_necrolyte). Preserve the existing40 and expand to41
+when implementing the addition; update count/role checks rather than disabling
+them. This owner request supersedes the prior40-only roster constraint for
+local development, without authorizing remote publication. No new hero is
+implemented or runtime-certified by this plan.
