@@ -1125,7 +1125,6 @@
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_shard_description": "Verilen iyileştirme +%25.",
     "DOTA_Tooltip_Ability_enfos_vs_nether_swap_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_vs_retribution_shard_description": "Verilen iyileştirme +%25.",
-    "DOTA_Tooltip_Ability_enfos_lich_ice_aura_shard_description": "Verilen iyileştirme +%25.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Lore": "Jilet keskinliğindeki zırhlara sahip bu manto, fedakâr şehitlerin savaştaki seçimi.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note0": "Hasar Yansıtması herhangi bir azaltmadan önce hesaplanır.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note1": "Yansıtılan hasar alınan hasar türü ile aynıdır.",
@@ -1778,11 +1777,14 @@
     "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff_Description": "Hipnotize: Lich kanal açarken hareket edemez ve eylem gerçekleştiremez; manası emilir ve Lich’e doğru çekilir. Basit arındırma etkiyi kaldırır ve ona ait kanalı bitirir.",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield_slow": "Buz Kalkanı Yavaşlatması",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield_slow_Description": "Hareket hızı %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% azalır. Arındırılabilir.",
-    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_scepter_description": "Scepter: Uğursuz Bakış, %aoe_scepter% yarıçaplı alan hedefli kanal büyüsüne dönüşür. Alandaki her düşmanı kontrol eder ve manasını emer. Lich kanalı kesmeden Buz Patlaması, Buz Kalkanı ve Zincirleme Buz kullanabilir. Genel ulti hasarı/bekleme süresi bonusunun yerine geçer.",
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_scepter_description": "Scepter: Uğursuz Bakış, %aoe_scepter% yarıçaplı alan hedefli kanal büyüsüne dönüşür. Alandaki her düşmanı kontrol eder ve manasını emer. Lich kanalı kesmeden Buz Patlaması, Buz Kalkanı ve Zincirleme Buz kullanabilir. Genel ulti hasarı/bekleme süresi bonusunun yerine geçer. Buz Totemi açıksa o da Bakış kanalını kesmeden kullanılabilir.",
     "enfos_lich_ice_spire_unit": "Buz Totemi",
     "DOTA_Tooltip_modifier_enfos_lich_ice_spire": "Buz Totemi",
     "DOTA_Tooltip_modifier_enfos_lich_ice_spire_Description": "Yakındaki düşmanları yavaşlatır. Dört kahraman veya sekiz yaratık saldırısıyla yok olur. Buz Kalkanı her darbede bir kahraman vuruşunu onarır.",
     "DOTA_Tooltip_modifier_enfos_lich_ice_spire_slow": "Buz Totemi",
-    "DOTA_Tooltip_modifier_enfos_lich_ice_spire_slow_Description": "Hareket hızı %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% azalır."
+    "DOTA_Tooltip_modifier_enfos_lich_ice_spire_slow_Description": "Hareket hızı %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% azalır.",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_spire": "Buz Totemi",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_spire_Description": "{{duration}} saniyeliğine tek bir Buz Totemi oluşturur. {{aura_radius}} yarıçaptaki düşmanları %{{bonus_movespeed|abs}} yavaşlatır. {{max_hero_attacks}} kahraman veya {{max_creep_attacks}} yaratık saldırısına dayanır. Yok olduğunda veya süresi dolduğunda öğrenilmiş Buz Patlamasının alan hasarını verir. Buz Kalkanı her darbede bir kahraman vuruşunu onarır. Zincirleme Buz totemi hedefleyebilir ve üzerinden önceki düşmanlara dönebilir; her temas bir kahraman vuruşu harcar. Yeniden çağırma eski totemi patlatmadan kaldırır.",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_spire_shard_description": "Shard: Buz Totemini açar. Totem %duration% saniye kalır; %aura_radius% yarıçaptaki düşmanları %25 yavaşlatır. %max_hero_attacks% kahraman veya %max_creep_attacks% yaratık saldırısına dayanır. Buz Kalkanı onu onarır; Zincirleme Buz üzerinden sekebilir. Lich’in genel şifa artırma bonusunun yerine geçer."
   }
 }

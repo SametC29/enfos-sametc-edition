@@ -1,8 +1,9 @@
 # Lich Shard — native Ice Spire integration, 2026-10-03
 
-Status: IN PROGRESS. This record supplements the individual Lich ledger; it is
-not source closure or engine certification. No Shard ability is granted by this
-work unit. Complete summon, W repair and R bridge integration before exposure.
+Status: IN PROGRESS / IMPLEMENTED BUT NOT ENGINE-VERIFIED. The fourth work unit
+now exposes the integrated Shard ability locally. This record supplements the
+individual Lich ledger; it is not full source closure or engine certification.
+Earlier sections describe successive commits, not the current acquisition state.
 
 ## Evidence and disposition
 
@@ -203,3 +204,63 @@ native ward effects, HUD/resource/audio or cold-start acceptance.
 Remaining: extra ability KV/slot and manager acquisition/loss/consumed-Shard
 paths, removing Lich-only generic healing bonus, extra ability localization,
 resource/animation and owner-engine checks. This unit still exposes no Shard cast.
+
+## Acquisition and reconciliation — fourth work unit
+
+Native-first TUNE disposition remains unchanged. Ability6 is now the hidden
+`enfos_lich_ice_spire`; five ordinary IDs/ten-rank gates are unchanged. Native
+rank1, point/AoE, Shard metadata, ACT_DOTA_CAST_ABILITY_5, range750, mana150,
+cooldown25 and the previously recorded ward values are explicit KV. Added
+NOT_LEARNABLE deliberately: this granted rank must not consume the ordinary49
+skill points. The engine's slot/point presentation remains an owner test.
+
+The existing Aghanim manager's periodic reconciliation reuses the static extra
+ability, adds it only if missing, grants rank1 and restores visibility/activation
+only when needed. Stable polling does not rewrite rank or restart a cast, summon
+a ward or duplicate the generic modifier. Failed AddAbility retries on the next
+existing poll. Shard loss retires the owned ward without Nova and sets the static
+ability inactive/hidden/rank0; it does not remove or shift the five ordinary slots.
+Reacquisition uses the same slot. No additional manager, timer or global scan.
+
+Held Shard and existing legacy consumed-modifier paths remain supported. Current
+installed English localization also identifies
+`modifier_item_aghanims_shard_permanent_buff`; compatibility detection is added
+only for Lich. This proves identifier presence, not the actual acquisition event
+or activation in this engine build. Owner must observe the consumed modifier and
+ability after buying Shard. MCP has no CDOTA_BaseNPC:HasShard entry; no speculative
+API call is introduced. Other heroes' Shard detection is unchanged.
+
+Ward ownership remains separate from Shard entitlement so retirement can find
+the ward after loss. Server cast, aura, W repair, R ward targets/bridges and death
+Nova require current entitlement. Source/ownership/Shard loss suppresses Nova;
+client target prediction does not call the server-only ownership API. Existing
+single-unit/finite-lifetime/maximum18-chain budgets remain intact.
+
+Lich's old generic Support healing25% is disabled and its generic modifier hidden;
+other Supports retain their existing bonus. Four locales and all mirrors now name
+and explain the actual extra ability, remove the stale D Shard description and
+include unlocked Ice Spire among Scepter Gaze-compatible casts. Dynamic behavior
+preserves POINT/AOE/NOT_LEARNABLE/IGNORE_BACKSWING and adds IGNORE_CHANNEL only
+during active Scepter Gaze. Rank0 remains hidden. Mana/cooldown stay ordinary.
+
+MCP verifies AddAbility, SetLevel, SetHidden, SetActivated, IsHidden, IsActivated
+and PrecacheUnitByNameSync. Extra ability precache includes the unit definition,
+native model, Lich sound bank and Q death Nova. Manual sound emission remains the
+owner of cast audio; native AbilitySound is not duplicated in custom KV. No
+external implementation is imported. Persistent root-particle attachment and
+actual model/animation/audio/cold-start behavior remain open as above.
+
+Real-manager regressions cover held/legacy/native-permanent detection, stable
+polling, missing-slot failure/retry, presentation restoration, Shard loss and
+reacquisition, no unit duplication/free Nova, missing-entitlement cast guard,
+conditional channel flags, scoped generic bonus removal and precache calls.
+Static tests cover slot6, five ordinary rank gates, native-style metadata and
+four-language Shard association. Actual Dota/VConsole, HUD, particle, sound,
+attack-event, reconnect and engine acceptance remain NOT TESTED.
+
+Fourth-unit validation: all19 focused Lich checks (2 isolation,10 ordinary-target,
+2 Scepter,5 Spire) are included in the passing full suite:127 Node tests, all
+working-tree hero regressions and0failed checks. Independently loading indexed
+E and indexed historical tests passes352 hero regressions without contributor
+changes. These are source/static/mock results only. No owner runtime evidence,
+remote push, Dota launch or Workshop publication.

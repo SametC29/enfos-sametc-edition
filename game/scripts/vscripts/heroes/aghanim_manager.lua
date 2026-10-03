@@ -6,6 +6,7 @@
 -- Aghanim's Blessing: consumes Scepter + Lumber, frees inventory slot while retaining Scepter.
 
 local Log = require("lib/log")
+local HeroTrace = require("lib/hero_trace")
 
 if LinkLuaModifier then
 	LinkLuaModifier("modifier_enfos_scepter_upgrade", "heroes/aghanim_manager", LUA_MODIFIER_MOTION_NONE)
@@ -120,6 +121,10 @@ function AghanimManager:HasShard(hero)
 	if not hero or (hero.IsNull and hero:IsNull()) then return false end
 
 	if hero.HasModifier then
+		-- Installed native localization identifies this permanent Shard buff.
+		-- Introduce the compatibility branch only for the hero under review.
+		if hero.GetUnitName and hero:GetUnitName()=="npc_dota_hero_lich"
+			and hero:HasModifier("modifier_item_aghanims_shard_permanent_buff") then return true end
 		if hero:HasModifier("modifier_item_aghanims_shard_consumed") or
 		   hero:HasModifier("modifier_aghanims_shard_consumed") then
 			return true
@@ -157,7 +162,28 @@ function AghanimManager:UpdateHeroAghanimState(hero, role)
 	elseif not hasShard and self.activeShards[entIndex] then
 		self.activeShards[entIndex] = nil
 		self:OnShardLost(hero)
+	elseif hasShard and hero.GetUnitName and hero:GetUnitName()=="npc_dota_hero_lich" then
+		-- Existing periodic reconciliation also restores a missing/hidden extra slot
+		-- after reload/reconnect without duplicating the ability or restarting casts.
+		self:EnsureLichShardAbility(hero)
 	end
+end
+
+function AghanimManager:EnsureLichShardAbility(hero)
+	if not IsServer() or not hero or hero:IsNull() or not self:HasShard(hero) then return end
+	local ability = hero:FindAbilityByName("enfos_lich_ice_spire")
+	if ability and ability:IsNull() then ability=nil end
+	if not ability then ability=hero:AddAbility("enfos_lich_ice_spire") end
+	if not ability or ability:IsNull() then
+		HeroTrace:Log('LICH','D','shard_ability_missing retry=existing_periodic_reconcile')
+		return
+	end
+	local changed=false
+	if ability:GetLevel()~=1 then ability:SetLevel(1);changed=true end
+	if ability:IsHidden() then ability:SetHidden(false);changed=true end
+	if not ability:IsActivated() then ability:SetActivated(true);changed=true end
+	if changed then HeroTrace:Log('LICH','D','shard_ability_restored rank=1 visible=true activated=true') end
+	return ability
 end
 
 function AghanimManager:OnScepterAcquired(hero, role)
@@ -200,6 +226,9 @@ function AghanimManager:OnShardAcquired(hero, role)
 			if ability.SetActivated then ability:SetActivated(true) end
 		end
 	end
+	if hero.GetUnitName and hero:GetUnitName()=="npc_dota_hero_lich" then
+		self:EnsureLichShardAbility(hero)
+	end
 end
 
 function AghanimManager:OnShardLost(hero)
@@ -209,6 +238,13 @@ function AghanimManager:OnShardLost(hero)
 	end
 	if hero.GetUnitName and hero:GetUnitName() == "npc_dota_hero_witch_doctor" then
 		if hero.RemoveAbility then hero:RemoveAbility("enfos_wd_voodoo_switcheroo") end
+	end
+	if hero.GetUnitName and hero:GetUnitName()=="npc_dota_hero_lich" then
+		require('abilities/heroes/lich/spire').Retire(hero, 'shard_lost')
+		local ability=hero:FindAbilityByName("enfos_lich_ice_spire")
+		if ability and not ability:IsNull() then
+			ability:SetActivated(false);ability:SetHidden(true);ability:SetLevel(0)
+		end
 	end
 end
 
@@ -255,7 +291,7 @@ modifier_enfos_shard_upgrade = class({})
 function modifier_enfos_shard_upgrade:IsHidden()
     local parent = self.GetParent and self:GetParent()
     local name = parent and parent.GetUnitName and parent:GetUnitName()
-    return name == "npc_dota_hero_sven" or name == "npc_dota_hero_shadow_shaman" or name == "npc_dota_hero_tidehunter"
+    return name == "npc_dota_hero_lich" or name == "npc_dota_hero_sven" or name == "npc_dota_hero_shadow_shaman" or name == "npc_dota_hero_tidehunter"
 end
 function modifier_enfos_shard_upgrade:IsPurgable() return false end
 function modifier_enfos_shard_upgrade:IsPermanent() return true end
@@ -305,6 +341,7 @@ end
 
 function modifier_enfos_shard_upgrade:GetModifierHealAmplify_PercentageSource()
 	local parent = self.GetParent and self:GetParent()
+	if parent and parent.GetUnitName and parent:GetUnitName() == "npc_dota_hero_lich" then return 0 end
 	if parent and parent.GetUnitName and parent:GetUnitName() == "npc_dota_hero_shadow_shaman" then return 0 end
 	if self.role == "Support" then return 25 end
 	return 0

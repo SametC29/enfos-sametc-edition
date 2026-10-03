@@ -45,24 +45,26 @@ and no-pull observations describe superseded source, not intended policy.
 
 - Shard integration is IN PROGRESS under
   [Ice Spire implementation ledger](LICH_SHARD_IMPLEMENTATION_2026-10-03.md).
-  Point Nova exists only as a Q prerequisite; no Shard controller calls it yet.
-  Once connected, verify captured world position after Spire destruction, one
+  Controller, W/R links and local extra-ability acquisition are now implemented.
+  Buy/consume Shard after a cold restart: confirm the actual native permanent
+  modifier, one visible rank1 Ice Spire in slot6, unchanged five core ranks and
+  ordinary skill points. Test loss/reacquisition and reconnect: rank0 hidden on
+  loss, same slot restored, no duplicate ability/unit or free death Nova.
+  Verify captured world position after Spire destruction, one
   Nova particle/sound, learned-Q splash without primary bonus, living victim
   slows, caster-death survival versus deleted caster, and no duplicate Nova on
-  recast/Shard-loss retirement. Do not test/accept a not-yet-exposed extra ability.
-  The isolated ward/controller foundation is now implemented but still dormant.
-  After full integration, verify four hero/eight creep hits (including illusion
+  recast/Shard-loss retirement. Verify four hero/eight creep hits (including illusion
   classification), mixed hits, W capped repair, enemy targeting under native ward
   immunity, OnAttackLanded under absolute damage protection, expiry Nova,
   different owners/recast/stale callbacks, dead versus deleted owner, and lifetime
   cleanup. Native Spire persistent particle attachment remains source work.
-  W/R source links and bootstrap routes are now present; extra-ability acquisition
-  is still absent. Once exposed, test R direct Spire selection, foreign Spire
+  Test R direct Spire selection, foreign Spire
   rejection, ordinary enemy filtering, four bridge hits versus eight creep hits,
   repeated enemy after bridge,601 versus600 range, W repair during chain,
   maximum18 total enemy/ward impacts, ownership loss in flight and lethal ward
   continuation. Confirm ward impact sound, captured Nova/orb positions and
-  Scepter channel-cast behavior independently from the mock fixtures.
+  Scepter channel-cast behavior (including unlocked point-target Ice Spire)
+  independently from the mock fixtures. All observations remain NOT TESTED.
 
 - Q/R normal and Boss recipients with equivalent relevant properties use ordinary
   formulas; differences in armor/resistance/status resistance are recorded.
@@ -80,7 +82,8 @@ and no-pull observations describe superseded source, not intended policy.
   action lock is explicitly not classified as a stun for purge purposes.
 - EN/TR/RU/zh-CN skill/modifier names/icons/live values. D must show its radius,
   allied recipients and source Break; actual decimal/signed formatting is pending.
-- Current Shard is generic healing25%; its unique replacement remains open.
+- Lich Shard no longer grants generic healing25%; verify the unique ability's
+  actual HUD/tooltip and that another Support's existing generic bonus remains.
 - Scepter/Blessing: E switches to400-radius point-target channel. Normal/Boss
   recipients use ordinary ranked control/mana/pull. Try Q/W/R during this channel:
   they must execute without ending Gaze. Remove one control, then the last; test

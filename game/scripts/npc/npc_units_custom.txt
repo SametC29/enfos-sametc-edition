@@ -2763,7 +2763,7 @@
 	// END UNIQUE NATIVE WAVES
 
 	// Lich Shard foundation: immobile owned ward, attack-count controller in Lua.
-	// Acquisition is not exposed until Q/W/R integration is complete.
+	// Granted through Lich's Shard-only sixth slot; core Q/W/E/R/D stay unchanged.
 	"enfos_lich_ice_spire_unit"
 	{
 		"BaseClass" "npc_dota_creature"

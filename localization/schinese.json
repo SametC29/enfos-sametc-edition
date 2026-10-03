@@ -510,7 +510,6 @@
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_shard_description": "施加的治疗效果+25%。",
     "DOTA_Tooltip_Ability_enfos_vs_nether_swap_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
     "DOTA_Tooltip_Ability_enfos_vs_retribution_shard_description": "施加的治疗效果+25%。",
-    "DOTA_Tooltip_Ability_enfos_lich_ice_aura_shard_description": "施加的治疗效果+25%。",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Lore": "覆盖着尖锐剃刀的盔甲，战斗中可以用来做出不顾自身安危的烈士行为。",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note0": "反弹的均为减免前的伤害。",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note1": "反弹伤害的类型与受到时相同。",
@@ -1371,11 +1370,14 @@
     "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff_Description": "被催眠：巫妖持续施法期间无法行动，魔法被汲取并被拉向巫妖。基础驱散可移除此效果并结束其持续施法。",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield_slow": "冰霜魔盾减速",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield_slow_Description": "移动速度降低%-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。可以驱散。",
-    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_scepter_description": "神杖：阴邪凝视变为范围%aoe_scepter%的地点目标持续施法，控制并汲取区域内各敌人的魔法。巫妖可在持续施法期间使用寒霜爆发、冰霜魔盾和连环霜冻而不打断施法。替代通用的终极技能伤害和冷却加成。",
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_scepter_description": "神杖：阴邪凝视变为范围%aoe_scepter%的地点目标持续施法，控制并汲取区域内各敌人的魔法。巫妖可在持续施法期间使用寒霜爆发、冰霜魔盾和连环霜冻而不打断施法。替代通用的终极技能伤害和冷却加成。 若已解锁冰柱，也可在不打断凝视的情况下施放。",
     "enfos_lich_ice_spire_unit": "冰柱",
     "DOTA_Tooltip_modifier_enfos_lich_ice_spire": "冰柱",
     "DOTA_Tooltip_modifier_enfos_lich_ice_spire_Description": "减速附近敌人。承受四次英雄攻击或八次小兵攻击后摧毁。每次冰霜护盾脉冲恢复一次英雄攻击的耐久。",
     "DOTA_Tooltip_modifier_enfos_lich_ice_spire_slow": "冰柱",
-    "DOTA_Tooltip_modifier_enfos_lich_ice_spire_slow_Description": "移动速度降低%-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。"
+    "DOTA_Tooltip_modifier_enfos_lich_ice_spire_slow_Description": "移动速度降低%-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_spire": "冰柱",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_spire_Description": "生成一根持续{{duration}}秒的冰柱。使{{aura_radius}}范围内敌人减速{{bonus_movespeed|abs}}%。可承受{{max_hero_attacks}}次英雄攻击或{{max_creep_attacks}}次小兵攻击。摧毁或到期时释放已学习的冰霜新星范围伤害。每次冰霜护盾脉冲恢复一次英雄攻击的耐久。连环霜冻可选中冰柱，并通过它再次命中之前的敌人；每次命中消耗一次英雄攻击的耐久。重新施放移除旧冰柱，不触发爆炸。",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_spire_shard_description": "魔晶：获得冰柱。持续%duration%秒，使%aura_radius%范围内敌人减速25%。承受%max_hero_attacks%次英雄攻击或%max_creep_attacks%次小兵攻击。冰霜护盾恢复耐久；连环霜冻可通过冰柱弹跳。替代巫妖的通用对外治疗加成。"
   }
 }

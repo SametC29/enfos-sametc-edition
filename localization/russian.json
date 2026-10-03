@@ -510,7 +510,6 @@
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_shard_description": "Исходящее лечение +25%.",
     "DOTA_Tooltip_Ability_enfos_vs_nether_swap_scepter_description": "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%.",
     "DOTA_Tooltip_Ability_enfos_vs_retribution_shard_description": "Исходящее лечение +25%.",
-    "DOTA_Tooltip_Ability_enfos_lich_ice_aura_shard_description": "Исходящее лечение +25%.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Lore": "Острый, как лезвие бритвы, панцирь — выбор самоотверженных мучеников.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note0": "Урон возвращается в изначальном количестве, до его уменьшения.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note1": "Возвращаемый урон имеет тот же тип, что и полученный.",
@@ -1371,11 +1370,14 @@
     "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff_Description": "Гипноз: цель не может действовать, пока Лич поддерживает заклинание; её мана истощается, а цель притягивается к нему. Базовое развеивание снимает эффект и прекращает его поддержание.",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield_slow": "Замедление ледяного щита",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield_slow_Description": "Скорость передвижения снижена на %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Можно развеять.",
-    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_scepter_description": "Scepter: Зловещий взгляд становится поддерживаемым заклинанием с выбором области радиусом %aoe_scepter%. Контролирует каждого врага в области и истощает его ману. Лич может применять Ледяной взрыв, Ледяной щит и Цепной мороз без прерывания поддержания. Заменяет общий бонус урона и перезарядки ультимейта.",
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_scepter_description": "Scepter: Зловещий взгляд становится поддерживаемым заклинанием с выбором области радиусом %aoe_scepter%. Контролирует каждого врага в области и истощает его ману. Лич может применять Ледяной взрыв, Ледяной щит и Цепной мороз без прерывания поддержания. Заменяет общий бонус урона и перезарядки ультимейта. Если Ледяной шпиль открыт, его тоже можно применить без прерывания Gaze.",
     "enfos_lich_ice_spire_unit": "Ледяной шпиль",
     "DOTA_Tooltip_modifier_enfos_lich_ice_spire": "Ледяной шпиль",
     "DOTA_Tooltip_modifier_enfos_lich_ice_spire_Description": "Замедляет врагов поблизости. Уничтожается четырьмя атаками героев или восемью атаками крипов. Каждый импульс Frost Shield восстанавливает прочность на одну атаку героя.",
     "DOTA_Tooltip_modifier_enfos_lich_ice_spire_slow": "Ледяной шпиль",
-    "DOTA_Tooltip_modifier_enfos_lich_ice_spire_slow_Description": "Скорость передвижения снижена на %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
+    "DOTA_Tooltip_modifier_enfos_lich_ice_spire_slow_Description": "Скорость передвижения снижена на %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_spire": "Ледяной шпиль",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_spire_Description": "Создаёт один Ледяной шпиль на {{duration}} сек. Замедляет врагов в радиусе {{aura_radius}} на {{bonus_movespeed|abs}}%. Выдерживает {{max_hero_attacks}} атаки героев или {{max_creep_attacks}} атак крипов. При уничтожении или истечении срока выпускает урон по области от изученного Frost Blast. Импульс Frost Shield восстанавливает прочность на одну атаку героя. Chain Frost может выбрать шпиль и отскакивать через него к прежним врагам, расходуя прочность на одну атаку героя за попадание. Повторное применение убирает старый шпиль без взрыва.",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_spire_shard_description": "Shard: Даёт Ледяной шпиль. Длительность %duration% сек., радиус замедления %aura_radius%, замедление 25%. Выдерживает %max_hero_attacks% атаки героев или %max_creep_attacks% атак крипов. Frost Shield восстанавливает прочность; Chain Frost отскакивает через шпиль. Заменяет общий бонус Lich к исходящему лечению."
   }
 }

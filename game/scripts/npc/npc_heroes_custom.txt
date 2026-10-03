@@ -1450,7 +1450,7 @@
 		"Ability3"				"enfos_lich_sinister_gaze"
 		"Ability4"				"enfos_lich_chain_frost"
 		"Ability5"				"enfos_lich_ice_aura"
-		"Ability6"				"generic_hidden"
+		"Ability6"				"enfos_lich_ice_spire"
 		"Ability7" "generic_hidden"
 		"Ability8" "generic_hidden"
 		"Ability9" "generic_hidden"

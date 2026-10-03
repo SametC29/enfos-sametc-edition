@@ -21,7 +21,7 @@ function enfos_lich_chain_frost:OnSpellStart()
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not c or c:IsNull() or not c:IsAlive() or not t or t:IsNull() or not t:IsAlive() then return end
-    local spire = Spire.IsOwned(c, t)
+    local spire = Spire.IsEnabled(c, t)
     if t:GetTeamNumber() == c:GetTeamNumber() and not spire then
         HeroTrace:Log('LICH','R','cast_cancelled reason=friendly_primary target=%s',HeroTrace:Name(t))
         return
@@ -71,7 +71,7 @@ function enfos_lich_chain_frost:OnProjectileHit_ExtraData(target, location, data
     if not data or type(data.hits) ~= 'number' or type(data.limit) ~= 'number'
         or type(data.damage) ~= 'number' or type(data.slow_duration) ~= 'number'
         or data.hits < 0 or data.hits ~= math.floor(data.hits) or data.hits >= data.limit or data.limit > 18 then return true end
-    local spire = Spire.IsOwned(c, target)
+    local spire = Spire.IsEnabled(c, target)
     if not target or target:IsNull() or not target:IsAlive()
         or (target:GetTeamNumber() == c:GetTeamNumber() and not spire)
         or (target.IsOther and target:IsOther() and not spire) then
@@ -122,7 +122,7 @@ function enfos_lich_chain_frost:OnProjectileHit_ExtraData(target, location, data
         end
     end
     local bridge = Spire.Get(c)
-    if not spire and bridge and (bridge:GetAbsOrigin()-origin):Length2D()<=600 then
+    if not spire and bridge and Spire.IsEnabled(c, bridge) and (bridge:GetAbsOrigin()-origin):Length2D()<=600 then
         self:LaunchChainProjectile(bridge, origin, data); return true
     end
     HeroTrace:Log('LICH','R','chain_end reason=no_unvisited_target hits=%s',tostring(data.hits))

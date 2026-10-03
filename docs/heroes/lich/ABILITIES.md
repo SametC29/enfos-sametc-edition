@@ -342,5 +342,7 @@ R remains TUNE: authored finite distinct-target orb plus native-style own-Spire
 bridge; ward contacts consume the same impact budget and permit the next enemy
 revisit. Stable five-slot IDs/ranks remain unchanged. Source integration and
 per-case evidence are recorded in [Shard implementation ledger](../../audit/LICH_SHARD_IMPLEMENTATION_2026-10-03.md).
-Extra Shard acquisition is still pending. Owner runtime/visual/audio/engine
+Extra Shard acquisition/reconciliation is locally implemented in slot6; the five
+ordinary ranks remain unchanged and the old generic healing bonus is removed.
+Owner runtime/visual/audio/engine
 acceptance remains NOT TESTED; source/mock results are not engine certification.

@@ -4,6 +4,114 @@ import fs from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import {parseKV} from '../lib/kv.mjs';
 
+test('Lich Shard has a native-style hidden sixth slot without consuming ordinary skill ranks',()=>{
+  const a=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.txt','utf8')).DOTAAbilities;
+  const h=parseKV(fs.readFileSync('game/scripts/npc/npc_heroes_custom.txt','utf8')).DOTAHeroes.npc_dota_hero_lich;
+  assert.equal(h.Ability6,'enfos_lich_ice_spire');const s=a[h.Ability6];
+  assert.equal(s.ScriptFile,'abilities/heroes/lich/spire');assert.equal(s.MaxLevel,'1');
+  for(const flag of ['POINT','AOE','HIDDEN','NOT_LEARNABLE','IGNORE_BACKSWING'])assert.ok(s.AbilityBehavior.includes('DOTA_ABILITY_BEHAVIOR_'+flag));
+  for(const key of ['HasShardUpgrade','IsShardUpgrade','IsGrantedByShard'])assert.equal(s[key],'1');
+  assert.equal(a[h.Ability5].HasShardUpgrade,undefined);
+  for(let n=1;n<=5;n++)assert.equal(a[h['Ability'+n]].MaxLevel,'10');
+  assert.equal(s.AbilityCastAnimation,'ACT_DOTA_CAST_ABILITY_5');
+  assert.equal(s.AbilityCastRange,'750');assert.equal(s.AbilityCastPoint,'0.3');
+  assert.equal(s.AbilityCooldown,'25');assert.equal(s.AbilityManaCost,'150');
+  assert.equal(s.AbilityValues.aura_radius.value,'550');
+  assert.equal(s.AbilityValues.max_hero_attacks,'4');assert.equal(s.AbilityValues.max_creep_attacks,'8');
+  assert.equal(s.AbilityValues.duration,'15');assert.equal(s.AbilityValues.slow_duration,'0.5');
+  for(const lang of ['english','turkish','russian','schinese']){
+    const t=JSON.parse(fs.readFileSync(`localization/${lang}.json`,'utf8')).Tokens;
+    assert.ok(t.DOTA_Tooltip_Ability_enfos_lich_ice_spire);
+    assert.ok(t.DOTA_Tooltip_Ability_enfos_lich_ice_spire_Description.includes('{{max_hero_attacks}}'));
+    assert.ok(t.DOTA_Tooltip_Ability_enfos_lich_ice_spire_shard_description.includes('%aura_radius%'));
+    assert.equal(t.DOTA_Tooltip_Ability_enfos_lich_ice_aura_shard_description,undefined);
+  }
+});
+
+test('Real acquisition manager grants, reconciles and retires Lich Shard without duplicate slots or free Nova',()=>{
+  const script=`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t) t.__index=t;return t end
+function LinkLuaModifier() end
+function IsServer() return true end
+DOTA_ABILITY_BEHAVIOR_POINT=16;DOTA_ABILITY_BEHAVIOR_AOE=32;DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE=64
+DOTA_ABILITY_BEHAVIOR_HIDDEN=1;DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING=134217728;DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL=4194304
+local manager=require('heroes/aghanim_manager');local Spire=require('abilities/heroes/lich/spire')
+local held,consumed=false,false;local source='modifier_item_aghanims_shard_consumed'
+local scepter=false;local gaze={IsNull=function() return false end}
+local adds,updates,removals,spawns=0,0,0,0;local ability;local failAdd=false
+local caster={IsNull=function() return false end,GetUnitName=function() return 'npc_dota_hero_lich' end,
+ GetEntityIndex=function() return 501 end,GetTeamNumber=function() return 2 end,IsAlive=function() return true end,
+ HasModifier=function(_,id) return consumed and id==source end,
+ HasItemInInventory=function(_,id) return held and id=='item_aghanims_shard' end,
+ HasScepter=function() return scepter end,
+ FindAbilityByName=function(_,id) return id=='enfos_lich_ice_spire' and ability or id=='enfos_lich_sinister_gaze' and gaze end,
+ AddNewModifier=function() updates=updates+1 end,RemoveModifierByName=function() removals=removals+1 end,
+ RemoveAbility=function() error('Do not remove static slot and shift core skills') end}
+local function extra()
+ local a=setmetatable({rank=0,hidden=true,active=false,IsNull=function() return false end,
+ GetCaster=function() return caster end,GetSpecialValueFor=function(_,k) return k=='duration' and 15 or 0 end},enfos_lich_ice_spire)
+ function a:GetLevel() return self.rank end
+ function a:SetLevel(n) self.rank=n;self.rankWrites=(self.rankWrites or 0)+1 end
+ function a:IsHidden() return self.hidden end
+ function a:SetHidden(v) self.hidden=v end
+ function a:IsActivated() return self.active end
+ function a:SetActivated(v) self.active=v end
+ return a
+end
+function caster:AddAbility(id) assert(id=='enfos_lich_ice_spire');adds=adds+1;if not failAdd then ability=extra();return ability end end
+function CreateUnitByName() spawns=spawns+1;return nil end
+manager.activeShards={};manager.activeScepters={}
+ability=extra();manager:UpdateHeroAghanimState(caster,'Support')
+assert(ability.rank==0 and ability.hidden and updates==0,'No Shard remains hidden with zero paid/free extra rank')
+local base=16+32+64+134217728;assert(ability:GetBehavior()==base+1)
+held=true;manager:UpdateHeroAghanimState(caster,'Support')
+assert(ability.rank==1 and not ability.hidden and ability.active and adds==0 and updates==1,'Reuse assigned sixth slot')
+assert(ability:GetBehavior()==base);scepter=true;gaze.gazeTargets={}
+assert(ability:GetBehavior()==base+4194304,'Scepter Gaze also permits point-target Shard cast without changing point/AoE flags')
+gaze.gazeTargets=nil;assert(ability:GetBehavior()==base);scepter=false
+local writes=ability.rankWrites;manager:UpdateHeroAghanimState(caster,'Support')
+assert(ability.rankWrites==writes and updates==1 and adds==0,'Stable polling cannot regrant rank/modifier')
+held=false;consumed=true;manager:UpdateHeroAghanimState(caster,'Support')
+assert(ability.active and updates==1,'Consumed native Shard retains ability')
+ability.hidden=true;ability.active=false;manager:UpdateHeroAghanimState(caster,'Support')
+assert(not ability.hidden and ability.active and ability.rankWrites==writes,'Reconcile presentation without rank or unit duplication')
+ability=nil;failAdd=true;manager:UpdateHeroAghanimState(caster,'Support');assert(not ability and adds==1)
+failAdd=false;manager:UpdateHeroAghanimState(caster,'Support');assert(ability and adds==2 and ability.rank==1,'Failed AddAbility retried by existing loop')
+local ward={alive=true,GetUnitName=function() return Spire.unitName end,GetOwnerEntity=function() return caster end,
+ GetTeamNumber=function() return 2 end,IsNull=function() return false end,
+ IsAlive=function(self) return self.alive end,GetAbsOrigin=function() return {} end}
+local killed=0;local controller=setmetatable({IsNull=function() return false end,GetParent=function() return ward end,
+ GetCaster=function() return caster end,GetAbility=function() return ability end},modifier_enfos_lich_ice_spire)
+function ward:FindModifierByName() return controller end
+function ward:ForceKill() self.alive=false;killed=killed+1;controller:OnDeath({unit=self});controller:OnDestroy() end
+caster.enfosLichSpire=ward;consumed=false
+manager:UpdateHeroAghanimState(caster,'Support')
+assert(killed==1 and caster.enfosLichSpire==nil and ability.rank==0 and ability.hidden and not ability.active and removals==1)
+assert(adds==2 and spawns==0,'Shard acquisition/restoration never spawns a ward; loss retires existing ward without Nova')
+ability.rank=1;ability:OnSpellStart();assert(spawns==0,'Server cast guard rejects missing Shard even before reconciliation')
+consumed=true;source='modifier_aghanims_shard_consumed';manager:UpdateHeroAghanimState(caster,'Support')
+assert(ability.active and ability.rank==1,'Alternate consumed modifier is also retained')
+source='modifier_item_aghanims_shard_permanent_buff';ability.hidden=true;ability.active=false
+manager:UpdateHeroAghanimState(caster,'Support')
+assert(manager:HasShard(caster) and ability.active and not ability.hidden and ability.rank==1,'Installed native permanent Shard identifier restores Lich grant')
+local unreviewed={GetUnitName=function() return 'npc_dota_hero_omniknight' end,
+ HasModifier=function(_,id) return id=='modifier_item_aghanims_shard_permanent_buff' end}
+assert(not manager:HasShard(unreviewed),'Compatibility expansion is restricted to the reviewed Lich kit')
+local m=setmetatable({role='Support',GetParent=function() return caster end},modifier_enfos_shard_upgrade)
+assert(m:IsHidden() and m:GetModifierHealAmplify_PercentageSource()==0,'Unique Lich Shard removes old generic heal bonus')
+local other={GetUnitName=function() return 'npc_dota_hero_omniknight' end}
+m.GetParent=function() return other end;assert(m:GetModifierHealAmplify_PercentageSource()==25,'Other supports retain existing generic bonus')
+local contexts={};function PrecacheUnitByNameSync(name,context,player) assert(name==Spire.unitName and context==contexts and player==nil) end
+local precaches=0;function PrecacheResource(kind,path,context) assert(context==contexts);precaches=precaches+1 end
+ability:Precache(contexts);assert(precaches==3,'Unit, model, bank and death Nova are precached')
+print('Lich Shard acquisition regression PASS')
+`;
+  const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});
+  assert.equal(r.status,0,r.stderr||r.stdout);
+  assert.match(r.stdout,/Lich Shard acquisition regression PASS/,r.stderr);
+});
+
 test('Real W repairs only owned Spire and real R bridges without escaping the ordinary hit budget',()=>{
   const script=`
 package.path='game/scripts/vscripts/?.lua;'..package.path
@@ -20,6 +128,7 @@ local origin=setmetatable({x=0,y=0},vector)
 local Spire=require('abilities/heroes/lich/spire')
 require('abilities/heroes/lich/w');require('abilities/heroes/lich/r')
 local caster={GetTeamNumber=function() return 2 end,GetIntellect=function() return 40 end,
+ HasModifier=function(_,id) return id=='modifier_item_aghanims_shard_consumed' end,
  IsNull=function() return false end,IsAlive=function() return true end,GetAbsOrigin=function() return origin end,
  EmitSound=function() end,FindAbilityByName=function() return nil end}
 function EmitSoundOnLocationWithCaster() end
@@ -134,6 +243,7 @@ function LinkLuaModifier() end
 local server=true;function IsServer() return server end
 local Spire=require('abilities/heroes/lich/spire')
 local caster={removed=false,alive=true};local sounds,blasts,kills,spawned=0,0,0,{}
+function caster:HasModifier(id) return id=='modifier_item_aghanims_shard_consumed' end
 local q={GetLevel=function() return 1 end,IsNull=function() return false end}
 function q:BlastAtPoint(origin) assert(origin);blasts=blasts+1 end
 function caster:IsNull() return self.removed end
@@ -143,6 +253,7 @@ function caster:FindAbilityByName(id) assert(id=='enfos_lich_frost_blast');retur
 local removed=false
 local values={duration=15,max_hero_attacks=4,max_creep_attacks=8,aura_radius=550,slow_duration=0.5,bonus_movespeed=-25}
 local ability=setmetatable({GetCaster=function() return caster end,IsNull=function() return removed end,
+ GetLevel=function() return 1 end,
  GetCursorPosition=function() return {x=400,y=700,z=0} end,
  GetSpecialValueFor=function(_,key) return values[key] or 0 end},enfos_lich_ice_spire)
 function EmitSoundOnLocationWithCaster(origin,event,owner)

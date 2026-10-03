@@ -5,7 +5,7 @@ local HeroTrace = require('lib/hero_trace')
 local Upgrades = require('abilities/heroes/lich/upgrades')
 local Spire = require('abilities/heroes/lich/spire')
 local function allowed_ward(caster, unit)
-    return not unit.IsOther or not unit:IsOther() or Spire.IsOwned(caster, unit)
+    return not unit.IsOther or not unit:IsOther() or Spire.IsEnabled(caster, unit)
 end
 
 LinkLuaModifier('modifier_enfos_lich_frost_shield', 'abilities/heroes/lich/w', LUA_MODIFIER_MOTION_NONE)

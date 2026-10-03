@@ -554,7 +554,6 @@
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_shard_description": "Outgoing healing +25%.",
     "DOTA_Tooltip_Ability_enfos_vs_nether_swap_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
     "DOTA_Tooltip_Ability_enfos_vs_retribution_shard_description": "Outgoing healing +25%.",
-    "DOTA_Tooltip_Ability_enfos_lich_ice_aura_shard_description": "Outgoing healing +25%.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Lore": "A razor-sharp coat of mail, it is the choice of selfless martyrs in combat.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note0": "Damage Return is calculated before any kind of reduction.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note1": "Returned damage type is the same as it was received.",
@@ -1431,11 +1430,14 @@
     "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff_Description": "Hypnotized: unable to act while Lich channels, with mana drained and movement pulled toward him. A basic dispel removes this effect and ends its channel.",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield_slow": "Frost Shield Slow",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield_slow_Description": "Movement speed reduced by %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Can be dispelled.",
-    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_scepter_description": "Scepter: Sinister Gaze becomes a %aoe_scepter%-radius point-target channel. Controls and drains each enemy in the area. Lich can cast Frost Blast, Frost Shield and Chain Frost without interrupting this channel. Replaces the generic ultimate damage/cooldown bonus.",
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_scepter_description": "Scepter: Sinister Gaze becomes a %aoe_scepter%-radius point-target channel. Controls and drains each enemy in the area. Lich can cast Frost Blast, Frost Shield and Chain Frost without interrupting this channel. Replaces the generic ultimate damage/cooldown bonus. If Ice Spire is unlocked, it can also be cast without interrupting Gaze.",
     "enfos_lich_ice_spire_unit": "Ice Spire",
     "DOTA_Tooltip_modifier_enfos_lich_ice_spire": "Ice Spire",
     "DOTA_Tooltip_modifier_enfos_lich_ice_spire_Description": "Slows nearby enemies. Four hero attacks or eight creep attacks destroy it. Frost Shield repairs one hero hit per pulse.",
     "DOTA_Tooltip_modifier_enfos_lich_ice_spire_slow": "Ice Spire",
-    "DOTA_Tooltip_modifier_enfos_lich_ice_spire_slow_Description": "Movement speed reduced by %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
+    "DOTA_Tooltip_modifier_enfos_lich_ice_spire_slow_Description": "Movement speed reduced by %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%.",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_spire": "Ice Spire",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_spire_Description": "Creates one Ice Spire for {{duration}} seconds. It slows enemies within {{aura_radius}} radius by {{bonus_movespeed|abs}}%. It survives {{max_hero_attacks}} hero attacks or {{max_creep_attacks}} creep attacks. Destruction or expiry releases learned Frost Blast splash. Frost Shield repairs one hero hit per pulse. Chain Frost can target the Spire and bounce through it to revisit enemies, spending one hero hit per contact. Recasting replaces the old Spire without a death blast.",
+    "DOTA_Tooltip_Ability_enfos_lich_ice_spire_shard_description": "Shard: Grants Ice Spire. The totem lasts %duration% seconds and slows enemies within %aura_radius% radius by 25%. It survives %max_hero_attacks% hero attacks or %max_creep_attacks% creep attacks. Frost Shield repairs it; Chain Frost can bounce through it. Replaces Lich’s generic outgoing-healing bonus."
   }
 }

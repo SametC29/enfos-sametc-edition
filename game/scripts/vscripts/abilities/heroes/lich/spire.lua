@@ -1,6 +1,7 @@
 -- Native-style Ice Spire controller. Acquisition/extra-slot exposure is separate.
 local Helpers = require('abilities/shared/pve_helpers')
 local HeroTrace = require('lib/hero_trace')
+local Upgrades = require('abilities/heroes/lich/upgrades')
 local Spire = { unitName='enfos_lich_ice_spire_unit' }
 local function valid(entity) return entity and not entity:IsNull() end
 local function live(entity) return valid(entity) and entity:IsAlive() end
@@ -11,12 +12,15 @@ function Spire.IsOwned(caster, unit)
         and unit:GetTeamNumber()==caster:GetTeamNumber()
         and unit:GetOwnerEntity()==caster
 end
+function Spire.IsEnabled(caster, unit)
+    return Spire.IsOwned(caster, unit) and Upgrades.HasShard(caster)
+end
 function Spire.TargetFilter(caster, unit, team)
     if not valid(caster) or not valid(unit) then return UF_FAIL_OTHER end
     if not unit:IsAlive() then return UF_FAIL_DEAD end
     if unit.GetUnitName and unit:GetUnitName()==Spire.unitName then
         -- Client can predict candidate selection; only the server checks owner.
-        if unit:GetTeamNumber()==caster:GetTeamNumber() and (not IsServer() or Spire.IsOwned(caster, unit)) then
+        if unit:GetTeamNumber()==caster:GetTeamNumber() and (not IsServer() or Spire.IsEnabled(caster, unit)) then
             return UF_SUCCESS
         end
         return UF_FAIL_OTHER
@@ -44,11 +48,13 @@ function Spire.Retire(caster, reason)
     end
 end
 function Spire.HeroHit(caster, unit)
+    if not Spire.IsEnabled(caster, unit) then return false end
     local controller = Spire.Controller(caster, unit)
     if controller then return controller:SpendHits(controller.heroCost, 'chain_frost') end
     return false
 end
 function Spire.Repair(caster, unit)
+    if not Spire.IsEnabled(caster, unit) then return 0 end
     local controller = Spire.Controller(caster, unit)
     if controller then return controller:RepairHeroHit() end
     return 0
@@ -58,7 +64,14 @@ LinkLuaModifier('modifier_enfos_lich_ice_spire', 'abilities/heroes/lich/spire', 
 LinkLuaModifier('modifier_enfos_lich_ice_spire_slow', 'abilities/heroes/lich/spire', LUA_MODIFIER_MOTION_NONE)
 
 enfos_lich_ice_spire=class({})
+function enfos_lich_ice_spire:GetBehavior()
+    local base = DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_AOE
+        + DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE + DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING
+    if self:GetLevel()<1 then base=base+DOTA_ABILITY_BEHAVIOR_HIDDEN end
+    return Upgrades.CastBehavior(self, base)
+end
 function enfos_lich_ice_spire:Precache(context)
+    PrecacheUnitByNameSync(Spire.unitName, context, nil)
     PrecacheResource('model', 'models/heroes/lich/ice_spire.vmdl', context)
     PrecacheResource('soundfile', 'soundevents/game_sounds_heroes/game_sounds_lich.vsndevts', context)
     -- Q's death Nova is possible even if Q has not been manually cast this match.
@@ -68,7 +81,7 @@ function enfos_lich_ice_spire:GetAOERadius() return Helpers.value(self, 'aura_ra
 function enfos_lich_ice_spire:OnSpellStart()
     if not IsServer() or self:IsNull() then return end
     local caster = self:GetCaster()
-    if not live(caster) then return end
+    if not live(caster) or self:GetLevel()<1 or not Upgrades.HasShard(caster) then return end
     local duration = Helpers.value(self, 'duration')
     if duration<=0 then
         HeroTrace:Log('LICH','D','spire_spawn_failed reason=invalid_lifetime')
@@ -148,7 +161,7 @@ function modifier_enfos_lich_ice_spire:RepairHeroHit()
 end
 function modifier_enfos_lich_ice_spire:OnIntervalThink()
     if not IsServer() or self.terminated then return end
-    if not valid(self:GetAbility()) or not Spire.IsOwned(self:GetCaster(), self:GetParent()) then
+    if not valid(self:GetAbility()) or not Spire.IsEnabled(self:GetCaster(), self:GetParent()) then
         self:Terminate('source_or_ownership_lost', false)
     end
 end
@@ -166,7 +179,7 @@ function modifier_enfos_lich_ice_spire:Terminate(reason, blast)
     if valid(caster) and caster.enfosLichSpire==parent then caster.enfosLichSpire=nil end
     local ability = self:GetAbility()
     -- Removed source/owner and deliberate retirement cannot grant a free Nova.
-    if blast and origin and valid(caster) and valid(ability)
+    if blast and origin and valid(caster) and valid(ability) and Upgrades.HasShard(caster)
         and valid(parent) and parent:GetOwnerEntity()==caster
         and parent:GetTeamNumber()==caster:GetTeamNumber() then
         EmitSoundOnLocationWithCaster(origin, 'Hero_Lich.IceSpire.Destroy', caster)
@@ -177,7 +190,7 @@ function modifier_enfos_lich_ice_spire:Terminate(reason, blast)
     HeroTrace:Log('LICH','D','spire_removed reason=%s nova_requested=%s cleanup=unit_and_modifier',reason,tostring(blast))
 end
 function modifier_enfos_lich_ice_spire:IsAura()
-    return IsServer() and not self.terminated and valid(self:GetAbility()) and Spire.IsOwned(self:GetCaster(), self:GetParent())
+    return IsServer() and not self.terminated and valid(self:GetAbility()) and Spire.IsEnabled(self:GetCaster(), self:GetParent())
 end
 function modifier_enfos_lich_ice_spire:GetModifierAura() return 'modifier_enfos_lich_ice_spire_slow' end
 function modifier_enfos_lich_ice_spire:GetAuraRadius() return Helpers.value(self:GetAbility(),'aura_radius') end
