@@ -3938,7 +3938,10 @@
           "specials": {
             "bonus_damage": "30 50 70 90 105 120 135 150 165 180",
             "slow_as": "30 40 50 60 62 64 66 68 72 75",
-            "radius": "300"
+            "radius": "300",
+            "duration": "5",
+            "tick_rate": "0.5",
+            "building_dmg_pct": "75"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],

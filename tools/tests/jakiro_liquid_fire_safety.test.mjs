@@ -7,11 +7,11 @@ package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end
 function LinkLuaModifier()end
 local server=true;function IsServer()return server end
-DAMAGE_TYPE_MAGICAL=2;DOTA_UNIT_TARGET_TEAM_ENEMY=3;DOTA_UNIT_TARGET_HERO=1;DOTA_UNIT_TARGET_BASIC=2;DOTA_UNIT_TARGET_FLAG_NONE=0;FIND_ANY_ORDER=0;PATTACH_ABSORIGIN_FOLLOW=0
+DAMAGE_TYPE_MAGICAL=2;DOTA_UNIT_TARGET_TEAM_ENEMY=3;DOTA_UNIT_TARGET_HERO=1;DOTA_UNIT_TARGET_BASIC=2;DOTA_UNIT_TARGET_BUILDING=4;DOTA_UNIT_TARGET_FLAG_NONE=0;FIND_ANY_ORDER=0;PATTACH_ABSORIGIN_FOLLOW=0
 MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT=1;MODIFIER_PROPERTY_TOOLTIP=2;MODIFIER_EVENT_ON_ATTACK_LANDED=3
 Convars={GetBool=function()return false end}
 require('abilities/heroes/jakiro/e')
-for _,mode in ipairs({'normal','poor','cooldown','client','nil_event','removed_caster','removed_ability','removed_target','break','illusion','unlearned','autocast_off','corpse','resource_removes_ability','damage_removes_ability','absorb_removes_caster','manual'})do
+for _,mode in ipairs({'normal','poor','cooldown','client','nil_event','removed_caster','removed_ability','removed_target','break','illusion','unlearned','autocast_off','corpse','resource_removes_ability','modifier_removes_ability','absorb_removes_caster','manual'})do
  local c,a,target,normal,boss,modifier
  local spend,hits,mods=0,{},{}
  local function unit(name,team)
@@ -26,7 +26,7 @@ for _,mode in ipairs({'normal','poor','cooldown','client','nil_event','removed_c
   function u:IsIllusion()assert(not self.removed);return mode=='illusion' end
   function u:GetIntellect()assert(not self.removed);return 100 end
   function u:TriggerSpellAbsorb()if mode=='absorb_removes_caster' then c.removed=true end;return false end
-  function u:AddNewModifier(caster,ability,name,p)assert(not self.removed and not caster.removed and not ability.removed);mods[#mods+1]=p end
+  function u:AddNewModifier(caster,ability,name,p)assert(not self.removed and not caster.removed and not ability.removed);mods[#mods+1]=p;if mode=='modifier_removes_ability' then a.removed=true end end
   return u
  end
  c=unit('jakiro',2);target=unit('target',3);normal=unit('normal',3);boss=unit('enfos_boss_test',3);boss.isBoss=true
@@ -48,14 +48,14 @@ for _,mode in ipairs({'normal','poor','cooldown','client','nil_event','removed_c
  modifier=setmetatable({GetParent=function()return c end,GetAbility=function()return a end},modifier_enfos_jakiro_liquid_fire_passive)
  ParticleManager={CreateParticle=function()return 1 end,ReleaseParticleIndex=function()end}
  function FindUnitsInRadius()return {normal,boss}end
- function ApplyDamage(info)hits[#hits+1]=info;if mode=='damage_removes_ability' then a.removed=true end;return info.damage end
+ function ApplyDamage(info)hits[#hits+1]=info;return info.damage end
  server=mode~='client'
  if mode=='removed_caster' then c.removed=true elseif mode=='removed_ability' then a.removed=true elseif mode=='removed_target' then target.removed=true elseif mode=='corpse' then target.alive=false end
  if mode=='manual' or mode=='absorb_removes_caster' then a:OnSpellStart()else local event={attacker=c,target=target};if mode=='nil_event' then event=nil end;modifier:OnAttackLanded(event)end
- if mode=='normal' or mode=='corpse' then assert(spend==1 and #hits==2 and #mods==2);assert(hits[1].damage==120 and hits[2].damage==120);assert(mods[1].slow_as==60)
- elseif mode=='manual' then assert(spend==0 and #hits==2)
+ if mode=='normal' or mode=='corpse' then assert(spend==1 and #hits==0 and #mods==2);assert(mods[1].dps==24 and mods[2].dps==24 and mods[1].duration==5);assert(mods[1].slow_as==60)
+ elseif mode=='manual' then assert(spend==0 and #hits==0 and #mods==2)
  elseif mode=='resource_removes_ability' then assert(spend==1 and #hits==0)
- elseif mode=='damage_removes_ability' then assert(spend==1 and #hits==1 and #mods==0)
+ elseif mode=='modifier_removes_ability' then assert(spend==1 and #hits==0 and #mods==1)
  else assert(spend==0 and #hits==0,'Rejected path spent or applied effects: '..mode)end
 end
 print('Jakiro E resource/callback safety PASS')
@@ -75,9 +75,9 @@ Convars={GetBool=function()return false end}
 require('abilities/heroes/jakiro/e')
 local removed,slow=false,30
 local a={IsNull=function()return removed end,GetSpecialValueFor=function()assert(not removed);return slow end}
-local parent={immune=false,GetUnitName=function()return 'target' end,IsMagicImmune=function(self)return self.immune end}
+local parent={immune=false,IsAlive=function()return true end,GetUnitName=function()return 'target' end,IsMagicImmune=function(self)return self.immune end}
 local sends=0
-local function mod()return setmetatable({GetParent=function()return parent end,GetAbility=function()return a end,
+local function mod()return setmetatable({GetElapsedTime=function()return 0 end,StartIntervalThink=function()end,GetCaster=function()return {} end,GetParent=function()return parent end,GetAbility=function()return a end,
  SetHasCustomTransmitterData=function()end,SendBuffRefreshToClients=function()sends=sends+1 end},modifier_enfos_jakiro_liquid_fire_slow)end
 local m=mod();m:OnCreated({slow_as=30});slow=75
 assert(m:GetModifierAttackSpeedBonus_Constant()==-30 and m:OnTooltip()==30)

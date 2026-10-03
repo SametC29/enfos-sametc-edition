@@ -5381,7 +5381,7 @@
 		"ScriptFile"				"abilities/heroes/jakiro/e"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AUTOCAST"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_BUILDING"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"jakiro_liquid_fire"
 		"AbilityCastRange"			"600"
@@ -5398,6 +5398,9 @@
 			"bonus_damage"	"30 50 70 90 105 120 135 150 165 180"
 			"slow_as"	"30 40 50 60 62 64 66 68 72 75"
 			"radius"	"300"
+			"duration" "5"
+			"tick_rate" "0.5"
+			"building_dmg_pct" "75"
 		}
 	}
 

@@ -837,7 +837,7 @@
     "DOTA_Tooltip_Ability_enfos_wk_reincarnation_Description": "Если способность готова, герой возрождается через {{reincarnation_time}} сек. после смерти. Взрыв наносит {{damage}} + {{strength_damage_factor}} × сила магического урона в радиусе {{slow_radius}} и замедляет на {{slow_pct|percent}} (обычно {{slow_duration}} сек., боссов — {{boss_slow_duration}} сек.).",
     "DOTA_Tooltip_Ability_enfos_medusa_mana_shield_Description": "Даёт {{bonus_mana}} маны. Поглощает {{absorption_pct}}% входящего урона, расходуя 1 ману за каждые {{damage_per_mana}} поглощённого урона. Поглощение ограничено запасом маны.",
     "DOTA_Tooltip_Ability_enfos_leshrac_defilement_Description": "Даёт +{{bonus_int}} к интеллекту. Восстанавливает здоровье в размере {{spell_lifesteal}}% урона, нанесённого врагам способностями. Обычные атаки и отражённый урон не лечат; пробивание и иллюзии отключают эту пассивную способность.",
-    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_Description": "Применяется вручную или при попадании атаки, если включено автоприменение, хватает маны и способность готова. Наносит {{bonus_damage}} + 30% интеллекта магического урона в радиусе {{radius}} и снижает скорость атаки на {{slow_as}} на 4 сек. Автоприменение тратит ману и запускает перезарядку. Замедление определяется при попадании и развеивается.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_Description": "Применяется вручную или при попадании атаки, если включено автоприменение, хватает маны и способность готова. Поджигает врагов в радиусе {{radius}} на {{duration}} сек., нанося суммарно {{bonus_damage}} + 30% интеллекта магического урона и снижая скорость атаки на {{slow_as}}. Здания получают {{building_dmg_pct}}% урона. Автоприменение тратит ману и запускает перезарядку. Значения определяются при попадании. Развеивание прекращает горение; повторное попадание обновляет длительность.",
     "DOTA_Tooltip_Ability_enfos_medusa_split_shot_Description": "Включает или отключает дополнительные стрелы. При включении атаки поражают до {{arrow_count}} дополнительных врагов, нанося {{damage_modifier}}% урона атаки + 0,5 × ловкость.",
     "DOTA_Tooltip_Ability_enfos_juggernaut_healing_ward_Description": "Создаёт область лечения на {{duration}} секунд. Союзники в радиусе {{radius}} восстанавливают {{heal_pct}}% максимального здоровья в секунду. Не более 3 областей одновременно; новая заменяет самую старую.",
     "DOTA_Tooltip_Ability_enfos_sniper_shrapnel_Description": "Наносит врагам в выбранной области {{shrapnel_damage}} + 35% от ловкости физического урона каждую секунду в течение {{duration}} сек. и замедляет их на {{slow_pct}}%.",
@@ -1404,6 +1404,6 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_burn": "Двойное дыхание: горение",
     "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_burn_Description": "%fMODIFIER_PROPERTY_TOOLTIP% магического урона в секунду. Развеивается; досрочное снятие не наносит оставшийся урон.",
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow": "Жидкий огонь",
-    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "Скорость атаки -%dMODIFIER_PROPERTY_TOOLTIP%. Развеивается."
+    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "Скорость атаки -%dMODIFIER_PROPERTY_TOOLTIP%. Магический урон в секунду: %fMODIFIER_PROPERTY_TOOLTIP2%. Развеивание прекращает горение."
   }
 }
