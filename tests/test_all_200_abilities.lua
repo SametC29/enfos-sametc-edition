@@ -244,6 +244,7 @@ function create_mock_unit(name, team, origin, hp)
         GetUnitName = function(self) return self.name end,
         GetAbsOrigin = function(self) return self.origin end,
         SetAbsOrigin = function(self, pos) self.origin = pos end,
+        Interrupt = function(self) self.channeling = false end,
         GetForwardVector = function(self) return Vector(1, 0, 0) end,
         GetMaxHealth = function(self) return self.max_hp end,
         GetHealth = function(self) return self.hp end,

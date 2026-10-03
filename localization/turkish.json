@@ -921,7 +921,7 @@
     "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura": "İntikam Halesi",
     "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura_Description": "{{radius}} menzil içindeki dost kahramanların ve temel birimlerin taban saldırı hasarını pasif olarak %{{bonus_damage_pct}} artırır. Vengeful Spirit kendi aurasından %{{self_multiplier}} daha fazla fayda alır. Aura öğrenilmiş bir rank gerektirir; kaynak kahraman Kırılma etkisindeyken devre dışıdır.",
     "DOTA_Tooltip_Ability_enfos_vs_nether_swap": "Ruh Takası",
-    "DOTA_Tooltip_Ability_enfos_vs_nether_swap_Description": "Hedef birimle anında yer değiştirir. Düşmana {{damage}} + Çeviklik × 1,2 büyü hasarı verir; dostlara hasar vermez. Vengeful Spirit 4 saniye boyunca %30 hasar azaltma kazanır. Geçerli Boss hedefleriyle de yer değiştirebilir.",
+    "DOTA_Tooltip_Ability_enfos_vs_nether_swap_Description": "Hedef birimle anında yer değiştirir. Düşmana {{damage}} + Çeviklik × 1,2 büyü hasarı verir; dostlara hasar vermez. Vengeful Spirit 4 saniye boyunca %30 hasar azaltma kazanır. Geçerli Boss hedefleriyle de yer değiştirebilir. Hedefin kanal kullanımını keser.",
     "DOTA_Tooltip_Ability_enfos_vs_retribution": "Misilleme",
     "DOTA_Tooltip_Ability_enfos_vs_retribution_Description": "+{{bonus_agi}} Çeviklik ve +{{bonus_as}} saldırı hızı verir. Kırılma etkisi bonusları durdurur; illüzyonlar bu bonusları almaz.",
     "DOTA_Tooltip_Ability_enfos_lich_frost_blast": "Donma Patlaması",
@@ -1791,6 +1791,8 @@
     "DOTA_Tooltip_modifier_enfos_vs_vengeance_aura_buff_Description": "Temel saldırı hasarı %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%% artar. Hale kaynağı Kırılma etkisindeyken devre dışıdır.",
     "DOTA_Tooltip_Ability_enfos_vs_magic_missile_shard_description": "Büyülü Füze ilk hedefinden, güncel atış menzilinin %75’i içindeki başka bir düşmana bir kez seker. Kahramanlara öncelik verir; ikinci füze aynı hasarı ve sersemletmeyi uygular.",
     "DOTA_Tooltip_modifier_enfos_vs_wave_debuff": "Dehşet Dalgası",
-    "DOTA_Tooltip_modifier_enfos_vs_wave_debuff_Description": "Zırh değişimi: %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Toplam saldırı hasarı değişimi: %dMODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE%%%. Dağıtılabilir."
+    "DOTA_Tooltip_modifier_enfos_vs_wave_debuff_Description": "Zırh değişimi: %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Toplam saldırı hasarı değişimi: %dMODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE%%%. Dağıtılabilir.",
+    "DOTA_Tooltip_modifier_enfos_vs_nether_swap_buff": "Yer Değiştirme Savunması",
+    "DOTA_Tooltip_modifier_enfos_vs_nether_swap_buff_Description": "Alınan hasar değişimi: %dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%. Dağıtılabilir."
   }
 }

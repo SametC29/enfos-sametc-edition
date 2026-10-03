@@ -7483,6 +7483,7 @@ test('Vengeful Spirit Nether Swap damages target with Agi scaling and buffs defe
     local creep = create_mock_unit('creep_vs', 3, Vector(500, 0, 0), 1000)
     mock_world_units = { vs, creep }
 
+    creep.Interrupt = function() end
     local ab = enfos_vs_nether_swap()
     ab.GetCaster = function() return vs end
     ab.GetCursorTarget = function() return creep end

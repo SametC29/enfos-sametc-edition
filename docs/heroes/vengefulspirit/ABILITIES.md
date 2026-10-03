@@ -26,6 +26,12 @@ grants caster-team 350-radius vision and leaves engine-expiring 4-second viewers
 on its actual path. Native root/child CP evidence and outstanding visual/FOW/
 performance owner tests are recorded in the individual ledger.
 
+2026-10-03 native rules/R correction: Q/W/R declare installed immunity and
+dispel metadata. R interrupts its target's channel and revalidates synchronous
+callback invalidation before effects/movement. Authored defense gains its native
+R icon and explicit basic purgeability. Q death/absorb timing, R trees/native
+target filter and full immunity/dispel engine behavior remain review gates.
+
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
 

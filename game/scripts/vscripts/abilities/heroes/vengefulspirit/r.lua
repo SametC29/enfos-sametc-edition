@@ -19,6 +19,10 @@ function enfos_vs_nether_swap:OnSpellStart()
         return
     end
     if not alive(c) or not alive(t) or (self.IsNull and self:IsNull()) then return end
+    t:Interrupt()
+    HeroTrace:Log('VENGEFUL_SPIRIT','R','target_interrupted target=%s',HeroTrace:Name(t))
+    -- Interrupt can synchronously run a channel-end callback that removes an entity.
+    if not alive(c) or not alive(t) or (self.IsNull and self:IsNull()) then return end
     HeroTrace:Log('VENGEFUL_SPIRIT','R','cast caster=%s target=%s rank=%s allied=%s',HeroTrace:Name(c),HeroTrace:Name(t),tostring(self.GetLevel and self:GetLevel() or 0),tostring(t:GetTeamNumber()==c:GetTeamNumber()))
     c:EmitSound('Hero_VengefulSpirit.NetherSwap')
     t:EmitSound('Hero_VengefulSpirit.NetherSwap')
@@ -55,5 +59,7 @@ function enfos_vs_nether_swap:OnSpellStart()
 end
 
 modifier_enfos_vs_nether_swap_buff=class({})
+function modifier_enfos_vs_nether_swap_buff:GetTexture() return 'vengefulspirit_nether_swap' end
+function modifier_enfos_vs_nether_swap_buff:IsPurgable() return true end
 function modifier_enfos_vs_nether_swap_buff:DeclareFunctions() return { MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE } end
 function modifier_enfos_vs_nether_swap_buff:GetModifierIncomingDamage_Percentage() return -30 end

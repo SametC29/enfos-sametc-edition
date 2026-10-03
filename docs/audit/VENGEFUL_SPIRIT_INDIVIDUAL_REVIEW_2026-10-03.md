@@ -393,3 +393,39 @@ vision. Source bindings are implemented; actual cold-start head/swirl appearance
 refresh/expiry/purge cleanup, FOW trail duration, terrain behavior and dense-wave
 performance remain PENDING OWNER DOTA/VCONSOLE TEST. Q/R immunity/death semantics
 and dedicated Scepter remain source-open; this is not whole-hero completion.
+
+## Native dispel/immunity metadata and R channel interruption
+
+Installed build-6943 KV explicitly declares Q/W non-piercing enemy immunity,
+Q strong dispel, W basic dispel, and R enemy immunity piercing/basic dispel.
+Those fields were absent from the custom actives. Added the same metadata,
+without custom IsMagicImmune early returns, Boss exceptions or damage flags.
+[ModDota KV documentation](https://moddota.com/abilities/ability-keyvalues)
+describes those exposed fields; ability_lua/builtin-stun/modifier behavior still
+requires the owner immunity/dispel test, not certification from metadata alone.
+
+Native English Nether Swap Note2 (line 1434) explicitly says channeling spells
+are interrupted. Custom R moved units but never called Interrupt. After valid
+target/absorb validation it now interrupts the target, then revalidates caster,
+target and ability before any swap effects, movement or damage. MCP confirms
+server `CDOTA_BaseNPC:Interrupt`. Channel-end callbacks can synchronously remove
+entities; regression covers target, caster and ability invalidation there.
+Allies, normal hostile units and Bosses use the same interruption path. Rejected
+or spell-blocked casts never interrupt. Added native R modifier icon and explicit
+basic purgeability for the existing authored 4-second/30% defense; its numbers
+are not claimed to be current Dota's zero-valued reduction mechanic.
+
+Baseline fixture reproduces no target interruption. Repaired fixture checks
+exactly one interruption for valid swaps and no subsequent feedback/gameplay
+after callback invalidation. Historical R mock now supplies Interrupt as the
+engine does, without including contributor Lich edits. Native metadata is
+asserted against installed values. Four languages disclose interruption and
+defense modifier properties. No new thinker, particle, timer or manager is added.
+
+Q cast-time absorption and caster-death cancellation remain source-open: native
+C++ is unavailable and reference searches did not provide current authoritative
+timing evidence. Do not silently move absorption or retain a dead-caster change
+based on intuition. R tree clearing radius/native target filtering and native
+CP/attachment fidelity also remain review leads. Actual channel cancellation,
+BKB/debuff immunity, strong/basic purge and modifier rendering require owner
+Dota/VConsole evidence; Scepter remains outstanding.
