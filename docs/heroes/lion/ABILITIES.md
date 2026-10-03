@@ -669,3 +669,8 @@ Current consolidated status supersedes historical OPEN notes for completed sourc
 | D | REPLACE (authored fifth passive) | Explicit Demon Soul range/amp,10 ranks, rank0/Break/illusion/source/client/lifecycle rules; PASS | PENDING live HUD/stat/Break/reconnect |
 
 SOURCE REVIEW and meaningful REGRESSIONS complete for Lion's feasible checkpoint scope, not comprehensive Dota acceptance. Seven modifiers have explicit owners; all five IDs/rank gates remain stable, no authored Boss-only exception or cross-match progression was introduced. Ally mana donation is an explicit excluded native component of the enemy-targeted PvE conversion. Closed C++ callback/session ordering, real audiovisual behavior, status resistance, cosmetic attachments and reconnect remain owner tests; no unverified workaround is guessed. User requests GitHub/live update after this checkpoint and goal pause; package must contain reviewed committed source only and keep contributor Lich changes out. Next hero Puck remains deferred until owner resume.
+
+
+## Owner basic playability accepted, 2026-10-03
+
+Owner directly reports Lion is complete/working and asks to add it to the completed heroes. Mark OWNER BASIC PLAYABILITY: OWNER REPORTED WORKING; Lion is now the20th owner-confirmed hero of40. Source/regression checkpoint already passed. This aggregate playtest report supplies no specific build, per-slot/rank/upgrade/Break/dispel/reconnect/VConsole or audiovisual evidence; retain those advanced gates as pending without negating the owner's basic acceptance. Goal remains paused after the requested publication checkpoint; do not start Puck until resumed.

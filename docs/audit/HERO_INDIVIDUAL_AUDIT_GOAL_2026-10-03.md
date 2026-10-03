@@ -431,14 +431,19 @@ Do not declare all 40 heroes engine-accepted unless owner live-test evidence act
 
 ## Owner steering and basic playtest evidence, 2026-10-03
 
-Owner directly reports the following 19 heroes work in play, and will test Lion after its review. This is aggregate basic-playability evidence, without per-slot, rank, upgrade, Break/dispel/death/reconnect, VConsole or audiovisual detail. Record OWNER BASIC PLAYABILITY: OWNER REPORTED WORKING; do not elevate SOURCE REVIEW or comprehensive ENGINE ACCEPTANCE, erase known defects, or certify subsequent untested changes. Historical source/audit gaps remain open.
+Owner directly reports the following 20 heroes work in play, including Lion confirmed after its review on 2026-10-03. This is aggregate basic-playability evidence, without per-slot, rank, upgrade, Break/dispel/death/reconnect, VConsole or audiovisual detail. Record OWNER BASIC PLAYABILITY: OWNER REPORTED WORKING; do not elevate SOURCE REVIEW or comprehensive ENGINE ACCEPTANCE, erase known defects, or certify subsequent untested changes. Historical source/audit gaps remain open.
 
-Sven | Juggernaut | Drow Ranger | Lina | Omniknight | Axe | Legion Commander | Sniper | Crystal Maiden | Dazzle | Centaur Warrunner | Wraith King | Phantom Assassin | Zeus | Witch Doctor | Shadow Shaman | Jakiro | Vengeful Spirit | Lich
+Sven | Juggernaut | Drow Ranger | Lina | Omniknight | Axe | Legion Commander | Sniper | Crystal Maiden | Dazzle | Centaur Warrunner | Wraith King | Phantom Assassin | Zeus | Witch Doctor | Shadow Shaman | Jakiro | Vengeful Spirit | Lich | Lion
 
-Updated immediate priority: finish Lion, then prioritize heroes outside that owner-working list, retaining reverse authoritative roster order among those heroes. Listed-working heroes are deferred for remaining detailed audit/advanced evidence; they are not dropped from the 40-hero objective. “Not in the working list” is unconfirmed status, not proof of a particular failure.
+Lion has completed its source/regression checkpoint and owner-reported basic playability. On owner resume, prioritize heroes outside that owner-working list, retaining reverse authoritative roster order among those heroes. Listed-working heroes are deferred for remaining detailed audit/advanced evidence; they are not dropped from the 40-hero objective. “Not in the working list” is unconfirmed status, not proof of a particular failure.
 
-Remaining immediate queue (including current Lion): Lion → Puck → Invoker → Leshrac → Storm Spirit → Terrorblade → Medusa → Faceless Void → Anti-Mage → Chaos Knight → Troll Warlord → Monkey King → Ursa → Underlord → Pudge → Dragon Knight → Tidehunter → Shadow Fiend → Luna → Slark → Bristleback.
+Remaining immediate queue (after Lion; goal paused): Puck → Invoker → Leshrac → Storm Spirit → Terrorblade → Medusa → Faceless Void → Anti-Mage → Chaos Knight → Troll Warlord → Monkey King → Ursa → Underlord → Pudge → Dragon Knight → Tidehunter → Shadow Fiend → Luna → Slark → Bristleback.
 
 Latest owner checkpoint: finish Lion, push the reviewed and validated changes to GitHub, update the existing live Workshop item, then pause this goal. Do not proceed to Puck after that checkpoint until the owner resumes. This is explicit publication authorization for the Lion checkpoint only. Do not pause before the checkpoint or mark the whole40-hero objective complete. Preserve contributor work; record the remote commit and verified published artifact before reporting the checkpoint fulfilled. Source/mock checks remain distinct from owner Dota testing.
 
 Owner additionally authorizes GitHub push and the existing live Workshop update after Lion is finished (latest explicit request in this thread). This one release request supersedes the earlier local-only restriction for that Lion checkpoint; do not publish before then or infer standing publication authority for later heroes. Owner Dota testing remains distinct and pending where not supplied. Preserve concurrent Lich edits; publish only reviewed, validated content without silently absorbing contributor work.
+
+
+## Lion owner playtest confirmation, 2026-10-03
+
+Owner: “lionda tamam. onuda tamamlanmışlar arasına ekle”. Lion joins the completed/owner-working list:20 of40,20 remaining. SOURCE REVIEW: PASS; REGRESSIONS: PASS; OWNER BASIC PLAYABILITY: OWNER REPORTED WORKING. No per-slot/rank/upgrade/Break/dispel/reconnect/VConsole evidence was supplied, so comprehensive engine acceptance remains pending. Goal is PAUSED per the preceding owner checkpoint request; no next-hero work or additional Workshop upload is authorized by this status update.
