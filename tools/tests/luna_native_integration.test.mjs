@@ -129,3 +129,53 @@ assert(not mod:IsHidden() and mod:GetModifierSpellAmplify_Percentage(args)==40 a
 hero.GetUnitName=function()return 'npc_dota_hero_drow_ranger' end
 assert(mod:GetModifierSpellAmplify_Percentage(args)==40 and mod:GetModifierPercentageCooldown(args)==25)
 `));
+
+
+test('Luna links all three engine-only classes to a separately loadable modifier script',()=>lua(`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t)t.__index=t;return t end
+LUA_MODIFIER_MOTION_NONE=0
+local links={}
+function LinkLuaModifier(name,path,motion)
+ assert(path=='abilities/heroes/luna/modifiers' and motion==0)
+ assert(not links[name],'Duplicate registration')
+ local scope=setmetatable({},{__index=_G})
+ local chunk=assert(loadfile('game/scripts/vscripts/'..path..'.lua','t',scope))
+ assert(chunk()==nil,'Engine script must not return an unrelated restore service')
+ assert(type(rawget(scope,name))=='table','Class absent from engine file scope')
+ assert(rawget(scope,'Scaling')==nil and rawget(scope,'Extension')==nil)
+ links[name]=scope[name]
+end
+require('abilities/heroes/luna/integration')
+assert(links.modifier_enfos_luna_native_scaling.GetModifierOverrideAbilitySpecialValue)
+assert(links.modifier_enfos_luna_blessing_extension.IsAura)
+assert(links.modifier_enfos_luna_blessing_extension_buff.GetModifierPhysicalArmorBonus)
+`));
+
+test('Failed Luna Q modifier creation reports failure while E restore still runs',()=>lua(setup+`
+require('lib/hero_trace'):SetEnabled(true)
+local add=hero.AddNewModifier
+hero.AddNewModifier=function(self,caster,ability,name)
+ if name=='modifier_enfos_luna_native_scaling' then return nil end
+ return add(self,caster,ability,name)
+end
+assert(not integration.Restore(hero))
+assert(hero.modifiers.modifier_enfos_luna_blessing_extension)
+local log=table.concat(traces,'|')
+assert(log:find('native_scaling_modifier_missing',1,true))
+assert(not log:find('native_scaling_ready',1,true) and not log:find('native_beam_provider_ready',1,true))
+assert(log:find('native_blessing_extension_ready',1,true))
+`));
+
+test('Failed Luna E modifier creation cannot emit a ready trace',()=>lua(setup+`
+require('lib/hero_trace'):SetEnabled(true)
+local add=hero.AddNewModifier
+hero.AddNewModifier=function(self,caster,ability,name)
+ if name=='modifier_enfos_luna_blessing_extension' then return {IsNull=function()return true end} end
+ return add(self,caster,ability,name)
+end
+assert(not integration.Restore(hero))
+local log=table.concat(traces,'|')
+assert(log:find('native_blessing_extension_missing',1,true))
+assert(not log:find('native_blessing_extension_ready',1,true))
+`));

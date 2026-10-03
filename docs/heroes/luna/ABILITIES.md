@@ -104,8 +104,8 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | Q gates levels 1–10 declared; in-game HUD and point behavior remain PENDING. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
+| VFX | PENDING | Owner reported no issue in 2026-10-04 session; rank/upgrade coverage unspecified. Full acceptance pending. |
+| SFX | PENDING | Owner reported no issue in 2026-10-04 session; rank/upgrade coverage unspecified. Full acceptance pending. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
 | Modifiers | PENDING | Not evaluated in this dossier setup. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
@@ -115,7 +115,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Localization | PENDING | Not evaluated in this dossier setup. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | PENDING | Not evaluated in this dossier setup. |
+| VConsole | FAIL | Owner log 2026-10-04: Luna extension modifiers unknown. Isolated loading repair awaits owner retest. |
 
 Historical pre-migration change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
 
@@ -149,8 +149,8 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | D ten-rank gates and free-rank restore pass static/mock checks; native rank-up and bounce scaling are PENDING OWNER TEST. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
+| VFX | PENDING | Owner reported no issue in 2026-10-04 session; rank/upgrade coverage unspecified. Full acceptance pending. |
+| SFX | PENDING | Owner reported no issue in 2026-10-04 session; rank/upgrade coverage unspecified. Full acceptance pending. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
 | Modifiers | PENDING | Not evaluated in this dossier setup. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
@@ -194,8 +194,8 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | E gates levels 1–10 declared; in-game HUD and point behavior remain PENDING. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
+| VFX | PENDING | Owner reported no issue in 2026-10-04 session; rank/upgrade coverage unspecified. Full acceptance pending. |
+| SFX | PENDING | Owner reported no issue in 2026-10-04 session; rank/upgrade coverage unspecified. Full acceptance pending. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
 | Modifiers | PENDING | Not evaluated in this dossier setup. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
@@ -205,7 +205,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Localization | PENDING | Not evaluated in this dossier setup. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | PENDING | Not evaluated in this dossier setup. |
+| VConsole | FAIL | Owner log 2026-10-04: Luna extension modifiers unknown. Isolated loading repair awaits owner retest. |
 
 Historical pre-migration change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
 
@@ -239,8 +239,8 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | R gates levels 5–50 in five-level steps declared; ultimate HUD and point behavior remain PENDING. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
+| VFX | PENDING | Owner reported no issue in 2026-10-04 session; rank/upgrade coverage unspecified. Full acceptance pending. |
+| SFX | PENDING | Owner reported no issue in 2026-10-04 session; rank/upgrade coverage unspecified. Full acceptance pending. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
 | Modifiers | PENDING | Not evaluated in this dossier setup. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
@@ -250,7 +250,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Localization | PENDING | Not evaluated in this dossier setup. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | PENDING | Not evaluated in this dossier setup. |
+| VConsole | FAIL | Owner log 2026-10-04: Luna extension modifiers unknown. Isolated loading repair awaits owner retest. |
 
 Historical pre-migration change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
 
@@ -284,8 +284,8 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | W is the paid active slot 2, not the free D passive; native ten-rank numeric arrays pass static checks. Rank-up HUD and C++ scaling remain PENDING OWNER TEST. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
+| VFX | PENDING | Owner reported no issue in 2026-10-04 session; rank/upgrade coverage unspecified. Full acceptance pending. |
+| SFX | PENDING | Owner reported no issue in 2026-10-04 session; rank/upgrade coverage unspecified. Full acceptance pending. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
 | Modifiers | PENDING | Not evaluated in this dossier setup. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
@@ -315,3 +315,7 @@ values and the implemented bounce, beam and pulse behavior. New mock coverage
 checks impact-timed glaive damage and Eclipse's own damage rank/boss cap. All
 game-client VFX/SFX, projectile appearance, aura source behavior, Break and
 boss interactions remain pending owner testing.
+
+2026-10-04 owner runtime: three Luna extension modifier types failed creation.
+Owner reports no visual/audio issue in that session. Native ten-rank gameplay
+acceptance remains open. See [runtime repair and retest record](../../audit/LUNA_MODIFIER_RUNTIME_REPAIR_2026-10-04.md) for loading changes, evidence limits and independent non-Luna errors.

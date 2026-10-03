@@ -424,3 +424,11 @@ That conclusion remains conditional on owner acceptance of the native aliases,
 Q/R provider, paid E conversion, upgrades, resources and dense-wave behavior.
 No other hero rollout is begun. Local commits only; no push/deploy/Workshop
 publication is authorized or performed.
+
+### Subsequent owner runtime — 2026-10-04
+
+The supplied owner session failed Luna modifier creation; sound/visual feedback
+was reported satisfactory by the owner for that session. The historical
+NOT TESTED status above predates this evidence. Current acceptance: **FAILED IN
+SUPPLIED SESSION; PATCH PENDING OWNER RETEST**. See [modifier loading repair](LUNA_MODIFIER_RUNTIME_REPAIR_2026-10-04.md). Remaining class definitions now live
+in luna/modifiers.lua; scaling.lua/e.lua retain only server restore services.
