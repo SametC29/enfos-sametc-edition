@@ -49,8 +49,11 @@ end
 modifier_enfos_jakiro_liquid_frost_orb=class({})
 -- Same tested funded-record protocol; a distinct modifier keeps both owners independent.
 for _,method in ipairs({'IsHidden','IsPurgable','IsPurgeException','RemoveOnDeath','OnCreated',
-    'OnAttack','OnAttackLanded','ForgetRecord','OnAttackFail','OnAttackRecordDestroy','OnDestroy'}) do
+    'OnAttack','OnAttackLanded','ForgetRecord','OnAttackFail','OnAttackRecordDestroy','OnDestroy','OnIntervalThink'}) do
     modifier_enfos_jakiro_liquid_frost_orb[method]=modifier_enfos_jakiro_liquid_fire_passive[method]
+end
+function modifier_enfos_jakiro_liquid_frost_orb:GetReadyEffect()
+    return 'particles/units/heroes/hero_jakiro/jakiro_liquid_ice_ready.vpcf','attach_attack2'
 end
 function modifier_enfos_jakiro_liquid_frost_orb:DeclareFunctions()
     return {MODIFIER_EVENT_ON_ATTACK,MODIFIER_EVENT_ON_ATTACK_LANDED,MODIFIER_EVENT_ON_ATTACK_FAIL,MODIFIER_EVENT_ON_ATTACK_RECORD_DESTROY}

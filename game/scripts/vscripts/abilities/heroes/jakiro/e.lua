@@ -151,6 +151,13 @@ function modifier_enfos_jakiro_liquid_fire_passive:RemoveOnDeath() return false 
 function modifier_enfos_jakiro_liquid_fire_passive:OnCreated()
     if not IsServer() then return end
     self.records={};self.closed=false;self.proccing=false
+    require('abilities/heroes/jakiro/e_visuals').Start(self)
+end
+function modifier_enfos_jakiro_liquid_fire_passive:GetReadyEffect()
+    return 'particles/units/heroes/hero_jakiro/jakiro_liquid_fire_ready.vpcf','attach_attack1'
+end
+function modifier_enfos_jakiro_liquid_fire_passive:OnIntervalThink()
+    require('abilities/heroes/jakiro/e_visuals').Update(self)
 end
 function modifier_enfos_jakiro_liquid_fire_passive:DeclareFunctions()
     return {MODIFIER_PROPERTY_PROJECTILE_NAME,MODIFIER_EVENT_ON_ATTACK,MODIFIER_EVENT_ON_ATTACK_LANDED,MODIFIER_EVENT_ON_ATTACK_FAIL,MODIFIER_EVENT_ON_ATTACK_RECORD_DESTROY}
@@ -212,5 +219,6 @@ function modifier_enfos_jakiro_liquid_fire_passive:OnAttackRecordDestroy(params)
 function modifier_enfos_jakiro_liquid_fire_passive:OnDestroy()
     if not IsServer() then return end
     self.closed=true;self.records={}
+    require('abilities/heroes/jakiro/e_visuals').Stop(self)
     HeroTrace:Log('JAKIRO','E','orb_owner_removed')
 end
