@@ -65,3 +65,4 @@ enfos_sametc_reference_analysis_plan.txt
 /.steamcmd-runtime/
 # Local agent staging snapshots and temporary attachments
 /.codex-remote-attachments/
+/.runtime-collection/

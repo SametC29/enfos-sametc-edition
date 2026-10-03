@@ -42,6 +42,8 @@ function Health.Report(hero,id)
             end
         end
     end
+    -- Optional collection failures cannot propagate into spawning/gameplay.
+    pcall(function()require('heroes/runtime_collection').RecordHero(hero,entry)end)
     return true
 end
 function Health.OnSpawn(hero)
