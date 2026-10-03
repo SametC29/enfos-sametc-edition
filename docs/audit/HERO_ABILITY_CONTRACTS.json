@@ -3830,6 +3830,7 @@
             "break_distance": "1100",
             "shard_break_distance_bonus": "200",
             "shard_magic_resistance": "60",
+            "shard_bonus_targets": "2",
             "channel_duration": "4",
             "slow_pct": "35"
           },

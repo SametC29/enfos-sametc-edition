@@ -1483,6 +1483,6 @@
     "DOTA_Tooltip_modifier_enfos_lion_mana_drain_debuff_Description": "Movement speed change: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Cannot be dispelled. Ends with the channel.",
     "DOTA_Tooltip_modifier_enfos_lion_mana_drain_channel": "Mana Drain",
     "DOTA_Tooltip_modifier_enfos_lion_mana_drain_channel_Description": "Channeling Mana Drain. Shard magic resistance bonus: %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%%. With Shard, the channel grants debuff immunity.",
-    "DOTA_Tooltip_Ability_enfos_lion_mana_drain_shard_description": "Mana Drain break distance increases by 200. While channeling, Lion gains debuff immunity and 60% bonus magic resistance."
+    "DOTA_Tooltip_Ability_enfos_lion_mana_drain_shard_description": "Mana Drain break distance increases by 200. While channeling, Lion gains debuff immunity and 60% bonus magic resistance. At cast, also drains up to 2 nearest eligible enemies within the channel break distance. Each extra target uses the same damage, mana restoration and slow. Extra targets are not replaced during the channel; losing Shard removes them, and reacquiring it applies on the next cast."
   }
 }

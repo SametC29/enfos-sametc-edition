@@ -2,6 +2,7 @@
 local H = require('abilities/shared/pve_helpers')
 local Trace = require('lib/hero_trace')
 local Upgrades = require('abilities/heroes/lion/upgrades')
+local Extras = require('abilities/heroes/lion/drain_extras')
 local function valid(x) return x and not (x.IsNull and x:IsNull()) end
 local function eligible(c,t)
     return valid(c) and c:IsAlive() and valid(t) and t:IsAlive()
@@ -100,6 +101,7 @@ function modifier_enfos_lion_mana_drain_channel:OnDestroy()
     -- Close old sound/slow before particle cleanup can start a fresh channel.
     if valid(caster) then caster:StopSound('Hero_Lion.ManaDrain') end
     if valid(target) and valid(caster) then target:RemoveModifierByNameAndCaster('modifier_enfos_lion_mana_drain_debuff',caster) end
+    Extras.Clear(self)
     self:ClearVisual()
     Trace:Log('LION','E','channel visual teardown')
 end
@@ -109,12 +111,15 @@ function modifier_enfos_lion_mana_drain_channel:OnCreated(kv)
     self.target_idx=kv and kv.target_idx or nil
     self.drain_target=self.target_idx and EntIndexToHScript(self.target_idx)
     self:StartVisual()
+    if not self.closed then Extras.Start(self,visible_enemy,value(self:GetAbility(),'shard_bonus_targets')) end
     if not self.closed then self:StartIntervalThink(0.5) end
 end
 function modifier_enfos_lion_mana_drain_channel:OnRefresh(kv)
     if not IsServer() or self.closed then return end
     self.revision=(self.revision or 0)+1
     local revision=self.revision
+    Extras.Clear(self)
+    if self.closed or self.revision~=revision then return end
     local caster,old=self:GetCaster(),self.drain_target
     local index=kv and kv.target_idx
     local target=index and EntIndexToHScript(index)
@@ -122,6 +127,8 @@ function modifier_enfos_lion_mana_drain_channel:OnRefresh(kv)
     if self.closed or self.revision~=revision then return end
     self.target_idx,self.drain_target=index,target
     self:StartVisual()
+    if self.closed or self.revision~=revision then return end
+    Extras.Start(self,visible_enemy,value(self:GetAbility(),'shard_bonus_targets'))
     if self.closed or self.revision~=revision then return end
     Trace:Log('LION','E','channel visual refreshed')
 end
@@ -164,6 +171,8 @@ function modifier_enfos_lion_mana_drain_channel:OnIntervalThink()
     if not a:IsChanneling() then self:Destroy();return end
     if not valid(t) or not t:IsAlive() then self:Abort('target after tick');return end
     if not visible_enemy(c,t) then self:Abort('target rules or visibility after mana');return end
+    Extras.Tick(self,revision,tick_dmg,visible_enemy)
+    if self.closed or self.revision~=revision then return end
     Trace:Log('LION','E','channel tick authored_damage=%.2f authored_mana=%.2f',tick_dmg,tick_dmg)
 end
 

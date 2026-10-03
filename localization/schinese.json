@@ -1423,6 +1423,6 @@
     "DOTA_Tooltip_modifier_enfos_lion_mana_drain_debuff_Description": "移动速度变化：%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。不可驱散。引导结束时移除。",
     "DOTA_Tooltip_modifier_enfos_lion_mana_drain_channel": "法力汲取",
     "DOTA_Tooltip_modifier_enfos_lion_mana_drain_channel_Description": "正在引导法力汲取。魔晶额外魔法抗性：%dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%%。拥有魔晶时，引导期间获得减益免疫。",
-    "DOTA_Tooltip_Ability_enfos_lion_mana_drain_shard_description": "法力汲取的中断距离增加200。引导期间，莱恩获得减益免疫和60%额外魔法抗性。"
+    "DOTA_Tooltip_Ability_enfos_lion_mana_drain_shard_description": "法力汲取的中断距离增加200。引导期间，莱恩获得减益免疫和60%额外魔法抗性。 施放时还会连接引导断开距离内最多2个最近的有效敌人。额外目标受到相同伤害和减速，并提供相同魔法恢复。引导期间不会替换额外目标；失去魔晶会移除额外连接，重新获得魔晶后于下次施放生效。"
   }
 }

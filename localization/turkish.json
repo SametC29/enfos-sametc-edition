@@ -1822,6 +1822,6 @@
     "DOTA_Tooltip_modifier_enfos_lion_mana_drain_debuff_Description": "Hareket hızı değişimi: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Arındırılamaz. Kanal sona erdiğinde kaldırılır.",
     "DOTA_Tooltip_modifier_enfos_lion_mana_drain_channel": "Mana Emilimi",
     "DOTA_Tooltip_modifier_enfos_lion_mana_drain_channel_Description": "Mana Emilimi kanal halinde. Shard büyü direnci bonusu: %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%%. Shard ile kanal sırasında zayıflatma bağışıklığı verir.",
-    "DOTA_Tooltip_Ability_enfos_lion_mana_drain_shard_description": "Mana Emilimi kopma mesafesi 200 artar. Kanal sırasında Lion zayıflatma bağışıklığı ve %60 ek büyü direnci kazanır."
+    "DOTA_Tooltip_Ability_enfos_lion_mana_drain_shard_description": "Mana Emilimi kopma mesafesi 200 artar. Kanal sırasında Lion zayıflatma bağışıklığı ve %60 ek büyü direnci kazanır. Kullanımda kanalın kopma mesafesindeki en yakın uygun 2 ek düşmana da bağlanır. Ek hedeflere aynı hasar, mana yenilemesi ve yavaşlatma uygulanır. Kanal sırasında ek hedeflerin yerine yenileri seçilmez; Shard kaybedilince ek bağlantılar kapanır, tekrar edinilince sonraki kullanımda uygulanır."
   }
 }

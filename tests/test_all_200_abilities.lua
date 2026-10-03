@@ -375,6 +375,10 @@ for _, hero_info in ipairs(roster) do
             if ab_name == 'enfos_lion_earth_spike' then
                 ab.GetCastRange = function() return assert(ENFOS_LION_ENGINE_CAST_RANGE) end
             end
+            if ab_name == 'enfos_lion_mana_drain' then
+                -- Synthetic cast has no engine channel; active Shard cases use dedicated fixtures.
+                ab.IsChanneling = function() return false end
+            end
             ab.GetAbilityDamageType = function() return DAMAGE_TYPE_MAGICAL end
             ab.GetToggleState = function() return true end
             ab.GetAutoCastState = function() return true end
@@ -709,6 +713,7 @@ do
     }) do
         local a=_G[row[1]]()
         if row[1]=='enfos_lion_mana_drain' then
+            a.IsChanneling=function() return false end
             a.GetSpecialValueFor=function(_,key) return special(row[1],key) end
         end
         a.GetCaster=function() return hero end
