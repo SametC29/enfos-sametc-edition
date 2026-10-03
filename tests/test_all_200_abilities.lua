@@ -361,6 +361,7 @@ print('======================================================================\n'
 
 local tested_abilities = 0
 local passed_abilities = 0
+local native_pending = 0
 local failed_abilities = {}
 
 for _, hero_info in ipairs(roster) do
@@ -373,7 +374,11 @@ for _, hero_info in ipairs(roster) do
     for _, ab_name in ipairs(hero_info.abilities) do
         tested_abilities = tested_abilities + 1
         local cls = _G[ab_name]
-        if not cls then
+        if ENFOS_NATIVE_ABILITIES and ENFOS_NATIVE_ABILITIES[ab_name] then
+            assert(not cls, 'Native ability must not retain a Lua replica: '..ab_name)
+            native_pending = native_pending + 1
+            print('PENDING OWNER TEST native '..ab_name..' base='..ENFOS_NATIVE_ABILITIES[ab_name])
+        elseif not cls then
             table.insert(failed_abilities, { hero = hero_info.name, ability = ab_name, err = 'Class not found in global namespace' })
         else
             local ab = cls()
@@ -464,7 +469,7 @@ for _, hero_info in ipairs(roster) do
     end
 end
 
-print(string.format('Tested Abilities: %d / %d | Passed: %d | Failed: %d\n', tested_abilities, 200, passed_abilities, #failed_abilities))
+print(string.format('Inventoried Abilities: %d / %d | Lua Passed: %d | Native Pending Owner: %d | Failed: %d\n', tested_abilities, 200, passed_abilities, native_pending, #failed_abilities))
 
 if #failed_abilities > 0 then
     print('FAILED ABILITIES:')

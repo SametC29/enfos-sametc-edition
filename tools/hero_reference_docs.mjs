@@ -29,7 +29,7 @@ function inventory(id, hero) {
     if (!a) throw new Error(`Missing ability: ${id}/${slot}`);
     table.push(`| ${slot} | \`${hero[`Ability${slot}`]}\` | ${cell(a.MaxLevel)} | ${cell(a.AbilityBehavior)} | ${cell(a.ScriptFile)} | ${cell(a.AbilityTextureName)} |`);
   }
-  const scripts = [...new Set([1,2,3,4,5].map(slot => abilities[hero[`Ability${slot}`]].ScriptFile))];
+  const scripts = [...new Set([1,2,3,4,5].map(slot => abilities[hero[`Ability${slot}`]].ScriptFile).filter(Boolean))];
   const luaLinks = scripts.map(script => `[${scripts.length === 1 ? 'Lua' : script}](../../../game/scripts/vscripts/${script}.lua)`).join(', ');
   table.push('', `Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), ${luaLinks}, [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).`, '',
     '### Installed native source (not a custom-slot mapping)', '',

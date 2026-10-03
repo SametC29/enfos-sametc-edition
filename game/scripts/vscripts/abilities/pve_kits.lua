@@ -120,7 +120,6 @@ local modifier_list = {
     'modifier_enfos_pve_angel',
     'modifier_enfos_pve_hammer',
     -- Luna
-    'modifier_enfos_luna_moon_glaives_passive',
     'modifier_enfos_luna_lunar_blessing',
     'modifier_enfos_luna_lunar_blessing_aura',
     'modifier_enfos_luna_eclipse_thinker',
@@ -1731,61 +1730,7 @@ function enfos_luna_lucent_beam:OnSpellStart()
     end
 end
 
-enfos_luna_moon_glaives=class({})
-function enfos_luna_moon_glaives:GetIntrinsicModifierName() return 'modifier_enfos_luna_moon_glaives_passive' end
-function enfos_luna_moon_glaives:OnProjectileHit_ExtraData(hTarget, vLocation, extraData)
-    if not hTarget or (hTarget.IsNull and hTarget:IsNull()) or not hTarget:IsAlive() then return true end
-    local c = self:GetCaster()
-    if not c or (c.IsNull and c:IsNull()) or hTarget:GetTeamNumber() == c:GetTeamNumber() then return true end
-    local amount = tonumber(extraData and extraData.damage) or 0
-    if amount > 0 then damage(self, hTarget, amount, DAMAGE_TYPE_PHYSICAL) end
-    return true
-end
-
-modifier_enfos_luna_moon_glaives_passive=class({})
-function modifier_enfos_luna_moon_glaives_passive:IsHidden() return true end
-function modifier_enfos_luna_moon_glaives_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACK_LANDED } end
-function modifier_enfos_luna_moon_glaives_passive:OnAttackLanded(e)
-    local c = self:GetParent()
-    local a = self:GetAbility()
-    local primary = e and e.target
-    if not IsServer() or not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled())
-        or (c.IsIllusion and c:IsIllusion()) or not primary or (primary.IsNull and primary:IsNull())
-        or not primary:IsAlive() or e.attacker ~= c or primary:GetTeamNumber() == c:GetTeamNumber() then return end
-    local bounces = math.max(0, math.min(16, math.floor(value(a, 'bounce_count'))))
-    local cur_target = e.target
-    local cur_dmg = (get_atk(c, cur_target) * 0.85) + value(a, 'bonus_damage')
-    local visited = { [cur_target:entindex()] = true }
-
-    for b = 1, bounces do
-        local next_target = nil
-        for _, u in ipairs(enemies(c, cur_target:GetAbsOrigin(), 500)) do
-            if not visited[u:entindex()] and u:IsAlive() then
-                next_target = u
-                break
-            end
-        end
-        if not next_target then break end
-        visited[next_target:entindex()] = true
-        if ProjectileManager and ProjectileManager.CreateTrackingProjectile then
-            ProjectileManager:CreateTrackingProjectile({
-                Target = next_target,
-                Source = cur_target,
-                Ability = a,
-                EffectName = "particles/units/heroes/hero_luna/luna_base_attack.vpcf",
-                iMoveSpeed = 900,
-                bDodgeable = false,
-                bVisibleToEnemies = true,
-                bProvidesVision = false,
-                ExtraData = { damage = cur_dmg }
-            })
-        else
-            damage(a, next_target, cur_dmg, DAMAGE_TYPE_PHYSICAL)
-        end
-        cur_dmg = cur_dmg * 0.85
-        cur_target = next_target
-    end
-end
+-- Moon Glaives D is owned by the native luna_moon_glaive BaseClass.
 
 enfos_luna_lunar_blessing=class({})
 function enfos_luna_lunar_blessing:GetIntrinsicModifierName() return 'modifier_enfos_luna_lunar_blessing' end

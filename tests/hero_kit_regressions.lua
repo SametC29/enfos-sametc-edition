@@ -379,49 +379,8 @@ test('Sven Great Cleave delegates native damage and visuals with tuned widths an
     DoCleaveAttack,ParticleManager.CreateParticle=oldCleave,oldCreate
 end)
 
-test('Luna Moon Glaives bounces across consecutive targets with 15% falloff', function()
-    applied_damages = {}
-    local luna = create_mock_unit('npc_dota_hero_luna', 2, Vector(0, 0, 0))
-    local c1 = create_mock_unit('enfos_creep_1', 3, Vector(100, 0, 0))
-    local c2 = create_mock_unit('enfos_creep_2', 3, Vector(250, 0, 0))
-    local c3 = create_mock_unit('enfos_creep_3', 3, Vector(400, 0, 0))
-    mock_world_units = { luna, c1, c2, c3 }
-
-    local ab = enfos_luna_moon_glaives()
-    ab.GetLevel = function() return 4 end
-    ab.GetSpecialValueFor=function(_,key) return key=='bounce_count' and 6 or 0 end
-
-    local mod = setmetatable({
-        GetParent = function() return luna end,
-        GetAbility = function() return ab end
-    }, modifier_enfos_luna_moon_glaives_passive)
-    ab.GetCaster = function() return luna end
-    local previous_projectile = ProjectileManager.CreateTrackingProjectile
-    local glaive_projectiles = {}
-    ProjectileManager.CreateTrackingProjectile = function(_, options)
-        glaive_projectiles[#glaive_projectiles + 1] = options
-        return #glaive_projectiles
-    end
-
-    mod:OnAttackLanded({
-        attacker = luna,
-        target = c1
-    })
-
-    -- c1 was hit by basic attack. Glaive bounces: c1 -> c2 -> c3
-    assert(#applied_damages == 0 and #glaive_projectiles == 2,
-        'Glaive damage must wait for the tracking projectile impacts')
-    ab:OnProjectileHit_ExtraData(c2, c2:GetAbsOrigin(), glaive_projectiles[1].ExtraData)
-    ab:OnProjectileHit_ExtraData(c3, c3:GetAbsOrigin(), glaive_projectiles[2].ExtraData)
-    ProjectileManager.CreateTrackingProjectile = previous_projectile
-    assert(#applied_damages == 2, 'Glaive projectiles must apply damage on impact')
-    assert(applied_damages[1].victim == c2, 'First bounce must hit c2')
-    assert(applied_damages[2].victim == c3, 'Second bounce must hit c3')
-    local expected_dmg1 = 100 * 0.85
-    local expected_dmg2 = expected_dmg1 * 0.85
-    assert(math.abs(applied_damages[1].damage - expected_dmg1) < 0.01, 'Bounce 1 should apply 85% damage')
-    assert(math.abs(applied_damages[2].damage - expected_dmg2) < 0.01, 'Bounce 2 should apply 85% * 85% damage')
-end)
+-- Native Moon Glaives ownership/ranks are checked by luna_native.test.mjs;
+-- C++ bounce and impact behavior needs owner Dota testing.
 
 test('Luna Lucent Beam applies Agility scaling and triggers Lunar Resonance on nearby foes', function()
     applied_damages = {}

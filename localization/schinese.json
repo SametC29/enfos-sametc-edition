@@ -461,7 +461,7 @@
     "DOTA_Tooltip_Ability_enfos_luna_lucent_beam": "月光 (Lucent Beam)",
     "DOTA_Tooltip_Ability_enfos_luna_lucent_beam_Description": "召下一道月光，对目标造成{{beam_damage}}点魔法伤害并眩晕{{stun_duration}}秒。目标附近450范围内最多3名其他敌人受到60%伤害。",
     "DOTA_Tooltip_Ability_enfos_luna_moon_glaives": "月刃 (Moon Glaives)",
-    "DOTA_Tooltip_Ability_enfos_luna_moon_glaives_Description": "攻击最多弹射至{{bounce_count}}名附近敌人。首次弹射造成85%攻击伤害并附加{{bonus_damage}}点物理伤害；后续每次弹射造成上次弹射伤害的85%。",
+    "DOTA_Tooltip_Ability_enfos_luna_moon_glaives_Description": "攻击在{{range}}范围内最多弹射{{bounces}}次。每次弹射造成上一次命中85%的物理伤害。破坏会禁用此被动。",
     "DOTA_Tooltip_Ability_enfos_luna_lunar_blessing": "月之祝福 (Lunar Blessing)",
     "DOTA_Tooltip_Ability_enfos_luna_lunar_blessing_Description": "露娜和附近友军获得{{bonus_damage}}点攻击力、{{bonus_armor}}点护甲和{{bonus_ms_pct}}%移动速度。",
     "DOTA_Tooltip_Ability_enfos_luna_eclipse": "月蚀 (Eclipse)",

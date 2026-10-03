@@ -3,6 +3,7 @@ import luaparse from 'luaparse';
 import {parseKV} from './lib/kv.mjs';
 import {getAbilityValues} from './lib/ability_values.mjs';
 import {readAbilitySources} from './lib/ability_sources.mjs';
+import {isVerifiedNativeAbility} from './lib/native_hero_abilities.mjs';
 
 // Structural inventory is evidence of coverage, not a certificate of engine behavior.
 const abilities=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.txt','utf8')).DOTAAbilities;
@@ -31,12 +32,13 @@ const rows=[];
 for(const [id,hero] of Object.entries(heroes).filter(([,h])=>h.Role)){
   const kit=[];
   for(let slot=1;slot<=5;slot++){
-    const ability=hero['Ability'+slot],kv=abilities[ability],methods=functions.get(ability);
+    const ability=hero['Ability'+slot],kv=abilities[ability],native=isVerifiedNativeAbility(ability,kv);
+    const methods=native ? new Set() : functions.get(ability);
     if(!kv || !methods) throw new Error(`Missing implementation: ${id}/${ability}`);
     const behavior=kv.AbilityBehavior||'';
-    if(behavior.includes('PASSIVE')&&!methods.has('GetIntrinsicModifierName')) throw new Error(`Passive has no intrinsic: ${ability}`);
-    if(behavior.includes('TOGGLE')&&!methods.has('OnToggle')) throw new Error(`Toggle has no handler: ${ability}`);
-    if(!behavior.includes('PASSIVE')&&!behavior.includes('TOGGLE')&&!methods.has('OnSpellStart')) throw new Error(`Active has no cast handler: ${ability}`);
+    if(!native && behavior.includes('PASSIVE')&&!methods.has('GetIntrinsicModifierName')) throw new Error(`Passive has no intrinsic: ${ability}`);
+    if(!native && behavior.includes('TOGGLE')&&!methods.has('OnToggle')) throw new Error(`Toggle has no handler: ${ability}`);
+    if(!native && !behavior.includes('PASSIVE')&&!behavior.includes('TOGGLE')&&!methods.has('OnSpellStart')) throw new Error(`Active has no cast handler: ${ability}`);
     const ownText=ownerSource.get(ability)||'';
     // Value lookups often live in modifiers or shared local helpers rather
     // than the ability class. Follow direct modifier-name and helper calls so
@@ -62,7 +64,8 @@ for(const [id,hero] of Object.entries(heroes).filter(([,h])=>h.Role)){
       .filter(key=>key!=='var_type'&&key!=='LinkedSpecialBonus'));
     const legacyLuaSpecials=[...read].filter(key=>legacyKeys.has(key)&&kv.AbilityValues?.[key]===undefined);
     kit.push({slot,id:ability,maxLevel:Number(kv.MaxLevel)||1,behavior,callbacks:[...methods].sort(),
-      specials,unreferencedSpecials:Object.keys(specials).filter(k=>!read.has(k)),legacyLuaSpecials,
+      ...(native ? {implementationOwner:'NATIVE',nativeBaseClass:kv.BaseClass,engineAcceptance:'PENDING OWNER TEST'} : {}),
+      specials,unreferencedSpecials:native ? [] : Object.keys(specials).filter(k=>!read.has(k)),legacyLuaSpecials,
       hasSound:Boolean(kv.AbilitySound)||/EmitSound|StopSound/.test(text),hasParticle:/\.vpcf/.test(text)});
   }
   rows.push({id,role:hero.Role,abilities:kit});

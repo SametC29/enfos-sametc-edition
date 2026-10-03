@@ -707,7 +707,7 @@
     "DOTA_Tooltip_Ability_enfos_luna_lucent_beam": "Işıltılı Ay Işını (Lucent Beam)",
     "DOTA_Tooltip_Ability_enfos_luna_lucent_beam_Description": "Hedefe {{beam_damage}} büyü hasarı verir ve {{stun_duration}} saniye sersemletir. 450 menzildeki en fazla 3 başka düşman %60 hasar alır.",
     "DOTA_Tooltip_Ability_enfos_luna_moon_glaives": "Ay Bıçakları (Moon Glaives)",
-    "DOTA_Tooltip_Ability_enfos_luna_moon_glaives_Description": "Saldırılar en fazla {{bounce_count}} yakındaki düşmana seker. İlk sekme saldırı hasarının %85'i ve {{bonus_damage}} fiziksel hasar verir; sonraki sekmeler önceki sekmenin %85'i kadar vurur.",
+    "DOTA_Tooltip_Ability_enfos_luna_moon_glaives_Description": "Saldırılar {{range}} menzilde en fazla {{bounces}} kez seker. Her sekme önceki vuruşun fiziksel hasarının %85'ini verir. Break pasifi devre dışı bırakır.",
     "DOTA_Tooltip_Ability_enfos_luna_lunar_blessing": "Ayın Kutsaması (Lunar Blessing)",
     "DOTA_Tooltip_Ability_enfos_luna_lunar_blessing_Description": "Luna ve yakındaki dostlara {{bonus_damage}} saldırı hasarı, {{bonus_armor}} zırh ve {{bonus_ms_pct}}% hareket hızı verir.",
     "DOTA_Tooltip_Ability_enfos_luna_eclipse": "Ay Tutulması (Eclipse)",

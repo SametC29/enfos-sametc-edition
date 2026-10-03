@@ -118,3 +118,63 @@ this record. No push, deployment, Workshop publication, or other-hero rollout.
 SOURCE_REVIEW: installed definitions verified; internal linkage unresolved.
 AUTOMATED_VALIDATION: existing focused baseline passed; migration not tested.
 OWNER_RUNTIME: PENDING OWNER TEST.
+
+## D migration checkpoint — 2026-10-03
+
+D decision: **NATIVE** with ENFOS numerical KV tuning; classification TUNE.
+`enfos_luna_moon_glaives` now uses `BaseClass luna_moon_glaive`, with no
+ScriptFile, empty wrapper, custom class or attack modifier. Dota owns attack
+records, bounce selection/projectiles, impact damage, feedback and cleanup.
+The explicit `bounces` curve remains 4/6/8/10/11/12/13/14/15/16, range 500,
+reduction 15%. The separate free starting rank and paid ten-rank gates remain.
+Actual native rank support and dense-wave behavior are PENDING OWNER TEST.
+
+Removed: `enfos_luna_moon_glaives` Lua class,
+`modifier_enfos_luna_moon_glaives_passive`, its shared registration,
+`OnAttackLanded` chain/search/visited state, prelaunched tracking-projectile
+construction and ExtraData damage callback. The old chain's additive 20–140
+starting bonus is removed because it is absent from native Glaives; this is an
+explicit native restoration rather than an equivalence claim. No second attack
+damage or projectile chain compensates for it. First-hit damage and secondary
+damage ordering are owned by the installed engine and need owner measurement.
+No precache entry was removed at this checkpoint: Luna's base attack resources
+are also used by her ordinary attacks and the native Boss. D's inaccurate
+`HasShardUpgrade` flag was removed; installed Shard belongs to Orbit.
+
+All four D descriptions and their generated game/content mirrors now describe
+the native bounce formula. Existing shared role Shard bonuses remain unchanged
+at this checkpoint; native W/Shard integration is still pending migration.
+
+Validators explicitly allow only source-reviewed native aliases. Missing Lua
+for unreviewed abilities still fails. Structural inventory uses empty callbacks
+and `implementationOwner NATIVE`, not fabricated Lua entrypoints. The rank mock
+runner counts native slots as pending owner tests separately from Lua passes.
+The old custom bounce mock was removed; it cannot validate C++ behavior.
+The reference generator filters absent ScriptFiles instead of emitting an
+`undefined.lua` source link. Other hero implementations are unchanged.
+
+Validation at this checkpoint: four `tools/tests/luna_native.test.mjs` checks
+pass (ownership/no replicas, explicit rank/bounce contract, allowlist rejection,
+free-rank restore/idempotence/default-off trace); the two existing Luna KV/rank
+tests pass; 357 `tests/hero_kit_regressions.lua` mocks pass; all 40 reference
+ledgers pass structural verification. The directly affected rank mock runner
+passes at rank 1 with D excluded from Lua certification. Full final-boundary
+checks have not yet run.
+
+With tracing enabled by
+`script require('lib/hero_trace'):SetEnabled(true)`, the existing free-rank
+restore path prints `[LUNA_TRACE][D] passive_rank_restored level=1 owner=native`
+at initial spawn. Repeated restore with D rank 10 prints the same line with
+`level=10` and preserves rank/points. Disable with `SetEnabled(false)`.
+No timers, modifiers, searches or attacks were added for this trace.
+
+Owner D test: restart the game after KV changes; check initial free rank and
+five ordinary points, learn D through ranks 1/4/5/10, compare first hit and
+successive hits against armor-adjusted 85% retention, count bounces with enough
+targets, test target death/loss, Break, illusions and dense waves, then
+respawn/reconnect and check no duplicate passive/points. Confirm no VConsole
+Lua/resource errors. Native internal hits deliberately produce no custom trace
+spam. OWNER ENGINE ACCEPTANCE: NOT TESTED.
+
+Q/W/E/R migration, Boss-cap removal, their trace integration, final upgrade
+tooltips, full acceptance checklist and final pilot conclusion remain open.

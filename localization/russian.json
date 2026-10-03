@@ -461,7 +461,7 @@
     "DOTA_Tooltip_Ability_enfos_luna_lucent_beam": "Лунный луч (Lucent Beam)",
     "DOTA_Tooltip_Ability_enfos_luna_lucent_beam_Description": "Наносит цели {{beam_damage}} магического урона и оглушает на {{stun_duration}} сек. До 3 других врагов в радиусе 450 получают 60% урона.",
     "DOTA_Tooltip_Ability_enfos_luna_moon_glaives": "Лунные глефы (Moon Glaives)",
-    "DOTA_Tooltip_Ability_enfos_luna_moon_glaives_Description": "Атаки отскакивают максимум к {{bounce_count}} ближайшим врагам. Первый отскок наносит 85% урона атаки и {{bonus_damage}} физического урона; каждый следующий наносит 85% урона предыдущего отскока.",
+    "DOTA_Tooltip_Ability_enfos_luna_moon_glaives_Description": "Атаки совершают до {{bounces}} отскоков в радиусе {{range}}. Каждый отскок наносит 85% физического урона предыдущего попадания. Истощение отключает пассивную способность.",
     "DOTA_Tooltip_Ability_enfos_luna_lunar_blessing": "Лунное благословение (Lunar Blessing)",
     "DOTA_Tooltip_Ability_enfos_luna_lunar_blessing_Description": "Луна и ближайшие союзники получают {{bonus_damage}} урона от атак, {{bonus_armor}} брони и {{bonus_ms_pct}}% скорости передвижения.",
     "DOTA_Tooltip_Ability_enfos_luna_eclipse": "Затмение (Eclipse)",

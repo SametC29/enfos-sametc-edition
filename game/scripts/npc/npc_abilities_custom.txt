@@ -2954,20 +2954,21 @@
 
 	"enfos_luna_moon_glaives"
 	{
-		"HasShardUpgrade" "1"
-		"BaseClass" "ability_lua"
+		"BaseClass" "luna_moon_glaive"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"IsBreakable" "1"
 		"AbilityTextureName" "luna_moon_glaive"
 		"RequiredLevel"	"1"
 		"LevelsBetweenUpgrades"	"1"
 		"MaxLevel" "10"
+		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilitySound" "Hero_Luna.MoonGlaive.Impact"
 		"AbilityValues"
 		{
-			"bonus_damage" "20 35 55 80 90 100 110 120 130 140"
-			"bounce_count" "4 6 8 10 11 12 13 14 15 16"
+			"range" "500"
+			"damage_reduction_percent" "15"
+			"bounces" "4 6 8 10 11 12 13 14 15 16"
 		}
-		"ScriptFile" "abilities/pve_kits"
 	}
 
 	"enfos_luna_lunar_blessing"

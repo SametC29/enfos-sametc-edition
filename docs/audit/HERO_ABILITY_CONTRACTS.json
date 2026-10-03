@@ -1917,18 +1917,19 @@
           "id": "enfos_luna_moon_glaives",
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
-          "callbacks": [
-            "GetIntrinsicModifierName",
-            "OnProjectileHit_ExtraData"
-          ],
+          "callbacks": [],
+          "implementationOwner": "NATIVE",
+          "nativeBaseClass": "luna_moon_glaive",
+          "engineAcceptance": "PENDING OWNER TEST",
           "specials": {
-            "bonus_damage": "20 35 55 80 90 100 110 120 130 140",
-            "bounce_count": "4 6 8 10 11 12 13 14 15 16"
+            "range": "500",
+            "damage_reduction_percent": "15",
+            "bounces": "4 6 8 10 11 12 13 14 15 16"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
-          "hasSound": false,
-          "hasParticle": true
+          "hasSound": true,
+          "hasParticle": false
         }
       ]
     },

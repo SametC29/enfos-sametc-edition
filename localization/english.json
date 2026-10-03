@@ -505,7 +505,7 @@
     "DOTA_Tooltip_Ability_enfos_luna_lucent_beam": "Lucent Beam",
     "DOTA_Tooltip_Ability_enfos_luna_lucent_beam_Description": "Calls down a beam for {{beam_damage}} magical damage and stuns the target for {{stun_duration}}s. Up to 3 other enemies within 450 take 60% damage.",
     "DOTA_Tooltip_Ability_enfos_luna_moon_glaives": "Moon Glaives",
-    "DOTA_Tooltip_Ability_enfos_luna_moon_glaives_Description": "Attacks bounce to up to {{bounce_count}} nearby enemies. The first bounce deals 85% attack damage plus {{bonus_damage}} physical damage; each later bounce deals 85% of the previous bounce.",
+    "DOTA_Tooltip_Ability_enfos_luna_moon_glaives_Description": "Attacks bounce up to {{bounces}} times within {{range}} range. Each bounce deals 85% of the previous hit's physical damage. Break disables the passive.",
     "DOTA_Tooltip_Ability_enfos_luna_lunar_blessing": "Lunar Blessing",
     "DOTA_Tooltip_Ability_enfos_luna_lunar_blessing_Description": "Luna and nearby allies gain {{bonus_damage}} attack damage, {{bonus_armor}} armor and {{bonus_ms_pct}}% movement speed.",
     "DOTA_Tooltip_Ability_enfos_luna_eclipse": "Eclipse",
