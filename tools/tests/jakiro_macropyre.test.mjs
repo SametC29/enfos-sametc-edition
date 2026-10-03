@@ -22,6 +22,7 @@ mt.__sub=function(a,b)return Vector(a.x-b.x,a.y-b.y,a.z-b.z)end
 mt.__mul=function(a,b)return Vector(a.x*b,a.y*b,a.z*b)end
 mt.__index={Length2D=function(a)return math.sqrt(a.x*a.x+a.y*a.y)end,
  Normalized=function(a)local n=math.sqrt(a.x*a.x+a.y*a.y+a.z*a.z);return Vector(a.x/n,a.y/n,a.z/n)end}
+local now=0
 local function unit(id,name,boss,pos)
  local u={id=id,name=name,isBoss=boss,pos=pos,total=0,hits=0}
  function u:IsNull()return false end
@@ -31,6 +32,17 @@ local function unit(id,name,boss,pos)
  function u:entindex()return self.id end
  function u:GetMaxHealth()return 1000 end
  function u:GetTeamNumber()return 3 end
+
+ function u:AddNewModifier(c,a,name,p)
+  assert(name=='modifier_enfos_jakiro_macropyre_burn')
+  local m=self.burn
+  if m and not m.closed then m.expiry=now+p.duration;m:OnRefresh(p);return m end
+  m=setmetatable({created=now,expiry=now+p.duration},_G[name]);self.burn=m
+  function m:GetParent()return u end;function m:GetCaster()return c end;function m:GetAbility()return a end
+  function m:GetElapsedTime()return now-self.created end;function m:GetRemainingTime()return self.expiry-now end
+  function m:StartIntervalThink(t)self.interval=t end;function m:SetHasCustomTransmitterData()end;function m:SendBuffRefreshToClients()end;function m:Destroy()self:OnDestroy()end
+  m:OnCreated(p);return m
+ end
  return u
 end
 local ordinary=unit(1,'ordinary',false,Vector(500,0))
@@ -49,12 +61,12 @@ local a={IsNull=function()return false end,GetCaster=function()return caster end
  GetSpecialValueFor=function(_,key)return key=='damage_per_sec' and 200 or 0 end}
 local parent={IsNull=function()return false end,GetAbsOrigin=function()return Vector(0,0)end}
 require('abilities/heroes/jakiro/r')
-local elapsed=0
+
 local zone=setmetatable({GetCaster=function()return caster end,GetAbility=function()return a end,
- GetParent=function()return parent end,GetElapsedTime=function()return elapsed end,StartIntervalThink=function(self,t)assert(t==0.5 or t==-1)end},modifier_enfos_jakiro_macropyre_zone)
+ GetParent=function()return parent end,GetElapsedTime=function()return now end,StartIntervalThink=function(self,t)assert(t==0.5 or t==-1)end},modifier_enfos_jakiro_macropyre_zone)
 zone:OnCreated({dir_x=1,dir_y=0,length=1400})
 zone.Destroy=function(self)self:OnDestroy()end
-for i=1,20 do elapsed=i*0.5;zone:OnIntervalThink()end
+for i=1,20 do now=i*0.5;zone:OnIntervalThink();for _,u in ipairs(targets)do if u.burn then u.burn:OnIntervalThink()end end end
 -- Authored DPS 200 + 100 INT * 0.7, half-second pulses = 135 each.
 -- All three geometrically identical targets must receive 2700 requested magic damage.
 for _,u in ipairs({ordinary,flagged,named})do

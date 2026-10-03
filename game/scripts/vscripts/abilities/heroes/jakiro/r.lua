@@ -3,6 +3,7 @@ local Helpers = require('abilities/shared/pve_helpers')
 local value, get_int, damage = Helpers.value, Helpers.get_int, Helpers.damage
 local HeroTrace = require('lib/hero_trace')
 LinkLuaModifier('modifier_enfos_jakiro_macropyre_zone', 'abilities/heroes/jakiro/r', LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier('modifier_enfos_jakiro_macropyre_burn', 'abilities/heroes/jakiro/r', LUA_MODIFIER_MOTION_NONE)
 local function valid(e) return e and not (e.IsNull and e:IsNull()) end
 local function positive(a,key,fallback) local n=value(a,key);return n>0 and n or fallback end
 local function immune(u) return (u.IsDebuffImmune and u:IsDebuffImmune()) or (u.IsMagicImmune and u:IsMagicImmune()) end
@@ -19,7 +20,7 @@ function enfos_jakiro_macropyre:OnSpellStart()
     dir=dir:Normalized()
     local params={duration=positive(self,'duration',10),dir_x=dir.x,dir_y=dir.y,
         length=positive(self,'length',1400),radius=positive(self,'path_radius',250),
-        interval=positive(self,'burn_interval',0.5),dps=value(self,'damage_per_sec')+get_int(c)*0.7}
+        linger=positive(self,'linger_duration',1),interval=positive(self,'burn_interval',0.5),dps=value(self,'damage_per_sec')+get_int(c)*0.7}
     c:EmitSound('Hero_Jakiro.Macropyre.Cast')
     if not valid(self) or not valid(c) then return end
     Helpers.ground_effect(c,self,'modifier_enfos_jakiro_macropyre_zone',params,origin)
@@ -33,12 +34,13 @@ function modifier_enfos_jakiro_macropyre_zone:OnCreated(params)
     local c,a,parent=self:GetCaster(),self:GetAbility(),self:GetParent()
     if not valid(c) or not valid(a) or not valid(parent) then self:Destroy();return end
     params=params or {}
-    self.closed=false;self.last_elapsed=0
+    self.closed=false
     self.origin=parent:GetAbsOrigin()
     self.last=self.origin+Vector(tonumber(params.dir_x) or 1,tonumber(params.dir_y) or 0,0)*(tonumber(params.length) or 1400)
     self.radius=tonumber(params.radius) or positive(a,'path_radius',250)
     self.duration=tonumber(params.duration) or positive(a,'duration',10)
     self.tick=tonumber(params.interval) or positive(a,'burn_interval',0.5)
+    self.linger=tonumber(params.linger) or positive(a,'linger_duration',1)
     self.dps=tonumber(params.dps) or (value(a,'damage_per_sec')+get_int(c)*0.7)
     self.particle=ParticleManager:CreateParticle('particles/units/heroes/hero_jakiro/jakiro_macropyre.vpcf',PATTACH_WORLDORIGIN,nil)
     ParticleManager:SetParticleControl(self.particle,0,self.origin)
@@ -48,46 +50,94 @@ function modifier_enfos_jakiro_macropyre_zone:OnCreated(params)
     self:StartIntervalThink(self.tick)
     HeroTrace:Log('JAKIRO','R','path_created origin=%s end=%s radius=%s duration=%s dps=%s',
         tostring(self.origin),tostring(self.last),tostring(self.radius),tostring(self.duration),tostring(self.dps))
-end
-function modifier_enfos_jakiro_macropyre_zone:PulseThrough(elapsed)
-    local stop=math.min(elapsed,self.duration)
-    local slice=math.max(0,stop-self.last_elapsed)
-    self.last_elapsed=stop
-    if slice<=0 then return end
-    local c,a,parent=self:GetCaster(),self:GetAbility(),self:GetParent()
-    if not valid(c) or not valid(a) or not valid(parent) then return end
-    local targets=FindUnitsInLine(c:GetTeamNumber(),self.origin,self.last,nil,self.radius,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_BASIC,DOTA_UNIT_TARGET_FLAG_NONE) or {}
-    for _,u in ipairs(targets) do
-        if self.closed then return end
-        if not valid(c) or not valid(a) or not valid(parent) then return end
-        if valid(u) and u:IsAlive() and u:GetTeamNumber()~=c:GetTeamNumber() and not immune(u) then
-            local requested=self.dps*slice
-            local actual=damage(a,u,requested,DAMAGE_TYPE_MAGICAL) or 0
-            self.requested_total=(self.requested_total or 0)+requested
-            self.actual_total=(self.actual_total or 0)+actual
-        end
-    end
+    self:OnIntervalThink()
 end
 function modifier_enfos_jakiro_macropyre_zone:OnIntervalThink()
     if not IsServer() or self.closed then return end
     local c,a,parent=self:GetCaster(),self:GetAbility(),self:GetParent()
     if not valid(c) or not valid(a) or not valid(parent) then self:Destroy();return end
-    local elapsed=self:GetElapsedTime()
-    self:PulseThrough(elapsed)
-    if elapsed>=self.duration and not self.closed then self:Destroy() end
+    if self:GetElapsedTime()>=self.duration then self:Destroy();return end
+    local targets=FindUnitsInLine(c:GetTeamNumber(),self.origin,self.last,nil,self.radius,
+        DOTA_UNIT_TARGET_TEAM_ENEMY,DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_BASIC,DOTA_UNIT_TARGET_FLAG_NONE) or {}
+    for _,u in ipairs(targets) do
+        if self.closed then return end
+        if not valid(c) or not valid(a) or not valid(parent) then self:Destroy();return end
+        if valid(u) and u:IsAlive() and u:GetTeamNumber()~=c:GetTeamNumber() and not immune(u) then
+            u:AddNewModifier(c,a,'modifier_enfos_jakiro_macropyre_burn',{duration=self.linger,dps=self.dps,interval=self.tick})
+        end
+    end
 end
 function modifier_enfos_jakiro_macropyre_zone:OnDestroy()
     if not IsServer() or self.closed then return end
-    -- Engine expiry can remove the modifier before its last scheduled pulse.
-    if self.duration and self:GetElapsedTime()>=self.duration then self:PulseThrough(self:GetElapsedTime()) end
-    if self.closed then return end
     self.closed=true;self:StartIntervalThink(-1)
     if self.particle then
         ParticleManager:DestroyParticle(self.particle,false)
         ParticleManager:ReleaseParticleIndex(self.particle)
         self.particle=nil
     end
-    HeroTrace:Log('JAKIRO','R','path_removed requested_total=%s actual_total=%s',tostring(self.requested_total or 0),tostring(self.actual_total or 0))
+    HeroTrace:Log('JAKIRO','R','path_removed')
     Helpers.remove_ground_effect(self)
 end
+
+modifier_enfos_jakiro_macropyre_burn=class({})
+function modifier_enfos_jakiro_macropyre_burn:IsDebuff() return true end
+function modifier_enfos_jakiro_macropyre_burn:IsPurgable() return false end
+function modifier_enfos_jakiro_macropyre_burn:IsPurgeException() return false end
+function modifier_enfos_jakiro_macropyre_burn:GetTexture() return 'jakiro_macropyre' end
+function modifier_enfos_jakiro_macropyre_burn:GetEffectName() return 'particles/units/heroes/hero_jakiro/jakiro_macropyre_firehit.vpcf' end
+function modifier_enfos_jakiro_macropyre_burn:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
+function modifier_enfos_jakiro_macropyre_burn:ExtendExpiry(params)
+    local elapsed=self:GetElapsedTime()
+    self.elapsed_limit=elapsed+(self.GetRemainingTime and math.max(0,self:GetRemainingTime()) or tonumber(params and params.duration) or 1)
+end
+function modifier_enfos_jakiro_macropyre_burn:DealThrough(elapsed)
+    local stop=math.min(elapsed,self.elapsed_limit or elapsed)
+    local slice=math.max(0,stop-(self.last_elapsed or stop))
+    self.last_elapsed=stop
+    local p,c,a=self:GetParent(),self:GetCaster(),self:GetAbility()
+    if slice<=0 or not valid(p) or not valid(c) or not valid(a) or not p:IsAlive() or p:GetTeamNumber()==c:GetTeamNumber() or immune(p) then return end
+    local requested=(self.dps or 0)*slice
+    local actual=damage(a,p,requested,DAMAGE_TYPE_MAGICAL) or 0
+    self.requested_total=(self.requested_total or 0)+requested
+    self.actual_total=(self.actual_total or 0)+actual
+end
+function modifier_enfos_jakiro_macropyre_burn:OnCreated(params)
+    if not IsServer() then return end
+    self.closed=false;self.dps=math.max(0,tonumber(params and params.dps) or 0)
+    self.last_elapsed=self:GetElapsedTime();self:ExtendExpiry(params)
+    self:SetHasCustomTransmitterData(true)
+    self:StartIntervalThink(math.max(0.1,tonumber(params and params.interval) or 0.5))
+    HeroTrace:Log('JAKIRO','R','burn_applied target=%s dps=%s',HeroTrace:Name(self:GetParent()),tostring(self.dps))
+end
+function modifier_enfos_jakiro_macropyre_burn:OnRefresh(params)
+    if not IsServer() or self.closed then return end
+    local c,a,p=self:GetCaster(),self:GetAbility(),self:GetParent()
+    if not valid(c) or not valid(a) or not valid(p) or not p:IsAlive() then self:Destroy();return end
+    local dps=math.max(0,tonumber(params and params.dps) or self.dps)
+    if dps~=self.dps then
+        self:DealThrough(self:GetElapsedTime())
+        if self.closed then return end
+        if not valid(c) or not valid(a) or not valid(p) or not p:IsAlive() then self:Destroy();return end
+        self.dps=dps;self.last_elapsed=self:GetElapsedTime()
+        self:SendBuffRefreshToClients()
+    end
+    -- Reapplying the same burn never restarts its tick or grants an extra burst.
+    self:ExtendExpiry(params)
+end
+function modifier_enfos_jakiro_macropyre_burn:OnIntervalThink()
+    if not IsServer() or self.closed then return end
+    local c,a,p=self:GetCaster(),self:GetAbility(),self:GetParent()
+    if not valid(c) or not valid(a) or not valid(p) or not p:IsAlive() then self:Destroy();return end
+    self:DealThrough(self:GetElapsedTime())
+end
+function modifier_enfos_jakiro_macropyre_burn:OnDestroy()
+    if not IsServer() or self.closed then return end
+    self.closed=true;self:StartIntervalThink(-1)
+    if self.elapsed_limit and self.GetRemainingTime and self:GetRemainingTime()<=0 then self:DealThrough(self:GetElapsedTime()) end
+    HeroTrace:Log('JAKIRO','R','burn_removed target=%s requested_total=%s actual_total=%s',
+        HeroTrace:Name(self:GetParent()),tostring(self.requested_total or 0),tostring(self.actual_total or 0))
+end
+function modifier_enfos_jakiro_macropyre_burn:AddCustomTransmitterData() return {dps=self.dps or 0} end
+function modifier_enfos_jakiro_macropyre_burn:HandleCustomTransmitterData(data) self.dps=tonumber(data and data.dps) or 0 end
+function modifier_enfos_jakiro_macropyre_burn:DeclareFunctions() return {MODIFIER_PROPERTY_TOOLTIP} end
+function modifier_enfos_jakiro_macropyre_burn:OnTooltip() return self.dps or 0 end

@@ -1,7 +1,7 @@
 {
   "Language": "SChinese",
   "Tokens": {
-    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_Description": "制造长{{length}}、半径{{path_radius}}的火焰路径，持续{{duration}}秒。路径内敌人每秒受到{{damage_per_sec}} + 智力的70%魔法伤害。方向和伤害在施放时确定；杰奇洛死亡后已生成的火焰仍然存在。不穿透减益免疫。",
+    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_Description": "创造一条长度为{{length}}、半径为{{path_radius}}的火焰路径，持续{{duration}}秒。区域内敌人每秒受到{{damage_per_sec}} + 智力的70%的魔法伤害。区域最后一次施加燃烧后，燃烧还会持续{{linger_duration}}秒。方向和伤害在施法时确定；杰奇洛死亡后已有火焰仍然存在。燃烧无法驱散，也不无视减益免疫。",
     "npc_dota_custom_fountain": "恢复泉水",
     "enfos_sametc_addon_title": "恩佛斯团队生存 — SametC版",
     "enfos_sametc_addon_description": "一款受经典Enfo启发的现代PvEvP生存自定义游戏。",
@@ -1405,6 +1405,8 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_burn": "冰火双息：燃烧",
     "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_burn_Description": "每秒造成%fMODIFIER_PROPERTY_TOOLTIP%魔法伤害。可驱散；提前移除时不会结算剩余伤害。",
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow": "液态火",
-    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "攻击速度-%dMODIFIER_PROPERTY_TOOLTIP%。每秒魔法伤害：%fMODIFIER_PROPERTY_TOOLTIP2%。可驱散以终止燃烧。"
+    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "攻击速度-%dMODIFIER_PROPERTY_TOOLTIP%。每秒魔法伤害：%fMODIFIER_PROPERTY_TOOLTIP2%。可驱散以终止燃烧。",
+    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn": "烈焰焚身",
+    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "燃烧中。每秒魔法伤害：%fMODIFIER_PROPERTY_TOOLTIP%。无法驱散。"
   }
 }

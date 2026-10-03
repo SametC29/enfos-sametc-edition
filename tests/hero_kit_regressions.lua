@@ -7753,11 +7753,24 @@ test('Jakiro Macropyre ticks along its cast line without Boss-only damage trunca
         if key == 'damage_per_sec' then return 1000 end
         return 0
     end
+    local now=0
+    for _,u in ipairs({creep,boss})do
+        function u:AddNewModifier(c,a,name,p)
+          assert(name=='modifier_enfos_jakiro_macropyre_burn')
+          local m=self.burn
+          if m and not m.closed then m.expiry=now+p.duration;m:OnRefresh(p);return m end
+          m=setmetatable({created=now,expiry=now+p.duration},_G[name]);self.burn=m
+          function m:GetParent()return u end;function m:GetCaster()return c end;function m:GetAbility()return a end
+          function m:GetElapsedTime()return now-self.created end;function m:GetRemainingTime()return self.expiry-now end
+          function m:StartIntervalThink(t)self.interval=t end;function m:SetHasCustomTransmitterData()end;function m:SendBuffRefreshToClients()end;function m:Destroy()self:OnDestroy()end
+          m:OnCreated(p);return m
+         end
+    end
     ability:OnSpellStart()
     local thinker = ability.enfosGroundEffects[1]
     local zone = thinker.modifiers.modifier_enfos_jakiro_macropyre_zone
     assert(zone and zone.interval == 0.5)
-    for i = 1, 3 do zone.elapsed=i*0.5;zone:OnIntervalThink() end
+    for i = 1, 3 do now=i*0.5;zone.elapsed=now;zone:OnIntervalThink();creep.burn:OnIntervalThink();boss.burn:OnIntervalThink() end
     local creep_hits, creep_total, boss_total, off_line_hits = 0, 0, 0, 0
     for _, hit in ipairs(applied_damages) do
         if hit.victim == creep then creep_hits = creep_hits + 1; creep_total = creep_total + hit.damage end

@@ -10,6 +10,7 @@ return {
     ['modifier_enfos_jakiro_dual_breath_slow'] = 'abilities/heroes/jakiro/q',
     ['modifier_enfos_jakiro_liquid_fire_slow'] = 'abilities/heroes/jakiro/e',
     ['modifier_enfos_jakiro_liquid_fire_passive'] = 'abilities/heroes/jakiro/e',
+    ['modifier_enfos_jakiro_macropyre_burn'] = 'abilities/heroes/jakiro/r',
     ['modifier_enfos_jakiro_macropyre_zone'] = 'abilities/heroes/jakiro/r',
     ['modifier_enfos_jakiro_double_trouble'] = 'abilities/heroes/jakiro/d',
 }

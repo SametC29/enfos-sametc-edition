@@ -13,7 +13,18 @@ mt.__mul=function(a,b)return Vector(a.x*b,a.y*b,a.z*b)end
 mt.__index={Length2D=function(v)return math.sqrt(v.x*v.x+v.y*v.y)end,Normalized=function(v)local n=math.sqrt(v.x*v.x+v.y*v.y+v.z*v.z);return Vector(v.x/n,v.y/n,v.z/n)end}
 local now,created,destroyed,released=0,0,{},{}
 local controls={};ParticleManager={CreateParticle=function()created=created+1;controls[created]={};return created end,SetParticleControl=function(_,id,cp,v)controls[id][cp]=v end,DestroyParticle=function(_,id)destroyed[id]=(destroyed[id] or 0)+1 end,ReleaseParticleIndex=function(_,id)released[id]=(released[id] or 0)+1 end}
-local function unit(team,pos)local u={team=team,pos=pos,alive=true,removed=false,total=0};function u:IsNull()return self.removed end;function u:IsAlive()assert(not self.removed);return self.alive end;function u:GetTeamNumber()assert(not self.removed);return self.team end;function u:GetAbsOrigin()assert(not self.removed);return self.pos end;function u:GetForwardVector()return Vector(1,0,0)end;function u:EmitSound()end;function u:GetIntellect()return self.int or 100 end;return u end
+local function unit(team,pos)local u={team=team,pos=pos,alive=true,removed=false,total=0};function u:IsNull()return self.removed end;function u:IsAlive()assert(not self.removed);return self.alive end;function u:GetTeamNumber()assert(not self.removed);return self.team end;function u:GetAbsOrigin()assert(not self.removed);return self.pos end;function u:GetForwardVector()return Vector(1,0,0)end;function u:EmitSound()end;function u:GetIntellect()return self.int or 100 end
+ function u:AddNewModifier(c,a,name,p)
+  assert(name=='modifier_enfos_jakiro_macropyre_burn')
+  local m=self.burn
+  if m and not m.closed then m.expiry=now+p.duration;m:OnRefresh(p);return m end
+  m=setmetatable({created=now,expiry=now+p.duration},_G[name]);self.burn=m
+  function m:GetParent()return u end;function m:GetCaster()return c end;function m:GetAbility()return a end
+  function m:GetElapsedTime()return now-self.created end;function m:GetRemainingTime()return self.expiry-now end
+  function m:StartIntervalThink(t)self.interval=t end;function m:SetHasCustomTransmitterData()end;function m:SendBuffRefreshToClients()end;function m:Destroy()self:OnDestroy()end
+  m:OnCreated(p);return m
+ end
+;return u end
 local c=unit(2,Vector(100,200,30));local enemy=unit(3,Vector(600,200,30));local boss=unit(3,Vector(600,200,30));boss.isBoss=true
 local holders={}
 function CreateModifierThinker(caster,a,name,p,pos)
@@ -35,17 +46,20 @@ a.rank=0;a:OnSpellStart();assert(#holders==0,'Unlearned cast rejected');a.rank=1
 a:OnSpellStart();local zone=holders[1].mod;assert(created==1 and next(released)==nil,'Persistent particle remains owned')
 assert(controls[1][1].x==1500 and controls[1][1].z==30 and controls[1][2].x==10 and controls[1][4].x==250)
 c.pos=Vector(900,900,900);c.int=1000;vals.damage_per_sec=1000;c.alive=false
-now=0.5;zone:OnIntervalThink();assert(enemy.total==135 and boss.total==135,'Cast snapshot survives valid caster death')
-now=10;zone:OnIntervalThink();zone:OnDestroy();assert(enemy.total==2700 and boss.total==2700,'Complete saved damage budget at expiry');assert(zone.closed and destroyed[1]==1 and released[1]==1 and holders[1].removed,'Expiry cleanup exactly once')
+now=0.5;zone:OnIntervalThink();enemy.burn:OnIntervalThink();boss.burn:OnIntervalThink();assert(enemy.total==135 and boss.total==135,'Cast snapshot survives valid caster death')
+for i=2,20 do now=i*0.5;zone:OnIntervalThink();enemy.burn:OnIntervalThink();boss.burn:OnIntervalThink()end
+zone:OnDestroy();assert(enemy.total==2700 and boss.total==2700,'Saved recipient DPS during field lifetime');assert(zone.closed and destroyed[1]==1 and released[1]==1 and holders[1].removed,'Expiry cleanup exactly once')
+now=10.5;enemy.burn:OnDestroy();boss.burn:OnDestroy();assert(enemy.total==2835 and boss.total==2835,'Last field refresh leaves independent one-second burn after ground expiry')
 c.alive=true;c.pos=Vector(100,200,30);c.int=100;vals.damage_per_sec=200
 function a:GetCursorPosition()return c.pos end
 for i=1,10 do a:OnSpellStart()end
 assert(#a.enfosGroundEffects==3,'Existing bounded three fields preserved')
 assert(controls[created][1].x==1500,'Zero aim uses facing')
-local live=a.enfosGroundEffects[3].mod;a.removed=true;live:OnIntervalThink();assert(live.closed and destroyed[created]==1 and released[created]==1)
+local live=a.enfosGroundEffects[3].mod;a.removed=true;live:OnIntervalThink();enemy.burn:OnIntervalThink();boss.burn:OnIntervalThink();assert(live.closed and destroyed[created]==1 and released[created]==1)
 a.removed=false;now=20;vals.duration=1.25;a:OnSpellStart();local fractional=a.enfosGroundEffects[3].mod;local before=enemy.total
-now=20.5;fractional:OnIntervalThink();now=21;fractional:OnIntervalThink();now=21.25;fractional:OnDestroy()
-assert(enemy.total-before==337.5 and released[created]==1,'Engine expiry settles final partial interval without duplication')
+now=20.5;fractional:OnIntervalThink();enemy.burn:OnIntervalThink();now=21;fractional:OnIntervalThink();enemy.burn:OnIntervalThink();now=21.25;fractional:OnDestroy()
+now=21.5;enemy.burn:OnIntervalThink();now=22;enemy.burn:OnDestroy();enemy.burn:OnDestroy()
+assert(enemy.total-before==540 and released[created]==1,'Last refresh lingers beyond fractional field lifetime, exactly once')
 local previous=#holders;c.removed=true;a:OnSpellStart();assert(#holders==previous);c.removed=false
 
 print('Jakiro R owner lifecycle PASS')

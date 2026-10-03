@@ -1,7 +1,7 @@
 {
   "Language": "English",
   "Tokens": {
-    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_Description": "Creates a {{length}}-long fire path with {{path_radius}} radius for {{duration}} seconds. Enemies inside take {{damage_per_sec}} + 70% Intelligence magical damage per second. The path direction and damage are set when cast; the existing fire persists if Jakiro dies. Does not pierce debuff immunity.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_Description": "Creates a {{length}}-long fire path with {{path_radius}} radius for {{duration}} seconds. Enemies inside take {{damage_per_sec}} + 70% Intelligence magical damage per second. The burn lingers for {{linger_duration}} seconds after its last application by the field. The path direction and damage are set when cast; existing fire persists if Jakiro dies. The burn cannot be dispelled and does not pierce debuff immunity.",
     "npc_dota_custom_fountain": "Recovery Fountain",
     "enfos_sametc_addon_title": "Enfos Team Survival — SametC Edition",
     "enfos_sametc_addon_description": "A modern Enfo-inspired PvEvP survival custom game.",
@@ -1465,6 +1465,8 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_burn": "Dual Breath: Burn",
     "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_burn_Description": "%fMODIFIER_PROPERTY_TOOLTIP% magical damage per second. Can be dispelled; early removal does not pay out the remaining damage.",
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow": "Liquid Fire",
-    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "Attack speed -%dMODIFIER_PROPERTY_TOOLTIP%. Magical damage per second: %fMODIFIER_PROPERTY_TOOLTIP2%. Can be dispelled to end the burn."
+    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "Attack speed -%dMODIFIER_PROPERTY_TOOLTIP%. Magical damage per second: %fMODIFIER_PROPERTY_TOOLTIP2%. Can be dispelled to end the burn.",
+    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn": "Macropyre",
+    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "Burning. Magical damage per second: %fMODIFIER_PROPERTY_TOOLTIP%. Cannot be dispelled."
   }
 }
