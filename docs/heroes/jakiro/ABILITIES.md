@@ -292,3 +292,5 @@ Change/test record: all five abilities now expose ten KV ranks; the complete 200
 ## Active individual audit — 2026-10-03
 
 [Individual review](../../audit/JAKIRO_INDIVIDUAL_REVIEW_2026-10-03.md) supersedes historical source closures. All five handlers reviewed against installed build 6943 / revision 11069754; native-first Q/W/E/R TUNE, D REPLACE. Isolation preserves existing mechanics and known defects. Source repair, traces and every engine/visual/audio gate remain pending. Ice Path Boss reduction and Macropyre cap are defects to remove under the owner contract, not accepted behavior.
+
+2026-10-03 R focused repair: removed the cumulative Boss-only 10% maxHP cap/table. Independent fixture reproduced truncation before the change and passes for ordinary/flagged/named Boss targets afterward; ordinary magical flags and existing line rejection remain unchanged. Native path/Scepter/VFX/SFX/engine acceptance remains PENDING.

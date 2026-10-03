@@ -7722,7 +7722,7 @@ test('Sven Gods Strength uses configured pulse and Scepter values',function()
  assert(allyModifier and allyModifier:GetModifierBaseDamageOutgoing_Percentage()==50 and allyModifier:GetModifierPhysicalArmorBonus()==10)
 end)
 
-test('Jakiro Macropyre ticks along its cast line and caps total boss damage per cast', function()
+test('Jakiro Macropyre ticks along its cast line without Boss-only damage truncation', function()
     applied_damages = {}
     local jakiro = create_mock_unit('npc_dota_hero_jakiro', 2, Vector(0, 0, 0))
     local creep = create_mock_unit('macropyre_creep', 3, Vector(500, 0, 0), 5000)
@@ -7743,14 +7743,14 @@ test('Jakiro Macropyre ticks along its cast line and caps total boss damage per 
     local zone = thinker.modifiers.modifier_enfos_jakiro_macropyre_zone
     assert(zone and zone.interval == 0.5)
     for _ = 1, 3 do zone:OnIntervalThink() end
-    local creep_hits, boss_total, off_line_hits = 0, 0, 0
+    local creep_hits, creep_total, boss_total, off_line_hits = 0, 0, 0, 0
     for _, hit in ipairs(applied_damages) do
-        if hit.victim == creep then creep_hits = creep_hits + 1 end
+        if hit.victim == creep then creep_hits = creep_hits + 1; creep_total = creep_total + hit.damage end
         if hit.victim == boss then boss_total = boss_total + hit.damage end
         if hit.victim == off_line then off_line_hits = off_line_hits + 1 end
     end
     assert(creep_hits == 4, 'Macropyre should apply repeated burn ticks to enemies on its line')
-    assert(boss_total <= 500, 'one cast should cap boss damage at 10% max health')
+    assert(boss_total == creep_total and boss_total > 500, 'Boss metadata must not truncate ordinary magical path ticks')
     assert(off_line_hits == 0, 'enemies outside the line should not be damaged')
 end)
 

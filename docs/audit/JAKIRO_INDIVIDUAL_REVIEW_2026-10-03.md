@@ -39,3 +39,13 @@ Next units: independent reproductions and repair of Q/W geometry/timing; E burn/
 Ranks 1/10 and ordinary/free skill points; cast near/far/zero direction; units outside/entering/leaving paths; traveling ice/fire timing; repeated/Refresher casts and multiple casters; manual/autocast/Break/illusions/target loss; source/target death and removed ability; immunity/resistance/dispel and ordinary Boss interaction; Shard/Scepter/Blessing/evolution/Ascended hooks; visible CP sizes, audible cast/impact/loop cleanup, cold resources, reconnect and dense-wave VConsole/performance. No agent launch/control or publication authorized.
 
 Isolation verification: full node tools/checks.mjs PASS (0 failed checks), including production Lua entrypoints, all-hero existing mocks, individual module/helper tests and dossier contracts. No Dota launch; known gameplay defects remain open.
+
+## R focused repair — Boss-only damage cap
+
+Confirmed before repair in an independent fixture: ordinary target received 2700 requested magical damage over 20 half-second pulses, but otherwise identical Boss metadata target received only 100 (10% of its mock 1000 maximum HP). The fixture failed on this mismatch against the unchanged extracted module.
+
+Removed R's cumulative maxHP ceiling and its per-Boss damage table; every eligible target now receives the ordinary configured DPS/INT pulse through the existing ApplyDamage helper. No Boss immunity/armor/resistance/control/AI/stat override added, and existing path geometry is unchanged in this focused unit. Fixture exercises ordinary, isBoss=true and enfos_boss_ name targets plus an off-path target, checks magical type/ordinary flags and absence of retained boss table. The historical cap-preserving regression now asserts equal ordinary requested damage.
+
+This is an authored policy/source repair, not a native Macropyre geometry or Scepter acceptance. Remaining R width, duration/linger, source-death behavior, immunity, Scepter icy-edge/pure/piercing, CP/sound and owner engine tests remain PENDING. Existing tooltip never advertised the removed cap; no player-visible string changes needed for this isolated removal.
+
+R cap repair verification: targeted reproduction failed before / PASS after; full node tools/checks.mjs PASS with 0 failed checks. Owner runtime remains NOT TESTED.

@@ -1,6 +1,6 @@
--- Jakiro R: isolated authored implementation; behavior unchanged in extraction.
+-- Jakiro R: ordinary magical path pulses; no authored Boss-only damage ceiling.
 local Helpers = require('abilities/shared/pve_helpers')
-local value, enemies, is_boss, get_int, damage = Helpers.value, Helpers.enemies, Helpers.is_boss, Helpers.get_int, Helpers.damage
+local value, enemies, get_int, damage = Helpers.value, Helpers.enemies, Helpers.get_int, Helpers.damage
 local effect, ground_effect, remove_ground_effect = Helpers.effect, Helpers.ground_effect, Helpers.remove_ground_effect
 LinkLuaModifier('modifier_enfos_jakiro_macropyre_zone', 'abilities/heroes/jakiro/r', LUA_MODIFIER_MOTION_NONE)
 
@@ -32,7 +32,6 @@ function modifier_enfos_jakiro_macropyre_zone:OnCreated(kv)
     if not IsServer() then return end
     self.dir = Vector(tonumber(kv.dir_x) or 1, tonumber(kv.dir_y) or 0, 0):Normalized()
     self.length = tonumber(kv.length) or 1200
-    self.boss_damage = {}
     self:StartIntervalThink(0.5)
 end
 function modifier_enfos_jakiro_macropyre_zone:OnIntervalThink()
@@ -47,14 +46,7 @@ function modifier_enfos_jakiro_macropyre_zone:OnIntervalThink()
         local along = off.x * self.dir.x + off.y * self.dir.y
         local side = (off - (self.dir * along)):Length2D()
         if along >= 0 and along <= self.length and side <= 180 then
-            local hit = pulse
-            if is_boss(u) then
-                local id = u:entindex()
-                local limit = u:GetMaxHealth() * 0.1
-                hit = math.min(hit, math.max(0, limit - (self.boss_damage[id] or 0)))
-                self.boss_damage[id] = (self.boss_damage[id] or 0) + hit
-            end
-            damage(a, u, hit, DAMAGE_TYPE_MAGICAL)
+            damage(a, u, pulse, DAMAGE_TYPE_MAGICAL)
         end
     end
 end
