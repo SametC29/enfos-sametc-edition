@@ -26,7 +26,8 @@ function enfos_vs_wave_of_terror:OnSpellStart()
     local duration = value(self, 'duration')
     if duration <= 0 then duration = 8 end
     local data = { damage = value(self, 'damage') + get_agi(c) * 0.6,
-        duration = duration, armor_reduction = value(self, 'armor_reduction') }
+        duration = duration, armor_reduction = value(self, 'armor_reduction'),
+        attack_reduction = value(self, 'attack_reduction') }
     c:EmitSound('Hero_VengefulSpirit.WaveOfTerror')
     local handle = ProjectileManager:CreateLinearProjectile({
         Ability = self, Source = c,
@@ -55,7 +56,8 @@ function enfos_vs_wave_of_terror:OnProjectileHit_ExtraData(target, location, dat
     local dealt = damage(self, target, tonumber(data.damage), DAMAGE_TYPE_MAGICAL)
     if valid(c) and valid(self) and valid(target) and target:IsAlive() and target:GetTeamNumber()~=c:GetTeamNumber() then
         target:AddNewModifier(c, self, 'modifier_enfos_vs_wave_debuff', {
-            duration = tonumber(data.duration), armor_reduction = tonumber(data.armor_reduction) })
+            duration = tonumber(data.duration), armor_reduction = tonumber(data.armor_reduction),
+            attack_reduction = tonumber(data.attack_reduction) or 0 })
     end
     HeroTrace:Log('VENGEFUL_SPIRIT','W','impact target=%s requested_damage=%s actual_damage=%s armor_reduction=%s duration_requested=%s',
         HeroTrace:Name(target),tostring(data.damage),tostring(dealt),tostring(data.armor_reduction),tostring(data.duration))
@@ -69,14 +71,34 @@ function modifier_enfos_vs_wave_debuff:GetTexture() return 'vengefulspirit_wave_
 function modifier_enfos_vs_wave_debuff:OnCreated(params)
     if not IsServer() then return end
     local armor = tonumber(params and params.armor_reduction) or value(self:GetAbility(), 'armor_reduction')
+    self.attack_reduction = math.min(100, math.max(0, tonumber(params and params.attack_reduction) or value(self:GetAbility(), 'attack_reduction')))
     self:SetStackCount(math.max(0, math.floor(armor)))
-    HeroTrace:Log('VENGEFUL_SPIRIT','W','modifier_applied target=%s armor_reduction=%s',HeroTrace:Name(self:GetParent()),tostring(self:GetStackCount()))
+    self:SetHasCustomTransmitterData(true)
+    HeroTrace:Log('VENGEFUL_SPIRIT','W','modifier_applied target=%s armor_reduction=%s attack_reduction=%s',HeroTrace:Name(self:GetParent()),tostring(self:GetStackCount()),tostring(self.attack_reduction))
 end
-function modifier_enfos_vs_wave_debuff:OnRefresh(params) self:OnCreated(params) end
+function modifier_enfos_vs_wave_debuff:OnRefresh(params)
+    if not IsServer() then return end
+    local armor = tonumber(params and params.armor_reduction) or value(self:GetAbility(), 'armor_reduction')
+    self.attack_reduction = math.min(100, math.max(0, tonumber(params and params.attack_reduction) or value(self:GetAbility(), 'attack_reduction')))
+    self:SetStackCount(math.max(0, math.floor(armor)))
+    self:SendBuffRefreshToClients()
+    HeroTrace:Log('VENGEFUL_SPIRIT','W','modifier_refreshed target=%s armor_reduction=%s attack_reduction=%s',HeroTrace:Name(self:GetParent()),tostring(self:GetStackCount()),tostring(self.attack_reduction))
+end
+function modifier_enfos_vs_wave_debuff:AddCustomTransmitterData()
+    return { attack_reduction = self.attack_reduction or 0 }
+end
+function modifier_enfos_vs_wave_debuff:HandleCustomTransmitterData(data)
+    self.attack_reduction = tonumber(data and data.attack_reduction) or 0
+end
 function modifier_enfos_vs_wave_debuff:OnDestroy()
     HeroTrace:Log('VENGEFUL_SPIRIT','W','modifier_removed target=%s',HeroTrace:Name(self:GetParent()))
 end
-function modifier_enfos_vs_wave_debuff:DeclareFunctions() return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS } end
+function modifier_enfos_vs_wave_debuff:DeclareFunctions()
+    return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS, MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE }
+end
+function modifier_enfos_vs_wave_debuff:GetModifierDamageOutgoing_Percentage()
+    return -(self.attack_reduction or 0)
+end
 function modifier_enfos_vs_wave_debuff:GetModifierPhysicalArmorBonus()
     return -self:GetStackCount()
 end

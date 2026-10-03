@@ -4008,6 +4008,7 @@
             "OnSpellStart"
           ],
           "specials": {
+            "attack_reduction": "10 15 20 25 25 25 25 25 25 25",
             "wave_distance": "1400",
             "wave_speed": "2000",
             "wave_width": "325",

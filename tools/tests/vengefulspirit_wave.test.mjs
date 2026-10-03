@@ -27,7 +27,7 @@ function c:GetForwardVector()return Vector(1,0,0)end
 function c:GetTeamNumber()return 2 end
 function c:GetAgility()return self.agi end
 function c:EmitSound()end
-local specials={damage=100,duration=8,armor_reduction=4,wave_distance=1400,wave_speed=2000,wave_width=325}
+local specials={damage=100,duration=8,armor_reduction=4,attack_reduction=15,wave_distance=1400,wave_speed=2000,wave_width=325}
 local a=setmetatable({GetCaster=function()return c end,GetCursorPosition=function()return c:GetAbsOrigin()end,
  GetSpecialValueFor=function(_,k)return specials[k] or 0 end,GetLevel=function()return 1 end},enfos_vs_wave_of_terror)
 ProjectileManager={CreateLinearProjectile=function(_,p)waves[#waves+1]=p;return #waves end}
@@ -40,13 +40,14 @@ local p=waves[1]
 assert(p.vVelocity.x==2000 and p.vVelocity.y==0 and p.vVelocity.z==0,'Zero aim must preserve horizontal facing')
 assert(p.fDistance==1400 and p.fStartRadius==325 and p.fEndRadius==325)
 assert(p.bDeleteOnHit==false and p.bReplaceExisting==false)
+assert(p.ExtraData.attack_reduction==15,'Native W attack reduction must be captured at cast')
 assert(p.EffectName=='particles/units/heroes/hero_vengeful/vengeful_wave_of_terror.vpcf')
 local t={team=3,removed=false,dead=false,isBoss=true}
 function t:IsNull()return self.removed end
 function t:IsAlive()assert(not self.removed);return not self.dead end
 function t:GetTeamNumber()assert(not self.removed);return self.team end
-function t:AddNewModifier(_,_,name,data)assert(not self.removed and not self.dead);assert(name=='modifier_enfos_vs_wave_debuff');assert(data.duration==8 and data.armor_reduction==4);calls.mods=calls.mods+1 end
-c.agi=900;specials.damage=900;specials.armor_reduction=12;a:OnSpellStart()
+function t:AddNewModifier(_,_,name,data)assert(not self.removed and not self.dead);assert(name=='modifier_enfos_vs_wave_debuff');assert(data.duration==8 and data.armor_reduction==4 and data.attack_reduction==15);calls.mods=calls.mods+1 end
+c.agi=900;specials.damage=900;specials.armor_reduction=12;specials.attack_reduction=25;a:OnSpellStart()
 assert(#waves==2 and waves[2].ExtraData.damage~=p.ExtraData.damage,'Recast requires independent snapshot')
 assert(a:OnProjectileHit_ExtraData(t,nil,p.ExtraData)==false)
 assert(calls.damage==1 and calls.mods==1,'Ordinary Boss impact must continue through target')
@@ -58,11 +59,19 @@ c.removed=true;a:OnProjectileHit_ExtraData(t,nil,p.ExtraData);assert(calls.damag
 server=false;c.removed=false;a:OnSpellStart();assert(#waves==2)
 local armor=setmetatable({count=0,GetAbility=function()return a end,
  GetParent=function()return t end,SetStackCount=function(self,n)self.count=n end,
+ SetHasCustomTransmitterData=function(_,enabled)assert(enabled)end,
+ SendBuffRefreshToClients=function()calls.sends=(calls.sends or 0)+1 end,
  GetStackCount=function(self)return self.count end},modifier_enfos_vs_wave_debuff)
-server=true;armor:OnCreated({armor_reduction=4})
+server=true;armor:OnCreated({armor_reduction=4,attack_reduction=15})
+local client=setmetatable({},modifier_enfos_vs_wave_debuff)
+client:HandleCustomTransmitterData(armor:AddCustomTransmitterData())
 server=false;assert(armor:GetModifierPhysicalArmorBonus()==-4,'Client reads replicated armor snapshot, not later rank')
-server=true;armor:OnRefresh({armor_reduction=12})
+assert(client:GetModifierDamageOutgoing_Percentage()==-15,'Client receives cast snapshot, not current rank')
+server=true;armor:OnRefresh({armor_reduction=12,attack_reduction=25})
+client:HandleCustomTransmitterData(armor:AddCustomTransmitterData())
 server=false;assert(armor:GetModifierPhysicalArmorBonus()==-12,'Refresh replaces replicated armor value')
+assert(client:GetModifierDamageOutgoing_Percentage()==-25 and calls.sends==1,'Refresh transmits the new attack reduction')
+armor:OnRefresh({armor_reduction=99,attack_reduction=99});assert(calls.sends==1,'Client cannot refresh authoritative stats')
 assert(armor:IsDebuff() and armor:IsPurgable())
 print('Vengeful Spirit traveling wave PASS')
 `;

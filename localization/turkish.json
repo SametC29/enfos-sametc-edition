@@ -917,7 +917,7 @@
     "DOTA_Tooltip_Ability_enfos_vs_magic_missile": "Büyü Füzesi",
     "DOTA_Tooltip_Ability_enfos_vs_magic_missile_Description": "Düşmana kaçınılabilir bir füze fırlatır. İsabette {{damage}} + Çeviklik × 0,9 büyü hasarı verir ve {{stun_duration}} saniye sersemletir. Bosslarda aynı hasar ve sersemletme süresi kullanılır; normal bağışıklık ve durum direnci kuralları geçerlidir.",
     "DOTA_Tooltip_Ability_enfos_vs_wave_of_terror": "Dehşet Dalgası",
-    "DOTA_Tooltip_Ability_enfos_vs_wave_of_terror_Description": "{{wave_speed}} hızla {{wave_distance}} mesafeye ilerleyen bir dalga gönderir. Yolunun {{wave_width}} yakınındaki düşmanlara çarpışmada {{damage}} + Çeviklik × 0,6 büyü hasarı verir ve zırhlarını {{duration}} saniye boyunca {{armor_reduction}} azaltır. Dalga düşmanların içinden geçer; zırh zayıflatması dağıtılabilir.",
+    "DOTA_Tooltip_Ability_enfos_vs_wave_of_terror_Description": "{{wave_speed}} hızla {{wave_distance}} menzile ilerleyen bir dalga gönderir. Yolunun {{wave_width}} birim yakınındaki düşmanlara çarpınca {{damage}} + Çevikliğin 0,6 katı büyü hasarı verir; zırhı {{armor_reduction}}, toplam saldırı hasarını %{{attack_reduction}} azaltır. Etki {{duration}} saniye sürer ve dağıtılabilir. Dalga düşmanların içinden geçmeye devam eder.",
     "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura": "İntikam Halesi",
     "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura_Description": "{{radius}} menzildeki dost kahramanların ve temel birimlerin temel saldırı hasarını %{{bonus_damage_pct}} artırır. Vengeful Spirit Kırılma etkisindeyken devre dışıdır.",
     "DOTA_Tooltip_Ability_enfos_vs_nether_swap": "Ruh Takası",
@@ -1789,6 +1789,8 @@
     "DOTA_Tooltip_modifier_enfos_vs_retribution_Description": "Çeviklik +%dMODIFIER_PROPERTY_STATS_AGILITY_BONUS%, saldırı hızı +%dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Kırılma etkisinde devre dışıdır.",
     "DOTA_Tooltip_modifier_enfos_vs_vengeance_aura_buff": "İntikam Halesi",
     "DOTA_Tooltip_modifier_enfos_vs_vengeance_aura_buff_Description": "Temel saldırı hasarı %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%% artar. Hale kaynağı Kırılma etkisindeyken devre dışıdır.",
-    "DOTA_Tooltip_Ability_enfos_vs_magic_missile_shard_description": "Büyülü Füze ilk hedefinden, güncel atış menzilinin %75’i içindeki başka bir düşmana bir kez seker. Kahramanlara öncelik verir; ikinci füze aynı hasarı ve sersemletmeyi uygular."
+    "DOTA_Tooltip_Ability_enfos_vs_magic_missile_shard_description": "Büyülü Füze ilk hedefinden, güncel atış menzilinin %75’i içindeki başka bir düşmana bir kez seker. Kahramanlara öncelik verir; ikinci füze aynı hasarı ve sersemletmeyi uygular.",
+    "DOTA_Tooltip_modifier_enfos_vs_wave_debuff": "Dehşet Dalgası",
+    "DOTA_Tooltip_modifier_enfos_vs_wave_debuff_Description": "Zırh değişimi: %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Toplam saldırı hasarı değişimi: %dMODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE%%%. Dağıtılabilir."
   }
 }

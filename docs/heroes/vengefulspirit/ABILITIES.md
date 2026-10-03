@@ -9,6 +9,12 @@ See the [individual ledger](../../audit/VENGEFUL_SPIRIT_INDIVIDUAL_REVIEW_2026-1
 for provenance, bounded projectile policy, regression evidence and outstanding
 Scepter/W/E source work. Actual Dota/VConsole acceptance remains owner-pending.
 
+2026-10-03 W correction: native total-attack reduction was absent from the
+custom wave. It now snapshots 10/15/20/25% (25% at ranks 5–10) alongside the
+existing damage/armor and replicates its modifier value on creation/refresh.
+Native vision/recipient VFX and real attack/immunity/dispel verification remain
+open in the individual ledger; this does not certify W or the whole hero.
+
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
 

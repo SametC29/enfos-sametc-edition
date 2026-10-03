@@ -284,3 +284,41 @@ origin/impact visuals, effective-range behavior, target immunity/absorb and
 client tooltip rendering remain PENDING OWNER TEST. Scepter, W native attack
 reduction/vision/recipient presentation and E emitter rank gate remain open;
 do not advance to Jakiro or mark this hero DONE yet.
+
+## W missing attack reduction restoration
+
+Re-read installed hero AbilityDefinitions (build 6943) and native English tokens
+1408/1411/1455: W reduces total attack damage as well as armor. Native ranks are
+10/15/20/25%; native recipient localization explicitly uses
+`MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE`, not base-damage-only reduction.
+Our W only declared physical armor and never captured attack reduction. This is
+a confirmed omission, not a Boss balance branch. W remains TUNE.
+
+Added native first-four-rank attack reduction, held at 25% for ranks 5–10 rather
+than extrapolating stronger suppression without balance evidence. Existing
+10-rank damage, Agility scaling, armor, travel and duration remain unchanged.
+Projectile captures attack reduction at cast and passes it only to a surviving,
+valid hostile collision target. The existing armor stack snapshot is retained;
+the second numeric property uses the engine custom transmitter on creation and
+refresh. No polling timer, stat-getter log, global scan or added particle exists.
+The native modifier property applies ordinary engine rules to normal units and
+Bosses alike. Negative getter output is deliberate; four-language modifier
+tooltips display the actual signed property, with spell descriptions listing
+positive reduction amounts.
+
+[ModDota's transmitter guide](https://moddota.com/abilities/server-to-client)
+documents multiple-field replication; current MCP confirms
+`CDOTA_Modifier_Lua:SetHasCustomTransmitterData` and
+`CDOTA_Buff:SendBuffRefreshToClients`. Initial lookup under CDOTA_Buff failed;
+the correct Lua modifier class resolves. Indexed Boss Survival Adventure reference
+search found native-named ability mappings, but no code was imported and these
+mappings do not establish runtime correctness or licensed implementation reuse.
+
+The updated wave fixture fails on the pre-fix module's missing cast snapshot.
+Repaired tests cover independent recasts/rank changes, normal Boss collision,
+lethal-target cleanup, transmitted client values (15 -> 25), refresh and no
+client authoritative mutation. Native projectile path/audio/animation remain
+as previously verified. Native vision trail and recipient particle binding are
+still OPEN. Actual attack reduction against base+bonus attack damage, dispel,
+immunity, tooltip sign/rendering and refresh replication remain PENDING OWNER
+DOTA/VCONSOLE TEST; no mock proves those engine gates.
