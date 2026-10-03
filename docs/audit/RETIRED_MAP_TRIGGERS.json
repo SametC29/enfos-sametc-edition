@@ -10,5 +10,5 @@
     {"sourceId": 141, "name": "[PR#]courier_safe_zone", "classname": "trigger_dota", "script": "courier_safe_zone.lua", "callbacks": ["CourierZone_Enter", "CourierZone_Leave"]}
   ],
   "preserved": {"sourceId": 20, "name": "[PR#]treeshopdire", "classname": "trigger_shop", "shoptype": 1},
-  "runtimeStatus": "PENDING_OWNER_TEST"
+  "runtimeStatus": "OWNER_CONFIRMED_MARKET_AND_CLEAN_RETIRED_TRIGGER_LOG"
 }

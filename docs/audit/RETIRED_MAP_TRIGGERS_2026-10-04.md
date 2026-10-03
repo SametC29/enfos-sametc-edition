@@ -46,3 +46,16 @@ map. The exact native removal timing and entity script scope are engine tests,
 not established by mocks. No new engine-control command, remote push, deployment
 or Workshop publication is performed. Independent Boss modifier errors are
 outside this change.
+
+## Owner runtime confirmation
+
+2026-10-04: owner reports the market works and supplies attachment
+8e0340df-bc87-4d6f-9fc0-c8a30dbd375d. Log SHA256:
+49d3f0f2b8bd735e26fa6ea30ba901cc7ed1977ae26e161e9058e9ac8419bcdf.
+Line1199 confirms the retirement module removed exactly three legacy triggers.
+The supplied log contains no missing wood_system.lua/courier_safe_zone.lua,
+TreeShop/CourierZone callback faults or Script Runtime Error entries.
+Result: owner-confirmed market functionality and engine-confirmed retirement
+startup/clean log for this session. Separate Ascended transaction coverage is
+unspecified. Eight missing teleport.lua warnings (lines1032–1039) and asset
+warnings remain outside this change; the full console is not warning-free.
