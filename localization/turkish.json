@@ -1815,6 +1815,8 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff": "Sıvı Buz",
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff_Description": "Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% azalır. Jakiro’nun saldırıları ve diğer yetenekleri %fMODIFIER_PROPERTY_TOOLTIP% ek büyü hasarı verir.",
     "DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive": "İblis Ruhu",
-    "DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive_Description": "Atış menzili +%dMODIFIER_PROPERTY_TOOLTIP%; büyü güçlendirmesi +%dMODIFIER_PROPERTY_TOOLTIP2%%%. Break sırasında ve illüzyonlarda bonus vermez. Arındırılamaz."
+    "DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive_Description": "Atış menzili +%dMODIFIER_PROPERTY_TOOLTIP%; büyü güçlendirmesi +%dMODIFIER_PROPERTY_TOOLTIP2%%%. Break sırasında ve illüzyonlarda bonus vermez. Arındırılamaz.",
+    "DOTA_Tooltip_modifier_enfos_lion_finger_counter": "Ölüm Parmağı — Öldürme Yığınları",
+    "DOTA_Tooltip_modifier_enfos_lion_finger_counter_Description": "Ölüm Parmağı ile anında öldürülen düşmanlar yığın kazandırır. Mevcut ek Ölüm Parmağı hasarı: %dMODIFIER_PROPERTY_TOOLTIP%. Mevcut büyü gücü: %dMODIFIER_PROPERTY_TOOLTIP2%%%."
   }
 }

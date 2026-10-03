@@ -1416,6 +1416,8 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff": "Жидкий мороз",
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff_Description": "Скорость передвижения снижена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Атаки и другие способности Джакиро наносят %fMODIFIER_PROPERTY_TOOLTIP% дополнительного магического урона.",
     "DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive": "Демоническая душа",
-    "DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive_Description": "Дальность применения +%dMODIFIER_PROPERTY_TOOLTIP%; усиление заклинаний +%dMODIFIER_PROPERTY_TOOLTIP2%%%. Отключается истощением и не действует на иллюзии. Нельзя развеять."
+    "DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive_Description": "Дальность применения +%dMODIFIER_PROPERTY_TOOLTIP%; усиление заклинаний +%dMODIFIER_PROPERTY_TOOLTIP2%%%. Отключается истощением и не действует на иллюзии. Нельзя развеять.",
+    "DOTA_Tooltip_modifier_enfos_lion_finger_counter": "Палец смерти — заряды убийств",
+    "DOTA_Tooltip_modifier_enfos_lion_finger_counter_Description": "Мгновенные убийства Пальцем смерти дают заряды. Текущий дополнительный урон: %dMODIFIER_PROPERTY_TOOLTIP%. Текущее усиление заклинаний: %dMODIFIER_PROPERTY_TOOLTIP2%%%."
   }
 }

@@ -55,8 +55,37 @@ function enfos_lion_finger_of_death:OnSpellStart()
 end
 
 modifier_enfos_lion_finger_counter=class({})
-function modifier_enfos_lion_finger_counter:DeclareFunctions() return { MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE } end
+local function counter_bonus(m,key)
+    if m.closed or not valid(m) or not valid(m:GetParent()) then return 0 end
+    local a=m:GetAbility()
+    if not valid(a) or a:GetLevel()<=0 then return 0 end
+    local stacks=math.min(math.max(0,m:GetStackCount()),math.max(0,H.value(a,'kill_stack_cap')))
+    return stacks*H.value(a,key)
+end
+function modifier_enfos_lion_finger_counter:IsHidden() return false end
+function modifier_enfos_lion_finger_counter:GetTexture() return 'lion_finger_of_death' end
+function modifier_enfos_lion_finger_counter:DeclareFunctions()
+    return {MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,MODIFIER_PROPERTY_TOOLTIP,MODIFIER_PROPERTY_TOOLTIP2}
+end
 function modifier_enfos_lion_finger_counter:GetModifierSpellAmplify_Percentage()
-    return math.min(math.max(0, self:GetStackCount() or 0), H.value(self:GetAbility(), 'kill_stack_cap'))
-        * H.value(self:GetAbility(), 'kill_stack_spell_amp_pct')
+    return counter_bonus(self,'kill_stack_spell_amp_pct')
+end
+function modifier_enfos_lion_finger_counter:OnTooltip() return counter_bonus(self,'kill_stack_damage') end
+function modifier_enfos_lion_finger_counter:OnTooltip2() return counter_bonus(self,'kill_stack_spell_amp_pct') end
+function modifier_enfos_lion_finger_counter:TraceLifecycle(event)
+    if Trace:Enabled() then
+        Trace:Log('LION','R','counter %s damage=%.1f spell_amp=%.1f',event,counter_bonus(self,'kill_stack_damage'),counter_bonus(self,'kill_stack_spell_amp_pct'))
+    end
+end
+function modifier_enfos_lion_finger_counter:OnCreated()
+    self.closed=false
+    self:TraceLifecycle('applied')
+end
+function modifier_enfos_lion_finger_counter:OnRefresh()
+    if not self.closed then self:TraceLifecycle('refreshed') end
+end
+function modifier_enfos_lion_finger_counter:OnDestroy()
+    if self.closed then return end
+    self:TraceLifecycle('removed')
+    self.closed=true
 end

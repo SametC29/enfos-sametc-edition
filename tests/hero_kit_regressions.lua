@@ -6463,6 +6463,8 @@ test('Lion Finger of Death splashes damage in AoE and increments stack on kill',
         return 0
     end
 
+    ab.GetLevel = function() return 1 end -- Explicit learned R for the counter's rank gate.
+
     -- Add finger counter modifier
     local counter = lion:AddNewModifier(lion, ab, 'modifier_enfos_lion_finger_counter', {})
 

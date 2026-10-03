@@ -1476,6 +1476,8 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff": "Liquid Frost",
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff_Description": "Movement speed reduced by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Jakiro’s attacks and other abilities deal %fMODIFIER_PROPERTY_TOOLTIP% additional magical damage.",
     "DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive": "Demon Soul",
-    "DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive_Description": "Cast range +%dMODIFIER_PROPERTY_TOOLTIP%; spell amplification +%dMODIFIER_PROPERTY_TOOLTIP2%%%. Disabled by Break and inactive on illusions. Cannot be dispelled."
+    "DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive_Description": "Cast range +%dMODIFIER_PROPERTY_TOOLTIP%; spell amplification +%dMODIFIER_PROPERTY_TOOLTIP2%%%. Disabled by Break and inactive on illusions. Cannot be dispelled.",
+    "DOTA_Tooltip_modifier_enfos_lion_finger_counter": "Finger of Death — Kill Stacks",
+    "DOTA_Tooltip_modifier_enfos_lion_finger_counter_Description": "Kills caused immediately by Finger grant stacks. Current extra Finger damage: %dMODIFIER_PROPERTY_TOOLTIP%. Current spell amplification: %dMODIFIER_PROPERTY_TOOLTIP2%%%."
   }
 }
