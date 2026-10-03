@@ -323,6 +323,7 @@ local modifier_list = {
     -- Jakiro
     'modifier_enfos_jakiro_ice_path_zone',
     'modifier_enfos_jakiro_dual_breath_slow',
+    'modifier_enfos_jakiro_dual_breath_burn',
     'modifier_enfos_jakiro_liquid_fire_passive',
     'modifier_enfos_jakiro_double_trouble',
     'modifier_enfos_jakiro_macropyre_zone',

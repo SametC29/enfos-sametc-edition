@@ -22,7 +22,7 @@ test('Jakiro production slots resolve unique isolated classes and shared depende
     assert.equal(abilities[id].ScriptFile,`abilities/heroes/jakiro/${slots[i]}`);
     assert.equal(defined.get(id),`game/scripts/vscripts/${abilities[id].ScriptFile}.lua`);
   });
-  assert.equal([...defined.keys()].filter(x=>x.startsWith('modifier_')).length,6);
+  assert.equal([...defined.keys()].filter(x=>x.startsWith('modifier_')).length,7);
   assert.ok(sources.has('game/scripts/vscripts/abilities/shared/pve_helpers.lua'));
 });
 
@@ -40,7 +40,7 @@ local count=0
 for name,path in pairs(routes) do
  count=count+1;assert(links[name]==path);assert(type(_G[name])=='table');require(path)
 end
-assert(count==6)
+assert(count==7)
 ${ids.map(id=>`assert(type(${id})=='table')`).join('\n')}
 require('abilities/pve_kits')
 for name,path in pairs(routes) do assert(links[name]==path) end

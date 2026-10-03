@@ -3885,9 +3885,16 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
           "callbacks": [
+            "LaunchBreath",
+            "OnProjectileHit_ExtraData",
             "OnSpellStart"
           ],
           "specials": {
+            "breath_distance": "850",
+            "breath_speed": "1050",
+            "start_radius": "150",
+            "end_radius": "275",
+            "fire_delay": "0.2",
             "damage": "100 180 260 340 365 390 415 440 465 490",
             "slow_pct": "30 35 40 45 46 47 48 49 50 51",
             "duration": "5.0"

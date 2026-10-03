@@ -7442,27 +7442,31 @@ test('Jakiro Ice Path delays damage and control until the configured path warnin
     CreateModifierThinker=old_factory
 end)
 
-test('Jakiro Dual Breath damages in cone with Int scaling and applies slow', function()
+test('Jakiro Dual Breath saves separate traveling ice/fire and its full-duration damage budget', function()
     applied_damages = {}
     local jakiro = create_mock_unit('npc_dota_hero_jakiro', 2, Vector(0, 0, 0))
     jakiro.intellect = 90
     local creep = create_mock_unit('creep_jak', 3, Vector(200, 0, 0), 1000)
     mock_world_units = { jakiro, creep }
-
+    local oldRules=GameRules
+    local fire,fire_delay
+    GameRules={GetGameModeEntity=function()return {SetContextThink=function(_,name,fn,delay)fire=fn;fire_delay=delay end}end}
     local ab = enfos_jakiro_dual_breath()
     ab.GetCaster = function() return jakiro end
     ab.GetCursorPosition = function() return Vector(200, 0, 0) end
     ab.GetSpecialValueFor = function(_, k)
-        if k == 'damage' then return 340 end
-        if k == 'duration' then return 5.0 end
-        return 0
+        return ({damage=340,duration=5,slow_pct=45,breath_distance=850,breath_speed=1050,start_radius=150,end_radius=275,fire_delay=0.2})[k] or 0
     end
-
     ab:OnSpellStart()
-    -- dmg = 340 + (90 * 0.8 = 72) = 412
-    assert(#applied_damages == 1)
-    assert(applied_damages[1].damage == 412 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
-    assert(creep:FindModifierByName('modifier_enfos_jakiro_dual_breath_slow') ~= nil)
+    local ice=last_linear_projectile
+    assert(#applied_damages==0 and ice.ExtraData.phase==1 and fire_delay==0.2)
+    assert(ice.fDistance==850 and ice.fStartRadius==150 and ice.fEndRadius==275)
+    fire();local flame=last_linear_projectile
+    assert(flame.ExtraData.phase==2 and flame.bDeleteOnHit==false)
+    assert(math.abs(flame.ExtraData.dps*flame.ExtraData.duration-412)<0.001)
+    ab:OnProjectileHit_ExtraData(creep,nil,ice.ExtraData)
+    assert(creep:FindModifierByName('modifier_enfos_jakiro_dual_breath_slow')~=nil)
+    GameRules=oldRules
 end)
 
 test('Jakiro Double Trouble stats stop under Break and do not transfer to illusions', function()

@@ -1398,8 +1398,10 @@
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_Description": "После изучения даёт +{{bonus_int}} интеллекта и +{{bonus_as}} скорости атаки. Отключается истощением; иллюзии не получают бонусов. Не развеивается.",
     "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble": "Двойная сила",
     "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble_Description": "+%dMODIFIER_PROPERTY_TOOLTIP% интеллекта и +%dMODIFIER_PROPERTY_TOOLTIP2% скорости атаки. Истощение отключает бонусы.",
-    "DOTA_Tooltip_Ability_enfos_jakiro_dual_breath_Description": "Наносит врагам в области {{damage}} + 80% интеллекта магического урона. Снижает скорость передвижения на {{slow_pct}}% и скорость атаки на 40 на {{duration}} сек. Значения определяются при попадании; новое попадание обновляет их и длительность. Замедление развеивается.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_dual_breath_Description": "Ледяное дыхание снижает скорость передвижения на {{slow_pct}}% и скорость атаки на 40. Через {{fire_delay}} сек. по тому же направлению летит огненное дыхание: наносит поражённым врагам суммарно {{damage}} + 80% интеллекта магического урона за {{duration}} сек. Скорость обоих потоков — {{breath_speed}}, начальный/конечный радиус — {{start_radius}}/{{end_radius}}. Значения определяются при применении; новое попадание обновляет соответствующий эффект. Оба эффекта развеиваются и не проходят сквозь невосприимчивость к эффектам.",
     "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_slow": "Двойное дыхание",
-    "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_slow_Description": "Скорость передвижения -%dMODIFIER_PROPERTY_TOOLTIP%%; скорость атаки -%dMODIFIER_PROPERTY_TOOLTIP2%. Развеивается."
+    "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_slow_Description": "Скорость передвижения -%dMODIFIER_PROPERTY_TOOLTIP%%%; скорость атаки -%dMODIFIER_PROPERTY_TOOLTIP2%. Развеивается.",
+    "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_burn": "Двойное дыхание: горение",
+    "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_burn_Description": "%fMODIFIER_PROPERTY_TOOLTIP% магического урона в секунду. Развеивается; досрочное снятие не наносит оставшийся урон."
   }
 }

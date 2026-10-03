@@ -64,43 +64,43 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 ## Slot 1: `enfos_jakiro_dual_breath`
 
 Classification: TUNE
-Native counterpart: `jakiro_dual_breath` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
+Native counterpart: `jakiro_dual_breath` (installed native hero snapshot, ClientVersion 6943 / SourceRevision 11069754; rechecked 2026-10-03; Enfos slot assignment is project-specific).
 Decision and PvE identity rationale: TUNE — the native mechanic already fits creeps; ten authored ranks/INT scaling require compatibility review. See the 2026-10-03 individual ledger for identified source defects and pending repair; no blanket PvP conversion is justified.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve; free rank / point cost: PENDING.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
+Expected behavior: two engine projectiles, ice then fire0.2s later, speed1050/radii150–275/distance850 plus engine cast-range bonuses. Ice applies saved slow; fire applies finite5s elapsed burn. No initial burst. Source implemented; owner engine confirmation PENDING.
+Normal/Boss use identical formulas; no authored Boss branches. Enemy hero/basic engine collision; ordinary immunity suppresses control/burn, magic resistance through ApplyDamage, basic-purgeable modifiers, engine duration/tenacity. No elite spawns. Actual engine immunity/status-resistance/overlapping-caster semantics PENDING.
+Ten existing Q rank gates and full-duration base damage100–490 + INT0.8 preserved; DPS equals saved full-duration budget divided by5s. No new ordinary skill points/free ranks. Owner HUD/point engine gate PENDING.
+No Q-specific installed Shard/Scepter upgrade. Ordinary shared item amp/cooldown rules retained; current generic Support Shard and R native Scepter fidelity are unresolved in E/R review. No talents/progression restored.
 
 ### Resource and implementation evidence
 
-- Native ability data source + build + hash/revision: PENDING.
-- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
-- Sound events + declaring banks + emission target + loop termination: PENDING.
-- Model/animation/gesture/icon evidence: PENDING.
-- Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.
-- Precache owner and cold-start test: PENDING.
-- One-shot/persistent cleanup owner and repeated-use test: PENDING.
-- Localization keys and generated mirrors: PENDING.
+- Installed scripts/npc/heroes/npc_dota_hero_jakiro.txt AbilityDefinitions + steam.inf Client/Server6943 SourceRevision11069754; MCP read and decoded native resources inspected on2026-10-03. Native C++ ten-rank custom-scaling compatibility not certified.
+- Projectile EffectName: native jakiro_dual_breath_ice/fire.vpcf; decoded root CP1 velocity initializer, engine endcaps. Modifier effects: verified generic_slowed_cold.vpcf and deliberately reused jakiro_liquid_fire_debuff.vpcf, PATTACH_ABSORIGIN_FOLLOW, engine modifier cleanup. Actual projectile CP/width/head attachment presentation PENDING.
+- Existing startup Jakiro bank: valid Hero_Jakiro.DualBreath.Cast and .Burn, .DualBreath itself null-start not used. Cast emitted from caster, finite burn cue from target once; stop on teardown. Multi-caster sound overlap remains PENDING.
+- Verified native jakiro_dual_breath icon and installed ACT_DOTA_CAST_ABILITY_1 set in KV. Actual animation/visual gate PENDING.
+- Two Q-owned linked modifiers, per-hit snapshots/custom transmitters. Refresh settles elapsed old burn, then switches DPS; basic purge pays no remaining budget. Valid dead caster cast continues; removed sources cancel. Active spell unaffected by Break. Engine lifecycle PENDING.
+- addon_game_mode.lua startup includes ice/fire/cold slow/Liquid Fire debuff and existing Jakiro sound bank. Cold/legacy import fixture confirms seven unique Jakiro modifiers; actual Dota cold resources PENDING.
+- One pause-aware0.2s context callback per cast, no retained cast-hit table/global scan. Finite engine-distance projectiles; modifier stops local0.5s interval/sound once. Independent invalid-owner/expiry/purge/recast fixture PASS; engine/performance PENDING.
+- Four locales +12 generated mirrors: two traveling breaths, total budget/duration, no debuff-immunity piercing, purge/refresh and dynamic slow/burn modifier tooltips. Installed abilities_english.txt confirms %f tooltip substitution and %%% literal percent form; owner rendering PENDING.
 
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Independent traveling/burn fixture FAIL before repair / PASS after; full-duration budget412 on equivalent normal/Boss targets. Actual gameplay PENDING. |
+| Targeting | PENDING | Engine expanding linear projectile args verified in mocks, ally/immune/invalid rejects, flat/zero aim; engine hull/width/flags PENDING. |
 | Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
-| Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
-| Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
-| Performance | PENDING | Not evaluated in this dossier setup. |
-| Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | PENDING | Not evaluated in this dossier setup. |
+| VFX | PENDING | Installed root/child resources decoded and engine-owned particle routes authored; actual head attachment/scale/timing PENDING. |
+| SFX | PENDING | Installed Cast/Burn definitions verified; start/stop lifecycle mocked, actual audio/overlapping caster PENDING. |
+| Animation | PENDING | Installed ACT_DOTA_CAST_ABILITY_1 in production KV; owner animation PENDING. |
+| Modifiers | PENDING | Snapshot/client/refresh/invalid-handle/immune getters and finite burn lifecycle fixtures PASS; actual purge/tenacity/overlap PENDING. |
+| Precache | PENDING | Verified startup resource names and unique module links; actual cold Dota load PENDING. |
+| Cleanup | PENDING | Natural-expiry final fraction, no early-removal payout, idempotent teardown and removed-owner cancel mocked; actual engine order PENDING. |
+| Boss | PENDING | Identical ordinary normal/Boss full-duration formula412 in fixture; armor/resistance/immunity remain ordinary engine rules. Owner Boss hit PENDING. |
+| Upgrades | PENDING | No Q-specific upgrade; general item amp/CD mechanisms retained. Native E/R upgrades remain under review. |
+| Localization | PENDING | EN/TR/RU/zh-CN descriptions and dynamic modifier tooltips generated; actual engine rendering PENDING. |
+| Performance | PENDING | Two finite engine projectiles/cast and per-affected-unit two5s modifiers; no global scan. Dense-wave runtime cost PENDING. |
+| Reconnect | PENDING | Cast numeric snapshots and engine modifier state, no account or retained per-cast gameplay table; actual reconnect PENDING. |
+| VConsole | PENDING | Shared bounded default-off Q launch/finish/hit/modifier lifecycle and total burn traces; owner VConsole PENDING. |
 
 Change/test record: all five abilities now expose ten KV ranks; the complete 200-ability Lua mock suite passes. This confirms static/mock behavior only; in-match Dota VFX, SFX, rank-up HUD, boss and VConsole acceptance remain PENDING.
 

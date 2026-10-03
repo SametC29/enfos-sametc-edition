@@ -905,7 +905,7 @@
     "DOTA_Tooltip_Ability_enfos_lion_demon_soul": "İblis Ruhu",
     "DOTA_Tooltip_Ability_enfos_lion_demon_soul_Description": "Pasif olarak yetenek kullanım menzilini +{{cast_range_bonus}} ve büyü hasarını %{{spell_amp}} artırır.",
     "DOTA_Tooltip_Ability_enfos_jakiro_dual_breath": "Çifte Nefes",
-    "DOTA_Tooltip_Ability_enfos_jakiro_dual_breath_Description": "İsabet alanındaki düşmanlara {{damage}} + zekanın %80’i kadar büyü hasarı verir. {{duration}} saniye boyunca hareket hızını %{{slow_pct}} ve saldırı hızını 40 azaltır. Yavaşlatma değerleri isabette belirlenir; yeni isabet süresini ve değerlerini yeniler. Yavaşlatma dağıtılabilir.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_dual_breath_Description": "Buz nefesi hareket hızını %{{slow_pct}} ve saldırı hızını 40 azaltır. {{fire_delay}} saniye sonra aynı doğrultuda ateş nefesi ilerler; isabet ettiği düşmanlara {{duration}} saniyeye yayılan toplam {{damage}} + zekanın %80’i kadar büyü hasarı verir. İki nefesin hızı {{breath_speed}}, başlangıç/son yarıçapı {{start_radius}}/{{end_radius}}’dir. Değerler kullanıldığında belirlenir; yeni isabet ilgili etkiyi yeniler. İki etki de dağıtılabilir ve zayıflatma bağışıklığını delmez.",
     "DOTA_Tooltip_Ability_enfos_jakiro_ice_path": "Buz Yolu",
     "DOTA_Tooltip_Ability_enfos_jakiro_ice_path_Description": "{{path_delay}} sn uyarıdan sonra {{path_duration}} sn süren, {{path_length}} uzunluğunda ve {{path_radius}} yarıçaplı bir buz yolu oluşturur. Yola giren her düşman kullanım başına bir kez {{damage}} + Zekânın %60’ı kadar büyü hasarı alır ve en fazla {{stun_duration}} sn sersemletilir; yol bitince sersemletme de biter. Zayıflatma bağışıklığını delmez; güçlü arındırma sersemletmeyi kaldırır.",
     "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire": "Sıvı Ateş",
@@ -1800,6 +1800,8 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble": "Çifte Baş",
     "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble_Description": "+%dMODIFIER_PROPERTY_TOOLTIP% zeka ve +%dMODIFIER_PROPERTY_TOOLTIP2% saldırı hızı. Kırılma sırasında bonuslar devre dışıdır.",
     "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_slow": "Çifte Nefes",
-    "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_slow_Description": "Hareket hızı -%dMODIFIER_PROPERTY_TOOLTIP%%; saldırı hızı -%dMODIFIER_PROPERTY_TOOLTIP2%. Dağıtılabilir."
+    "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_slow_Description": "Hareket hızı -%dMODIFIER_PROPERTY_TOOLTIP%%%; saldırı hızı -%dMODIFIER_PROPERTY_TOOLTIP2%. Dağıtılabilir.",
+    "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_burn": "Çifte Nefes: Yanma",
+    "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_burn_Description": "Saniyede %fMODIFIER_PROPERTY_TOOLTIP% büyü hasarı. Dağıtılabilir; kalan hasar erken kaldırıldığında verilmez."
   }
 }
