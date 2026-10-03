@@ -251,8 +251,6 @@ local modifier_list = {
     'modifier_enfos_void_chronosphere_freeze',
     'modifier_enfos_void_backtrack_passive',
     'modifier_enfos_sf_necromastery_passive',
-    'modifier_enfos_sf_presence_aura',
-    'modifier_enfos_sf_presence_debuff',
     'modifier_enfos_sf_requiem_fear',
     'modifier_enfos_sf_feast_of_souls_passive',
     'modifier_enfos_storm_static_remnant_thinker',
@@ -6424,27 +6422,7 @@ function modifier_enfos_sf_necromastery_passive:OnDeath(params)
     self:SetStackCount(math.min(value(self:GetAbility(), 'max_souls'), (self:GetStackCount() or 0) + delta))
 end
 
-enfos_sf_presence_of_the_dark_lord=class({})
-function enfos_sf_presence_of_the_dark_lord:GetIntrinsicModifierName() return 'modifier_enfos_sf_presence_aura' end
-
-modifier_enfos_sf_presence_aura=class({})
-function modifier_enfos_sf_presence_aura:IsHidden() return true end
-function modifier_enfos_sf_presence_aura:IsAura()
-    local c = self:GetParent()
-    return c and not (c.IsNull and c:IsNull()) and not (c.PassivesDisabled and c:PassivesDisabled())
-        and not (c.IsIllusion and c:IsIllusion())
-end
-function modifier_enfos_sf_presence_aura:GetAuraRadius() return value(self:GetAbility(), 'radius') end
-function modifier_enfos_sf_presence_aura:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_ENEMY end
-function modifier_enfos_sf_presence_aura:GetAuraSearchType() return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end
-function modifier_enfos_sf_presence_aura:GetModifierAura() return 'modifier_enfos_sf_presence_debuff' end
-
-modifier_enfos_sf_presence_debuff=class({})
-function modifier_enfos_sf_presence_debuff:IsDebuff() return true end
-function modifier_enfos_sf_presence_debuff:DeclareFunctions() return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS } end
-function modifier_enfos_sf_presence_debuff:GetModifierPhysicalArmorBonus()
-    return -((self.GetAbility and value(self:GetAbility(), 'armor_reduction')) or 8)
-end
+-- Presence is a reviewed native alias; no custom aura/debuff replica.
 
 enfos_sf_requiem_of_souls=class({})
 function enfos_sf_requiem_of_souls:OnSpellStart()

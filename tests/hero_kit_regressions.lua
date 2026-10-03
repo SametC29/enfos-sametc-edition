@@ -7753,14 +7753,10 @@ test('Shadow Fiend passives honor Break and reject illusion death triggers', fun
     assert(modifier.stacks == 3, 'illusions should not gain Necromastery souls')
 end)
 
-test('Shadow Fiend aura and Feast of Souls disable while Broken', function()
+-- Native Presence contracts live in shadow_fiend_native.test.mjs; mocks do not
+-- execute or certify the C++ aura.
+test('Shadow Fiend Feast of Souls disables while Broken', function()
     local sf = create_mock_unit('npc_dota_hero_nevermore', 2, Vector(0, 0, 0))
-    local aura = modifier_enfos_sf_presence_aura()
-    aura.GetParent = function() return sf end
-    assert(aura:IsAura())
-    sf.PassivesDisabled = function() return true end
-    assert(not aura:IsAura(), 'Presence aura should stop while Broken')
-
     sf.PassivesDisabled = function() return false end
     sf.hp = 400
     sf.mana = 300

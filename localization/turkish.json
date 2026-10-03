@@ -719,7 +719,7 @@
     "DOTA_Tooltip_Ability_enfos_sf_necromastery": "Ruh Hasadı (Necromastery)",
     "DOTA_Tooltip_Ability_enfos_sf_necromastery_Description": "Shadow Fiend'a pasif olarak +%bonus_damage% ek saldırı hasarı kazandırır.",
     "DOTA_Tooltip_Ability_enfos_sf_presence_of_the_dark_lord": "Karanlık Lordun Varlığı (Presence of the Dark Lord)",
-    "DOTA_Tooltip_Ability_enfos_sf_presence_of_the_dark_lord_Description": "Aura; çevredeki tüm düşman yaratıkların zırhını %armor_shred% azaltır.",
+    "DOTA_Tooltip_Ability_enfos_sf_presence_of_the_dark_lord_Description": "{{presence_radius}} menzilindeki düşmanların zırhını {{presence_armor_reduction|abs}} azaltır. Kırılma etkisi altında devre dışıdır.",
     "DOTA_Tooltip_Ability_enfos_sf_requiem_of_souls": "Ruhların Ağıtı (Requiem of Souls)",
     "DOTA_Tooltip_Ability_enfos_sf_requiem_of_souls_Description": "Biriktirilen tüm ruhları devasa bir dalga halinde salarak çevredeki tüm düşmanlara %requiem_damage% büyü hasarı verir.",
     "DOTA_Tooltip_Ability_enfos_sf_feast_of_souls": "Ruh Şöleni (Feast of Souls)",
@@ -1823,6 +1823,10 @@
     "DOTA_Tooltip_modifier_enfos_lion_mana_drain_channel_Description": "Mana Emilimi kanal halinde. Shard büyü direnci bonusu: %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%%. Shard ile kanal sırasında zayıflatma bağışıklığı verir.",
     "DOTA_Tooltip_Ability_enfos_lion_mana_drain_shard_description": "Mana Emilimi kopma mesafesi 200 artar. Kanal sırasında Lion zayıflatma bağışıklığı ve %60 ek büyü direnci kazanır. Kullanımda kanalın kopma mesafesindeki en yakın uygun 2 ek düşmana da bağlanır. Ek hedefler aynı mana kuralına ve yavaşlatmaya uyar: manalı düşmandan gerçek mana aktarılır, yalnızca mana havuzu olmayan düşmanda hasar/mana dönüşümü uygulanır. Kanal sırasında ek hedeflerin yerine yenileri seçilmez; Shard kaybedilince ek bağlantılar kapanır, tekrar edinilince sonraki kullanımda uygulanır.",
     "DOTA_Tooltip_modifier_enfos_lion_finger_punch": "Ölüm Parmağı — Güçlendirilmiş Yumruk",
-    "DOTA_Tooltip_modifier_enfos_lion_finger_punch_Description": "250 saldırı menzili ve +30 hareket hızıyla yakın dövüş yapar. Mevcut ek saldırı hasarı: %dMODIFIER_PROPERTY_TOOLTIP%. Sıçrama hasarı: %dMODIFIER_PROPERTY_TOOLTIP2%%%. Finger öldürme yükleri bu saldırıları da güçlendirir. Bu aktif etki ölümle sona erer ve etkisizleştirilemez. Güçlendirilmiş yakın dövüş saldırıları veya onların sıçrama hasarıyla öldürülen düşmanlar da bir yük kazandırır. Her ölüm en fazla bir yük verir; menzilli saldırılar ve ilgisiz büyü veya eşyalar sayılmaz."
+    "DOTA_Tooltip_modifier_enfos_lion_finger_punch_Description": "250 saldırı menzili ve +30 hareket hızıyla yakın dövüş yapar. Mevcut ek saldırı hasarı: %dMODIFIER_PROPERTY_TOOLTIP%. Sıçrama hasarı: %dMODIFIER_PROPERTY_TOOLTIP2%%%. Finger öldürme yükleri bu saldırıları da güçlendirir. Bu aktif etki ölümle sona erer ve etkisizleştirilemez. Güçlendirilmiş yakın dövüş saldırıları veya onların sıçrama hasarıyla öldürülen düşmanlar da bir yük kazandırır. Her ölüm en fazla bir yük verir; menzilli saldırılar ve ilgisiz büyü veya eşyalar sayılmaz.",
+    "DOTA_Tooltip_Ability_enfos_sf_presence_of_the_dark_lord_SummaryDescription": "{{presence_radius}} menzilindeki düşmanların zırhını {{presence_armor_reduction|abs}} azaltır. Kırılma etkisi altında devre dışıdır.",
+    "DOTA_Tooltip_ability_enfos_sf_presence_of_the_dark_lord": "Karanlık Lordun Varlığı (Presence of the Dark Lord)",
+    "DOTA_Tooltip_ability_enfos_sf_presence_of_the_dark_lord_Description": "{{presence_radius}} menzilindeki düşmanların zırhını {{presence_armor_reduction|abs}} azaltır. Kırılma etkisi altında devre dışıdır.",
+    "DOTA_Tooltip_ability_enfos_sf_presence_of_the_dark_lord_SummaryDescription": "{{presence_radius}} menzilindeki düşmanların zırhını {{presence_armor_reduction|abs}} azaltır. Kırılma etkisi altında devre dışıdır."
   }
 }

@@ -3250,18 +3250,27 @@
 	"enfos_sf_presence_of_the_dark_lord"
 	{
 		"IsBreakable" "1"
-		"BaseClass"					"ability_lua"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"					"nevermore_dark_lord"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_AURA"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_YES"
+		"OnCastbar" "0"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_5"
 		"AbilityTextureName"		"nevermore_dark_lord"
 		"RequiredLevel"	"1"
 		"LevelsBetweenUpgrades"	"1"
 		"MaxLevel"					"10"
 		"AbilityValues"
 		{
-			"armor_reduction" "4 6 8 10 11 12 13 14 15 16"
-			"radius" "900 950 1000 1050 1100 1150 1200 1250 1300 1350"
+			"presence_armor_reduction" "-4 -6 -8 -10 -11 -12 -13 -14 -15 -16"
+			"presence_radius"
+			{
+				"value" "900 950 1000 1050 1100 1150 1200 1250 1300 1350"
+				"affected_by_aoe_increase" "1"
+			}
+			"bonus_armor_per_stack" "0"
+			"kill_buff_duration" "0"
 		}
-		"ScriptFile"				"abilities/pve_kits"
 	}
 
 	"enfos_sf_requiem_of_souls"

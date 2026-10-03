@@ -11,7 +11,7 @@ Hero: `npc_dota_hero_nevermore`; role: Mage. Progression target: hero level 50 /
 | --- | --- | --- | --- | --- | --- |
 | 1 | `enfos_sf_shadowraze` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | nevermore_shadowraze1 |
 | 2 | `enfos_sf_necromastery` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | nevermore_necromastery |
-| 3 | `enfos_sf_presence_of_the_dark_lord` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | nevermore_dark_lord |
+| 3 | `enfos_sf_presence_of_the_dark_lord` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE \| DOTA_ABILITY_BEHAVIOR_AURA | NOT_EXPLICIT | nevermore_dark_lord |
 | 4 | `enfos_sf_requiem_of_souls` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | nevermore_requiem |
 | 5 | `enfos_sf_feast_of_souls` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | nevermore_frenzy |
 
@@ -161,9 +161,9 @@ Change/test record: all five slots have MaxLevel 10; all multirank KV values hav
 
 ## Slot 3: `enfos_sf_presence_of_the_dark_lord`
 
-Classification: PVE-CONVERT
-Native counterpart: `nevermore_dark_lord` (installed native snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot mapping is authored).
-Decision and PvE identity rationale: PVE-CONVERT preserves the identified Dota hero fantasy while changing PvP-only targeting/control for wave, elite and boss play.
+Classification: TUNE
+Native counterpart: `nevermore_dark_lord` (installed6943/revision11069754 snapshot; stable native alias, engine acceptance pending).
+Decision and PvE identity rationale: Native aura owns targeting, debuff, Break and lifecycle; only authored ten-rank armor/radius tuning remains in KV.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current/target rank: each Enfos slot has ten explicit KV levels. The match is capped at level 50; Q/W/E/R require 40 paid ranks total and passive ranks 2–10 require nine more; the fifth slot rank 1 is free, for 49 spendable points overall. Rank-up HUD/runtime acceptance remains pending.
@@ -184,18 +184,18 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Native alias implemented; owner C++ aura test pending. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | E levels 1–10 gate declared; in-game HUD/point behavior remains PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
+| Modifiers | PENDING | Custom aura/debuff replicas removed; native creation/refresh/Break/lifecycle pending owner test. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
 | Boss | PENDING | Not evaluated in this dossier setup. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | Four languages reference the native signed armor and radius values; actual HUD display pending. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |

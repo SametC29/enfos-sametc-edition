@@ -88,3 +88,29 @@ cases: Q all three ranges/overlap/stacking/costs, W collection/limits/loss/Break
 E armor/rank/Break, R souls/lines/death/Scepter, D valid kills/sustain, rank10,
 death/respawn/reconnect, dense-wave performance, VFX/SFX and clean SF VConsole.
 Do not request gameplay acceptance of an unimplemented migration.
+
+## Native E source delivery checkpoint
+
+Presence now uses native nevermore_dark_lord through the stable ENFOS ID.
+Removed the custom ability class, aura/debuff classes and their two modifier
+links; no wrapper/client registration is necessary for this fully native slot.
+Authored armor magnitudes4/6/8/10/11/12/13/14/15/16 and radii900–1350 are
+preserved with signed native presence_armor_reduction/presence_radius keys.
+Native AoE scaling metadata, aura behavior, Break metadata, immunity behavior
+and animation are retained. Old deprecated facet bonus fields remain zero.
+Four-language descriptions now reference actual values; the previous Turkish
+%armor_shred% placeholder did not resolve to any declared special value.
+
+Three focused native-contract tests pass, independently tying behavior and
+metadata to the installed snapshot, checking authored numeric preservation,
+no duplicate aura code, no ordinary native-ID override and localization.
+Existing354 hero-kit mocks pass; their obsolete Lua Presence test was removed,
+not replaced by simulated certification of the C++ aura. Structural200-slot
+inventory and40-hero dossier checks pass. Full checks deferred to final pilot
+source delivery as requested. Q/W/R/D remain their prior implementation until
+their integration is ready; this is not whole-hero acceptance.
+
+E: **IMPLEMENTED BUT NOT ENGINE-VERIFIED**. Owner tests after the complete build:
+rank1/10 enemy armor and radius, Break and recovery, death/respawn/reconnect,
+multiple casters and native immunity interactions. No engine command, remote
+push or publication performed.

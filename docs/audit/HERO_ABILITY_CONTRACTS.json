@@ -1996,13 +1996,16 @@
           "slot": 3,
           "id": "enfos_sf_presence_of_the_dark_lord",
           "maxLevel": 10,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
-          "callbacks": [
-            "GetIntrinsicModifierName"
-          ],
+          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_AURA",
+          "callbacks": [],
+          "implementationOwner": "NATIVE",
+          "nativeBaseClass": "nevermore_dark_lord",
+          "engineAcceptance": "PENDING OWNER TEST",
           "specials": {
-            "armor_reduction": "4 6 8 10 11 12 13 14 15 16",
-            "radius": "900 950 1000 1050 1100 1150 1200 1250 1300 1350"
+            "presence_armor_reduction": "-4 -6 -8 -10 -11 -12 -13 -14 -15 -16",
+            "presence_radius": "900 950 1000 1050 1100 1150 1200 1250 1300 1350",
+            "bonus_armor_per_stack": "0",
+            "kill_buff_duration": "0"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],

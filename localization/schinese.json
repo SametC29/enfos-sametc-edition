@@ -1424,6 +1424,12 @@
     "DOTA_Tooltip_modifier_enfos_lion_mana_drain_channel_Description": "正在引导法力汲取。魔晶额外魔法抗性：%dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%%。拥有魔晶时，引导期间获得减益免疫。",
     "DOTA_Tooltip_Ability_enfos_lion_mana_drain_shard_description": "法力汲取的中断距离增加200。引导期间，莱恩获得减益免疫和60%额外魔法抗性。 施放时还会连接引导断开距离内最多2个最近的有效敌人。额外目标遵循同一魔法规则和减速：有魔法池的敌人提供实际魔法转移，仅没有魔法池的敌人使用伤害与魔法转换。引导期间不会替换额外目标；失去魔晶会移除额外连接，重新获得魔晶后于下次施放生效。",
     "DOTA_Tooltip_modifier_enfos_lion_finger_punch": "死亡之指 — 强化拳击",
-    "DOTA_Tooltip_modifier_enfos_lion_finger_punch_Description": "获得250攻击距离的近战攻击及30移动速度。当前额外攻击力：%dMODIFIER_PROPERTY_TOOLTIP%。分裂伤害：%dMODIFIER_PROPERTY_TOOLTIP2%%%。死亡之指击杀层数也强化这些攻击。此主动效果在死亡时消失，无法驱散。 强化近战攻击或其分裂伤害击杀敌人也会获得一层。每次死亡最多获得一层；远程攻击及无关技能或物品不计入。"
+    "DOTA_Tooltip_modifier_enfos_lion_finger_punch_Description": "获得250攻击距离的近战攻击及30移动速度。当前额外攻击力：%dMODIFIER_PROPERTY_TOOLTIP%。分裂伤害：%dMODIFIER_PROPERTY_TOOLTIP2%%%。死亡之指击杀层数也强化这些攻击。此主动效果在死亡时消失，无法驱散。 强化近战攻击或其分裂伤害击杀敌人也会获得一层。每次死亡最多获得一层；远程攻击及无关技能或物品不计入。",
+    "DOTA_Tooltip_Ability_enfos_sf_presence_of_the_dark_lord": "魔王降临",
+    "DOTA_Tooltip_Ability_enfos_sf_presence_of_the_dark_lord_Description": "降低周围{{presence_radius}}范围内敌人{{presence_armor_reduction|abs}}点护甲。破坏效果下失效。",
+    "DOTA_Tooltip_Ability_enfos_sf_presence_of_the_dark_lord_SummaryDescription": "降低周围{{presence_radius}}范围内敌人{{presence_armor_reduction|abs}}点护甲。破坏效果下失效。",
+    "DOTA_Tooltip_ability_enfos_sf_presence_of_the_dark_lord": "魔王降临",
+    "DOTA_Tooltip_ability_enfos_sf_presence_of_the_dark_lord_Description": "降低周围{{presence_radius}}范围内敌人{{presence_armor_reduction|abs}}点护甲。破坏效果下失效。",
+    "DOTA_Tooltip_ability_enfos_sf_presence_of_the_dark_lord_SummaryDescription": "降低周围{{presence_radius}}范围内敌人{{presence_armor_reduction|abs}}点护甲。破坏效果下失效。"
   }
 }
