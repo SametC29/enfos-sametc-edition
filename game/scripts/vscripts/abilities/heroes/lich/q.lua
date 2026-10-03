@@ -21,6 +21,12 @@ function enfos_lich_frost_blast:OnSpellStart()
         HeroTrace:Log('LICH','Q','cast_cancelled reason=spell_absorb target=%s',HeroTrace:Name(t))
         return
     end
+    -- Spell-block modifier callbacks may synchronously invalidate either side.
+    if c:IsNull() or not c:IsAlive() or t:IsNull() or not t:IsAlive()
+        or (self.IsNull and self:IsNull()) or t:GetTeamNumber()==c:GetTeamNumber() then
+        HeroTrace:Log('LICH','Q','cast_cancelled reason=invalid_after_absorb_check')
+        return
+    end
     local origin = t:GetAbsOrigin()
     HeroTrace:Log('LICH','Q','cast caster=%s target=%s rank=%s position=%s',
         HeroTrace:Name(c),HeroTrace:Name(t),tostring(self.GetLevel and self:GetLevel() or 0),tostring(origin))
@@ -49,7 +55,7 @@ function enfos_lich_frost_blast:OnSpellStart()
     end
     HeroTrace:Log('LICH','Q','primary target=%s requested_damage=%s slow_duration=%s alive=%s',
         HeroTrace:Name(t),tostring(primary),tostring(primary_slow_duration),tostring(not t:IsNull() and t:IsAlive()))
-    if not t:IsNull() and t:IsAlive() then
+    if not t:IsNull() and t:IsAlive() and t:GetTeamNumber()~=c:GetTeamNumber() then
         t:AddNewModifier(c, self, 'modifier_enfos_lich_frost_blast_slow', { duration = primary_slow_duration })
     end
     -- Preserve the pre-primary snapshot even if a damage callback changes rank/INT.
@@ -75,7 +81,7 @@ function enfos_lich_frost_blast:ApplySplashAtPoint(origin, excluded, snapshot)
             if type(dealt)=='number' then actual=actual+dealt else measured=false end
             affected=affected+1
             if c:IsNull() or (self.IsNull and self:IsNull()) then break end
-            if not u:IsNull() and u:IsAlive() then
+            if not u:IsNull() and u:IsAlive() and u:GetTeamNumber()~=c:GetTeamNumber() then
                 u:AddNewModifier(c, self, 'modifier_enfos_lich_frost_blast_slow',
                     {duration=snapshot.duration})
             end

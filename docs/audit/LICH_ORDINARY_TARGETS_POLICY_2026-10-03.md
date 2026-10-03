@@ -545,3 +545,36 @@ full working-tree checks0failed. Execute the Scepter gameplay fixture and352
 historical hero regressions against the staged E excluding contributor changes:
 PASS. Installed steam.inf still confirms build6943. No owner Dota test, visual/
 audio acceptance or Workshop delivery occurred in this unit.
+
+## Q/R synchronous spell-block and allegiance boundaries
+
+Q remains TUNE; R retains its authored distinct-target PvE conversion. No numeric
+curve, target type, immunity/resistance rule, Boss rule or Shard budget changes.
+Current MCP verifies server TriggerSpellAbsorb and Lua GetAbsorbSpell callbacks;
+[ModDota declarations](https://docs.moddota.com/lua_server/declaration) cross-check
+their interfaces. A callback boundary is not an entity-lifetime guarantee.
+
+New real-module regression failed against both pre-change HEAD modules. Removing
+Q's target during a false absorb result caused stale GetAbsOrigin access; R
+still emitted cast feedback before its later projectile guard rejected the
+removed target. Other variants invalidate/dead-mark caster/target, remove the
+ability or change target allegiance. A damage callback changing the victim to
+an ally exposed a subsequent hostile-slow application. These are reproduced
+source ordering defects, not reported owner Dota crashes.
+
+Both casts now revalidate source/ability/target life and allegiance after the
+absorb callback, before sound/effects/projectile/damage. Own entitled Spire
+selection remains accepted by R. Q primary/splash and R impacts recheck current
+enemy allegiance before slow application after damage. Damage already delivered
+is not refunded; Q splash and R spreading keep their captured origins/budgets.
+Ordinary valid casts and true absorb retain behavior. Default-off bounded traces
+label invalid_after_absorb_check; no additional state, search or timer.
+
+Fixtures cover nine modes for both actual modules, including ordinary successful
+casts, true absorb, no feedback after invalidation and no friendly slow after
+damage. Initial red tests ran against HEAD; final source checks are recorded
+with the commit. Four-locale descriptions already promise hostile targets, so
+no new gameplay text/numeric change is required. Source review remains open;
+owner spell-block/dispel/allegiance/resource/channel cases are NOT TESTED.
+Validation: full project checks PASS,0failed; the new real-module test passes
+alongside existing ten-rank, ordinary/Boss, Spire, Scepter and isolation checks.

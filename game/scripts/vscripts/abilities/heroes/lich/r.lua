@@ -31,6 +31,13 @@ function enfos_lich_chain_frost:OnSpellStart()
         HeroTrace:Log('LICH','R','cast_cancelled reason=spell_absorb target=%s',HeroTrace:Name(t))
         return
     end
+    -- Do not launch from stale source/target after synchronous spell-block code.
+    if c:IsNull() or not c:IsAlive() or t:IsNull() or not t:IsAlive()
+        or (self.IsNull and self:IsNull())
+        or (t:GetTeamNumber()==c:GetTeamNumber() and not Spire.IsEnabled(c,t)) then
+        HeroTrace:Log('LICH','R','cast_cancelled reason=invalid_after_absorb_check')
+        return
+    end
     c:EmitSound('Hero_Lich.ChainFrost')
     local jumps = value(self, 'jump_count')
     if jumps <= 0 then jumps = 10 end
@@ -105,7 +112,7 @@ function enfos_lich_chain_frost:OnProjectileHit_ExtraData(target, location, data
             HeroTrace:Log('LICH','R','chain_end reason=source_removed_after_damage')
             return true
         end
-        if not target:IsNull() and target:IsAlive() then
+        if not target:IsNull() and target:IsAlive() and target:GetTeamNumber()~=c:GetTeamNumber() then
             target:AddNewModifier(c, self, 'modifier_enfos_lich_chain_frost_slow', { duration = duration })
         end
     end

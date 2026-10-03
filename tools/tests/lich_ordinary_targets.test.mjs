@@ -8,6 +8,74 @@ const abilities=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.t
 const curve=(id,key)=>String(abilities[id].AbilityValues[key]).split(/\s+/).map(Number);
 const q='enfos_lich_frost_blast',r='enfos_lich_chain_frost';
 
+test('Lich Q/R stop after synchronous absorb invalidation and never slow a newly allied victim',()=>{
+  const script=`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t) t.__index=t;return t end
+function LinkLuaModifier() end
+function IsServer() return true end
+function Vector(x,y,z) return {x=x,y=y,z=z} end
+DAMAGE_TYPE_MAGICAL=2;PATTACH_ABSORIGIN_FOLLOW=1
+DOTA_UNIT_TARGET_HERO=1;DOTA_UNIT_TARGET_BASIC=2;DOTA_UNIT_TARGET_TEAM_ENEMY=3
+DOTA_UNIT_TARGET_FLAG_NONE=0;FIND_ANY_ORDER=0
+require('abilities/heroes/lich/q');require('abilities/heroes/lich/r')
+local classes={enfos_lich_frost_blast,enfos_lich_chain_frost}
+for slot,cls in ipairs(classes) do
+ for _,mode in ipairs({'target_removed','target_dead','caster_removed','caster_dead','ability_removed','target_allied','absorbed','ordinary','damage_allied'}) do
+  local calls={sounds=0,particles=0,projectiles=0,damage=0,slows=0}
+  local c={removed=false,alive=true,team=2}
+  function c:IsNull() return self.removed end
+  function c:IsAlive() assert(not self.removed);return self.alive end
+  function c:GetTeamNumber() assert(not self.removed);return self.team end
+  function c:GetAbsOrigin() assert(not self.removed);return Vector(1,2,0) end
+  function c:GetIntellect() assert(not self.removed);return 20 end
+  function c:EmitSound() assert(not self.removed);calls.sounds=calls.sounds+1 end
+  local t={removed=false,alive=true,team=3}
+  function t:IsNull() return self.removed end
+  function t:IsAlive() assert(not self.removed);return self.alive end
+  function t:GetTeamNumber() assert(not self.removed);return self.team end
+  function t:GetAbsOrigin() assert(not self.removed);return Vector(30,40,0) end
+  function t:EmitSound() assert(not self.removed);calls.sounds=calls.sounds+1 end
+  function t:entindex() assert(not self.removed);return 77 end
+  function t:IsHero() return false end
+  function t:AddNewModifier() assert(not self.removed);calls.slows=calls.slows+1 end
+  local a=setmetatable({removed=false,GetCaster=function() return c end,GetCursorTarget=function() return t end,
+   GetLevel=function() return 1 end},cls)
+  function a:IsNull() return self.removed end
+  function a:GetSpecialValueFor(k)
+   assert(not self.removed,'Removed ability cannot supply cast values')
+   return k=='jump_count' and 1 or k=='radius' and 250 or k=='duration' and 4 or 100
+  end
+  function t:TriggerSpellAbsorb()
+   if mode=='target_removed' then self.removed=true elseif mode=='target_dead' then self.alive=false
+   elseif mode=='caster_removed' then c.removed=true elseif mode=='caster_dead' then c.alive=false
+   elseif mode=='ability_removed' then a.removed=true elseif mode=='target_allied' then self.team=2 end
+   return mode=='absorbed'
+  end
+  ParticleManager={CreateParticle=function() calls.particles=calls.particles+1;return 1 end,
+   SetParticleControl=function() end,ReleaseParticleIndex=function() end}
+  ProjectileManager={CreateTrackingProjectile=function() calls.projectiles=calls.projectiles+1;return 1 end}
+  function FindUnitsInRadius() return {} end
+  function ApplyDamage(e) calls.damage=calls.damage+1;if mode=='damage_allied' then e.victim.team=2 end;return e.damage end
+  local ok,err=pcall(function() a:OnSpellStart() end)
+  assert(ok,'slot '..slot..' '..mode..' stale access: '..tostring(err))
+  if mode=='ordinary' or mode=='damage_allied' then
+   if slot==2 then a:OnProjectileHit_ExtraData(t,t:GetAbsOrigin(),{hits=0,limit=1,damage=100,slow_duration=2.5}) end
+   assert(calls.damage==1,'Ordinary cast must retain original damage')
+   assert(calls.slows==(mode=='ordinary' and 1 or 0),'Damage callback ally must not receive hostile slow')
+  else
+   assert(calls.sounds==0 and calls.particles==0 and calls.projectiles==0 and calls.damage==0 and calls.slows==0,
+    'slot '..slot..' '..mode..' must stop before feedback/projectile/damage')
+  end
+ end
+end
+print('Lich synchronous cast boundary regression PASS')
+`;
+  const result=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});
+  assert.equal(result.status,0,result.stderr||result.stdout);
+  assert.match(result.stdout,/Lich synchronous cast boundary regression PASS/,result.stderr);
+});
+
 test('Lich Shard death Nova uses learned Q splash with safe point ownership and ranked snapshots',()=>{
   const script=`
 package.path='game/scripts/vscripts/?.lua;'..package.path
