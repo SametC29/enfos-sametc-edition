@@ -381,6 +381,11 @@ test('Luna Moon Glaives bounces across consecutive targets with 15% falloff', fu
     local c1 = create_mock_unit('enfos_creep_1', 3, Vector(100, 0, 0))
     local c2 = create_mock_unit('enfos_creep_2', 3, Vector(250, 0, 0))
     local c3 = create_mock_unit('enfos_creep_3', 3, Vector(400, 0, 0))
+    local impact_sounds = 0
+    c2.EmitSound = function(_, event)
+        if event == 'Hero_Luna.MoonGlaive.Impact' then impact_sounds = impact_sounds + 1 end
+    end
+    c3.EmitSound = c2.EmitSound
     mock_world_units = { luna, c1, c2, c3 }
 
     local ab = enfos_luna_moon_glaives()
@@ -417,6 +422,7 @@ test('Luna Moon Glaives bounces across consecutive targets with 15% falloff', fu
     local expected_dmg2 = expected_dmg1 * 0.85
     assert(math.abs(applied_damages[1].damage - expected_dmg1) < 0.01, 'Bounce 1 should apply 85% damage')
     assert(math.abs(applied_damages[2].damage - expected_dmg2) < 0.01, 'Bounce 2 should apply 85% * 85% damage')
+    assert(impact_sounds == 2, 'Each landed glaive projectile must emit the verified Moon Glaive impact event')
 end)
 
 test('Luna Lucent Beam applies Agility scaling and triggers Lunar Resonance on nearby foes', function()
@@ -445,6 +451,24 @@ test('Luna Lucent Beam applies Agility scaling and triggers Lunar Resonance on n
     assert(applied_damages[2].victim == neighbor and applied_damages[2].damage == 330)
 end)
 
+test('Luna Lunar Blessing disables its aura while Break is active', function()
+    local luna = create_mock_unit('npc_dota_hero_luna', 2, Vector(0, 0, 0))
+    local blessing = enfos_luna_lunar_blessing()
+    blessing.GetSpecialValueFor = function(_, key)
+        return key == 'radius' and 1200 or 0
+    end
+    local source = setmetatable({
+        GetParent = function() return luna end,
+        GetAbility = function() return blessing end
+    }, modifier_enfos_luna_lunar_blessing)
+
+    assert(source:IsAura(), 'Lunar Blessing aura must be active while the passive is enabled')
+    assert(source:IsHidden() and not source:IsPurgable() and not source:IsDebuff(),
+        'Intrinsic Lunar Blessing source must remain hidden and non-purgable')
+    luna.PassivesDisabled = function() return true end
+    assert(not source:IsAura(), 'Lunar Blessing must stop providing its aura while Luna is Broken')
+end)
+
 test('Luna Eclipse uses its own ranked beam value and caps total boss damage per cast', function()
     applied_damages = {}
     local luna = create_mock_unit('npc_dota_hero_luna', 2, Vector(0, 0, 0))
@@ -455,6 +479,17 @@ test('Luna Eclipse uses its own ranked beam value and caps total boss damage per
         local values = { radius = 750, beam_damage = 730, boss_damage_pct = 10, max_hits_per_target = 6 }
         return values[key] or 0
     end
+    eclipse.GetCaster = function() return luna end
+    local old_create = ParticleManager.CreateParticle
+    local beam_fx = 0
+    local target_sounds = 0
+    ParticleManager.CreateParticle = function(self, path, attach, target)
+        if path == 'particles/units/heroes/hero_luna/luna_lucent_beam.vpcf' then beam_fx = beam_fx + 1 end
+        return old_create(self, path, attach, target)
+    end
+    boss.EmitSound = function(_, event)
+        if event == 'Hero_Luna.LucentBeam.Target' then target_sounds = target_sounds + 1 end
+    end
     local thinker = setmetatable({
         GetParent = function() return luna end,
         GetAbility = function() return eclipse end,
@@ -463,8 +498,11 @@ test('Luna Eclipse uses its own ranked beam value and caps total boss damage per
     thinker:OnCreated()
     thinker:OnIntervalThink()
     thinker:OnIntervalThink()
+    ParticleManager.CreateParticle = old_create
     assert(#applied_damages == 1 and applied_damages[1].damage == 100,
         'Eclipse uses its own damage rank and cannot exceed the configured per-cast boss cap')
+    assert(beam_fx == 1 and target_sounds == 1,
+        'A boss that already reached the per-cast cap must not receive zero-damage follow-up beam feedback')
 end)
 
 test('Luna Lunar Orbit pulses physical damage scaling with Agility and cleans up particle', function()
