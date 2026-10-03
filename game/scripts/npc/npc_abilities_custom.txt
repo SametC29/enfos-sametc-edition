@@ -5276,6 +5276,7 @@
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_4"
 		"AbilityTextureName"		"lion_finger_of_death"
 		"AbilityCastRange"			"900"
 		"AbilityCastPoint"			"0.25"
