@@ -51,4 +51,28 @@ local function damage(a, target, amount, kind, flags)
     end
 end
 
-return { value = value, enemies = enemies, is_boss = is_boss, get_int = get_int, get_agi = get_agi, damage = damage }
+local function effect(path, target)
+    if not target or (target.IsNull and target:IsNull()) or not ParticleManager then return end
+    local p = ParticleManager:CreateParticle(path, PATTACH_ABSORIGIN_FOLLOW, target)
+    ParticleManager:ReleaseParticleIndex(p)
+end
+
+local function ground_effect(caster, ability, modifier, params, position)
+    local live = {}
+    for _, entity in ipairs(ability.enfosGroundEffects or {}) do
+        if entity and not entity:IsNull() then live[#live+1]=entity end
+    end
+    while #live >= 3 do UTIL_Remove(table.remove(live,1)) end
+    local entity=CreateModifierThinker(caster,ability,modifier,params,position,caster:GetTeamNumber(),false)
+    if entity then live[#live+1]=entity end
+    ability.enfosGroundEffects=live
+    return entity
+end
+
+local function remove_ground_effect(modifier)
+    if not IsServer() then return end
+    local entity=modifier:GetParent()
+    if entity and not entity:IsNull() then UTIL_Remove(entity) end
+end
+
+return { value = value, enemies = enemies, is_boss = is_boss, get_int = get_int, get_agi = get_agi, damage = damage, effect = effect, ground_effect = ground_effect, remove_ground_effect = remove_ground_effect }

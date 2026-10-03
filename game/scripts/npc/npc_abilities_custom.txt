@@ -5314,7 +5314,7 @@
 	"enfos_jakiro_dual_breath"
 	{
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/jakiro/q"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"jakiro_dual_breath"
@@ -5337,7 +5337,7 @@
 	"enfos_jakiro_ice_path"
 	{
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/jakiro/w"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"jakiro_ice_path"
@@ -5360,7 +5360,7 @@
 	"enfos_jakiro_liquid_fire"
 	{
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/jakiro/e"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AUTOCAST"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
@@ -5384,7 +5384,7 @@
 	{
 		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/jakiro/r"
 		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
@@ -5408,7 +5408,7 @@
 	"enfos_jakiro_double_trouble"
 	{		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/jakiro/d"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"IsBreakable"			"1"
 		"AbilityTextureName"		"jakiro_liquid_fire"

@@ -9,13 +9,13 @@ Hero: `npc_dota_hero_jakiro`; role: Support. Progression target: hero level 50 /
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_jakiro_dual_breath` | 10 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/pve_kits | jakiro_dual_breath |
-| 2 | `enfos_jakiro_ice_path` | 10 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/pve_kits | jakiro_ice_path |
-| 3 | `enfos_jakiro_liquid_fire` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_AUTOCAST | abilities/pve_kits | jakiro_liquid_fire |
-| 4 | `enfos_jakiro_macropyre` | 10 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/pve_kits | jakiro_macropyre |
-| 5 | `enfos_jakiro_double_trouble` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | jakiro_liquid_fire |
+| 1 | `enfos_jakiro_dual_breath` | 10 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/heroes/jakiro/q | jakiro_dual_breath |
+| 2 | `enfos_jakiro_ice_path` | 10 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/heroes/jakiro/w | jakiro_ice_path |
+| 3 | `enfos_jakiro_liquid_fire` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_AUTOCAST | abilities/heroes/jakiro/e | jakiro_liquid_fire |
+| 4 | `enfos_jakiro_macropyre` | 10 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/heroes/jakiro/r | jakiro_macropyre |
+| 5 | `enfos_jakiro_double_trouble` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/jakiro/d | jakiro_liquid_fire |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/jakiro/q](../../../game/scripts/vscripts/abilities/heroes/jakiro/q.lua), [abilities/heroes/jakiro/w](../../../game/scripts/vscripts/abilities/heroes/jakiro/w.lua), [abilities/heroes/jakiro/e](../../../game/scripts/vscripts/abilities/heroes/jakiro/e.lua), [abilities/heroes/jakiro/r](../../../game/scripts/vscripts/abilities/heroes/jakiro/r.lua), [abilities/heroes/jakiro/d](../../../game/scripts/vscripts/abilities/heroes/jakiro/d.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -63,9 +63,9 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Slot 1: `enfos_jakiro_dual_breath`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `jakiro_dual_breath` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
-Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
+Decision and PvE identity rationale: TUNE — the native mechanic already fits creeps; ten authored ranks/INT scaling require compatibility review. See the 2026-10-03 individual ledger for identified source defects and pending repair; no blanket PvP conversion is justified.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
@@ -121,7 +121,7 @@ pending the owner's live Dota test.
 
 Classification: PVE-CONVERT
 Native counterpart: `jakiro_ice_path` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
-Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
+Decision and PvE identity rationale: TUNE — the native mechanic already fits creeps; ten authored ranks/INT scaling require compatibility review. See the 2026-10-03 individual ledger for identified source defects and pending repair; no blanket PvP conversion is justified.
 Expected behavior: Preserve the cast-time point and caster origin, show the ice path warning immediately, then after the configured 0.5-second delay apply ranked damage and stun along the path; boss stun remains at 35% duration.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
@@ -142,7 +142,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PASS | Mock regression confirms no early hit, delayed damage and stun, cast-origin snapshot, and shortened boss stun; engine timing remains unverified. |
+| Gameplay | PENDING | Historical mock protected a circular hit and Boss-only stun reduction; reopened under the 2026-10-03 individual audit. Engine timing and native path geometry remain unverified. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
@@ -164,7 +164,7 @@ Change/test record: all five abilities now expose ten KV ranks; the complete 200
 
 Classification: PVE-CONVERT
 Native counterpart: `jakiro_liquid_fire` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
-Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
+Decision and PvE identity rationale: TUNE — the native mechanic already fits creeps; ten authored ranks/INT scaling require compatibility review. See the 2026-10-03 individual ledger for identified source defects and pending repair; no blanket PvP conversion is justified.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
@@ -207,7 +207,7 @@ Change/test record: all five abilities now expose ten KV ranks; the complete 200
 
 Classification: PVE-CONVERT
 Native counterpart: `jakiro_macropyre` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
-Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
+Decision and PvE identity rationale: TUNE — the native mechanic already fits creeps; ten authored ranks/INT scaling require compatibility review. See the 2026-10-03 individual ledger for identified source defects and pending repair; no blanket PvP conversion is justified.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
@@ -288,3 +288,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
 Change/test record: all five abilities now expose ten KV ranks; the complete 200-ability Lua mock suite passes. This confirms static/mock behavior only; in-match Dota VFX, SFX, rank-up HUD, boss and VConsole acceptance remain PENDING.
+
+## Active individual audit — 2026-10-03
+
+[Individual review](../../audit/JAKIRO_INDIVIDUAL_REVIEW_2026-10-03.md) supersedes historical source closures. All five handlers reviewed against installed build 6943 / revision 11069754; native-first Q/W/E/R TUNE, D REPLACE. Isolation preserves existing mechanics and known defects. Source repair, traces and every engine/visual/audio gate remain pending. Ice Path Boss reduction and Macropyre cap are defects to remove under the owner contract, not accepted behavior.

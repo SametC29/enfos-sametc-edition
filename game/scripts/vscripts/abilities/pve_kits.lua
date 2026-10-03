@@ -70,11 +70,7 @@ end
 
 
 
-local function effect(path, target)
-    if not target or (target.IsNull and target:IsNull()) or not ParticleManager then return end
-    local p = ParticleManager:CreateParticle(path, PATTACH_ABSORIGIN_FOLLOW, target)
-    ParticleManager:ReleaseParticleIndex(p)
-end
+local effect = Helpers.effect
 
 local function effect_at_position(path, position)
     if not path or not position or not ParticleManager then return end
@@ -84,23 +80,9 @@ local function effect_at_position(path, position)
 end
 
 -- Refreshers cannot leave an unbounded collection of invisible thinker entities.
-local function ground_effect(caster, ability, modifier, params, position)
-    local live = {}
-    for _, entity in ipairs(ability.enfosGroundEffects or {}) do
-        if entity and not entity:IsNull() then live[#live+1]=entity end
-    end
-    while #live >= 3 do UTIL_Remove(table.remove(live,1)) end
-    local entity=CreateModifierThinker(caster,ability,modifier,params,position,caster:GetTeamNumber(),false)
-    if entity then live[#live+1]=entity end
-    ability.enfosGroundEffects=live
-    return entity
-end
+local ground_effect = Helpers.ground_effect
 
-local function remove_ground_effect(modifier)
-    if not IsServer() then return end
-    local entity=modifier:GetParent()
-    if entity and not entity:IsNull() then UTIL_Remove(entity) end
-end
+local remove_ground_effect = Helpers.remove_ground_effect
 
 -- Link all Lua modifiers
 local modifier_list = {
@@ -363,6 +345,9 @@ _G.ENFOS_PVE_MODIFIER_LIST = modifier_list
 
 local isolatedModifiers = require('abilities/heroes/lich/init')
 for name, path in pairs(require('abilities/heroes/vengefulspirit/init')) do
+    isolatedModifiers[name] = path
+end
+for name, path in pairs(require('abilities/heroes/jakiro/init')) do
     isolatedModifiers[name] = path
 end
 for _, mod_name in ipairs(modifier_list) do
@@ -8744,178 +8729,7 @@ end
 -- JAKIRO (SUPPORT)
 -- -------------------------------------------------------------------------
 
-enfos_jakiro_dual_breath=class({})
-function enfos_jakiro_dual_breath:OnSpellStart()
-    local c = self:GetCaster()
-    local p = self:GetCursorPosition()
-    local dir = (p - c:GetAbsOrigin()):Normalized()
-    c:EmitSound('Hero_Jakiro.DualBreath.Cast')
-    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_jakiro/jakiro_dual_breath_fire.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
-    ParticleManager:SetParticleControl(fx, 0, c:GetAbsOrigin())
-    ParticleManager:SetParticleControl(fx, 1, dir * 500)
-    ParticleManager:ReleaseParticleIndex(fx)
-    local dmg = value(self, 'damage')
-    local int = get_int(c)
-    local total_dmg = dmg + (int * 0.8)
-    local dur = value(self, 'duration')
-    if dur <= 0 then dur = 5.0 end
-
-    for _, u in ipairs(enemies(c, c:GetAbsOrigin() + (dir * 400), 500)) do
-        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
-        u:AddNewModifier(c, self, 'modifier_enfos_jakiro_dual_breath_slow', { duration = dur })
-    end
-end
-
-modifier_enfos_jakiro_dual_breath_slow=class({})
-function modifier_enfos_jakiro_dual_breath_slow:IsDebuff() return true end
-function modifier_enfos_jakiro_dual_breath_slow:DeclareFunctions()
-    return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
-end
-function modifier_enfos_jakiro_dual_breath_slow:GetModifierMoveSpeedBonus_Percentage() return -value(self:GetAbility(), 'slow_pct') end
-function modifier_enfos_jakiro_dual_breath_slow:GetModifierAttackSpeedBonus_Constant() return -40 end
-
-enfos_jakiro_ice_path=class({})
-function enfos_jakiro_ice_path:OnSpellStart()
-    local c = self:GetCaster()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
-    local origin = c:GetAbsOrigin()
-    local p = self:GetCursorPosition()
-    local dir = (p - origin):Normalized()
-    c:EmitSound('Hero_Jakiro.IcePath.Cast')
-    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_jakiro/jakiro_ice_path.vpcf', PATTACH_WORLDORIGIN, nil)
-    ParticleManager:SetParticleControl(fx, 0, origin)
-    ParticleManager:SetParticleControl(fx, 1, origin + (dir * 800))
-    ParticleManager:SetParticleControl(fx, 2, Vector(2.0, 0, 0))
-    ParticleManager:ReleaseParticleIndex(fx)
-    local dmg = value(self, 'damage')
-    local int = get_int(c)
-    local total_dmg = dmg + (int * 0.6)
-    local stun_dur = value(self, 'stun_duration')
-    if stun_dur <= 0 then stun_dur = 2.0 end
-    local path_delay = math.max(0, value(self, 'path_delay'))
-    self.cast_serial = (self.cast_serial or 0) + 1
-    local owner_id = (self.entindex and self:entindex()) or (c.entindex and c:entindex()) or (c.GetUnitName and c:GetUnitName()) or 'jakiro'
-    local context_name = 'EnfosJakiroIcePath_' .. tostring(owner_id) .. '_' .. tostring(self.cast_serial)
-    GameRules:GetGameModeEntity():SetContextThink(context_name, function()
-        if not c or (c.IsNull and c:IsNull()) then return nil end
-        for _, u in ipairs(enemies(c, origin + (dir * 600), 700)) do
-            local d = stun_dur
-            if is_boss(u) then d = d * 0.35 end
-            u:AddNewModifier(c, self, 'modifier_generic_stunned_lua', { duration = d })
-            damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
-        end
-        return nil
-    end, path_delay)
-end
-
-enfos_jakiro_liquid_fire=class({})
-function enfos_jakiro_liquid_fire:GetIntrinsicModifierName() return 'modifier_enfos_jakiro_liquid_fire_passive' end
-function enfos_jakiro_liquid_fire:OnSpellStart()
-    local target=self:GetCursorTarget()
-    if target and not target:IsNull() and not target:TriggerSpellAbsorb(self) then self:FireAt(target) end
-end
-function enfos_jakiro_liquid_fire:FireAt(target)
-    if not IsServer() or not target or target:IsNull() then return end
-    local c=self:GetCaster()
-    if target:GetTeamNumber()==c:GetTeamNumber() then return end
-    target:EmitSound('Hero_Jakiro.LiquidFire')
-    effect('particles/units/heroes/hero_jakiro/jakiro_liquid_fire_explosion.vpcf', target)
-    for _,u in ipairs(enemies(c,target:GetAbsOrigin(),value(self,'radius'))) do
-        damage(self,u,value(self,'bonus_damage')+get_int(c)*0.3,DAMAGE_TYPE_MAGICAL)
-        u:AddNewModifier(c,self,'modifier_enfos_jakiro_liquid_fire_slow',{duration=4})
-    end
-end
-
-modifier_enfos_jakiro_liquid_fire_slow=class({})
-function modifier_enfos_jakiro_liquid_fire_slow:IsDebuff() return true end
-function modifier_enfos_jakiro_liquid_fire_slow:DeclareFunctions() return {MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT} end
-function modifier_enfos_jakiro_liquid_fire_slow:GetModifierAttackSpeedBonus_Constant() return -value(self:GetAbility(),'slow_as') end
-
-modifier_enfos_jakiro_liquid_fire_passive=class({})
-function modifier_enfos_jakiro_liquid_fire_passive:DeclareFunctions() return {MODIFIER_EVENT_ON_ATTACK_LANDED} end
-function modifier_enfos_jakiro_liquid_fire_passive:OnAttackLanded(params)
-    if not IsServer() then return end
-    local c,a=self:GetParent(),self:GetAbility()
-    if params.attacker~=c or c:PassivesDisabled() or c:IsIllusion() or not params.target
-        or params.target:GetTeamNumber()==c:GetTeamNumber() then return end
-    if not a or a:GetLevel()<1 or not a:GetAutoCastState() or not a:IsCooldownReady() then return end
-    a:UseResources(false,false,false,true)
-    a:FireAt(params.target)
-end
-
-enfos_jakiro_macropyre=class({})
-function enfos_jakiro_macropyre:OnSpellStart()
-    local c = self:GetCaster()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
-    local p = self:GetCursorPosition()
-    local dir = (p - c:GetAbsOrigin()):Normalized()
-    local length = value(self, 'length')
-    if length <= 0 then length = 1200 end
-    local duration = value(self, 'duration')
-    if duration <= 0 then duration = 6 end
-    c:EmitSound('Hero_Jakiro.Macropyre.Cast')
-    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_jakiro/jakiro_macropyre.vpcf', PATTACH_WORLDORIGIN, nil)
-    ParticleManager:SetParticleControl(fx, 0, c:GetAbsOrigin())
-    ParticleManager:SetParticleControl(fx, 1, c:GetAbsOrigin() + (dir * length))
-    ParticleManager:SetParticleControl(fx, 2, Vector(duration, 0, 0))
-    ParticleManager:ReleaseParticleIndex(fx)
-    ground_effect(c, self, 'modifier_enfos_jakiro_macropyre_zone', {
-        duration = duration, dir_x = dir.x, dir_y = dir.y, length = length
-    }, c:GetAbsOrigin())
-end
-
-modifier_enfos_jakiro_macropyre_zone=class({})
-function modifier_enfos_jakiro_macropyre_zone:IsHidden() return true end
-function modifier_enfos_jakiro_macropyre_zone:IsPurgable() return false end
-function modifier_enfos_jakiro_macropyre_zone:OnCreated(kv)
-    if not IsServer() then return end
-    self.dir = Vector(tonumber(kv.dir_x) or 1, tonumber(kv.dir_y) or 0, 0):Normalized()
-    self.length = tonumber(kv.length) or 1200
-    self.boss_damage = {}
-    self:StartIntervalThink(0.5)
-end
-function modifier_enfos_jakiro_macropyre_zone:OnIntervalThink()
-    local c, a, parent = self:GetCaster(), self:GetAbility(), self:GetParent()
-    if not c or c:IsNull() or not c:IsAlive() or not a or (a.IsNull and a:IsNull()) or not parent or parent:IsNull() then self:Destroy() return end
-    local origin = parent:GetAbsOrigin()
-    local center = origin + (self.dir * (self.length * 0.5))
-    local int = get_int(c)
-    local pulse = (value(a, 'damage_per_sec') + (int * 0.7)) * 0.5
-    for _, u in ipairs(enemies(c, center, (self.length * 0.5) + 180)) do
-        local off = u:GetAbsOrigin() - origin
-        local along = off.x * self.dir.x + off.y * self.dir.y
-        local side = (off - (self.dir * along)):Length2D()
-        if along >= 0 and along <= self.length and side <= 180 then
-            local hit = pulse
-            if is_boss(u) then
-                local id = u:entindex()
-                local limit = u:GetMaxHealth() * 0.1
-                hit = math.min(hit, math.max(0, limit - (self.boss_damage[id] or 0)))
-                self.boss_damage[id] = (self.boss_damage[id] or 0) + hit
-            end
-            damage(a, u, hit, DAMAGE_TYPE_MAGICAL)
-        end
-    end
-end
-function modifier_enfos_jakiro_macropyre_zone:OnDestroy() remove_ground_effect(self) end
-
-enfos_jakiro_double_trouble=class({})
-function enfos_jakiro_double_trouble:GetIntrinsicModifierName() return 'modifier_enfos_jakiro_double_trouble' end
-
-modifier_enfos_jakiro_double_trouble=class({})
-function modifier_enfos_jakiro_double_trouble:DeclareFunctions()
-    return { MODIFIER_PROPERTY_STATS_INTELLECT_BONUS, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
-end
-function modifier_enfos_jakiro_double_trouble:GetModifierBonusStats_Intellect()
-    local c = self:GetParent()
-    if not c or (c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion()) then return 0 end
-    return value(self:GetAbility(), 'bonus_int')
-end
-function modifier_enfos_jakiro_double_trouble:GetModifierAttackSpeedBonus_Constant()
-    local c = self:GetParent()
-    if not c or (c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion()) then return 0 end
-    return value(self:GetAbility(), 'bonus_as')
-end
+-- Jakiro is loaded above through its isolated compatibility module.
 
 -- -------------------------------------------------------------------------
 -- VENGEFUL SPIRIT (SUPPORT)
