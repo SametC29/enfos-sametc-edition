@@ -11,7 +11,7 @@ DAMAGE_TYPE_MAGICAL=2;DOTA_UNIT_TARGET_TEAM_ENEMY=3;DOTA_UNIT_TARGET_HERO=1;DOTA
 MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT=1;MODIFIER_PROPERTY_TOOLTIP=2;MODIFIER_EVENT_ON_ATTACK_LANDED=3
 Convars={GetBool=function()return false end}
 require('abilities/heroes/jakiro/e')
-for _,mode in ipairs({'normal','poor','cooldown','client','nil_event','removed_caster','removed_ability','removed_target','break','silence','illusion','unlearned','autocast_off','corpse','resource_removes_ability','modifier_removes_ability','absorb_removes_caster','manual'})do
+for _,mode in ipairs({'normal','poor','cooldown','client','nil_event','removed_caster','removed_ability','removed_target','break','silence','illusion','unlearned','autocast_off','corpse','resource_removes_ability','modifier_removes_ability','perform_removes_caster','manual'})do
  local c,a,target,normal,boss,modifier
  local spend,hits,mods=0,{},{}
  local function unit(name,team)
@@ -26,7 +26,7 @@ for _,mode in ipairs({'normal','poor','cooldown','client','nil_event','removed_c
   function u:IsSilenced()return mode=='silence' end
   function u:IsIllusion()assert(not self.removed);return mode=='illusion' end
   function u:GetIntellect()assert(not self.removed);return 100 end
-  function u:TriggerSpellAbsorb()if mode=='absorb_removes_caster' then c.removed=true end;return false end
+  function u:TriggerSpellAbsorb()if mode=='perform_removes_caster' then c.removed=true end;return false end
   function u:AddNewModifier(caster,ability,name,p)assert(not self.removed and not caster.removed and not ability.removed);mods[#mods+1]=p;if mode=='modifier_removes_ability' then a.removed=true end end
   return u
  end
@@ -47,12 +47,17 @@ for _,mode in ipairs({'normal','poor','cooldown','client','nil_event','removed_c
   if mode=='resource_removes_ability' then self.removed=true end
  end
  modifier=setmetatable({GetParent=function()return c end,GetAbility=function()return a end},modifier_enfos_jakiro_liquid_fire_passive)
+ function c:PerformAttack(t,orb,procs,skip,invis,projectile,fake,neverMiss)
+  assert(t==target and orb and procs and not skip and not invis and projectile and not fake and not neverMiss)
+  modifier:OnAttack({attacker=c,target=target,record=10})
+  if mode=='perform_removes_caster' then self.removed=true end
+ end
  ParticleManager={CreateParticle=function()return 1 end,ReleaseParticleIndex=function()end}
  function FindUnitsInRadius()return {normal,boss}end
  function ApplyDamage(info)hits[#hits+1]=info;return info.damage end
  server=mode~='client'
  if mode=='removed_caster' then c.removed=true elseif mode=='removed_ability' then a.removed=true elseif mode=='removed_target' then target.removed=true end
- if mode=='manual' or mode=='absorb_removes_caster' then a:OnSpellStart()else local event={attacker=c,target=target,record=1};if mode=='nil_event' then event=nil end;modifier:OnAttack(event);if mode=='corpse' then target.alive=false end;modifier:OnAttackLanded(event)end
+ if mode=='manual' or mode=='perform_removes_caster' then a:OnSpellStart();assert(#mods==0,'Manual attack must wait for projectile hit');modifier:OnAttackLanded({attacker=c,target=target,record=10})else local event={attacker=c,target=target,record=1};if mode=='nil_event' then event=nil end;modifier:OnAttack(event);if mode=='corpse' then target.alive=false end;modifier:OnAttackLanded(event)end
  if mode=='normal' or mode=='corpse' or mode=='break' then assert(spend==1 and #hits==0 and #mods==2);assert(mods[1].dps==24 and mods[2].dps==24 and mods[1].duration==5);assert(mods[1].slow_as==60)
  elseif mode=='manual' then assert(spend==0 and #hits==0 and #mods==2)
  elseif mode=='resource_removes_ability' then assert(spend==1 and #hits==0)

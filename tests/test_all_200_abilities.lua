@@ -765,7 +765,14 @@ do
     firstBurn.GetElapsedTime=function()return 0.5 end;secondBurn.GetElapsedTime=function()return 0.5 end
     firstBurn:OnIntervalThink();secondBurn:OnIntervalThink();assert(hits==2,'First half-second burn slice')
     passive:OnAttack({attacker=hero,target=enemy,record=3});passive:OnAttackLanded({attacker=hero,target=enemy,record=3});assert(hits==2,'Cooldown must prevent another proc')
-    automatic=false;fire:OnSpellStart();assert(hits==2,'Manual cast applies burn with autocast disabled')
+    local previousPerformAttack=hero.PerformAttack
+    hero.PerformAttack=function(_,target,orb,procs,skip,invis,projectile,fake,neverMiss)
+        assert(target==enemy and orb and procs and not skip and not invis and projectile and not fake and not neverMiss)
+        passive:OnAttack({attacker=hero,target=enemy,record=4})
+    end
+    automatic=false;fire:OnSpellStart();assert(hits==2,'Manual attack waits for projectile with autocast disabled')
+    passive:OnAttackLanded({attacker=hero,target=enemy,record=4})
+    hero.PerformAttack=previousPerformAttack
     local manualBurn=enemy:FindModifierByName('modifier_enfos_jakiro_liquid_fire_slow')
     assert(manualBurn~=firstBurn);manualBurn.GetElapsedTime=function()return 0.5 end
     manualBurn:OnIntervalThink();assert(hits==3,'Manual burn begins at interval')

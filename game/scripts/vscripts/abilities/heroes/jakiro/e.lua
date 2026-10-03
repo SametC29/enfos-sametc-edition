@@ -16,13 +16,14 @@ function enfos_jakiro_liquid_fire:OnSpellStart()
     if not IsServer() or not valid(self) or (self.GetLevel and self:GetLevel()<1) then return end
     local c,target=self:GetCaster(),self:GetCursorTarget()
     if not enemy(c,target) or not c:IsAlive() or not target:IsAlive() then return end
-    if target.TriggerSpellAbsorb and target:TriggerSpellAbsorb(self) then
-        HeroTrace:Log('JAKIRO','E','manual_cancelled reason=spell_absorb')
-        return
-    end
-    -- Spell block may synchronously remove a unit/ability even when returning false.
-    if not valid(self) or not enemy(c,target) or not c:IsAlive() or not target:IsAlive() then return end
-    self:FireAt(target) -- Manual casting is already funded by the engine.
+    if c:IsIllusion() or (c.IsSilenced and c:IsSilenced()) or (c.IsDisarmed and c:IsDisarmed()) or not c.PerformAttack then return end
+    -- The engine already paid the manual spell. Only this synchronous launch may
+    -- claim its funding; a later unrelated attack cannot inherit it.
+    self.manual_target=target
+    c:PerformAttack(target,true,true,false,false,true,false,false)
+    local unclaimed=self.manual_target~=nil
+    self.manual_target=nil
+    HeroTrace:Log('JAKIRO','E',unclaimed and 'manual_cancelled reason=missing_attack_record' or 'manual_attack_launched')
 end
 function enfos_jakiro_liquid_fire:SnapshotImpact()
     local c=self:GetCaster()
@@ -143,17 +144,22 @@ function modifier_enfos_jakiro_liquid_fire_passive:OnAttack(params)
     if not IsServer() or self.closed or not params or params.record==nil or self.proccing then return end
     local c,a=self:GetParent(),self:GetAbility()
     if not valid(c) or not valid(a) or params.attacker~=c or not enemy(c,params.target) then return end
-    if not c:IsAlive() or not params.target:IsAlive() or c:IsIllusion() or (c.IsSilenced and c:IsSilenced()) or a:GetLevel()<1 or not a:GetAutoCastState() then return end
-    if not a.IsFullyCastable or not a:IsFullyCastable() then return end
+    if not c:IsAlive() or not params.target:IsAlive() or c:IsIllusion() or (c.IsSilenced and c:IsSilenced()) or (c.IsDisarmed and c:IsDisarmed()) or a:GetLevel()<1 then return end
+    local manual=a.manual_target==params.target
+    if not manual and (not a:GetAutoCastState() or not a.IsFullyCastable or not a:IsFullyCastable()) then return end
     self.records=self.records or {}
     if self.records[params.record] then return end
     local entry={target=params.target,snapshot=a:SnapshotImpact()}
     self.records[params.record]=entry
-    self.proccing=true
-    a:UseResources(true,false,false,true)
-    self.proccing=false
+    if manual then
+        a.manual_target=nil -- Claim before any nested attack callbacks.
+    else
+        self.proccing=true
+        a:UseResources(true,false,false,true)
+        self.proccing=false
+    end
     if self.closed or not valid(a) or not enemy(c,params.target) then self.records[params.record]=nil;return end
-    HeroTrace:Log('JAKIRO','E','orb_launched record=%s mana=true cooldown=true target=%s',tostring(params.record),HeroTrace:Name(params.target))
+    HeroTrace:Log('JAKIRO','E','orb_launched record=%s funding=%s target=%s',tostring(params.record),manual and 'manual_engine' or 'autocast_resources',HeroTrace:Name(params.target))
 end
 function modifier_enfos_jakiro_liquid_fire_passive:OnAttackLanded(params)
     if not IsServer() or self.closed or not params or params.record==nil then return end

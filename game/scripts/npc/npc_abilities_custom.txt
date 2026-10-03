@@ -5384,6 +5384,8 @@
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_BUILDING"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"jakiro_liquid_fire"
+		"AbilityCastPoint" "0.0"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_3"
 		"AbilityCastRange"			"600"
 		"AbilityCooldown"			"12 10 9 8 7 6 5.5 5 4.5 4"
 		"AbilityManaCost" "20"
