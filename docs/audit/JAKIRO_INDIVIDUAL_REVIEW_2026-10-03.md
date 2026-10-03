@@ -87,3 +87,13 @@ Retain verified existing jakiro_liquid_fire icon (installed VPK spellicons); no 
 Independent fixture covers ranks0–10, removed handles, Break/illusion, ordinary death retained ownership, tooltip values, default-off/client traces and repeated getter queries. Engine refresh/respawn/reconnect/HUD icon and translated tooltip formatting remain owner NOT TESTED. Existing generic Support Shard healing and native E/R upgrade fidelity remain OPEN; D repair does not certify them or overall hero source closure.
 
 D focused verification: independent fixture FAIL before repair / PASS after; full node tools/checks.mjs PASS, 0 failed checks. Source-only unit; broader Jakiro review remains OPEN.
+
+## Q modifier snapshot decision (before repair)
+
+Keep TUNE/native-first. Installed build6943 Dual Breath has two traveling cones, speed1050, radius150→275, fire delay0.2s, burn DPS20/40/60/80, movement and attack slow25/30/35/40 and duration5s. Current authored circleburst/fire-only presentation is not accepted final behavior; cone travel, fire burn and target/VFX/SFX/animation fidelity remain OPEN. Decoded installed ice/fire roots are available under owner Temp/enfos-jakiro-review; no foreign code imported. Current modifier rereads ability rank every stat query; existing debuff therefore changes when caster spends a point. Independent application/client fixture fails before repair.
+
+Focused first repair: snapshot current authored movement curve30–51 and fixed attack-speed slow40 on each application, synchronize values through verified custom modifier transmitter (ModDota Lua modifier API https://docs.moddota.com/lua_server/ and existing Venge W pattern), refresh only on a new hit and never dereference removed ability during stat queries. Preserve existing cast/damage/rank values for this unit. Basic dispel and verified native icon explicit; no interval or new resources needed. This is not source closure or substitution of current circleburst for intended traveling native-style breaths.
+
+Q snapshot repair implemented and independent fixture PASS (application, rank-up isolation, recast, invalid ability, client transmission and dynamic tooltip). Four locales describe current actual formula and debuff rules without claiming absent travel/DoT. Full checks rerun below; native-style two-cone movement/burn/resources/engine gates remain OPEN.
+
+Q focused verification: full node tools/checks.mjs PASS, 0 failed checks after four-language dynamic tooltip additions. No agent Dota launch/control or publication.

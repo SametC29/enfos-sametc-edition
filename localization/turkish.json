@@ -905,7 +905,7 @@
     "DOTA_Tooltip_Ability_enfos_lion_demon_soul": "İblis Ruhu",
     "DOTA_Tooltip_Ability_enfos_lion_demon_soul_Description": "Pasif olarak yetenek kullanım menzilini +{{cast_range_bonus}} ve büyü hasarını %{{spell_amp}} artırır.",
     "DOTA_Tooltip_Ability_enfos_jakiro_dual_breath": "Çifte Nefes",
-    "DOTA_Tooltip_Ability_enfos_jakiro_dual_breath_Description": "Buz ve ateş dalgası püskürterek yaratıklara {{damage}} büyü hasarı verir ve onları yavaşlatır.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_dual_breath_Description": "İsabet alanındaki düşmanlara {{damage}} + zekanın %80’i kadar büyü hasarı verir. {{duration}} saniye boyunca hareket hızını %{{slow_pct}} ve saldırı hızını 40 azaltır. Yavaşlatma değerleri isabette belirlenir; yeni isabet süresini ve değerlerini yeniler. Yavaşlatma dağıtılabilir.",
     "DOTA_Tooltip_Ability_enfos_jakiro_ice_path": "Buz Yolu",
     "DOTA_Tooltip_Ability_enfos_jakiro_ice_path_Description": "{{path_delay}} sn uyarıdan sonra {{path_duration}} sn süren, {{path_length}} uzunluğunda ve {{path_radius}} yarıçaplı bir buz yolu oluşturur. Yola giren her düşman kullanım başına bir kez {{damage}} + Zekânın %60’ı kadar büyü hasarı alır ve en fazla {{stun_duration}} sn sersemletilir; yol bitince sersemletme de biter. Zayıflatma bağışıklığını delmez; güçlü arındırma sersemletmeyi kaldırır.",
     "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire": "Sıvı Ateş",
@@ -1798,6 +1798,8 @@
     "DOTA_Tooltip_Ability_enfos_vs_scepter_native_Description": "Scepter: Auranın kendine sağladığı ek faydayı %25’ten %35’e çıkarır. Ölümde %100 hasar veren ve alan, tüm yetenekleri kullanabilen güçlü bir illüzyon oluşturur. İllüzyonun kazandığı deneyim Vengeful Spirit’e gider. Yeniden doğduğunda Vengeful Spirit yaşayan illüzyonun yerini alır. Genel ulti hasarı/bekleme süresi bonusunun yerini alır.",
     "enfos_vs_swap_invalid_target": "Geçersiz yer değiştirme hedefi.",
     "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble": "Çifte Baş",
-    "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble_Description": "+%dMODIFIER_PROPERTY_TOOLTIP% zeka ve +%dMODIFIER_PROPERTY_TOOLTIP2% saldırı hızı. Kırılma sırasında bonuslar devre dışıdır."
+    "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble_Description": "+%dMODIFIER_PROPERTY_TOOLTIP% zeka ve +%dMODIFIER_PROPERTY_TOOLTIP2% saldırı hızı. Kırılma sırasında bonuslar devre dışıdır.",
+    "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_slow": "Çifte Nefes",
+    "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_slow_Description": "Hareket hızı -%dMODIFIER_PROPERTY_TOOLTIP%%; saldırı hızı -%dMODIFIER_PROPERTY_TOOLTIP2%. Dağıtılabilir."
   }
 }

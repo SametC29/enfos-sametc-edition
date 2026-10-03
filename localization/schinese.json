@@ -1397,6 +1397,9 @@
     "enfos_vs_swap_invalid_target": "无效的交换目标。",
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_Description": "学习后获得+{{bonus_int}}智力和+{{bonus_as}}攻击速度。破坏期间失效；幻象不获得加成。无法驱散。",
     "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble": "双头之力",
-    "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble_Description": "+%dMODIFIER_PROPERTY_TOOLTIP%智力和+%dMODIFIER_PROPERTY_TOOLTIP2%攻击速度。破坏期间加成失效。"
+    "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble_Description": "+%dMODIFIER_PROPERTY_TOOLTIP%智力和+%dMODIFIER_PROPERTY_TOOLTIP2%攻击速度。破坏期间加成失效。",
+    "DOTA_Tooltip_Ability_enfos_jakiro_dual_breath_Description": "对作用区域内敌人造成{{damage}} + 智力的80%魔法伤害。在{{duration}}秒内降低{{slow_pct}}%移动速度和40攻击速度。减速数值在命中时确定；再次命中刷新持续时间和数值。减速可被驱散。",
+    "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_slow": "冰火双息",
+    "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_slow_Description": "移动速度-%dMODIFIER_PROPERTY_TOOLTIP%%；攻击速度-%dMODIFIER_PROPERTY_TOOLTIP2%。可被驱散。"
   }
 }

@@ -1457,6 +1457,9 @@
     "enfos_vs_swap_invalid_target": "Invalid swap target.",
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_Description": "When learned, grants +{{bonus_int}} intelligence and +{{bonus_as}} attack speed. Disabled by Break; illusions receive no bonus. Cannot be dispelled.",
     "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble": "Double Trouble",
-    "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble_Description": "+%dMODIFIER_PROPERTY_TOOLTIP% intelligence and +%dMODIFIER_PROPERTY_TOOLTIP2% attack speed. Bonuses are disabled by Break."
+    "DOTA_Tooltip_modifier_enfos_jakiro_double_trouble_Description": "+%dMODIFIER_PROPERTY_TOOLTIP% intelligence and +%dMODIFIER_PROPERTY_TOOLTIP2% attack speed. Bonuses are disabled by Break.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_dual_breath_Description": "Deals {{damage}} + 80% of intelligence as magical damage to enemies in the affected area. Reduces movement speed by {{slow_pct}}% and attack speed by 40 for {{duration}} seconds. Slow values are set on impact; a new hit refreshes duration and values. The slow can be dispelled.",
+    "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_slow": "Dual Breath",
+    "DOTA_Tooltip_modifier_enfos_jakiro_dual_breath_slow_Description": "Movement speed -%dMODIFIER_PROPERTY_TOOLTIP%%; attack speed -%dMODIFIER_PROPERTY_TOOLTIP2%. Can be dispelled."
   }
 }
