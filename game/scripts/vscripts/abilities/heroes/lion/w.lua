@@ -1,26 +1,92 @@
--- Lion W: byte-preserving isolation; gameplay audit remains pending.
+-- Lion W: ranked Hex with engine-owned transformation and visual lifetime.
 local H = require('abilities/shared/pve_helpers')
-local value, enemies, is_boss, get_int, damage, effect = H.value, H.enemies, H.is_boss, H.get_int, H.damage, H.effect
+local Trace = require('lib/hero_trace')
 LinkLuaModifier('modifier_enfos_lion_hex_debuff', 'abilities/heroes/lion/w', LUA_MODIFIER_MOTION_NONE)
+local function valid(x) return x and not (x.IsNull and x:IsNull()) end
+local function immune(t)
+    return (t.IsDebuffImmune and t:IsDebuffImmune()) or (t.IsMagicImmune and t:IsMagicImmune())
+end
+local function living(t) return valid(t) and t:IsAlive() end
+local function eligible(c,t)
+    return living(c) and living(t) and t:GetTeamNumber()~=c:GetTeamNumber()
+        and not (t.IsBuilding and t:IsBuilding()) and not immune(t)
+end
+local function speed(a,p)
+    local n=tonumber(p and p.move_speed)
+    if not n and valid(a) then n=H.value(a,'base_move_speed') end
+    return n and n>0 and n or 140
+end
 
 enfos_lion_hex=class({})
 function enfos_lion_hex:OnSpellStart()
-    local c = self:GetCaster()
-    local t = self:GetCursorTarget()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or t:IsNull() or not t:IsAlive() then return end
-    if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
-
+    if not IsServer() or not valid(self) then return end
+    local c,t=self:GetCaster(),self:GetCursorTarget()
+    if not eligible(c,t) then return end
+    if t:TriggerSpellAbsorb(self) then
+        Trace:Log('LION','W','spell absorbed')
+        return
+    end
+    if not valid(self) or not eligible(c,t) then return end
+    local duration=H.value(self,'duration')
+    if duration<=0 then return end
+    local move_speed=speed(self)
     c:EmitSound('Hero_Lion.Voodoo')
-    effect('particles/units/heroes/hero_lion/lion_spell_voodoo.vpcf', t)
-    local dur = is_boss(t) and value(self, 'boss_duration') or value(self, 'duration')
-    if dur <= 0 then dur = is_boss(t) and 0.8 or 3.0 end
-    t:AddNewModifier(c, self, 'modifier_enfos_lion_hex_debuff', { duration = dur })
+    if not valid(self) or not eligible(c,t) then return end
+    t:AddNewModifier(c,self,'modifier_enfos_lion_hex_debuff',{duration=duration,move_speed=move_speed})
+    Trace:Log('LION','W','cast duration=%.2f speed=%.1f',duration,move_speed)
 end
 
 modifier_enfos_lion_hex_debuff=class({})
 function modifier_enfos_lion_hex_debuff:IsDebuff() return true end
-function modifier_enfos_lion_hex_debuff:CheckState()
-    return { [MODIFIER_STATE_SILENCED] = true, [MODIFIER_STATE_DISARMED] = true, [MODIFIER_STATE_MUTED] = true }
+function modifier_enfos_lion_hex_debuff:IsPurgable() return false end
+function modifier_enfos_lion_hex_debuff:IsPurgeException() return true end
+function modifier_enfos_lion_hex_debuff:GetTexture() return 'lion_voodoo' end
+function modifier_enfos_lion_hex_debuff:OnCreated(p)
+    if not IsServer() then return end
+    self.move_speed=speed(self:GetAbility(),p)
+    self:SetHasCustomTransmitterData(true)
+    local parent=self:GetParent()
+    if not living(parent) or immune(parent) or self.closed then return end
+    local fx=ParticleManager:CreateParticle('particles/units/heroes/hero_lion/lion_spell_voodoo.vpcf',PATTACH_ABSORIGIN_FOLLOW,parent)
+    -- Creation/binding can invoke other scripts before ownership transfers.
+    if not self.closed and living(parent) then
+        ParticleManager:SetParticleControlEnt(fx,1,parent,PATTACH_ABSORIGIN_FOLLOW,'',parent:GetAbsOrigin(),false)
+    end
+    if self.closed or not living(parent) then
+        ParticleManager:DestroyParticle(fx,true)
+        ParticleManager:ReleaseParticleIndex(fx)
+        return
+    end
+    self:AddParticle(fx,false,false,-1,false,false)
+    Trace:Log('LION','W','hex applied speed=%.1f',self.move_speed)
 end
-function modifier_enfos_lion_hex_debuff:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BASE_OVERRIDE } end
-function modifier_enfos_lion_hex_debuff:GetModifierMoveSpeedOverride() return value(self:GetAbility(), 'base_move_speed') or 140 end
+function modifier_enfos_lion_hex_debuff:OnRefresh(p)
+    if not IsServer() or self.closed then return end
+    self.move_speed=speed(self:GetAbility(),p)
+    self:SendBuffRefreshToClients()
+    Trace:Log('LION','W','hex refreshed speed=%.1f',self.move_speed)
+end
+function modifier_enfos_lion_hex_debuff:AddCustomTransmitterData() return {move_speed=self.move_speed} end
+function modifier_enfos_lion_hex_debuff:HandleCustomTransmitterData(p) self.move_speed=speed(nil,p) end
+function modifier_enfos_lion_hex_debuff:Active()
+    local parent=self:GetParent()
+    return not self.closed and living(parent) and not immune(parent)
+end
+function modifier_enfos_lion_hex_debuff:CheckState()
+    if not self:Active() then return {} end
+    return {[MODIFIER_STATE_HEXED]=true,[MODIFIER_STATE_SILENCED]=true,[MODIFIER_STATE_DISARMED]=true,[MODIFIER_STATE_MUTED]=true}
+end
+function modifier_enfos_lion_hex_debuff:DeclareFunctions()
+    return {MODIFIER_PROPERTY_MOVESPEED_BASE_OVERRIDE,MODIFIER_PROPERTY_MODEL_CHANGE}
+end
+function modifier_enfos_lion_hex_debuff:GetModifierMoveSpeedOverride()
+    if self:Active() then return self.move_speed or 140 end
+end
+function modifier_enfos_lion_hex_debuff:GetModifierModelChange()
+    if self:Active() then return 'models/props_gameplay/frog.vmdl' end
+end
+function modifier_enfos_lion_hex_debuff:OnDestroy()
+    if self.closed then return end
+    self.closed=true -- Engine restores the model and destroys AddParticle indices.
+    Trace:Log('LION','W','hex removed')
+end

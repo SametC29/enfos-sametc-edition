@@ -6487,7 +6487,7 @@ test('Lion Finger of Death splashes damage in AoE and increments stack on kill',
     assert(applied_damages[1].damage == 120, 'boss damage must respect the KV-configured 12% max-health cap')
 end)
 
-test('Lion Earth Spike uses KV geometry and Hex reads normal/boss control values', function()
+test('Lion Earth Spike uses KV geometry and Hex uses ordinary control on every target', function()
     local previous_game_rules = GameRules
     GameRules = { GetGameTime = function() return 0 end }
     applied_damages = {}
@@ -6523,12 +6523,13 @@ test('Lion Earth Spike uses KV geometry and Hex reads normal/boss control values
     assert(normal.modifiers.modifier_enfos_lion_hex_debuff.params.duration == 4.5,
         'normal Hex should use ranked duration')
     local speed_mod = normal.modifiers.modifier_enfos_lion_hex_debuff
+    speed_mod.move_speed = speed_mod.params.move_speed
     assert(speed_mod:GetModifierMoveSpeedOverride() == 140)
     local boss = create_mock_unit('enfos_boss_hex', 3, Vector(0, 0, 0))
     hex.GetCursorTarget = function() return boss end
     hex:OnSpellStart()
-    assert(boss.modifiers.modifier_enfos_lion_hex_debuff.params.duration == 0.8,
-        'boss Hex duration should come from its named KV value')
+    assert(boss.modifiers.modifier_enfos_lion_hex_debuff.params.duration == 4.5,
+        'Boss Hex must use ordinary ranked duration')
 end)
 
 test('Lion Mana Drain channel and slow values are read from KV', function()

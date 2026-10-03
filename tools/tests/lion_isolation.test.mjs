@@ -13,7 +13,7 @@ test('Lion unreviewed handlers preserve the pre-extraction implementation and KV
  const old=execFileSync('git',['show','3044af6:game/scripts/vscripts/abilities/pve_kits.lua'],{encoding:'utf8'}).replaceAll('\r\n','\n');
  const kv=parseKV(execFileSync('git',['show','3044af6:game/scripts/npc/npc_abilities_custom.txt'],{encoding:'utf8'})).DOTAAbilities;
  ids.forEach((id,i)=>{
-  if(i===0)return; // Q now has a separate source-backed travel regression.
+  if(i<=1)return; // Q/W have separate source-backed travel/transformation regressions.
   const start=old.indexOf(id+'=class({})');
   const end=i<4?old.indexOf(ids[i+1]+'=class({})'):old.indexOf('-- =========================================================================\n-- BATCH 5 HERO KITS',start);
   assert.ok(start>=0&&end>start);
