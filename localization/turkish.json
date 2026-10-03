@@ -917,7 +917,7 @@
     "DOTA_Tooltip_Ability_enfos_vs_magic_missile": "Büyü Füzesi",
     "DOTA_Tooltip_Ability_enfos_vs_magic_missile_Description": "Düşmana kaçınılabilir bir füze fırlatır. İsabette {{damage}} + Çeviklik × 0,9 büyü hasarı verir ve {{stun_duration}} saniye sersemletir. Bosslarda aynı hasar ve sersemletme süresi kullanılır; normal bağışıklık ve durum direnci kuralları geçerlidir.",
     "DOTA_Tooltip_Ability_enfos_vs_wave_of_terror": "Dehşet Dalgası",
-    "DOTA_Tooltip_Ability_enfos_vs_wave_of_terror_Description": "Çığlık dalgası yayarak yolundaki tüm yaratıklara {{damage}} hasar vurur ve zırhlarını {{duration}} saniye kırar.",
+    "DOTA_Tooltip_Ability_enfos_vs_wave_of_terror_Description": "{{wave_speed}} hızla {{wave_distance}} mesafeye ilerleyen bir dalga gönderir. Yolunun {{wave_width}} yakınındaki düşmanlara çarpışmada {{damage}} + Çeviklik × 0,6 büyü hasarı verir ve zırhlarını {{duration}} saniye boyunca {{armor_reduction}} azaltır. Dalga düşmanların içinden geçer; zırh zayıflatması dağıtılabilir.",
     "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura": "İntikam Halesi",
     "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura_Description": "Pasif olarak tüm dost birimlerin temel saldırı gücünü %{{bonus_damage_pct}} artırır.",
     "DOTA_Tooltip_Ability_enfos_vs_nether_swap": "Ruh Takası",

@@ -1,47 +1,82 @@
--- Vengeful Spirit W: isolated existing implementation; review gates remain pending.
+-- Vengeful Spirit W: traveling engine projectile with per-cast numeric snapshots.
 local Helpers = require('abilities/shared/pve_helpers')
-local value, enemies, is_boss, get_agi, damage = Helpers.value, Helpers.enemies, Helpers.is_boss, Helpers.get_agi, Helpers.damage
+local value, get_agi, damage = Helpers.value, Helpers.get_agi, Helpers.damage
+local HeroTrace = require('lib/hero_trace')
 LinkLuaModifier('modifier_enfos_vs_wave_debuff', 'abilities/heroes/vengefulspirit/w', LUA_MODIFIER_MOTION_NONE)
+local function valid(entity) return entity and not (entity.IsNull and entity:IsNull()) end
 
 enfos_vs_wave_of_terror=class({})
 function enfos_vs_wave_of_terror:OnSpellStart()
+    if not IsServer() or not valid(self) then return end
     local c = self:GetCaster()
-    local p = self:GetCursorPosition()
+    if not valid(c) or not c:IsAlive() then return end
     local origin = c:GetAbsOrigin()
-    local dir = p - origin
+    local dir = self:GetCursorPosition() - origin
     dir.z = 0
     if dir:Length2D() < 1 then
         dir = c:GetForwardVector()
         dir.z = 0
     end
+    if dir:Length2D() < 1 then return end
     dir = dir:Normalized()
+    local distance, speed, width = value(self, 'wave_distance'), value(self, 'wave_speed'), value(self, 'wave_width')
+    if distance <= 0 then distance = 1400 end
+    if speed <= 0 then speed = 2000 end
+    if width <= 0 then width = 325 end
+    local duration = value(self, 'duration')
+    if duration <= 0 then duration = 8 end
+    local data = { damage = value(self, 'damage') + get_agi(c) * 0.6,
+        duration = duration, armor_reduction = value(self, 'armor_reduction') }
     c:EmitSound('Hero_VengefulSpirit.WaveOfTerror')
-    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_vengeful/vengeful_wave_of_terror.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
-    ParticleManager:SetParticleControl(fx, 0, origin)
-    ParticleManager:SetParticleControl(fx, 1, dir * 1400)
-    ParticleManager:ReleaseParticleIndex(fx)
-    local dmg = value(self, 'damage')
-    local agi = get_agi(c)
-    local total_dmg = dmg + (agi * 0.6)
-    local dur = value(self, 'duration')
-    if dur <= 0 then dur = 8.0 end
-
-    for _, u in ipairs(enemies(c, origin + (dir * 700), 800)) do
-        local offset = u:GetAbsOrigin() - origin
-        local along = offset.x * dir.x + offset.y * dir.y
-        local side = (offset - (dir * along)):Length2D()
-        if along >= 0 and along <= 1400 and side <= 140 then
-        damage(self, u, total_dmg, DAMAGE_TYPE_MAGICAL)
-        u:AddNewModifier(c, self, 'modifier_enfos_vs_wave_debuff', { duration = dur })
-        end
+    local handle = ProjectileManager:CreateLinearProjectile({
+        Ability = self, Source = c,
+        EffectName = 'particles/units/heroes/hero_vengeful/vengeful_wave_of_terror.vpcf',
+        vSpawnOrigin = origin, vVelocity = dir * speed,
+        fDistance = distance, fStartRadius = width, fEndRadius = width,
+        bHasFrontalCone = false, bReplaceExisting = false, bDeleteOnHit = false,
+        iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+        iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+        iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE, bProvidesVision = false,
+        ExtraData = data,
+    })
+    HeroTrace:Log('VENGEFUL_SPIRIT','W','projectile_created handle=%s rank=%s origin=%s speed=%s distance=%s collision_radius=%s requested_damage=%s',
+        tostring(handle),tostring(self.GetLevel and self:GetLevel() or 0),tostring(origin),tostring(speed),tostring(distance),tostring(width),tostring(data.damage))
+end
+function enfos_vs_wave_of_terror:OnProjectileHit_ExtraData(target, location, data)
+    if not IsServer() or not valid(self) then return true end
+    if not target then
+        HeroTrace:Log('VENGEFUL_SPIRIT','W','projectile_finished position=%s cleanup=engine_projectile',tostring(location))
+        return true
     end
+    local c = self:GetCaster()
+    if not valid(c) then return true end
+    if not valid(target) or not target:IsAlive() or target:GetTeamNumber()==c:GetTeamNumber() then return false end
+    if not data or not tonumber(data.damage) or not tonumber(data.duration) or not tonumber(data.armor_reduction) then return true end
+    local dealt = damage(self, target, tonumber(data.damage), DAMAGE_TYPE_MAGICAL)
+    if valid(c) and valid(self) and valid(target) and target:IsAlive() and target:GetTeamNumber()~=c:GetTeamNumber() then
+        target:AddNewModifier(c, self, 'modifier_enfos_vs_wave_debuff', {
+            duration = tonumber(data.duration), armor_reduction = tonumber(data.armor_reduction) })
+    end
+    HeroTrace:Log('VENGEFUL_SPIRIT','W','impact target=%s requested_damage=%s actual_damage=%s armor_reduction=%s duration_requested=%s',
+        HeroTrace:Name(target),tostring(data.damage),tostring(dealt),tostring(data.armor_reduction),tostring(data.duration))
+    return false
 end
 
 modifier_enfos_vs_wave_debuff=class({})
 function modifier_enfos_vs_wave_debuff:IsDebuff() return true end
+function modifier_enfos_vs_wave_debuff:IsPurgable() return true end
+function modifier_enfos_vs_wave_debuff:GetTexture() return 'vengefulspirit_wave_of_terror' end
+function modifier_enfos_vs_wave_debuff:OnCreated(params)
+    if not IsServer() then return end
+    local armor = tonumber(params and params.armor_reduction) or value(self:GetAbility(), 'armor_reduction')
+    self:SetStackCount(math.max(0, math.floor(armor)))
+    HeroTrace:Log('VENGEFUL_SPIRIT','W','modifier_applied target=%s armor_reduction=%s',HeroTrace:Name(self:GetParent()),tostring(self:GetStackCount()))
+end
+function modifier_enfos_vs_wave_debuff:OnRefresh(params) self:OnCreated(params) end
+function modifier_enfos_vs_wave_debuff:OnDestroy()
+    HeroTrace:Log('VENGEFUL_SPIRIT','W','modifier_removed target=%s',HeroTrace:Name(self:GetParent()))
+end
 function modifier_enfos_vs_wave_debuff:DeclareFunctions() return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS } end
 function modifier_enfos_vs_wave_debuff:GetModifierPhysicalArmorBonus()
-    local ab = self:GetAbility()
-    local red = ab and value(ab, 'armor_reduction') or 4
-    return -red
+    return -self:GetStackCount()
 end

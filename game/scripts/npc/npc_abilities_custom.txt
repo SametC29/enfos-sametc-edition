@@ -5467,6 +5467,9 @@
 
 		"AbilityValues"
 		{
+            "wave_distance" "1400"
+            "wave_speed" "2000"
+            "wave_width" "325"
 			"damage"	"90 150 210 270 300 330 360 390 420 450"
 			"duration"	"8.0"
 			"armor_reduction"	"3 4 5 6 7 8 9 10 11 12"

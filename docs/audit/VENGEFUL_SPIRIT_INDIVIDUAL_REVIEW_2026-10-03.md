@@ -133,3 +133,54 @@ ordinary Boss rules. Native projectile/resource fidelity and upgrades remain ope
 
 Validation for Q/R repair: focused Venge tests PASS; full `node tools/checks.mjs`
 PASS, 0 failed. All owner runtime/visual/audio/engine gates remain NOT TESTED.
+
+## W travel and collision restoration
+
+Replaced instant radius scan/line damage with one engine-owned linear projectile.
+Native build-6943 data supplies distance 1400, speed 2000 and width 325; width is
+passed as the projectile collision radius (not halved arbitrarily). The previous
+custom 140 half-width was narrower and did not match the installed native value.
+Damage remains the authored ten-rank curve + 0.6 AGI. Each projectile carries its
+own numeric damage/duration/armor snapshot, so a later cast or rank change cannot
+overwrite an earlier traveling wave. No per-frame scan, retained cast table,
+gameplay timer or manually owned duplicate particle is introduced.
+
+VRF 19.2 decoded the installed
+`particles/units/heroes/hero_vengeful/vengeful_wave_of_terror.vpcf_c` into temporary
+read-only review output. Root initializer `C_INIT_VelocityFromCP` reads CP1 as
+velocity; the old script gave it `direction * 1400` independently of hit timing.
+Root renders `vengeful_terror_head.vmdl`, with `jaw_bite` and timed end-cap decay.
+The projectile manager now owns effect creation/movement/termination, rather
+than an independently released cast particle. Actual engine CP binding, child
+appearance, width readability and end-cap cleanup still require owner visuals.
+
+MCP confirms server-only `ProjectileManager:CreateLinearProjectile`. API declaration
+[OnProjectileHit_ExtraData](https://docs.moddota.com/lua_server/declaration)
+describes target collisions and the invalid-target destination callback.
+Reference-only Aghanim's Pathfinders 2208582400
+`scripts/vscripts/abilities/creatures/boss_visage_grave_chill.lua` uses the same
+effect as a linear-projectile EffectName. Its source was read for the engine
+pattern; no proprietary code was imported and that older kit is not evidence of
+fresh acceptance in our build.
+
+Collision applies damage once through the engine callback and checks victim,
+caster, ability and team again before applying the armor debuff; lethal/deleted
+victims receive no post-damage modifier. Continuing enemy hits return false;
+destination terminates. Debuff is explicitly purgable with the native W icon.
+Integer armor loss is stored in the engine-replicated modifier stack, so the
+client property agrees with the server's cast snapshot and refresh replaces it.
+
+Regression reproduced the old separate fake particle before repair, then covers
+no cast-time damage/search, zero aim facing, native speed/distance/width,
+independent recasts, Boss ordinary damage, lethal/removed/allied impacts,
+destination, removed source, client cast and armor snapshot/refresh client values.
+The historical zero-aim fixture now drives a projectile collision instead of
+asserting the old instant-hit behavior; unrelated contributor cases are preserved.
+W tracing covers projectile creation/finish, damage and modifier apply/refresh/
+removal, through the same bounded debug flag. Four-language descriptions reflect
+the new timing and values.
+
+This closes the travel/impact defect only. Native attack reduction, trailing
+vision, recipient VFX, cast animation, sound-bank ownership and upgrades remain
+open; they are not silently certified or substituted with generic effects.
+Owner runtime/visual/audio/engine: NOT TESTED.

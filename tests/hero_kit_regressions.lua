@@ -7768,6 +7768,11 @@ test('Vengeful Wave of Terror falls back to facing for a zero-length aim and hit
         return 0
     end
     ability:OnSpellStart()
+    assert(#applied_damages == 0, 'Wave must not damage before collision')
+    local projectile = last_linear_projectile
+    assert(projectile.vVelocity.x == 2000 and projectile.vVelocity.y == 0, 'Zero aim uses facing')
+    assert(projectile.bDeleteOnHit == false and projectile.fDistance == 1400)
+    ability:OnProjectileHit_ExtraData(in_line, in_line:GetAbsOrigin(), projectile.ExtraData)
     assert(#applied_damages == 1 and applied_damages[1].victim == in_line)
 end)
 
