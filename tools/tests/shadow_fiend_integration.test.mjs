@@ -29,7 +29,8 @@ local hero={IsNull=function()return false end,IsRealHero=function()return true e
  IsIllusion=function()return illusion end,IsAlive=function()return alive end,PassivesDisabled=function()return broken end,
  GetUnitName=function()return 'npc_dota_hero_nevermore' end,GetIntellect=function()return 100 end,
  FindAbilityByName=function(_,id)return abilities[id]end,HasModifier=function(_,id)return modifiers[id]~=nil end,
- FindModifierByName=function(_,id)return modifiers[id]end}
+ FindModifierByName=function(_,id)return modifiers[id]end,
+ GetModifierStackCount=function(self,id,caster)assert(caster==self);local m=modifiers[id];return m and m:GetStackCount() or 0 end}
 local function raw(id,rank)
  return function(_,key,level)
   local text=assert(values[id][key],'missing raw source '..key)
@@ -111,11 +112,13 @@ assert(scaler:GetModifierOverrideAbilitySpecial(p)==0)
 test('W refresh preserves native soul state; client amplification avoids server-only intrinsic lookup',()=>lua(`
 assert(Integration.Restore(hero));w:OnUpgrade();assert(refreshes==1)
 server=false;abilities.nevermore_necromastery.GetIntrinsicModifierName=function()error('server-only API')end
+hero.FindModifierByName=function()error('server-only modifier handle lookup')end
 assert(scaler:GetModifierSpellAmplify_Percentage()==12)
 broken=true;assert(scaler:GetModifierSpellAmplify_Percentage()==0)
 broken=false;illusion=true;assert(scaler:GetModifierSpellAmplify_Percentage()==0)
 illusion=false;wrank=0;assert(scaler:GetModifierSpellAmplify_Percentage()==0)
 assert(not scaler:RemoveOnDeath() and not scaler:IsPurgable())
+wrank=1;modifiers.modifier_nevermore_necromastery=nil;assert(scaler:GetModifierSpellAmplify_Percentage()==0)
 `));
 
 test('native upgrade ownership skips generic Mage bonuses only for the ENFOS SF kit',()=>lua(`

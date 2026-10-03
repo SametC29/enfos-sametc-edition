@@ -235,3 +235,38 @@ Shared respawn.lua remains unchanged and only sets the player death timer.
 SF native death release/soul loss and existing restoration must be observed
 after owner restart; no engine test was run by the agent. The remaining
 completion blocker is owner runtime evidence, not a failing source gate.
+
+## Owner runtime evidence and client getter repair (2026-10-04)
+
+Owner VConsole attachment87152181-966c-41ff-abd9-9788bcc19f3d,
+SHA256 d816a99aa035234f8ea79da2d79434de4dad08224471f403c93ba65239397725,
+contains two server=true probes. At level6: visible ranks1/1/1/1/2,
+zero remaining points, all five providers rank1, scaler/sustain/native soul
+modifiers present, soul stacks36. At level9: ranks2/2/1/1/3, points0, native
+providers still rank1 and soul stacks38. This establishes server installation
+and observed rank-dependent native soul counts; not collection rate/death loss
+or complete lifecycle acceptance. Q special query moves155 ->221.600006.
+
+The log has10 Script Runtime Error reports of one defect: modifiers.lua:47
+FindModifierByName is unavailable in the amplification getter's client context.
+API metadata confirms FindModifierByName server-only; GetModifierStackCount
+is both-context with (modifierName,caster). Replaced handle lookup with direct
+native stack-count reading using hero as the native intrinsic caster. No client
+services, timer, copied soul count, or zero-amplification workaround is added.
+Client regression now makes modifier-handle lookup throw, and checks missing
+native modifier, Break, illusions and untrained W.21 focused SF/Luna tests pass.
+The prior permissive client fixture masked this API error; superseded by this
+strict regression. Actual client retest remains PENDING OWNER TEST.
+
+Requiem query/getter disagreement is confirmed:183 versus80 at level6, then
+194.880004 versus80 at level9. Native tuning via AbilityDamage special override
+does not change GetAbilityDamage in this engine. Actual outgoing-line damage
+is still unmeasured; do not claim authored R damage or add speculative damage
+compensation. Next evidence must establish actual native damage read path.
+
+There are415 invalid-order26 reports (target unseen by unit team). They do not
+identify the issuing ability/unit, so attribution to SF or solo play is not
+established. No Boss AI change is made under the SF-only pilot. One Q order15
+cooldown rejection also occurs; it does not alone establish a cast defect.
+VFX/SFX, manual R damage, death/respawn, upgrades and rank10 still require owner
+observations. No launch/console control, push or publication by the agent.

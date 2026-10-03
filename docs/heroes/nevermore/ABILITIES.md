@@ -293,3 +293,11 @@ Change/test record: all five slots have MaxLevel 10; all multirank KV values hav
 2026-09-30 global Break metadata audit: Added KV `IsBreakable 1` to `enfos_sf_necromastery`, `enfos_sf_presence_of_the_dark_lord`, `enfos_sf_feast_of_souls` because its linked Lua passive implementation check `PassivesDisabled()`. Automated content validation now rejects this metadata mismatch. Actual Dota Break behavior remains PENDING.
 
 2026-10-04 native pilot source: Q/W/R now use exact hidden providers at native rank 1 (R remains rank 0 until trained); paid ENFOS slots retain ten ranks. Shared existing innate restoration installs the scaling modifier first and finds/reuses providers. Native souls are never duplicated/reset on restore; W rank-up refreshes the same native modifier. Two SF classes join the existing server/client bootstrap without loading server managers. Old SF Q/W/R classes, soul counter and fear modifier are removed from pve_kits. Generic Mage Scepter/Shard are bypassed only for ENFOS SF; native Boss SF remains unchanged. Shard belongs to Q, not D. All engine/VFX/SFX/death/respawn/reconnect/rank10/upgrades remain PENDING OWNER TEST. See the [source delivery and test protocol](../../audit/SHADOW_FIEND_NATIVE_PILOT_2026-10-04.md). Table-driven override reads are tested but remain static audit candidates because the analyzer does not follow routing tables.
+
+2026-10-04 owner engine probe: server installation confirmed at levels6/9,
+all native providers rank1; native soul stacks36/38 at paid W1/W2. Client spell
+amplification raised FindModifierByName unavailable errors. Source now uses the
+both-context GetModifierStackCount(modifierName,hero), with strict client API
+regression passing; engine retest pending. R special query183/194.88 differs
+from GetAbilityDamage80: actual native line damage unresolved, not certified.
+Full log hash and scoped observations are in the focused pilot ledger.

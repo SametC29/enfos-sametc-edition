@@ -42,9 +42,8 @@ function M:GetModifierSpellAmplify_Percentage()
     if not hero or hero:IsNull() or hero:PassivesDisabled() or hero:IsIllusion() then return 0 end
     local w=hero:FindAbilityByName('enfos_sf_necromastery')
     if not w or w:IsNull() or w:GetLevel()<1 then return 0 end
-    -- Name verified in installed resource/localization/abilities_english.txt.
-    -- GetIntrinsicModifierName is server-only, so never call it in this getter.
-    local native=hero:FindModifierByName('modifier_nevermore_necromastery')
-    if not native or native:IsNull() then return 0 end
-    return native:GetStackCount()*w:GetLevelSpecialValueNoOverride('spell_amp_per_soul',math.min(10,w:GetLevel())-1)
+    -- Native modifier name verified in installed localization. The stack-count
+    -- API is available on both sides; modifier-handle lookup is server-only.
+    local souls=hero:GetModifierStackCount('modifier_nevermore_necromastery',hero)
+    return souls*w:GetLevelSpecialValueNoOverride('spell_amp_per_soul',math.min(10,w:GetLevel())-1)
 end
