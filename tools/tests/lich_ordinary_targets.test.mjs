@@ -276,3 +276,52 @@ print('Lich Q/W/R modifier dispel identity contract PASS')
   assert.equal(result.status,0,result.stderr||result.stdout);
   assert.match(result.stdout,/Lich Q\/W\/R modifier dispel identity contract PASS/,result.stderr);
 });
+
+test('Lich Gaze uses ordinary ranked channel, control, mana and pull on Boss targets',()=>{
+  const script=`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t) t.__index=t;return t end
+function LinkLuaModifier() end
+function IsServer() return true end
+local V={};V.__index=V
+function Vector(x,y,z) return setmetatable({x=x,y=y,z=z},V) end
+function V.__add(a,b) return Vector(a.x+b.x,a.y+b.y,a.z+b.z) end
+function V.__sub(a,b) return Vector(a.x-b.x,a.y-b.y,a.z-b.z) end
+function V.__mul(a,n) return Vector(a.x*n,a.y*n,a.z*n) end
+function V:Length2D() return math.sqrt(self.x*self.x+self.y*self.y) end
+function V:Normalized() local n=self:Length2D();return Vector(self.x/n,self.y/n,0) end
+local cleared=0
+function FindClearSpaceForUnit() cleared=cleared+1 end
+require('abilities/heroes/lich/e')
+local durations={${curve('enfos_lich_sinister_gaze','duration')}}
+local drains={${curve('enfos_lich_sinister_gaze','mana_drain_pct')}}
+for rank=1,10 do for _,boss in ipairs({false,true}) do
+  local gained=0
+  local c={IsNull=function() return false end,IsAlive=function() return true end,
+    GetTeamNumber=function() return 2 end,GetAbsOrigin=function() return Vector(0,0,0) end,
+    EmitSound=function() end,GiveMana=function(_,n) gained=gained+n end}
+  local p={isBoss=boss,position=Vector(400,0,0),mana=1000,
+    IsNull=function() return false end,IsAlive=function() return true end,GetTeamNumber=function() return 3 end,
+    GetUnitName=function() return boss and 'enfos_boss_gaze' or 'normal_gaze' end,
+    GetAbsOrigin=function(self) return self.position end,SetAbsOrigin=function(self,v) self.position=v end,
+    GetMana=function(self) return self.mana end,GetMaxMana=function() return 1000 end,
+    SetMana=function(self,n) self.mana=n end,
+    AddNewModifier=function(self,c,a,name,kv) self.duration=kv.duration;return {} end}
+  local a=setmetatable({GetCaster=function() return c end,GetCursorTarget=function() return p end,
+    GetLevel=function() return rank end,GetSpecialValueFor=function(_,k)
+    return k=='duration' and durations[rank] or k=='mana_drain_pct' and drains[rank] or 0 end},enfos_lich_sinister_gaze)
+  assert(a:GetChannelTime()==durations[rank],'Boss flag cannot shorten ranked engine channel')
+  a:OnSpellStart();assert(p.duration==durations[rank],'Boss flag cannot shorten control')
+  local m=setmetatable({GetParent=function() return p end,GetCaster=function() return c end,
+    GetAbility=function() return a end,Destroy=function() error('Valid ordinary Gaze must not cancel') end},modifier_enfos_lich_sinister_gaze_debuff)
+  cleared=0;m:OnIntervalThink()
+  assert(p.position.x==360 and cleared==1,'Boss gets the same ordinary40-unit pull/clear-space handling')
+  local expected=1000*drains[rank]*0.01*0.5
+  assert(math.abs(p.mana-(1000-expected))<0.000001 and math.abs(gained-expected)<0.000001,'Ordinary mana transfer preserved')
+end end
+print('Lich E ordinary ten-rank targets regression PASS')
+`;
+  const result=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});
+  assert.equal(result.status,0,result.stderr||result.stdout);
+  assert.match(result.stdout,/Lich E ordinary ten-rank targets regression PASS/,result.stderr);
+});

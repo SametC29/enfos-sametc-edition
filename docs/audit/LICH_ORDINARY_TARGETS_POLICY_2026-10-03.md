@@ -8,6 +8,10 @@ hero session and were deliberately excluded from this isolated commit.
 
 ## Current scoped result
 
+Latest policy update below supersedes historical E-pending statements in this
+document: all authored Lich Q/R/E Boss gameplay exceptions are removed in current
+source. Engine acceptance and full hero source/upgrade review remain pending.
+
 - SOURCE REVIEW: PENDING for the full hero; Q/R policy removal reviewed.
 - DESIGN DECISION: Q TUNE; R PVE-CONVERT. These preserve recognizable frost
   damage/control and Chain Frost projectile identity; no new kit or balance curve.
@@ -346,3 +350,39 @@ both actual recipient property references, preventing missing text from being
 masked by Turkish fallback. Existing localization generator synchronizes source
 mirrors. Actual signed/decimal property interpolation, range display and passive
 HUD integration remain owner tests; source texts and mocks are not visual PASS.
+
+## E ordinary-target policy removal with isolated staging
+
+Revalidated Codex task state: this was the only active Codex task in the workspace;
+other listed tasks were idle/not loaded. Inspect E's exact contributor diff
+before editing. Preserve its targeting/mana/ownership/precache/trace changes,
+contributor KV/tests/main-ledger/dossier edits and external pre-change copies.
+Remove only the unchanged legacy Boss branches: channel35%, control35%, no-pull.
+No ordinary formula, native target/unit rule, state, cadence or Boss-owned code
+changed. E remains PVE-CONVERT for custom ten-rank channel/mana tuning and
+authored pull; native-first compatibility and resource acceptance remain open.
+
+Build the Git index E/tests entries from HEAD with only these policy/expectation
+edits applied. Review cached diff to prove unrelated uncommitted contributions
+are excluded, rather than committing the full working file. Contributor work
+stays uncommitted and active in the worktree. Update the pre-existing regression
+that asserted1.33 Boss channel to ordinary3.8; unrelated hero expectations stay.
+
+New real-E fixture reads actual ten-rank duration/mana curves and compares
+ordinary/Boss units differing only in Boss identification. It fails before
+repair on the shortened channel. After removal both channel/control use the
+ordinary ranked duration, mana transfer remains maxMana×rankedPercent×0.5,
+and both recipients use the same40-unit pull/clear-space handling beyond100.
+This test does not simulate engine status resistance, immunity or actual paths.
+Four-locale E description/summary and generated mirrors remove stale Boss rules;
+owner checklist now expects source parity, not certification. All source-owned
+Lich Boss exceptions are removed; resource CPs, upgrades and owner-engine tests
+are still pending. Historical contributor ledger statements remain superseded
+by this supplement and are not overwritten.
+
+Validation: full working-tree checks0failed; contributor-aware suite still passes.
+Independently execute the staged E implementation with staged historical hero
+regressions:352 cases pass. Execute the new ten-rank ordinary/Boss fixture against
+that staged E too:PASS. This avoids relying only on contributor code that the
+isolated commit will not contain. Native engine distribution/mitigation remains
+outside these mocks; no engine acceptance is asserted.

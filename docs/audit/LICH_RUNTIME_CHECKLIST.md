@@ -36,10 +36,10 @@ come from ApplyDamage returns; unavailable results are explicitly labelled.
 | D01 | Ally inside/outside ranked radius: flat8 armor, mana4 at rank1 and9.4 at rank10. Live rank change updates bonuses. Enemy/illusion gets no bonus. | D source/recipient lifecycle plus HUD before/after values |
 | D02 | Break the source Lich: aura benefits stop. Break only an allied recipient: external benefits remain. Restore source/remove ability/respawn and observe no orphan/duplicate bonuses. | D lifecycle plus actual source/recipient state; live Break has no dedicated transition trace yet |
 
-E ordinary Boss duration/pull **cannot pass the revised policy yet**: current
-source still contains35% duration and no-pull. Record this as a known source gap,
-not intended gameplay or a passed test. Correct it after editor ownership is
-resolved before evaluating E normal/Boss parity. Gaze CPs/audio remain open.
+E ordinary Boss duration/pull is now implemented in source: both use the full
+ranked duration and the existing40-unit pull beyond100 distance. Owner parity
+verification remains NOT TESTED. Gaze CPs/audio remain open. Earlier35% duration
+and no-pull observations describe superseded source, not intended policy.
 
 ## Advanced checks (each NOT TESTED)
 

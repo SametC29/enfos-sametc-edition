@@ -1115,7 +1115,7 @@
     "DOTA_Tooltip_Ability_enfos_lich_frost_blast": "Frost Blast",
     "DOTA_Tooltip_Ability_enfos_lich_frost_blast_Description": "Deals {{target_damage}} + 80% of Intellect as magical damage to the target and {{radius_damage}} + 50% of Intellect to enemies within {{radius}}. Slows movement by {{slow_pct}}% and attack speed by {{slow_attack}} for {{duration}} sec.",
     "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze": "Sinister Gaze",
-    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_Description": "Channels for {{duration}} sec, draining {{mana_drain_pct}}% of the target's maximum mana per second and restoring it to Lich. Stuns and pulls the target; boss channel and stun duration are 35% of normal, and bosses are not pulled.",
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_Description": "Channels for {{duration}} sec, draining {{mana_drain_pct}}% of the target's maximum mana per second and restoring it to Lich. Stuns and pulls the target.",
     "DOTA_Tooltip_Ability_enfos_lich_chain_frost_Description": "Launches a frost orb that bounces between up to {{jump_count}} different enemies, dealing {{damage}} + Intellect damage per hit. Each hit slows movement and attack speed by {{slow_pct}}% for {{slow_duration}} sec.",
     "DOTA_Tooltip_Ability_enfos_lich_chain_frost_SummaryDescription": "Launches a frost orb that bounces between up to {{jump_count}} different enemies, dealing {{damage}} + Intellect damage per hit. Each hit slows movement and attack speed by {{slow_pct}}% for {{slow_duration}} sec.",
     "DOTA_Tooltip_Ability_enfos_lina_dragon_slave_Description": "Sends a wave of fire {{dragon_slave_distance}} units forward, dealing {{damage}} + 1.2×Intelligence magical damage to enemies in its path and applying Combustion's burn.",
@@ -1426,6 +1426,7 @@
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura": "Ice Aura",
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_Description": "Nearby allied heroes and basic units gain armor and mana regeneration. Disabled by Break on Lich. Illusions receive no bonuses.",
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff": "Ice Aura",
-    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "Armor: +%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Mana regeneration: +%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% per second."
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "Armor: +%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Mana regeneration: +%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% per second.",
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_SummaryDescription": "Channels for {{duration}} sec, draining {{mana_drain_pct}}% of the target's maximum mana per second and restoring it to Lich. Stuns and pulls the target."
   }
 }

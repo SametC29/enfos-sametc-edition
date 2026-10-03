@@ -9,10 +9,6 @@ enfos_lich_sinister_gaze=class({})
 function enfos_lich_sinister_gaze:GetChannelTime()
     local duration = value(self, 'duration')
     if duration <= 0 then duration = 2.0 end
-    local target = self:GetCursorTarget()
-    if target and not (target.IsNull and target:IsNull()) and is_boss(target) then
-        return duration * 0.35
-    end
     return duration
 end
 function enfos_lich_sinister_gaze:OnSpellStart()
@@ -24,7 +20,6 @@ function enfos_lich_sinister_gaze:OnSpellStart()
     c:EmitSound('Hero_Lich.SinisterGaze.Cast')
     local dur = value(self, 'duration')
     if dur <= 0 then dur = 2.0 end
-    if is_boss(t) then dur = dur * 0.35 end
     self.gazeTarget = t
     HeroTrace:Log('LICH', 'E', 'channel_start target=%s duration=%.2f boss=%s', HeroTrace:Name(t), dur, tostring(is_boss(t)))
     t:AddNewModifier(c, self, 'modifier_enfos_lich_sinister_gaze_debuff', { duration = dur })
@@ -80,7 +75,7 @@ function modifier_enfos_lich_sinister_gaze_debuff:OnIntervalThink()
     end
     local dir = (c:GetAbsOrigin() - p:GetAbsOrigin()):Normalized()
     local pulled = false
-    if not is_boss(p) and (p:GetAbsOrigin() - c:GetAbsOrigin()):Length2D() > 100 then
+    if (p:GetAbsOrigin() - c:GetAbsOrigin()):Length2D() > 100 then
         p:SetAbsOrigin(p:GetAbsOrigin() + (dir * 40))
         FindClearSpaceForUnit(p, p:GetAbsOrigin(), true)
         pulled = true

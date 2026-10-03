@@ -929,7 +929,7 @@
     "DOTA_Tooltip_Ability_enfos_lich_frost_shield": "Don Kalkanı",
     "DOTA_Tooltip_Ability_enfos_lich_frost_shield_Description": "Hedef dosta {{duration}} saniyeliğine buz kalkanı verir ve aldığı fiziksel hasarı %{{damage_reduction}} azaltır. Kalkan her {{pulse_interval}} saniyede {{radius}} yarıçapındaki düşmanlara {{dps}} + Zekanın %25’i kadar büyü hasarı verir.",
     "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze": "Uğursuz Bakış",
-    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_Description": "{{duration}} sn kanallayarak hedefin saniyede maksimum manasının %{{mana_drain_pct}} kadarını çeker ve Lich'e aktarır. Hedefi sersemletip kendine çeker; boss kanal ve sersemletme süresi normalin %35'idir ve boss çekilmez.",
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_Description": "{{duration}} sn kanallayarak hedefin saniyede maksimum manasının %{{mana_drain_pct}} kadarını çeker ve Lich'e aktarır. Hedefi sersemletip kendine çeker.",
     "DOTA_Tooltip_Ability_enfos_lich_chain_frost": "Zincirleme Don",
     "DOTA_Tooltip_Ability_enfos_lich_chain_frost_Description": "Düşmanlar arasında en fazla {{jump_count}} kez seken buz küresi her vuruşta {{damage}} + Zeka hasarı verir; hedefleri {{slow_pct}}% yavaşlatır ve saldırı hızlarını düşürür. Yavaşlatma {{slow_duration}} sn sürer.",
     "DOTA_Tooltip_Ability_enfos_lich_ice_aura": "Buzul Halesi",
@@ -1773,6 +1773,7 @@
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura": "Buzul Halesi",
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_Description": "Yakındaki dost kahramanlar ve temel birimler zırh ve mana yenilenmesi kazanır. Lich üzerindeki Kırılma etkisi bonusları devre dışı bırakır. İllüzyonlar bonus kazanmaz.",
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff": "Buzul Halesi",
-    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "Zırh: +%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Mana yenilenmesi: saniyede +%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT%."
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "Zırh: +%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Mana yenilenmesi: saniyede +%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT%.",
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_SummaryDescription": "{{duration}} sn kanallayarak hedefin saniyede maksimum manasının %{{mana_drain_pct}} kadarını çeker ve Lich'e aktarır. Hedefi sersemletip kendine çeker."
   }
 }

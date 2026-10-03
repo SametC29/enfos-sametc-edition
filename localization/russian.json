@@ -1053,7 +1053,7 @@
     "DOTA_Tooltip_Ability_enfos_lich_frost_blast": "Ледяной взрыв",
     "DOTA_Tooltip_Ability_enfos_lich_frost_blast_Description": "Наносит цели {{target_damage}} + 80% интеллекта магического урона, а другим врагам в радиусе {{radius}} — {{radius_damage}} + 50% интеллекта. Снижает скорость передвижения на {{slow_pct}}%, а скорость атаки на {{slow_attack}} на {{duration}} сек..",
     "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze": "Зловещий взор",
-    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_Description": "Каналирует {{duration}} сек., вытягивая {{mana_drain_pct}}% максимального запаса маны цели в секунду и передавая её Личу. Оглушает и притягивает цель; на боссе канал и оглушение длятся 35% обычного времени, босс не притягивается.",
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_Description": "Каналирует {{duration}} сек., вытягивая {{mana_drain_pct}}% максимального запаса маны цели в секунду и передавая её Личу. Оглушает и притягивает цель.",
     "DOTA_Tooltip_Ability_enfos_lich_chain_frost_Description": "Запускает ледяную сферу, которая перескакивает между не более чем {{jump_count}} разными врагами, нанося {{damage}} + интеллект урона за удар. Каждый удар снижает скорость передвижения и атаки на {{slow_pct}}% на {{slow_duration}} сек..",
     "DOTA_Tooltip_Ability_enfos_lich_chain_frost_SummaryDescription": "Запускает ледяную сферу, которая перескакивает между не более чем {{jump_count}} разными врагами, нанося {{damage}} + интеллект урона за удар. Каждый удар снижает скорость передвижения и атаки на {{slow_pct}}% на {{slow_duration}} сек..",
     "DOTA_Tooltip_Ability_enfos_lina_dragon_slave_Description": "Волна огня проходит {{dragon_slave_distance}} единиц вперёд, нанося врагам на пути {{damage}} + 1,2×интеллект магического урона и накладывая горение «Возгорания».",
@@ -1366,6 +1366,7 @@
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura": "Ледяная аура",
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_Description": "Союзные герои и обычные существа поблизости получают броню и восстановление маны. Истощение на Личе отключает бонусы. Иллюзии не получают бонусов.",
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff": "Ледяная аура",
-    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "Броня: +%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Восстановление маны: +%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% в секунду."
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "Броня: +%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Восстановление маны: +%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% в секунду.",
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_SummaryDescription": "Каналирует {{duration}} сек., вытягивая {{mana_drain_pct}}% максимального запаса маны цели в секунду и передавая её Личу. Оглушает и притягивает цель."
   }
 }

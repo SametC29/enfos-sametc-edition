@@ -7577,8 +7577,8 @@ test('Lich Sinister Gaze disables its target and ends channel when target dies',
     ability.GetCursorTarget = function() return target end
     assert(ability:GetChannelTime() == 3.8, 'normal channel should match the ranked effect duration')
     ability.GetCursorTarget = function() return boss end
-    assert(math.abs(ability:GetChannelTime() - 1.33) < 0.001,
-        'boss channel should use the same shortened duration as its control effect')
+    assert(ability:GetChannelTime() == 3.8,
+        'Boss channel uses the ordinary ranked duration without an authored multiplier')
     ability.EndChannel = function(_, interrupted) ended = interrupted == true end
     ability.gazeTarget = target
     lich.GetCurrentActiveAbility = function() return ability end

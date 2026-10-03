@@ -1053,7 +1053,7 @@
     "DOTA_Tooltip_Ability_enfos_lich_frost_blast": "寒霜爆发",
     "DOTA_Tooltip_Ability_enfos_lich_frost_blast_Description": "对目标造成{{target_damage}} + 80%智力的魔法伤害，并对{{radius}}范围内其他敌人造成{{radius_damage}} + 50%智力伤害。使移动速度降低{{slow_pct}}%、攻击速度降低{{slow_attack}}，持续{{duration}}秒。",
     "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze": "邪恶凝视",
-    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_Description": "引导{{duration}}秒，每秒抽取目标最大法力值的{{mana_drain_pct}}%并转移给巫妖。眩晕并拉近目标；对首领的引导和眩晕时间为普通时长的35%，且不会拉动首领。",
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_Description": "引导{{duration}}秒，每秒抽取目标最大法力值的{{mana_drain_pct}}%并转移给巫妖。眩晕并拉近目标。",
     "DOTA_Tooltip_Ability_enfos_lich_chain_frost_Description": "发射冰霜法球，在最多{{jump_count}}名不同敌人之间弹跳，每次造成{{damage}} + 智力伤害。每次命中使目标移动和攻击速度降低{{slow_pct}}%，持续{{slow_duration}}秒。",
     "DOTA_Tooltip_Ability_enfos_lich_chain_frost_SummaryDescription": "发射冰霜法球，在最多{{jump_count}}名不同敌人之间弹跳，每次造成{{damage}} + 智力伤害。每次命中使目标移动和攻击速度降低{{slow_pct}}%，持续{{slow_duration}}秒。",
     "DOTA_Tooltip_Ability_enfos_lina_dragon_slave_Description": "向前释放 {{dragon_slave_distance}} 距离的火焰，对路径上的敌人造成 {{damage}} + 1.2 倍智力的魔法伤害，并施加燃烧效果。",
@@ -1366,6 +1366,7 @@
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura": "寒冰光环",
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_Description": "附近友方英雄和普通单位获得护甲和魔法恢复。巫妖受到破坏时加成失效。幻象不获得加成。",
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff": "寒冰光环",
-    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "护甲：+%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%。魔法恢复：每秒+%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT%点。"
+    "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "护甲：+%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%。魔法恢复：每秒+%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT%点。",
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_SummaryDescription": "引导{{duration}}秒，每秒抽取目标最大法力值的{{mana_drain_pct}}%并转移给巫妖。眩晕并拉近目标。"
   }
 }
