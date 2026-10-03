@@ -2,10 +2,12 @@
 local Helpers = require('abilities/shared/pve_helpers')
 local value, enemies, get_int, damage = Helpers.value, Helpers.enemies, Helpers.get_int, Helpers.damage
 local HeroTrace = require('lib/hero_trace')
+local Upgrades = require('abilities/heroes/lich/upgrades')
 
 LinkLuaModifier('modifier_enfos_lich_frost_blast_slow', 'abilities/heroes/lich/q', LUA_MODIFIER_MOTION_NONE)
 
 enfos_lich_frost_blast=class({})
+function enfos_lich_frost_blast:GetBehavior() return Upgrades.CastBehavior(self) end
 function enfos_lich_frost_blast:OnSpellStart()
     if not IsServer() then return end
     local c = self:GetCaster()

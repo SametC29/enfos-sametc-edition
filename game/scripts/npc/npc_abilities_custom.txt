@@ -5600,6 +5600,7 @@
 
 	"enfos_lich_sinister_gaze"
 	{
+		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/heroes/lich/e"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
@@ -5618,13 +5619,17 @@
 		"AbilityValues"
 		{
 			"duration"	"1.4 1.8 2.2 2.6 2.8 3 3.2 3.4 3.6 3.8"
+			"aoe_scepter"
+			{
+				"value" "400"
+				"affected_by_aoe_increase" "1"
+			}
 			"mana_drain_pct"	"10 15 20 25 28 31 34 37 40 43"
 		}
 	}
 
 	"enfos_lich_chain_frost"
 	{
-		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/heroes/lich/r"
 		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"

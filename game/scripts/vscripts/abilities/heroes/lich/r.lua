@@ -2,10 +2,12 @@
 local Helpers = require('abilities/shared/pve_helpers')
 local value, enemies, is_boss, get_int, damage = Helpers.value, Helpers.enemies, Helpers.is_boss, Helpers.get_int, Helpers.damage
 local HeroTrace = require('lib/hero_trace')
+local Upgrades = require('abilities/heroes/lich/upgrades')
 
 LinkLuaModifier('modifier_enfos_lich_chain_frost_slow', 'abilities/heroes/lich/r', LUA_MODIFIER_MOTION_NONE)
 
 enfos_lich_chain_frost=class({})
+function enfos_lich_chain_frost:GetBehavior() return Upgrades.CastBehavior(self) end
 function enfos_lich_chain_frost:Precache(context)
     PrecacheResource('soundfile', 'soundevents/game_sounds_heroes/game_sounds_lich.vsndevts', context)
     PrecacheResource('particle', 'particles/units/heroes/hero_lich/lich_chain_frost.vpcf', context)

@@ -59,9 +59,14 @@ and no-pull observations describe superseded source, not intended policy.
   action lock is explicitly not classified as a stun for purge purposes.
 - EN/TR/RU/zh-CN skill/modifier names/icons/live values. D must show its radius,
   allied recipients and source Break; actual decimal/signed formatting is pending.
-- Current Shard is generic healing25%, Scepter ultimate40% amplification/25%
-  cooldown. Unique Lich upgrades remain unimplemented; buying the items or
-  seeing these generic descriptions must not certify the unique-upgrade gate.
+- Current Shard is generic healing25%; its unique replacement remains open.
+- Scepter/Blessing: E switches to400-radius point-target channel. Normal/Boss
+  recipients use ordinary ranked control/mana/pull. Try Q/W/R during this channel:
+  they must execute without ending Gaze. Remove one control, then the last; test
+  expiry, empty area, source death and Scepter loss/reacquisition. Generic R40%
+  amplification/25% cooldown must no longer stack. Observe actual area targeting,
+  mana transfer, immunity/status resistance, CPs/audio and channel HUD. All these
+  engine cases remain NOT TESTED despite source/mock checks.
 - Reconnect preserves ranks/cooldowns/effects without duplication; dense-wave
   performance, repeated casts and all10 ranks remain separate observations.
 

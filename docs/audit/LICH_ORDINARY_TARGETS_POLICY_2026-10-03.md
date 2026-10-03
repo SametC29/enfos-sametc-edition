@@ -501,3 +501,47 @@ the full interaction. Unique Shard/Scepter implementation and its resource/
 channel/reconnect acceptance remain open; they are not marked DONE by green
 regressions or purchase detection. The new source evidence is stronger than
 the earlier KV-only generic-upgrade comparison.
+
+## Unique Scepter: area Gaze and casting during channel
+
+Disposition remains PVE-CONVERT for E's existing ranked mana/control/pull, with
+native Scepter identity restored: point/AOE/channel behavior and400-radius
+selection. Retain verified native `affected_by_aoe_increase=1` value metadata
+for engine area modifiers; their real-engine effect remains an owner check.
+Reuse AghanimManager detection, including consumed Blessing, in a
+small explicit Lich dependency; create no second acquisition manager or timer.
+Q/W/R use the documented IGNORE_CHANNEL flag only while Lich owns an area Gaze
+and has Scepter. This expresses the native ability-casting intent; actual engine
+order/channel/HUD behavior remains a pilot acceptance gate, not a mock PASS.
+Items/Spellbringer orders have not been converted or certified by this feature.
+
+Select enemy hero/basic units once at the cast point with ordinary search flags;
+revalidate victims before applying controls and publish target ownership before
+OnCreated callbacks. Existing modifier cadence handles mana/pull. There is no
+Boss cap/multiplier, forced damage, extra timer or continuous area search.
+Empty areas or failed applications terminate the matching channel. Detach the
+entire target set before channel-finish removal callbacks. Individual control
+removal drops only its recipient; the last removal may end the matching channel,
+without interrupting another active ability. Refresh/same-target engine ordering,
+multiple casters and source deletion remain advanced owner checks.
+
+Replace Lich's generic ultimate40% amplification/25% cooldown in the existing
+manager; other heroes retain their formulas. Move upgrade flag/description from
+R to E, using native `%aoe_scepter%` interpolation in all four locales. Keep
+ordinary single-target E and the contributor's mana/guard/resource/trace work;
+stage only the area/ownership changes from HEAD. Indexed and working E differ
+in those contributor improvements, and neither is engine-accepted.
+
+New real-module regression covers dynamic behavior/radius, source detection,
+distinct normal/Boss recipients, friendly/dead exclusion, duplicate candidates,
+single-removal versus last-removal, finish-before-cleanup, empty/failed areas,
+Q/W/R flag lifetime, consumed Blessing and suppression of only Lich's generic
+upgrade. Metadata/locale checks move with the actual upgraded slot rather than
+loosening the all-hero contract. The source feature is implemented; unique Shard
+and all real-engine/visual/audio cases remain pending.
+
+Validation: all13 focused tests (9 ordinary-target,2 isolation,2 Scepter) PASS;
+full working-tree checks0failed. Execute the Scepter gameplay fixture and352
+historical hero regressions against the staged E excluding contributor changes:
+PASS. Installed steam.inf still confirms build6943. No owner Dota test, visual/
+audio acceptance or Workshop delivery occurred in this unit.
