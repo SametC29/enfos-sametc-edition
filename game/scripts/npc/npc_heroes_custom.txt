@@ -1414,7 +1414,7 @@
 		"Ability3"				"enfos_vs_vengeance_aura"
 		"Ability4"				"enfos_vs_nether_swap"
 		"Ability5"				"enfos_vs_retribution"
-		"Ability6"				"generic_hidden"
+		"Ability6"				"enfos_vs_scepter_native"
 		"Ability7" "generic_hidden"
 		"Ability8" "generic_hidden"
 		"Ability9" "generic_hidden"

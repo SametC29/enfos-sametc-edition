@@ -552,7 +552,6 @@
     "DOTA_Tooltip_Ability_enfos_lion_demon_soul_shard_description": "Outgoing healing +25%.",
     "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_shard_description": "Outgoing healing +25%.",
-    "DOTA_Tooltip_Ability_enfos_vs_nether_swap_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Lore": "A razor-sharp coat of mail, it is the choice of selfless martyrs in combat.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note0": "Damage Return is calculated before any kind of reduction.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note1": "Returned damage type is the same as it was received.",
@@ -1451,6 +1450,9 @@
     "DOTA_Tooltip_modifier_enfos_vs_wave_debuff": "Wave of Terror",
     "DOTA_Tooltip_modifier_enfos_vs_wave_debuff_Description": "Armor reduced by %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Total attack damage reduced by %dMODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE%%%. Can be dispelled.",
     "DOTA_Tooltip_modifier_enfos_vs_nether_swap_buff": "Nether Swap Defense",
-    "DOTA_Tooltip_modifier_enfos_vs_nether_swap_buff_Description": "Incoming damage changed by %dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%. Can be dispelled."
+    "DOTA_Tooltip_modifier_enfos_vs_nether_swap_buff_Description": "Incoming damage changed by %dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%. Can be dispelled.",
+    "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura_scepter_description": "Scepter: Increases the extra self aura benefit from 25% to 35%. On death, creates a strong illusion that deals and receives 100% damage and can use all abilities. Experience earned by it goes to Vengeful Spirit. On respawn, Vengeful Spirit replaces the surviving illusion. Replaces the generic ultimate damage/cooldown bonus.",
+    "DOTA_Tooltip_Ability_enfos_vs_scepter_native": "Vengeance Aura",
+    "DOTA_Tooltip_Ability_enfos_vs_scepter_native_Description": "Scepter: Increases the extra self aura benefit from 25% to 35%. On death, creates a strong illusion that deals and receives 100% damage and can use all abilities. Experience earned by it goes to Vengeful Spirit. On respawn, Vengeful Spirit replaces the surviving illusion. Replaces the generic ultimate damage/cooldown bonus."
   }
 }

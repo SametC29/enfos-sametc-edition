@@ -5490,6 +5490,7 @@
 
 	"enfos_vs_vengeance_aura"
 	{
+        "HasScepterUpgrade" "1"
 		"IsBreakable" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/heroes/vengefulspirit/e"
@@ -5501,17 +5502,34 @@
 
 		"AbilityValues"
 		{
+            "scepter_self_bonus" "10"
             "self_multiplier" "25"
 			"bonus_damage_pct"	"15 20 25 30 31 32 33 34 35 36"
 			"radius"	"900 950 1000 1050 1100 1150 1200 1250 1300 1350"
 		}
 	}
+    // Native rank-one lifecycle owner; authored E remains the only nonzero aura.
+    "enfos_vs_scepter_native"
+    {
+        "BaseClass" "vengefulspirit_command_aura"
+        "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_AURA | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+        "MaxLevel" "1"
+        "AbilityValues"
+        {
+            "bonus_base_damage" "0"
+            "self_multiplier" "0"
+            "aura_radius" "0"
+            "scepter_illusion_damage_out_pct" "100"
+            "scepter_illusion_damage_in_pct" "100"
+            "scepter_illusion_ms_bonus_pct" "0"
+        }
+    }
+
 
 	"enfos_vs_nether_swap"
 	{
         "SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_YES"
         "SpellDispellableType" "SPELL_DISPELLABLE_YES"
-		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_4"
         "ScriptFile"				"abilities/heroes/vengefulspirit/r"

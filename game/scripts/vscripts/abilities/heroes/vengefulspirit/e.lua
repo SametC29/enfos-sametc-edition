@@ -2,6 +2,8 @@
 local Helpers = require('abilities/shared/pve_helpers')
 local value = Helpers.value
 local HeroTrace = require('lib/hero_trace')
+local Aghanim = require('heroes/aghanim_manager')
+local Upgrades = require('abilities/heroes/vengefulspirit/upgrades')
 local function trained(ability)
     return ability and not (ability.IsNull and ability:IsNull())
         and ability:GetLevel() > 0
@@ -11,6 +13,11 @@ LinkLuaModifier('modifier_enfos_vs_vengeance_aura_buff', 'abilities/heroes/venge
 
 enfos_vs_vengeance_aura=class({})
 function enfos_vs_vengeance_aura:GetIntrinsicModifierName() return 'modifier_enfos_vs_vengeance_aura' end
+function enfos_vs_vengeance_aura:OnUpgrade()
+    if not IsServer() then return end
+    local c = self:GetCaster()
+    Upgrades.Reconcile(c, Aghanim:HasScepter(c))
+end
 
 modifier_enfos_vs_vengeance_aura=class({})
 function modifier_enfos_vs_vengeance_aura:IsAura()
@@ -30,16 +37,21 @@ modifier_enfos_vs_vengeance_aura_buff=class({})
 function modifier_enfos_vs_vengeance_aura_buff:DeclareFunctions() return { MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE } end
 function modifier_enfos_vs_vengeance_aura_buff:GetModifierBaseDamageOutgoing_Percentage()
     local p = self:GetParent()
-    if not p or (p.IsNull and p:IsNull()) or (p.IsIllusion and p:IsIllusion()) then return 0 end
+    if not p or (p.IsNull and p:IsNull()) then return 0 end
     -- The source owns this passive; recipient Break does not disable external buffs.
     -- Check again while the engine-owned aura modifier lingers after source Break.
     local c = self:GetCaster()
     if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled()) then return 0 end
+    if p.IsIllusion and p:IsIllusion() and not (p == c and p.IsStrongIllusion and p:IsStrongIllusion()) then return 0 end
     local ab = self:GetAbility()
     if not ab or (ab.IsNull and ab:IsNull()) or (ab.GetLevel and ab:GetLevel() <= 0) then return 0 end
     local bonus = value(ab, 'bonus_damage_pct')
     -- Native self_multiplier is an extra fraction of the aura bonus, not flat damage.
-    if p == c then bonus = bonus * (1 + value(ab, 'self_multiplier') / 100) end
+    if p == c then
+        local multiplier = value(ab, 'self_multiplier')
+        if Aghanim:HasScepter(c) then multiplier = multiplier + value(ab, 'scepter_self_bonus') end
+        bonus = bonus * (1 + multiplier / 100)
+    end
     return bonus
 end
 

@@ -32,6 +32,17 @@ callback invalidation before effects/movement. Authored defense gains its native
 R icon and explicit basic purgeability. Q death/absorb timing, R trees/native
 target filter and full immunity/dispel engine behavior remain review gates.
 
+2026-10-03 Scepter source repair: E owns the upgrade, with native +10 percentage
+points to its relative self multiplier (25% to 35%). A hidden rank-one native
+`vengefulspirit_command_aura` alias delegates death-illusion lifecycle to the
+engine; its aura damage/radius are zero to avoid duplicating authored E stats.
+Slot 6 is internal, not a sixth spendable skill. Generic ultimate amplification
+and cooldown bonuses are removed for Venge only. Local fixtures validate bridge
+reconciliation/ownership and aura arithmetic, NOT native illusion generation.
+Death, copied custom spells/ranks, XP, respawn, upgrade loss, VFX/precache and
+native alias compatibility remain mandatory owner Dota/VConsole tests. See the
+individual ledger for evidence and constraints. Hero remains NOT DONE.
+
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
 

@@ -145,6 +145,9 @@ function AghanimManager:UpdateHeroAghanimState(hero, role)
 	local hasScepter = self:HasScepter(hero)
 	local hasShard = self:HasShard(hero)
 	local assignedRole = role or (hero.GetUnitName and self:DetectHeroRole(hero:GetUnitName())) or "Tank"
+	if hero.GetUnitName and hero:GetUnitName()=="npc_dota_hero_vengefulspirit" then
+		require('abilities/heroes/vengefulspirit/upgrades').Reconcile(hero, hasScepter)
+	end
 
 	-- Check Scepter activation
 	if hasScepter and not self.activeScepters[entIndex] then
@@ -257,7 +260,7 @@ modifier_enfos_scepter_upgrade = class({})
 function modifier_enfos_scepter_upgrade:IsHidden()
     local parent = self.GetParent and self:GetParent()
     local name = parent and parent.GetUnitName and parent:GetUnitName()
-    return name == "npc_dota_hero_lich" or name == "npc_dota_hero_sven" or name == "npc_dota_hero_shadow_shaman" or name == "npc_dota_hero_tidehunter"
+    return name == "npc_dota_hero_vengefulspirit" or name == "npc_dota_hero_lich" or name == "npc_dota_hero_sven" or name == "npc_dota_hero_shadow_shaman" or name == "npc_dota_hero_tidehunter"
 end
 function modifier_enfos_scepter_upgrade:IsPurgable() return false end
 function modifier_enfos_scepter_upgrade:IsPermanent() return true end
@@ -271,6 +274,7 @@ function modifier_enfos_scepter_upgrade:DeclareFunctions()
 	}
 end
 function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event)
+    if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_vengefulspirit" then return 0 end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_lich" then return 0 end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_tidehunter" then return 0 end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_sven" then return 0 end
@@ -279,6 +283,7 @@ function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event
 	return a and a:GetAbilityType()==DOTA_ABILITY_TYPE_ULTIMATE and 40 or 0
 end
 function modifier_enfos_scepter_upgrade:GetModifierPercentageCooldown(event)
+    if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_vengefulspirit" then return 0 end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_lich" then return 0 end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_tidehunter" then return 0 end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_sven" then return 0 end

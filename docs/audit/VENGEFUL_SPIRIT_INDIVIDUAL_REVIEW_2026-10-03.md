@@ -429,3 +429,59 @@ based on intuition. R tree clearing radius/native target filtering and native
 CP/attachment fidelity also remain review leads. Actual channel cancellation,
 BKB/debuff immunity, strong/basic purge and modifier rendering require owner
 Dota/VConsole evidence; Scepter remains outstanding.
+
+## E Scepter: native lifecycle delegation, not engine certification
+
+Installed native `scripts/npc/heroes/npc_dota_hero_vengefulspirit.txt`, build
+6943 / SourceRevision 11069754, places Scepter on `vengefulspirit_command_aura`.
+It adds 10 to native self_multiplier 25 and declares illusion outgoing/incoming
+100%, movement bonus 0. Native English ability token at line 1418 describes
+strong illusion on death, all spells, XP transfer to hero and hero replacing
+the surviving illusion on respawn. The previous generic R +40% spell damage /
+25% cooldown bonus did none of this. Classification remains E TUNE, R TUNE.
+
+[ModDota's native BaseClass documentation](https://moddota.com/abilities/ability-keyvalues)
+permits native ability inheritance but explicitly says internal C++ structure
+is inaccessible. MCP confirms `CDOTA_BaseNPC:IsStrongIllusion()` on both realms.
+No current exact alias reference was found. Therefore this is an owner-test
+candidate implementation, not a proven native C++ compatibility result.
+
+Slot 6 now holds hidden/not-learnable rank-one `enfos_vs_scepter_native`, native
+BaseClass `vengefulspirit_command_aura`. Its aura damage and radius are zero;
+only the engine owns death illusion, XP and respawn lifecycle. No guessed hybrid
+modifier ID, new Lua illusion manager, death event, thinker, summon loop or
+world scan. Existing Aghanim periodic reconciliation and E rank-up reconcile
+rank 1 iff E is learned and Scepter is held/consumed; otherwise rank 0. Handles
+missing slot idempotently and revalidates synchronous rank-change callbacks.
+Five spendable ten-rank skills/level-50 point budget remain unchanged.
+
+Custom E adds the native relative self benefit: base aura 20 becomes 25 without
+Scepter and 27 with Scepter, while allied recipients retain 20. Only its own
+strong illusion may receive copied self aura; ordinary illusion recipients
+remain excluded, source Break still suppresses it. D's illusion exclusion stays
+to avoid double copied AGI/AS. Venge generic Scepter modifier is hidden and its
+ultimate spell amp/CDR return 0; other heroes' policy is untouched. Ascended
+Blessing source already adds native `modifier_item_ultimate_scepter_consumed`,
+alongside its stats modifier, supporting the native HasScepter path in source.
+
+Focused regression validates bridge rank/hidden state, repeated reconciliation,
+loss/regain, E rank zero/ten, missing AddAbility, client/removed handles,
+rank-callback invalidation, existing manager restoration without duplicated
+upgrade modifiers, consumed Blessing detection, self/ally/strong-illusion/Break
+arithmetic, E OnUpgrade and preserved other-hero generic bonuses. KV contract
+validates native BaseClass, rank one, hidden slot and zero duplicate aura damage.
+Four languages move Scepter description to E and localize the hidden ability.
+Fixtures do NOT simulate or certify native death/XP/respawn.
+
+**Owner NOT TESTED / release gate:** native alias must actually generate exactly
+one controllable strong illusion on death with Scepter/Blessing; copied custom
+Q/W/E/R ten-rank values and resources must work; XP transfer, repeated deaths,
+respawn replacement, illusion expiry/death, dropped Scepter and reconnect must
+not duplicate/retain stale units or bonuses. Verify rank-zero deactivation,
+zero-radius native aura feedback, engine IsStrongIllusion flag, client self
+multiplier, HUD hidden slot and cold resource loading/VConsole. Existing roster
+unit/sound/explicit custom particle precache is present, but native alias's
+implicit hybrid resources are not proven by static inspection. If alias is
+incompatible, retain a documented unresolved engine gate and choose an evidenced
+alternative; do not conceal failure with a broad replacement summon service.
+Q timing and R tree/target/CP leads remain open. No owner runtime evidence yet.

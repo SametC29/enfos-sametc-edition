@@ -508,7 +508,6 @@
     "DOTA_Tooltip_Ability_enfos_lion_demon_soul_shard_description": "施加的治疗效果+25%。",
     "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_shard_description": "施加的治疗效果+25%。",
-    "DOTA_Tooltip_Ability_enfos_vs_nether_swap_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Lore": "覆盖着尖锐剃刀的盔甲，战斗中可以用来做出不顾自身安危的烈士行为。",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note0": "反弹的均为减免前的伤害。",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note1": "反弹伤害的类型与受到时相同。",
@@ -1391,6 +1390,9 @@
     "DOTA_Tooltip_modifier_enfos_vs_wave_debuff": "恐怖波动",
     "DOTA_Tooltip_modifier_enfos_vs_wave_debuff_Description": "护甲变化：%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%。总攻击伤害变化：%dMODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE%%%。可以被驱散。",
     "DOTA_Tooltip_modifier_enfos_vs_nether_swap_buff": "移形换位防护",
-    "DOTA_Tooltip_modifier_enfos_vs_nether_swap_buff_Description": "受到的伤害变化：%dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%。可以被驱散。"
+    "DOTA_Tooltip_modifier_enfos_vs_nether_swap_buff_Description": "受到的伤害变化：%dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%。可以被驱散。",
+    "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura_scepter_description": "神杖：光环对自身的额外加成由25%提高至35%。死亡时产生强幻象，造成并承受100%伤害，可使用全部技能。幻象获得的经验归复仇之魂所有。复活时，英雄替换仍存活的幻象。此升级取代通用的终极技能伤害和冷却加成。",
+    "DOTA_Tooltip_Ability_enfos_vs_scepter_native": "复仇光环",
+    "DOTA_Tooltip_Ability_enfos_vs_scepter_native_Description": "神杖：光环对自身的额外加成由25%提高至35%。死亡时产生强幻象，造成并承受100%伤害，可使用全部技能。幻象获得的经验归复仇之魂所有。复活时，英雄替换仍存活的幻象。此升级取代通用的终极技能伤害和冷却加成。"
   }
 }
