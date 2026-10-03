@@ -1371,6 +1371,11 @@
     "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff_Description": "Гипноз: цель не может действовать, пока Лич поддерживает заклинание; её мана истощается, а цель притягивается к нему. Базовое развеивание снимает эффект и прекращает его поддержание.",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield_slow": "Замедление ледяного щита",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield_slow_Description": "Скорость передвижения снижена на %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Можно развеять.",
-    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_scepter_description": "Scepter: Зловещий взгляд становится поддерживаемым заклинанием с выбором области радиусом %aoe_scepter%. Контролирует каждого врага в области и истощает его ману. Лич может применять Ледяной взрыв, Ледяной щит и Цепной мороз без прерывания поддержания. Заменяет общий бонус урона и перезарядки ультимейта."
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_scepter_description": "Scepter: Зловещий взгляд становится поддерживаемым заклинанием с выбором области радиусом %aoe_scepter%. Контролирует каждого врага в области и истощает его ману. Лич может применять Ледяной взрыв, Ледяной щит и Цепной мороз без прерывания поддержания. Заменяет общий бонус урона и перезарядки ультимейта.",
+    "enfos_lich_ice_spire_unit": "Ледяной шпиль",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_spire": "Ледяной шпиль",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_spire_Description": "Замедляет врагов поблизости. Уничтожается четырьмя атаками героев или восемью атаками крипов. Каждый импульс Frost Shield восстанавливает прочность на одну атаку героя.",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_spire_slow": "Ледяной шпиль",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_spire_slow_Description": "Скорость передвижения снижена на %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
   }
 }

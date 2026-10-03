@@ -83,3 +83,68 @@ new ten-rank death-Nova fixture; full working-tree checks0failed after inventory
 refresh. The historical352 hero regressions also PASS using indexed E and
 indexed tests, excluding contributor-only changes. These are mock/static
 results. No Dota launch, owner runtime evidence, remote push or publication.
+
+## Controller foundation — second work unit
+
+Added isolated `abilities/heroes/lich/spire.lua` and one custom immobile Other/
+summoned ward definition. This is a dormant foundation: no extra ability KV,
+hero slot, bootstrap route or Aghanim grant exposes it yet. W/R integration must
+precede exposure. Native model/scale0.8, ward classification, no attack/movement,
+native `neutral_spell_immunity`, vision800, health-bar offset350 and ring65 come
+from the re-read installed `npc_dota_lich_ice_spire` record. Ordinary creature
+BaseClass delegates hit-count behavior to the isolated controller rather than
+assuming native C++ links to custom Q/W/R IDs. Bounty/XP are intentionally zero
+instead of native20 to avoid funding opponents from a temporary summon. This is
+a declared match-only tuning, not a change to hostile waves/economy managers.
+
+One successful summon replaces the prior owned summon; failed spawn/controller
+leaves the previous one intact. Ownership uses server-only GetOwnerEntity and
+team/unit identity; client paths do not invoke that API. Synchronous creation is
+one unit per cast because the protection controller is needed immediately. No
+global search, mass creation or custom permanent lifetime. Invalid lifetime is
+rejected. Source/ownership checks occur once per0.5s on the single finite unit.
+
+Durability normalizes eight creep attacks to health8; a hero attack or R bridge
+spends2, and W helper repairs2 capped at8. Absolute physical/magical/pure damage
+properties keep ordinary attack damage from replacing the hit counter. Whether
+OnAttackLanded fires under those properties must be verified by the owner in
+Dota; the mock cannot prove it. Hero classification includes IsHero illusions,
+not IsRealHero; creep attacks count1. Friendly attacks are ignored intentionally;
+deny behavior is an authored ward restriction, pending owner review/testing.
+
+Termination detaches current caster pointer before reentrant kill/Nova callbacks,
+and marks itself terminated once. Actual destruction and finite expiry request
+Q death Nova with valid surviving source, even if caster is dead. Treat expiry
+Nova as an explicit authored choice under native's destruction description;
+installed text does not independently prove expiry behavior. Recast/Shard-loss
+retirement, missing source/owner, allegiance loss and failed creation do not
+request Nova. Old callbacks cannot clear the replacement. Removal/death callbacks
+cannot kill or detonate twice. Source deletion may leave a stale pointer on a
+deleted owner which is no longer read; no retained global ownership table exists.
+
+Engine-distributed enemy Hero/Basic aura uses native radius550, linger0.5 and
+movement slow25%; no scan is introduced solely for aura telemetry. Active summon
+aura does not become a caster passive subject to Break. Modifier/unit labels and
+slow property description are translated into EN/TR/RU/zh-CN and mirrors.
+
+Precache covers native model, Lich bank and death Nova. Spawn uses verified
+Ability.FrostNova location event; destruction uses verified
+Hero_Lich.IceSpire.Destroy (installed bank's reported duration2.904422). The native
+Spire root particle was decoded with VRF19.2; its preview specifies CP0–5 and
+children. Preview offsets alone are not verified runtime attachment semantics,
+so a speculative persistent particle has not been attached. Model rendering,
+root particle integration, animation, sound and cold-start acceptance are open.
+
+MCP verifies CreateUnitByName, ForceKill, SetBaseMaxHealth, SetMaxHealth, SetHealth,
+FindModifierByName, GetOwnerEntity, OnAttackLanded and absolute damage property
+callbacks/enums. No Dota process was launched. The real controller fixture covers
+4hero/8creep hits, mixed/partial/full repair, bounded expiry, dead-owner survival,
+reentrant destruction, recast, stale callbacks, failed creation, invalid lifetime,
+source/ownership/allegiance loss, no retired Nova, client guards and aura values.
+SOURCE REVIEW: PARTIAL; regression PASS does not complete Shard or engine gates.
+
+Second-unit validation: all14 focused Lich tests PASS (10 ordinary-target,
+2 Scepter,2 Spire), full checks0failed before the final non-gameplay tooltip sign
+correction and invalid-lifetime guard; the focused fixture passes after that
+guard. Ordinary checks do not load the dormant module; the dedicated controller
+fixture loads its actual source. No owner runtime/visual/audio evidence supplied.

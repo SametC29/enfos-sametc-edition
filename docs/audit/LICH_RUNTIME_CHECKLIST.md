@@ -50,6 +50,12 @@ and no-pull observations describe superseded source, not intended policy.
   Nova particle/sound, learned-Q splash without primary bonus, living victim
   slows, caster-death survival versus deleted caster, and no duplicate Nova on
   recast/Shard-loss retirement. Do not test/accept a not-yet-exposed extra ability.
+  The isolated ward/controller foundation is now implemented but still dormant.
+  After full integration, verify four hero/eight creep hits (including illusion
+  classification), mixed hits, W capped repair, enemy targeting under native ward
+  immunity, OnAttackLanded under absolute damage protection, expiry Nova,
+  different owners/recast/stale callbacks, dead versus deleted owner, and lifetime
+  cleanup. Native Spire persistent particle attachment remains source work.
 
 - Q/R normal and Boss recipients with equivalent relevant properties use ordinary
   formulas; differences in armor/resistance/status resistance are recorded.

@@ -1431,6 +1431,11 @@
     "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff_Description": "Hypnotized: unable to act while Lich channels, with mana drained and movement pulled toward him. A basic dispel removes this effect and ends its channel.",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield_slow": "Frost Shield Slow",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield_slow_Description": "Movement speed reduced by %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Can be dispelled.",
-    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_scepter_description": "Scepter: Sinister Gaze becomes a %aoe_scepter%-radius point-target channel. Controls and drains each enemy in the area. Lich can cast Frost Blast, Frost Shield and Chain Frost without interrupting this channel. Replaces the generic ultimate damage/cooldown bonus."
+    "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_scepter_description": "Scepter: Sinister Gaze becomes a %aoe_scepter%-radius point-target channel. Controls and drains each enemy in the area. Lich can cast Frost Blast, Frost Shield and Chain Frost without interrupting this channel. Replaces the generic ultimate damage/cooldown bonus.",
+    "enfos_lich_ice_spire_unit": "Ice Spire",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_spire": "Ice Spire",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_spire_Description": "Slows nearby enemies. Four hero attacks or eight creep attacks destroy it. Frost Shield repairs one hero hit per pulse.",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_spire_slow": "Ice Spire",
+    "DOTA_Tooltip_modifier_enfos_lich_ice_spire_slow_Description": "Movement speed reduced by %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
   }
 }
