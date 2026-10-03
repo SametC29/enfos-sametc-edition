@@ -6,6 +6,10 @@ PVE-CONVERT classifications in the dossier are superseded by the decisions below
 
 ## Evidence and native-first decisions
 
+The initial findings below are historical discovery. Later focused receipts and
+the current closure matrix supersede their unresolved/pending implementation
+claims; owner runtime acceptance remains separate.
+
 Installed Dota: ClientVersion/ServerVersion 6943, SourceRevision 11069754,
 VersionDate Oct 01 2026. MCP `vpk_read` directly read
 `scripts/npc/heroes/npc_dota_hero_vengefulspirit.txt` on 2026-10-03.
@@ -62,11 +66,11 @@ KV ScriptFile changes require the owner's full Dota restart, not Lua hot reload.
 
 | Gate | Status / evidence |
 | --- | --- |
-| SOURCE REVIEW | PENDING — all five initial handlers read; defects/upgrades/resources still open |
-| PROVEN DEFECTS | E source ownership and Q/R ordinary-target/callback repairs implemented; W/upgrades/resources remain unresolved |
+| SOURCE REVIEW | PASS — five source slots, shared dependencies, installed data/resources and feasible repairs reviewed; engine-only gates remain below |
+| PROVEN DEFECTS | Feasible Q/W/E/R/D source repairs implemented in focused units below; native Scepter alias compatibility remains OWNER NOT TESTED |
 | ISOLATION | IMPLEMENTED — static unique-class/routes and cold bootstrap tests added |
 | MOCK/REGRESSION VALIDATION | PASS — four isolation tests (Venge + Lich), unchanged five handler bodies against pre-extraction HEAD, and full `node tools/checks.mjs` (0 failed); engine verification remains separate |
-| RUNTIME TRACE COVERAGE | PARTIAL — Q/R instrumented through shared bounded default-off helper; W/E/D lifecycle coverage pending |
+| RUNTIME TRACE COVERAGE | IMPLEMENTED — Q/R cast/projectile/impact/rejection/swap, W projectile/impact/debuff, E/D modifier lifecycle and Scepter reconciliation; bounded default-off, no getter spam |
 | OWNER RUNTIME TRACE EVIDENCE | NOT TESTED |
 | OWNER VISUAL/AUDIO VERIFICATION | NOT TESTED |
 | OWNER ENGINE ACCEPTANCE | NOT TESTED |
@@ -623,3 +627,59 @@ is available. Existing 4s/30% defense is authored tuning, not a claim of current
 native barrier parity (installed English describes a damage-sized barrier while
 KV's reduction special is zero). Q caster-death parity and upgrade alias remain
 engine gates; passive modifier dispel/death behavior still needs source review.
+
+### E/D pre-implementation passive lifecycle decision
+
+Custom E emitter, E recipient and D intrinsic declare no dispel/death policy.
+Do not claim missing overrides prove a runtime purge bug: engine defaults and
+intrinsic restoration have not been observed. Harden the authored passive
+contract explicitly: emitter is hidden, D and recipient stay visible with
+existing localized modifier tooltips; E/D intrinsic modifiers are retained on
+death and non-dispellable, E emits no aura while dead, recipient buff is
+non-dispellable and removed when its recipient dies. Engine aura distance/linger
+and native strong-illusion owner remain unchanged; no respawn timer or manual
+duplicate intrinsic application. Break still suppresses getters/emission rather
+than destroying permanent skill ownership. E TUNE / D REPLACE classifications
+remain unchanged.
+
+Primary callback declarations confirm IsHidden, IsPurgable, IsPurgeException,
+RemoveOnDeath and IsAuraActiveOnDeath semantics:
+[TypeScriptToLua modifier declarations](https://github.com/TypeScriptToLua/Dota2Declarations/blob/master/dota-modifier-properties.d.ts).
+The pinned Valve aura example hides its emitter, but includes obsolete negative
+death aura mechanics absent from this installed build; those are not imported.
+Native Retribution KV is non-dispellable. Our authored AGI/AS replacement is not
+claimed to equal its native nemesis damage mechanic. These explicit policy
+overrides require actual purge/death/respawn validation, not fake mock purge.
+
+## Current source-review closure matrix
+
+Source review PASS means the authored implementation and resource contracts were
+individually inspected and feasible source defects repaired. It is NOT whole-kit
+DONE or engine acceptance. All OWNER RUNTIME / VISUAL-AUDIO / ENGINE statuses
+remain NOT TESTED. Historical discovery and old blanket classifications above
+and in the seeded dossier are superseded by this matrix and focused receipts.
+
+| Slot | Current authored contract / evidence | Engine-only acceptance still required |
+| --- | --- | --- |
+| Q TUNE | 10 ranks; native speed 1350 and ATTACK_2; dodgeable tracking missile, damage +0.9 AGI, builtin stun/strong dispel metadata; impact absorption/revalidation; one bounded hero-prioritized Shard bounce; ordinary Boss formula. Native particle/bank/ACT1 preload and finite tracking owner inspected. | Actual damage/stun/status resistance/debuff immunity/reflect/disjoint, caster-death cancellation comparison, real Linken and Shard interactions, attachment/audio/cold precache. |
+| W TUNE | 10 ranks; numeric cast snapshots, engine linear projectile 2000/1400/325; damage +0.6 AGI, armor and attack debuff; replicated modifier values, native recipient root, 350/4s path FOW; source/target invalidation; basic purge metadata and ACT2. No cast-state tables/timers/global unit scan. | Engine status resistance/dispel/immunity, recipient visuals/child loading, terrain vision parity and dense-wave viewer cost; real hit timings and multi-source refresh behavior. |
+| E TUNE | 10 ranks, source-owned learned aura 15–36%, 900–1350; self-relative multiplier 25% (+10 Scepter); Break/source/recipient/illusion guards; hidden retained non-dispellable emitter, no death emission, visible non-dispellable recipient; E upgrades reconcile hidden rank-one native lifecycle bridge. | Native alias death illusion/XP/respawn/strong flag/copied spells and ranks, actual client self multiplier/Scepter loss, aura linger/death/purge/reconnect and cold hybrid resources. |
+| R TUNE | 10 ranks with level5/interval5 gates; both-team hero/basic filter rejects self, immunity-piercing KV; target interruption/callback checks, tree clearance300, clear-space placement, model-bound opposite CP1 finite roots; enemy damage +1.2 AGI; authored 4s/30% defense, no generic Scepter. | Actual target categories/immunity/absorb/dispel, landing near walls/cliffs, tree/regrowth and current native radius/filter comparison, effect/color/audio and repeated deaths/reconnect. Authored defense intentionally differs from native barrier. |
+| D REPLACE | 10-rank Enfos passive, +20–38 AGI/+25–52 AS; learned live getters, source Break/illusion/null safety; visible retained non-dispellable intrinsic with localized dynamic properties; no generic Support Shard heal. No timers, particles or sound warranted for stat-only passive. | Actual rank/free-rank/point HUD, native intrinsic retention/recreation without duplicate stats, Break/strong dispel/death/reincarnation/reconnect and illusion stat-copy behavior. |
+
+Shared dependencies inspected: pve_helpers value/AGI/damage only (no reviewed
+Boss helper dependency), current Aghanim manager and Blessing consumed modifiers,
+unique modifier/KV routes, existing startup hero/resource precache, HeroTrace
+bounded default-off helper and four-locale generated mirrors. No account storage,
+talents or permanent progression introduced. No boss-owned state/AI/waves changed.
+Native ten-rank + AGI formulas were not proven in closed C++; focused custom
+handlers are retained, with supported engine projectiles/stun/placement/aura
+lifetimes and explicitly pending rank-one native Scepter alias.
+
+Passive policy tests verify authored callback returns together with existing
+Break/rank/removed-source arithmetic and silent/default-off lifecycle traces.
+They do not mock Purge or pretend to run engine death restoration. Localized
+recipient and D tooltips now disclose non-dispellability. Intrinsic retention and
+IsAuraActiveOnDeath use the engine lifecycle, never an added respawn manager.
+Feasible source units are ready for owner tests; next individual source review
+is Jakiro. Contributor Lich E work remains separate and uncommitted by this agent.

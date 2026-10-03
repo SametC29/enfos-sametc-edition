@@ -68,6 +68,15 @@ clearance and self restriction. Ordinary/Boss/ally, rejected casts, client filte
 and tree invalidation regressions pass; real target filtering, native-radius
 comparison and map tree behavior remain owner NOT TESTED.
 
+2026-10-03 current source-review closure: five slots have individual native-first
+decisions and focused repairs in the ledger's current closure matrix. E/D
+intrinsics explicitly persist on death and resist dispel; dead source emits no
+aura, recipient buff ends on its own death, and only the emitter icon is hidden.
+Existing localized recipient/D tooltips expose values and non-dispellability.
+Source review PASS is not runtime DONE. OWNER RUNTIME / VISUAL-AUDIO / ENGINE
+ACCEPTANCE remain NOT TESTED, including Scepter alias, Q caster-death comparison,
+rank/point HUD and intrinsic death/respawn/reconnect. Next source hero: Jakiro.
+
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
 
@@ -127,7 +136,7 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 [the current five-slot ledger](../../audit/VENGEFUL_SPIRIT_INDIVIDUAL_REVIEW_2026-10-03.md).
 Its build-6943 native evidence and TUNE/TUNE/TUNE/TUNE/REPLACE decisions supersede
 the historical blanket PVE-CONVERT wording below. The five stable classes are
-isolated; source review, upgrades and owner engine tests are still pending.
+isolated; source review is complete, while upgrade compatibility and owner engine tests remain pending.
 Focused E regression reproduced an attached aura retaining damage during source
 Break. The recipient getter now checks its source, handles removed/rank-zero
 abilities and retains live ranks and the existing illusion-recipient policy.
@@ -140,9 +149,9 @@ verification remains pending owner testing.
 
 ## Slot 1: `enfos_vs_magic_missile`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `vengefulspirit_magic_missile` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
-Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
+Decision and PvE identity rationale: TUNE. Current source/native-first rationale and authored mechanics are recorded in the individual ledger closure matrix; historical discovery is not runtime certification.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
@@ -163,18 +172,18 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Individual source review/repairs and meaningful mocks recorded in the slot closure matrix; owner engine test pending. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
+| Modifiers | PENDING | Ownership, callbacks, Break/dispel/death policy inspected in the individual ledger; actual engine lifecycle pending. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
+| Boss | PENDING | No authored Boss exception remains in this slot; ordinary engine behavior requires owner testing. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | Four-locale descriptions and relevant modifier properties validated; actual HUD rendering pending. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
@@ -193,9 +202,9 @@ precaching, and cleanup remain pending the owner's in-game test.
 
 ## Slot 2: `enfos_vs_wave_of_terror`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `vengefulspirit_wave_of_terror` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
-Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
+Decision and PvE identity rationale: TUNE. Current source/native-first rationale and authored mechanics are recorded in the individual ledger closure matrix; historical discovery is not runtime certification.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
@@ -216,18 +225,18 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Individual source review/repairs and meaningful mocks recorded in the slot closure matrix; owner engine test pending. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
+| Modifiers | PENDING | Ownership, callbacks, Break/dispel/death policy inspected in the individual ledger; actual engine lifecycle pending. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
+| Boss | PENDING | No authored Boss exception remains in this slot; ordinary engine behavior requires owner testing. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | Four-locale descriptions and relevant modifier properties validated; actual HUD rendering pending. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
@@ -236,9 +245,9 @@ Change/test record: all five abilities now expose ten KV ranks; the complete 200
 
 ## Slot 3: `enfos_vs_vengeance_aura`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `vengeance_aura (native passive source)` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
-Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
+Decision and PvE identity rationale: TUNE. Current source/native-first rationale and authored mechanics are recorded in the individual ledger closure matrix; historical discovery is not runtime certification.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
@@ -259,18 +268,18 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Individual source review/repairs and meaningful mocks recorded in the slot closure matrix; owner engine test pending. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
+| Modifiers | PENDING | Ownership, callbacks, Break/dispel/death policy inspected in the individual ledger; actual engine lifecycle pending. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
+| Boss | PENDING | No authored Boss exception remains in this slot; ordinary engine behavior requires owner testing. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | Four-locale descriptions and relevant modifier properties validated; actual HUD rendering pending. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
@@ -279,9 +288,9 @@ Change/test record: all five abilities now expose ten KV ranks; the complete 200
 
 ## Slot 4: `enfos_vs_nether_swap`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `vengefulspirit_nether_swap` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
-Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
+Decision and PvE identity rationale: TUNE. Current source/native-first rationale and authored mechanics are recorded in the individual ledger closure matrix; historical discovery is not runtime certification.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
@@ -302,18 +311,18 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Individual source review/repairs and meaningful mocks recorded in the slot closure matrix; owner engine test pending. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
+| Modifiers | PENDING | Ownership, callbacks, Break/dispel/death policy inspected in the individual ledger; actual engine lifecycle pending. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
+| Boss | PENDING | No authored Boss exception remains in this slot; ordinary engine behavior requires owner testing. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | Four-locale descriptions and relevant modifier properties validated; actual HUD rendering pending. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
@@ -345,18 +354,18 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Individual source review/repairs and meaningful mocks recorded in the slot closure matrix; owner engine test pending. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
+| Modifiers | PENDING | Ownership, callbacks, Break/dispel/death policy inspected in the individual ledger; actual engine lifecycle pending. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
+| Boss | PENDING | No authored Boss exception remains in this slot; ordinary engine behavior requires owner testing. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | Four-locale descriptions and relevant modifier properties validated; actual HUD rendering pending. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |

@@ -20,6 +20,11 @@ function enfos_vs_vengeance_aura:OnUpgrade()
 end
 
 modifier_enfos_vs_vengeance_aura=class({})
+function modifier_enfos_vs_vengeance_aura:IsHidden() return true end
+function modifier_enfos_vs_vengeance_aura:IsPurgable() return false end
+function modifier_enfos_vs_vengeance_aura:IsPurgeException() return false end
+function modifier_enfos_vs_vengeance_aura:RemoveOnDeath() return false end
+function modifier_enfos_vs_vengeance_aura:IsAuraActiveOnDeath() return false end
 function modifier_enfos_vs_vengeance_aura:IsAura()
     local c = self:GetParent()
     if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled()) then return false end
@@ -34,6 +39,10 @@ function modifier_enfos_vs_vengeance_aura:GetAuraSearchType() return DOTA_UNIT_T
 function modifier_enfos_vs_vengeance_aura:GetModifierAura() return 'modifier_enfos_vs_vengeance_aura_buff' end
 
 modifier_enfos_vs_vengeance_aura_buff=class({})
+function modifier_enfos_vs_vengeance_aura_buff:IsHidden() return false end
+function modifier_enfos_vs_vengeance_aura_buff:IsPurgable() return false end
+function modifier_enfos_vs_vengeance_aura_buff:IsPurgeException() return false end
+function modifier_enfos_vs_vengeance_aura_buff:RemoveOnDeath() return true end
 function modifier_enfos_vs_vengeance_aura_buff:DeclareFunctions() return { MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE } end
 function modifier_enfos_vs_vengeance_aura_buff:GetModifierBaseDamageOutgoing_Percentage()
     local p = self:GetParent()

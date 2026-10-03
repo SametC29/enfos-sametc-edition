@@ -15,6 +15,10 @@ enfos_vs_retribution=class({})
 function enfos_vs_retribution:GetIntrinsicModifierName() return 'modifier_enfos_vs_retribution' end
 
 modifier_enfos_vs_retribution=class({})
+function modifier_enfos_vs_retribution:IsHidden() return false end
+function modifier_enfos_vs_retribution:IsPurgable() return false end
+function modifier_enfos_vs_retribution:IsPurgeException() return false end
+function modifier_enfos_vs_retribution:RemoveOnDeath() return false end
 function modifier_enfos_vs_retribution:DeclareFunctions()
     return { MODIFIER_PROPERTY_STATS_AGILITY_BONUS, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT }
 end

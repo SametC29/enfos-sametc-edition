@@ -18,6 +18,7 @@ function a:IsNull()return self.removed end
 function a:GetLevel()assert(not self.removed);return self.rank end
 function a:GetSpecialValueFor(k)assert(not self.removed);return k=='bonus_agi' and 20+2*(self.rank-1) or 25+3*(self.rank-1) end
 local m=setmetatable({GetParent=function()return u end,GetAbility=function()return a end},modifier_enfos_vs_retribution)
+assert(not m:IsHidden() and not m:IsPurgable() and not m:IsPurgeException() and not m:RemoveOnDeath(),'D passive ownership persists without exposing a dispellable skill modifier')
 assert(m:GetModifierBonusStats_Agility()==20 and m:GetModifierAttackSpeedBonus_Constant()==25)
 a.rank=10;assert(m:GetModifierBonusStats_Agility()==38 and m:GetModifierAttackSpeedBonus_Constant()==52)
 a.rank=0;assert(m:GetModifierBonusStats_Agility()==0 and m:GetModifierAttackSpeedBonus_Constant()==0,'Unlearned passive must not grant fallback rank stats')
@@ -51,7 +52,10 @@ local mods={}
 for _,cls in ipairs(classes)do
  local m=setmetatable({GetParent=function()return u end,GetCaster=function()return u end,GetAbility=function()return a end},cls)
  mods[#mods+1]=m;m:OnCreated();m:OnRefresh();m:OnDestroy()
+ assert(not m:IsPurgable() and not m:IsPurgeException(),'Passive modifiers explicitly reject both dispel classes')
 end
+assert(mods[2]:IsHidden() and not mods[2]:RemoveOnDeath() and not mods[2]:IsAuraActiveOnDeath(),'Retained emitter must not emit while dead or duplicate recipient icon')
+assert(not mods[3]:IsHidden() and mods[3]:RemoveOnDeath(),'Recipient feedback remains visible and ends on recipient death')
 assert(#records==0,'Disabled tracing must stay silent')
 enabled=true
 for _,m in ipairs(mods)do m:OnCreated();m:OnRefresh();m:OnDestroy() end
