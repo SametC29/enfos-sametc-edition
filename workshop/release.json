@@ -1,9 +1,9 @@
 {
   "appid": "570",
   "publishedfileid": "3809160125",
-  "version": "1.0.13",
-  "title": "Enfos Team Survival - SametC Edition V1.0.13",
-  "changenote": "V1.0.13 - Individual Lich, Vengeful Spirit and Jakiro source repairs and localized tooltips. Jakiro Dual Breath, Ice Path, Liquid Fire/Frost, native-inspired paired Shard and Macropyre Scepter reviewed; isolated modifiers, bounded cleanup and traces. Fixed diagnostic convar startup failure. Automated validation passed; actual Dota gameplay, VFX/audio, HUD and balance acceptance remain pending owner testing. Published at the owner's explicit request.",
+  "version": "1.0.14",
+  "title": "Enfos Team Survival - SametC Edition V1.0.14",
+  "changenote": "V1.0.14 - Individual Lion Q/W/E/R/passive audit and repairs: travelling Earth Spike with launch/landing, real Hex, hostile mana transfer and mana-less PvE conversion, Shard drain targets and immunity, delayed Finger/Scepter splash, melee empowerment and bounded kill stacks. Four-language tooltips, owned effects, cleanup and diagnostics reviewed. Automated source/regression checks passed; owner Dota gameplay, VFX/audio, engine event ordering and balance tests remain pending. Published at the owner's explicit request; hero audit goal pauses after this checkpoint.",
   "visibility": "0",
   "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3809160125"
 }
