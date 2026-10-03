@@ -116,6 +116,20 @@ local untouched=unit();die(untouched);assert(m.stacks==0,'Non-hit deaths do not 
 -- Distinct Scepter victims may each credit exactly once, with identical normal/Boss policy.
 m=counter();time=140;c.scepter=true;u=unit();local boss=unit(true);targets={u,boss,boss};hit(u)
 die(u);die(boss);die(boss);assert(m.stacks==2);c.scepter=false
+-- Diagnostic death fields are observed without broadening gameplay credit.
+local trace=require('lib/hero_trace');local originalPrint=print;local lines={}
+print=function(line)lines[#lines+1]=line end
+trace:SetEnabled(false);m=counter();time=150;local unrelated=unit();unrelated.health=0
+local opaque=setmetatable({unit=unrelated},{__index=function(_,key)error('Disabled trace queried death field '..key)end})
+m:OnDeath(opaque);assert(m.stacks==0 and #lines==0,'Disabled diagnostics do not inspect packet fields')
+trace:SetEnabled(true)
+m:OnDeath({unit=unrelated,attacker=c,damage_category=1,inflictor=a})
+assert(m.stacks==0 and #lines==1 and lines[1]:find('own_attacker=true tracked=false category=1 inflictor_present=true own_inflictor=true',1,true),'Own untracked death logs fields but earns no stack')
+local other=unit();other.health=0;m:OnDeath({unit=other,attacker={}});assert(#lines==1,'Unrelated deaths do not flood Lion diagnostics')
+trace:SetEnabled(false);u=unit();hit(u);u.health=0;trace:SetEnabled(true)
+m:OnDeath({unit=u})
+assert(m.stacks==1 and #lines==3 and lines[2]:find('own_attacker=false tracked=true category=nil inflictor_present=false own_inflictor=false',1,true),'Missing death fields remain observable without breaking existing grace credit')
+trace:SetEnabled(false);print=originalPrint
 print('Lion grace PASS')
 `;
  const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:lua,encoding:'utf8'});

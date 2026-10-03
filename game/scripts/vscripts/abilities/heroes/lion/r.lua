@@ -154,6 +154,17 @@ function modifier_enfos_lion_finger_counter:CreditFingerKill(t,expected)
     return true
 end
 function modifier_enfos_lion_finger_counter:OnDeath(event)
+    if event and Trace:Enabled() then
+        local c,a=counter_owner(self)
+        local tracked=self.pendingFingerHits and self.pendingFingerHits[event.unit]~=nil
+        if c and (event.attacker==c or tracked) then
+            -- Observe actual death fields before designing fist attribution.
+            -- Damage-callback fields need not exist on a death packet.
+            Trace:Log('LION','R','death packet own_attacker=%s tracked=%s category=%s inflictor_present=%s own_inflictor=%s',
+                tostring(event.attacker==c),tostring(tracked==true),tostring(event.damage_category),
+                tostring(event.inflictor~=nil),tostring(event.inflictor==a))
+        end
+    end
     if event then self:CreditFingerKill(event.unit) end
 end
 function modifier_enfos_lion_finger_counter:OnStackCountChanged()
