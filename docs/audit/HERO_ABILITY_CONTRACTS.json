@@ -3791,6 +3791,8 @@
             "width": "140",
             "speed": "2800",
             "length_buffer": "275",
+            "launch_height": "200",
+            "launch_duration": "0.4",
             "int_scaling_pct": "110"
           },
           "unreferencedSpecials": [],

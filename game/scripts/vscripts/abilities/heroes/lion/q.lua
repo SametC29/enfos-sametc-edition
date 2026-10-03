@@ -1,7 +1,8 @@
 -- Lion Q: engine-owned finite travel with saved authored damage and stun.
 local H = require('abilities/shared/pve_helpers')
 local Trace = require('lib/hero_trace')
-LinkLuaModifier('modifier_enfos_lion_earth_spike_stun', 'abilities/heroes/lion/q', LUA_MODIFIER_MOTION_NONE)
+local Motion = require('abilities/heroes/lion/spike_motion')
+LinkLuaModifier('modifier_enfos_lion_earth_spike_stun', 'abilities/heroes/lion/q', LUA_MODIFIER_MOTION_VERTICAL)
 local function valid(x) return x and not (x.IsNull and x:IsNull()) end
 local function immune(t)
     return (t.IsDebuffImmune and t:IsDebuffImmune()) or (t.IsMagicImmune and t:IsMagicImmune())
@@ -28,7 +29,7 @@ function enfos_lion_earth_spike:OnSpellStart()
     local width,speed=positive(self,'width',140),positive(self,'speed',2800)
     local distance=math.max(0,self:GetCastRange(origin,t))+positive(self,'length_buffer',275)
     local data={damage=H.value(self,'damage')+H.get_int(c)*H.value(self,'int_scaling_pct')/100,
-        stun_duration=H.value(self,'stun_duration')}
+        stun_duration=H.value(self,'stun_duration'),launch_height=H.value(self,'launch_height'),launch_duration=H.value(self,'launch_duration')}
     c:EmitSound('Hero_Lion.Impale')
     if not valid(self) or not valid(c) then return end
     local handle=ProjectileManager:CreateLinearProjectile({
@@ -60,10 +61,13 @@ function enfos_lion_earth_spike:OnProjectileHit_ExtraData(t,location,data)
     if not valid(self) or not eligible(c,t) then return false end
     t:EmitSound('Hero_Lion.ImpaleHitTarget')
     if not valid(self) or not eligible(c,t) then return false end
-    local dealt=H.damage(self,t,tonumber(data.damage),DAMAGE_TYPE_MAGICAL) or 0
-    if valid(self) and eligible(c,t) and tonumber(data.stun_duration)>0 then
-        t:AddNewModifier(c,self,'modifier_enfos_lion_earth_spike_stun',{duration=tonumber(data.stun_duration)})
+    if tonumber(data.stun_duration)>0 then
+        local m=t:AddNewModifier(c,self,'modifier_enfos_lion_earth_spike_stun',{
+            duration=tonumber(data.stun_duration),damage=tonumber(data.damage),
+            launch_height=tonumber(data.launch_height) or 0,launch_duration=tonumber(data.launch_duration) or 0})
+        if m then return false end -- Modifier owns launch, landing and saved damage.
     end
+    local dealt=valid(self) and eligible(c,t) and H.damage(self,t,tonumber(data.damage),DAMAGE_TYPE_MAGICAL) or 0
     Trace:Log('LION','Q','impact target=%s requested=%s actual=%s stun_requested=%s',
         Trace:Name(t),tostring(data.damage),tostring(dealt),tostring(data.stun_duration))
     return false
@@ -74,12 +78,21 @@ function modifier_enfos_lion_earth_spike_stun:IsPurgable() return false end
 function modifier_enfos_lion_earth_spike_stun:IsPurgeException() return true end
 function modifier_enfos_lion_earth_spike_stun:GetTexture() return 'lion_impale' end
 function modifier_enfos_lion_earth_spike_stun:CheckState() return { [MODIFIER_STATE_STUNNED] = true } end
-function modifier_enfos_lion_earth_spike_stun:OnCreated()
+function modifier_enfos_lion_earth_spike_stun:GetMotionPriority() return MODIFIER_PRIORITY_NORMAL end
+function modifier_enfos_lion_earth_spike_stun:UpdateVerticalMotion(me,dt) Motion.Update(self,me,dt) end
+function modifier_enfos_lion_earth_spike_stun:OnVerticalMotionInterrupted() Motion.Interrupt(self) end
+function modifier_enfos_lion_earth_spike_stun:OnCreated(kv)
+    self.closed=false
+    Motion.Start(self,kv)
     if IsServer() then Trace:Log('LION','Q','stun_applied target=%s',Trace:Name(self:GetParent())) end
 end
-function modifier_enfos_lion_earth_spike_stun:OnRefresh()
+function modifier_enfos_lion_earth_spike_stun:OnRefresh(kv)
+    Motion.Start(self,kv)
     if IsServer() then Trace:Log('LION','Q','stun_refreshed target=%s',Trace:Name(self:GetParent())) end
 end
 function modifier_enfos_lion_earth_spike_stun:OnDestroy()
+    if self.closed then return end
+    self.closed=true
+    Motion.Finish(self,self.flight)
     if IsServer() then Trace:Log('LION','Q','stun_removed target=%s',Trace:Name(self:GetParent())) end
 end

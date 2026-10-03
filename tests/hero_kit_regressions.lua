@@ -6514,6 +6514,9 @@ test('Lion Earth Spike uses KV geometry and Hex uses ordinary control on every t
     local lion = create_mock_unit('npc_dota_hero_lion', 2, Vector(0, 0, 0))
     lion.intellect = 100
     local target = create_mock_unit('earth_spike_target', 3, Vector(700, 0, 0))
+    target.IsBuilding=function() return false end
+    target.IsMagicImmune=function() return false end
+    target.IsDebuffImmune=function() return false end
     mock_world_units = { lion, target }
     local spike = enfos_lion_earth_spike()
     spike.GetCaster = function() return lion end
@@ -6528,6 +6531,9 @@ test('Lion Earth Spike uses KV geometry and Hex uses ordinary control on every t
         'Earth Spike should launch a finite line with configured width and range buffer')
     assert(#applied_damages == 0, 'Earth Spike damage waits for projectile impact')
     spike:OnProjectileHit_ExtraData(target, target:GetAbsOrigin(), last_linear_projectile.ExtraData)
+    local spike_stun=target.modifiers.modifier_enfos_lion_earth_spike_stun
+    spike_stun.GetDuration=function() return spike_stun.params.duration end
+    spike_stun:OnCreated(spike_stun.params) -- The broad unit stub does not dispatch native modifier creation.
     assert(applied_damages[1].damage == 310, 'Earth Spike should read its configured intelligence coefficient')
     assert(math.abs(target.modifiers.modifier_enfos_lion_earth_spike_stun.params.duration - 2) < 0.001)
     GameRules = previous_game_rules

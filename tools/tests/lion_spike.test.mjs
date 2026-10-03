@@ -29,18 +29,28 @@ local function unit(team)
  function t:IsMagicImmune()return self.magic end;function t:IsDebuffImmune()return self.debuff end;function t:IsBuilding()return self.building end
  function t:TriggerSpellAbsorb()error('Native Earth Spike must not trigger spell block')end
  function t:TriggerSpellReflect()error('Native Earth Spike must not trigger spell reflect')end
- function t:EmitSound(s)assert(s=='Hero_Lion.Impale' or s=='Hero_Lion.ImpaleHitTarget');if onSound then onSound()end end
- function t:AddNewModifier(c,a,n,p)assert(n=='modifier_enfos_lion_earth_spike_stun');self.mods[#self.mods+1]={c=c,a=a,p=p}end
+ function t:EmitSound(s)assert(s=='Hero_Lion.Impale' or s=='Hero_Lion.ImpaleHitTarget' or s=='Hero_Lion.ImpaleTargetLand');if onSound then onSound()end end
+ function t:AddNewModifier(c,a,n,p)
+  assert(n=='modifier_enfos_lion_earth_spike_stun')
+  local m=setmetatable({c=c,a=a,p=p},modifier_enfos_lion_earth_spike_stun);self.mods[#self.mods+1]=m
+  function m:GetCaster()return c end;function m:GetAbility()return a end;function m:GetParent()return t end;function m:GetDuration()return p.duration end
+  function m:ApplyVerticalMotionController()return false end -- Geometry/target tests deliberately exercise ordinary motion competition.
+  function m:Destroy()self:OnDestroy();for i,x in ipairs(t.mods)do if x==self then table.remove(t.mods,i);break end end end
+  m:OnCreated(p)
+  if not t:IsAlive() or t.removed or t.team==c.team or t.building then m:Destroy()end
+  return m
+ end
  return t
 end
-local c=unit(2);local a=setmetatable({cursor=Vector(100,0,200),values={AbilityCastRange=900,width=140,speed=2800,length_buffer=275,damage=120,int_scaling_pct=110,stun_duration=1.2}},enfos_lion_earth_spike)
+local c=unit(2);local a=setmetatable({cursor=Vector(100,0,200),values={AbilityCastRange=900,width=140,speed=2800,length_buffer=275,damage=120,int_scaling_pct=110,stun_duration=1.2,launch_height=${values.launch_height},launch_duration=${values.launch_duration}}},enfos_lion_earth_spike)
 function a:IsNull()return self.removed end;function a:GetCaster()return c end;function a:GetCursorPosition()return self.cursor end;function a:GetCursorTarget()return self.target end;function a:GetSpecialValueFor(k)return self.values[k] or 0 end
 function a:GetCastRange(origin,t)assert(origin==c.pos);return self.values.AbilityCastRange end
 a:OnSpellStart();assert(#waves==1 and #damages==0,'Travel must precede impact')
 local w=waves[1];assert(w.fDistance==1175 and w.fStartRadius==140 and w.fEndRadius==140 and w.vVelocity.x==2800 and w.vVelocity.z==0)
 assert(not w.bDeleteOnHit and not w.bReplaceExisting and not w.bProvidesVision and w.iUnitTargetType==6 and w.iUnitTargetFlags==0)
 assert(w.EffectName=='particles/units/heroes/hero_lion/lion_spell_impale.vpcf' and math.abs(w.fExpireTime-(20+1175/2800+0.2))<1e-8)
-c.int=900;a.values.damage=480;a.values.stun_duration=2.4;a.cursor=Vector(0,100,0);a:OnSpellStart();assert(w.ExtraData.damage==230 and w.ExtraData.stun_duration==1.2 and waves[2].ExtraData.damage==1470 and waves[2].vVelocity.y==2800)
+c.int=900;a.values.damage=480;a.values.stun_duration=2.4;a.values.launch_height=500;a.values.launch_duration=.6;a.cursor=Vector(0,100,0);a:OnSpellStart();assert(w.ExtraData.damage==230 and w.ExtraData.stun_duration==1.2 and waves[2].ExtraData.damage==1470 and waves[2].vVelocity.y==2800)
+assert(w.ExtraData.launch_height==200 and w.ExtraData.launch_duration==.4 and waves[2].ExtraData.launch_height==500 and waves[2].ExtraData.launch_duration==.6,'Flight geometry is snapshotted per projectile')
 local normal,boss=unit(3),unit(3);boss.isBoss=true
 assert(a:OnProjectileHit_ExtraData(normal,nil,w.ExtraData)==false);assert(a:OnProjectileHit_ExtraData(boss,nil,w.ExtraData)==false)
 assert(damages[1].damage==230 and damages[2].damage==230 and normal.mods[1].p.duration==boss.mods[1].p.duration and boss.mods[1].p.duration==1.2)
