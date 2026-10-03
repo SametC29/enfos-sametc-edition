@@ -407,3 +407,39 @@ four-locale control modifier names/descriptions and generated mirrors.
 Basic/strong dispel, repeated casts and native hypnosis classification remain
 PENDING OWNER TEST. Existing contributor E work remains uncommitted and excluded
 from the isolated index entry.
+
+## W native pulse slow restored (TUNE)
+
+The native `lich_frost_shield` KV in installed build6943 explicitly declares
+movement_slow20/25/30/35, slow_duration0.5, interval1 and radius600. The existing
+custom pulse only applied damage, losing the native area-control component that
+is useful against creeps too. Restore it with an isolated W slow modifier and
+explicit bootstrap dependency. No other custom game code is imported.
+
+Balance decision: retain the native first four slow anchors and hold35% at ranks
+5–10 rather than invent stronger control. This is authored ten-rank tuning, not
+a claim that native Dota has ten ranks. Ordinary and Boss units use identical
+duration/slow formulas. Preserve current pulse damage, INT scaling, duration,
+friendly-target contract and physical reduction. Native attack-only versus
+authored all-physical mitigation remains an explicit comparison; do not silently
+change the existing defensive promise as part of this pulse repair.
+
+Apply slow only after damage, on a still-valid living victim and source. Reuse
+the existing one-second pulse search: no new thinker, timer or target scan.
+Slow is a visible purgable debuff with Frost Shield icon, safe live rank getter,
+and bounded shared creation/refresh/removal diagnostics. Removal needs no custom
+particle or sound disposal: those remain owned by the shield modifier. Actual
+native slow/status visuals and immunity/status-resistance behavior remain owner
+checks, not established by absence of Lua errors.
+
+Real-module regression covers all ten ranks, independent native slow anchors,
+ordinary/Boss parity, half-second duration, unchanged scaled magical damage,
+lethal victim guard and removed-source getter. EN/TR/RU/zh-CN descriptions and
+live modifier-property text are regenerated. Preserve contributor E/KV/ledger
+work and stage only the W KV and inventory entry from HEAD. Source slow repair
+is complete; full hero/upgrades and owner-engine acceptance remain pending.
+
+Validation: all9 focused Lich regressions PASS; cold-load isolation route includes
+the new W modifier and remains PASS; full working-tree checks0failed. Separately
+run the indexed historical hero suite with indexed E, excluding its contributor
+edits:352 regressions PASS with the new W module. No real Dota test was performed.

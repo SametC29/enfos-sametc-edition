@@ -1352,8 +1352,8 @@
     "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff_Description": "Дракон с дальней атакой. Урон атаки: +%dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%. Дальность атаки: +%dMODIFIER_PROPERTY_ATTACK_RANGE_BONUS%. Атаки наносят урон соседним врагам и замедляют их. Нельзя развеять.",
     "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow": "Драконий холод",
     "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow_Description": "Изменение скорости передвижения: %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Изменение скорости атаки: %-dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Эффект атаки по области в облике дракона.",
-    "DOTA_Tooltip_Ability_enfos_lich_frost_shield_Description": "Накладывает на союзника ледяной щит на {{duration}} сек., уменьшая входящий физический урон на {{damage_reduction}}%. Каждые {{pulse_interval}} сек. щит наносит врагам в радиусе {{radius}} магический урон: {{dps}} + 25% интеллекта.",
-    "DOTA_Tooltip_Ability_enfos_lich_frost_shield_SummaryDescription": "Накладывает на союзника ледяной щит на {{duration}} сек., уменьшая входящий физический урон на {{damage_reduction}}%. Каждые {{pulse_interval}} сек. щит наносит врагам в радиусе {{radius}} магический урон: {{dps}} + 25% интеллекта.",
+    "DOTA_Tooltip_Ability_enfos_lich_frost_shield_Description": "Накладывает на союзника ледяной щит на {{duration}} сек., уменьшая входящий физический урон на {{damage_reduction}}%. Каждые {{pulse_interval}} сек. щит наносит врагам в радиусе {{radius}} магический урон: {{dps}} + 25% интеллекта. Каждый импульс замедляет передвижение на {{movement_slow}}% на {{slow_duration}} сек.",
+    "DOTA_Tooltip_Ability_enfos_lich_frost_shield_SummaryDescription": "Накладывает на союзника ледяной щит на {{duration}} сек., уменьшая входящий физический урон на {{damage_reduction}}%. Каждые {{pulse_interval}} сек. щит наносит врагам в радиусе {{radius}} магический урон: {{dps}} + 25% интеллекта. Каждый импульс замедляет передвижение на {{movement_slow}}% на {{slow_duration}} сек.",
     "DOTA_Tooltip_Ability_enfos_lich_frost_shield": "Морозный щит",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield": "Морозный щит",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield_Description": "Входящий физический урон снижен на %-dMODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE%%%. Периодически наносит магический урон врагам поблизости. Можно развеять.",
@@ -1369,6 +1369,8 @@
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "Броня: +%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Восстановление маны: +%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% в секунду.",
     "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_SummaryDescription": "Каналирует {{duration}} сек., вытягивая {{mana_drain_pct}}% максимального запаса маны цели в секунду и передавая её Личу. Оглушает и притягивает цель.",
     "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff": "Зловещий взгляд",
-    "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff_Description": "Гипноз: цель не может действовать, пока Лич поддерживает заклинание; её мана истощается, а цель притягивается к нему. Базовое развеивание снимает эффект и прекращает его поддержание."
+    "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff_Description": "Гипноз: цель не может действовать, пока Лич поддерживает заклинание; её мана истощается, а цель притягивается к нему. Базовое развеивание снимает эффект и прекращает его поддержание.",
+    "DOTA_Tooltip_modifier_enfos_lich_frost_shield_slow": "Замедление ледяного щита",
+    "DOTA_Tooltip_modifier_enfos_lich_frost_shield_slow_Description": "Скорость передвижения снижена на %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Можно развеять."
   }
 }

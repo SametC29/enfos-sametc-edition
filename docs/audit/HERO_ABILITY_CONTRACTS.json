@@ -4105,7 +4105,9 @@
             "duration": "6.0",
             "dps": "30 50 70 90 110 130 150 170 190 210",
             "radius": "600",
-            "pulse_interval": "1.0"
+            "pulse_interval": "1.0",
+            "movement_slow": "20 25 30 35 35 35 35 35 35 35",
+            "slow_duration": "0.5"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],

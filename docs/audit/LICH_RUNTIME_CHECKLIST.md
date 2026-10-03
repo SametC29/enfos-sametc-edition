@@ -51,6 +51,9 @@ and no-pull observations describe superseded source, not intended policy.
 - Switch immunity during R travel; loss/removal/movement of source/recipients;
   two Lich casters, same/different-target refresh and ownership after expiry.
 - D death/linger, overlapping auras, source illusions and allegiance changes.
+- W pulses: observe half-second movement slow on surviving normal/Boss units,
+  recovery between one-second pulses, basic dispel and no application after a
+  lethal pulse. Verify status resistance, debuff immunity and the slow icon/text.
 - E basic dispel must remove hypnosis and end only its matching channel; strong
   dispel, recast and another active ability are separate owner tests. The authored
   action lock is explicitly not classified as a stun for purge purposes.

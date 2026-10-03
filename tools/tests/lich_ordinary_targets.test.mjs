@@ -8,6 +8,61 @@ const abilities=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.t
 const curve=(id,key)=>String(abilities[id].AbilityValues[key]).split(/\s+/).map(Number);
 const q='enfos_lich_frost_blast',r='enfos_lich_chain_frost';
 
+test('Shield pulses restore native short slow without slowing dead victims or changing damage',()=>{
+  const script=`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t) t.__index=t;return t end
+function LinkLuaModifier() end
+function IsServer() return true end
+DOTA_UNIT_TARGET_HERO=1;DOTA_UNIT_TARGET_BASIC=2;DOTA_UNIT_TARGET_TEAM_ENEMY=3
+DOTA_UNIT_TARGET_FLAG_NONE=0;FIND_ANY_ORDER=0;DAMAGE_TYPE_MAGICAL=2
+local units={};function FindUnitsInRadius() return units end
+require('abilities/heroes/lich/w')
+local slows={${curve('enfos_lich_frost_shield','movement_slow')}}
+local dps={${curve('enfos_lich_frost_shield','dps')}}
+local nativeAnchors={20,25,30,35}
+for rank=1,10 do
+  assert(slows[rank]==nativeAnchors[math.min(rank,4)],'Native slow anchors retained; extra PvE ranks do not escalate control')
+  local caster={IsNull=function() return false end,GetTeamNumber=function() return 2 end,
+    GetIntellect=function() return 40 end}
+  local parent={IsNull=function() return false end,IsAlive=function() return true end,
+    GetTeamNumber=function() return 2 end,GetAbsOrigin=function() return {} end}
+  local removed=false
+  local a=setmetatable({GetCaster=function() return caster end,IsNull=function() return removed end,
+    GetSpecialValueFor=function(_,k) return k=='dps' and dps[rank] or k=='movement_slow' and slows[rank]
+      or k=='slow_duration' and 0.5 or k=='radius' and 600 or 0 end},enfos_lich_frost_shield)
+  local shield=setmetatable({GetParent=function() return parent end,GetCaster=function() return caster end,
+    GetAbility=function() return a end,Destroy=function() error('Valid shield must continue') end},modifier_enfos_lich_frost_shield)
+  local victims={}
+  for _,boss in ipairs({false,true}) do
+    local u={isBoss=boss,alive=true,IsNull=function() return false end,IsAlive=function(self) return self.alive end}
+    function u:AddNewModifier(c,ab,id,kv)
+      assert(c==caster and ab==a and id=='modifier_enfos_lich_frost_shield_slow','Slow owned by actual shield source')
+      assert(kv.duration==0.5,'Native half-second pulse slow; no Boss multiplier')
+      self.slow=setmetatable({GetAbility=function() return ab end},modifier_enfos_lich_frost_shield_slow)
+    end
+    victims[#victims+1]=u
+  end
+  units=victims;local dealt=0
+  function ApplyDamage(e) assert(e.damage==dps[rank]+10 and e.damage_type==2,'Existing scaled magical damage preserved');dealt=dealt+1;return e.damage end
+  shield:OnIntervalThink();assert(dealt==2)
+  for _,u in ipairs(victims) do
+    assert(u.slow and u.slow:GetModifierMoveSpeedBonus_Percentage()==-slows[rank],'Both normal and Boss receive ranked movement slow')
+    assert(u.slow:IsPurgable() and u.slow:IsDebuff() and u.slow:GetTexture()=='lich_frost_shield')
+  end
+  removed=true;assert(victims[1].slow:GetModifierMoveSpeedBonus_Percentage()==0,'Removed source cannot leave stale slow value');removed=false
+  for _,u in ipairs(victims) do u.slow=nil end
+  function ApplyDamage(e) e.victim.alive=false;return e.damage end
+  shield:OnIntervalThink()
+  for _,u in ipairs(victims) do assert(not u.slow,'No modifier application after lethal pulse') end
+end
+print('Lich W native pulse slow regression PASS')
+`;
+  const result=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});
+  assert.equal(result.status,0,result.stderr||result.stdout);
+  assert.match(result.stdout,/Lich W native pulse slow regression PASS/,result.stderr);
+});
+
 test('Gaze basic-dispel contract and removal preserve channel ownership',()=>{
   const script=`
 package.path='game/scripts/vscripts/?.lua;'..package.path

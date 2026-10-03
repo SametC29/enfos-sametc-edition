@@ -1412,8 +1412,8 @@
     "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff_Description": "Ranged dragon form. Attack damage: +%dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%. Attack range: +%dMODIFIER_PROPERTY_ATTACK_RANGE_BONUS%. Attacks splash onto nearby enemies and slow them. Cannot be dispelled.",
     "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow": "Dragon Frost",
     "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow_Description": "Movement speed change: %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Attack speed change: %-dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Affected by an Elder Dragon Form splash attack.",
-    "DOTA_Tooltip_Ability_enfos_lich_frost_shield_Description": "Shields an ally for {{duration}} seconds, reducing incoming physical damage by {{damage_reduction}}%. Every {{pulse_interval}} seconds, the shield deals {{dps}} + 25% of Intellect magical damage to enemies within {{radius}} radius.",
-    "DOTA_Tooltip_Ability_enfos_lich_frost_shield_SummaryDescription": "Shields an ally for {{duration}} seconds, reducing incoming physical damage by {{damage_reduction}}%. Every {{pulse_interval}} seconds, the shield deals {{dps}} + 25% of Intellect magical damage to enemies within {{radius}} radius.",
+    "DOTA_Tooltip_Ability_enfos_lich_frost_shield_Description": "Shields an ally for {{duration}} seconds, reducing incoming physical damage by {{damage_reduction}}%. Every {{pulse_interval}} seconds, the shield deals {{dps}} + 25% of Intellect magical damage to enemies within {{radius}} radius. Each pulse slows movement by {{movement_slow}}% for {{slow_duration}} seconds.",
+    "DOTA_Tooltip_Ability_enfos_lich_frost_shield_SummaryDescription": "Shields an ally for {{duration}} seconds, reducing incoming physical damage by {{damage_reduction}}%. Every {{pulse_interval}} seconds, the shield deals {{dps}} + 25% of Intellect magical damage to enemies within {{radius}} radius. Each pulse slows movement by {{movement_slow}}% for {{slow_duration}} seconds.",
     "DOTA_Tooltip_Ability_enfos_lich_frost_shield": "Frost Shield",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield": "Frost Shield",
     "DOTA_Tooltip_modifier_enfos_lich_frost_shield_Description": "Incoming physical damage is reduced by %-dMODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE%%%. Periodically deals magical damage to nearby enemies. Can be dispelled.",
@@ -1429,6 +1429,8 @@
     "DOTA_Tooltip_modifier_enfos_lich_ice_aura_buff_Description": "Armor: +%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Mana regeneration: +%fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% per second.",
     "DOTA_Tooltip_Ability_enfos_lich_sinister_gaze_SummaryDescription": "Channels for {{duration}} sec, draining {{mana_drain_pct}}% of the target's maximum mana per second and restoring it to Lich. Stuns and pulls the target.",
     "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff": "Sinister Gaze",
-    "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff_Description": "Hypnotized: unable to act while Lich channels, with mana drained and movement pulled toward him. A basic dispel removes this effect and ends its channel."
+    "DOTA_Tooltip_modifier_enfos_lich_sinister_gaze_debuff_Description": "Hypnotized: unable to act while Lich channels, with mana drained and movement pulled toward him. A basic dispel removes this effect and ends its channel.",
+    "DOTA_Tooltip_modifier_enfos_lich_frost_shield_slow": "Frost Shield Slow",
+    "DOTA_Tooltip_modifier_enfos_lich_frost_shield_slow_Description": "Movement speed reduced by %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Can be dispelled."
   }
 }

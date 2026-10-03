@@ -4,6 +4,7 @@ local value, enemies, is_boss, get_int, damage = Helpers.value, Helpers.enemies,
 local HeroTrace = require('lib/hero_trace')
 
 LinkLuaModifier('modifier_enfos_lich_frost_shield', 'abilities/heroes/lich/w', LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier('modifier_enfos_lich_frost_shield_slow', 'abilities/heroes/lich/w', LUA_MODIFIER_MOTION_NONE)
 
 enfos_lich_frost_shield=class({})
 function enfos_lich_frost_shield:Precache(context)
@@ -85,10 +86,35 @@ function modifier_enfos_lich_frost_shield:OnIntervalThink()
             if boss then bosses=bosses+1 end
             affected = affected + 1
             if c:IsNull() or p:IsNull() or not p:IsAlive() or (ab.IsNull and ab:IsNull()) then break end
+            if not u:IsNull() and u:IsAlive() then
+                u:AddNewModifier(c, ab, 'modifier_enfos_lich_frost_shield_slow',
+                    { duration = value(ab, 'slow_duration') })
+            end
         end
     end
     HeroTrace:Log('LICH','W','pulse recipient=%s owner=%s affected=%d bosses=%d requested_damage=%s actual_total=%s',HeroTrace:Name(p),HeroTrace:Name(c),affected,bosses,tostring(total_dps),measured and tostring(actual) or '<unavailable>')
 end
+
+modifier_enfos_lich_frost_shield_slow=class({})
+function modifier_enfos_lich_frost_shield_slow:IsDebuff() return true end
+function modifier_enfos_lich_frost_shield_slow:IsPurgable() return true end
+function modifier_enfos_lich_frost_shield_slow:GetTexture() return 'lich_frost_shield' end
+function modifier_enfos_lich_frost_shield_slow:DeclareFunctions()
+    return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE }
+end
+function modifier_enfos_lich_frost_shield_slow:GetModifierMoveSpeedBonus_Percentage()
+    return -value(self:GetAbility(), 'movement_slow')
+end
+local function shield_slow_trace(modifier,event)
+    if IsServer() and HeroTrace:Enabled() then
+        HeroTrace:Log('LICH','W',event..' target=%s owner=%s slow=%s',
+            HeroTrace:Name(modifier:GetParent()),HeroTrace:Name(modifier:GetCaster()),
+            tostring(value(modifier:GetAbility(),'movement_slow')))
+    end
+end
+function modifier_enfos_lich_frost_shield_slow:OnCreated() shield_slow_trace(self,'slow_created') end
+function modifier_enfos_lich_frost_shield_slow:OnRefresh() shield_slow_trace(self,'slow_refreshed') end
+function modifier_enfos_lich_frost_shield_slow:OnDestroy() shield_slow_trace(self,'slow_removed') end
 function modifier_enfos_lich_frost_shield:DeclareFunctions() return { MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE } end
 function modifier_enfos_lich_frost_shield:GetModifierIncomingPhysicalDamage_Percentage()
     local p, c, ab = self:GetParent(), self:GetCaster(), self:GetAbility()
