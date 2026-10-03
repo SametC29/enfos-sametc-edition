@@ -911,7 +911,7 @@
     "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire": "Sıvı Ateş",
     "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_Description": "Elle kullanım tek bir güçlendirilmiş normal saldırı gönderir. Otomatik kullanım açık, yeterli mana var ve yetenek hazırsa saldırılar da güçlenir. Her iki kullanımda yanma için saldırının isabet etmesi gerekir. Otomatik saldırı çıktığında mana ve bekleme süresi harcanır; ıskalama yanma uygulamaz ve kaynakları geri vermez. {{radius}} alandaki düşmanları {{duration}} saniye yakar; toplam {{bonus_damage}} + zekanın %30’u kadar büyü hasarı verir ve saldırı hızını {{slow_as}} azaltır. Binalar hasarın %{{building_dmg_pct}} kadarını alır. Otomatik saldırı çıkarken hasar ve yavaşlatma sabitlenir. Dağıtma kalan yanmayı keser; tekrar isabet süreyi yeniler.",
     "DOTA_Tooltip_Ability_enfos_jakiro_macropyre": "Cehennem Ateşi",
-    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_Description": "{{duration}} saniye boyunca {{length}} uzunluğunda, {{path_radius}} yarıçapında ateş yolu oluşturur. Düşmanlar saniyede {{damage_per_sec}} + Zekânın %70’i kadar büyü hasarı alır. Yanma son alan uygulamasından sonra {{linger_duration}} saniye sürer ve temizlenemez. Yön, hasar ve güçlendirmeler kullanım anında belirlenir; Jakiro ölse de ateş devam eder. Scepter olmadan zayıflatma bağışıklığını delmez. Scepter ile süre {{scepter_duration_bonus}} saniye uzar ve zayıflatma bağışıklığını delen saf hasar verir.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_Description": "{{duration}} saniye boyunca {{length}} uzunluğunda, {{path_radius}} yarıçapında ateş yolu oluşturur. Düşmanlar saniyede {{damage_per_sec}} + Zekânın %70’i kadar büyü hasarı alır. Yanma son alan uygulamasından sonra {{linger_duration}} saniye sürer ve temizlenemez. Yön, hasar ve güçlendirmeler kullanım anında belirlenir; Jakiro ölse de ateş devam eder. Scepter olmadan zayıflatma bağışıklığını delmez. Scepter ile süre {{scepter_duration_bonus}} saniye uzar ve zayıflatma bağışıklığını delen saf hasar verir. Scepter ile iki buz duvarı, kenarlardan geçen düşmanları %{{ice_edge_movement_slow}} yavaşlatır; son kenar uygulamasından sonra {{ice_edge_linger_duration}} saniye sürer.",
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble": "Çifte Baş",
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_Description": "Öğrenildiğinde +{{bonus_int}} zeka ve +{{bonus_as}} saldırı hızı kazandırır. Kırılma sırasında devre dışıdır; illüzyonlar bonus kazanmaz. Dağıtılamaz.",
     "DOTA_Tooltip_Ability_enfos_vs_magic_missile": "Büyü Füzesi",
@@ -1121,7 +1121,7 @@
     "DOTA_Tooltip_Ability_enfos_puck_faerie_magic_shard_description": "+%15 büyü hasarı.",
     "DOTA_Tooltip_Ability_enfos_lion_finger_of_death_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_lion_demon_soul_shard_description": "Verilen iyileştirme +%25.",
-    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_scepter_description": "Macropyre süresi 5 saniye uzar ve zayıflatma bağışıklığını delen saf hasar verir.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_scepter_description": "Macropyre süresi 5 saniye uzar ve zayıflatma bağışıklığını delen saf hasar verir. İki buz duvarı, kenarlardan geçen düşmanları %60 yavaşlatır; 0,4 saniye sürer.",
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_shard_description": "Verilen iyileştirme +%25.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Lore": "Jilet keskinliğindeki zırhlara sahip bu manto, fedakâr şehitlerin savaştaki seçimi.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note0": "Hasar Yansıtması herhangi bir azaltmadan önce hesaplanır.",
@@ -1807,6 +1807,8 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "Saldırı hızı -%dMODIFIER_PROPERTY_TOOLTIP%. Saniyelik büyü hasarı: %fMODIFIER_PROPERTY_TOOLTIP2%. Dağıtma yanmayı sonlandırır.",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn": "Macropyre",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "Yanıyor. Saniyelik hasar: %fMODIFIER_PROPERTY_TOOLTIP%. Normal kullanımda büyü hasarı; Scepter ile güçlendirilmiş kullanımda zayıflatma bağışıklığını delen saf hasar. Temizlenemez.",
-    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_shard_description": "Aghanim’s Shard ile Liquid Fire artık mana tüketmez."
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_shard_description": "Aghanim’s Shard ile Liquid Fire artık mana tüketmez.",
+    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_ice_slow": "Macropyre: Buz Kenarı",
+    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_ice_slow_Description": "Hareket hızı %dMODIFIER_PROPERTY_TOOLTIP%%% azaltılır."
   }
 }

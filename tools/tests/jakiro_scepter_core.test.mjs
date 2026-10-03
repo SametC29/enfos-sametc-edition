@@ -18,7 +18,7 @@ local function burn(params)local m=setmetatable({created=now,expiry=now+params.d
 function m:GetParent()return target end;function m:GetCaster()return c end;function m:GetAbility()return a end;function m:GetElapsedTime()return now-self.created end;function m:GetRemainingTime()return self.expiry-now end;function m:StartIntervalThink()end;function m:SetHasCustomTransmitterData()end;function m:SendBuffRefreshToClients()end
 m:OnCreated(params);return m end
 function target:AddNewModifier(caster,ability,name,params)self.application=params;self.burn=burn(params)end
-local flags;function FindUnitsInLine(team,start,last,cache,radius,tt,types,f)flags=f;return {target}end
+local flags;function FindUnitsInLine(team,start,last,cache,radius,tt,types,f)if radius==50 then return {}end;flags=f;return {target}end
 ParticleManager={CreateParticle=function()return 1 end,SetParticleControl=function()end}
 local params;function CreateModifierThinker(caster,ability,name,p,pos)params=p;return {IsNull=function()return false end}end
 local function field(p)local m=setmetatable({GetCaster=function()return c end,GetAbility=function()return a end,GetParent=function()return {IsNull=function()return false end,GetAbsOrigin=function()return Vector(0,0)end}end,GetElapsedTime=function()return now end,StartIntervalThink=function()end},modifier_enfos_jakiro_macropyre_zone);m:OnCreated(p);return m end

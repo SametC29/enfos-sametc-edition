@@ -328,6 +328,7 @@ local modifier_list = {
     'modifier_enfos_jakiro_double_trouble',
     'modifier_enfos_jakiro_macropyre_zone',
     'modifier_enfos_jakiro_macropyre_burn',
+    'modifier_enfos_jakiro_macropyre_ice_slow',
     -- Vengeful Spirit
     'modifier_enfos_vs_wave_debuff',
     'modifier_enfos_vs_vengeance_aura',

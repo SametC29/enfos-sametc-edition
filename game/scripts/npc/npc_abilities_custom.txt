@@ -5434,6 +5434,10 @@
 			"burn_interval" "0.5"
 			"linger_duration" "1"
 			"scepter_duration_bonus" "5"
+			"ice_edge_path_radius" "50"
+			"ice_edge_path_offset" "20"
+			"ice_edge_linger_duration" "0.4"
+			"ice_edge_movement_slow" "60"
 			"damage_per_sec"	"120 190 260 300 340 380 420 450 480 510"
 			"duration"	"10 15 20 20 20 20 20 20 20 20"
 		}
