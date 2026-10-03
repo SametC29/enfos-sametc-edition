@@ -87,3 +87,43 @@ A clean log alone cannot replace measured gameplay. Continue the original
 pilot checklist for all ten ranks and native Shard/Scepter behaviors.
 
 **OWNER ENGINE ACCEPTANCE: FAILED IN SUPPLIED SESSION; PATCH PENDING OWNER RETEST.**
+
+
+## Subsequent retest and command correction
+
+Owner's second log (attachment 7553bd3b-0cc2-45b9-9bee-048982839bd6) still
+reports all three unknown Luna modifier types, at lines 1706/1707/1717–1719.
+The four installed Luna files match the post-change repository files. The
+separate-script repair did not remove the observed warning; acceptance remains
+FAIL. No further speculative gameplay patch is justified by that result.
+
+The standalone script console command is unavailable on this installed build;
+the earlier enable/restore instructions above are invalid for this host. The
+repository already records this in docs/P0_RUNTIME_HEALTH.md. Owner successfully
+ran script_reload_code tools/p0_health and reported state=10, map=enfos,
+player=0, Luna level=6, alive=true, points=0. This confirms server game context,
+not modifier registration or correct initial point spending. points=0 alone
+does not identify a progression defect without the owner's spending history.
+
+A new read-only tools/luna_health.lua probe uses that supported execution path.
+After copying only this probe to the installed addon scripts/vscripts/tools,
+run:
+
+    script_reload_code tools/luna_health
+
+It prints server context, visible Lua globals for the three classes, actual
+modifier handles on selected Luna heroes and six current ability ranks including
+the native Beam provider. It never requires the integration, repairs/relinks
+classes, enables traces, restores ranks or creates modifiers/abilities. Global
+class visibility and live modifier presence are separate observations; neither
+alone certifies client binding. This probe is not attached to bootstrap or run
+by a timer. No new deployment or game control was performed by the agent.
+
+Next decision requires the owner probe output: server modifier absence supports
+a server creation/registration failure; presence despite warnings calls for
+client binding investigation. Do not infer either before the output arrives.
+
+Probe validation: 16 focused Luna tests pass, including client-context rejection,
+live/missing modifier inspection and absence of repair side effects. Full
+npm.cmd run check exits0 with 0 failed checks. Engine execution of the new probe
+remains pending owner output.

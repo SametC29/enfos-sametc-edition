@@ -319,3 +319,11 @@ boss interactions remain pending owner testing.
 2026-10-04 owner runtime: three Luna extension modifier types failed creation.
 Owner reports no visual/audio issue in that session. Native ten-rank gameplay
 acceptance remains open. See [runtime repair and retest record](../../audit/LUNA_MODIFIER_RUNTIME_REPAIR_2026-10-04.md) for loading changes, evidence limits and independent non-Luna errors.
+
+
+2026-10-04 second owner session: the same three unknown modifier warnings remain
+with all four installed Luna files matching the repair source. The owner P0
+probe confirms active server game context (state10/mapenfos/Luna6). Acceptance
+remains FAIL; a read-only tools/luna_health probe now separates visible globals,
+live modifier handles and current ranks. Standalone script commands in earlier
+checklists are invalid for this host; use script_reload_code for the probe.

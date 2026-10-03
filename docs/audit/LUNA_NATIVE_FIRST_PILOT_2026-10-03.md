@@ -432,3 +432,11 @@ was reported satisfactory by the owner for that session. The historical
 NOT TESTED status above predates this evidence. Current acceptance: **FAILED IN
 SUPPLIED SESSION; PATCH PENDING OWNER RETEST**. See [modifier loading repair](LUNA_MODIFIER_RUNTIME_REPAIR_2026-10-04.md). Remaining class definitions now live
 in luna/modifiers.lua; scaling.lua/e.lua retain only server restore services.
+
+
+2026-10-04 retest correction: three modifier warnings persist with current
+installed files. The standalone script console command shown in earlier
+checklists is unavailable on this host. Use the new read-only
+script_reload_code tools/luna_health probe after transferring that file;
+see the subsequent retest section in the runtime repair record. Server context
+has been confirmed by owner P0 output; Luna registration is still unresolved.

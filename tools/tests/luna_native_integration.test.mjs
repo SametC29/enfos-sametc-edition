@@ -179,3 +179,29 @@ local log=table.concat(traces,'|')
 assert(log:find('native_blessing_extension_missing',1,true))
 assert(not log:find('native_blessing_extension_ready',1,true))
 `));
+
+
+test('Read-only Luna health probe handles client scope, live and missing modifiers without restore side effects',()=>lua(`
+function IsServer()return false end
+local lines={};print=function(s)lines[#lines+1]=s end
+local probe='game/scripts/vscripts/tools/luna_health.lua'
+assert(loadfile(probe))()
+assert(#lines==1 and lines[1]:find('server_context_unavailable',1,true))
+function IsServer()return true end
+GameRules={State_Get=function()return 10 end}
+local live={IsNull=function()return false end}
+local hero={IsNull=function()return false end,GetUnitName=function()return 'npc_dota_hero_luna' end,
+ GetLevel=function()return 6 end,GetAbilityPoints=function()return 0 end,
+ FindModifierByName=function(_,name)if name=='modifier_enfos_luna_native_scaling' then return live end end,
+ FindAbilityByName=function(_,name)if name=='enfos_luna_moon_glaives' then return {IsNull=function()return false end,GetLevel=function()return 1 end} end end,
+ AddNewModifier=function()error('Probe must not create modifiers')end,
+ AddAbility=function()error('Probe must not create abilities')end}
+PlayerResource={IsValidPlayerID=function(_,id)return id==0 end,GetSelectedHeroEntity=function()return hero end}
+assert(loadfile(probe))()
+local log=table.concat(lines,'|')
+assert(log:find('modifier=modifier_enfos_luna_native_scaling present=true',1,true))
+assert(log:find('modifier=modifier_enfos_luna_blessing_extension present=false',1,true))
+assert(log:find('ability=enfos_luna_moon_glaives rank=1',1,true))
+assert(log:find('ability=luna_lucent_beam rank=missing',1,true))
+assert(not package.loaded['abilities/heroes/luna/integration'],'Probe must not load repair integration')
+`));
