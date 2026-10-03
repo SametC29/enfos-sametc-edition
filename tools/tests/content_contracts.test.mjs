@@ -132,7 +132,7 @@ test('every hero exposes correct ultimate/evolution contracts and migrated Enfos
       assert.equal(abilities[h.Ability6].BaseClass,'vengefulspirit_command_aura');
       assert.equal(abilities[h.Ability6].AbilityValues.bonus_base_damage,'0','Native lifecycle bridge must not stack a second damage aura');
     }
-    const shardAbility=['npc_dota_hero_jakiro','npc_dota_hero_lion'].includes(id)?h.Ability3:id==='npc_dota_hero_vengefulspirit'?h.Ability1:id==='npc_dota_hero_lich'?h.Ability6:['npc_dota_hero_shadow_shaman','npc_dota_hero_tidehunter'].includes(id)?h.Ability2:h.Ability5;
+    const shardAbility=['npc_dota_hero_jakiro','npc_dota_hero_lion'].includes(id)?h.Ability3:id==='npc_dota_hero_vengefulspirit'?h.Ability1:id==='npc_dota_hero_lich'?h.Ability6:['npc_dota_hero_shadow_shaman','npc_dota_hero_tidehunter','npc_dota_hero_luna'].includes(id)?h.Ability2:h.Ability5;
     assert.equal(abilities[shardAbility].HasShardUpgrade,'1',id);
     if(id==='npc_dota_hero_vengefulspirit'){
       assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Retribution must not advertise unrelated healing');
@@ -996,8 +996,8 @@ test('Luna Lua-read specials use named AbilityValues and retain ten-rank curves'
   }
   assert.equal(all.enfos_luna_moon_glaives.IsBreakable,'1');
   assert.equal(all.enfos_luna_lunar_blessing.IsBreakable,'1');
-  assert.equal(all.enfos_luna_eclipse.AbilityValues.max_hits_per_target,'6');
-  assert.equal(all.enfos_luna_eclipse.AbilityValues.boss_damage_pct,'10');
+  assert.equal(all.enfos_luna_eclipse.AbilityValues.hit_count.value,'6');
+  assert.equal(all.enfos_luna_eclipse.AbilityValues.boss_damage_pct,undefined);
   assert.equal(all.enfos_luna_lunar_orbit.BaseClass,'luna_lunar_orbit');
   assert.equal(all.enfos_luna_lunar_orbit.AbilityValues.rotating_glaives_movement_radius.value,'225');
   assert.equal(all.enfos_luna_lunar_orbit.AbilityValues.rotating_glaives_hit_radius.value,'200');

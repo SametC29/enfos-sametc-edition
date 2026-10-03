@@ -11,6 +11,7 @@ function Innates:Apply(hero)
     if ability:GetLevel()==0 then ability:SetLevel(1) end
     if id=='enfos_luna_moon_glaives' then
         require('abilities/heroes/luna/integration').OnPassiveRankRestored(ability)
+        require('abilities/heroes/luna/integration').Restore(hero)
     end
     return true
 end

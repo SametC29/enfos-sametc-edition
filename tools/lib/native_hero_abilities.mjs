@@ -3,6 +3,9 @@
 export const nativeHeroAbilities = new Map([
   ['enfos_luna_moon_glaives', 'luna_moon_glaive'],
   ['enfos_luna_lunar_orbit', 'luna_lunar_orbit'],
+  ['enfos_luna_lucent_beam', 'luna_lucent_beam'],
+  ['enfos_luna_lunar_blessing', 'luna_lunar_blessing'],
+  ['enfos_luna_eclipse', 'luna_eclipse'],
 ]);
 
 export function isVerifiedNativeAbility(id, definition) {

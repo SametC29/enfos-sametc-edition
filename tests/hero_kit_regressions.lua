@@ -382,55 +382,8 @@ end)
 -- Native Moon Glaives ownership/ranks are checked by luna_native.test.mjs;
 -- C++ bounce and impact behavior needs owner Dota testing.
 
-test('Luna Lucent Beam applies Agility scaling and triggers Lunar Resonance on nearby foes', function()
-    applied_damages = {}
-    local luna = create_mock_unit('npc_dota_hero_luna', 2, Vector(0, 0, 0))
-    luna.agility = 100
-    local target = create_mock_unit('enfos_creep_target', 3, Vector(200, 0, 0))
-    local neighbor = create_mock_unit('enfos_creep_neighbor', 3, Vector(300, 0, 0))
-    mock_world_units = { luna, target, neighbor }
-
-    local ab = enfos_luna_lucent_beam()
-    ab.GetCaster = function() return luna end
-    ab.GetCursorTarget = function() return target end
-    ab.GetSpecialValueFor = function(_, k)
-        if k == 'beam_damage' then return 400 end
-        if k == 'stun_duration' then return 0.4 end
-        return 0
-    end
-
-    ab:OnSpellStart()
-
-    -- Primary damage: 400 + (100 * 1.5) = 550
-    -- Secondary resonance damage: 550 * 0.6 = 330
-    assert(#applied_damages == 2, 'Should hit target and resonance neighbor')
-    assert(applied_damages[1].victim == target and applied_damages[1].damage == 550)
-    assert(applied_damages[2].victim == neighbor and applied_damages[2].damage == 330)
-end)
-
-test('Luna Eclipse uses its own ranked beam value and caps total boss damage per cast', function()
-    applied_damages = {}
-    local luna = create_mock_unit('npc_dota_hero_luna', 2, Vector(0, 0, 0))
-    local boss = create_mock_unit('enfos_boss_luna_test', 3, Vector(100, 0, 0), 1000)
-    mock_world_units = { luna, boss }
-    local eclipse = enfos_luna_eclipse()
-    eclipse.GetSpecialValueFor = function(_, key)
-        local values = { radius = 750, beam_damage = 730, boss_damage_pct = 10, max_hits_per_target = 6 }
-        return values[key] or 0
-    end
-    local thinker = setmetatable({
-        GetParent = function() return luna end,
-        GetAbility = function() return eclipse end,
-        StartIntervalThink = function(self, interval) self.interval = interval end,
-    }, modifier_enfos_luna_eclipse_thinker)
-    thinker:OnCreated()
-    thinker:OnIntervalThink()
-    thinker:OnIntervalThink()
-    assert(#applied_damages == 1 and applied_damages[1].damage == 100,
-        'Eclipse uses its own damage rank and cannot exceed the configured per-cast boss cap')
-end)
-
--- Native Orbit collision/feedback needs owner Dota testing; see luna_native.test.mjs.
+-- Native Luna Q/E/R mechanics require owner Dota tests. Integration is covered
+-- by tools/tests/luna_native.test.mjs; no mock engine certification.
 
 test('Drow Frost Arrows scales with Agility and shatters on creep death', function()
     applied_damages = {}

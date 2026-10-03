@@ -1,7 +1,9 @@
-# Luna native-first pilot — pre-migration evidence
+# Luna native-first pilot — evidence and delivery
 
-Scope: `npc_dota_hero_luna` only. This is the decision record before major
-migration, not a delivery certificate. OWNER ENGINE ACCEPTANCE: NOT TESTED.
+Scope: `npc_dota_hero_luna` only. The pre-migration matrix and intermediate
+checkpoints below are historical evidence. The final delivery section records
+the current implementation and explicitly pending engine gates.
+OWNER ENGINE ACCEPTANCE: NOT TESTED.
 
 ## Source review
 
@@ -238,3 +240,187 @@ OWNER ENGINE ACCEPTANCE: NOT TESTED.
 
 Q/E/R migration, Luna-authored Boss-cap removal, their trace integration and
 the final pilot delivery remain open.
+
+## Final delivery — 2026-10-04
+
+IMPLEMENTED BUT NOT ENGINE-VERIFIED. The sections above describe earlier
+checkpoints, not outstanding implementation work. OWNER ENGINE ACCEPTANCE:
+NOT TESTED. Installed build remains 6943 / SourceRevision 11069754.
+
+### Final decision matrix
+
+| Slot | ENFOS stable ID | Native counterpart | Decision | Remaining ENFOS responsibility |
+| --- | --- | --- | --- | --- |
+| Q | `enfos_luna_lucent_beam` | `luna_lucent_beam` | NATIVE + MINIMAL ENFOS EXTENSION | Ten-rank numeric KV and the existing 1.5 × Agility contribution through a special-value override. No replicated cast/stun/damage/feedback. |
+| W | `enfos_luna_lunar_orbit` | `luna_lunar_orbit` | NATIVE | Explicit ten-rank KV, authored duration/mitigation, native Shard metadata. No Lua wrapper or pulse logic. |
+| E | `enfos_luna_lunar_blessing` | `luna_lunar_blessing` | NATIVE + MINIMAL ENFOS EXTENSION | Paid ten-rank visible E metadata and local armor/movement aura. Native damage/night vision/nighttime aura remain engine-owned. |
+| R | `enfos_luna_eclipse` | `luna_eclipse` | NATIVE + MINIMAL ENFOS EXTENSION | Explicit native base/upgrade arrays and a hidden original-name native Beam provider for linkage. No Lua beam scheduler or damage callback. |
+| D | `enfos_luna_moon_glaives` | `luna_moon_glaive` | NATIVE | Authored ten-rank bounces, separate free starting rank and ordinary paid ranks. No attack/projectile Lua. |
+
+All five are TUNE relative to their installed native mechanics. All five native
+BaseClasses and absence of Lua ability wrappers are checked against production
+KV. This establishes configuration ownership, not C++ runtime acceptance.
+
+### Remaining custom code and rationale
+
+- `abilities/heroes/luna/scaling.lua`: one persistent hidden, non-purgable
+  special-value modifier preserves Q's authored Agility contribution. It reads
+  raw `GetLevelSpecialValueNoOverride`, avoiding recursive overrides. For both
+  alias Q and the original native Beam provider it uses the current paid Q rank
+  and live Agility. Untrained Q returns zero. No damage events are generated.
+  The restore function creates one hidden/deactivated `luna_lucent_beam` only
+  on the ENFOS kit. That provider stays at native rank 1, so its internal native
+  rank assumptions are not exposed to ten ranks; its damage query is redirected
+  to the paid Q curve. It consumes no ordinary point and is never player-cast.
+- `abilities/heroes/luna/e.lua`: one persistent extension aura and one engine
+  aura recipient modifier retain only authored armor and 12% movement speed.
+  They add no attack damage, particles, sounds or timers. The aura checks paid
+  E rank, source life and Break; recipient getters also suppress stale lingering
+  bonuses on Break/death/untrained E. Rank values are read live. This local aura
+  intentionally stays within E's authored radius; native nighttime global scope
+  belongs to native attack damage, not the ENFOS armor/movement extension.
+- `abilities/heroes/luna/integration.lua`: existing free-rank/spawn restoration,
+  native item-upgrade routing and default-off diagnostic lines. Restoration
+  reuses the provider/modifiers, preserving paid ranks and ordinary points.
+  Existing shared spawn and upgrade managers call it; no new manager/listener,
+  periodic thinker, native attack observer or global scan is introduced.
+
+Native ability-specific internals remain in C++. The original-name Beam
+provider is an intentionally testable linkage solution, not proof of the exact
+internal lookup path: owner must verify the alias R actually uses it, including
+native Scepter casts. No native ID is globally overridden. Native Boss Luna
+without the ENFOS kit remains outside restoration and item exclusions.
+
+### Removed duplication and intentional native restoration
+
+All five former Luna Lua ability classes are removed. Removed modifiers:
+`modifier_enfos_luna_moon_glaives_passive`,
+`modifier_enfos_luna_lunar_orbit_buff`,
+`modifier_enfos_luna_lunar_blessing`,
+`modifier_enfos_luna_lunar_blessing_aura`,
+`modifier_enfos_luna_eclipse_thinker`, and their monolith registrations.
+Native engine now owns their cast/target/attack/bounce/modifier/resource
+lifecycles. Custom particle/SFX/projectile replication, pulse and Eclipse
+timers, per-target custom hit counters, bounce visited tables and custom
+particle cleanup are gone. The native per-target Eclipse hit limit remains
+ordinary KV; the per-cast Boss max-HP cap and all Luna Boss-only branches are
+removed. Boss AI/stats/skills/waves are unchanged.
+
+Q no longer emits three custom 60% resonance hits; Q's existing damage, stun,
+cooldown, mana and Agility values remain. Eclipse now follows Q, rather than the
+old independent R damage curve; its native beams do not stun. R's existing
+cooldown/mana, radius 750 and ordinary six-hit limit remain; cast point restores
+native 0.5s. E restores native allied-hero damage scope, double self damage,
+nighttime global aura and level-scaled night vision. Its ally damage/radius and
+local armor/speed curves remain, with hero-level damage increments explicitly
+zeroed to avoid unintended innate damage on top of paid ranks. W/D differences
+are recorded in their checkpoints above. These are native mechanic restorations,
+not unrelated balance redesign or claims of identical previous behavior.
+
+Luna's generic +40% ultimate damage / -25% cooldown Scepter modifier effects are
+disabled only for the ENFOS Eclipse kit; native Eclipse Scepter behavior replaces
+them. The now-empty generic modifier icon is hidden. Native Boss and other-hero
+paths remain unchanged in focused regressions. Shard ownership is W as recorded
+above. Normal Dota item stats, consumed Scepter/Blessing state, Ascended purchase
+systems and reconciliation remain intact. Four-language descriptions/mirrors
+now match native mechanics and retained extensions.
+
+Precache removals: **none**. The existing Beam/Eclipse entries still correspond
+to native effects and are not obsolete merely because custom EmitSound/particle
+calls vanished. Base attack resources are used by ordinary attacks and native
+Boss Luna. The installed native hero sound bank
+`soundevents/game_sounds_heroes/game_sounds_luna.vsndevts_c` was verified present;
+Luna is added to the existing sound-bank precache loop. No new custom asset or
+precache manager is introduced. Cold-start feedback/cleanup remains owner-test
+work; asset existence is not a visual/audio pass.
+
+### Ten-rank architecture and limits
+
+The five paid slots remain rank 0–10 with the original ENFOS-facing IDs and
+Q/W/E/D gates 1/1, R gates 5/5. Hero-level-50 XP, level-6 start, five initial
+ordinary points, free D rank, 49 ordinary skill points, hidden talent slots,
+selection/roster and match-only progression are unchanged. No account storage
+or permanent progression returns. All base multirank and Scepter multirank
+arrays are explicit ten entries; native terminal values are held where no new
+authored curve exists. Scalars stay scalar, including bounded native counts,
+radii and intervals. E is `Innate 0`, with hidden/skip-keybind behavior removed,
+and no implicit damage `hero_levelup` increment; its night vision retains native
+hero-level scaling. Provider Q is fixed at rank 1 and reads paid Q dynamically,
+so it needs no per-upgrade timer or event mirror.
+
+**Native ten-rank engine safety is not established.** KV/mocks cannot prove
+C++ level-index assumptions, modifier refresh, hidden provider lookup,
+innate-to-paid E HUD behavior, night scaling or native Shard/Scepter internals.
+The smallest implemented extensions address observable data/linkage boundaries
+without replacing mechanics. Owner tests must accept these before rollout.
+
+### Validation separation
+
+SOURCE_REVIEW: installed native Luna AbilityDefinitions verified for build 6943;
+native Orbit/ Blessing/Eclipse tooltip relationships inspected read-only.
+API evidence: toolkit `CDOTABaseAbility:GetLevelSpecialValueNoOverride` is
+available server/client and ignores special overrides; enum modifierfunction
+identifies the two override properties. No unavailable modifier upgrade event
+was guessed or added. The author-maintained
+[API reference](https://docs.moddota.com/lua_server/) documents the same ability
+API distinction. No game launch/control or imported third-party kit occurred.
+
+AUTOMATED_VALIDATION: 12 focused native/rank/restore/upgrade checks pass;
+two Luna content/rank contracts pass; 354 remaining hero-kit mocks pass.
+Structural inventory/reference generation represents five native slots with
+empty Lua callbacks and pending engine status. Native slots are reported
+separately from Lua passes by the rank runner, never fake-certified.
+Final broad validation on 2026-10-04: `npm.cmd run check` exited 0 with
+**0 failed checks**. The current working tree (including preserved contributor
+changes) passed syntax, KV, localization, inventory/reference, progression and
+regression checks. Rank inventory: **200/200 abilities, 195 Lua passed, 5 native
+pending owner, 0 failed**, exercised at ranks 1–10 for Lua-owned mechanics.
+The existing 48-normal-wave pressure checks and 12 installed native Boss-kit
+preparation checks also passed their automated scope; these are not runtime
+certification. The 354 hero-kit and 22 audit regressions passed in mocks.
+No Dota/VConsole session was launched or controlled.
+
+OWNER_RUNTIME: PENDING OWNER TEST. OWNER ENGINE ACCEPTANCE: NOT TESTED.
+
+### Practical owner test and VConsole checklist
+
+Full restart after KV and new module changes. Use a fresh Luna match, record
+build/revision, then enable diagnostics with
+`script require('lib/hero_trace'):SetEnabled(true)`. Respawn or invoke the existing
+Luna restore point to observe initial integration. Expected restore lines:
+
+```text
+[LUNA_TRACE][D] passive_rank_restored level=1 owner=native
+[LUNA_TRACE][W] native_integration_ready ability=enfos_luna_lunar_orbit shard=orbit
+[LUNA_TRACE][Q] native_scaling_ready rank=0 agility_multiplier=1.5
+[LUNA_TRACE][R] native_beam_provider_ready ability=luna_lucent_beam hidden=true rank=1
+[LUNA_TRACE][E] native_blessing_extension_ready rank=0 damage_owner=native armor_speed_owner=enfos
+```
+
+Rank fields reflect current paid ranks on subsequent restores. Native internal
+hits deliberately have no replicated trace lines. These lines prove the
+integration ran, not that casts/damage/resources passed. Any
+`[LUNA_TRACE][R] native_beam_provider_missing` is FAIL for linkage; inspect the
+ability slots/provider availability. Disable with `SetEnabled(false)`.
+
+| Area | Owner test / PASS criterion |
+| --- | --- |
+| Q | Ranks 1/4/5/10, valid/invalid/dead/friendly targets, range/mana/cooldown, spell block/immunity/status resistance. Measure armor/resistance-adjusted damage using Q's curve + 1.5×Agility; verify one native Beam and correct cast/impact animation/VFX/SFX with no duplicate resonance. Change Agility and paid Q rank; provider damage must follow live values. |
+| W | Paid active slot is Orbit. Cast while moving, costs/cooldowns at 1/4/5/10, four visible glaives, collision count/damage and dense-creep performance; 8s lifetime, 25% mitigation, death/recast cleanup. Shard adds 10 mitigation and 20% speed during Orbit only. No generic pure attack proc. |
+| E | E begins untrained and visible, has ten paid ranks and no second free innate rank. Measure ally damage, double Luna damage, local armor/speed and radius at 1/4/5/10. Verify night global damage/night vision, Break, death/respawn, live rank refresh and two Luna sources. Armor/speed must vanish on Break/death and not become a global nighttime extension. |
+| R | R ranks 1/3/4/10, beam count/interval/ordinary hit limit/target choice against normal waves and Boss; Q untrained produces no damage, Q learned/ranked/Agility updates affect R damage. No Boss HP cap and no beam stun. Scepter item and consumed Blessing support native allied/ground targeting, beam-count and per-target upgrades, 0.3s intervals, normal death/interrupt/cleanup. No additional 40%/25% generic modifier effect. |
+| D | Free starting rank and ranks 1/4/5/10; initial target, secondary targets, bounce count, falloff/projectile impact and high-density waves. Check native Break, illusion, immunity and target-loss behavior; no second Lua bounce/damage chain. |
+| Match integration | Level-6 start/five ordinary points/free D, level-50 and all 49 paid points, R gates at 5/10/…/50, no visible hidden Beam provider/extra rank button/talents. Repeat respawn/reconnect: one provider and extension of each type, no duplicated ranks/points/items. Native selection, normal and Ascended shops, Scepter/Blessing and Shard remain usable. EN/TR/RU/zh-CN descriptions display correctly. |
+| Performance/resources | Dense waves and repeated casts: no accumulating custom thinkers/projectiles/particles or trace spam; correct audio stop/cleanup. VConsole contains no new ERROR/FATAL/Failed/Unable/stack traceback/resource compile/modifier/null-handle errors. Record actual footage/audio and console output for acceptance. |
+
+### Pilot conclusion
+
+The source-reviewed implementation demonstrates a native-first architecture
+with all five mechanics configured for engine ownership and small local
+extensions instead of five recreated ability kits. It supports using this
+architecture as the next test candidate. **It does not yet demonstrate safe
+ten-rank engine behavior or justify default rollout to additional heroes.**
+That conclusion remains conditional on owner acceptance of the native aliases,
+Q/R provider, paid E conversion, upgrades, resources and dense-wave behavior.
+No other hero rollout is begun. Local commits only; no push/deploy/Workshop
+publication is authorized or performed.

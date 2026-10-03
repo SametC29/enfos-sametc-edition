@@ -1,5 +1,7 @@
 -- Diagnostics at existing ENFOS integration points; native abilities have no Lua wrappers.
 local Trace = require('lib/hero_trace')
+local Scaling = require('abilities/heroes/luna/scaling')
+local Blessing = require('abilities/heroes/luna/e')
 local Integration = {}
 
 function Integration.UsesNativeShard(hero)
@@ -10,6 +12,17 @@ end
 function Integration.OnPassiveRankRestored(ability)
     Trace:Log('LUNA','D','passive_rank_restored level=%s owner=native', tostring(ability:GetLevel()))
     Trace:Log('LUNA','W','native_integration_ready ability=enfos_luna_lunar_orbit shard=orbit')
+end
+
+function Integration.Restore(hero)
+    if not IsServer() or not hero or hero:IsNull() or not hero:IsRealHero()
+        or hero:IsIllusion() or hero:GetUnitName()~='npc_dota_hero_luna' then return false end
+    return Scaling.Restore(hero) and Blessing.Restore(hero)
+end
+
+function Integration.UsesNativeScepter(hero)
+    return hero and hero.GetUnitName and hero:GetUnitName()=='npc_dota_hero_luna'
+        and hero.FindAbilityByName and hero:FindAbilityByName('enfos_luna_eclipse') ~= nil
 end
 
 return Integration

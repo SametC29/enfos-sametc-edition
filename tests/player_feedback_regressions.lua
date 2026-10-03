@@ -39,7 +39,11 @@ test('all 40 innates receive only their initial free rank; respawn cannot reset 
  for name,id in pairs(service.byHero) do
   local a={level=0,GetLevel=function(s) return s.level end,SetLevel=function(s,v) s.level=v end}
   local h={IsNull=function() return false end,IsRealHero=function() return true end,IsIllusion=function() return false end,
-   GetUnitName=function() return name end,FindAbilityByName=function(_,key) assert(key==id);return a end}
+   GetUnitName=function() return name end,FindAbilityByName=function(_,key)
+    if key==id then return a end
+    assert(name=='npc_dota_hero_luna' and key=='enfos_luna_lucent_beam')
+    return nil -- This progression-only fixture has no native kit integration.
+   end}
   assert(service:Apply(h) and a.level==1);a.level=4;service:Apply(h);assert(a.level==4);count=count+1
  end
  assert(count==40)

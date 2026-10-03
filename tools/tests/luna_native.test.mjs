@@ -39,13 +39,15 @@ test('Native ownership cannot mask missing Lua or an unreviewed BaseClass',()=>{
 test('Luna D free-rank restore never consumes points, resets paid ranks or duplicates the ability',()=>{
   const script=`
 package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t)t.__index=t;return t end
+function LinkLuaModifier()end
 function IsServer() return true end
 local prints=0
 print=function() prints=prints+1 end
 local ability={rank=0,GetLevel=function(self)return self.rank end,SetLevel=function(self,n)self.rank=n end}
 local hero={points=5,IsNull=function()return false end,IsRealHero=function()return true end,
  IsIllusion=function()return false end,GetUnitName=function()return 'npc_dota_hero_luna' end,
- FindAbilityByName=function(_,id)assert(id=='enfos_luna_moon_glaives');return ability end}
+ FindAbilityByName=function(_,id)if id=='enfos_luna_moon_glaives' then return ability end end}
 local grants=require('heroes/innates')
 assert(grants:Apply(hero));assert(ability.rank==1 and hero.points==5)
 ability.rank=10
@@ -78,6 +80,8 @@ test('Luna W uses native collisions and preserves bounded explicit rank and Shar
 test('Luna native Shard routing excludes native Boss kit and other heroes',()=>{
   const script=`
 package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t)t.__index=t;return t end
+function LinkLuaModifier()end
 local integration=require('abilities/heroes/luna/integration')
 local hero={GetUnitName=function()return 'npc_dota_hero_luna' end,FindAbilityByName=function()return {} end}
 assert(integration.UsesNativeShard(hero))
@@ -93,6 +97,8 @@ assert(not integration.UsesNativeShard(hero))
 test('Native Orbit replaces Luna generic Shard speed and extra damage without changing other kits',()=>{
   const script=`
 package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t)t.__index=t;return t end
+function LinkLuaModifier()end
 function class(t)t.__index=t;return t end
 function LinkLuaModifier()end
 function IsServer()return true end

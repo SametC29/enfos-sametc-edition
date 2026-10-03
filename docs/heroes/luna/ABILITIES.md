@@ -9,13 +9,13 @@ Hero: `npc_dota_hero_luna`; role: Carry. Progression target: hero level 50 / all
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_luna_lucent_beam` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | luna_lucent_beam |
+| 1 | `enfos_luna_lucent_beam` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | NOT_EXPLICIT | luna_lucent_beam |
 | 2 | `enfos_luna_lunar_orbit` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE \| DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | NOT_EXPLICIT | luna_lunar_orbit |
-| 3 | `enfos_luna_lunar_blessing` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE \| DOTA_ABILITY_BEHAVIOR_AURA | abilities/pve_kits | luna_lunar_blessing |
-| 4 | `enfos_luna_eclipse` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | luna_eclipse |
+| 3 | `enfos_luna_lunar_blessing` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE \| DOTA_ABILITY_BEHAVIOR_AURA | NOT_EXPLICIT | luna_lunar_blessing |
+| 4 | `enfos_luna_eclipse` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | NOT_EXPLICIT | luna_eclipse |
 | 5 | `enfos_luna_moon_glaives` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | NOT_EXPLICIT | luna_moon_glaive |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), native mechanics (no Lua ability wrappers), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -76,9 +76,9 @@ claimed by this source review. OWNER ENGINE ACCEPTANCE: NOT TESTED.
 
 ## Slot 1: `enfos_luna_lucent_beam`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `luna_lucent_beam` (installed native snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot mapping is authored).
-Decision and PvE identity rationale: PVE-CONVERT preserves the identified Dota hero fantasy while changing PvP-only targeting/control for wave, elite and boss play.
+Decision and PvE identity rationale: Native Lucent Beam owns casting, targeting, control and resources; the isolated special-value modifier retains only authored Agility scaling and the native Eclipse Beam provider.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current/target rank: Lucent Beam Q ranks 1–10 are gated at hero levels 1–10; engine HUD/point behavior remains PENDING.
@@ -86,7 +86,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
 
-- Native ability data source + build + hash/revision: PENDING.
+- Native ability data source: installed source evidence linked in the pilot record; ClientVersion 6943 / SourceRevision 11069754; SHA256 matches the native source above. C++ behavior remains PENDING OWNER TEST.
 - Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
 - Sound events + declaring banks + emission target + loop termination: PENDING.
 - Model/animation/gesture/icon evidence: PENDING.
@@ -94,6 +94,8 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 - Precache owner and cold-start test: PENDING.
 - One-shot/persistent cleanup owner and repeated-use test: PENDING.
 - Localization keys and generated mirrors: PENDING.
+
+2026-10-04 final migration: all five Luna slots are native BaseClass aliases with no Lua ability wrappers. Remaining custom integration is under `abilities/heroes/luna/` (scaling, E armor/speed and restore/upgrade routing). Twelve focused integration checks pass; 354 remaining hero-kit mocks pass. These validate Lua integration and contracts, not native engine mechanics. See the final decision matrix and owner checklist in the pilot record. OWNER ENGINE ACCEPTANCE: NOT TESTED.
 
 ### Acceptance ledger
 
@@ -115,7 +117,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
+Historical pre-migration change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
 
 ## Slot 5: `enfos_luna_moon_glaives`
 
@@ -160,13 +162,13 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
+Historical pre-migration change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
 
 ## Slot 3: `enfos_luna_lunar_blessing`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `luna_lunar_blessing` (installed native snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot mapping is authored).
-Decision and PvE identity rationale: PVE-CONVERT preserves the identified Dota hero fantasy while changing PvP-only targeting/control for wave, elite and boss play.
+Decision and PvE identity rationale: Native Blessing owns damage, nighttime scope, vision and native passive behavior. Paid ten-rank metadata replaces the innate gates; isolated ENFOS armor/speed aura remains local.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current/target rank: Lunar Blessing E ranks 1–10 are gated at hero levels 1–10; engine HUD/point behavior remains PENDING.
@@ -174,7 +176,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
 
-- Native ability data source + build + hash/revision: PENDING.
+- Native ability data source: installed source evidence linked in the pilot record; ClientVersion 6943 / SourceRevision 11069754; SHA256 matches the native source above. C++ behavior remains PENDING OWNER TEST.
 - Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
 - Sound events + declaring banks + emission target + loop termination: PENDING.
 - Model/animation/gesture/icon evidence: PENDING.
@@ -182,6 +184,8 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 - Precache owner and cold-start test: PENDING.
 - One-shot/persistent cleanup owner and repeated-use test: PENDING.
 - Localization keys and generated mirrors: PENDING.
+
+2026-10-04 final migration: all five Luna slots are native BaseClass aliases with no Lua ability wrappers. Remaining custom integration is under `abilities/heroes/luna/` (scaling, E armor/speed and restore/upgrade routing). Twelve focused integration checks pass; 354 remaining hero-kit mocks pass. These validate Lua integration and contracts, not native engine mechanics. See the final decision matrix and owner checklist in the pilot record. OWNER ENGINE ACCEPTANCE: NOT TESTED.
 
 ### Acceptance ledger
 
@@ -203,13 +207,13 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
+Historical pre-migration change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
 
 ## Slot 4: `enfos_luna_eclipse`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `luna_eclipse` (installed native snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot mapping is authored).
-Decision and PvE identity rationale: PVE-CONVERT preserves the identified Dota hero fantasy while changing PvP-only targeting/control for wave, elite and boss play.
+Decision and PvE identity rationale: Native Eclipse owns scheduling, target selection, beams, darkness, Scepter and cleanup. Its hidden native Beam provider reads paid ENFOS Q damage. The Luna-authored Boss HP cap and custom beam scheduler are removed.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current/target rank: Eclipse R ranks 1–10 are gated at levels 5, 10, …, 50; ultimate HUD/point behavior remains PENDING.
@@ -217,7 +221,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 ### Resource and implementation evidence
 
-- Native ability data source + build + hash/revision: PENDING.
+- Native ability data source: installed source evidence linked in the pilot record; ClientVersion 6943 / SourceRevision 11069754; SHA256 matches the native source above. C++ behavior remains PENDING OWNER TEST.
 - Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
 - Sound events + declaring banks + emission target + loop termination: PENDING.
 - Model/animation/gesture/icon evidence: PENDING.
@@ -225,6 +229,8 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 - Precache owner and cold-start test: PENDING.
 - One-shot/persistent cleanup owner and repeated-use test: PENDING.
 - Localization keys and generated mirrors: PENDING.
+
+2026-10-04 final migration: all five Luna slots are native BaseClass aliases with no Lua ability wrappers. Remaining custom integration is under `abilities/heroes/luna/` (scaling, E armor/speed and restore/upgrade routing). Twelve focused integration checks pass; 354 remaining hero-kit mocks pass. These validate Lua integration and contracts, not native engine mechanics. See the final decision matrix and owner checklist in the pilot record. OWNER ENGINE ACCEPTANCE: NOT TESTED.
 
 ### Acceptance ledger
 
@@ -246,7 +252,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
+Historical pre-migration change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
 
 ## Slot 2: `enfos_luna_lunar_orbit`
 
@@ -291,7 +297,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
-Change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
+Historical pre-migration change/test record: all five slots have MaxLevel 10; all multirank KV values have ten explicit entries; the full 40-hero / 200-ability mock suite passes. Rank-up HUD, VFX/SFX in match, boss waves and VConsole remain pending a live Dota test.
 
 2026-09-30 level-cap integration and slot correction: all five Luna abilities declare KV rank gates. Q/W/E and the active W ability Lunar Orbit use one rank per level; Moon Glaives is the slot-5 Enfos passive and receives rank 1 through the separate Enfos grant. Eclipse ranks 1–10 unlock on levels 5, 10, …, 50. Static KV contract passes; actual rank buttons, level-up points, ultimate badge and match-start level 6 remain PENDING.
 

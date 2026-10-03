@@ -56,7 +56,7 @@ function Precache(context)
 			if definition.ProjectileModel then PrecacheResource("particle",definition.ProjectileModel,context) end
 		end
 	end
-	for _,name in ipairs({"sven","juggernaut","drowranger","lina","omniknight","centaur","skeletonking","phantom_assassin","zuus","tidehunter","dragon_knight","pudge","abyssal_underlord","ursa","monkey_king","troll_warlord","chaos_knight","antimage","vengefulspirit","jakiro"}) do
+	for _,name in ipairs({"sven","juggernaut","drowranger","lina","omniknight","centaur","skeletonking","phantom_assassin","zuus","tidehunter","dragon_knight","pudge","abyssal_underlord","ursa","monkey_king","troll_warlord","chaos_knight","antimage","vengefulspirit","jakiro","luna"}) do
 		PrecacheResource("soundfile","soundevents/game_sounds_heroes/game_sounds_"..name..".vsndevts",context)
 	end
 	-- Spellbringer can cast without these native heroes being selected.
