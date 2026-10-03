@@ -6461,6 +6461,7 @@ test('Lion Finger of Death splashes damage in AoE and increments stack on kill',
     local ab = enfos_lion_finger_of_death()
     ab.GetCaster = function() return lion end
     ab.GetCursorTarget = function() return target end
+    ab.ShouldAltCast = function() return true end
     ab.GetSpecialValueFor = function(_, k)
         if k == 'damage' then return 850 end
         if k == 'splash_radius' then return 325 end

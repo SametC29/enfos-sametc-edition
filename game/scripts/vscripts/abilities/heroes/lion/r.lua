@@ -2,6 +2,7 @@
 local H=require('abilities/shared/pve_helpers')
 local Trace=require('lib/hero_trace')
 local Upgrades=require('abilities/heroes/lion/upgrades')
+local Punch=require('abilities/heroes/lion/r_punch')
 local function valid(x) return x and not (x.IsNull and x:IsNull()) end
 local function counter_owner(m)
     if not valid(m) or m.closed then return end
@@ -33,10 +34,18 @@ function enfos_lion_finger_of_death:GetAOERadius()
     return Upgrades.HasScepter(self:GetCaster()) and H.value(self,'splash_radius') or 0
 end
 function enfos_lion_finger_of_death:GetIntrinsicModifierName() return 'modifier_enfos_lion_finger_counter' end
+function enfos_lion_finger_of_death:GetPunchModifierName() return 'modifier_enfos_lion_finger_punch' end
+function enfos_lion_finger_of_death:GetPunchDuration(upgraded)
+    return H.value(self,'punch_duration')+(upgraded and H.value(self,'punch_scepter_duration_bonus') or 0)
+end
+function enfos_lion_finger_of_death:GetPunchCleave(upgraded)
+    return H.value(self,'punch_cleave_pct')+(upgraded and H.value(self,'punch_scepter_cleave_bonus') or 0)
+end
 function enfos_lion_finger_of_death:OnSpellStart()
     if not IsServer() or not valid(self) then return end
     local c,t=self:GetCaster(),self:GetCursorTarget()
     if not eligible(c,t) then return end
+    local alt=self:ShouldAltCast() -- Initial order choice, not a later mutable toggle.
     if t:TriggerSpellAbsorb(self) then Trace:Log('LION','R','spell absorbed');return end
     if not valid(self) or not eligible(c,t) then return end
     local base=H.value(self,'damage')
@@ -80,6 +89,7 @@ function enfos_lion_finger_of_death:OnSpellStart()
         end
         return nil
     end,delay)
+    Punch.Grant(self,c,upgraded,alt)
 end
 
 modifier_enfos_lion_finger_counter=class({})
@@ -146,6 +156,9 @@ end
 function modifier_enfos_lion_finger_counter:OnDeath(event)
     if event then self:CreditFingerKill(event.unit) end
 end
+function modifier_enfos_lion_finger_counter:OnStackCountChanged()
+    Punch.SyncCounter(self)
+end
 function modifier_enfos_lion_finger_counter:GetModifierSpellAmplify_Percentage()
     return counter_bonus(self,'kill_stack_spell_amp_pct')
 end
@@ -171,4 +184,5 @@ function modifier_enfos_lion_finger_counter:OnDestroy()
     self.pendingFingerHits=nil
     self.fingerCleanupArmed=false
     self.fingerCleanupToken=nil
+    Punch.SyncCounter(self) -- Publish zero live stack damage to an existing fist buff.
 end

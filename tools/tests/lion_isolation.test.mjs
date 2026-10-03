@@ -21,14 +21,14 @@ test('Lion production classes have unique owners and cold loading cannot relink 
   assert.ok(!defined.has(name),'duplicate '+name);defined.set(name,path);
  }
  ids.forEach((id,i)=>assert.equal(defined.get(id),`game/scripts/vscripts/abilities/heroes/lion/${slots[i]}.lua`));
- assert.equal([...defined.keys()].filter(x=>x.startsWith('modifier_')).length,6);
+ assert.equal([...defined.keys()].filter(x=>x.startsWith('modifier_')).length,7);
  const script=`
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end
 local links={};function LinkLuaModifier(n,p)assert(not links[n],'duplicate modifier '..n);links[n]=p end
 local routes=require('abilities/heroes/lion/init')
 assert(not package.loaded['abilities/pve_kits'])
-local count=0;for n,p in pairs(routes)do count=count+1;assert(links[n]==p and type(_G[n])=='table');require(p)end;assert(count==6)
+local count=0;for n,p in pairs(routes)do count=count+1;assert(links[n]==p and type(_G[n])=='table');require(p)end;assert(count==7)
 ${ids.map(id=>`assert(type(${id})=='table')`).join('\n')}
 require('abilities/pve_kits');for n,p in pairs(routes)do assert(links[n]==p)end
 assert(type(enfos_lion_mana_drain.OnChannelFinish)=='function')

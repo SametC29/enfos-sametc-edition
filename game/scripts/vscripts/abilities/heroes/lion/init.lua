@@ -10,5 +10,6 @@ return {
     ['modifier_enfos_lion_mana_drain_channel'] = 'abilities/heroes/lion/e',
     ['modifier_enfos_lion_mana_drain_debuff'] = 'abilities/heroes/lion/e',
     ['modifier_enfos_lion_finger_counter'] = 'abilities/heroes/lion/r',
+    ['modifier_enfos_lion_finger_punch'] = 'abilities/heroes/lion/r_punch',
     ['modifier_enfos_lion_demon_soul_passive'] = 'abilities/heroes/lion/d',
 }

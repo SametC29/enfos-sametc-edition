@@ -14,6 +14,7 @@ local server=true;function IsServer()return server end;Convars={GetBool=function
 MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE=1;MODIFIER_PROPERTY_TOOLTIP=2;MODIFIER_PROPERTY_TOOLTIP2=3;MODIFIER_EVENT_ON_DEATH=220
 ${baseline?`assert(load([==[${baseline}]==]))()`:`require('abilities/heroes/lion/r')`}
 local c={};function c:IsNull()return self.removed end
+function c:FindModifierByName()return nil end
 local a={rank=0};function a:IsNull()return self.removed end
 function a:GetLevel()assert(not self.removed);return self.rank end
 function a:GetCaster()assert(not self.removed);return self.foreign or c end

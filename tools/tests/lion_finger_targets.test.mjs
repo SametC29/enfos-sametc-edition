@@ -39,7 +39,7 @@ function c:FindModifierByName(n)assert(n=='modifier_enfos_lion_finger_counter');
 a=setmetatable({rank=1},enfos_lion_finger_of_death);local base={${values.damage.split(/\s+/).join(',')}}
 local specials={grace_period=${values.grace_period},damage_delay=${values.damage_delay},int_scaling_pct=${values.int_scaling_pct},kill_stack_cap=${values.kill_stack_cap},kill_stack_damage=${values.kill_stack_damage},kill_stack_spell_amp_pct=${values.kill_stack_spell_amp_pct},scepter_bonus_damage=${values.scepter_bonus_damage},splash_radius=${values.splash_radius},boss_damage_cap_pct=12}
 function a:GetSpecialValueFor(k)return k=='damage' and base[self.rank] or specials[k] or 0 end
-function a:IsNull()return self.removed end;function a:GetCaster()return c end;function a:GetCursorTarget()return normal end;function a:GetLevel()return self.rank end
+function a:IsNull()return self.removed end;function a:GetCaster()return c end;function a:GetCursorTarget()return normal end;function a:GetLevel()return self.rank end;function a:ShouldAltCast()return true end
 counter:OnCreated()
 -- A same-name stale counter must not supply stacks to a different R or parent.
 for _,mode in ipairs({'ability','parent','closed'})do

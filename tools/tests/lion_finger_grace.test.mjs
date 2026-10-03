@@ -35,7 +35,7 @@ local function unit(boss)
 end
 local c=unit();c.team=2
 local chosen;local a=setmetatable({rank=1},enfos_lion_finger_of_death)
-function a:IsNull()return self.removed end;function a:GetCaster()return c end;function a:GetCursorTarget()return chosen end;function a:GetLevel()return self.rank end
+function a:IsNull()return self.removed end;function a:GetCaster()return c end;function a:GetCursorTarget()return chosen end;function a:GetLevel()return self.rank end;function a:ShouldAltCast()return true end
 local values={damage_delay=.25,grace_period=3,splash_radius=325,scepter_bonus_damage=100,int_scaling_pct=250,kill_stack_cap=20,kill_stack_damage=40,kill_stack_spell_amp_pct=1.5}
 local damages={${v.damage.split(/\s+/).join(',')}}
 function a:GetSpecialValueFor(k)return k=='damage' and damages[self.rank] or values[k] or 0 end

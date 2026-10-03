@@ -389,6 +389,7 @@ for _, hero_info in ipairs(roster) do
             ab.GetAbilityDamageType = function() return DAMAGE_TYPE_MAGICAL end
             ab.GetToggleState = function() return true end
             ab.GetAutoCastState = function() return true end
+            ab.ShouldAltCast = function() return true end
             ab.IsCooldownReady = function() return true end
             ab.UseResources = function() end
             ab.ToggleAbility = function() end
