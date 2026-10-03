@@ -7,10 +7,11 @@ package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end
 function LinkLuaModifier()end
 local server=true;function IsServer()return server end
-DAMAGE_TYPE_MAGICAL=2;DOTA_UNIT_TARGET_TEAM_ENEMY=3;DOTA_UNIT_TARGET_HERO=1;DOTA_UNIT_TARGET_BASIC=2;DOTA_UNIT_TARGET_BUILDING=4;DOTA_UNIT_TARGET_FLAG_NONE=0;FIND_ANY_ORDER=0;PATTACH_ABSORIGIN_FOLLOW=0
+DAMAGE_TYPE_MAGICAL=2;DOTA_UNIT_TARGET_TEAM_ENEMY=3;DOTA_UNIT_TARGET_HERO=1;DOTA_UNIT_TARGET_BASIC=2;DOTA_UNIT_TARGET_BUILDING=4;DOTA_UNIT_TARGET_FLAG_NONE=0;FIND_ANY_ORDER=0;PATTACH_ABSORIGIN_FOLLOW=0;PATTACH_WORLDORIGIN=1
+function Vector(x,y,z)return {x=x,y=y,z=z}end
 MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT=1;MODIFIER_PROPERTY_TOOLTIP=2;MODIFIER_PROPERTY_TOOLTIP2=3
 Convars={GetBool=function()return false end}
-ParticleManager={CreateParticle=function()return 1 end,ReleaseParticleIndex=function()end}
+ParticleManager={SetParticleControl=function()end,CreateParticle=function()return 1 end,ReleaseParticleIndex=function()end}
 require('abilities/heroes/jakiro/e')
 local now,hits,query=0,{},{}
 local function unit(name,team,building)

@@ -7,7 +7,8 @@ package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end
 function LinkLuaModifier()end
 local server=true;function IsServer()return server end
-DAMAGE_TYPE_MAGICAL=2;DOTA_UNIT_TARGET_TEAM_ENEMY=3;DOTA_UNIT_TARGET_HERO=1;DOTA_UNIT_TARGET_BASIC=2;DOTA_UNIT_TARGET_BUILDING=4;DOTA_UNIT_TARGET_FLAG_NONE=0;FIND_ANY_ORDER=0;PATTACH_ABSORIGIN_FOLLOW=0
+DAMAGE_TYPE_MAGICAL=2;DOTA_UNIT_TARGET_TEAM_ENEMY=3;DOTA_UNIT_TARGET_HERO=1;DOTA_UNIT_TARGET_BASIC=2;DOTA_UNIT_TARGET_BUILDING=4;DOTA_UNIT_TARGET_FLAG_NONE=0;FIND_ANY_ORDER=0;PATTACH_ABSORIGIN_FOLLOW=0;PATTACH_WORLDORIGIN=1
+function Vector(x,y,z)return {x=x,y=y,z=z}end
 MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT=1;MODIFIER_PROPERTY_TOOLTIP=2;MODIFIER_EVENT_ON_ATTACK_LANDED=3
 Convars={GetBool=function()return false end}
 require('abilities/heroes/jakiro/e')
@@ -52,7 +53,7 @@ for _,mode in ipairs({'normal','poor','cooldown','client','nil_event','removed_c
   modifier:OnAttack({attacker=c,target=target,record=10})
   if mode=='perform_removes_caster' then self.removed=true end
  end
- ParticleManager={CreateParticle=function()return 1 end,ReleaseParticleIndex=function()end}
+ ParticleManager={SetParticleControl=function()end,CreateParticle=function()return 1 end,ReleaseParticleIndex=function()end}
  function FindUnitsInRadius()return {normal,boss}end
  function ApplyDamage(info)hits[#hits+1]=info;return info.damage end
  server=mode~='client'

@@ -1,7 +1,6 @@
 -- Jakiro E: impact-snapshotted periodic Liquid Fire, with ordinary resource rules.
 local Helpers = require('abilities/shared/pve_helpers')
 local value, get_int, damage = Helpers.value, Helpers.get_int, Helpers.damage
-local effect = Helpers.effect
 local HeroTrace = require('lib/hero_trace')
 LinkLuaModifier('modifier_enfos_jakiro_liquid_fire_slow', 'abilities/heroes/jakiro/e', LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier('modifier_enfos_jakiro_liquid_fire_passive', 'abilities/heroes/jakiro/e', LUA_MODIFIER_MOTION_NONE)
@@ -42,7 +41,11 @@ function enfos_jakiro_liquid_fire:FireAt(target,snapshot)
     local duration,tick,building_pct=data.duration,data.tick,data.building_pct
     target:EmitSound('Hero_Jakiro.LiquidFire')
     if not valid(self) or not enemy(c,target) then return false end
-    effect('particles/units/heroes/hero_jakiro/jakiro_liquid_fire_explosion.vpcf',target)
+    -- Match the saved damage origin; native RingWave needs CP1 radius/speed.
+    local particle=ParticleManager:CreateParticle('particles/units/heroes/hero_jakiro/jakiro_liquid_fire_explosion.vpcf',PATTACH_WORLDORIGIN,target)
+    ParticleManager:SetParticleControl(particle,0,origin)
+    ParticleManager:SetParticleControl(particle,1,Vector(radius,radius,radius))
+    ParticleManager:ReleaseParticleIndex(particle) -- Finite native impact owns its expiry.
     if not valid(self) or not valid(c) then return false end
     local targets=FindUnitsInRadius(c:GetTeamNumber(),origin,nil,radius,DOTA_UNIT_TARGET_TEAM_ENEMY,
         DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_BASIC+DOTA_UNIT_TARGET_BUILDING,DOTA_UNIT_TARGET_FLAG_NONE,FIND_ANY_ORDER,false)
