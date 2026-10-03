@@ -48,6 +48,30 @@ assets or invented counterpart are needed. Publication remains unauthorized.
 Current source: SF native providers implemented; owner Q/R presentation confirmed,
 client stack getter corrected; numeric R scaling and remaining engine tests pending.
 Next source unit: Bristleback. Owner requests overnight continuation of the listed
-source units and Necrophos; scheduled continuation is attached to this chat.
+source units and Necrophos. The owner subsequently cancels the scheduled
+continuation and requests goal-driven work in this chat instead; the automation
+is deleted. Live tests remain deferred and do not block the next source unit.
 Do not stop source rollout merely because deferred owner tests are unavailable.
 Remaining listed heroes have no new engine acceptance from this instruction.
+
+## Current goal contract — owner update2026-10-04
+
+Continue the owner-listed native-first source rollout in this chat with no
+scheduled automation. Bristleback is the next source unit, followed by the
+ordered list above and Necrophos addition. Finish known actionable source
+defects, native research, classifications, ten-rank integration, four-language
+localization and relevant checks for each hero; record owner engine tests
+separately and proceed without waiting for those tests. An unresolved native
+damage/read-path question must remain visible, not become an invented PASS.
+SF's R numeric scaling and post-fix client/death/upgrades tests stay pending.
+
+Keep automatic selected-hero Health console reporting. Owner saves console
+logs and supplies them later. No collection service, remote upload or scheduled
+continuation; no Dota control, remote push or publication. Preserve contributor
+changes and working Luna. Local atomic source commits remain authorized.
+
+The app goal record still contains the old blocked SF-only objective because
+the available goal API exposes status updates, not objective editing or
+replacement of an unfinished goal. Do not mark that goal falsely complete to
+replace it. This latest owner instruction and this ledger supersede its old
+stop-after-SF gate for actual work. Engine acceptance remains unachieved.

@@ -383,3 +383,13 @@ No collector, upload, public endpoint or HTTP diagnostic transmission remains.
 Nine automatic-health/SF integration checks pass after removal. Do not restore
 collection services without a new owner request. Overnight hero source rollout
 and deferred owner engine validation remain unchanged.
+
+## Owner replaces scheduled continuation with sequential goal work, 2026-10-04
+
+The scheduled Enfos hero heartbeat is deleted at owner's request. Continue the
+owner-listed native-first hero source work in this chat, starting Bristleback,
+without waiting for live tests; keep pending runtime fields separate. The latest
+rollout goal contract supersedes the old SF-only stop gate. Automatic selected
+hero Health remains; owner shares logs manually. No collector/publication is
+restored. Goal API objective editing is unavailable; do not fabricate completion
+of the old SF goal to create a replacement.
