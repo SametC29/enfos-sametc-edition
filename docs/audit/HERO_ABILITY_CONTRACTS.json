@@ -4030,6 +4030,7 @@
             "GetIntrinsicModifierName"
           ],
           "specials": {
+            "self_multiplier": "25",
             "bonus_damage_pct": "15 20 25 30 31 32 33 34 35 36",
             "radius": "900 950 1000 1050 1100 1150 1200 1250 1300 1350"
           },

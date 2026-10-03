@@ -322,3 +322,34 @@ as previously verified. Native vision trail and recipient particle binding are
 still OPEN. Actual attack reduction against base+bonus attack damage, dispel,
 immunity, tooltip sign/rendering and refresh replication remain PENDING OWNER
 DOTA/VCONSOLE TEST; no mock proves those engine gates.
+
+## E emitter rank gate and native self bonus
+
+Installed build-6943 command-aura KV has `self_multiplier` 25; native English
+description at line 1417 says Venge receives extra benefit herself. The custom
+getter previously gave the same value to source and allies. Restored the native
+relative self benefit: aura 15% gives its source 18.75%, not 40%. Allies retain
+their existing ten-rank base-damage curve/radius; Scepter's extra multiplier and
+strong illusion are still a separate outstanding upgrade unit. E remains TUNE.
+
+The recipient rank-zero guard already prevented actual stat gain, but IsAura
+and radius had no corresponding learned-ability gate. A valid rank-zero emitter
+could create empty recipient modifiers. IsAura now requires a valid trained
+ability, with zero radius for missing/removed/unlearned ability, and still uses
+source Break. No new tick, aura manager, modifier, particles or source-death
+override is introduced. Engine aura duration/death defaults remain unchanged.
+Client/server stat getters use the same live ability values; no new transmission
+is needed for this bonus. Existing illusion-recipient exclusion remains for its
+later native/Scepter audit, not asserted native from this patch.
+
+Baseline fixture reproduces rank-zero emission. Focused E tests now cover emitter
+rank zero/rank one, removed ability, Break, live rank updates, self vs unrelated
+recipient, relative (not flat) multiplier and lingering invalid recipients.
+The historical Break fixture now supplies a learned ability as the engine does;
+contributor Lich tests remain outside this commit. Four-language descriptions
+and mirrors disclose the self benefit and learned-rank rule. The public
+[ModDota API reference](https://docs.moddota.com/lua_server/) documents GetLevel,
+IsAura and GetAuraRadius; installed native KV/localization supplies the gameplay
+evidence. Real self/ally damage, rank-up/respawn/reconnect and aura presentation
+remain PENDING OWNER DOTA/VCONSOLE TEST. Scepter, W vision/VFX and Q/R immunity
+semantics remain open; this unit does not close the hero review.

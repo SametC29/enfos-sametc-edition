@@ -7501,6 +7501,7 @@ end)
 test('Vengeful Spirit Vengeance Aura stops buffing allies while its source is broken', function()
     local venge = create_mock_unit('npc_dota_hero_vengefulspirit', 2, Vector(0, 0, 0))
     local aura = modifier_enfos_vs_vengeance_aura()
+    aura.GetAbility = function() return {GetLevel=function() return 1 end} end
     aura.GetParent = function() return venge end
     venge.PassivesDisabled = function() return false end
     assert(aura:IsAura() == true, 'Vengeance Aura should be active while passives are enabled')

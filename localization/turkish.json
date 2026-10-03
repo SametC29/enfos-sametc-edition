@@ -919,7 +919,7 @@
     "DOTA_Tooltip_Ability_enfos_vs_wave_of_terror": "Dehşet Dalgası",
     "DOTA_Tooltip_Ability_enfos_vs_wave_of_terror_Description": "{{wave_speed}} hızla {{wave_distance}} menzile ilerleyen bir dalga gönderir. Yolunun {{wave_width}} birim yakınındaki düşmanlara çarpınca {{damage}} + Çevikliğin 0,6 katı büyü hasarı verir; zırhı {{armor_reduction}}, toplam saldırı hasarını %{{attack_reduction}} azaltır. Etki {{duration}} saniye sürer ve dağıtılabilir. Dalga düşmanların içinden geçmeye devam eder.",
     "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura": "İntikam Halesi",
-    "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura_Description": "{{radius}} menzildeki dost kahramanların ve temel birimlerin temel saldırı hasarını %{{bonus_damage_pct}} artırır. Vengeful Spirit Kırılma etkisindeyken devre dışıdır.",
+    "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura_Description": "{{radius}} menzil içindeki dost kahramanların ve temel birimlerin taban saldırı hasarını pasif olarak %{{bonus_damage_pct}} artırır. Vengeful Spirit kendi aurasından %{{self_multiplier}} daha fazla fayda alır. Aura öğrenilmiş bir rank gerektirir; kaynak kahraman Kırılma etkisindeyken devre dışıdır.",
     "DOTA_Tooltip_Ability_enfos_vs_nether_swap": "Ruh Takası",
     "DOTA_Tooltip_Ability_enfos_vs_nether_swap_Description": "Hedef birimle anında yer değiştirir. Düşmana {{damage}} + Çeviklik × 1,2 büyü hasarı verir; dostlara hasar vermez. Vengeful Spirit 4 saniye boyunca %30 hasar azaltma kazanır. Geçerli Boss hedefleriyle de yer değiştirebilir.",
     "DOTA_Tooltip_Ability_enfos_vs_retribution": "Misilleme",

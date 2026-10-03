@@ -20,11 +20,18 @@ local source,recipient=unit(),unit()
 local ab={removed=false,rank=1}
 function ab:IsNull()return self.removed end
 function ab:GetLevel()assert(not self.removed);return self.rank end
-function ab:GetSpecialValueFor(k)assert(not self.removed);assert(k=='bonus_damage_pct');return 15+(self.rank-1)*2 end
+function ab:GetSpecialValueFor(k)assert(not self.removed);if k=='self_multiplier' then return 25 end;if k=='radius' then return 900 end;assert(k=='bonus_damage_pct');return 15+(self.rank-1)*2 end
+local emitter=setmetatable({GetParent=function()return source end,GetAbility=function()return ab end},modifier_enfos_vs_vengeance_aura)
+ab.rank=0;assert(emitter:IsAura()==false and emitter:GetAuraRadius()==0,'Rank zero must not emit an aura')
+ab.rank=1;assert(emitter:IsAura()==true and emitter:GetAuraRadius()==900)
 local buff=setmetatable({GetCaster=function()return source end,GetParent=function()return recipient end,
  GetAbility=function()return ab end},modifier_enfos_vs_vengeance_aura_buff)
 assert(buff:GetModifierBaseDamageOutgoing_Percentage()==15)
+local selfBuff=setmetatable({GetCaster=function()return source end,GetParent=function()return source end,
+ GetAbility=function()return ab end},modifier_enfos_vs_vengeance_aura_buff)
+assert(selfBuff:GetModifierBaseDamageOutgoing_Percentage()==18.75,'Native self bonus is 25% extra aura benefit, not 25 percentage points')
 source.broken=true
+assert(emitter:IsAura()==false and selfBuff:GetModifierBaseDamageOutgoing_Percentage()==0)
 assert(buff:GetModifierBaseDamageOutgoing_Percentage()==0,'Source Break must suppress already attached/lingering buff')
 source.broken=false;recipient.broken=true
 assert(buff:GetModifierBaseDamageOutgoing_Percentage()==15,'External aura is not recipient-owned passive')
@@ -33,9 +40,12 @@ assert(buff:GetModifierBaseDamageOutgoing_Percentage()==0,'Preserve current illu
 recipient.illusion=false;ab.rank=10
 assert(buff:GetModifierBaseDamageOutgoing_Percentage()==33,'Rank changes must update live aura value')
 ab.rank=0;assert(buff:GetModifierBaseDamageOutgoing_Percentage()==0,'Unlearned ability cannot grant lingering bonus')
+assert(selfBuff:GetModifierBaseDamageOutgoing_Percentage()==0)
 ab.rank=1;ab.removed=true;assert(buff:GetModifierBaseDamageOutgoing_Percentage()==0)
+assert(emitter:IsAura()==false and emitter:GetAuraRadius()==0)
 ab.removed=false;source.removed=true;assert(buff:GetModifierBaseDamageOutgoing_Percentage()==0)
 source.removed=false;recipient.removed=true;assert(buff:GetModifierBaseDamageOutgoing_Percentage()==0)
+assert(selfBuff:GetModifierBaseDamageOutgoing_Percentage()==18.75,'Unrelated recipient removal must not alter self bonus')
 recipient.removed=false;source=nil;assert(buff:GetModifierBaseDamageOutgoing_Percentage()==0)
 print('Vengeance Aura source ownership PASS')
 `;

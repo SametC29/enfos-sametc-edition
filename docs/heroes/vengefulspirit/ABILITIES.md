@@ -15,6 +15,11 @@ existing damage/armor and replicates its modifier value on creation/refresh.
 Native vision/recipient VFX and real attack/immunity/dispel verification remain
 open in the individual ledger; this does not certify W or the whole hero.
 
+2026-10-03 E correction: emitter/radius now require a valid learned ability,
+and Venge herself receives the native 25% extra aura benefit (relative to the
+aura bonus). Ally curves and source Break behavior are preserved. See the
+individual ledger for source/fixture evidence and pending Scepter/engine gates.
+
 <!-- BEGIN GENERATED INVENTORY -->
 ## Current inventory (generated; not certification)
 

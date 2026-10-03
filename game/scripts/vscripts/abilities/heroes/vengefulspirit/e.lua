@@ -2,6 +2,10 @@
 local Helpers = require('abilities/shared/pve_helpers')
 local value = Helpers.value
 local HeroTrace = require('lib/hero_trace')
+local function trained(ability)
+    return ability and not (ability.IsNull and ability:IsNull())
+        and ability:GetLevel() > 0
+end
 LinkLuaModifier('modifier_enfos_vs_vengeance_aura', 'abilities/heroes/vengefulspirit/e', LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier('modifier_enfos_vs_vengeance_aura_buff', 'abilities/heroes/vengefulspirit/e', LUA_MODIFIER_MOTION_NONE)
 
@@ -11,9 +15,13 @@ function enfos_vs_vengeance_aura:GetIntrinsicModifierName() return 'modifier_enf
 modifier_enfos_vs_vengeance_aura=class({})
 function modifier_enfos_vs_vengeance_aura:IsAura()
     local c = self:GetParent()
-    return c and not (c.IsNull and c:IsNull()) and not (c.PassivesDisabled and c:PassivesDisabled())
+    if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled()) then return false end
+    return trained(self:GetAbility()) and true or false
 end
-function modifier_enfos_vs_vengeance_aura:GetAuraRadius() return value(self:GetAbility(), 'radius') end
+function modifier_enfos_vs_vengeance_aura:GetAuraRadius()
+    local ab = self:GetAbility()
+    return trained(ab) and value(ab, 'radius') or 0
+end
 function modifier_enfos_vs_vengeance_aura:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_FRIENDLY end
 function modifier_enfos_vs_vengeance_aura:GetAuraSearchType() return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end
 function modifier_enfos_vs_vengeance_aura:GetModifierAura() return 'modifier_enfos_vs_vengeance_aura_buff' end
@@ -29,7 +37,10 @@ function modifier_enfos_vs_vengeance_aura_buff:GetModifierBaseDamageOutgoing_Per
     if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled()) then return 0 end
     local ab = self:GetAbility()
     if not ab or (ab.IsNull and ab:IsNull()) or (ab.GetLevel and ab:GetLevel() <= 0) then return 0 end
-    return value(ab, 'bonus_damage_pct')
+    local bonus = value(ab, 'bonus_damage_pct')
+    -- Native self_multiplier is an extra fraction of the aura bonus, not flat damage.
+    if p == c then bonus = bonus * (1 + value(ab, 'self_multiplier') / 100) end
+    return bonus
 end
 
 function modifier_enfos_vs_vengeance_aura:GetTexture() return 'vengefulspirit_command_aura' end
