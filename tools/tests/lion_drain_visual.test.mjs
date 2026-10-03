@@ -217,9 +217,10 @@ print('Lion drain visual PASS')
 `;
  const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:lua,encoding:'utf8'});
  assert.equal(r.status,0,r.stderr||r.stdout);assert.equal(r.stderr,'');assert.match(r.stdout,/Lion drain visual PASS/);
- // This repair does not silently decide the pending native/PvE mana conversion.
+ // Visual ownership retains the original tuning except explicitly audited native restorations.
  const path='game/scripts/npc/npc_abilities_custom.txt';
  const old=parseKV(execFileSync('git',['show','1d6a67f:'+path],{encoding:'utf8'})).DOTAAbilities.enfos_lion_mana_drain;
  old.AbilityUnitTargetFlags='DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE | DOTA_UNIT_TARGET_FLAG_NO_INVIS';old.AbilityValues.shard_bonus_targets='2';old.HasShardUpgrade='1';old.AbilityValues.shard_break_distance_bonus='200';old.AbilityValues.shard_magic_resistance='60';old.SpellDispellableType='SPELL_DISPELLABLE_NO';old.AbilityValues.break_distance='1100';old.AbilityCastAnimation='ACT_DOTA_CAST_ABILITY_3';
+ old.AbilityValues.movespeed_bonus_when_empty_pct='15';
  assert.deepEqual(parseKV(fs.readFileSync(path,'utf8')).DOTAAbilities.enfos_lion_mana_drain,old);
 });

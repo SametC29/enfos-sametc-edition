@@ -5270,6 +5270,7 @@
 			"shard_bonus_targets" "2"
 			"channel_duration" "4"
 			"slow_pct" "35"
+			"movespeed_bonus_when_empty_pct" "15"
 		}
 		"ScriptFile"				"abilities/heroes/lion/e"
 	}

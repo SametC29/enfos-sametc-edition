@@ -14,16 +14,18 @@ local server=true;function IsServer()return server end;Convars={GetBool=function
 MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE=1
 ${baseline?`assert(load([==[${baseline}]==]))()`:`require('abilities/heroes/lion/e')`}
 local function unit(team)
- local u={team=team,alive=true}
+ local u={team=team,alive=true,maxMana=100,mana=10}
  function u:IsNull()return self.removed end;function u:IsAlive()assert(not self.removed);return self.alive end
  function u:GetTeamNumber()assert(not self.removed);return self.team end
  function u:IsMagicImmune()return self.magic end;function u:IsDebuffImmune()return self.debuff end;function u:IsBuilding()return self.building end
+ function u:GetMaxMana()assert(not self.removed);return self.maxMana end
+ function u:GetMana()assert(not self.removed);return self.mana end
  return u
 end
 local c,t=unit(2),unit(3);local a={rank=0,value=${kv.AbilityValues.slow_pct}}
 function a:GetCaster()return self.foreign or c end
 function a:IsNull()return self.removed end;function a:GetLevel()assert(not self.removed);return self.rank end
-function a:GetSpecialValueFor(k)assert(not self.removed and k=='slow_pct');return self.value end
+function a:GetSpecialValueFor(k)assert(not self.removed);if k=='slow_pct' then return self.value end;assert(k=='movespeed_bonus_when_empty_pct');return ${kv.AbilityValues.movespeed_bonus_when_empty_pct} end
 local m=setmetatable({GetParent=function()return t end,GetCaster=function()return c end,GetAbility=function()return a end},modifier_enfos_lion_mana_drain_debuff)
 function m:IsNull()return self.removed end
 assert(m:GetModifierMoveSpeedBonus_Percentage()==0,'Rank0 cannot slow a recipient')
@@ -31,7 +33,14 @@ a.rank=1;a.foreign=unit(2);assert(m:GetModifierMoveSpeedBonus_Percentage()==0,'B
 m:OnCreated();assert(m:IsDebuff() and not m:IsHidden() and not m:IsPurgable() and not m:IsPurgeException() and m:GetTexture()=='lion_mana_drain')
 for _,side in ipairs({true,false})do
  server=side
- for rank=1,10 do a.rank=rank;m:OnRefresh();assert(m:GetModifierMoveSpeedBonus_Percentage()==-35)end
+ for rank=1,10 do
+  a.rank=rank;m:OnRefresh()
+  t.maxMana=100;t.mana=10;assert(m:GetModifierMoveSpeedBonus_Percentage()==-35)
+  t.mana=0;assert(m:GetModifierMoveSpeedBonus_Percentage()==-50,'Depleted mana-bearing targets gain the native extra slow')
+  t.mana=1;assert(m:GetModifierMoveSpeedBonus_Percentage()==-35,'Mana recovery immediately releases the extra slow')
+  t.maxMana=0;t.mana=0;assert(m:GetModifierMoveSpeedBonus_Percentage()==-35,'Mana-less conversion targets retain base slow')
+  t.maxMana=100;t.mana=10
+ end
  a.value=42;m:OnRefresh();assert(m:GetModifierMoveSpeedBonus_Percentage()==-42,'Reads current special, not cached constant');a.value=35
 end
 for _,mode in ipairs({'friendly','dead target','dead caster','removed target','removed caster','ability','modifier','magic','debuff','building'})do

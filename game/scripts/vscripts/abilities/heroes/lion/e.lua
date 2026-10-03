@@ -199,7 +199,10 @@ function modifier_enfos_lion_mana_drain_debuff:GetModifierMoveSpeedBonus_Percent
     if self.closed or not valid(self) then return 0 end
     local a=self:GetAbility()
     if not learned_source(a,self:GetCaster()) or not eligible(self:GetCaster(),self:GetParent()) then return 0 end
-    return -value(a,'slow_pct')
+    local t=self:GetParent()
+    local slow=value(a,'slow_pct')
+    if t:GetMaxMana()>0 and t:GetMana()<=0 then slow=slow+value(a,'movespeed_bonus_when_empty_pct') end
+    return -slow
 end
 function modifier_enfos_lion_mana_drain_debuff:TraceLifecycle(event)
     if Trace:Enabled() then Trace:Log('LION','E','slow %s movement_pct=%.1f',event,self:GetModifierMoveSpeedBonus_Percentage()) end
