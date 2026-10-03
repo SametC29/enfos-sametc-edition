@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "sourceSha256": "d816a99aa035234f8ea79da2d79434de4dad08224471f403c93ba65239397725",
+  "engineAcceptance": "NOT_ESTABLISHED_BY_LOG",
+  "snapshots": [
+    {
+      "playerSlot": 0,
+      "hero": "npc_dota_hero_nevermore",
+      "level": 6,
+      "points": 0,
+      "alive": true,
+      "line": 2139,
+      "abilities": [
+        {
+          "id": "enfos_sf_shadowraze",
+          "rank": 1
+        },
+        {
+          "id": "enfos_sf_necromastery",
+          "rank": 1
+        },
+        {
+          "id": "enfos_sf_presence_of_the_dark_lord",
+          "rank": 1
+        },
+        {
+          "id": "enfos_sf_requiem_of_souls",
+          "rank": 1
+        },
+        {
+          "id": "enfos_sf_feast_of_souls",
+          "rank": 2
+        },
+        {
+          "id": "nevermore_shadowraze1",
+          "rank": 1
+        },
+        {
+          "id": "nevermore_shadowraze2",
+          "rank": 1
+        },
+        {
+          "id": "nevermore_shadowraze3",
+          "rank": 1
+        },
+        {
+          "id": "nevermore_necromastery",
+          "rank": 1
+        },
+        {
+          "id": "nevermore_requiem",
+          "rank": 1
+        }
+      ],
+      "modifiers": [
+        {
+          "id": "modifier_enfos_sf_native_scaling",
+          "present": true,
+          "stacks": 0
+        },
+        {
+          "id": "modifier_enfos_sf_feast_of_souls_passive",
+          "present": true,
+          "stacks": 0
+        },
+        {
+          "id": "modifier_nevermore_necromastery",
+          "present": true,
+          "stacks": 36
+        }
+      ],
+      "queries": {
+        "razeSpecial": 155,
+        "requiemSpecial": 183,
+        "requiemGetter": 80,
+        "requiemSurfacesDiffer": true
+      }
+    },
+    {
+      "playerSlot": 0,
+      "hero": "npc_dota_hero_nevermore",
+      "level": 9,
+      "points": 0,
+      "alive": true,
+      "line": 2552,
+      "abilities": [
+        {
+          "id": "enfos_sf_shadowraze",
+          "rank": 2
+        },
+        {
+          "id": "enfos_sf_necromastery",
+          "rank": 2
+        },
+        {
+          "id": "enfos_sf_presence_of_the_dark_lord",
+          "rank": 1
+        },
+        {
+          "id": "enfos_sf_requiem_of_souls",
+          "rank": 1
+        },
+        {
+          "id": "enfos_sf_feast_of_souls",
+          "rank": 3
+        },
+        {
+          "id": "nevermore_shadowraze1",
+          "rank": 1
+        },
+        {
+          "id": "nevermore_shadowraze2",
+          "rank": 1
+        },
+        {
+          "id": "nevermore_shadowraze3",
+          "rank": 1
+        },
+        {
+          "id": "nevermore_necromastery",
+          "rank": 1
+        },
+        {
+          "id": "nevermore_requiem",
+          "rank": 1
+        }
+      ],
+      "modifiers": [
+        {
+          "id": "modifier_enfos_sf_native_scaling",
+          "present": true,
+          "stacks": 0
+        },
+        {
+          "id": "modifier_enfos_sf_feast_of_souls_passive",
+          "present": true,
+          "stacks": 0
+        },
+        {
+          "id": "modifier_nevermore_necromastery",
+          "present": true,
+          "stacks": 38
+        }
+      ],
+      "queries": {
+        "razeSpecial": 221.60000610352,
+        "requiemSpecial": 194.88000488281,
+        "requiemGetter": 80,
+        "requiemSurfacesDiffer": true
+      }
+    }
+  ],
+  "runtimeErrors": [
+    {
+      "message": "...cripts\\vscripts\\abilities\\heroes\\nevermore\\modifiers.lua:47: attempt to call method 'FindModifierByName' (a nil value)",
+      "count": 10,
+      "firstLine": 1786
+    }
+  ],
+  "invalidOrderCounts": {
+    "15": 1,
+    "26": 415
+  }
+}
