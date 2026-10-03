@@ -1,6 +1,12 @@
 -- Engine-loaded modifier classes only: no restore service, self-link or module export.
 local Helpers=require('abilities/shared/pve_helpers')
 
+-- IsAlive is server-only. Client properties read replicated health instead.
+local function is_alive(unit)
+    if IsServer() then return unit:IsAlive() end
+    return unit:GetHealth()>0
+end
+
 modifier_enfos_luna_native_scaling=class({})
 local M=modifier_enfos_luna_native_scaling
 function M:IsHidden() return true end
@@ -38,7 +44,7 @@ function Aura:IsAura()
     local parent=self:GetParent()
     local ability=self:GetAbility()
     return ability and not ability:IsNull() and ability:GetLevel()>0
-        and parent and not parent:IsNull() and parent:IsAlive() and not parent:PassivesDisabled()
+        and parent and not parent:IsNull() and is_alive(parent) and not parent:PassivesDisabled()
 end
 function Aura:GetAuraRadius() return Helpers.value(self:GetAbility(),'radius') end
 function Aura:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_FRIENDLY end
@@ -54,7 +60,7 @@ function B:DeclareFunctions() return {MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,MOD
 local function bonus(self,key)
     local caster=self:GetCaster()
     local ability=self:GetAbility()
-    if not caster or caster:IsNull() or not caster:IsAlive() or caster:PassivesDisabled()
+    if not caster or caster:IsNull() or not is_alive(caster) or caster:PassivesDisabled()
         or not ability or ability:IsNull() or ability:GetLevel()<1 then return 0 end
     return Helpers.value(ability,key)
 end

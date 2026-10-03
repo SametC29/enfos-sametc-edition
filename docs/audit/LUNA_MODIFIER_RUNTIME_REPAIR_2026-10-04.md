@@ -232,3 +232,42 @@ Break/death/respawn and ten-rank/upgrade acceptance remain PENDING OWNER TEST.
 Do not carry forward the old all-loading-failed diagnosis as the current class
 visibility status, or close the complete Luna pilot from this narrower pass.
 No gameplay code changed while recording this evidence.
+
+
+## Owner full log: loading cleared, client lifecycle API failure — 2026-10-04
+
+New owner log e4f157d3-ca2e-42c2-904c-affd80e5d371, SHA256
+231dfff29e111e3888ac82a30c7a89e755e869e177f3fee63839668bd5b63664,
+contains **0 unknown Luna modifier warnings**. Client health probe at lines
+1872–1876 confirms all three class globals present. Loading-warning clearance
+passes for this supplied session; complete gameplay acceptance does not.
+
+It contains **20 Luna Script Runtime Error records**, all IsAlive nil calls
+from the E extension: modifiers.lua line41 (aura predicate) and line57 (recipient
+armor/speed property). The current toolkit explicitly marks CDOTA_BaseNPC:IsAlive
+server-only, while CBaseEntity:GetHealth and CDOTA_BaseNPC:PassivesDisabled are
+both-context APIs. CDOTA_BaseNPC_Hero:GetAgility is also both-context; the Q
+scaling helper needs no related change. Online API reference:
+https://docs.moddota.com/lua_server/ (client page unavailable during research).
+The engine log and API availability establish this source defect; no guessed
+identifier, modifier replacement or pcall suppression is used.
+
+Minimal repair: one local is_alive helper in Luna modifiers.lua keeps native
+IsAlive on the server and uses replicated GetHealth>0 on the client. Aura and
+recipient properties both use it. Break, null/untrained guards and authored
+armor/speed/radius remain intact; client checks do not grant gameplay authority.
+No network sender, timer, manager, particle/audio edit or other hero change.
+
+Regression reproduces the actual client API surface by omitting IsAlive,
+checking live/dead/Break/untrained E property and aura results. A second check
+makes server GetHealth throw, proving server lifecycle still uses authoritative
+IsAlive. All 19 focused Luna tests and full npm.cmd run check pass with 0 failed
+checks; existing 354 hero-kit/22 audit mocks and inventory remain passing.
+
+**IMPLEMENTED BUT NOT ENGINE-VERIFIED** for this lifecycle repair. Owner retest:
+fully restart Dota/Workshop Tools, train E and observe armor/speed, death/respawn
+and Break; confirm no Luna IsAlive runtime errors or unknown modifier warnings.
+Continue Q/R damage, ten-rank and upgrades acceptance independently. Separate
+TreeShop/CourierZone and native Boss base unknown-modifier errors remain in the
+supplied log and are outside this focused Luna repair. Owner requested motor
+tests be performed by the owner; no new game-control command was sent.

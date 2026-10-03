@@ -232,3 +232,32 @@ for _,name in ipairs({'abilities/heroes/luna/integration','abilities/heroes/luna
 end
 assert(GameRules==nil and PlayerResource==nil,'Client registration requires no server context')
 `));
+
+
+test('Luna E client callbacks use replicated health without the server-only IsAlive API',()=>lua(`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t)t.__index=t;return t end
+function IsServer()return false end
+require('abilities/heroes/luna/modifiers')
+local caster={health=100,broken=false,IsNull=function()return false end,
+ GetHealth=function(self)return self.health end,PassivesDisabled=function(self)return self.broken end}
+assert(caster.IsAlive==nil,'Client fixture must exclude the server API')
+local ability={rank=1,IsNull=function()return false end,GetLevel=function(self)return self.rank end,
+ GetSpecialValueFor=function(_,key)return ({bonus_armor=3,bonus_ms_pct=12})[key] or 0 end}
+local methods={GetParent=function()return caster end,GetCaster=function()return caster end,GetAbility=function()return ability end}
+local aura=setmetatable(methods,{__index=modifier_enfos_luna_blessing_extension})
+local buff=setmetatable({GetCaster=methods.GetCaster,GetAbility=methods.GetAbility},{__index=modifier_enfos_luna_blessing_extension_buff})
+assert(aura:IsAura() and buff:GetModifierPhysicalArmorBonus()==3 and buff:GetModifierMoveSpeedBonus_Percentage()==12)
+caster.health=0;assert(not aura:IsAura() and buff:GetModifierPhysicalArmorBonus()==0 and buff:GetModifierMoveSpeedBonus_Percentage()==0)
+caster.health=100;caster.broken=true;assert(not aura:IsAura() and buff:GetModifierPhysicalArmorBonus()==0)
+caster.broken=false;ability.rank=0;assert(not aura:IsAura() and buff:GetModifierMoveSpeedBonus_Percentage()==0)
+`));
+
+test('Luna E server lifecycle uses authoritative alive state rather than health inference',()=>lua(setup+`
+hero.GetHealth=function()error('Server must use IsAlive instead of client health inference')end
+assert(integration.Restore(hero));e.rank=1
+local aura=hero.modifiers.modifier_enfos_luna_blessing_extension
+local buff=setmetatable({GetCaster=function()return hero end,GetAbility=function()return e end},{__index=modifier_enfos_luna_blessing_extension_buff})
+assert(aura:IsAura() and buff:GetModifierPhysicalArmorBonus()==3)
+hero.dead=true;assert(not aura:IsAura() and buff:GetModifierMoveSpeedBonus_Percentage()==0)
+`));
