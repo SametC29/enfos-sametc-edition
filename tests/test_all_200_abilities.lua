@@ -1,3 +1,5 @@
+local lion_context_serial=0
+function DoUniqueString(seed)lion_context_serial=lion_context_serial+1;return seed..lion_context_serial end
 -- Exhaustive runtime execution test for all 200 hero abilities and modifiers
 package.path = 'game/scripts/vscripts/?.lua;' .. package.path
 

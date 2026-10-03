@@ -12,6 +12,9 @@ test('Lion Finger uses ordinary authored ten-rank damage on normal and Boss reci
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end;function LinkLuaModifier()end;function IsServer()return true end
 DAMAGE_TYPE_MAGICAL=2;DOTA_UNIT_TARGET_TEAM_ENEMY=1;DOTA_UNIT_TARGET_HERO=2;DOTA_UNIT_TARGET_BASIC=4;DOTA_UNIT_TARGET_FLAG_NONE=0;FIND_ANY_ORDER=0;PATTACH_ABSORIGIN_FOLLOW=7
+local contexts={};local autoRun=true;local contextId=0
+function DoUniqueString(seed)contextId=contextId+1;return seed..contextId end
+GameRules={GetGameModeEntity=function()return {SetContextThink=function(_,name,callback,delay)assert(delay==.25);contexts[#contexts+1]={name=name,callback=callback,delay=delay};if autoRun then callback()end end}end}
 local recipients,hits={},{};local queries=0;local roots,releases=0,0;local bound,destroyed={},{};local particleHook,damageHook,soundHook,absorbHook
 function FindUnitsInRadius(team,p,_,radius,enemy,types,flags)queries=queries+1;assert(team==2 and radius==325 and types==6 and flags==0);return recipients end
 function ApplyDamage(p)assert(p.damage_type==2);hits[#hits+1]=p;p.victim.health=p.victim.health-p.damage;if damageHook then damageHook(p.victim)end;return p.damage end
@@ -33,7 +36,7 @@ function counter:IsNull()return self.removed end
 function counter:GetStackCount()assert(not self.removed);return self.stacks end;function counter:SetStackCount(n)self.stacks=n end
 function c:FindModifierByName(n)assert(n=='modifier_enfos_lion_finger_counter');return counter end
 local a=setmetatable({rank=1},enfos_lion_finger_of_death);local base={${values.damage.split(/\s+/).join(',')}}
-local specials={int_scaling_pct=${values.int_scaling_pct},kill_stack_cap=${values.kill_stack_cap},kill_stack_damage=${values.kill_stack_damage},kill_stack_spell_amp_pct=${values.kill_stack_spell_amp_pct},scepter_bonus_damage=${values.scepter_bonus_damage},splash_radius=${values.splash_radius},boss_damage_cap_pct=12}
+local specials={damage_delay=${values.damage_delay},int_scaling_pct=${values.int_scaling_pct},kill_stack_cap=${values.kill_stack_cap},kill_stack_damage=${values.kill_stack_damage},kill_stack_spell_amp_pct=${values.kill_stack_spell_amp_pct},scepter_bonus_damage=${values.scepter_bonus_damage},splash_radius=${values.splash_radius},boss_damage_cap_pct=12}
 function a:GetSpecialValueFor(k)return k=='damage' and base[self.rank] or specials[k] or 0 end
 function a:IsNull()return self.removed end;function a:GetCaster()return c end;function a:GetCursorTarget()return normal end
 recipients={normal,boss}
@@ -87,6 +90,33 @@ normal.health=1;hits={};damageHook=function(u)u.removed=true end;a:OnSpellStart(
 normal.health=1;boss.health=1;counter.stacks=0;hits={};damageHook=function()counter.removed=true end;a:OnSpellStart();damageHook=nil;assert(counter.stacks==0);counter.removed=false
 normal.health=1000000;boss.health=1000000;hits={};damageHook=function()c.removed=true end;a:OnSpellStart();damageHook=nil;assert(#hits==1);c.removed=false
 local oldServer=IsServer;IsServer=function()return false end;hits={};a:OnSpellStart();assert(#hits==0);IsServer=oldServer
+-- Queued engine contexts prove timing; prior smoke cases execute immediately only for compatibility.
+autoRun=false;contexts={};normal=unit();boss=unit(true);recipients={normal,boss};hits={};counter.stacks=0;a.rank=1;c.scepter=false;c.int=100
+local original=normal;a:OnSpellStart();assert(#hits==0 and #contexts==1 and contexts[1].delay==.25,'No immediate damage')
+a.rank=10;counter.stacks=20;c.scepter=true;c.int=200;normal=unit();recipients={normal,boss};local second=normal
+a:OnSpellStart();assert(#hits==0 and #contexts==2 and contexts[1].name~=contexts[2].name,'Overlapping casts need independent contexts')
+assert(contexts[1].callback()==nil and #hits==1 and hits[1].victim==original and hits[1].damage==850,'First cast retains target/rank/stacks/int/upgrade snapshots')
+assert(contexts[2].callback()==nil and #hits==3 and hits[2].victim==second and hits[2].damage==3200 and hits[3].damage==3200)
+local n=#hits;assert(contexts[1].callback()==nil and contexts[2].callback()==nil and #hits==n,'Repeated invocation cannot duplicate impact')
+for _,mode in ipairs({'target dead','target removed','target friendly','target magic','target debuff','target building','caster dead','caster removed','ability removed'})do
+ contexts={};normal=unit();boss=unit();recipients={normal,boss};hits={};c.scepter=false;c.health=1000000;c.removed=false;c.int=100;counter.stacks=0;a.rank=1;a.removed=false
+ a:OnSpellStart();assert(#hits==0 and #contexts==1)
+ if mode=='target dead' then normal.health=0 elseif mode=='target removed' then normal.removed=true elseif mode=='target friendly' then normal.team=2
+ elseif mode=='target magic' then normal.magic=true elseif mode=='target debuff' then normal.debuff=true elseif mode=='target building' then normal.building=true
+ elseif mode=='caster dead' then c.health=0 elseif mode=='caster removed' then c.removed=true else a.removed=true end
+ function normal:IsMagicImmune()return self.magic end;function normal:IsDebuffImmune()return self.debuff end;function normal:IsBuilding()return self.building end
+ assert(contexts[1].callback()==nil and #hits==0,mode)
+ assert(contexts[1].callback()==nil and #hits==0,mode..' repeated')
+end
+c.health=1000000;c.removed=false;a.removed=false;contexts={};normal=unit();boss=unit();recipients={normal,boss};hits={};c.scepter=true
+normal.pos.x=100;a:OnSpellStart();normal.removed=true
+assert(contexts[1].callback()==nil and #hits==1 and hits[1].victim==boss,'A dead/removed selected recipient does not cancel other saved area recipients')
+contexts={};normal=unit();boss=unit();recipients={normal,boss};hits={};a:OnSpellStart()
+GameRules.IsGamePaused=function()return true end
+assert(contexts[1].callback()==.03 and #hits==0,'Paused callback must defer gameplay without consuming completion')
+GameRules.IsGamePaused=function()return false end
+assert(contexts[1].callback()==nil and #hits==2);n=#hits;assert(contexts[1].callback()==nil and #hits==n)
+GameRules.IsGamePaused=nil;autoRun=true;normal=unit();boss=unit();recipients={normal,boss};hits={}
 local trace=require('lib/hero_trace');local oldPrint=print;local lines={};print=function(x)lines[#lines+1]=x end
 trace:SetEnabled(false);a:OnSpellStart();assert(#lines==0)
 trace:SetEnabled(true);a:OnSpellStart();assert(#lines==3 and lines[1]:find('[LION_TRACE][R] cast',1,true));trace:SetEnabled(false);print=oldPrint

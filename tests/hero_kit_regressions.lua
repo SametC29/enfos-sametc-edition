@@ -6445,6 +6445,11 @@ test('Faceless Void Chronosphere refreshes normal freezes, limits boss control a
 end)
 
 test('Lion Finger of Death splashes damage in AoE and increments stack on kill', function()
+    local previous_rules,previous_unique=GameRules,DoUniqueString
+    local contextSerial=0
+    DoUniqueString=function(seed)contextSerial=contextSerial+1;return seed..contextSerial end
+    local queuedImpact
+    GameRules={GetGameModeEntity=function()return {SetContextThink=function(_,name,callback,delay)assert(delay==0.25);queuedImpact=callback end}end}
     applied_damages = {}
     local lion = create_mock_unit('npc_dota_hero_lion', 2, Vector(0, 0, 0))
     lion.intellect = 80
@@ -6460,6 +6465,7 @@ test('Lion Finger of Death splashes damage in AoE and increments stack on kill',
         if k == 'damage' then return 850 end
         if k == 'splash_radius' then return 325 end
         if k == 'scepter_bonus_damage' then return 100 end
+        if k == 'damage_delay' then return 0.25 end
         if k == 'int_scaling_pct' then return 250 end
         if k == 'kill_stack_cap' then return 20 end
         if k == 'kill_stack_damage' then return 40 end
@@ -6473,6 +6479,8 @@ test('Lion Finger of Death splashes damage in AoE and increments stack on kill',
     local counter = lion:AddNewModifier(lion, ab, 'modifier_enfos_lion_finger_counter', {})
 
     ab:OnSpellStart()
+    assert(#applied_damages==0, 'Finger damage must wait for scheduled impact')
+    assert(queuedImpact()==nil)
     -- dmg = 850 + (80 * 2.5 = 200) + Scepter100 = 1150
     assert(#applied_damages == 2)
     assert(applied_damages[1].damage == 1150 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
@@ -6482,6 +6490,8 @@ test('Lion Finger of Death splashes damage in AoE and increments stack on kill',
     assert(counter:GetModifierSpellAmplify_Percentage() == 30, 'spell amplification must stop at the 20-stack cap')
     applied_damages = {}
     ab:OnSpellStart()
+    assert(#applied_damages==0, 'Finger damage must wait for scheduled impact')
+    assert(queuedImpact()==nil)
     assert(applied_damages[1].damage == 1950, 'Finger bonus damage must also clamp to the configured stack cap')
 
     local boss = create_mock_unit('enfos_boss_test', 3, Vector(100, 0, 0), 1000)
@@ -6489,7 +6499,10 @@ test('Lion Finger of Death splashes damage in AoE and increments stack on kill',
     applied_damages = {}
     counter:SetStackCount(0)
     ab:OnSpellStart()
+    assert(#applied_damages==0, 'Finger damage must wait for scheduled impact')
+    assert(queuedImpact()==nil)
     assert(applied_damages[1].damage == 1150, 'Boss damage uses the ordinary base plus INT formula')
+    GameRules,DoUniqueString=previous_rules,previous_unique
 end)
 
 test('Lion Earth Spike uses KV geometry and Hex uses ordinary control on every target', function()

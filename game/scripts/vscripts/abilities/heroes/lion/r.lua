@@ -51,18 +51,28 @@ function enfos_lion_finger_of_death:OnSpellStart()
             if not seen[u] then seen[u]=true;targets[#targets+1]=u end
         end
     end
-    for _,u in ipairs(targets) do
-        if not valid(self) or not valid(c) or not c:IsAlive() then break end
-        if eligible(c,u) then
-            H.damage(self,u,total,DAMAGE_TYPE_MAGICAL)
-            Trace:Log('LION','R','hit authored_damage=%.1f',total)
+    local delay=H.value(self,'damage_delay')
+    if delay<=0 then Trace:Log('LION','R','impact rejected invalid delay');return end
+    local completed=false
+    GameRules:GetGameModeEntity():SetContextThink(DoUniqueString('EnfosLionFingerImpact'),function()
+        if completed then return nil end
+        if not valid(self) or not valid(c) or not c:IsAlive() then completed=true;return nil end
+        if GameRules.IsGamePaused and GameRules:IsGamePaused() then return 0.03 end
+        completed=true -- Own completion before damage callbacks can reenter.
+        for _,u in ipairs(targets) do
             if not valid(self) or not valid(c) or not c:IsAlive() then break end
-            if valid(u) and not u:IsAlive() and valid(mod) then
-                mod:SetStackCount(math.min(cap,math.max(0,mod:GetStackCount())+1))
-                Trace:Log('LION','R','instant kill stack credited')
+            if eligible(c,u) then
+                H.damage(self,u,total,DAMAGE_TYPE_MAGICAL)
+                Trace:Log('LION','R','hit authored_damage=%.1f',total)
+                if not valid(self) or not valid(c) or not c:IsAlive() then break end
+                if valid(u) and not u:IsAlive() and valid(mod) then
+                    mod:SetStackCount(math.min(cap,math.max(0,mod:GetStackCount())+1))
+                    Trace:Log('LION','R','instant kill stack credited')
+                end
             end
         end
-    end
+        return nil
+    end,delay)
 end
 
 modifier_enfos_lion_finger_counter=class({})
