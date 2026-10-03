@@ -63,10 +63,10 @@ KV ScriptFile changes require the owner's full Dota restart, not Lua hot reload.
 | Gate | Status / evidence |
 | --- | --- |
 | SOURCE REVIEW | PENDING — all five initial handlers read; defects/upgrades/resources still open |
-| PROVEN DEFECTS | unresolved — source findings above, focused reproductions/repairs queued |
+| PROVEN DEFECTS | E source ownership and Q/R ordinary-target/callback repairs implemented; W/upgrades/resources remain unresolved |
 | ISOLATION | IMPLEMENTED — static unique-class/routes and cold bootstrap tests added |
 | MOCK/REGRESSION VALIDATION | PASS — four isolation tests (Venge + Lich), unchanged five handler bodies against pre-extraction HEAD, and full `node tools/checks.mjs` (0 failed); engine verification remains separate |
-| RUNTIME TRACE COVERAGE | MISSING — shared bounded default-off helper exists; this kit needs slot instrumentation |
+| RUNTIME TRACE COVERAGE | PARTIAL — Q/R instrumented through shared bounded default-off helper; W/E/D lifecycle coverage pending |
 | OWNER RUNTIME TRACE EVIDENCE | NOT TESTED |
 | OWNER VISUAL/AUDIO VERIFICATION | NOT TESTED |
 | OWNER ENGINE ACCEPTANCE | NOT TESTED |
@@ -94,3 +94,42 @@ Regression covers ordinary recipient, source Break/recovery, recipient Break,
 illusion, live rank changes, rank zero, removed ability/source/recipient and
 missing source. Engine aura removal/linger and actual damage output remain
 PENDING OWNER TEST; no runtime or visual/audio acceptance is claimed.
+
+## Q/R ordinary-target and callback repair
+
+Removed Q's 10%-max-HP damage cap and 0.4 Boss stun multiplier, and R's matching
+cap and Boss no-swap branch. Q remains damage + 0.9 AGI; R remains damage + 1.2
+AGI on enemies only, with its existing 4s/30% defense. No Boss stats/AI/waves or
+other heroes changed. `is_boss` is no longer imported by these two modules.
+
+Q's undefined/unlinked `modifier_generic_stunned_lua` call now uses the engine
+`modifier_stunned`. Evidence: project-wide definition/link search found none for
+the old name; MCP reference corpus found the engine name in Aghanim's Pathfinders
+2208582400 (`aghanim_summon_portals.lua:192`, `aghsfort_explosive_barrel.lua:68`).
+Those snippets are API-pattern evidence only, not imported code or fresh runtime
+certification. [ModDota's built-in modifier guide](https://moddota.com/abilities/reutilizing-built-in-modifiers)
+documents reuse through AddNewModifier; MCP confirms that API is server-only.
+Native Q metadata requests strong dispel; actual stun/status-resistance/strong
+dispel behavior is still an owner engine gate, not established by the mock.
+
+Both casts now reject client execution, invalid/dead/self targets and sources,
+and revalidate after synchronous spell-block callbacks. Q rejects allies at cast
+and impact; lost targets cannot receive damage/control. R revalidates after
+movement and before adding its caster defense after damage callbacks.
+
+The Q/R fixture failed before repair on the undefined stun call and now covers
+equivalent ordinary/Boss formulas (Boss max HP deliberately only 100), full stun
+duration, actual two-unit swap, allied swaps without damage, absorbed casts,
+removed target/caster/ability during absorb, client calls, and lost/newly allied
+Q projectile targets. Existing historical normal swap regressions also remain.
+
+Shared debug-gated, rate-limited `VENGEFUL_SPIRIT_TRACE` Q/R events cover casts,
+spell-block cancellation, projectile creation, cancelled impacts, requested and
+returned damage, control apply result, swaps and defense. This is PARTIAL kit
+trace coverage; W/E/D and actual owner trace evidence remain pending. No timer,
+extra projectile, target search or duplicate cleanup exists solely for tracing.
+EN/TR/RU/zh-CN Q/R descriptions now state AGI scaling, defense, ally behavior and
+ordinary Boss rules. Native projectile/resource fidelity and upgrades remain open.
+
+Validation for Q/R repair: focused Venge tests PASS; full `node tools/checks.mjs`
+PASS, 0 failed. All owner runtime/visual/audio/engine gates remain NOT TESTED.
