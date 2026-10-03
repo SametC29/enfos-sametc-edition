@@ -58,6 +58,20 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-03 native-first pilot source review: installed ClientVersion 6943 /
+SourceRevision 11069754 (Oct 01 2026) was inspected read-only. The native Luna
+hero source SHA256 remains identical to the earlier 6941 source. The five exact
+native AbilityDefinitions, pre-migration decision matrix, ten-rank constraints
+and shared consumers are recorded in
+[the Luna pilot record](../../audit/LUNA_NATIVE_FIRST_PILOT_2026-10-03.md) and
+[the installed-source evidence](../../audit/LUNA_NATIVE_SOURCE_2026-10-03.json).
+Current production slot order is Q Beam / W Orbit / E Blessing / R Eclipse /
+D Moon Glaives. Native Blessing is a one-rank, hidden, hero-level-scaled innate;
+it is not equivalent to the current paid E aura. The two existing focused Luna
+KV/rank contracts pass, including an obsolete Boss-cap assertion that the
+migration must replace. No implementation migration or engine acceptance is
+claimed by this source review. OWNER ENGINE ACCEPTANCE: NOT TESTED.
+
 2026-09-30 static special-value repair: migrated Lua-read values for all five Luna abilities from legacy numbered `AbilitySpecial` to named `AbilityValues`, preserving existing rank arrays and scalar values. Added a content contract for the 10-rank definitions and schema. This uses the project-specific Sven ClientVersion 6941 finding as the compatibility evidence; the Luna abilities themselves have not been verified in Dota. The user owns the remaining in-game gameplay, audio, and visual checks.
 
 ## Slot 1: `enfos_luna_lucent_beam`
