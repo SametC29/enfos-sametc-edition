@@ -3833,7 +3833,7 @@
             "shard_break_distance_bonus": "200",
             "shard_magic_resistance": "60",
             "shard_bonus_targets": "2",
-            "channel_duration": "4",
+            "channel_duration": "4.1",
             "slow_pct": "35",
             "movespeed_bonus_when_empty_pct": "15"
           },

@@ -6,6 +6,14 @@ import {parseKV} from '../lib/kv.mjs';
 
 test('Lion drain owns one continuous beam, survives recast and closes reentrant resources',()=>{
  const baseline=process.env.LION_DRAIN_BASELINE?execFileSync('git',['show','HEAD:game/scripts/vscripts/abilities/heroes/lion/e.lua'],{encoding:'utf8'}):null;
+ const path='game/scripts/npc/npc_abilities_custom.txt';
+ const envelope=parseKV(fs.readFileSync(path,'utf8')).DOTAAbilities.enfos_lion_mana_drain;
+ const prior=parseKV(execFileSync('git',['show','d1770cb:'+path],{encoding:'utf8'})).DOTAAbilities.enfos_lion_mana_drain;
+ function assertEnvelope(v){
+  assert(Number(v.AbilityChannelTime)>4 && Number(v.AbilityChannelTime)<4.5,'All eight half-second ticks need to precede engine finish');
+  assert(Number(v.AbilityValues.channel_duration)>4 && Number(v.AbilityValues.channel_duration)<4.5,'Eighth tick must precede modifier expiry; ninth must not fit');
+ }
+ assert.throws(()=>assertEnvelope(prior),/eight half-second ticks/);assertEnvelope(envelope);
  const rates=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.txt','utf8')).DOTAAbilities.enfos_lion_mana_drain.AbilityValues.mana_per_second.split(/\s+/).join(',');
  const lua=`
 package.path='game/scripts/vscripts/?.lua;'..package.path
@@ -208,6 +216,20 @@ for _,phase in ipairs({'damage','mana','abort'})do
  local before=hits;x:OnIntervalThink();assert(hits==before+1 and lastVictim==nextTarget)
  local current=x.drain_fx;x:OnDestroy();assert(destroyed[oldfx] and released[oldfx] and destroyed[current] and released[current])
 end
+-- Finite engine-envelope simulation drives the actual scheduled Lua tick; no teardown catch-up.
+c,t=unit(2),unit();units[1]=t;a.removed=false;a.channeling=true;clock=0
+local finite=modifier();finite:OnCreated({target_idx=1});local beforeHits,beforeMana=hits,mana
+local expiry=tonumber('${envelope.AbilityValues.channel_duration}');local finish=tonumber('${envelope.AbilityChannelTime}')
+while finite.nextTick<math.min(expiry,finish)do
+ clock=finite.nextTick;finite:OnIntervalThink();finite.nextTick=clock+.5
+end
+assert(hits==beforeHits+8 and mana==beforeMana+800,'Eight ordinary ticks complete before the finite engine envelope')
+a.channeling=false;finite:OnDestroy();assert(hits==beforeHits+8 and mana==beforeMana+800,'Finish does not fabricate a ninth tick')
+a.channeling=true;clock=0;finite=modifier();finite:OnCreated({target_idx=1});beforeHits,beforeMana=hits,mana
+for i=1,7 do clock=i*.5;finite:OnIntervalThink()end
+a.channeling=false;clock=4;finite:OnIntervalThink();finite:OnDestroy()
+assert(hits==beforeHits+7 and mana==beforeMana+700,'Interrupted/inactive channel has no final catch-up reward')
+a.channeling=true
 c,t=unit(2),unit();units[1]=t;a.removed=false
 local trace=require('lib/hero_trace');local lines={};local oldPrint=print;print=function(s)lines[#lines+1]=s end
 trace:SetEnabled(false);local off=modifier();off:OnCreated({target_idx=1});off:OnDestroy();assert(#lines==0)
@@ -218,9 +240,8 @@ print('Lion drain visual PASS')
  const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:lua,encoding:'utf8'});
  assert.equal(r.status,0,r.stderr||r.stdout);assert.equal(r.stderr,'');assert.match(r.stdout,/Lion drain visual PASS/);
  // Visual ownership retains the original tuning except explicitly audited native restorations.
- const path='game/scripts/npc/npc_abilities_custom.txt';
  const old=parseKV(execFileSync('git',['show','1d6a67f:'+path],{encoding:'utf8'})).DOTAAbilities.enfos_lion_mana_drain;
  old.AbilityUnitTargetFlags='DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE | DOTA_UNIT_TARGET_FLAG_NO_INVIS';old.AbilityValues.shard_bonus_targets='2';old.HasShardUpgrade='1';old.AbilityValues.shard_break_distance_bonus='200';old.AbilityValues.shard_magic_resistance='60';old.SpellDispellableType='SPELL_DISPELLABLE_NO';old.AbilityValues.break_distance='1100';old.AbilityCastAnimation='ACT_DOTA_CAST_ABILITY_3';
- old.AbilityValues.movespeed_bonus_when_empty_pct='15';
+ old.AbilityValues.movespeed_bonus_when_empty_pct='15';old.AbilityChannelTime='4.1';old.AbilityValues.channel_duration='4.1';
  assert.deepEqual(parseKV(fs.readFileSync(path,'utf8')).DOTAAbilities.enfos_lion_mana_drain,old);
 });

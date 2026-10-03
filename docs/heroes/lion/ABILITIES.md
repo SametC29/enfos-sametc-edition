@@ -645,3 +645,27 @@ TUNE implemented with explicitly authored height200/airtime0.4; these are not na
 Independent fixture fails against fe65666 at vertical registration and passes the actual modified Lua. All10 ranks with ordinary/Boss targets, terrain/currentXY, effective duration, failed acquisition, replacement/no-replacement interruption, purge, refresh, invalid source/target, caster death and reentrant damage/acquisition teardown pass. Projectile snapshot fixture additionally verifies original versus recast height/time. Full checks:0 failures, TEMP/enfos-lion-spike-motion-final-checks.log; focused motion/projectile fixtures pass after final test-only assertions. Seven owned modifiers remain isolated. Broad smoke tests cover fallback only, not successful motion; the dedicated fixture covers motion.
 
 SOURCE/REGRESSION accepted for this unit, OWNER ENGINE PENDING: actual vertical priority, status resistance/strong purge timing, native expiry, terrain/rendering/audio, repeated casts and VConsole. No automated fixture constitutes Dota acceptance. E final cadence/ally transfer review remains open; whole Lion/release checkpoint not yet fulfilled. Contributor Lich edits excluded.
+
+
+## E final interval and ally-target decision before repair, 2026-10-03
+
+TUNE the finite channel envelope from4.0 to4.1 seconds, keeping half-second cadence and per-tick economy unchanged. The installed native ability distinguishes5.1 channel from5.0 effect and uses0.1 ticks; current authored channel and modifier both expire exactly on the eighth half-second tick at4.0. Our explicit authored4.1 envelope places the expected eighth tick at4.0 before expiry, and the ninth at4.5 after expiry. No final tick is fabricated on interruption/teardown and no unbounded schedule or new timer is added. This reduces the equal-deadline race; actual native frame scheduling remains owner verification, not a promise of latency-independent eight ticks. API EndChannel/IsChanneling/OnChannelFinish verified by current MCP and https://docs.moddota.com/lua_server/.
+
+Native ally transfer is intentionally not part of this release: PVE-CONVERT targeting remains enemy-only, matching the existing project KV and descriptions; Lion's support role includes ordinary Hex/stun and hostile mana control. Native ally_pct50 was reviewed, not silently implemented or advertised. Adding an allied channel would require its own target filter, recipient ownership and audiovisual tests; no guessed shared rewrite in this checkpoint. Same-ability finish has no exposed session identifier; the implemented active-state/source guards stand, with inactive old/new ordering reserved for owner reproduction.
+
+
+## E finite-envelope verification and Lion source handoff, 2026-10-03
+
+TUNE channel and owned modifier lifetime4.1, with unchanged0.5-second cadence: expected ticks0.5 through4.0 precede expiry and the ninth4.5 tick does not fit. Prior d1770cb KV fails the independent strict-deadline assertion; repaired KV passes. Actual Lua finite-envelope fixture processes eight ticks/800 mana for its100-per-tick mana-less recipient, and seven ticks/700 mana when interrupted before the last tick, with no teardown reward. Existing source/callback/Shard/beam/cleanup fixtures pass. Full node tools/checks.mjs:0 failures, TEMP/enfos-lion-final-envelope-final-checks.log. Inventory and4-language numeric mirrors regenerated. Engine scheduler, interruption order and frame delays remain owner-test gates; the fixture does not certify native scheduling.
+
+Current consolidated status supersedes historical OPEN notes for completed source units:
+
+| Slot | Final source classification | Current source/regression status | Owner engine status |
+|---|---|---|---|
+| Q | TUNE | Travelling line, immutable values, ordinary targets, vertical launch/landing receipt, strong purge/competition, native resources; PASS | PENDING physics/render/audio/expiry/status resistance |
+| W | TUNE | Real Hex state/frog, ordinary weak-illusion destruction, strong purge and owner/source guards; PASS | PENDING model/control/audio/dispels |
+| E | PVE-CONVERT | Real hostile mana transfer, conversion only mana-less enemies, empty-mana slow, leash/visibility,2 Shard recipients, immunity and one owned beam,4.1 envelope; PASS | PENDING scheduling, real mana replication/Shard/recasts |
+| R | TUNE | Delayed targeted Finger/Scepter splash,3s kill grace, bounded persistent match stacks, reversible native-inspired melee/punch/cleave and once-per-death credit; PASS | PENDING event packets/cleave/AltCast/cosmetics/audio |
+| D | REPLACE (authored fifth passive) | Explicit Demon Soul range/amp,10 ranks, rank0/Break/illusion/source/client/lifecycle rules; PASS | PENDING live HUD/stat/Break/reconnect |
+
+SOURCE REVIEW and meaningful REGRESSIONS complete for Lion's feasible checkpoint scope, not comprehensive Dota acceptance. Seven modifiers have explicit owners; all five IDs/rank gates remain stable, no authored Boss-only exception or cross-match progression was introduced. Ally mana donation is an explicit excluded native component of the enemy-targeted PvE conversion. Closed C++ callback/session ordering, real audiovisual behavior, status resistance, cosmetic attachments and reconnect remain owner tests; no unverified workaround is guessed. User requests GitHub/live update after this checkpoint and goal pause; package must contain reviewed committed source only and keep contributor Lich changes out. Next hero Puck remains deferred until owner resume.
