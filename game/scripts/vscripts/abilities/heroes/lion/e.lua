@@ -47,11 +47,12 @@ function modifier_enfos_lion_mana_drain_channel:ClearVisual()
     end
 end
 function modifier_enfos_lion_mana_drain_channel:StartVisual()
+    local revision=self.revision
     self:ClearVisual()
     local c,t=self:GetParent(),self.drain_target
-    if self.closed or not valid(c) or not valid(t) then return end
+    if self.closed or self.revision~=revision or not valid(c) or not valid(t) then return end
     local fx=ParticleManager:CreateParticle('particles/units/heroes/hero_lion/lion_spell_mana_drain.vpcf',PATTACH_ABSORIGIN_FOLLOW,c)
-    local function active() return not self.closed and valid(c) and valid(t) end
+    local function active() return not self.closed and self.revision==revision and valid(c) and valid(t) end
     if active() then ParticleManager:SetParticleControlEnt(fx,0,c,PATTACH_ABSORIGIN_FOLLOW,'',c:GetAbsOrigin(),false) end
     if active() then ParticleManager:SetParticleControlEnt(fx,1,t,PATTACH_ABSORIGIN_FOLLOW,'',t:GetAbsOrigin(),false) end
     if not active() then
@@ -74,6 +75,7 @@ function modifier_enfos_lion_mana_drain_channel:OnDestroy()
 end
 function modifier_enfos_lion_mana_drain_channel:OnCreated(kv)
     if not IsServer() then return end
+    self.revision=(self.revision or 0)+1
     self.target_idx=kv and kv.target_idx or nil
     self.drain_target=self.target_idx and EntIndexToHScript(self.target_idx)
     self:StartVisual()
@@ -81,24 +83,29 @@ function modifier_enfos_lion_mana_drain_channel:OnCreated(kv)
 end
 function modifier_enfos_lion_mana_drain_channel:OnRefresh(kv)
     if not IsServer() or self.closed then return end
+    self.revision=(self.revision or 0)+1
+    local revision=self.revision
     local caster,old=self:GetCaster(),self.drain_target
     local index=kv and kv.target_idx
     local target=index and EntIndexToHScript(index)
     if old~=target and valid(old) and valid(caster) then old:RemoveModifierByNameAndCaster('modifier_enfos_lion_mana_drain_debuff',caster) end
-    if self.closed then return end
+    if self.closed or self.revision~=revision then return end
     self.target_idx,self.drain_target=index,target
     self:StartVisual()
+    if self.closed or self.revision~=revision then return end
     Trace:Log('LION','E','channel visual refreshed')
 end
 function modifier_enfos_lion_mana_drain_channel:Abort(reason)
     if self.closed then return end
+    local revision=self.revision
     local c,a=self:GetParent(),self:GetAbility()
     Trace:Log('LION','E','channel aborted reason=%s',reason)
     if valid(c) and valid(a) then a:EndChannel(true) end
-    if not self.closed then self:Destroy() end
+    if not self.closed and self.revision==revision then self:Destroy() end
 end
 function modifier_enfos_lion_mana_drain_channel:OnIntervalThink()
     if not IsServer() or self.closed then return end
+    local revision=self.revision
     local c,a,t=self:GetParent(),self:GetAbility(),self.drain_target
     if not valid(c) or not c:IsAlive() then self:Abort('caster');return end
     if not valid(a) then self:Abort('ability');return end
@@ -107,12 +114,12 @@ function modifier_enfos_lion_mana_drain_channel:OnIntervalThink()
     local tick_dmg=(value(a,'mana_per_second')+get_int(c)*0.8)*0.5
     damage(a,t,tick_dmg,DAMAGE_TYPE_MAGICAL)
     -- Damage can kill/remove entities, close the modifier, or start another cast.
-    if self.closed then return end
+    if self.closed or self.revision~=revision then return end
     if not valid(c) or not c:IsAlive() or not valid(a) then self:Abort('source after damage');return end
     if not valid(t) then self:Abort('target after damage');return end
     if t:IsAlive() and not eligible(c,t) then self:Abort('target rules after damage');return end
     if c.GiveMana then c:GiveMana(tick_dmg) end
-    if self.closed then return end
+    if self.closed or self.revision~=revision then return end
     if not valid(c) or not c:IsAlive() or not valid(a) then self:Abort('source after mana');return end
     if not valid(t) or not t:IsAlive() then self:Abort('target after tick');return end
     if not eligible(c,t) then self:Abort('target rules after mana');return end

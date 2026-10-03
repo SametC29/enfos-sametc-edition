@@ -15,11 +15,11 @@ local units={};function EntIndexToHScript(i)return units[i]end
 local created,destroyed,released,binds=0,{},{},{};local hook;local hits,mana=0,0;local lastVictim,damageHook,manaHook
 ParticleManager={CreateParticle=function(_,path,attach,c)
  assert(path=='particles/units/heroes/hero_lion/lion_spell_mana_drain.vpcf' and attach==3)
- created=created+1;if hook then hook('create')end;return created end,
+ created=created+1;local id=created;if hook then hook('create')end;return id end,
  SetParticleControlEnt=function(_,id,cp,u,attach,bone,pos,lock)
  assert(attach==3 and bone=='' and pos==u.pos and not lock);binds[id]=binds[id] or {};binds[id][cp]=u;if hook then hook('cp'..cp)end end,
- DestroyParticle=function(_,id)assert(not destroyed[id]);destroyed[id]=true end,
- ReleaseParticleIndex=function(_,id)assert(not released[id]);released[id]=true end}
+ DestroyParticle=function(_,id)assert(not destroyed[id]);destroyed[id]=true;if hook then hook('destroy')end end,
+ ReleaseParticleIndex=function(_,id)assert(not released[id]);released[id]=true;if hook then hook('release')end end}
 function ApplyDamage(p)hits=hits+1;lastVictim=p.victim;if damageHook then damageHook()end;return p.damage end
 ${baseline?`assert(load([==[${baseline}]==]))()`:`require('abilities/heroes/lion/e')`}
 local function unit(team)
@@ -81,6 +81,37 @@ for _,mode in ipairs({'ability','caster','dead caster','removed target','dead ta
  if mode=='mana removes caster' or mode=='lethal damage' or mode=='mana converts target' then assert(mana==gain+100,mode)else assert(mana==gain,mode)end
  if mode=='ability' or mode=='caster' or mode=='dead caster' or mode=='removed target' or mode=='dead target' then assert(hits==beforeHits,mode)end
  local h,g=hits,mana;x:OnIntervalThink();assert(hits==h and mana==g,'Closed interval cannot run')
+end
+-- Same-modifier refresh inside engine callbacks must supersede old work.
+for _,phase in ipairs({'create','cp0','cp1'})do
+ c,t=unit(2),unit();units[1]=t;local nextTarget=unit();units[3]=nextTarget;a.removed=false
+ local x=modifier();local outer=created+1
+ hook=function(p)if p==phase then hook=nil;x:OnRefresh({target_idx=3})end end
+ x:OnCreated({target_idx=1});hook=nil
+ assert(x.drain_target==nextTarget and x.drain_fx==created and x.drain_fx~=outer,'Fresh beam owns handle after '..phase..' refresh')
+ assert(destroyed[outer] and released[outer],'Obsolete unowned emitter closes once')
+ local current=x.drain_fx;x:OnDestroy();assert(destroyed[current] and released[current])
+end
+for _,phase in ipairs({'destroy','release'})do
+ c,t=unit(2),unit();units[1]=t;local nextTarget=unit();units[3]=nextTarget;a.removed=false
+ local x=modifier();x:OnCreated({target_idx=1});local oldfx=x.drain_fx;local before=created
+ hook=function(p)if p==phase then hook=nil;x:OnRefresh({target_idx=3})end end
+ x:OnRefresh({target_idx=1});hook=nil
+ assert(created==before+1 and x.drain_target==nextTarget and x.drain_fx==created,'Teardown refresh supersedes outer refresh during '..phase)
+ local current=x.drain_fx;x:OnDestroy();assert(destroyed[oldfx] and released[oldfx] and destroyed[current] and released[current])
+end
+for _,phase in ipairs({'damage','mana','abort'})do
+ c,t=unit(2),unit();units[1]=t;local nextTarget=unit();units[3]=nextTarget;a.removed=false
+ local x=modifier();x:OnCreated({target_idx=1});local oldfx=x.drain_fx;local gain=mana
+ if phase=='damage' then damageHook=function()x:OnRefresh({target_idx=3});t.alive=false end
+ elseif phase=='mana' then manaHook=function()x:OnRefresh({target_idx=3});t.alive=false end
+ else t.alive=false;local finish=a.EndChannel;a.EndChannel=function()x:OnRefresh({target_idx=3})end
+  x:OnIntervalThink();a.EndChannel=finish end
+ if phase~='abort' then x:OnIntervalThink()end;damageHook=nil;manaHook=nil
+ assert(not x.closed and x.drain_target==nextTarget and x.drain_fx~=oldfx,'Obsolete '..phase..' cannot close fresh channel')
+ assert(mana==gain+(phase=='mana' and 100 or 0),'Old damage tick cannot reward refreshed channel')
+ local before=hits;x:OnIntervalThink();assert(hits==before+1 and lastVictim==nextTarget)
+ local current=x.drain_fx;x:OnDestroy();assert(destroyed[oldfx] and released[oldfx] and destroyed[current] and released[current])
 end
 c,t=unit(2),unit();units[1]=t;a.removed=false
 local trace=require('lib/hero_trace');local lines={};local oldPrint=print;print=function(s)lines[#lines+1]=s end
