@@ -12,7 +12,7 @@ function class(t)t.__index=t;return t end;function LinkLuaModifier()end
 local server=true;function IsServer()return server end;Convars={GetBool=function()return false end}
 PATTACH_ABSORIGIN_FOLLOW=3;DAMAGE_TYPE_MAGICAL=2
 local units={};function EntIndexToHScript(i)return units[i]end
-local created,destroyed,released,binds=0,{},{},{};local hook;local hits,mana=0,0;local lastVictim,damageHook,manaHook
+local created,destroyed,released,binds=0,{},{},{};local hook;local hits,mana=0,0;local lastVictim,damageHook,manaHook,slowHook
 ParticleManager={CreateParticle=function(_,path,attach,c)
  assert(path=='particles/units/heroes/hero_lion/lion_spell_mana_drain.vpcf' and attach==3)
  created=created+1;local id=created;if hook then hook('create')end;return id end,
@@ -27,8 +27,8 @@ local function unit(team)
  function u:IsNull()return self.removed end;function u:IsAlive()return self.alive end;function u:GetAbsOrigin()return self.pos end
  function u:GetTeamNumber()return self.team end;function u:IsBuilding()return self.building end;function u:IsMagicImmune()return self.magic end;function u:IsDebuffImmune()return self.debuff end
  function u:GetIntellect()return 100 end;function u:GiveMana(n)mana=mana+n;if manaHook then manaHook()end end
- function u:StopSound(s)assert(s=='Hero_Lion.ManaDrain');self.stopped=self.stopped+1 end
- function u:RemoveModifierByNameAndCaster(n,c)assert(n=='modifier_enfos_lion_mana_drain_debuff');self.cleared=self.cleared+1 end
+ function u:StopSound(s)assert(s=='Hero_Lion.ManaDrain');self.stopped=self.stopped+1;self.playing=false end
+ function u:RemoveModifierByNameAndCaster(n,c)assert(n=='modifier_enfos_lion_mana_drain_debuff');self.cleared=self.cleared+1;self.slow=nil;if slowHook then slowHook()end end
  return u
 end
 local c,t=unit(2),unit();units[1]=t
@@ -82,6 +82,22 @@ for _,mode in ipairs({'ability','caster','dead caster','removed target','dead ta
  if mode=='ability' or mode=='caster' or mode=='dead caster' or mode=='removed target' or mode=='dead target' then assert(hits==beforeHits,mode)end
  local h,g=hits,mana;x:OnIntervalThink();assert(hits==h and mana==g,'Closed interval cannot run')
 end
+-- Old teardown must not erase a fresh modifier started by resource/slow cleanup.
+for _,phase in ipairs({'destroy','release','slow'})do
+ c,t=unit(2),unit();units[1]=t;a.removed=false
+ local old=modifier();old:OnCreated({target_idx=1});c.playing=true;t.slow='old';local fresh
+ local function startFresh()
+  hook=nil;slowHook=nil;fresh=modifier();fresh:OnCreated({target_idx=1});c.playing=true;t.slow='new'
+ end
+ if phase=='slow' then slowHook=startFresh else hook=function(p)if p==phase then startFresh()end end end
+ local oldfx=old.drain_fx;old:OnDestroy();hook=nil;slowHook=nil
+ assert(fresh and not fresh.closed and c.playing and t.slow=='new','Old '..phase..' teardown cannot stop fresh sound/slow')
+ assert(old.closed and destroyed[oldfx] and released[oldfx] and not destroyed[fresh.drain_fx])
+ fresh:OnDestroy()
+end
+c,t=unit(2),unit();units[90]=nil;a.removed=false
+local unresolved=modifier();unresolved:OnCreated({target_idx=90});local stranger=unit();units[90]=stranger
+unresolved:OnDestroy();assert(stranger.cleared==0,'Never clean a recycled unresolved target index')
 -- Same-modifier refresh inside engine callbacks must supersede old work.
 for _,phase in ipairs({'create','cp0','cp1'})do
  c,t=unit(2),unit();units[1]=t;local nextTarget=unit();units[3]=nextTarget;a.removed=false

@@ -66,11 +66,12 @@ end
 function modifier_enfos_lion_mana_drain_channel:OnDestroy()
     if not IsServer() or self.closed then return end
     self.closed=true
-    self:ClearVisual()
     local caster=self:GetCaster()
-    local target=self.drain_target or (self.target_idx and EntIndexToHScript(self.target_idx))
-    if valid(target) and valid(caster) then target:RemoveModifierByNameAndCaster('modifier_enfos_lion_mana_drain_debuff',caster) end
+    local target=self.drain_target
+    -- Close old sound/slow before particle cleanup can start a fresh channel.
     if valid(caster) then caster:StopSound('Hero_Lion.ManaDrain') end
+    if valid(target) and valid(caster) then target:RemoveModifierByNameAndCaster('modifier_enfos_lion_mana_drain_debuff',caster) end
+    self:ClearVisual()
     Trace:Log('LION','E','channel visual teardown')
 end
 function modifier_enfos_lion_mana_drain_channel:OnCreated(kv)
