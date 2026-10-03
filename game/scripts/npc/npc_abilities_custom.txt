@@ -5377,6 +5377,7 @@
 
 	"enfos_jakiro_liquid_fire"
 	{
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/heroes/jakiro/e"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AUTOCAST"

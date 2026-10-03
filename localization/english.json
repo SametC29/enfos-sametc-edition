@@ -1467,6 +1467,7 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow": "Liquid Fire",
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "Attack speed -%dMODIFIER_PROPERTY_TOOLTIP%. Magical damage per second: %fMODIFIER_PROPERTY_TOOLTIP2%. Can be dispelled to end the burn.",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn": "Macropyre",
-    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "Burning. Magical damage per second: %fMODIFIER_PROPERTY_TOOLTIP%. Cannot be dispelled."
+    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "Burning. Magical damage per second: %fMODIFIER_PROPERTY_TOOLTIP%. Cannot be dispelled.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_shard_description": "Liquid Fire no longer costs mana with Aghanim’s Shard."
   }
 }

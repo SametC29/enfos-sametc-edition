@@ -1407,6 +1407,7 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow": "Жидкий огонь",
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "Скорость атаки -%dMODIFIER_PROPERTY_TOOLTIP%. Магический урон в секунду: %fMODIFIER_PROPERTY_TOOLTIP2%. Развеивание прекращает горение.",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn": "Макропир",
-    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "Горение. Магический урон в секунду: %fMODIFIER_PROPERTY_TOOLTIP%. Нельзя развеять."
+    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "Горение. Магический урон в секунду: %fMODIFIER_PROPERTY_TOOLTIP%. Нельзя развеять.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_shard_description": "С Aghanim’s Shard применение Liquid Fire не расходует ману."
   }
 }

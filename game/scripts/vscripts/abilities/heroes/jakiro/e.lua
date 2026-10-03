@@ -10,6 +10,10 @@ local function positive(a,key,fallback) local n=value(a,key);return n>0 and n or
 local function immune(target) return (target.IsDebuffImmune and target:IsDebuffImmune()) or (target.IsMagicImmune and target:IsMagicImmune()) end
 
 enfos_jakiro_liquid_fire=class({})
+function enfos_jakiro_liquid_fire:GetManaCost(level)
+    if require('heroes/aghanim_manager'):HasShard(self:GetCaster()) then return 0 end
+    return self.BaseClass.GetManaCost(self,level)
+end
 function enfos_jakiro_liquid_fire:GetIntrinsicModifierName() return 'modifier_enfos_jakiro_liquid_fire_passive' end
 function enfos_jakiro_liquid_fire:OnSpellStart()
     if not IsServer() or not valid(self) or (self.GetLevel and self:GetLevel()<1) then return end

@@ -3933,6 +3933,7 @@
           "callbacks": [
             "FireAt",
             "GetIntrinsicModifierName",
+            "GetManaCost",
             "OnSpellStart",
             "SnapshotImpact"
           ],

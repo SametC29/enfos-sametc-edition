@@ -123,7 +123,7 @@ function AghanimManager:HasShard(hero)
 	if hero.HasModifier then
 		-- Installed native localization identifies this permanent Shard buff.
 		-- Introduce the compatibility branch only for the hero under review.
-		if hero.GetUnitName and (hero:GetUnitName()=="npc_dota_hero_lich" or hero:GetUnitName()=="npc_dota_hero_vengefulspirit")
+		if hero.GetUnitName and (hero:GetUnitName()=="npc_dota_hero_lich" or hero:GetUnitName()=="npc_dota_hero_vengefulspirit" or hero:GetUnitName()=="npc_dota_hero_jakiro")
 			and hero:HasModifier("modifier_item_aghanims_shard_permanent_buff") then return true end
 		if hero:HasModifier("modifier_item_aghanims_shard_consumed") or
 		   hero:HasModifier("modifier_aghanims_shard_consumed") then

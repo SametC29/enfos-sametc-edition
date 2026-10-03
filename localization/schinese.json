@@ -1407,6 +1407,7 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow": "液态火",
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "攻击速度-%dMODIFIER_PROPERTY_TOOLTIP%。每秒魔法伤害：%fMODIFIER_PROPERTY_TOOLTIP2%。可驱散以终止燃烧。",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn": "烈焰焚身",
-    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "燃烧中。每秒魔法伤害：%fMODIFIER_PROPERTY_TOOLTIP%。无法驱散。"
+    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "燃烧中。每秒魔法伤害：%fMODIFIER_PROPERTY_TOOLTIP%。无法驱散。",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_shard_description": "拥有阿哈利姆魔晶后，液态火不再消耗魔法。"
   }
 }

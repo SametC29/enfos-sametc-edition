@@ -1806,6 +1806,7 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow": "Sıvı Ateş",
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "Saldırı hızı -%dMODIFIER_PROPERTY_TOOLTIP%. Saniyelik büyü hasarı: %fMODIFIER_PROPERTY_TOOLTIP2%. Dağıtma yanmayı sonlandırır.",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn": "Macropyre",
-    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "Yanıyor. Saniyelik büyü hasarı: %fMODIFIER_PROPERTY_TOOLTIP%. Temizlenemez."
+    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "Yanıyor. Saniyelik büyü hasarı: %fMODIFIER_PROPERTY_TOOLTIP%. Temizlenemez.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_shard_description": "Aghanim’s Shard ile Liquid Fire artık mana tüketmez."
   }
 }
