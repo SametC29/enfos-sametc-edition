@@ -10,6 +10,10 @@ local function eligible(c,t)
         and not (t.IsMagicImmune and t:IsMagicImmune())
         and not (t.IsDebuffImmune and t:IsDebuffImmune())
 end
+-- FoW lookup is server-only; client modifier getters use ordinary eligibility.
+local function visible_enemy(c,t)
+    return eligible(c,t) and not t:IsInvisible() and c:CanEntityBeSeenByMyTeam(t)
+end
 local value, enemies, is_boss, get_int, damage, effect = H.value, H.enemies, H.is_boss, H.get_int, H.damage, H.effect
 LinkLuaModifier('modifier_enfos_lion_mana_drain_channel', 'abilities/heroes/lion/e', LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier('modifier_enfos_lion_mana_drain_debuff', 'abilities/heroes/lion/e', LUA_MODIFIER_MOTION_NONE)
@@ -25,15 +29,15 @@ function enfos_lion_mana_drain:OnSpellStart()
     if not IsServer() or not valid(self) then return end
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
-    if not eligible(c,t) then return end
+    if not visible_enemy(c,t) then return end
     if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
-    if not valid(self) or not eligible(c,t) then return end
+    if not valid(self) or not visible_enemy(c,t) then return end
     local duration = value(self, 'channel_duration')
     if duration <= 0 then return end
     c:EmitSound('Hero_Lion.ManaDrain')
-    if not valid(self) or not eligible(c,t) then return end
+    if not valid(self) or not visible_enemy(c,t) then return end
     c:AddNewModifier(c, self, 'modifier_enfos_lion_mana_drain_channel', { duration = duration, target_idx = t:entindex() })
-    if not valid(self) or not eligible(c,t) then return end
+    if not valid(self) or not visible_enemy(c,t) then return end
     t:AddNewModifier(c, self, 'modifier_enfos_lion_mana_drain_debuff', { duration = duration })
 end
 function enfos_lion_mana_drain:OnChannelFinish(interrupted)
@@ -136,7 +140,7 @@ function modifier_enfos_lion_mana_drain_channel:OnIntervalThink()
     if not valid(c) or not c:IsAlive() then self:Abort('caster');return end
     if not valid(a) then self:Abort('ability');return end
     if not valid(t) or not t:IsAlive() then self:Abort('target');return end
-    if not eligible(c,t) then self:Abort('target rules');return end
+    if not visible_enemy(c,t) then self:Abort('target rules or visibility');return end
     if not a:IsChanneling() then
         Trace:Log('LION','E','inactive engine channel cleaned')
         self:Destroy();return
@@ -153,13 +157,13 @@ function modifier_enfos_lion_mana_drain_channel:OnIntervalThink()
     if not valid(c) or not c:IsAlive() or not valid(a) then self:Abort('source after damage');return end
     if not a:IsChanneling() then self:Destroy();return end
     if not valid(t) then self:Abort('target after damage');return end
-    if t:IsAlive() and not eligible(c,t) then self:Abort('target rules after damage');return end
+    if t:IsAlive() and not visible_enemy(c,t) then self:Abort('target rules or visibility after damage');return end
     if c.GiveMana then c:GiveMana(tick_dmg) end
     if self.closed or self.revision~=revision then return end
     if not valid(c) or not c:IsAlive() or not valid(a) then self:Abort('source after mana');return end
     if not a:IsChanneling() then self:Destroy();return end
     if not valid(t) or not t:IsAlive() then self:Abort('target after tick');return end
-    if not eligible(c,t) then self:Abort('target rules after mana');return end
+    if not visible_enemy(c,t) then self:Abort('target rules or visibility after mana');return end
     Trace:Log('LION','E','channel tick authored_damage=%.2f authored_mana=%.2f',tick_dmg,tick_dmg)
 end
 

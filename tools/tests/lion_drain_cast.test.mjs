@@ -14,6 +14,7 @@ local function unit(team)
  local u={team=team,alive=true}
  function u:IsNull()return self.removed end
  function u:IsAlive()assert(not self.removed);return self.alive end
+ function u:IsInvisible()assert(not self.removed);return self.invisible end;function u:CanEntityBeSeenByMyTeam(target)assert(server and not self.removed);return not target.fog end
  function u:GetTeamNumber()assert(not self.removed);return self.team end
  function u:IsBuilding()return self.building end
  function u:IsMagicImmune()return self.magic end
@@ -36,7 +37,7 @@ local function reset()
  function a:GetSpecialValueFor(k)assert(not self.removed and k=='channel_duration');return 4 end
 end
 reset();a:OnSpellStart();assert(adds==2 and sounds==1,'Ordinary enemy cast still owns two modifiers')
-for _,mode in ipairs({'friendly','dead','removed','building','magic','debuff','absorbed'})do
+for _,mode in ipairs({'friendly','dead','removed','building','magic','debuff','absorbed','fog','invisible'})do
  reset()
  if mode=='friendly' then t.team=2 elseif mode=='dead' then t.alive=false elseif mode=='absorbed' then t.absorb=true else t[mode]=true end
  a:OnSpellStart();assert(adds==0 and sounds==0,mode)

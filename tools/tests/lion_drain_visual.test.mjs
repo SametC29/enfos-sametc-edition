@@ -27,6 +27,7 @@ local function unit(team)
  local u={team=team or 3,pos={x=1,y=2,z=0},removed=false,alive=true,stopped=0,cleared=0}
  function u:IsNull()return self.removed end;function u:IsAlive()return self.alive end;function u:GetAbsOrigin()return self.pos end
  function u:GetUnitName()return self.team==2 and 'npc_dota_hero_lion' or 'enfos_creep' end;function u:HasModifier(n)return self.shard and n=='modifier_item_aghanims_shard_permanent_buff' end
+ function u:IsInvisible()assert(not self.removed);return self.invisible end;function u:CanEntityBeSeenByMyTeam(target)assert(server and not self.removed);return not target.fog end
  function u:GetTeamNumber()return self.team end;function u:IsBuilding()return self.building end;function u:IsMagicImmune()return self.magic end;function u:IsDebuffImmune()return self.debuff end
  function u:GetIntellect()return 100 end;function u:GiveMana(n)mana=mana+n;if manaHook then manaHook()end end
  function u:StopSound(s)assert(s=='Hero_Lion.ManaDrain');self.stopped=self.stopped+1;self.playing=false end
@@ -59,7 +60,7 @@ end
 local x=modifier();x:OnCreated({target_idx=1});c.removed=true;t.removed=true;x:OnDestroy();assert(destroyed[created] and released[created]);c.removed=false;t.removed=false
 local count=created;server=false;local client=modifier();client:OnCreated({target_idx=1});client:OnRefresh({target_idx=2});client:OnDestroy();assert(created==count);server=true
 -- Source invalidation must stop without stale reads or mana side effects.
-for _,mode in ipairs({'ability','caster','dead caster','removed target','dead target','damage removes caster','damage removes ability','damage removes target','damage closes modifier','mana removes caster','lethal damage','friendly target','immune target','building target','damage converts target','mana converts target'})do
+for _,mode in ipairs({'ability','caster','dead caster','removed target','dead target','damage removes caster','damage removes ability','damage removes target','damage closes modifier','mana removes caster','lethal damage','friendly target','immune target','building target','damage converts target','mana converts target','hidden target','invisible target','damage hides target','mana hides target'})do
  c,t=unit(2),unit();units[1]=t;a.removed=false
  function a:IsNull()return self.removed end
  local x=modifier();x:OnCreated({target_idx=1});local gain=mana;local beforeHits=hits
@@ -78,10 +79,14 @@ for _,mode in ipairs({'ability','caster','dead caster','removed target','dead ta
  elseif mode=='immune target' then t.magic=true
  elseif mode=='building target' then t.building=true
  elseif mode=='damage converts target' then damageHook=function()t.team=2 end
- elseif mode=='mana converts target' then manaHook=function()t.team=2 end end
+ elseif mode=='mana converts target' then manaHook=function()t.team=2 end
+ elseif mode=='hidden target' then t.fog=true
+ elseif mode=='invisible target' then t.invisible=true
+ elseif mode=='damage hides target' then damageHook=function()t.fog=true end
+ elseif mode=='mana hides target' then manaHook=function()t.fog=true end end
  x:OnIntervalThink();damageHook=nil;manaHook=nil
  assert(x.closed and destroyed[created] and released[created],mode)
- if mode=='mana removes caster' or mode=='lethal damage' or mode=='mana converts target' then assert(mana==gain+100,mode)else assert(mana==gain,mode)end
+ if mode=='mana removes caster' or mode=='lethal damage' or mode=='mana converts target' or mode=='mana hides target' then assert(mana==gain+100,mode)else assert(mana==gain,mode)end
  if mode=='ability' or mode=='caster' or mode=='dead caster' or mode=='removed target' or mode=='dead target' then assert(hits==beforeHits,mode)end
  local h,g=hits,mana;x:OnIntervalThink();assert(hits==h and mana==g,'Closed interval cannot run')
 end
@@ -179,6 +184,6 @@ print('Lion drain visual PASS')
  // This repair does not silently decide the pending native/PvE mana conversion.
  const path='game/scripts/npc/npc_abilities_custom.txt';
  const old=parseKV(execFileSync('git',['show','1d6a67f:'+path],{encoding:'utf8'})).DOTAAbilities.enfos_lion_mana_drain;
- old.HasShardUpgrade='1';old.AbilityValues.shard_break_distance_bonus='200';old.AbilityValues.shard_magic_resistance='60';old.SpellDispellableType='SPELL_DISPELLABLE_NO';old.AbilityValues.break_distance='1100';old.AbilityCastAnimation='ACT_DOTA_CAST_ABILITY_3';
+ old.AbilityUnitTargetFlags='DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE | DOTA_UNIT_TARGET_FLAG_NO_INVIS';old.HasShardUpgrade='1';old.AbilityValues.shard_break_distance_bonus='200';old.AbilityValues.shard_magic_resistance='60';old.SpellDispellableType='SPELL_DISPELLABLE_NO';old.AbilityValues.break_distance='1100';old.AbilityCastAnimation='ACT_DOTA_CAST_ABILITY_3';
  assert.deepEqual(parseKV(fs.readFileSync(path,'utf8')).DOTAAbilities.enfos_lion_mana_drain,old);
 });

@@ -243,6 +243,8 @@ function create_mock_unit(name, team, origin, hp)
         IsNull = function() return false end,
         IsAlive = function(self) return self.alive end,
         GetTeamNumber = function(self) return self.team end,
+        IsInvisible = function(self) return self.invisible == true end,
+        CanEntityBeSeenByMyTeam = function(_, target) return not target.fog end,
         GetUnitName = function(self) return self.name end,
         GetAbsOrigin = function(self) return self.origin end,
         SetAbsOrigin = function(self, pos) self.origin = pos end,
