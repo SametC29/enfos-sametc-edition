@@ -1,6 +1,7 @@
 -- Vengeful Spirit E: isolated existing implementation; review gates remain pending.
 local Helpers = require('abilities/shared/pve_helpers')
-local value, enemies, is_boss, get_agi, damage = Helpers.value, Helpers.enemies, Helpers.is_boss, Helpers.get_agi, Helpers.damage
+local value = Helpers.value
+local HeroTrace = require('lib/hero_trace')
 LinkLuaModifier('modifier_enfos_vs_vengeance_aura', 'abilities/heroes/vengefulspirit/e', LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier('modifier_enfos_vs_vengeance_aura_buff', 'abilities/heroes/vengefulspirit/e', LUA_MODIFIER_MOTION_NONE)
 
@@ -30,3 +31,23 @@ function modifier_enfos_vs_vengeance_aura_buff:GetModifierBaseDamageOutgoing_Per
     if not ab or (ab.IsNull and ab:IsNull()) or (ab.GetLevel and ab:GetLevel() <= 0) then return 0 end
     return value(ab, 'bonus_damage_pct')
 end
+
+function modifier_enfos_vs_vengeance_aura:GetTexture() return 'vengefulspirit_command_aura' end
+function modifier_enfos_vs_vengeance_aura:TraceLifecycle(event)
+    if not HeroTrace:Enabled() then return end
+    HeroTrace:Log('VENGEFUL_SPIRIT','E','%s modifier=modifier_enfos_vs_vengeance_aura source=%s recipient=%s',
+        event,HeroTrace:Name(self:GetCaster()),HeroTrace:Name(self:GetParent()))
+end
+function modifier_enfos_vs_vengeance_aura:OnCreated() self:TraceLifecycle('modifier_applied') end
+function modifier_enfos_vs_vengeance_aura:OnRefresh() self:TraceLifecycle('modifier_refreshed') end
+function modifier_enfos_vs_vengeance_aura:OnDestroy() self:TraceLifecycle('modifier_removed') end
+
+function modifier_enfos_vs_vengeance_aura_buff:GetTexture() return 'vengefulspirit_command_aura' end
+function modifier_enfos_vs_vengeance_aura_buff:TraceLifecycle(event)
+    if not HeroTrace:Enabled() then return end
+    HeroTrace:Log('VENGEFUL_SPIRIT','E','%s modifier=modifier_enfos_vs_vengeance_aura_buff source=%s recipient=%s',
+        event,HeroTrace:Name(self:GetCaster()),HeroTrace:Name(self:GetParent()))
+end
+function modifier_enfos_vs_vengeance_aura_buff:OnCreated() self:TraceLifecycle('modifier_applied') end
+function modifier_enfos_vs_vengeance_aura_buff:OnRefresh() self:TraceLifecycle('modifier_refreshed') end
+function modifier_enfos_vs_vengeance_aura_buff:OnDestroy() self:TraceLifecycle('modifier_removed') end

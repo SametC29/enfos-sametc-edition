@@ -919,11 +919,11 @@
     "DOTA_Tooltip_Ability_enfos_vs_wave_of_terror": "Dehşet Dalgası",
     "DOTA_Tooltip_Ability_enfos_vs_wave_of_terror_Description": "{{wave_speed}} hızla {{wave_distance}} mesafeye ilerleyen bir dalga gönderir. Yolunun {{wave_width}} yakınındaki düşmanlara çarpışmada {{damage}} + Çeviklik × 0,6 büyü hasarı verir ve zırhlarını {{duration}} saniye boyunca {{armor_reduction}} azaltır. Dalga düşmanların içinden geçer; zırh zayıflatması dağıtılabilir.",
     "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura": "İntikam Halesi",
-    "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura_Description": "Pasif olarak tüm dost birimlerin temel saldırı gücünü %{{bonus_damage_pct}} artırır.",
+    "DOTA_Tooltip_Ability_enfos_vs_vengeance_aura_Description": "{{radius}} menzildeki dost kahramanların ve temel birimlerin temel saldırı hasarını %{{bonus_damage_pct}} artırır. Vengeful Spirit Kırılma etkisindeyken devre dışıdır.",
     "DOTA_Tooltip_Ability_enfos_vs_nether_swap": "Ruh Takası",
     "DOTA_Tooltip_Ability_enfos_vs_nether_swap_Description": "Hedef birimle anında yer değiştirir. Düşmana {{damage}} + Çeviklik × 1,2 büyü hasarı verir; dostlara hasar vermez. Vengeful Spirit 4 saniye boyunca %30 hasar azaltma kazanır. Geçerli Boss hedefleriyle de yer değiştirebilir.",
     "DOTA_Tooltip_Ability_enfos_vs_retribution": "Misilleme",
-    "DOTA_Tooltip_Ability_enfos_vs_retribution_Description": "Pasif olarak +{{bonus_agi}} çeviklik ve +{{bonus_as}} saldırı hızı sağlar.",
+    "DOTA_Tooltip_Ability_enfos_vs_retribution_Description": "+{{bonus_agi}} Çeviklik ve +{{bonus_as}} saldırı hızı verir. Kırılma etkisi bonusları durdurur; illüzyonlar bu bonusları almaz.",
     "DOTA_Tooltip_Ability_enfos_lich_frost_blast": "Donma Patlaması",
     "DOTA_Tooltip_Ability_enfos_lich_frost_blast_Description": "Hedefe {{target_damage}} + Zekâ'nın %80'i, {{radius}} yarıçapındaki diğer düşmanlara {{radius_damage}} + Zekâ'nın %50'si kadar büyü hasarı verir. Hareket hızını %{{slow_pct}}, saldırı hızını {{slow_attack}} azaltır; yavaşlatma {{duration}} sn sürer.",
     "DOTA_Tooltip_Ability_enfos_lich_frost_shield": "Don Kalkanı",
@@ -1785,6 +1785,10 @@
     "DOTA_Tooltip_modifier_enfos_lich_ice_spire_slow_Description": "Hareket hızı %-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% azalır.",
     "DOTA_Tooltip_Ability_enfos_lich_ice_spire": "Buz Totemi",
     "DOTA_Tooltip_Ability_enfos_lich_ice_spire_Description": "{{duration}} saniyeliğine tek bir Buz Totemi oluşturur. {{aura_radius}} yarıçaptaki düşmanları %{{bonus_movespeed|abs}} yavaşlatır. {{max_hero_attacks}} kahraman veya {{max_creep_attacks}} yaratık saldırısına dayanır. Yok olduğunda veya süresi dolduğunda öğrenilmiş Buz Patlamasının alan hasarını verir. Buz Kalkanı her darbede bir kahraman vuruşunu onarır. Zincirleme Buz totemi hedefleyebilir ve üzerinden önceki düşmanlara dönebilir; her temas bir kahraman vuruşu harcar. Yeniden çağırma eski totemi patlatmadan kaldırır.",
-    "DOTA_Tooltip_Ability_enfos_lich_ice_spire_shard_description": "Shard: Buz Totemini açar. Totem %duration% saniye kalır; %aura_radius% yarıçaptaki düşmanları %25 yavaşlatır. %max_hero_attacks% kahraman veya %max_creep_attacks% yaratık saldırısına dayanır. Buz Kalkanı onu onarır; Zincirleme Buz üzerinden sekebilir. Lich’in genel şifa artırma bonusunun yerine geçer."
+    "DOTA_Tooltip_Ability_enfos_lich_ice_spire_shard_description": "Shard: Buz Totemini açar. Totem %duration% saniye kalır; %aura_radius% yarıçaptaki düşmanları %25 yavaşlatır. %max_hero_attacks% kahraman veya %max_creep_attacks% yaratık saldırısına dayanır. Buz Kalkanı onu onarır; Zincirleme Buz üzerinden sekebilir. Lich’in genel şifa artırma bonusunun yerine geçer.",
+    "DOTA_Tooltip_modifier_enfos_vs_retribution": "Misilleme",
+    "DOTA_Tooltip_modifier_enfos_vs_retribution_Description": "Çeviklik +%dMODIFIER_PROPERTY_STATS_AGILITY_BONUS%, saldırı hızı +%dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Kırılma etkisinde devre dışıdır.",
+    "DOTA_Tooltip_modifier_enfos_vs_vengeance_aura_buff": "İntikam Halesi",
+    "DOTA_Tooltip_modifier_enfos_vs_vengeance_aura_buff_Description": "Temel saldırı hasarı %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%% artar. Hale kaynağı Kırılma etkisindeyken devre dışıdır."
   }
 }

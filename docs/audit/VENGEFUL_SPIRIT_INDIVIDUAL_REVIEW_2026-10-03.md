@@ -184,3 +184,36 @@ This closes the travel/impact defect only. Native attack reduction, trailing
 vision, recipient VFX, cast animation, sound-bank ownership and upgrades remain
 open; they are not silently certified or substituted with generic effects.
 Owner runtime/visual/audio/engine: NOT TESTED.
+
+## D source safety and E/D lifecycle diagnostics
+
+D remains the authored Enfos REPLACE passive, with ten ranks of 20–38 AGI and
+25–52 attack speed. Before repair, its getters queried removed parents and could
+grant values with no parent or an unlearned ability. The focused fixture failed
+on rank-zero bonus leakage before implementation. Both getters now use one
+local source/rank gate; missing/removed source or ability, rank zero, Break and
+illusion sources grant zero. Values remain live on valid rank changes; no cache,
+periodic thinker, stat mutation or rank auto-grant is added.
+
+E emitter, E recipient and D now trace only actual modifier creation, refresh
+and removal through the existing shared default-off rate limiter. Disabled
+tracing reads no diagnostic properties; ordinary stat getters never log. The
+trace fixture verifies silence by default, exactly nine lifecycle records when
+enabled, and no additional records after 100 repeated E/D stat queries.
+All five base slots now have diagnostic coverage, but the full kit remains
+PARTIAL while upgrades, unresolved native features and their branches are open.
+Lifecycle records do not establish Break/dispel/death correctness by themselves.
+
+Native icon identity comes from the already verified production/native command
+aura texture. E/D explicit modifier textures now use that resource. Four-language
+ability descriptions include radius/source Break and D illusion rules; recipient
+modifier names/descriptions use declared live modifier properties rather than
+hard-coded stats. [ModDota tooltip property documentation](https://moddota.com/abilities/modifier-properties-in-tooltips)
+documents that substitution format and its client-side requirements. MCP confirms
+OnRefresh runs on both sides; diagnostic helper suppresses client output.
+Actual client tooltip rendering and passive respawn/reconnect remain owner gates.
+
+Remaining source work includes native W attack reduction/vision and recipient
+presentation, Q/R resource/animation/immunity review, E aura emitter rank policy,
+and dedicated Shard/Scepter behavior. Do not advance to Jakiro or certify this
+hero merely because the source-safety fixtures pass.
