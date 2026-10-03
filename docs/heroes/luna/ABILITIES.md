@@ -291,3 +291,21 @@ values and the implemented bounce, beam and pulse behavior. New mock coverage
 checks impact-timed glaive damage and Eclipse's own damage rank/boss cap. All
 game-client VFX/SFX, projectile appearance, aura source behavior, Break and
 boss interactions remain pending owner testing.
+
+
+## 2026-10-03 focused Luna isolation/native-presentation repair
+
+Current source supersedes the older monolithic `abilities/pve_kits` ownership described above.
+
+- **ABILITY ISOLATION: COMPLETE (source)** — Q/W/E/R/D now route to `abilities/heroes/luna/q.lua`, `w.lua`, `e.lua`, `r.lua`, `d.lua`; `init.lua` owns the five Luna modifiers and preserves the shared bootstrap path.
+- **Q Lucent Beam: TUNE** — retains Enfos ten-rank damage + AGI scaling and Lunar Resonance. Adds native Luna sound bank/precast root and model-bound Lucent Beam CP0/1/5/6 presentation. Particle-control layout is adapted from Elfansoer's MIT-licensed Dota 2 Lua abilities example; license retained under `docs/reference-analysis/licenses/`.
+- **W Lunar Orbit: TUNE / PvE authored behavior retained** — keeps the existing finite eight-second Enfos defensive pulse contract, but removes the unrelated Lunar Blessing ambient effect and uses the verified native Lunar Orbit `luna_moon_glaive_shield.vpcf` identity plus `Hero_Luna.LunarOrbit.Cast`. Modifier snapshots combat values and owns persistent particle cleanup.
+- **E Lunar Blessing: TUNE** — source aura is learned-rank gated, shuts off under source Break, does not emit on death, and uses the verified `luna_ambient_lunar_blessing.vpcf` aura identity. Recipient values re-check source ownership rather than recipient Break.
+- **R Eclipse: TUNE / PVE-CONVERT** — uses Eclipse cast/persistent/no-target resources, native Luna sound events and per-target hit budget. The obsolete authored `boss_damage_pct` cap is removed per the current project policy: Boss targets use the ordinary configured beam formula and normal engine defenses.
+- **D Moon Glaives: TUNE** — learned passive/Break/illusion gates are explicit; bounces now advance sequentially from real tracking-projectile impacts, play `Hero_Luna.MoonGlaive.Impact` and impact VFX at each collision, preserve the authored 15% falloff and finite 16-bounce ceiling, and own the Moon Glaive ambient weapon presentation.
+- **PRECACHE** — Luna native sound bank and all newly used Luna roots are explicitly covered at startup and/or ability precache.
+- **REGRESSION COVERAGE** — existing Luna behavior tests were updated for sequential bounce impact, ordinary Boss Eclipse damage and Blessing Break/rank-zero behavior; `tools/tests/luna_isolation.test.mjs` protects KV routing, unique class ownership and cold-load isolation.
+
+External references used as evidence: current/native Dota asset and sound identifiers; SteamTracking Source 2 Eclipse state metadata; MIT-licensed Elfansoer Luna Lua presentation example; additional custom-game implementations only as behavior references where licensing was not established. No unlicensed custom-game code was copied.
+
+**OWNER ENGINE / VCONSOLE / VISUAL-AUDIO ACCEPTANCE: NOT TESTED.** Source review and fixtures are not a Dota runtime certificate. Owner should verify Q precast/beam attachments and Linken behavior; W shield art/impact audio and pulse radius; E aura visibility/Break/death; R cast/persistent/no-target art, repeated beams and Boss parity; D weapon ambient, sequential projectile origin, collision SFX/VFX, Break and dense-wave performance.
