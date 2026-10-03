@@ -1418,6 +1418,8 @@
     "DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive": "Демоническая душа",
     "DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive_Description": "Дальность применения +%dMODIFIER_PROPERTY_TOOLTIP%; усиление заклинаний +%dMODIFIER_PROPERTY_TOOLTIP2%%%. Отключается истощением и не действует на иллюзии. Нельзя развеять.",
     "DOTA_Tooltip_modifier_enfos_lion_finger_counter": "Палец смерти — заряды убийств",
-    "DOTA_Tooltip_modifier_enfos_lion_finger_counter_Description": "Мгновенные убийства Пальцем смерти дают заряды. Текущий дополнительный урон: %dMODIFIER_PROPERTY_TOOLTIP%. Текущее усиление заклинаний: %dMODIFIER_PROPERTY_TOOLTIP2%%%."
+    "DOTA_Tooltip_modifier_enfos_lion_finger_counter_Description": "Мгновенные убийства Пальцем смерти дают заряды. Текущий дополнительный урон: %dMODIFIER_PROPERTY_TOOLTIP%. Текущее усиление заклинаний: %dMODIFIER_PROPERTY_TOOLTIP2%%%.",
+    "DOTA_Tooltip_modifier_enfos_lion_mana_drain_debuff": "Высасывание маны",
+    "DOTA_Tooltip_modifier_enfos_lion_mana_drain_debuff_Description": "Изменение скорости передвижения: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Не развеивается. Завершается вместе с поддержанием."
   }
 }

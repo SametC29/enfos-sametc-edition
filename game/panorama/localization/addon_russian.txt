@@ -2560,6 +2560,8 @@
 		"DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive_Description" "Дальность применения +%dMODIFIER_PROPERTY_TOOLTIP%; усиление заклинаний +%dMODIFIER_PROPERTY_TOOLTIP2%%%. Отключается истощением и не действует на иллюзии. Нельзя развеять."
 		"DOTA_Tooltip_modifier_enfos_lion_finger_counter" "Палец смерти — заряды убийств"
 		"DOTA_Tooltip_modifier_enfos_lion_finger_counter_Description" "Мгновенные убийства Пальцем смерти дают заряды. Текущий дополнительный урон: %dMODIFIER_PROPERTY_TOOLTIP%. Текущее усиление заклинаний: %dMODIFIER_PROPERTY_TOOLTIP2%%%."
+		"DOTA_Tooltip_modifier_enfos_lion_mana_drain_debuff" "Высасывание маны"
+		"DOTA_Tooltip_modifier_enfos_lion_mana_drain_debuff_Description" "Изменение скорости передвижения: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Не развеивается. Завершается вместе с поддержанием."
 		"DOTA_Tooltip_modifier_enfos_luna_lunar_blessing" "Лунное благословение (Lunar Blessing)"
 		"DOTA_Tooltip_modifier_enfos_luna_lunar_blessing_Description" "Луна и ближайшие союзники получают 20 / 35 / 50 / 65 / 70 / 75 / 80 / 85 / 90 / 95 урона от атак, 3 / 5 / 7 / 9 / 10 / 11 / 12 / 13 / 14 / 15 брони и 12% скорости передвижения."
 		"DOTA_Tooltip_modifier_enfos_luna_moon_glaives_passive" "Лунные глефы (Moon Glaives)"

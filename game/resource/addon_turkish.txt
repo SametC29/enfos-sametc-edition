@@ -2555,6 +2555,8 @@
 		"DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive_Description" "Atış menzili +%dMODIFIER_PROPERTY_TOOLTIP%; büyü güçlendirmesi +%dMODIFIER_PROPERTY_TOOLTIP2%%%. Break sırasında ve illüzyonlarda bonus vermez. Arındırılamaz."
 		"DOTA_Tooltip_modifier_enfos_lion_finger_counter" "Ölüm Parmağı — Öldürme Yığınları"
 		"DOTA_Tooltip_modifier_enfos_lion_finger_counter_Description" "Ölüm Parmağı ile anında öldürülen düşmanlar yığın kazandırır. Mevcut ek Ölüm Parmağı hasarı: %dMODIFIER_PROPERTY_TOOLTIP%. Mevcut büyü gücü: %dMODIFIER_PROPERTY_TOOLTIP2%%%."
+		"DOTA_Tooltip_modifier_enfos_lion_mana_drain_debuff" "Mana Emilimi"
+		"DOTA_Tooltip_modifier_enfos_lion_mana_drain_debuff_Description" "Hareket hızı değişimi: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Arındırılamaz. Kanal sona erdiğinde kaldırılır."
 		"DOTA_Tooltip_modifier_enfos_luna_lunar_blessing" "Ayın Kutsaması (Lunar Blessing)"
 		"DOTA_Tooltip_modifier_enfos_luna_lunar_blessing_Description" "Luna ve yakındaki dostlara 20 / 35 / 50 / 65 / 70 / 75 / 80 / 85 / 90 / 95 saldırı hasarı, 3 / 5 / 7 / 9 / 10 / 11 / 12 / 13 / 14 / 15 zırh ve 12% hareket hızı verir."
 		"DOTA_Tooltip_modifier_enfos_luna_moon_glaives_passive" "Ay Bıçakları (Moon Glaives)"

@@ -6537,6 +6537,7 @@ test('Lion Mana Drain channel and slow values are read from KV', function()
     local lion = create_mock_unit('npc_dota_hero_lion', 2, Vector(0, 0, 0))
     local target = create_mock_unit('lion_mana_target', 3, Vector(100, 0, 0))
     local drain = enfos_lion_mana_drain()
+    drain.GetLevel = function() return 1 end -- Learned E for live slow-value validation.
     drain.GetCaster = function() return lion end
     drain.GetCursorTarget = function() return target end
     drain.GetSpecialValueFor = function(_, key)

@@ -2560,6 +2560,8 @@
 		"DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive_Description" "Cast range +%dMODIFIER_PROPERTY_TOOLTIP%; spell amplification +%dMODIFIER_PROPERTY_TOOLTIP2%%%. Disabled by Break and inactive on illusions. Cannot be dispelled."
 		"DOTA_Tooltip_modifier_enfos_lion_finger_counter" "Finger of Death — Kill Stacks"
 		"DOTA_Tooltip_modifier_enfos_lion_finger_counter_Description" "Kills caused immediately by Finger grant stacks. Current extra Finger damage: %dMODIFIER_PROPERTY_TOOLTIP%. Current spell amplification: %dMODIFIER_PROPERTY_TOOLTIP2%%%."
+		"DOTA_Tooltip_modifier_enfos_lion_mana_drain_debuff" "Mana Drain"
+		"DOTA_Tooltip_modifier_enfos_lion_mana_drain_debuff_Description" "Movement speed change: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Cannot be dispelled. Ends with the channel."
 		"DOTA_Tooltip_modifier_enfos_luna_lunar_blessing" "Lunar Blessing"
 		"DOTA_Tooltip_modifier_enfos_luna_lunar_blessing_Description" "Luna and nearby allies gain 20 / 35 / 50 / 65 / 70 / 75 / 80 / 85 / 90 / 95 attack damage, 3 / 5 / 7 / 9 / 10 / 11 / 12 / 13 / 14 / 15 armor and 12% movement speed."
 		"DOTA_Tooltip_modifier_enfos_luna_moon_glaives_passive" "Moon Glaives"

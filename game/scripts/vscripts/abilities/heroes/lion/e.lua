@@ -140,5 +140,29 @@ end
 
 modifier_enfos_lion_mana_drain_debuff=class({})
 function modifier_enfos_lion_mana_drain_debuff:IsDebuff() return true end
+function modifier_enfos_lion_mana_drain_debuff:IsHidden() return false end
+function modifier_enfos_lion_mana_drain_debuff:IsPurgable() return false end
+function modifier_enfos_lion_mana_drain_debuff:IsPurgeException() return false end
+function modifier_enfos_lion_mana_drain_debuff:GetTexture() return 'lion_mana_drain' end
 function modifier_enfos_lion_mana_drain_debuff:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
-function modifier_enfos_lion_mana_drain_debuff:GetModifierMoveSpeedBonus_Percentage() return -value(self:GetAbility(), 'slow_pct') end
+function modifier_enfos_lion_mana_drain_debuff:GetModifierMoveSpeedBonus_Percentage()
+    if self.closed or not valid(self) then return 0 end
+    local a=self:GetAbility()
+    if not valid(a) or a:GetLevel()<=0 or not eligible(self:GetCaster(),self:GetParent()) then return 0 end
+    return -value(a,'slow_pct')
+end
+function modifier_enfos_lion_mana_drain_debuff:TraceLifecycle(event)
+    if Trace:Enabled() then Trace:Log('LION','E','slow %s movement_pct=%.1f',event,self:GetModifierMoveSpeedBonus_Percentage()) end
+end
+function modifier_enfos_lion_mana_drain_debuff:OnCreated()
+    self.closed=false
+    self:TraceLifecycle('applied')
+end
+function modifier_enfos_lion_mana_drain_debuff:OnRefresh()
+    if not self.closed then self:TraceLifecycle('refreshed') end
+end
+function modifier_enfos_lion_mana_drain_debuff:OnDestroy()
+    if self.closed then return end
+    self:TraceLifecycle('removed')
+    self.closed=true
+end

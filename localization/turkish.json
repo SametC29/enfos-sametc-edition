@@ -1817,6 +1817,8 @@
     "DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive": "İblis Ruhu",
     "DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive_Description": "Atış menzili +%dMODIFIER_PROPERTY_TOOLTIP%; büyü güçlendirmesi +%dMODIFIER_PROPERTY_TOOLTIP2%%%. Break sırasında ve illüzyonlarda bonus vermez. Arındırılamaz.",
     "DOTA_Tooltip_modifier_enfos_lion_finger_counter": "Ölüm Parmağı — Öldürme Yığınları",
-    "DOTA_Tooltip_modifier_enfos_lion_finger_counter_Description": "Ölüm Parmağı ile anında öldürülen düşmanlar yığın kazandırır. Mevcut ek Ölüm Parmağı hasarı: %dMODIFIER_PROPERTY_TOOLTIP%. Mevcut büyü gücü: %dMODIFIER_PROPERTY_TOOLTIP2%%%."
+    "DOTA_Tooltip_modifier_enfos_lion_finger_counter_Description": "Ölüm Parmağı ile anında öldürülen düşmanlar yığın kazandırır. Mevcut ek Ölüm Parmağı hasarı: %dMODIFIER_PROPERTY_TOOLTIP%. Mevcut büyü gücü: %dMODIFIER_PROPERTY_TOOLTIP2%%%.",
+    "DOTA_Tooltip_modifier_enfos_lion_mana_drain_debuff": "Mana Emilimi",
+    "DOTA_Tooltip_modifier_enfos_lion_mana_drain_debuff_Description": "Hareket hızı değişimi: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Arındırılamaz. Kanal sona erdiğinde kaldırılır."
   }
 }
