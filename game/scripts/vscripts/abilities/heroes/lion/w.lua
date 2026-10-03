@@ -11,6 +11,21 @@ local function eligible(c,t)
     return living(c) and living(t) and t:GetTeamNumber()~=c:GetTeamNumber()
         and not (t.IsBuilding and t:IsBuilding()) and not immune(t)
 end
+local function ordinary_illusion(t)
+    return t.IsIllusion and t:IsIllusion() and not t:IsStrongIllusion()
+end
+local function illusion_burst(a,c,t)
+    local function active() return valid(a) and eligible(c,t) and ordinary_illusion(t) end
+    local fx=ParticleManager:CreateParticle('particles/units/heroes/hero_lion/lion_spell_voodoo.vpcf',PATTACH_ABSORIGIN_FOLLOW,t)
+    if active() then
+        ParticleManager:SetParticleControlEnt(fx,1,t,PATTACH_ABSORIGIN_FOLLOW,'',t:GetAbsOrigin(),false)
+    end
+    local ready=active()
+    if not ready then ParticleManager:DestroyParticle(fx,true) end
+    -- Native root and children are finite bursts; no lingering target modifier.
+    ParticleManager:ReleaseParticleIndex(fx)
+    return ready
+end
 local function speed(a,p)
     local n=tonumber(p and p.move_speed)
     if not n and valid(a) then n=H.value(a,'base_move_speed') end
@@ -32,6 +47,12 @@ function enfos_lion_hex:OnSpellStart()
     local move_speed=speed(self)
     c:EmitSound('Hero_Lion.Voodoo')
     if not valid(self) or not eligible(c,t) then return end
+    if ordinary_illusion(t) then
+        if not illusion_burst(self,c,t) then return end
+        t:Kill(self,c)
+        Trace:Log('LION','W','ordinary illusion destroyed')
+        return
+    end
     t:AddNewModifier(c,self,'modifier_enfos_lion_hex_debuff',{duration=duration,move_speed=move_speed})
     Trace:Log('LION','W','cast duration=%.2f speed=%.1f',duration,move_speed)
 end

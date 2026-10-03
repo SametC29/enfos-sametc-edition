@@ -5,6 +5,7 @@ import {spawnSync,execFileSync} from 'node:child_process';
 import {parseKV} from '../lib/kv.mjs';
 
 test('Lion Hex transforms, transmits saved speed and closes owned effects without Boss overrides',()=>{
+ const durations=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.txt','utf8')).DOTAAbilities.enfos_lion_hex.AbilityValues.duration.split(/\s+/).join(',');
  const baseline=process.env.LION_HEX_BASELINE?execFileSync('git',['show','HEAD:game/scripts/vscripts/abilities/heroes/lion/w.lua'],{encoding:'utf8'}):null;
  const lua=`
 package.path='game/scripts/vscripts/?.lua;'..package.path
@@ -25,8 +26,11 @@ ${baseline?`assert(load([==[${baseline}]==]))()`:`require('abilities/heroes/lion
 local function unit(team)
  local t={team=team,health=100,pos={x=10,y=20,z=0},mods={}}
  function t:IsNull()return self.removed end;function t:IsAlive()return self.health>0 end
+ function t:GetUnitName()return self.boss and 'enfos_boss_test' or 'enfos_creep' end
  function t:GetAbsOrigin()return self.pos end;function t:GetTeamNumber()return self.team end
  function t:IsMagicImmune()return self.magic end;function t:IsDebuffImmune()return self.debuff end;function t:IsBuilding()return self.building end
+ function t:IsIllusion()return self.illusion end;function t:IsStrongIllusion()return self.strong end
+ function t:Kill(ability,attacker)assert(ability and attacker.team==2);self.kills=(self.kills or 0)+1;self.killAbility=ability;self.health=0;if self.killHook then self.killHook()end end
  function t:TriggerSpellAbsorb()if absorbHook then absorbHook()end;return self.absorb end
  function t:EmitSound(s)assert(s=='Hero_Lion.Voodoo');if soundHook then soundHook()end end
  function t:AddNewModifier(c,a,n,p)
@@ -70,14 +74,54 @@ for _,phase in ipairs({'create','bind'})do
  a:OnSpellStart();hook=nil;assert(created==n+1 and destroyed[created] and released[created])
 end
 target=unit(3);local n=created;server=false;a:OnSpellStart();server=true;assert(created==n)
+-- Native Hex destroys ordinary illusions; strong illusions retain normal control.
+for _,strong in ipairs({false,true})do
+ target=unit(3);target.illusion=true;target.strong=strong;local n=created;local owner=owned
+ a:OnSpellStart()
+ if strong then assert(target:IsAlive() and not target.kills and #target.mods==1,'Strong illusions must receive ordinary Hex')
+ else assert(not target:IsAlive() and target.kills==1 and target.killAbility==a and #target.mods==0,'Ordinary illusions must be destroyed, not transformed')
+  assert(created==n+1 and owned==owner and binds[created]==target and released[created] and not destroyed[created],'Finite burst must bind CP1 then release once') end
+end
+for _,duration in ipairs({${durations}})do for _,boss in ipairs({false,true})do
+ for _,illusion in ipairs({'ordinary','strong','real'})do
+  target=unit(3);target.boss=boss;target.illusion=illusion~='real';target.strong=illusion=='strong';a.values.duration=duration
+  a:OnSpellStart()
+  if illusion=='ordinary' then assert(target.kills==1 and #target.mods==0)
+  else assert(not target.kills and #target.mods==1 and target.mods[1].params.duration==duration,'All ranks use ordinary duration, including Bosses and strong illusions');target.mods[1]:Destroy()end
+ end
+end end
+a.values.duration=4.5
+target=unit(3);target.health=1;a:OnSpellStart();assert(not target.kills and target:IsAlive(),'Low health is never an execute condition')
+target=unit(3);target.illusion=true;a.values.duration=0;local n=created;a:OnSpellStart();assert(not target.kills and created==n);a.values.duration=4.5
+for _,flag in ipairs({'magic','debuff','building','absorb','removed'})do
+ target=unit(3);target.illusion=true;target[flag]=true;local n=created;a:OnSpellStart()
+ assert(not target.kills and #target.mods==0 and created==n,'Illusion destruction respects '..flag)
+end
+for _,phase in ipairs({'create','bind'})do
+ for _,loss in ipairs({'target removed','target allied','target immune','source removed','caster dead','becomes strong'})do
+  target=unit(3);target.illusion=true;local n=created
+  hook=function(p)if p==phase then
+   if loss=='target removed' then target.removed=true elseif loss=='target allied' then target.team=2 elseif loss=='target immune' then target.debuff=true
+   elseif loss=='source removed' then a.removed=true elseif loss=='caster dead' then c.health=0 else target.strong=true end
+  end end
+  a:OnSpellStart();hook=nil
+  assert(created==n+1 and destroyed[created] and released[created] and not target.kills and #target.mods==0,phase..' '..loss)
+  a.removed=false;c.health=100
+ end
+end
+target=unit(3);target.illusion=true;target.killHook=function()target.removed=true;c.removed=true;a.removed=true end
+a:OnSpellStart();assert(target.kills==1 and released[created]);c.removed=false;a.removed=false
+target=unit(3);target.illusion=true;local n=created;server=false;a:OnSpellStart();server=true
+assert(not target.kills and created==n,'Client cannot destroy illusions')
 local trace=require('lib/hero_trace');local lines={};local oldPrint=print
 print=function(line)lines[#lines+1]=line end;trace:SetEnabled(false)
 target=unit(3);a:OnSpellStart();local off=target.mods[1];off:OnRefresh({move_speed=140});off:Destroy();assert(#lines==0)
 trace:SetEnabled(true);target=unit(3);a:OnSpellStart();local on=target.mods[1];local n=created
 for i=1,100 do on:GetModifierModelChange();on:GetModifierMoveSpeedOverride();on:CheckState()end
 assert(created==n and #lines==2,'Getter polling must not create particles or emit traces')
-on:OnRefresh({move_speed=140});on:Destroy();trace:SetEnabled(false)
+on:OnRefresh({move_speed=140});on:Destroy();target=unit(3);target.illusion=true;a:OnSpellStart();trace:SetEnabled(false)
 local text=table.concat(lines,'\\n');for _,event in ipairs({'cast','hex applied','hex refreshed','hex removed'})do assert(text:find('[LION_TRACE][W] '..event,1,true),event)end
+assert(text:find('[LION_TRACE][W] ordinary illusion destroyed',1,true))
 print=oldPrint
 print('Lion Hex PASS')
 `;
