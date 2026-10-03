@@ -9,19 +9,9 @@ import {readAbilitySources} from '../lib/ability_sources.mjs';
 const names=['earth_spike','hex','mana_drain','finger_of_death','demon_soul'];
 const ids=names.map(x=>'enfos_lion_'+x),slots=['q','w','e','r','d'];
 const abilities=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.txt','utf8')).DOTAAbilities;
-test('Lion unreviewed handlers preserve the pre-extraction implementation and KV',()=>{
- const old=execFileSync('git',['show','3044af6:game/scripts/vscripts/abilities/pve_kits.lua'],{encoding:'utf8'}).replaceAll('\r\n','\n');
- const kv=parseKV(execFileSync('git',['show','3044af6:game/scripts/npc/npc_abilities_custom.txt'],{encoding:'utf8'})).DOTAAbilities;
- ids.forEach((id,i)=>{
-  if(i<=3)return; // Q/W/E/R have separate focused regressions; D retains the original body.
-  const start=old.indexOf(id+'=class({})');
-  const end=i<4?old.indexOf(ids[i+1]+'=class({})'):old.indexOf('-- =========================================================================\n-- BATCH 5 HERO KITS',start);
-  assert.ok(start>=0&&end>start);
-  const source=fs.readFileSync(`game/scripts/vscripts/abilities/heroes/lion/${slots[i]}.lua`,'utf8').replaceAll('\r\n','\n');
-  assert.equal(source.slice(source.indexOf(id+'=class({})')).trimEnd(),old.slice(start,end).trimEnd(),'Isolation must not silently repair gameplay');
-  kv[id].ScriptFile=`abilities/heroes/lion/${slots[i]}`;
-  assert.deepEqual(abilities[id],kv[id]);
- });
+test('Lion passive preserves authored ten-rank KV after its individual source repair',()=>{
+ const old=parseKV(execFileSync('git',['show','3044af6:game/scripts/npc/npc_abilities_custom.txt'],{encoding:'utf8'})).DOTAAbilities.enfos_lion_demon_soul;
+ old.ScriptFile='abilities/heroes/lion/d';assert.deepEqual(abilities.enfos_lion_demon_soul,old);
 });
 test('Lion production classes have unique owners and cold loading cannot relink modifiers',()=>{
  const defined=new Map();

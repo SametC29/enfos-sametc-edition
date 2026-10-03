@@ -903,7 +903,7 @@
     "DOTA_Tooltip_Ability_enfos_lion_finger_of_death": "Ölüm Parmağı",
     "DOTA_Tooltip_Ability_enfos_lion_finger_of_death_Description": "Hedef çevresindeki {{splash_radius}} yarıçapta {{damage}} + Zekâ’nın %{{int_scaling_pct}} değeri kadar büyü hasarı verir. Her öldürme yığını Ölüm Parmağı’na +{{kill_stack_damage}} hasar ve +%{{kill_stack_spell_amp_pct}} büyü gücü verir; en fazla {{kill_stack_cap}} yığın. Bosslarda da aynı hasar formülü kullanılır; normal bağışıklık ve direnç kuralları geçerlidir.",
     "DOTA_Tooltip_Ability_enfos_lion_demon_soul": "İblis Ruhu",
-    "DOTA_Tooltip_Ability_enfos_lion_demon_soul_Description": "Pasif olarak yetenek kullanım menzilini +{{cast_range_bonus}} ve büyü hasarını %{{spell_amp}} artırır.",
+    "DOTA_Tooltip_Ability_enfos_lion_demon_soul_Description": "Pasif olarak +{{cast_range_bonus}} atış menzili ve %{{spell_amp}} büyü güçlendirmesi verir. Break sırasında bonuslar devre dışıdır; illüzyonlara bonus vermez. Pasif simgesinde güncel değerler gösterilir. Arındırılamaz.",
     "DOTA_Tooltip_Ability_enfos_jakiro_dual_breath": "Çifte Nefes",
     "DOTA_Tooltip_Ability_enfos_jakiro_dual_breath_Description": "Buz nefesi hareket hızını %{{slow_pct}} ve saldırı hızını 40 azaltır. {{fire_delay}} saniye sonra aynı doğrultuda ateş nefesi ilerler; isabet ettiği düşmanlara {{duration}} saniyeye yayılan toplam {{damage}} + zekanın %80’i kadar büyü hasarı verir. İki nefesin hızı {{breath_speed}}, başlangıç/son yarıçapı {{start_radius}}/{{end_radius}}’dir. Değerler kullanıldığında belirlenir; yeni isabet ilgili etkiyi yeniler. İki etki de dağıtılabilir ve zayıflatma bağışıklığını delmez.",
     "DOTA_Tooltip_Ability_enfos_jakiro_ice_path": "Buz Yolu",
@@ -1813,6 +1813,8 @@
     "DOTA_Tooltip_Ability_enfos_jakiro_liquid_frost_Description": "Saldırıya {{impact_damage}} büyü hasarı ekler. Hareket hızını {{duration}} saniye boyunca %{{movement_slow}} azaltır ve Jakiro’nun sonraki saldırı ve diğer yeteneklerinin her hasar olayına {{bonus_damage}} büyü hasarı ekler. Binaları etkilemez. Rütbesi ek yetenek puanı harcamadan Sıvı Ateş ile gelişir. Shard alınana kadar Sıvı Ateş ile ortak bekleme süresi kullanır.",
     "DOTA_Tooltip_Ability_enfos_jakiro_liquid_frost_shard_description": "Sıvı Ateş ve Sıvı Buz mana tüketmez ve artık ortak bekleme süresi kullanmaz. Mevcut bekleme süreleri sıfırlanmaz.",
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff": "Sıvı Buz",
-    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff_Description": "Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% azalır. Jakiro’nun saldırıları ve diğer yetenekleri %fMODIFIER_PROPERTY_TOOLTIP% ek büyü hasarı verir."
+    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff_Description": "Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% azalır. Jakiro’nun saldırıları ve diğer yetenekleri %fMODIFIER_PROPERTY_TOOLTIP% ek büyü hasarı verir.",
+    "DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive": "İblis Ruhu",
+    "DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive_Description": "Atış menzili +%dMODIFIER_PROPERTY_TOOLTIP%; büyü güçlendirmesi +%dMODIFIER_PROPERTY_TOOLTIP2%%%. Break sırasında ve illüzyonlarda bonus vermez. Arındırılamaz."
   }
 }

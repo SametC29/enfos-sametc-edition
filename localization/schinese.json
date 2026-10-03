@@ -1054,7 +1054,7 @@
     "DOTA_Tooltip_Ability_enfos_lich_chain_frost_SummaryDescription": "发射冰霜法球，在最多{{jump_count}}名不同敌人之间弹跳，每次造成{{damage}} + 智力伤害。每次命中使目标移动和攻击速度降低{{slow_pct}}%，持续{{slow_duration}}秒。",
     "DOTA_Tooltip_Ability_enfos_lina_dragon_slave_Description": "向前释放 {{dragon_slave_distance}} 距离的火焰，对路径上的敌人造成 {{damage}} + 1.2 倍智力的魔法伤害，并施加燃烧效果。",
     "DOTA_Tooltip_Ability_enfos_lina_light_strike_array_Description": "0.5 秒后，火柱打击 {{radius}} 范围，造成 {{damage}} + 智力的魔法伤害并眩晕 {{stun_duration}} 秒。首领眩晕时间为普通值的 35%。",
-    "DOTA_Tooltip_Ability_enfos_lion_demon_soul_Description": "被动增加{{cast_range_bonus}}施法距离和{{spell_amp}}%法术增强。",
+    "DOTA_Tooltip_Ability_enfos_lion_demon_soul_Description": "被动增加{{cast_range_bonus}}施法距离和{{spell_amp}}%法术增强。破坏期间加成失效，幻象不获得加成。被动效果图标显示当前数值。无法驱散。",
     "DOTA_Tooltip_Ability_enfos_lion_earth_spike_Description": "发射以{{speed}}速度前进、半宽{{width}}的地刺，距离比基础施法距离多{{length_buffer}}。每次命中造成{{damage}} + 智力的{{int_scaling_pct}}%魔法伤害并眩晕{{stun_duration}}秒。眩晕需要强驱散。首领与其他敌人均遵循正常免疫和抗性规则。",
     "DOTA_Tooltip_Ability_enfos_lion_finger_of_death_Description": "对目标周围{{splash_radius}}范围内敌人造成{{damage}} + {{int_scaling_pct}}%智力的魔法伤害。每次击杀使死亡之指额外造成{{kill_stack_damage}}伤害并获得{{kill_stack_spell_amp_pct}}%法术增强，最多{{kill_stack_cap}}层。首领使用相同的伤害公式，并遵循普通免疫与抗性规则。",
     "DOTA_Tooltip_Ability_enfos_lion_hex_Description": "将敌人变成青蛙，持续{{duration}}秒，使其沉默、缴械并禁止使用物品，移动速度变为{{base_move_speed}}。不会禁用被动技能。强驱散可以移除妖术。所有目标（包括首领）均遵循普通免疫与抗性规则。",
@@ -1414,6 +1414,8 @@
     "DOTA_Tooltip_Ability_enfos_jakiro_liquid_frost_Description": "攻击附加{{impact_damage}}点魔法伤害，降低{{movement_slow}}%移动速度，持续{{duration}}秒。杰奇洛后续攻击和其他技能的每次伤害附加{{bonus_damage}}点魔法伤害。不影响建筑。等级随液态火提升，不额外消耗技能点。获得魔晶前与液态火共用冷却。",
     "DOTA_Tooltip_Ability_enfos_jakiro_liquid_frost_shard_description": "液态火与液态冰霜不再消耗魔法，且不再共用冷却。现有冷却不会重置。",
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff": "液态冰霜",
-    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff_Description": "移动速度降低%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。杰奇洛攻击和其他技能附加%fMODIFIER_PROPERTY_TOOLTIP%点魔法伤害。"
+    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff_Description": "移动速度降低%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。杰奇洛攻击和其他技能附加%fMODIFIER_PROPERTY_TOOLTIP%点魔法伤害。",
+    "DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive": "恶魔之魂",
+    "DOTA_Tooltip_modifier_enfos_lion_demon_soul_passive_Description": "施法距离增加%dMODIFIER_PROPERTY_TOOLTIP%，法术增强增加%dMODIFIER_PROPERTY_TOOLTIP2%%%。破坏期间失效，幻象不获得加成。无法驱散。"
   }
 }
