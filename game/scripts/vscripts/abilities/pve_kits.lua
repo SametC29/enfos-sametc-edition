@@ -252,7 +252,6 @@ local modifier_list = {
     'modifier_enfos_void_backtrack_passive',
     'modifier_enfos_sf_necromastery_passive',
     'modifier_enfos_sf_requiem_fear',
-    'modifier_enfos_sf_feast_of_souls_passive',
     'modifier_enfos_storm_static_remnant_thinker',
     'modifier_enfos_storm_electric_vortex_debuff',
     'modifier_enfos_storm_overload_passive',
@@ -341,6 +340,7 @@ local modifier_list = {
 _G.ENFOS_PVE_MODIFIER_LIST = modifier_list
 
 local isolatedModifiers = require('abilities/heroes/lich/init')
+require('abilities/heroes/nevermore/modifier_links')
 for name, path in pairs(require('abilities/heroes/vengefulspirit/init')) do
     isolatedModifiers[name] = path
 end
@@ -6445,20 +6445,7 @@ modifier_enfos_sf_requiem_fear=class({})
 function modifier_enfos_sf_requiem_fear:IsDebuff() return true end
 function modifier_enfos_sf_requiem_fear:CheckState() return { [MODIFIER_STATE_FEARED] = true } end
 
-enfos_sf_feast_of_souls=class({})
-function enfos_sf_feast_of_souls:GetIntrinsicModifierName() return 'modifier_enfos_sf_feast_of_souls_passive' end
-
-modifier_enfos_sf_feast_of_souls_passive=class({})
-function modifier_enfos_sf_feast_of_souls_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_DEATH } end
-function modifier_enfos_sf_feast_of_souls_passive:OnDeath(params)
-    if not IsServer() then return end
-    local c = self:GetParent()
-    if not c or (c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion()) then return end
-    if not params or params.attacker ~= c or params.unit == c or not params.unit then return end
-    local a = self:GetAbility()
-    c:Heal(value(a, 'hp_per_kill'), a)
-    if c.GiveMana then c:GiveMana(value(a, 'mana_per_kill')) end
-end
+-- ENFOS Feast of Souls is isolated in nevermore/d, not a Frenzy replica.
 
 -- ----------------------------------------------------------------------------
 -- STORM SPIRIT: STATIC REMNANT, VORTEX, OVERLOAD, BALL LIGHTNING, GALVANIC CORE

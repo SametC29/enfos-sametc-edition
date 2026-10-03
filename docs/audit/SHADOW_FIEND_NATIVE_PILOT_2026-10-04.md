@@ -114,3 +114,29 @@ E: **IMPLEMENTED BUT NOT ENGINE-VERIFIED**. Owner tests after the complete build
 rank1/10 enemy armor and radius, Break and recovery, death/respawn/reconnect,
 multiple casters and native immunity interactions. No engine command, remote
 push or publication performed.
+
+## D isolation and valid-kill repair
+
+Feast of Souls now lives under abilities/heroes/nevermore/d.lua with separate
+modifier_links registration shared by server and client bootstraps. It retains
+the stable ID, ten-rank healing/mana curves and the existing free D1 grant. No
+Frenzy active, extra innate rank, timers or respawn service is added. The former
+monolithic class and modifier link are removed.
+
+Root cause: the old passive accepted friendly/illusion kills and a dead source,
+and did not revalidate after healing. The isolated server event now rejects
+invalid/untrained/dead/Broken/illusion sources, friendly/self/illusion/removed
+victims and unrelated attackers. Healing callbacks that invalidate the source
+stop the subsequent mana grant. The intrinsic is hidden and non-purgable;
+values are read at the current rank, without a cached rank or custom stacks.
+Default-off SF D trace records valid sustain events through the shared bound.
+Current Workshop API confirms IsAlive server-only, GetTeamNumber both-context,
+and IsIllusion both-context; client OnDeath returns before any source lookup.
+
+Three sustain tests pass, covering current rank1/10, invalid sources/victims,
+post-heal invalidation, idempotent linking and inert client events. Existing354
+hero-kit mocks and12 Luna integration tests pass. The shared bootstrap test now
+expects the three Luna classes plus the single SF passive class, still without
+server services or gameplay context. No Luna gameplay implementation changed.
+Runtime sustain/respawn/HUD acceptance remains PENDING OWNER TEST. Q/W/R native
+provider integration is still outstanding; do not call the full hero migrated.

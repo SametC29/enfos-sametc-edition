@@ -3311,7 +3311,7 @@
 			"hp_per_kill" "25 30 35 40 45 50 55 60 65 70"
 			"mana_per_kill" "15 18 21 24 27 30 33 36 39 42"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/nevermore/d"
 	}
 	// =========================================================================
 	// SHADOW SHAMAN ABILITIES (Batch 4 PvE Kit)

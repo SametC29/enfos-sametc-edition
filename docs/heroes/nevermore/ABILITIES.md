@@ -13,9 +13,9 @@ Hero: `npc_dota_hero_nevermore`; role: Mage. Progression target: hero level 50 /
 | 2 | `enfos_sf_necromastery` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | nevermore_necromastery |
 | 3 | `enfos_sf_presence_of_the_dark_lord` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE \| DOTA_ABILITY_BEHAVIOR_AURA | NOT_EXPLICIT | nevermore_dark_lord |
 | 4 | `enfos_sf_requiem_of_souls` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | nevermore_requiem |
-| 5 | `enfos_sf_feast_of_souls` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | nevermore_frenzy |
+| 5 | `enfos_sf_feast_of_souls` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/nevermore/d | nevermore_frenzy |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [abilities/heroes/nevermore/d](../../../game/scripts/vscripts/abilities/heroes/nevermore/d.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -247,9 +247,9 @@ Change/test record: all five slots have MaxLevel 10; all multirank KV values hav
 
 ## Slot 5: `enfos_sf_feast_of_souls`
 
-Classification: PVE-CONVERT
-Native counterpart: `Enfos Feast of Souls; native nevermore_frenzy identity` (installed native snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot mapping is authored).
-Decision and PvE identity rationale: PVE-CONVERT preserves the identified Dota hero fantasy while changing PvP-only targeting/control for wave, elite and boss play.
+Classification: TUNE
+Native counterpart: none for passive kill sustain; installed nevermore_frenzy is active and is not a replacement.
+Decision and PvE identity rationale: Keep the fifth ENFOS passive and isolate its minimal sustain logic; server-owned valid hostile kills, Break and lifecycle guards.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current/target rank: each Enfos slot has ten explicit KV levels. The match is capped at level 50; Q/W/E/R require 40 paid ranks total and passive ranks 2–10 require nine more; the fifth slot rank 1 is free, for 49 spendable points overall. Rank-up HUD/runtime acceptance remains pending.
