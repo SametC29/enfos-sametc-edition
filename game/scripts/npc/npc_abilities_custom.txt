@@ -2948,8 +2948,12 @@
 		{
 			"beam_damage" "150 250 350 450 500 550 600 650 700 750"
 			"stun_duration" "0.4"
+			"agility_multiplier" "1.5"
+			"resonance_radius" "450"
+			"resonance_targets" "3"
+			"resonance_damage_pct" "60"
 		}
-		"ScriptFile" "abilities/pve_kits"
+		"ScriptFile" "abilities/heroes/luna/q"
 	}
 
 	"enfos_luna_moon_glaives"
@@ -2967,7 +2971,7 @@
 			"bonus_damage" "20 35 55 80 90 100 110 120 130 140"
 			"bounce_count" "4 6 8 10 11 12 13 14 15 16"
 		}
-		"ScriptFile" "abilities/pve_kits"
+		"ScriptFile" "abilities/heroes/luna/d"
 	}
 
 	"enfos_luna_lunar_blessing"
@@ -2986,7 +2990,7 @@
 			"bonus_ms_pct" "12"
 			"radius" "800 900 1000 1100 1200 1300 1400 1500 1600 1700"
 		}
-		"ScriptFile" "abilities/pve_kits"
+		"ScriptFile" "abilities/heroes/luna/e"
 	}
 
 	"enfos_luna_eclipse"
@@ -3008,10 +3012,10 @@
 			"radius" "750"
 			"beam_damage" "150 250 380 430 480 530 580 630 680 730"
 			"duration" "6.0"
-			"boss_damage_pct" "10"
+			"beam_interval" "0.3"
 			"max_hits_per_target" "6"
 		}
-		"ScriptFile" "abilities/pve_kits"
+		"ScriptFile" "abilities/heroes/luna/r"
 	}
 
 	"enfos_luna_lunar_orbit"
@@ -3034,7 +3038,7 @@
 			"pulse_damage" "50"
 			"agility_multiplier" "0.4"
 		}
-		"ScriptFile" "abilities/pve_kits"
+		"ScriptFile" "abilities/heroes/luna/w"
 	}
 
 	// =========================================================================
