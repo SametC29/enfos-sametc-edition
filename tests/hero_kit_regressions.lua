@@ -110,6 +110,7 @@ CreateModifierThinker = function(caster, ability, mod_name, params, origin, team
         m.GetParent = function() return t end
         m.GetCaster = function() return caster end
         m.GetAbility = function() return ability end
+        m.GetElapsedTime = function(self) return self.elapsed or 0 end
         t.modifiers[mod_name] = m
         m.StartIntervalThink = function(self, interval) self.interval = interval end
         m.Destroy = function(self) self.destroyed = true; if self.OnDestroy then self:OnDestroy() end end
@@ -7756,14 +7757,14 @@ test('Jakiro Macropyre ticks along its cast line without Boss-only damage trunca
     local thinker = ability.enfosGroundEffects[1]
     local zone = thinker.modifiers.modifier_enfos_jakiro_macropyre_zone
     assert(zone and zone.interval == 0.5)
-    for _ = 1, 3 do zone:OnIntervalThink() end
+    for i = 1, 3 do zone.elapsed=i*0.5;zone:OnIntervalThink() end
     local creep_hits, creep_total, boss_total, off_line_hits = 0, 0, 0, 0
     for _, hit in ipairs(applied_damages) do
         if hit.victim == creep then creep_hits = creep_hits + 1; creep_total = creep_total + hit.damage end
         if hit.victim == boss then boss_total = boss_total + hit.damage end
         if hit.victim == off_line then off_line_hits = off_line_hits + 1 end
     end
-    assert(creep_hits == 4, 'Macropyre should apply repeated burn ticks to enemies on its line')
+    assert(creep_hits == 3, 'Macropyre should apply repeated burn ticks to enemies on its line')
     assert(boss_total == creep_total and boss_total > 500, 'Boss metadata must not truncate ordinary magical path ticks')
     assert(off_line_hits == 0, 'enemies outside the line should not be damaged')
 end)

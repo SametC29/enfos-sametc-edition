@@ -8,6 +8,10 @@ package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end
 function LinkLuaModifier()end
 function IsServer()return true end
+Convars={GetBool=function()return false end}
+PATTACH_WORLDORIGIN=0
+ParticleManager={CreateParticle=function()return 1 end,SetParticleControl=function()end,DestroyParticle=function()end,ReleaseParticleIndex=function()end}
+function UTIL_Remove()end
 DAMAGE_TYPE_MAGICAL=2
 DOTA_UNIT_TARGET_TEAM_ENEMY=2;DOTA_UNIT_TARGET_HERO=1;DOTA_UNIT_TARGET_BASIC=2
 DOTA_UNIT_TARGET_FLAG_NONE=0;FIND_ANY_ORDER=0
@@ -34,7 +38,7 @@ local flagged=unit(2,'ordinary_flagged',true,Vector(500,0))
 local named=unit(3,'enfos_boss_named',false,Vector(500,0))
 local outside=unit(4,'outside',true,Vector(500,500))
 local targets={ordinary,flagged,named,outside}
-function FindUnitsInRadius()return targets end
+function FindUnitsInLine(team,first,last,cache,radius)assert(radius==250);local result={};for _,u in ipairs(targets)do if u.pos.y<=radius then result[#result+1]=u end end;return result end
 function ApplyDamage(p)
  assert(p.damage_type==DAMAGE_TYPE_MAGICAL and p.damage_flags==0)
  p.victim.total=p.victim.total+p.damage;p.victim.hits=p.victim.hits+1;return p.damage
@@ -45,10 +49,12 @@ local a={IsNull=function()return false end,GetCaster=function()return caster end
  GetSpecialValueFor=function(_,key)return key=='damage_per_sec' and 200 or 0 end}
 local parent={IsNull=function()return false end,GetAbsOrigin=function()return Vector(0,0)end}
 require('abilities/heroes/jakiro/r')
+local elapsed=0
 local zone=setmetatable({GetCaster=function()return caster end,GetAbility=function()return a end,
- GetParent=function()return parent end,StartIntervalThink=function(self,t)assert(t==0.5)end},modifier_enfos_jakiro_macropyre_zone)
+ GetParent=function()return parent end,GetElapsedTime=function()return elapsed end,StartIntervalThink=function(self,t)assert(t==0.5 or t==-1)end},modifier_enfos_jakiro_macropyre_zone)
 zone:OnCreated({dir_x=1,dir_y=0,length=1400})
-for i=1,20 do zone:OnIntervalThink()end
+zone.Destroy=function(self)self:OnDestroy()end
+for i=1,20 do elapsed=i*0.5;zone:OnIntervalThink()end
 -- Authored DPS 200 + 100 INT * 0.7, half-second pulses = 135 each.
 -- All three geometrically identical targets must receive 2700 requested magic damage.
 for _,u in ipairs({ordinary,flagged,named})do

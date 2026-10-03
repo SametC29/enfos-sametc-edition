@@ -1,6 +1,7 @@
 {
   "Language": "SChinese",
   "Tokens": {
+    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_Description": "制造长{{length}}、半径{{path_radius}}的火焰路径，持续{{duration}}秒。路径内敌人每秒受到{{damage_per_sec}} + 智力的70%魔法伤害。方向和伤害在施放时确定；杰奇洛死亡后已生成的火焰仍然存在。不穿透减益免疫。",
     "npc_dota_custom_fountain": "恢复泉水",
     "enfos_sametc_addon_title": "恩佛斯团队生存 — SametC版",
     "enfos_sametc_addon_description": "一款受经典Enfo启发的现代PvEvP生存自定义游戏。",

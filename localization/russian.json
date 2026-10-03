@@ -1,6 +1,7 @@
 {
   "Language": "Russian",
   "Tokens": {
+    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_Description": "Создаёт огненный путь длиной {{length}} и радиусом {{path_radius}} на {{duration}} сек. Враги внутри получают {{damage_per_sec}} + 70% интеллекта магического урона в секунду. Направление и урон определяются при применении; огонь сохраняется после смерти Джакиро. Не проходит сквозь невосприимчивость к эффектам.",
     "npc_dota_custom_fountain": "Фонтан восстановления",
     "enfos_sametc_addon_title": "Enfos Team Survival — Издание SametC",
     "enfos_sametc_addon_description": "Современная PvEvP игра на выживание в духе классического Enfo's.",

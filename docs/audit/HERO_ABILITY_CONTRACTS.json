@@ -3958,6 +3958,8 @@
           ],
           "specials": {
             "length": "1400",
+            "path_radius": "250",
+            "burn_interval": "0.5",
             "damage_per_sec": "120 190 260 300 340 380 420 450 480 510",
             "duration": "10 15 20 20 20 20 20 20 20 20"
           },

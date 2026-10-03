@@ -1,6 +1,7 @@
 {
   "Language": "English",
   "Tokens": {
+    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_Description": "Creates a {{length}}-long fire path with {{path_radius}} radius for {{duration}} seconds. Enemies inside take {{damage_per_sec}} + 70% Intelligence magical damage per second. The path direction and damage are set when cast; the existing fire persists if Jakiro dies. Does not pierce debuff immunity.",
     "npc_dota_custom_fountain": "Recovery Fountain",
     "enfos_sametc_addon_title": "Enfos Team Survival — SametC Edition",
     "enfos_sametc_addon_description": "A modern Enfo-inspired PvEvP survival custom game.",

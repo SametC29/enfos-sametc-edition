@@ -911,7 +911,7 @@
     "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire": "Sıvı Ateş",
     "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_Description": "Elle kullanılabilir; otomatik kullanım açık, yeterli mana var ve yetenek hazırsa isabet eden saldırılarda da tetiklenir. {{radius}} alandaki düşmanları {{duration}} saniye yakar; toplam {{bonus_damage}} + zekanın %30’u kadar büyü hasarı verir ve saldırı hızını {{slow_as}} azaltır. Binalar hasarın %{{building_dmg_pct}} kadarını alır. Otomatik kullanım mana ve bekleme süresini tüketir. Hasar ve yavaşlatma isabette belirlenir. Dağıtma kalan yanmayı keser; tekrar isabet süreyi yeniler.",
     "DOTA_Tooltip_Ability_enfos_jakiro_macropyre": "Cehennem Ateşi",
-    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_Description": "Önünde {{length}} menzillik alev denizi yaratarak saniye başına {{damage_per_sec}} büyü hasarı yakar.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_Description": "{{length}} uzunluğunda, {{path_radius}} yarıçaplı ateş yolu {{duration}} saniye sürer. Yolun içindeki düşmanlar saniyede {{damage_per_sec}} + zekanın %70’i kadar büyü hasarı alır. Yön ve hasar kullanım anında belirlenir; Jakiro ölse de yerdeki ateş sürer. Zayıflatma bağışıklığını delmez.",
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble": "Çifte Baş",
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_Description": "Öğrenildiğinde +{{bonus_int}} zeka ve +{{bonus_as}} saldırı hızı kazandırır. Kırılma sırasında devre dışıdır; illüzyonlar bonus kazanmaz. Dağıtılamaz.",
     "DOTA_Tooltip_Ability_enfos_vs_magic_missile": "Büyü Füzesi",
