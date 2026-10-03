@@ -58,6 +58,15 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-04 owner selects Shadow Fiend for the next native-first pilot after Luna.
+Current source investigation and pre-migration slot decisions are recorded in
+[the focused pilot ledger](../../audit/SHADOW_FIEND_NATIVE_PILOT_2026-10-04.md).
+[Installed AbilityDefinitions](../../audit/SHADOW_FIEND_NATIVE_SOURCE_2026-10-04.json)
+were re-read at build6943/revision11069754; raw hero hash matches the prior source.
+Existing gameplay is still the custom implementation at this checkpoint.
+SOURCE_REVIEW: IN PROGRESS; OWNER ENGINE ACCEPTANCE: NOT TESTED. Historical
+classification/acceptance rows below are not native migration certification.
+
 2026-09-30 static special-value repair: moved every Lua-read value for Shadowraze, Necromastery, Presence, Requiem and Feast of Souls from legacy numbered `AbilitySpecial` into named `AbilityValues`, preserving the 10-rank values and scalars. Added a contract for the five-slot schema. This follows the Sven ClientVersion 6941 runtime finding; Shadow Fiend itself has not been live-tested. User-owned Dota gameplay, VFX and audio checks remain pending.
 
 2026-09-30 static passive repair: Necromastery's attack damage and soul gains, Presence's aura, and Feast of Souls' kill sustain now stop under Break and do not trigger from illusions. Added mock regressions for those conditions and valid Feast sustain. Runtime modifier/aura behavior remains pending a Dota test.
