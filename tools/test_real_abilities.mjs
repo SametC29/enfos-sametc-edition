@@ -30,7 +30,9 @@ for(let rank=1;rank<=maxRank;rank++){
     }).join(',')}}`;
   });
   const levels=Object.entries(abilities).map(([id,a])=>`["${id}"]=${Math.min(rank,Number(a.MaxLevel)||1)}`).join(',');
-  const script=`ENFOS_MAX_RANK_PASS=${rank===maxRank}\nENFOS_REAL_LEVELS={${levels}}\nENFOS_REAL_SPECIALS={${rows.join(',')}}\nENFOS_MODIFIER_OWNERS={${ownerLua}}\ndofile("tests/test_all_200_abilities.lua")`;
+  const lionRange=Number(String(abilities.enfos_lion_earth_spike.AbilityCastRange).split(/\s+/)[0]);
+  if(!Number.isFinite(lionRange))throw new Error('Invalid Lion engine cast range');
+  const script=`ENFOS_LION_ENGINE_CAST_RANGE=${lionRange}\nENFOS_MAX_RANK_PASS=${rank===maxRank}\nENFOS_REAL_LEVELS={${levels}}\nENFOS_REAL_SPECIALS={${rows.join(',')}}\nENFOS_MODIFIER_OWNERS={${ownerLua}}\ndofile("tests/test_all_200_abilities.lua")`;
   const result=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});
   if(result.status!==0 || result.stderr || !result.stdout?.includes('Ability/modifier smoke checks passed')){
     process.stdout.write(result.stdout||'');process.stderr.write(result.stderr||'');

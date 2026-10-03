@@ -3782,13 +3782,15 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
           "callbacks": [
+            "OnProjectileHit_ExtraData",
             "OnSpellStart"
           ],
           "specials": {
             "damage": "120 180 240 300 330 360 390 420 450 480",
             "stun_duration": "1.2 1.4 1.6 1.8 1.9 2 2.1 2.2 2.3 2.4",
-            "radius": "500",
-            "distance": "450",
+            "width": "140",
+            "speed": "2800",
+            "length_buffer": "275",
             "int_scaling_pct": "110"
           },
           "unreferencedSpecials": [],

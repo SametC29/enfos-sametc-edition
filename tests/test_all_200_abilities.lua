@@ -36,7 +36,7 @@ function DoCleaveAttack(attacker,target,ability,amount,startRadius,endRadius,dis
 end
 function RandomInt(min, max) return min end
 function RollPercentage(pct) return true end
-GameRules = { GetGameModeEntity = function() return {
+GameRules = { GetGameTime = function() return 0 end, GetGameModeEntity = function() return {
     SetContextThink = function(_, name, callback, delay)
         _G.last_context_think = { name = name, callback = callback, delay = delay }
     end
@@ -370,6 +370,9 @@ for _, hero_info in ipairs(roster) do
             ab.GetCursorPosition = function() return enemy:GetAbsOrigin() end
             ab.GetLevel = function() return ENFOS_REAL_LEVELS[ab_name] end
             ab.GetSpecialValueFor = function(s, k) return special(ab_name,k) end
+            if ab_name == 'enfos_lion_earth_spike' then
+                ab.GetCastRange = function() return assert(ENFOS_LION_ENGINE_CAST_RANGE) end
+            end
             ab.GetAbilityDamageType = function() return DAMAGE_TYPE_MAGICAL end
             ab.GetToggleState = function() return true end
             ab.GetAutoCastState = function() return true end

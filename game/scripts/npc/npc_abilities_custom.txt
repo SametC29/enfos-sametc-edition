@@ -5192,6 +5192,8 @@
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES_STRONG"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_1"
 		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
 		"AbilityTextureName"		"lion_impale"
 		"AbilityCastRange"			"900"
@@ -5205,8 +5207,9 @@
 		{
 			"damage"	"120 180 240 300 330 360 390 420 450 480"
 			"stun_duration"	"1.2 1.4 1.6 1.8 1.9 2 2.1 2.2 2.3 2.4"
-			"radius" "500"
-			"distance" "450"
+			"width" "140"
+			"speed" "2800"
+			"length_buffer" "275"
 			"int_scaling_pct" "110"
 		}
 		"ScriptFile"				"abilities/heroes/lion/q"

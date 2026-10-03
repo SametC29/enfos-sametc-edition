@@ -94,9 +94,9 @@ PENDING for the owner's Dota test.
 
 ## Slot 1: `enfos_lion_earth_spike`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `lion_impale` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
-Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
+Decision and PvE identity rationale: TUNE; native Impale already fits creep combat. Preserve authored ten-rank/INT math while restoring verified native line travel. See the dated source unit; remaining vertical motion/engine gates are OPEN.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
@@ -314,3 +314,13 @@ Change/test record: all five abilities now expose ten KV ranks; the complete 200
 ## 2026-10-03 isolated source checkpoint
 
 Q/W/E/R/D now route to abilities/heroes/lion/{q,w,e,r,d}; six modifiers have explicit owners and a compatibility init. This unit preserves all handler bodies and all KV values except ScriptFile. Independent regression compares against immutable pre-extraction commit3044af6 and cold-loads all modules before the monolith, rejecting duplicate modifier links/class ownership. Focused and full tools/checks.mjs PASS,0 failed checks. Gameplay bugs and authored Boss exceptions identified in the individual ledger remain OPEN; no runtime/visual/audio or full hero source acceptance. Earlier generic PVE-CONVERT dossier labels are superseded by the current evidence-led slot decisions in docs/audit/LION_INDIVIDUAL_REVIEW_2026-10-03.md; native counterparts are not inferred from icons. No foreign code imported; existing shared helpers reused unchanged.
+
+## Q travelling-line source unit,2026-10-03
+
+TUNE. One engine-owned linear projectile now uses width140/speed2800, base engine GetCastRange plus275buffer (production900→1175). Removed the incorrect circular scan/radius500/450offset and Boss-only0.35stun multiplier. Snapshot ten-rank damage/INT and stun at launch; living enemy impact applies saved magical damage and strong-dispellable stun, ordinary immunity/death/friendly/source-invalid gates, post-VFX/sound/damage invalidation guards and lethal-target cleanup. Valid caster death preserves launched impacts. Finite expiry uses game clock, no owned unit/timer/global query. Native flight root is engine-owned; finite hit rootWORLDORIGIN CP0 saved impact. Verified decoded Lion bank has cast Hero_Lion.Impale and target Hero_Lion.ImpaleHitTarget (finite0.641723s variants); existing sound-bank/particle precache reused. Native land sound and vertical launch remain OPEN until motion implementation, not faked.
+
+A top-level AbilityCastRange special read was rejected by the strict all-rank smoke test; replaced with verified CDOTABaseAbility.GetCastRange(origin,target) API instead of inventing a special. Mock API expanded to export actual top-level KV range and game clock, without production fallback. Independent focused fixture FAIL before source repair /PASS after: travel before damage, native width/speed, finite expiry/no replacement/no first-hit deletion, caster INT/level change after launch, two independent casts, ordinary/Boss equal duration and damage, immunity/friendly/dead/removed gates, finiteCP0release, lethal/source-invalid reentrant cleanup, valid caster death, nil endpoint, malformed payload, zero-vector forward fallback, unit direction and current engine range. Updated obsolete instantaneous-circle expectations only in Lion regression. Full tools/checks.mjs PASS,0 failed checks before final skip-trace/current-range refinement; final checks below.
+
+Four localized descriptions and all12 engine mirrors now describe actual travel and ordinary rules; no Boss-shortened tooltip. Bounded/default-off cast/impact/skip/endpoint and stun apply/refresh/remove traces; no diagnostic ConVar registration or per-frame scans. Historical isolation body comparison remains for W/E/R/D; Q now has its own source-backed regression. This is partial Q gameplay/resource acceptance; native vertical motion/damage timing, point/unit spell absorb, exact rendererCP/endcap/audio, status resistance/strong dispel, cold start, dense waves/respawn/reconnect and item range interactions require owner Dota/VConsole. Whole Lion and remaining four skills OPEN. No publication/push.
+
+Final Q travel unit verification after skip tracing/current-range fixture: tools/checks.mjs PASS,0 failed checks. Full Q/native motion/engine acceptance remains OPEN as listed above.

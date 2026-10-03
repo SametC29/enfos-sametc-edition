@@ -895,7 +895,7 @@
     "DOTA_Tooltip_Ability_enfos_puck_faerie_magic": "Peri Büyüsü",
     "DOTA_Tooltip_Ability_enfos_puck_faerie_magic_Description": "Pasif olarak +{{bonus_ms}} hareket hızı ve %{{spell_amp}} büyü hasarı verir; Break ve illüzyonlarda çalışmaz.",
     "DOTA_Tooltip_Ability_enfos_lion_earth_spike": "Toprak Dikenleri",
-    "DOTA_Tooltip_Ability_enfos_lion_earth_spike_Description": "Atış yönünde 450 birim ileride merkezlenen 500 yarıçaplı alandaki düşmanlara {{damage}} + Zekâ'nın %110'u kadar büyü hasarı verir ve {{stun_duration}} saniye sersemletir. Boss sersemletmesi bu sürenin %35'idir.",
+    "DOTA_Tooltip_Ability_enfos_lion_earth_spike_Description": "{{speed}} hızında, {{width}} yarı genişliğinde ilerleyen bir diken hattı gönderir; hat temel atış menzilinin {{length_buffer}} birim ötesine uzanır. İsabet başına {{damage}} + Zekâ’nın %{{int_scaling_pct}} değeri kadar büyü hasarı verir ve {{stun_duration}} saniye sersemletir. Sersemletme güçlü temizleme ile kaldırılır. Bosslar dahil tüm düşmanlarda normal bağışıklık ve direnç kuralları geçerlidir.",
     "DOTA_Tooltip_Ability_enfos_lion_hex": "Lanet",
     "DOTA_Tooltip_Ability_enfos_lion_hex_Description": "Hedefi {{duration}} saniye susturur, silahsızlandırır ve eşyalarını kullanmasını engeller; hareket hızını 140'a ayarlar. Bosslarda etki 0,8 saniye sürer.",
     "DOTA_Tooltip_Ability_enfos_lion_mana_drain": "Mana Çekme",

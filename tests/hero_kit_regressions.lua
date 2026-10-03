@@ -6488,6 +6488,8 @@ test('Lion Finger of Death splashes damage in AoE and increments stack on kill',
 end)
 
 test('Lion Earth Spike uses KV geometry and Hex reads normal/boss control values', function()
+    local previous_game_rules = GameRules
+    GameRules = { GetGameTime = function() return 0 end }
     applied_damages = {}
     local lion = create_mock_unit('npc_dota_hero_lion', 2, Vector(0, 0, 0))
     lion.intellect = 100
@@ -6496,15 +6498,19 @@ test('Lion Earth Spike uses KV geometry and Hex reads normal/boss control values
     local spike = enfos_lion_earth_spike()
     spike.GetCaster = function() return lion end
     spike.GetCursorPosition = function() return Vector(100, 0, 0) end
+    spike.GetCastRange = function() return 900 end
     spike.GetSpecialValueFor = function(_, key)
-        local values = { damage = 200, int_scaling_pct = 110, distance = 700, radius = 125, stun_duration = 2 }
+        local values = { damage = 200, int_scaling_pct = 110, AbilityCastRange = 900, width = 125, speed = 2800, length_buffer = 275, stun_duration = 2 }
         return values[key] or 0
     end
     spike:OnSpellStart()
-    assert(last_find_units_radius == 125 and last_find_units_point.x == 700,
-        'Earth Spike should use configured radius and cast-direction distance')
+    assert(last_linear_projectile.fStartRadius == 125 and last_linear_projectile.fDistance == 1175,
+        'Earth Spike should launch a finite line with configured width and range buffer')
+    assert(#applied_damages == 0, 'Earth Spike damage waits for projectile impact')
+    spike:OnProjectileHit_ExtraData(target, target:GetAbsOrigin(), last_linear_projectile.ExtraData)
     assert(applied_damages[1].damage == 310, 'Earth Spike should read its configured intelligence coefficient')
     assert(math.abs(target.modifiers.modifier_enfos_lion_earth_spike_stun.params.duration - 2) < 0.001)
+    GameRules = previous_game_rules
 
     local normal = create_mock_unit('hex_normal', 3, Vector(0, 0, 0))
     local hex = enfos_lion_hex()
