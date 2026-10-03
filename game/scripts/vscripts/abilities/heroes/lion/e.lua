@@ -8,6 +8,7 @@ LinkLuaModifier('modifier_enfos_lion_mana_drain_debuff', 'abilities/heroes/lion/
 
 enfos_lion_mana_drain=class({})
 function enfos_lion_mana_drain:OnSpellStart()
+    if not IsServer() or not valid(self) then return end
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or t:IsNull() or not t:IsAlive() then return end
@@ -20,7 +21,9 @@ function enfos_lion_mana_drain:OnSpellStart()
     t:AddNewModifier(c, self, 'modifier_enfos_lion_mana_drain_debuff', { duration = duration })
 end
 function enfos_lion_mana_drain:OnChannelFinish(interrupted)
+    if not IsServer() or not valid(self) then return end
     local c = self:GetCaster()
+    if not valid(c) then return end
     c:RemoveModifierByName('modifier_enfos_lion_mana_drain_channel')
 end
 
@@ -78,22 +81,30 @@ function modifier_enfos_lion_mana_drain_channel:OnRefresh(kv)
     self:StartVisual()
     Trace:Log('LION','E','channel visual refreshed')
 end
+function modifier_enfos_lion_mana_drain_channel:Abort(reason)
+    if self.closed then return end
+    local c,a=self:GetParent(),self:GetAbility()
+    Trace:Log('LION','E','channel aborted reason=%s',reason)
+    if valid(c) and valid(a) then a:EndChannel(true) end
+    if not self.closed then self:Destroy() end
+end
 function modifier_enfos_lion_mana_drain_channel:OnIntervalThink()
     if not IsServer() or self.closed then return end
-    local c = self:GetParent()
-    local a = self:GetAbility()
-    local t = EntIndexToHScript(self.target_idx or 0)
-    if not c or c:IsNull() or not c:IsAlive() or not t or t:IsNull() or not t:IsAlive() then
-        if a and a.EndChannel then a:EndChannel(true) else self:Destroy() end
-        return
-    end
-
-    local base = (a and value(a, 'mana_per_second')) or 120
-    local int = get_int(c)
-    local tick_dmg = (base + (int * 0.8)) * 0.5
-
-    damage(a, t, tick_dmg, DAMAGE_TYPE_MAGICAL)
+    local c,a,t=self:GetParent(),self:GetAbility(),self.drain_target
+    if not valid(c) or not c:IsAlive() then self:Abort('caster');return end
+    if not valid(a) then self:Abort('ability');return end
+    if not valid(t) or not t:IsAlive() then self:Abort('target');return end
+    local tick_dmg=(value(a,'mana_per_second')+get_int(c)*0.8)*0.5
+    damage(a,t,tick_dmg,DAMAGE_TYPE_MAGICAL)
+    -- Damage can kill/remove entities, close the modifier, or start another cast.
+    if self.closed then return end
+    if not valid(c) or not c:IsAlive() or not valid(a) then self:Abort('source after damage');return end
+    if not valid(t) then self:Abort('target after damage');return end
     if c.GiveMana then c:GiveMana(tick_dmg) end
+    if self.closed then return end
+    if not valid(c) or not c:IsAlive() or not valid(a) then self:Abort('source after mana');return end
+    if not valid(t) or not t:IsAlive() then self:Abort('target after tick');return end
+    Trace:Log('LION','E','channel tick authored_damage=%.2f authored_mana=%.2f',tick_dmg,tick_dmg)
 end
 
 modifier_enfos_lion_mana_drain_debuff=class({})

@@ -6556,6 +6556,7 @@ test('Lion Mana Drain ends the engine channel when its target dies', function()
     local ability = { EndChannel = function(_, interrupted) ended = interrupted == true end }
     local channel = setmetatable({
         target_idx = target:entindex(),
+        drain_target = target,
         GetParent = function() return lion end,
         GetAbility = function() return ability end,
         Destroy = function(self) self.destroyed = true end,

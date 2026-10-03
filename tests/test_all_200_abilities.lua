@@ -498,6 +498,10 @@ for _, mod_name in ipairs(modifier_list) do
                 GetLevel=function() return ENFOS_REAL_LEVELS[owner] end,
                 GetSpecialValueFor=function(_,key) return special(owner,key) end
             }, {__index=function(_,key) return _G[owner][key] or dummy_ability[key] end})
+            if owner == 'enfos_lion_mana_drain' then
+                -- Engine API exists on real abilities; this synthetic owner has no channel.
+                realAbility.EndChannel = function(_, interrupted) assert(interrupted == true) end
+            end
             mod.GetAbility = function() return realAbility end
             mod.GetStackCount = function() return 3 end
             mod.SetStackCount = function() end
