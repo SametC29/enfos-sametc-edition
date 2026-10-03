@@ -24,16 +24,21 @@ function enfos_jakiro_liquid_fire:OnSpellStart()
     if not valid(self) or not enemy(c,target) or not c:IsAlive() or not target:IsAlive() then return end
     self:FireAt(target) -- Manual casting is already funded by the engine.
 end
-function enfos_jakiro_liquid_fire:FireAt(target)
+function enfos_jakiro_liquid_fire:SnapshotImpact()
+    local c=self:GetCaster()
+    return {radius=value(self,'radius'),total=value(self,'bonus_damage')+get_int(c)*0.3,slow=value(self,'slow_as'),
+        duration=positive(self,'duration',5),tick=positive(self,'tick_rate',0.5),building_pct=positive(self,'building_dmg_pct',75)}
+end
+function enfos_jakiro_liquid_fire:FireAt(target,snapshot)
     if not IsServer() or not valid(self) then return false end
     local c=self:GetCaster()
     if not enemy(c,target) then return false end
     -- An attack can kill its target before OnAttackLanded. Keep its valid corpse
     -- position for the area impact; do not invent a lethal-hit exclusion.
     local origin=target:GetAbsOrigin()
-    local radius,total,slow=value(self,'radius'),value(self,'bonus_damage')+get_int(c)*0.3,value(self,'slow_as')
-    local duration,tick=positive(self,'duration',5),positive(self,'tick_rate',0.5)
-    local building_pct=positive(self,'building_dmg_pct',75)
+    local data=snapshot or self:SnapshotImpact()
+    local radius,total,slow=data.radius,data.total,data.slow
+    local duration,tick,building_pct=data.duration,data.tick,data.building_pct
     target:EmitSound('Hero_Jakiro.LiquidFire')
     if not valid(self) or not enemy(c,target) then return false end
     effect('particles/units/heroes/hero_jakiro/jakiro_liquid_fire_explosion.vpcf',target)
@@ -127,18 +132,50 @@ function modifier_enfos_jakiro_liquid_fire_passive:IsHidden() return true end
 function modifier_enfos_jakiro_liquid_fire_passive:IsPurgable() return false end
 function modifier_enfos_jakiro_liquid_fire_passive:IsPurgeException() return false end
 function modifier_enfos_jakiro_liquid_fire_passive:RemoveOnDeath() return false end
-function modifier_enfos_jakiro_liquid_fire_passive:DeclareFunctions() return {MODIFIER_EVENT_ON_ATTACK_LANDED} end
-function modifier_enfos_jakiro_liquid_fire_passive:OnAttackLanded(params)
-    if not IsServer() or not params or self.proccing then return end
+function modifier_enfos_jakiro_liquid_fire_passive:OnCreated()
+    if not IsServer() then return end
+    self.records={};self.closed=false;self.proccing=false
+end
+function modifier_enfos_jakiro_liquid_fire_passive:DeclareFunctions()
+    return {MODIFIER_EVENT_ON_ATTACK,MODIFIER_EVENT_ON_ATTACK_LANDED,MODIFIER_EVENT_ON_ATTACK_FAIL,MODIFIER_EVENT_ON_ATTACK_RECORD_DESTROY}
+end
+function modifier_enfos_jakiro_liquid_fire_passive:OnAttack(params)
+    if not IsServer() or self.closed or not params or params.record==nil or self.proccing then return end
     local c,a=self:GetParent(),self:GetAbility()
     if not valid(c) or not valid(a) or params.attacker~=c or not enemy(c,params.target) then return end
-    if c:PassivesDisabled() or c:IsIllusion() or a:GetLevel()<1 or not a:GetAutoCastState() then return end
+    if not c:IsAlive() or not params.target:IsAlive() or c:IsIllusion() or (c.IsSilenced and c:IsSilenced()) or a:GetLevel()<1 or not a:GetAutoCastState() then return end
     if not a.IsFullyCastable or not a:IsFullyCastable() then return end
+    self.records=self.records or {}
+    if self.records[params.record] then return end
+    local entry={target=params.target,snapshot=a:SnapshotImpact()}
+    self.records[params.record]=entry
     self.proccing=true
     a:UseResources(true,false,false,true)
     self.proccing=false
-    -- Resource hooks can invalidate owners; FireAt validates everything again.
+    if self.closed or not valid(a) or not enemy(c,params.target) then self.records[params.record]=nil;return end
+    HeroTrace:Log('JAKIRO','E','orb_launched record=%s mana=true cooldown=true target=%s',tostring(params.record),HeroTrace:Name(params.target))
+end
+function modifier_enfos_jakiro_liquid_fire_passive:OnAttackLanded(params)
+    if not IsServer() or self.closed or not params or params.record==nil then return end
+    local c,a=self:GetParent(),self:GetAbility()
+    if not valid(c) or params.attacker~=c then return end
+    local entry=self.records and self.records[params.record]
+    if not entry or entry.target~=params.target then return end
+    self.records[params.record]=nil -- Before callbacks: one impact at most for this funded record.
     if not valid(a) or not enemy(c,params.target) then return end
-    HeroTrace:Log('JAKIRO','E','autocast_resources mana=true cooldown=true target=%s',HeroTrace:Name(params.target))
-    a:FireAt(params.target)
+    a:FireAt(params.target,entry.snapshot)
+end
+function modifier_enfos_jakiro_liquid_fire_passive:ForgetRecord(params,reason)
+    if not IsServer() or not params or params.record==nil or params.attacker~=self:GetParent() then return end
+    if self.records and self.records[params.record] then
+        self.records[params.record]=nil
+        HeroTrace:Log('JAKIRO','E','orb_cancelled record=%s reason=%s',tostring(params.record),reason)
+    end
+end
+function modifier_enfos_jakiro_liquid_fire_passive:OnAttackFail(params) self:ForgetRecord(params,'attack_failed') end
+function modifier_enfos_jakiro_liquid_fire_passive:OnAttackRecordDestroy(params) self:ForgetRecord(params,'record_destroyed') end
+function modifier_enfos_jakiro_liquid_fire_passive:OnDestroy()
+    if not IsServer() then return end
+    self.closed=true;self.records={}
+    HeroTrace:Log('JAKIRO','E','orb_owner_removed')
 end

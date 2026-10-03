@@ -758,13 +758,13 @@ do
     fire.IsFullyCastable=function() return ready and fireMana>=20 end
     fire.UseResources=function(_,mana,health,gold,cooldown) assert(mana and not health and not gold and cooldown);fireMana=fireMana-20;ready=false end
     local passive=hero:AddNewModifier(hero,fire,'modifier_enfos_jakiro_liquid_fire_passive',{})
-    hits=0;passive:OnAttackLanded({attacker=hero,target=enemy});assert(hits==0)
-    automatic=true;passive:OnAttackLanded({attacker=hero,target=enemy});assert(hits==0 and not ready,'Impact applies burn, no instant burst')
+    hits=0;passive:OnAttack({attacker=hero,target=enemy,record=1});passive:OnAttackLanded({attacker=hero,target=enemy,record=1});assert(hits==0)
+    automatic=true;passive:OnAttack({attacker=hero,target=enemy,record=2});passive:OnAttackLanded({attacker=hero,target=enemy,record=2});assert(hits==0 and not ready,'Impact applies burn, no instant burst')
     local firstBurn=enemy:FindModifierByName('modifier_enfos_jakiro_liquid_fire_slow')
     local secondBurn=other:FindModifierByName('modifier_enfos_jakiro_liquid_fire_slow')
     firstBurn.GetElapsedTime=function()return 0.5 end;secondBurn.GetElapsedTime=function()return 0.5 end
     firstBurn:OnIntervalThink();secondBurn:OnIntervalThink();assert(hits==2,'First half-second burn slice')
-    passive:OnAttackLanded({attacker=hero,target=enemy});assert(hits==2,'Cooldown must prevent another proc')
+    passive:OnAttack({attacker=hero,target=enemy,record=3});passive:OnAttackLanded({attacker=hero,target=enemy,record=3});assert(hits==2,'Cooldown must prevent another proc')
     automatic=false;fire:OnSpellStart();assert(hits==2,'Manual cast applies burn with autocast disabled')
     local manualBurn=enemy:FindModifierByName('modifier_enfos_jakiro_liquid_fire_slow')
     assert(manualBurn~=firstBurn);manualBurn.GetElapsedTime=function()return 0.5 end

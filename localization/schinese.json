@@ -838,7 +838,7 @@
     "DOTA_Tooltip_Ability_enfos_wk_reincarnation_Description": "技能就绪时，死亡后{{reincarnation_time}}秒重生。重生爆发在{{slow_radius}}范围内造成{{damage}} + {{strength_damage_factor}} × 力量的魔法伤害，并减速{{slow_pct|percent}}（普通敌人{{slow_duration}}秒，首领{{boss_slow_duration}}秒）。",
     "DOTA_Tooltip_Ability_enfos_medusa_mana_shield_Description": "提供{{bonus_mana}}魔法值。吸收{{absorption_pct}}%的所受伤害，每吸收{{damage_per_mana}}伤害消耗1点魔法。吸收量受剩余魔法值限制。",
     "DOTA_Tooltip_Ability_enfos_leshrac_defilement_Description": "获得 +{{bonus_int}} 智力。使用技能对敌人造成伤害时，恢复相当于伤害 {{spell_lifesteal}}% 的生命值。普通攻击和反射伤害不会触发治疗；破坏效果和幻象会使此被动失效。",
-    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_Description": "可手动施放；开启自动施法、法力充足且技能就绪时，攻击命中也会触发。使{{radius}}范围内敌人燃烧{{duration}}秒，共造成{{bonus_damage}} + 智力的30%魔法伤害，并降低{{slow_as}}攻击速度。建筑受到{{building_dmg_pct}}%伤害。自动施法消耗法力并进入冷却。伤害和减速在命中时确定。驱散会终止剩余燃烧；再次命中刷新持续时间。",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_Description": "可手动施放；开启自动施法、法力充足且技能就绪时，也可由攻击施加。自动攻击发出时消耗法力并进入冷却；未命中不会施加燃烧，也不会返还资源。使{{radius}}范围内敌人燃烧{{duration}}秒，共造成{{bonus_damage}} + 智力的30%魔法伤害，并降低{{slow_as}}攻击速度。建筑受到{{building_dmg_pct}}%伤害。自动攻击的伤害和减速在发出时确定。驱散会终止剩余燃烧；再次命中刷新持续时间。",
     "DOTA_Tooltip_Ability_enfos_medusa_split_shot_Description": "切换额外箭矢。开启时，攻击最多命中{{arrow_count}}个额外敌人，造成{{damage_modifier}}%攻击伤害 + 0.5 × 敏捷伤害。",
     "DOTA_Tooltip_Ability_enfos_juggernaut_healing_ward_Description": "创建持续{{duration}}秒的治疗区域。{{radius}}范围内的友军每秒恢复{{heal_pct}}%最大生命值。 最多同时存在3个区域，新区域替换最早的区域。",
     "DOTA_Tooltip_Ability_enfos_sniper_shrapnel_Description": "在目标区域内每秒造成{{shrapnel_damage}} + 敏捷的35%物理伤害，持续{{duration}}秒，并使敌人减速{{slow_pct}}%。",

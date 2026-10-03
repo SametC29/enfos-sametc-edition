@@ -11,7 +11,7 @@ DAMAGE_TYPE_MAGICAL=2;DOTA_UNIT_TARGET_TEAM_ENEMY=3;DOTA_UNIT_TARGET_HERO=1;DOTA
 MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT=1;MODIFIER_PROPERTY_TOOLTIP=2;MODIFIER_EVENT_ON_ATTACK_LANDED=3
 Convars={GetBool=function()return false end}
 require('abilities/heroes/jakiro/e')
-for _,mode in ipairs({'normal','poor','cooldown','client','nil_event','removed_caster','removed_ability','removed_target','break','illusion','unlearned','autocast_off','corpse','resource_removes_ability','modifier_removes_ability','absorb_removes_caster','manual'})do
+for _,mode in ipairs({'normal','poor','cooldown','client','nil_event','removed_caster','removed_ability','removed_target','break','silence','illusion','unlearned','autocast_off','corpse','resource_removes_ability','modifier_removes_ability','absorb_removes_caster','manual'})do
  local c,a,target,normal,boss,modifier
  local spend,hits,mods=0,{},{}
  local function unit(name,team)
@@ -23,6 +23,7 @@ for _,mode in ipairs({'normal','poor','cooldown','client','nil_event','removed_c
   function u:GetAbsOrigin()assert(not self.removed);return {x=20,y=0,z=0}end
   function u:EmitSound()assert(not self.removed)end
   function u:PassivesDisabled()assert(not self.removed);return mode=='break' end
+  function u:IsSilenced()return mode=='silence' end
   function u:IsIllusion()assert(not self.removed);return mode=='illusion' end
   function u:GetIntellect()assert(not self.removed);return 100 end
   function u:TriggerSpellAbsorb()if mode=='absorb_removes_caster' then c.removed=true end;return false end
@@ -42,7 +43,7 @@ for _,mode in ipairs({'normal','poor','cooldown','client','nil_event','removed_c
  function a:UseResources(mana,health,gold,cd)
   assert(mana and not health and not gold and cd,'Autocast must spend mana and cooldown exactly once')
   spend=spend+1;self.mana=self.mana-20;self.ready=false
-  modifier:OnAttackLanded({attacker=c,target=target})
+  modifier:OnAttack({attacker=c,target=target,record=99})
   if mode=='resource_removes_ability' then self.removed=true end
  end
  modifier=setmetatable({GetParent=function()return c end,GetAbility=function()return a end},modifier_enfos_jakiro_liquid_fire_passive)
@@ -50,9 +51,9 @@ for _,mode in ipairs({'normal','poor','cooldown','client','nil_event','removed_c
  function FindUnitsInRadius()return {normal,boss}end
  function ApplyDamage(info)hits[#hits+1]=info;return info.damage end
  server=mode~='client'
- if mode=='removed_caster' then c.removed=true elseif mode=='removed_ability' then a.removed=true elseif mode=='removed_target' then target.removed=true elseif mode=='corpse' then target.alive=false end
- if mode=='manual' or mode=='absorb_removes_caster' then a:OnSpellStart()else local event={attacker=c,target=target};if mode=='nil_event' then event=nil end;modifier:OnAttackLanded(event)end
- if mode=='normal' or mode=='corpse' then assert(spend==1 and #hits==0 and #mods==2);assert(mods[1].dps==24 and mods[2].dps==24 and mods[1].duration==5);assert(mods[1].slow_as==60)
+ if mode=='removed_caster' then c.removed=true elseif mode=='removed_ability' then a.removed=true elseif mode=='removed_target' then target.removed=true end
+ if mode=='manual' or mode=='absorb_removes_caster' then a:OnSpellStart()else local event={attacker=c,target=target,record=1};if mode=='nil_event' then event=nil end;modifier:OnAttack(event);if mode=='corpse' then target.alive=false end;modifier:OnAttackLanded(event)end
+ if mode=='normal' or mode=='corpse' or mode=='break' then assert(spend==1 and #hits==0 and #mods==2);assert(mods[1].dps==24 and mods[2].dps==24 and mods[1].duration==5);assert(mods[1].slow_as==60)
  elseif mode=='manual' then assert(spend==0 and #hits==0 and #mods==2)
  elseif mode=='resource_removes_ability' then assert(spend==1 and #hits==0)
  elseif mode=='modifier_removes_ability' then assert(spend==1 and #hits==0 and #mods==1)

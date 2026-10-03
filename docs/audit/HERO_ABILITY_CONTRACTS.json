@@ -3933,7 +3933,8 @@
           "callbacks": [
             "FireAt",
             "GetIntrinsicModifierName",
-            "OnSpellStart"
+            "OnSpellStart",
+            "SnapshotImpact"
           ],
           "specials": {
             "bonus_damage": "30 50 70 90 105 120 135 150 165 180",
