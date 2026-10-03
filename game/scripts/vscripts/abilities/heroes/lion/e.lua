@@ -1,6 +1,7 @@
 -- Lion E: one explicitly owned channel visual; mana conversion review pending.
 local H = require('abilities/shared/pve_helpers')
 local Trace = require('lib/hero_trace')
+local Upgrades = require('abilities/heroes/lion/upgrades')
 local function valid(x) return x and not (x.IsNull and x:IsNull()) end
 local function eligible(c,t)
     return valid(c) and c:IsAlive() and valid(t) and t:IsAlive()
@@ -14,6 +15,12 @@ LinkLuaModifier('modifier_enfos_lion_mana_drain_channel', 'abilities/heroes/lion
 LinkLuaModifier('modifier_enfos_lion_mana_drain_debuff', 'abilities/heroes/lion/e', LUA_MODIFIER_MOTION_NONE)
 
 enfos_lion_mana_drain=class({})
+function enfos_lion_mana_drain:GetDrainBreakDistance()
+    if not valid(self) then return 0 end
+    local c=self:GetCaster()
+    if not valid(c) then return 0 end
+    return value(self,'break_distance')+(Upgrades.HasShard(c) and value(self,'shard_break_distance_bonus') or 0)
+end
 function enfos_lion_mana_drain:OnSpellStart()
     if not IsServer() or not valid(self) then return end
     local c = self:GetCaster()
@@ -37,6 +44,24 @@ function enfos_lion_mana_drain:OnChannelFinish(interrupted)
 end
 
 modifier_enfos_lion_mana_drain_channel=class({})
+local function shard_channel_active(m)
+    if m.closed or not valid(m) then return false end
+    local c,a=m:GetParent(),m:GetAbility()
+    if not valid(c) or not c:IsAlive() or not valid(a) or a:GetLevel()<=0 then return false end
+    if IsServer() and not a:IsChanneling() then return false end
+    return Upgrades.HasShard(c)
+end
+function modifier_enfos_lion_mana_drain_channel:IsHidden() return false end
+function modifier_enfos_lion_mana_drain_channel:IsPurgable() return false end
+function modifier_enfos_lion_mana_drain_channel:IsPurgeException() return false end
+function modifier_enfos_lion_mana_drain_channel:GetTexture() return 'lion_mana_drain' end
+function modifier_enfos_lion_mana_drain_channel:DeclareFunctions() return {MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS} end
+function modifier_enfos_lion_mana_drain_channel:CheckState()
+    return {[MODIFIER_STATE_DEBUFF_IMMUNE]=shard_channel_active(self)}
+end
+function modifier_enfos_lion_mana_drain_channel:GetModifierMagicalResistanceBonus()
+    return shard_channel_active(self) and value(self:GetAbility(),'shard_magic_resistance') or 0
+end
 function modifier_enfos_lion_mana_drain_channel:ClearVisual()
     local fx=self.drain_fx
     self.drain_fx=nil -- Clear ownership before engine callbacks can reenter.
@@ -116,7 +141,7 @@ function modifier_enfos_lion_mana_drain_channel:OnIntervalThink()
         Trace:Log('LION','E','inactive engine channel cleaned')
         self:Destroy();return
     end
-    local leash=value(a,'break_distance')
+    local leash=a:GetDrainBreakDistance()
     if leash<=0 then self:Abort('invalid leash');return end
     local source,destination=c:GetAbsOrigin(),t:GetAbsOrigin()
     local dx,dy=source.x-destination.x,source.y-destination.y

@@ -26,6 +26,7 @@ ${baseline?`assert(load([==[${baseline}]==]))()`:`require('abilities/heroes/lion
 local function unit(team)
  local u={team=team or 3,pos={x=1,y=2,z=0},removed=false,alive=true,stopped=0,cleared=0}
  function u:IsNull()return self.removed end;function u:IsAlive()return self.alive end;function u:GetAbsOrigin()return self.pos end
+ function u:GetUnitName()return self.team==2 and 'npc_dota_hero_lion' or 'enfos_creep' end;function u:HasModifier(n)return self.shard and n=='modifier_item_aghanims_shard_permanent_buff' end
  function u:GetTeamNumber()return self.team end;function u:IsBuilding()return self.building end;function u:IsMagicImmune()return self.magic end;function u:IsDebuffImmune()return self.debuff end
  function u:GetIntellect()return 100 end;function u:GiveMana(n)mana=mana+n;if manaHook then manaHook()end end
  function u:StopSound(s)assert(s=='Hero_Lion.ManaDrain');self.stopped=self.stopped+1;self.playing=false end
@@ -33,7 +34,8 @@ local function unit(team)
  return u
 end
 local c,t=unit(2),unit();units[1]=t
-local ended=0;local a={rate=120,channeling=true,IsChanneling=function(self)return self.channeling end,EndChannel=function()ended=ended+1 end,GetCaster=function()return c end,GetSpecialValueFor=function(self,k)return k=='mana_per_second' and self.rate or k=='break_distance' and 1100 or 0 end}
+local ended=0;local a={rate=120,channeling=true,IsChanneling=function(self)return self.channeling end,EndChannel=function()ended=ended+1 end,GetCaster=function()return c end,GetSpecialValueFor=function(self,k)return k=='mana_per_second' and self.rate or k=='break_distance' and 1100 or k=='shard_break_distance_bonus' and 200 or 0 end}
+setmetatable(a,enfos_lion_mana_drain)
 local function modifier()
  local m=setmetatable({intervals=0},modifier_enfos_lion_mana_drain_channel)
  function m:Destroy()self:OnDestroy()end
@@ -99,14 +101,16 @@ for _,phase in ipairs({'damage','mana'})do
  a.channeling=true
 end
 -- Engine channel state and the planar leash gate all damage/mana.
-for _,distance in ipairs({1099,1100,1100.01,1300})do
+for _,shard in ipairs({false,true})do
+for _,distance in ipairs({1099,1100,1100.01,1300,1300.01})do
  for _,boss in ipairs({false,true})do
-  c,t=unit(2),unit();t.is_boss=boss;c.pos={x=0,y=0,z=1000};t.pos={x=distance,y=0,z=0};units[1]=t;a.removed=false;a.channeling=true
+  c,t=unit(2),unit();c.shard=shard;t.is_boss=boss;c.pos={x=0,y=0,z=1000};t.pos={x=distance,y=0,z=0};units[1]=t;a.removed=false;a.channeling=true
   local x=modifier();x:OnCreated({target_idx=1});local h,g=hits,mana;x:OnIntervalThink()
-  if distance<=1100 then assert(hits==h+1 and mana==g+100 and not x.closed)
+  if distance<=(shard and 1300 or 1100) then assert(hits==h+1 and mana==g+100 and not x.closed)
   else assert(hits==h and mana==g and x.closed,'No unlimited-range drain')end
   x:OnDestroy()
  end
+end
 end
 c,t=unit(2),unit();units[1]=t;a.removed=false;a.channeling=false
 local stopped=modifier();stopped:OnCreated({target_idx=1});local h,g=hits,mana;stopped:OnIntervalThink()
@@ -175,6 +179,6 @@ print('Lion drain visual PASS')
  // This repair does not silently decide the pending native/PvE mana conversion.
  const path='game/scripts/npc/npc_abilities_custom.txt';
  const old=parseKV(execFileSync('git',['show','1d6a67f:'+path],{encoding:'utf8'})).DOTAAbilities.enfos_lion_mana_drain;
- old.SpellDispellableType='SPELL_DISPELLABLE_NO';old.AbilityValues.break_distance='1100';old.AbilityCastAnimation='ACT_DOTA_CAST_ABILITY_3';
+ old.HasShardUpgrade='1';old.AbilityValues.shard_break_distance_bonus='200';old.AbilityValues.shard_magic_resistance='60';old.SpellDispellableType='SPELL_DISPELLABLE_NO';old.AbilityValues.break_distance='1100';old.AbilityCastAnimation='ACT_DOTA_CAST_ABILITY_3';
  assert.deepEqual(parseKV(fs.readFileSync(path,'utf8')).DOTAAbilities.enfos_lion_mana_drain,old);
 });

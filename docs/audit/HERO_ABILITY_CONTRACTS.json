@@ -3821,12 +3821,15 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED",
           "callbacks": [
+            "GetDrainBreakDistance",
             "OnChannelFinish",
             "OnSpellStart"
           ],
           "specials": {
             "mana_per_second": "60 90 120 150 160 170 180 190 200 210",
             "break_distance": "1100",
+            "shard_break_distance_bonus": "200",
+            "shard_magic_resistance": "60",
             "channel_duration": "4",
             "slow_pct": "35"
           },
