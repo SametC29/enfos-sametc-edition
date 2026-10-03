@@ -501,6 +501,7 @@ for _, mod_name in ipairs(modifier_list) do
             if owner == 'enfos_lion_mana_drain' then
                 -- Engine API exists on real abilities; this synthetic owner has no channel.
                 realAbility.EndChannel = function(_, interrupted) assert(interrupted == true) end
+                realAbility.IsChanneling = function() return false end
             end
             mod.GetAbility = function() return realAbility end
             mod.GetStackCount = function() return 3 end

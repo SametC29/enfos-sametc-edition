@@ -112,16 +112,27 @@ function modifier_enfos_lion_mana_drain_channel:OnIntervalThink()
     if not valid(a) then self:Abort('ability');return end
     if not valid(t) or not t:IsAlive() then self:Abort('target');return end
     if not eligible(c,t) then self:Abort('target rules');return end
+    if not a:IsChanneling() then
+        Trace:Log('LION','E','inactive engine channel cleaned')
+        self:Destroy();return
+    end
+    local leash=value(a,'break_distance')
+    if leash<=0 then self:Abort('invalid leash');return end
+    local source,destination=c:GetAbsOrigin(),t:GetAbsOrigin()
+    local dx,dy=source.x-destination.x,source.y-destination.y
+    if dx*dx+dy*dy>leash*leash then self:Abort('leash');return end
     local tick_dmg=(value(a,'mana_per_second')+get_int(c)*0.8)*0.5
     damage(a,t,tick_dmg,DAMAGE_TYPE_MAGICAL)
     -- Damage can kill/remove entities, close the modifier, or start another cast.
     if self.closed or self.revision~=revision then return end
     if not valid(c) or not c:IsAlive() or not valid(a) then self:Abort('source after damage');return end
+    if not a:IsChanneling() then self:Destroy();return end
     if not valid(t) then self:Abort('target after damage');return end
     if t:IsAlive() and not eligible(c,t) then self:Abort('target rules after damage');return end
     if c.GiveMana then c:GiveMana(tick_dmg) end
     if self.closed or self.revision~=revision then return end
     if not valid(c) or not c:IsAlive() or not valid(a) then self:Abort('source after mana');return end
+    if not a:IsChanneling() then self:Destroy();return end
     if not valid(t) or not t:IsAlive() then self:Abort('target after tick');return end
     if not eligible(c,t) then self:Abort('target rules after mana');return end
     Trace:Log('LION','E','channel tick authored_damage=%.2f authored_mana=%.2f',tick_dmg,tick_dmg)

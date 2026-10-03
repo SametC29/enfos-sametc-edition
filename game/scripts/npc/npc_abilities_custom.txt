@@ -5248,6 +5248,7 @@
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_3"
 		"AbilityTextureName"		"lion_mana_drain"
 		"AbilityCastRange"			"850"
 		"AbilityCastPoint"			"0.1"
@@ -5260,6 +5261,7 @@
 		"AbilityValues"
 		{
 			"mana_per_second"	"60 90 120 150 160 170 180 190 200 210"
+			"break_distance" "1100"
 			"channel_duration" "4"
 			"slow_pct" "35"
 		}

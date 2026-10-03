@@ -6,13 +6,14 @@ import {parseKV} from '../lib/kv.mjs';
 
 test('Lion drain owns one continuous beam, survives recast and closes reentrant resources',()=>{
  const baseline=process.env.LION_DRAIN_BASELINE?execFileSync('git',['show','HEAD:game/scripts/vscripts/abilities/heroes/lion/e.lua'],{encoding:'utf8'}):null;
+ const rates=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.txt','utf8')).DOTAAbilities.enfos_lion_mana_drain.AbilityValues.mana_per_second.split(/\s+/).join(',');
  const lua=`
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end;function LinkLuaModifier()end
 local server=true;function IsServer()return server end;Convars={GetBool=function()return false end}
 PATTACH_ABSORIGIN_FOLLOW=3;DAMAGE_TYPE_MAGICAL=2
 local units={};function EntIndexToHScript(i)return units[i]end
-local created,destroyed,released,binds=0,{},{},{};local hook;local hits,mana=0,0;local lastVictim,damageHook,manaHook,slowHook
+local created,destroyed,released,binds=0,{},{},{};local hook;local hits,mana=0,0;local lastVictim,lastDamage,damageHook,manaHook,slowHook
 ParticleManager={CreateParticle=function(_,path,attach,c)
  assert(path=='particles/units/heroes/hero_lion/lion_spell_mana_drain.vpcf' and attach==3)
  created=created+1;local id=created;if hook then hook('create')end;return id end,
@@ -20,7 +21,7 @@ ParticleManager={CreateParticle=function(_,path,attach,c)
  assert(attach==3 and bone=='' and pos==u.pos and not lock);binds[id]=binds[id] or {};binds[id][cp]=u;if hook then hook('cp'..cp)end end,
  DestroyParticle=function(_,id)assert(not destroyed[id]);destroyed[id]=true;if hook then hook('destroy')end end,
  ReleaseParticleIndex=function(_,id)assert(not released[id]);released[id]=true;if hook then hook('release')end end}
-function ApplyDamage(p)hits=hits+1;lastVictim=p.victim;if damageHook then damageHook()end;return p.damage end
+function ApplyDamage(p)hits=hits+1;lastVictim=p.victim;lastDamage=p.damage;if damageHook then damageHook()end;return p.damage end
 ${baseline?`assert(load([==[${baseline}]==]))()`:`require('abilities/heroes/lion/e')`}
 local function unit(team)
  local u={team=team or 3,pos={x=1,y=2,z=0},removed=false,alive=true,stopped=0,cleared=0}
@@ -32,7 +33,7 @@ local function unit(team)
  return u
 end
 local c,t=unit(2),unit();units[1]=t
-local ended=0;local a={EndChannel=function()ended=ended+1 end,GetCaster=function()return c end,GetSpecialValueFor=function(_,k)return k=='mana_per_second' and 120 or 0 end}
+local ended=0;local a={rate=120,channeling=true,IsChanneling=function(self)return self.channeling end,EndChannel=function()ended=ended+1 end,GetCaster=function()return c end,GetSpecialValueFor=function(self,k)return k=='mana_per_second' and self.rate or k=='break_distance' and 1100 or 0 end}
 local function modifier()
  local m=setmetatable({intervals=0},modifier_enfos_lion_mana_drain_channel)
  function m:Destroy()self:OnDestroy()end
@@ -82,6 +83,39 @@ for _,mode in ipairs({'ability','caster','dead caster','removed target','dead ta
  if mode=='ability' or mode=='caster' or mode=='dead caster' or mode=='removed target' or mode=='dead target' then assert(hits==beforeHits,mode)end
  local h,g=hits,mana;x:OnIntervalThink();assert(hits==h and mana==g,'Closed interval cannot run')
 end
+-- Authored ten-rank damage/mana remains unchanged within the native base leash.
+for _,rate in ipairs({${rates}})do
+ c,t=unit(2),unit();units[1]=t;a.removed=false;a.channeling=true;a.rate=rate
+ local x=modifier();x:OnCreated({target_idx=1});local gain=mana;x:OnIntervalThink()
+ local expected=(rate+100*.8)*.5;assert(lastDamage==expected and mana==gain+expected);x:OnDestroy()
+end
+a.rate=120
+for _,phase in ipairs({'damage','mana'})do
+ c,t=unit(2),unit();units[1]=t;a.removed=false;a.channeling=true
+ local x=modifier();x:OnCreated({target_idx=1});local gain=mana
+ if phase=='damage' then damageHook=function()a.channeling=false end else manaHook=function()a.channeling=false end end
+ x:OnIntervalThink();damageHook=nil;manaHook=nil
+ assert(x.closed and mana==gain+(phase=='mana' and 100 or 0),'Engine channel ending during '..phase..' closes without extra reward')
+ a.channeling=true
+end
+-- Engine channel state and the planar leash gate all damage/mana.
+for _,distance in ipairs({1099,1100,1100.01,1300})do
+ for _,boss in ipairs({false,true})do
+  c,t=unit(2),unit();t.is_boss=boss;c.pos={x=0,y=0,z=1000};t.pos={x=distance,y=0,z=0};units[1]=t;a.removed=false;a.channeling=true
+  local x=modifier();x:OnCreated({target_idx=1});local h,g=hits,mana;x:OnIntervalThink()
+  if distance<=1100 then assert(hits==h+1 and mana==g+100 and not x.closed)
+  else assert(hits==h and mana==g and x.closed,'No unlimited-range drain')end
+  x:OnDestroy()
+ end
+end
+c,t=unit(2),unit();units[1]=t;a.removed=false;a.channeling=false
+local stopped=modifier();stopped:OnCreated({target_idx=1});local h,g=hits,mana;stopped:OnIntervalThink()
+assert(stopped.closed and hits==h and mana==g,'Stopped ability cannot keep channel thinker damage running');a.channeling=true
+c,t=unit(2),unit();units[1]=t;local moved=modifier();moved:OnCreated({target_idx=1});moved:OnIntervalThink();t.pos={x=1200,y=0,z=0}
+h,g=hits,mana;moved:OnIntervalThink();assert(moved.closed and hits==h and mana==g,'Moving out of leash interrupts before next tick')
+local special=a.GetSpecialValueFor;a.GetSpecialValueFor=function(_,k)return k=='break_distance' and 0 or special(a,k)end
+c,t=unit(2),unit();units[1]=t;local invalid=modifier();invalid:OnCreated({target_idx=1});h,g=hits,mana;invalid:OnIntervalThink()
+assert(invalid.closed and hits==h and mana==g,'Missing leash is invalid configuration');a.GetSpecialValueFor=special
 -- Old teardown must not erase a fresh modifier started by resource/slow cleanup.
 for _,phase in ipairs({'destroy','release','slow'})do
  c,t=unit(2),unit();units[1]=t;a.removed=false
@@ -141,5 +175,6 @@ print('Lion drain visual PASS')
  // This repair does not silently decide the pending native/PvE mana conversion.
  const path='game/scripts/npc/npc_abilities_custom.txt';
  const old=parseKV(execFileSync('git',['show','1d6a67f:'+path],{encoding:'utf8'})).DOTAAbilities.enfos_lion_mana_drain;
+ old.AbilityValues.break_distance='1100';old.AbilityCastAnimation='ACT_DOTA_CAST_ABILITY_3';
  assert.deepEqual(parseKV(fs.readFileSync(path,'utf8')).DOTAAbilities.enfos_lion_mana_drain,old);
 });
