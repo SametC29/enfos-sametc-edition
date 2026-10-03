@@ -5429,7 +5429,8 @@
 	"enfos_vs_magic_missile"
 	{
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/heroes/vengefulspirit/q"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_1"
+        "ScriptFile"				"abilities/heroes/vengefulspirit/q"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
@@ -5445,6 +5446,7 @@
 
 		"AbilityValues"
 		{
+            "magic_missile_speed" "1350"
 			"damage"	"120 200 280 360 400 440 480 520 560 600"
 			"stun_duration"	"1.4 1.6 1.8 2 2.2 2.4 2.6 2.8 3 3.2"
 		}
@@ -5453,7 +5455,8 @@
 	"enfos_vs_wave_of_terror"
 	{
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/heroes/vengefulspirit/w"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_2"
+        "ScriptFile"				"abilities/heroes/vengefulspirit/w"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"vengefulspirit_wave_of_terror"
@@ -5498,7 +5501,8 @@
 	{
 		"HasScepterUpgrade" "1"
 		"BaseClass"					"ability_lua"
-		"ScriptFile"				"abilities/heroes/vengefulspirit/r"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_4"
+        "ScriptFile"				"abilities/heroes/vengefulspirit/r"
 		"AbilityType"				"DOTA_ABILITY_TYPE_ULTIMATE"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_BOTH"

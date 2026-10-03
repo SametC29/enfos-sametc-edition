@@ -35,7 +35,7 @@ for slot,cls in ipairs(classes) do
   local a=setmetatable({removed=false,GetCaster=function()return c end,GetCursorTarget=function()return t end,
    GetLevel=function()return 1 end},cls)
   function a:IsNull()return self.removed end
-  function a:GetSpecialValueFor(k)assert(not self.removed);return k=='stun_duration' and 2 or 200 end
+  function a:GetSpecialValueFor(k)assert(not self.removed);return k=='magic_missile_speed' and 1350 or k=='stun_duration' and 2 or 200 end
   function t:TriggerSpellAbsorb()
    if mode=='removed_absorb' then self.removed=true elseif mode=='caster_removed_absorb' then c.removed=true
    elseif mode=='ability_removed_absorb' then a.removed=true end
@@ -43,7 +43,7 @@ for slot,cls in ipairs(classes) do
   end
   ParticleManager={CreateParticle=function()calls.particles=calls.particles+1;return 1 end,
    SetParticleControl=function()end,ReleaseParticleIndex=function()end}
-  ProjectileManager={CreateTrackingProjectile=function()calls.projectiles=calls.projectiles+1;return 9 end}
+  ProjectileManager={CreateTrackingProjectile=function(_,p)assert(p.iMoveSpeed==1350);calls.projectiles=calls.projectiles+1;return 9 end}
   function FindClearSpaceForUnit()end
   function ApplyDamage(e)calls.damage=calls.damage+1;assert(e.damage==(slot==1 and 290 or 320),'Boss/normal formula changed');return e.damage end
   server=mode~='client'

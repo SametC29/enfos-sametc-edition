@@ -217,3 +217,33 @@ Remaining source work includes native W attack reduction/vision and recipient
 presentation, Q/R resource/animation/immunity review, E aura emitter rank policy,
 and dedicated Shard/Scepter behavior. Do not advance to Jakiro or certify this
 hero merely because the source-safety fixtures pass.
+
+## Native animation and sound-bank restoration
+
+Re-read installed native hero AbilityDefinitions (build 6943) and decoded its
+declared `game_sounds_vengefulspirit.vsndevts_c` with VRF 19.2. Decoded-bank SHA256:
+`759f19cfa71de6ee5559c66ae6383cddd6bbbe31deb208f060625fccb9593480`.
+Verified membership: `Hero_VengefulSpirit.MagicMissile`, `MagicMissileImpact`,
+`WaveOfTerror`, `NetherSwap`, all under that prefix. Their durations are finite
+(1.23102s, 1.835125s, 4.821338s, 2.157959s); no looping event was introduced.
+Existing cast/impact emitters remain; the R two-endpoint emission is preserved
+pending owner listening, not asserted acoustically correct from declarations.
+
+The startup bank loop did not include Vengeful Spirit and all three custom
+actives omitted AbilityCastAnimation. Added the native bank to the existing
+precache owner and the installed ACT_DOTA_CAST_ABILITY_1 / 2 / 4 for Q/W/R.
+No new precache service, duplicate gesture or passive cast animation was added.
+KV cast points and rank/mana/cooldown curves remain unchanged in this unit.
+
+Q now reads native `magic_missile_speed` 1350 from KV, replacing the unexplained
+1250 literal; its targeting, damage/scaling and stun curves are preserved.
+The presentation fixture failed on missing animation before repair and now
+checks all three mappings, the actual startup bank loop and native speed KV;
+Q cast fixture also asserts the projectile receives that speed.
+[ModDota Ability KV documentation](https://moddota.com/abilities/ability-keyvalues)
+documents the animation field and asset preload requirement. Those declarations
+support implementation, not visual/audio acceptance.
+
+Native particle CP/attachment/impact presentation, cold-start playback, gesture
+appearance and audible timing remain PENDING OWNER TEST. Source review remains
+PENDING for upgrades, W native attack reduction/vision and immunity interactions.

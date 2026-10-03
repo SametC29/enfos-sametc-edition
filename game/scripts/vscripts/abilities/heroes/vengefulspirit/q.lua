@@ -20,12 +20,14 @@ function enfos_vs_magic_missile:OnSpellStart()
     if not alive(c) or not alive(t) or (self.IsNull and self:IsNull()) or t:GetTeamNumber()==c:GetTeamNumber() then return end
     HeroTrace:Log('VENGEFUL_SPIRIT','Q','cast caster=%s target=%s rank=%s',HeroTrace:Name(c),HeroTrace:Name(t),tostring(self.GetLevel and self:GetLevel() or 0))
     c:EmitSound('Hero_VengefulSpirit.MagicMissile')
+    local speed = value(self, 'magic_missile_speed')
+    if speed <= 0 then speed = 1350 end
     local proj = {
         Target = t,
         Source = c,
         Ability = self,
         EffectName = 'particles/units/heroes/hero_vengeful/vengeful_magic_missle.vpcf',
-        iMoveSpeed = 1250,
+        iMoveSpeed = speed,
         bDodgeable = true,
         bVisibleToEnemies = true,
         bProvidesVision = false
