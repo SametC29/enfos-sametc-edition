@@ -5339,6 +5339,11 @@
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/heroes/jakiro/w"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"		"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"		"SPELL_DISPELLABLE_YES_STRONG"
+		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_2"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"		"jakiro_ice_path"
 		"AbilityCastRange"			"1200"
@@ -5354,6 +5359,8 @@
 			"stun_duration"	"1.5 2 2.5 3 3.5 4 4.5 5 5.5 6"
 			"damage"	"80 140 200 260 280 300 320 340 360 380"
 			"path_delay"	"0.5"
+			"path_length"	"1200"
+			"path_radius"	"150"
 		}
 	}
 

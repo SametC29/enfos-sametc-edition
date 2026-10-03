@@ -122,7 +122,7 @@ pending the owner's live Dota test.
 Classification: PVE-CONVERT
 Native counterpart: `jakiro_ice_path` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
 Decision and PvE identity rationale: TUNE — the native mechanic already fits creeps; ten authored ranks/INT scaling require compatibility review. See the 2026-10-03 individual ledger for identified source defects and pending repair; no blanket PvP conversion is justified.
-Expected behavior: Preserve the cast-time point and caster origin, show the ice path warning immediately, then after the configured 0.5-second delay apply ranked damage and stun along the path; boss stun remains at 35% duration.
+Expected behavior: Snapshot a planar path at cast origin, show matching endpoint warning, then use engine line targeting after 0.5 seconds with ordinary ranked engine stun for all valid enemies. Persistent late-entry path behavior remains an open repair under the current individual ledger.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve; free rank / point cost: PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
@@ -294,3 +294,5 @@ Change/test record: all five abilities now expose ten KV ranks; the complete 200
 [Individual review](../../audit/JAKIRO_INDIVIDUAL_REVIEW_2026-10-03.md) supersedes historical source closures. All five handlers reviewed against installed build 6943 / revision 11069754; native-first Q/W/E/R TUNE, D REPLACE. Isolation preserves existing mechanics and known defects. Source repair, traces and every engine/visual/audio gate remain pending. Ice Path Boss reduction and Macropyre cap are defects to remove under the owner contract, not accepted behavior.
 
 2026-10-03 R focused repair: removed the cumulative Boss-only 10% maxHP cap/table. Independent fixture reproduced truncation before the change and passes for ordinary/flagged/named Boss targets afterward; ordinary magical flags and existing line rejection remain unchanged. Native path/Scepter/VFX/SFX/engine acceptance remains PENDING.
+
+2026-10-03 W focused repair: matching saved visual/hit endpoints, native-radius150 line query, zero-aim facing fallback, built-in stun without Boss multiplier, server/removal/reentrant callback protections, startup native bank and four-locale formula/immunity/dispel text. Independent fixture reproduced endpoint mismatch before repair and covers rank1/10/invalid callbacks afterward. Persistent native path behavior and engine/VFX/SFX/width verification remain PENDING.

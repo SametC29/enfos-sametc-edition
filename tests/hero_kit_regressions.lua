@@ -7427,8 +7427,8 @@ test('Jakiro Ice Path delays damage and control until the configured path warnin
     jakiro:SetAbsOrigin(Vector(1000, 0, 0))
     assert(callback and callback() == nil)
     assert(#applied_damages == 2 and applied_damages[1].damage == 260)
-    assert(creep:FindModifierByName('modifier_generic_stunned_lua').params.duration == 2)
-    assert(math.abs(boss:FindModifierByName('modifier_generic_stunned_lua').params.duration - 0.7) < 0.01)
+    assert(creep:FindModifierByName('modifier_stunned').params.duration == 2)
+    assert(boss:FindModifierByName('modifier_stunned').params.duration == 2, 'Boss metadata cannot shorten ordinary Ice Path stun')
     GameRules = previous_game_rules
 end)
 
