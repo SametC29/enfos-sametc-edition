@@ -10,7 +10,7 @@ Hero: `npc_dota_hero_luna`; role: Carry. Progression target: hero level 50 / all
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
 | 1 | `enfos_luna_lucent_beam` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | luna_lucent_beam |
-| 2 | `enfos_luna_lunar_orbit` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE | abilities/pve_kits | luna_lunar_orbit |
+| 2 | `enfos_luna_lunar_orbit` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE \| DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | NOT_EXPLICIT | luna_lunar_orbit |
 | 3 | `enfos_luna_lunar_blessing` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE \| DOTA_ABILITY_BEHAVIOR_AURA | abilities/pve_kits | luna_lunar_blessing |
 | 4 | `enfos_luna_eclipse` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | luna_eclipse |
 | 5 | `enfos_luna_moon_glaives` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | NOT_EXPLICIT | luna_moon_glaive |
@@ -250,9 +250,9 @@ Change/test record: all five slots have MaxLevel 10; all multirank KV values hav
 
 ## Slot 2: `enfos_luna_lunar_orbit`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `Enfos Lunar Orbit / native luna_lunar_orbit identity` (installed native snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot mapping is authored).
-Decision and PvE identity rationale: PVE-CONVERT preserves the identified Dota hero fantasy while changing PvP-only targeting/control for wave, elite and boss play.
+Decision and PvE identity rationale: native rotating-glaive collisions replace the custom radial pulses. ENFOS duration/mitigation and ten ranks remain explicit; native Shard upgrades W. See the W checkpoint in the pilot record.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current/target rank: Lunar Orbit is active slot 2 and ranks 1–10 are gated at hero levels 1–10. Moon Glaives is the slot-5 Enfos passive and starts at rank 1 via the separate Enfos grant. Rank buttons and point behavior remain PENDING in-engine validation.
@@ -269,13 +269,15 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 - One-shot/persistent cleanup owner and repeated-use test: PENDING.
 - Localization keys and generated mirrors: PENDING.
 
+2026-10-04 W checkpoint: `BaseClass luna_lunar_orbit`; no Lua pulse, particle or sound replica remains. Native Shard values replace Luna's generic role Shard speed/pure-hit path, without changing other heroes or native Boss Luna. Seven native/integration checks and 356 hero-kit mocks pass. Collision feedback, mitigation, costs, ranks and performance remain PENDING OWNER TEST. OWNER ENGINE ACCEPTANCE: NOT TESTED.
+
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Active slot-5 ability starts at rank1 via Enfos grant and uses level1–10 gates; this is not a passive and needs kit-design repair. |
+| Ranks | PENDING | W is the paid active slot 2, not the free D passive; native ten-rank numeric arrays pass static checks. Rank-up HUD and C++ scaling remain PENDING OWNER TEST. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |

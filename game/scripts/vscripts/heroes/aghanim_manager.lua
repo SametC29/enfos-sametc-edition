@@ -304,6 +304,7 @@ function modifier_enfos_shard_upgrade:IsHidden()
     local parent = self.GetParent and self:GetParent()
     local name = parent and parent.GetUnitName and parent:GetUnitName()
     return name == "npc_dota_hero_lion" or name == "npc_dota_hero_jakiro" or name == "npc_dota_hero_lich" or name == "npc_dota_hero_sven" or name == "npc_dota_hero_shadow_shaman" or name == "npc_dota_hero_tidehunter"
+        or require('abilities/heroes/luna/integration').UsesNativeShard(parent)
 end
 function modifier_enfos_shard_upgrade:IsPurgable() return false end
 function modifier_enfos_shard_upgrade:IsPermanent() return true end
@@ -342,6 +343,7 @@ function modifier_enfos_shard_upgrade:GetModifierAttackSpeedBonus_Constant()
 end
 
 function modifier_enfos_shard_upgrade:GetModifierMoveSpeedBonus_Percentage()
+    if require('abilities/heroes/luna/integration').UsesNativeShard(self:GetParent()) then return 0 end
 	if self.role == "Carry" then return 15 end
 	return 0
 end
@@ -384,6 +386,7 @@ end
 function modifier_enfos_shard_upgrade:OnAttackLanded(keys)
 	if not IsServer or not IsServer() then return end
 	if keys.attacker ~= self:GetParent() then return end
+    if require('abilities/heroes/luna/integration').UsesNativeShard(self:GetParent()) then return end
 	local target = keys.target
 	if not target or target:IsNull() or not target:IsAlive() or target:GetTeamNumber()==self:GetParent():GetTeamNumber() then return end
 

@@ -178,3 +178,63 @@ spam. OWNER ENGINE ACCEPTANCE: NOT TESTED.
 
 Q/W/E/R migration, Boss-cap removal, their trace integration, final upgrade
 tooltips, full acceptance checklist and final pilot conclusion remain open.
+
+## W migration checkpoint — 2026-10-04
+
+W decision: **NATIVE** with ENFOS numerical KV tuning; classification TUNE.
+`enfos_luna_lunar_orbit` uses `BaseClass luna_lunar_orbit`, with no ScriptFile,
+Lua ability wrapper or custom modifier. Dota owns four rotating glaives,
+collision selection and physical attack-derived damage, movement around Luna,
+cast behavior/animation, mitigation, Shard integration and resource lifecycle.
+The installed `resource/localization/abilities_english.txt` explicitly describes
+collision damage as a percentage of Luna's attack damage. This source was read
+from the same installed archive; the native W KV is already in the snapshot.
+
+Retained ENFOS values: duration 8 seconds, base mitigation 25%. Bounded native
+values: four glaives, orbit radius 225, collision radius 200, speed 160, expansion
+speed scale 4. Collision damage uses 28/32/36/40 percent for ranks 1–4 and 40%
+for ranks 5–10. Cooldown is 40/35/30/25 seconds followed by six explicit 25s
+entries; mana is 65/70/75/80 followed by six explicit 80 entries. These extend
+the installed numerical curves by holding the native terminal value; they do
+not prove internal C++ rank-index safety. W Shard retains native `+10` mitigation
+and `+20` percentage movement speed. No hypothetical rank-5–10 curve is invented.
+
+Removed: `enfos_luna_lunar_orbit` Lua class,
+`modifier_enfos_luna_lunar_orbit_buff`, its shared registration, radial 0.5s
+agility-scaled pulses, custom ambient/impact particle allocation/cleanup and
+custom repeated impact sounds. The old extra attack-range and constant
+movement-speed bonuses are removed as part of native restoration. The orbit
+now has its native cooldown/mana costs instead of unrestricted repeated custom
+casts. These numerical/mechanical differences are explicit pilot changes.
+No separate collision or radial damage logic compensates for native behavior.
+
+Luna's existing generic Shard +15% speed and 12% extra pure attack damage are
+disabled only when the ENFOS native Orbit slot is present. Native Boss Luna
+without that slot, other heroes, and shared upgrade reconciliation are
+unchanged. The empty generic Shard icon is hidden for that same ENFOS kit.
+Shard tooltips move from D to W, with four-language native descriptions and
+generated mirrors. No native Boss ability or global native KV is overridden.
+
+The existing free-rank integration additionally logs
+`[LUNA_TRACE][W] native_integration_ready ability=enfos_luna_lunar_orbit shard=orbit`
+when tracing is enabled. This records the ENFOS integration configuration, not
+a successful cast, collision or Shard effect. No timer, search or gameplay
+state was added for this line.
+
+Validation: seven native/progression/upgrade integration checks and two focused
+Luna content/rank checks pass. The shared Shard regression proves no generic
+extra damage/speed for ENFOS Luna, while native Boss and another Carry retain
+their previous path. 356 remaining hero-kit mocks pass; the obsolete custom
+Orbit pulse mock is removed because it cannot validate native collisions.
+Final broad project checks remain deferred to the whole-Luna delivery boundary.
+
+Owner W test: full restart for KV; ranks 1/4/5/10, cast while moving, check
+cost/cooldown, four visible glaives, collision radius and repeated contacts,
+8s lifetime, 25% mitigation, death/interrupt/recast/cleanup and dense-wave frame
+cost. Acquire Shard and verify 35% mitigation and 20% movement speed only during
+Orbit; confirm no separate generic pure attack proc. Distinguish native
+collisions from D's attack bounces. Confirm VConsole has no resource/Lua errors.
+OWNER ENGINE ACCEPTANCE: NOT TESTED.
+
+Q/E/R migration, Luna-authored Boss-cap removal, their trace integration and
+the final pilot delivery remain open.

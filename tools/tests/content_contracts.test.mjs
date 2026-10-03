@@ -998,8 +998,9 @@ test('Luna Lua-read specials use named AbilityValues and retain ten-rank curves'
   assert.equal(all.enfos_luna_lunar_blessing.IsBreakable,'1');
   assert.equal(all.enfos_luna_eclipse.AbilityValues.max_hits_per_target,'6');
   assert.equal(all.enfos_luna_eclipse.AbilityValues.boss_damage_pct,'10');
-  assert.equal(all.enfos_luna_lunar_orbit.AbilityValues.pulse_interval,'0.5');
-  assert.equal(all.enfos_luna_lunar_orbit.AbilityValues.pulse_radius,'320');
+  assert.equal(all.enfos_luna_lunar_orbit.BaseClass,'luna_lunar_orbit');
+  assert.equal(all.enfos_luna_lunar_orbit.AbilityValues.rotating_glaives_movement_radius.value,'225');
+  assert.equal(all.enfos_luna_lunar_orbit.AbilityValues.rotating_glaives_hit_radius.value,'200');
 });
 test('Shadow Fiend Lua-read specials use named AbilityValues and retain ten-rank curves',()=>{
   const heroes=read('npc_heroes_custom.txt').DOTAHeroes,all=read('npc_abilities_custom.txt').DOTAAbilities;

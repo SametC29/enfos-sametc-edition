@@ -123,7 +123,6 @@ local modifier_list = {
     'modifier_enfos_luna_lunar_blessing',
     'modifier_enfos_luna_lunar_blessing_aura',
     'modifier_enfos_luna_eclipse_thinker',
-    'modifier_enfos_luna_lunar_orbit_buff',
     -- Axe
     'modifier_enfos_axe_call_buff',
     'modifier_enfos_axe_call_taunt',
@@ -1793,55 +1792,7 @@ function modifier_enfos_luna_eclipse_thinker:OnIntervalThink()
     effect('particles/units/heroes/hero_luna/luna_lucent_beam.vpcf', target)
 end
 
-enfos_luna_lunar_orbit=class({})
-function enfos_luna_lunar_orbit:OnSpellStart()
-    local c = self:GetCaster()
-    c:EmitSound('Hero_Luna.Eclipse.NoTarget')
-    c:AddNewModifier(c, self, 'modifier_enfos_luna_lunar_orbit_buff', { duration = value(self, 'duration') })
-end
-
-modifier_enfos_luna_lunar_orbit_buff=class({})
-function modifier_enfos_luna_lunar_orbit_buff:DeclareFunctions()
-    return { MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE, MODIFIER_PROPERTY_ATTACK_RANGE_BONUS, MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT }
-end
-function modifier_enfos_luna_lunar_orbit_buff:GetModifierIncomingDamage_Percentage() return -value(self:GetAbility(), 'damage_reduction_pct') end
-function modifier_enfos_luna_lunar_orbit_buff:GetModifierAttackRangeBonus() return value(self:GetAbility(), 'bonus_range') end
-function modifier_enfos_luna_lunar_orbit_buff:GetModifierMoveSpeedBonus_Constant() return value(self:GetAbility(), 'bonus_ms') end
-function modifier_enfos_luna_lunar_orbit_buff:OnCreated()
-    if not IsServer() then return end
-    local c = self:GetParent()
-    if ParticleManager then
-        self.pfx = ParticleManager:CreateParticle('particles/units/heroes/hero_luna/luna_ambient_lunar_blessing.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
-    end
-    if self.StartIntervalThink then self:StartIntervalThink(value(self:GetAbility(), 'pulse_interval')) end
-end
-function modifier_enfos_luna_lunar_orbit_buff:OnDestroy()
-    if not IsServer() then return end
-    if self.pfx and ParticleManager then
-        if ParticleManager.DestroyParticle then ParticleManager:DestroyParticle(self.pfx, false) end
-        if ParticleManager.ReleaseParticleIndex then ParticleManager:ReleaseParticleIndex(self.pfx) end
-        self.pfx = nil
-    end
-end
-function modifier_enfos_luna_lunar_orbit_buff:OnIntervalThink()
-    local c = self:GetParent()
-    local agi = get_agi(c)
-    local a = self:GetAbility()
-    local dmg = value(a, 'pulse_damage') + (agi * value(a, 'agility_multiplier'))
-    local hit_any = false
-    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), value(a, 'pulse_radius'))) do
-        damage(a, u, dmg, DAMAGE_TYPE_PHYSICAL)
-        if ParticleManager then
-            local hit_pfx = ParticleManager:CreateParticle('particles/units/heroes/hero_luna/luna_base_attack_impact.vpcf', PATTACH_ABSORIGIN_FOLLOW, u)
-            ParticleManager:ReleaseParticleIndex(hit_pfx)
-        end
-        hit_any = true
-    end
-    if hit_any then
-        c:EmitSound('Hero_Luna.MoonGlaive.Impact')
-    end
-end
-
+-- Lunar Orbit W is owned by the native luna_lunar_orbit BaseClass.
 
 -- ============================================================================
 -- BATCH 2 PVE HERO KITS: AXE, CENTAUR, LEGION COMMANDER, SNIPER, CRYSTAL MAIDEN, DAZZLE

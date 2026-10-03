@@ -430,35 +430,7 @@ test('Luna Eclipse uses its own ranked beam value and caps total boss damage per
         'Eclipse uses its own damage rank and cannot exceed the configured per-cast boss cap')
 end)
 
-test('Luna Lunar Orbit pulses physical damage scaling with Agility and cleans up particle', function()
-    applied_damages = {}
-    local luna = create_mock_unit('npc_dota_hero_luna', 2, Vector(0, 0, 0))
-    luna.agility = 100
-    local c1 = create_mock_unit('creep1', 3, Vector(100, 0, 0))
-    local c2 = create_mock_unit('creep2', 3, Vector(200, 0, 0))
-    mock_world_units = { luna, c1, c2 }
-
-    local ab = enfos_luna_lunar_orbit()
-    ab.GetSpecialValueFor = function(_, key)
-        local values = { pulse_interval = 0.5, pulse_radius = 320, pulse_damage = 50,
-            agility_multiplier = 0.4, damage_reduction_pct = 25, bonus_range = 75, bonus_ms = 25, duration = 8 }
-        return values[key] or 0
-    end
-    local mod = modifier_enfos_luna_lunar_orbit_buff()
-    mod.GetParent = function() return luna end
-    mod.GetAbility = function() return ab end
-
-    mod:OnCreated()
-    assert(mod.pfx ~= nil, 'Ambient particle must be created')
-
-    -- 50 + (100 * 0.4) = 90 physical damage
-    mod:OnIntervalThink()
-    assert(#applied_damages == 2, 'Both creeps within 320 radius should take pulse damage')
-    assert(applied_damages[1].damage == 90 and applied_damages[1].damage_type == DAMAGE_TYPE_PHYSICAL)
-
-    mod:OnDestroy()
-    assert(mod.pfx == nil, 'Ambient particle must be destroyed on buff expiration')
-end)
+-- Native Orbit collision/feedback needs owner Dota testing; see luna_native.test.mjs.
 
 test('Drow Frost Arrows scales with Agility and shatters on creep death', function()
     applied_damages = {}

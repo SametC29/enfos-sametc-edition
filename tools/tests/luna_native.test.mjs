@@ -52,7 +52,66 @@ ability.rank=10
 assert(grants:Apply(hero));assert(ability.rank==10 and hero.points==5)
 assert(prints==0,'Trace must remain default off')
 require('lib/hero_trace'):SetEnabled(true)
-assert(grants:Apply(hero));assert(prints==1)
+assert(grants:Apply(hero));assert(prints==2)
+`;
+  const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});
+  assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');
+});
+test('Luna W uses native collisions and preserves bounded explicit rank and Shard values',()=>{
+  const a=abilities.enfos_luna_lunar_orbit;
+  assert.ok(isVerifiedNativeAbility('enfos_luna_lunar_orbit',a));
+  assert.equal(a.MaxLevel,'10');assert.equal(a.RequiredLevel,'1');assert.equal(a.LevelsBetweenUpgrades,'1');
+  assert.equal(a.HasShardUpgrade,'1');assert.equal(a.SpellDispellableType,'SPELL_DISPELLABLE_NO');
+  const values=a.AbilityValues;
+  assert.equal(values.rotating_glaives_duration.value,'8');
+  assert.equal(values.rotating_glaives_damage_reduction.value,'25');
+  assert.equal(values.rotating_glaives_damage_reduction.special_bonus_shard,'+10');
+  assert.equal(values.bonus_movement_speed.special_bonus_shard,'+20');
+  assert.equal(values.rotating_glaives.value,'4');
+  for(const key of ['rotating_glaives_collision_damage','AbilityCooldown','AbilityManaCost'])
+    assert.equal(values[key].value.split(' ').length,10,key);
+  for(const key of ['pulse_interval','pulse_damage','agility_multiplier','bonus_range'])assert.equal(values[key],undefined);
+  for(const source of readAbilitySources(abilities).values()){
+    assert.doesNotMatch(source,/enfos_luna_lunar_orbit=class|modifier_enfos_luna_lunar_orbit_buff/);
+  }
+});
+test('Luna native Shard routing excludes native Boss kit and other heroes',()=>{
+  const script=`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+local integration=require('abilities/heroes/luna/integration')
+local hero={GetUnitName=function()return 'npc_dota_hero_luna' end,FindAbilityByName=function()return {} end}
+assert(integration.UsesNativeShard(hero))
+hero.FindAbilityByName=function()return nil end
+assert(not integration.UsesNativeShard(hero))
+hero.GetUnitName=function()return 'npc_dota_hero_lion' end
+hero.FindAbilityByName=function()return {} end
+assert(not integration.UsesNativeShard(hero))
+`;
+  const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});
+  assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');
+});
+test('Native Orbit replaces Luna generic Shard speed and extra damage without changing other kits',()=>{
+  const script=`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t)t.__index=t;return t end
+function LinkLuaModifier()end
+function IsServer()return true end
+local hits=0
+function ApplyDamage()hits=hits+1 end
+require('heroes/aghanim_manager')
+local hero={GetUnitName=function()return 'npc_dota_hero_luna' end,
+ FindAbilityByName=function(_,id)assert(id=='enfos_luna_lunar_orbit');return {} end,
+ GetTeamNumber=function()return 2 end}
+local target={IsNull=function()return false end,IsAlive=function()return true end,GetTeamNumber=function()return 3 end}
+local mod=setmetatable({role='Carry',GetParent=function()return hero end},modifier_enfos_shard_upgrade)
+assert(mod:GetModifierMoveSpeedBonus_Percentage()==0 and mod:IsHidden())
+mod:OnAttackLanded({attacker=hero,target=target,damage=100});assert(hits==0)
+hero.GetUnitName=function()return 'npc_dota_hero_luna' end
+hero.FindAbilityByName=function()return nil end
+assert(mod:GetModifierMoveSpeedBonus_Percentage()==15 and not mod:IsHidden(),'Native Boss kit must be unaffected')
+hero.GetUnitName=function()return 'npc_dota_hero_drow_ranger' end
+assert(mod:GetModifierMoveSpeedBonus_Percentage()==15)
+mod:OnAttackLanded({attacker=hero,target=target,damage=100});assert(hits==1)
 `;
   const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});
   assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');

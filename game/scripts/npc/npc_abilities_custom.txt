@@ -3017,25 +3017,76 @@
 
 	"enfos_luna_lunar_orbit"
 	{
-
-		"BaseClass" "ability_lua"
-		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
-		"AbilityTextureName" "luna_lunar_orbit"
-		"RequiredLevel"	"1"
-		"LevelsBetweenUpgrades"	"1"
-		"MaxLevel" "10"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityUnitDamageType" "DAMAGE_TYPE_PHYSICAL"
+		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
+		"AbilitySound" "Hero_Luna.MoonGlaive.Impact"
+		"HasShardUpgrade" "1"
 		"AbilityValues"
 		{
-			"bonus_range" "75 85 95 105 115 125 135 145 155 165"
-			"bonus_ms" "25 28 31 34 37 40 43 46 49 52"
-			"duration" "8.0"
-			"damage_reduction_pct" "25"
-			"pulse_interval" "0.5"
-			"pulse_radius" "320"
-			"pulse_damage" "50"
-			"agility_multiplier" "0.4"
+			"rotating_glaives_duration"
+			{
+				"value" "8"
+			}
+			"rotating_glaives"
+			{
+				"value" "4"
+				"special_bonus_unique_luna_lunar_orbit_glaive_count" "+1"
+			}
+			"rotating_glaives_movement_radius"
+			{
+				"value" "225"
+			}
+			"rotating_glaives_movement_radius_expand_speed_scale"
+			{
+				"value" "4"
+			}
+			"rotating_glaives_hit_radius"
+			{
+				"value" "200"
+				"affected_by_aoe_increase" "1"
+			}
+			"rotating_glaives_collision_damage"
+			{
+				"value" "28 32 36 40 40 40 40 40 40 40"
+				"special_bonus_unique_luna_lunar_orbit_speed_damage" "+50%"
+			}
+			"rotating_glaives_speed"
+			{
+				"value" "160"
+				"special_bonus_unique_luna_lunar_orbit_speed_damage" "+50%"
+			}
+			"rotating_glaive_collision_speed_damage_tooltip"
+			{
+				"value" "0"
+				"special_bonus_unique_luna_lunar_orbit_speed_damage" "+1.5"
+			}
+			"AbilityCooldown"
+			{
+				"value" "40 35 30 25 25 25 25 25 25 25"
+			}
+			"AbilityManaCost"
+			{
+				"value" "65 70 75 80 80 80 80 80 80 80"
+			}
+			"rotating_glaives_damage_reduction"
+			{
+				"value" "25"
+				"special_bonus_shard" "+10"
+			}
+			"bonus_movement_speed"
+			{
+				"value" "0"
+				"special_bonus_shard" "+20"
+			}
 		}
-		"ScriptFile" "abilities/pve_kits"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_2"
+		"BaseClass" "luna_lunar_orbit"
+		"AbilityTextureName" "luna_lunar_orbit"
+		"RequiredLevel" "1"
+		"LevelsBetweenUpgrades" "1"
+		"MaxLevel" "10"
 	}
 
 	// =========================================================================
