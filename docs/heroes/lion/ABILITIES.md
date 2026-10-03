@@ -225,13 +225,13 @@ Change/test record: all five abilities now expose ten KV ranks; the complete 200
 
 ## Slot 4: `enfos_lion_finger_of_death`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `lion_finger_of_death` (installed native hero snapshot, ClientVersion 6941 / SourceRevision 11041083; Enfos slot assignment is project-specific).
-Decision and PvE identity rationale: PVE-CONVERT to retain the verified native hero identity while adapting PvP-only details for wave, elite and boss combat.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
+Decision and PvE identity rationale: TUNE native Finger identity with authored ten-rank/INT/ordinary PvE kill scaling; verified native delay, grace and Scepter burst restored. Native alternative-punch restoration remains OPEN. No Elite units/waves are authored under the current product contract.
+Expected cast/travel/impact/ongoing/cleanup behavior: cast snapshots base/INT/counter/upgrade and recipients; finite native beam/audio; one0.25second impact context;3second exact-source kill receipts; match-local death-persistent nondispellable capped20 counter. Dated source/mock evidence below; owner engine timing pending.
+Normal creep / elite / boss, immunity / dispel / resistance rules: ordinary living enemy/nonbuilding/nonimmune eligibility with revalidation. Normal creeps/Bosses share authored values; no hero-skill Boss exception. Armor/resistance and actual native targeting/control interactions remain owner engine gates; no Elite spawn.
 Current versus target rank curve; free rank / point cost: PENDING.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
+Shard / Scepter / Blessing / Evolution / Ascended interactions: R Scepter+100damage/325splash, existing manager/inventory/consumed/Blessing detection; generic Lion ultimate amplification/CDR disabled. Shard belongs to E. Native punch/Scepter duration/cleave not implemented yet.
 
 ### Resource and implementation evidence
 
@@ -248,21 +248,21 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Dated source/mock review below; actual Dota acceptance pending. |
+| Targeting | PENDING | Dated source/mock review below; actual Dota acceptance pending. |
 | Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
-| Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
-| Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
-| Performance | PENDING | Not evaluated in this dossier setup. |
-| Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | PENDING | Not evaluated in this dossier setup. |
+| VFX | PENDING | Dated source/mock review below; actual Dota acceptance pending. |
+| SFX | PENDING | Dated source/mock review below; actual Dota acceptance pending. |
+| Animation | PENDING | Dated source/mock review below; actual Dota acceptance pending. |
+| Modifiers | PENDING | Dated source/mock review below; actual Dota acceptance pending. |
+| Precache | PENDING | Dated source/mock review below; actual Dota acceptance pending. |
+| Cleanup | PENDING | Dated source/mock review below; actual Dota acceptance pending. |
+| Boss | PENDING | Dated source/mock review below; actual Dota acceptance pending. |
+| Upgrades | PENDING | Dated source/mock review below; actual Dota acceptance pending. |
+| Localization | PENDING | Dated source/mock review below; actual Dota acceptance pending. |
+| Performance | PENDING | Dated source/mock review below; actual Dota acceptance pending. |
+| Reconnect | PENDING | Dated source/mock review below; actual Dota acceptance pending. |
+| VConsole | PENDING | Dated source/mock review below; actual Dota acceptance pending. |
 
 Change/test record: all five abilities now expose ten KV ranks; the complete 200-ability Lua mock suite passes. This confirms static/mock behavior only; in-match Dota VFX, SFX, rank-up HUD, boss and VConsole acceptance remain PENDING.
 
@@ -562,3 +562,16 @@ TUNE: OnChannelFinish now finds the channel handle and destroys it only when val
 The full-suite smoke exposed an incomplete test double: CDOTA_Buff:Destroy previously only erased the handle and omitted OnDestroy. It now invokes teardown once and removes the slot only if still owned by that handle; this follows the verified API rather than weakening the interruption assertion. Full node tools/checks.mjs PASS,0 failures (TEMP/enfos-lion-drain-finish-checks.log), including all200 ability/modifier smoke execution. MCP FindModifierByName/GetAbility/GetParent/Destroy/OnChannelFinish and https://docs.moddota.com/lua_server/ verified; no foreign implementation/assets imported. Contributor Lich changes remain excluded.
 
 SOURCE/MOCK pass only. OWNER DOTA/VCONSOLE actual expiry/finish order, cleanup, overlapping/repeated channels and reconnect PENDING. Same-ability stale finish versus new cast session identity, final partial ticks and native mana policy remain OPEN; exact source ownership is not exact engine session certification. Whole Lion OPEN, native R punch still feasible pending implementation; no release yet.
+
+
+## R native alternative-punch research, 2026-10-03 — implementation OPEN
+
+Current source diagnosis: our R implements delayed burst/kill receipts but lacks native ALT_CASTABLE behavior and the subsequent melee empowerment. Installed scripts/npc/heroes/npc_dota_hero_lion.txt exposes punch_duration20 (+10 Scepter), punch_bonus_movespeed30, punch_attack_range250, punch_bonus_damage_base20/30/40, cleave_damage25 (+25 Scepter), cleave_starting_width150, cleave_ending_width350, cleave_distance650. These are native rank3 values, not an approved Enfos10-rank curve. Installed abilities_english lines1345-1357 describe the empowerment, AltCast disabling it, Scepter duration/cleave and0.25impact/3second grace. Current beam/burst/counter units remain source-tested; full native R parity is not complete.
+
+MCP verified server CDOTABaseAbility:ShouldAltCast returns the initial-cast choice; GetAltCastState returns mutable current state and must not substitute for a cast snapshot. Verified modifier APIs: MODIFIER_STATE_ATTACKS_ARE_MELEE59; MODIFIER_PROPERTY_ATTACK_RANGE_BASE_OVERRIDE114/GetModifierAttackRangeOverride; PREATTACK_BONUS_DAMAGE/GetModifierPreAttack_BonusDamage; MOVESPEED_BONUS_CONSTANT; ON_ATTACK_LANDED; TRANSLATE_ACTIVITY_MODIFIERS/GetActivityTranslationModifiers; TRANSLATE_ATTACK_SOUND/GetAttackSound. ATTACK_RANGE_OVERRIDE is not a verified enum. DoCleaveAttack is the8argument server function (attacker,target,ability,damage,startRadius,endRadius,distance,effectName), corroborated by https://docs.moddota.com/lua_server/. GetAttackCapability/SetAttackCapability exist, but safe restoration/overlap must be proven before using them; do not copy blind RANGED restoration from another hero.
+
+Exact installed resources decoded outside Dota with ValveResourceFormat Source2Viewer-CLI from game/dota/pak01_dir.vpk into TEMP/enfos-lion-punch-review and TEMP/enfos-lion-punch-model. Native fist buff: particles/units/heroes/hero_lion/lion_fistofdeath_buff.vpcf, SHA2565e66a98fbb54ee60af686ba317bda87c523ba8c7cf228b01b553950dd427eaae; preview PATTACH_POINT_FOLLOW attach_palm_l, continuous emitter and wisps children require explicit owner/destruction. CP3-6 literal setup and parent-to-child CP mappings are visible in source; native C++ dynamic CP20+ binding is not exposed and must not be guessed. Bank soundevents/game_sounds_heroes/game_sounds_lion.vsndevts SHA256b6c3d6a8e3a1e73cf4828774179aaece55d3e9db1cfd60023a52cbe22489767e declares Hero_Lion.Punch.PreAttack (finite whoosh) and Hero_Lion.Punch.Attack (finite impact/gore layers). Existing addon precaches the Lion soundbank but not the fist particles.
+
+Compiled models/heroes/lion/lion.vmdl_c SHA2563b6ce617689833b8b75871e846dc541b0e8eaaa60be951a6845bad640f27e1e8 decoded block source verifies attach_palm_l/wrist_L, attack_melee, attack_melee_punch and attack_melee_backhand animations with activity tag melee. Model-driven animation events refer to lion_base_attack_melee_blur.vpcf and lion_base_attack_melee_backhand_blur.vpcf; avoid duplicating these with guessed manual attack effects. No native standalone Lion cleave particle verified. Source decoding is FILE_VERIFIED only, not visual/audio engine acceptance; no foreign code or custom assets imported.
+
+Before implementation: classify TUNE native restoration with explicit PvE rank/stack policy; snapshot initial Alt choice, preserve target rules/absorb/delay/Scepter burst, own one recast-safe finite-duration modifier and continuous hand effect, prove attack type/range/animation/sound restoration and exact credit attribution without Boss exceptions or global scans. Add independent all-rank/source/death/Break/illusion/upgrade/recast/cleanup regressions, explicit precache and four-locale player descriptions. Engine C++ damage/event timing, rendered effect attachment and owner gameplay remain PENDING. Do not close whole Lion or release until remaining feasible source work is done.
