@@ -1,7 +1,7 @@
 {
   "Language": "English",
   "Tokens": {
-    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_Description": "Creates a {{length}}-long fire path with {{path_radius}} radius for {{duration}} seconds. Enemies inside take {{damage_per_sec}} + 70% Intelligence magical damage per second. The burn lingers for {{linger_duration}} seconds after its last application by the field. The path direction and damage are set when cast; existing fire persists if Jakiro dies. The burn cannot be dispelled and does not pierce debuff immunity.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_Description": "Creates a {{length}}-long fire path with {{path_radius}} radius for {{duration}} seconds. Enemies inside take {{damage_per_sec}} + 70% Intelligence magical damage per second. The burn lasts {{linger_duration}} seconds after the last field application and cannot be dispelled. Direction, damage and upgrades are set when cast; existing fire persists if Jakiro dies. Without Scepter, does not pierce debuff immunity. With Scepter, lasts {{scepter_duration_bonus}} seconds longer and deals pure damage that pierces debuff immunity.",
     "npc_dota_custom_fountain": "Recovery Fountain",
     "enfos_sametc_addon_title": "Enfos Team Survival — SametC Edition",
     "enfos_sametc_addon_description": "A modern Enfo-inspired PvEvP survival custom game.",
@@ -551,7 +551,7 @@
     "DOTA_Tooltip_Ability_enfos_puck_faerie_magic_shard_description": "+15% spell amplification.",
     "DOTA_Tooltip_Ability_enfos_lion_finger_of_death_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
     "DOTA_Tooltip_Ability_enfos_lion_demon_soul_shard_description": "Outgoing healing +25%.",
-    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_scepter_description": "Macropyre lasts 5 seconds longer and deals pure damage that pierces debuff immunity.",
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_shard_description": "Outgoing healing +25%.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Lore": "A razor-sharp coat of mail, it is the choice of selfless martyrs in combat.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note0": "Damage Return is calculated before any kind of reduction.",
@@ -1467,7 +1467,7 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow": "Liquid Fire",
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "Attack speed -%dMODIFIER_PROPERTY_TOOLTIP%. Magical damage per second: %fMODIFIER_PROPERTY_TOOLTIP2%. Can be dispelled to end the burn.",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn": "Macropyre",
-    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "Burning. Magical damage per second: %fMODIFIER_PROPERTY_TOOLTIP%. Cannot be dispelled.",
+    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "Burning. Damage per second: %fMODIFIER_PROPERTY_TOOLTIP%. Magical for an ordinary cast; pure and piercing debuff immunity for a Scepter-enhanced cast. Cannot be dispelled.",
     "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_shard_description": "Liquid Fire no longer costs mana with Aghanim’s Shard."
   }
 }

@@ -1,7 +1,7 @@
 {
   "Language": "SChinese",
   "Tokens": {
-    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_Description": "创造一条长度为{{length}}、半径为{{path_radius}}的火焰路径，持续{{duration}}秒。区域内敌人每秒受到{{damage_per_sec}} + 智力的70%的魔法伤害。区域最后一次施加燃烧后，燃烧还会持续{{linger_duration}}秒。方向和伤害在施法时确定；杰奇洛死亡后已有火焰仍然存在。燃烧无法驱散，也不无视减益免疫。",
+    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_Description": "创造长度为{{length}}、半径为{{path_radius}}的火焰路径，持续{{duration}}秒。敌人每秒受到{{damage_per_sec}} + 智力的70%的魔法伤害。不可驱散的燃烧在区域最后一次施加后持续{{linger_duration}}秒。方向、伤害和升级在施法时确定，杰奇洛死亡后已有火焰仍然存在。没有神杖时不无视减益免疫；拥有神杖时持续时间增加{{scepter_duration_bonus}}秒，造成无视减益免疫的纯粹伤害。",
     "npc_dota_custom_fountain": "恢复泉水",
     "enfos_sametc_addon_title": "恩佛斯团队生存 — SametC版",
     "enfos_sametc_addon_description": "一款受经典Enfo启发的现代PvEvP生存自定义游戏。",
@@ -507,7 +507,7 @@
     "DOTA_Tooltip_Ability_enfos_puck_faerie_magic_shard_description": "+15%法术增强。",
     "DOTA_Tooltip_Ability_enfos_lion_finger_of_death_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
     "DOTA_Tooltip_Ability_enfos_lion_demon_soul_shard_description": "施加的治疗效果+25%。",
-    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
+    "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_scepter_description": "烈焰焚身持续时间增加5秒，造成无视减益免疫的纯粹伤害。",
     "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_shard_description": "施加的治疗效果+25%。",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Lore": "覆盖着尖锐剃刀的盔甲，战斗中可以用来做出不顾自身安危的烈士行为。",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note0": "反弹的均为减免前的伤害。",
@@ -1407,7 +1407,7 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow": "液态火",
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "攻击速度-%dMODIFIER_PROPERTY_TOOLTIP%。每秒魔法伤害：%fMODIFIER_PROPERTY_TOOLTIP2%。可驱散以终止燃烧。",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn": "烈焰焚身",
-    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "燃烧中。每秒魔法伤害：%fMODIFIER_PROPERTY_TOOLTIP%。无法驱散。",
+    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "燃烧中。每秒伤害：%fMODIFIER_PROPERTY_TOOLTIP%。普通施法造成魔法伤害；神杖强化的施法造成无视减益免疫的纯粹伤害。无法驱散。",
     "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_shard_description": "拥有阿哈利姆魔晶后，液态火不再消耗魔法。"
   }
 }

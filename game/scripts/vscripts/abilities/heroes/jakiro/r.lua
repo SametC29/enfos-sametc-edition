@@ -18,7 +18,8 @@ function enfos_jakiro_macropyre:OnSpellStart()
     if dir:Length2D()<1 then dir=c:GetForwardVector();dir.z=0 end
     if dir:Length2D()<1 then return end
     dir=dir:Normalized()
-    local params={duration=positive(self,'duration',10),dir_x=dir.x,dir_y=dir.y,
+    local scepter=require('heroes/aghanim_manager'):HasScepter(c)
+    local params={pierce=scepter and 1 or 0,damage_type=scepter and DAMAGE_TYPE_PURE or DAMAGE_TYPE_MAGICAL,duration=positive(self,'duration',10)+(scepter and positive(self,'scepter_duration_bonus',5) or 0),dir_x=dir.x,dir_y=dir.y,
         length=positive(self,'length',1400),radius=positive(self,'path_radius',250),
         linger=positive(self,'linger_duration',1),interval=positive(self,'burn_interval',0.5),dps=value(self,'damage_per_sec')+get_int(c)*0.7}
     c:EmitSound('Hero_Jakiro.Macropyre.Cast')
@@ -35,6 +36,8 @@ function modifier_enfos_jakiro_macropyre_zone:OnCreated(params)
     if not valid(c) or not valid(a) or not valid(parent) then self:Destroy();return end
     params=params or {}
     self.closed=false
+    self.pierce=tonumber(params.pierce)==1
+    self.damage_type=tonumber(params.damage_type) or DAMAGE_TYPE_MAGICAL
     self.origin=parent:GetAbsOrigin()
     self.last=self.origin+Vector(tonumber(params.dir_x) or 1,tonumber(params.dir_y) or 0,0)*(tonumber(params.length) or 1400)
     self.radius=tonumber(params.radius) or positive(a,'path_radius',250)
@@ -48,8 +51,8 @@ function modifier_enfos_jakiro_macropyre_zone:OnCreated(params)
     ParticleManager:SetParticleControl(self.particle,2,Vector(self.duration,0,0))
     ParticleManager:SetParticleControl(self.particle,4,Vector(self.radius,0,0))
     self:StartIntervalThink(self.tick)
-    HeroTrace:Log('JAKIRO','R','path_created origin=%s end=%s radius=%s duration=%s dps=%s',
-        tostring(self.origin),tostring(self.last),tostring(self.radius),tostring(self.duration),tostring(self.dps))
+    HeroTrace:Log('JAKIRO','R','path_created origin=%s end=%s radius=%s duration=%s dps=%s type=%s pierce=%s',
+        tostring(self.origin),tostring(self.last),tostring(self.radius),tostring(self.duration),tostring(self.dps),tostring(self.damage_type),tostring(self.pierce))
     self:OnIntervalThink()
 end
 function modifier_enfos_jakiro_macropyre_zone:OnIntervalThink()
@@ -58,12 +61,12 @@ function modifier_enfos_jakiro_macropyre_zone:OnIntervalThink()
     if not valid(c) or not valid(a) or not valid(parent) then self:Destroy();return end
     if self:GetElapsedTime()>=self.duration then self:Destroy();return end
     local targets=FindUnitsInLine(c:GetTeamNumber(),self.origin,self.last,nil,self.radius,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_BASIC,DOTA_UNIT_TARGET_FLAG_NONE) or {}
+        DOTA_UNIT_TARGET_TEAM_ENEMY,DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_BASIC,self.pierce and DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES or DOTA_UNIT_TARGET_FLAG_NONE) or {}
     for _,u in ipairs(targets) do
         if self.closed then return end
         if not valid(c) or not valid(a) or not valid(parent) then self:Destroy();return end
-        if valid(u) and u:IsAlive() and u:GetTeamNumber()~=c:GetTeamNumber() and not immune(u) then
-            u:AddNewModifier(c,a,'modifier_enfos_jakiro_macropyre_burn',{duration=self.linger,dps=self.dps,interval=self.tick})
+        if valid(u) and u:IsAlive() and u:GetTeamNumber()~=c:GetTeamNumber() and (self.pierce or not immune(u)) then
+            u:AddNewModifier(c,a,'modifier_enfos_jakiro_macropyre_burn',{duration=self.linger,dps=self.dps,interval=self.tick,damage_type=self.damage_type,pierce=self.pierce and 1 or 0})
         end
     end
 end
@@ -95,30 +98,34 @@ function modifier_enfos_jakiro_macropyre_burn:DealThrough(elapsed)
     local slice=math.max(0,stop-(self.last_elapsed or stop))
     self.last_elapsed=stop
     local p,c,a=self:GetParent(),self:GetCaster(),self:GetAbility()
-    if slice<=0 or not valid(p) or not valid(c) or not valid(a) or not p:IsAlive() or p:GetTeamNumber()==c:GetTeamNumber() or immune(p) then return end
+    if slice<=0 or not valid(p) or not valid(c) or not valid(a) or not p:IsAlive() or p:GetTeamNumber()==c:GetTeamNumber() or (not self.pierce and immune(p)) then return end
     local requested=(self.dps or 0)*slice
-    local actual=damage(a,p,requested,DAMAGE_TYPE_MAGICAL) or 0
+    local actual=damage(a,p,requested,self.damage_type or DAMAGE_TYPE_MAGICAL) or 0
     self.requested_total=(self.requested_total or 0)+requested
     self.actual_total=(self.actual_total or 0)+actual
 end
 function modifier_enfos_jakiro_macropyre_burn:OnCreated(params)
     if not IsServer() then return end
     self.closed=false;self.dps=math.max(0,tonumber(params and params.dps) or 0)
+    self.damage_type=tonumber(params and params.damage_type) or DAMAGE_TYPE_MAGICAL
+    self.pierce=tonumber(params and params.pierce)==1
     self.last_elapsed=self:GetElapsedTime();self:ExtendExpiry(params)
     self:SetHasCustomTransmitterData(true)
     self:StartIntervalThink(math.max(0.1,tonumber(params and params.interval) or 0.5))
-    HeroTrace:Log('JAKIRO','R','burn_applied target=%s dps=%s',HeroTrace:Name(self:GetParent()),tostring(self.dps))
+    HeroTrace:Log('JAKIRO','R','burn_applied target=%s dps=%s type=%s pierce=%s',HeroTrace:Name(self:GetParent()),tostring(self.dps),tostring(self.damage_type),tostring(self.pierce))
 end
 function modifier_enfos_jakiro_macropyre_burn:OnRefresh(params)
     if not IsServer() or self.closed then return end
     local c,a,p=self:GetCaster(),self:GetAbility(),self:GetParent()
     if not valid(c) or not valid(a) or not valid(p) or not p:IsAlive() then self:Destroy();return end
     local dps=math.max(0,tonumber(params and params.dps) or self.dps)
-    if dps~=self.dps then
+    local kind=tonumber(params and params.damage_type) or DAMAGE_TYPE_MAGICAL
+    local pierce=tonumber(params and params.pierce)==1
+    if dps~=self.dps or kind~=self.damage_type or pierce~=self.pierce then
         self:DealThrough(self:GetElapsedTime())
         if self.closed then return end
         if not valid(c) or not valid(a) or not valid(p) or not p:IsAlive() then self:Destroy();return end
-        self.dps=dps;self.last_elapsed=self:GetElapsedTime()
+        self.dps=dps;self.damage_type=kind;self.pierce=pierce;self.last_elapsed=self:GetElapsedTime()
         self:SendBuffRefreshToClients()
     end
     -- Reapplying the same burn never restarts its tick or grants an extra burst.
