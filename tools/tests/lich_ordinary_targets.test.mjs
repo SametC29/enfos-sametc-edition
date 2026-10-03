@@ -262,6 +262,7 @@ test('Lich shield mitigation cannot outlive valid allied ownership between pulse
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t) t.__index=t;return t end
 function LinkLuaModifier() end
+DOTA_DAMAGE_CATEGORY_ATTACK=1;DOTA_DAMAGE_CATEGORY_SPELL=0
 require('abilities/heroes/lich/w')
 local rank,sourceRemoved,recipientRemoved,abilityRemoved,recipientAlive,sourceAlive,recipientTeam=1,false,false,false,true,true,2
 local reductions={${curve('enfos_lich_frost_shield','damage_reduction')}}
@@ -275,18 +276,24 @@ local a={IsNull=function() return abilityRemoved end,GetSpecialValueFor=function
 end}
 local m=setmetatable({GetCaster=function() return c end,GetParent=function() return p end,
   GetAbility=function() return a end},modifier_enfos_lich_frost_shield)
-for i=1,10 do rank=i;assert(m:GetModifierIncomingPhysicalDamage_Percentage()==-reductions[i]) end
+for i=1,10 do rank=i;assert(m:GetModifierIncomingDamage_Percentage({damage_category=DOTA_DAMAGE_CATEGORY_ATTACK})==-reductions[i]) end
+assert(m:GetModifierIncomingDamage_Percentage({damage_category=DOTA_DAMAGE_CATEGORY_SPELL,damage_type=1})==0,'Physical spells do not qualify as attacks')
+assert(m:GetModifierIncomingDamage_Percentage(nil)==0 and m:GetModifierIncomingDamage_Percentage({})==0,'Missing attack category does not grant protection')
+for _,kind in ipairs({1,2,4}) do
+ assert(m:GetModifierIncomingDamage_Percentage({damage_category=DOTA_DAMAGE_CATEGORY_ATTACK,damage_type=kind})==-reductions[rank],'Attack classification governs protection independently of physical/magical/pure type')
+end
+assert(m:OnTooltip()==reductions[rank],'Live shield tooltip exposes mitigation independently of combat event')
 recipientTeam=3
-assert(m:GetModifierIncomingPhysicalDamage_Percentage()==0,'Enemy recipient must immediately lose friendly protection, before next pulse')
+assert(m:GetModifierIncomingDamage_Percentage({damage_category=DOTA_DAMAGE_CATEGORY_ATTACK})==0,'Enemy recipient must immediately lose friendly protection, before next pulse')
 recipientTeam=2;sourceRemoved=true
-assert(m:GetModifierIncomingPhysicalDamage_Percentage()==0,'Removed caster cannot own shield protection')
+assert(m:GetModifierIncomingDamage_Percentage({damage_category=DOTA_DAMAGE_CATEGORY_ATTACK})==0,'Removed caster cannot own shield protection')
 sourceRemoved=false;recipientRemoved=true
-assert(m:GetModifierIncomingPhysicalDamage_Percentage()==0,'Removed recipient cannot retain protection')
+assert(m:GetModifierIncomingDamage_Percentage({damage_category=DOTA_DAMAGE_CATEGORY_ATTACK})==0,'Removed recipient cannot retain protection')
 recipientRemoved=false;recipientAlive=false
-assert(m:GetModifierIncomingPhysicalDamage_Percentage()==0,'Dead recipient cannot retain protection')
+assert(m:GetModifierIncomingDamage_Percentage({damage_category=DOTA_DAMAGE_CATEGORY_ATTACK})==0,'Dead recipient cannot retain protection')
 recipientAlive=true;sourceAlive=false
-assert(m:GetModifierIncomingPhysicalDamage_Percentage()==-reductions[rank],'Caster death does not cancel an existing finite allied shield')
-abilityRemoved=true;assert(m:GetModifierIncomingPhysicalDamage_Percentage()==0)
+assert(m:GetModifierIncomingDamage_Percentage({damage_category=DOTA_DAMAGE_CATEGORY_ATTACK})==-reductions[rank],'Caster death does not cancel an existing finite allied shield')
+abilityRemoved=true;assert(m:GetModifierIncomingDamage_Percentage({damage_category=DOTA_DAMAGE_CATEGORY_ATTACK})==0)
 print('Lich shield immediate ownership regression PASS')
 `;
   const result=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});

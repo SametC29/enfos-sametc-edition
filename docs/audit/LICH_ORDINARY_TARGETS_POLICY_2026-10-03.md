@@ -443,3 +443,61 @@ Validation: all9 focused Lich regressions PASS; cold-load isolation route includ
 the new W modifier and remains PASS; full working-tree checks0failed. Separately
 run the indexed historical hero suite with indexed E, excluding its contributor
 edits:352 regressions PASS with the new W module. No real Dota test was performed.
+
+## Native localization closes W mitigation comparison; cast identity corrected
+
+Extract the complete installed build6943
+`resource/localization/abilities_english.txt` outside the repo with Source2Viewer
+CLI19.2; the MCP200000-character read truncates this1,844,945-character file before
+the relevant Lich ability entries. Inspect the full extracted text instead.
+Native Frost Shield description explicitly says damage from attacks, not all
+physical damage. Its native modifier description agrees. These primary source
+texts resolve the earlier W mitigation comparison: TUNE native attack reduction,
+preserve the authored ten-rank percentages and shield ownership/lifetime.
+
+Replace the incoming-physical property with incoming-damage conditioned on the
+engine `DamageCategory_t.DOTA_DAMAGE_CATEGORY_ATTACK` event field. Verified
+Workshop API declares GetModifierIncomingDamage_Percentage(event), OnTooltip,
+and DamageCategory_t values SPELL0/ATTACK1/BARRIER2. No category or a spell/barrier
+event gives0; an attack may qualify independently of physical/magical/pure type.
+No Boss-specific policy or per-hit diagnostic logging is added. The live tooltip
+reads a separate guarded reduction getter via MODIFIER_PROPERTY_TOOLTIP; it does
+not depend on a combat event being available while hovering. Four-locale skill/
+buff texts now describe attacks and pulses, superseding historical physical-only
+text. Expanded real-module tests cover categories, missing data, live tooltip,
+all ranks and source/recipient ownership. Actual engine category/proc routing and
+damage ordering remain PENDING OWNER TEST, especially attack-associated spell
+procs and physical spells.
+
+Installed hero KV specifies Frost Nova ACT_DOTA_CAST_ABILITY_1, Frost Shield2,
+Sinister Gaze3 and Chain Frost6. Enfos R is in slot4, so relying on slot-derived
+animation loses the native ultimate activity. Set Q/W/R explicit verified
+activities1/2/6 without changing cast points or forcing Lua gestures.
+[KV animation documentation](https://moddota.com/abilities/ability-keyvalues#abilitycastanimation)
+confirms explicit activity selection. Q/W are explicit identity metadata, not
+claims that their prior default was visibly broken. Contributor E animation3 is
+already in the worktree and stays excluded from this commit. Observe Q/W/R casts
+on the actual Lich model; source activity presence does not certify animation.
+
+## Upgrade investigation — still open, not certified
+
+Full installed localization establishes native Scepter Gaze affects a target
+area and allows other abilities while channeling; KV aoe_scepter400. Current
+generic ulti40% damage/25% cooldown is not that feature. Native Ice Spire is an
+extra Shard ability: slowing totem, hero/creep hit counts4/8, duration15, death
+Frost Blast, a Chain Frost bounce/primary target and Frost Shield healing per
+pulse. Installed unit `npc_dota_lich_ice_spire` has model
+`models/heroes/lich/ice_spire.vmdl`, immobile/no attack/Other ward classification;
+its icon and root particles exist in VPK. Availability does not prove native C++
+integration with stable custom Q/W/R IDs or engine modifiers.
+
+Current Support Shard adds healing25%; `pulse_heal200` in role data is unused by
+the manager and none of Lich's five abilities heals. Items/other effects may use
+the amplification; do not falsely claim the item has no effect anywhere.
+Ask owner whether to add native-style extra Ice Spire or adapt existing five
+slots. No silent new ability, native alias, fake sixth passive, guessed resource
+binding or generic extra healing implementation is introduced while comparing
+the full interaction. Unique Shard/Scepter implementation and its resource/
+channel/reconnect acceptance remain open; they are not marked DONE by green
+regressions or purchase detection. The new source evidence is stronger than
+the earlier KV-only generic-upgrade comparison.

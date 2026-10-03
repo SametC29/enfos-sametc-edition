@@ -8877,13 +8877,13 @@ test('Lich Frost Shield stops pulses on allegiance change and gives no orphan mi
     a.IsNull=function() return removed end;a.GetCaster=function() return c end
     a.GetSpecialValueFor=function(_,k) assert(not removed,'Cannot read a removed ability');return k=='damage_reduction' and 40 or 30 end
     local m=p:AddNewModifier(c,a,'modifier_enfos_lich_frost_shield',{})
-    assert(m:GetModifierIncomingPhysicalDamage_Percentage()==-40)
+    assert(m:GetModifierIncomingDamage_Percentage({damage_category=DOTA_DAMAGE_CATEGORY_ATTACK})==-40)
     p.team=3;local destroyed=false;m.Destroy=function() destroyed=true end
     mock_world_units={c,p,enemy};applied_damages={};m:OnIntervalThink()
     assert(destroyed and #applied_damages==0,'Enemy recipient cannot emit allied protection pulses')
-    removed=true;assert(m:GetModifierIncomingPhysicalDamage_Percentage()==0,'Removed ability cannot provide protection')
+    removed=true;assert(m:GetModifierIncomingDamage_Percentage({damage_category=DOTA_DAMAGE_CATEGORY_ATTACK})==0,'Removed ability cannot provide protection')
     m.GetAbility=function() return nil end
-    assert(m:GetModifierIncomingPhysicalDamage_Percentage()==0,'Missing ability cannot provide the old fallback protection')
+    assert(m:GetModifierIncomingDamage_Percentage({damage_category=DOTA_DAMAGE_CATEGORY_ATTACK})==0,'Missing ability cannot provide the old fallback protection')
 end)
 
 test('Lich Frost Shield registers one recipient-bound native particle without recast duplication',function()

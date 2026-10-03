@@ -115,12 +115,21 @@ end
 function modifier_enfos_lich_frost_shield_slow:OnCreated() shield_slow_trace(self,'slow_created') end
 function modifier_enfos_lich_frost_shield_slow:OnRefresh() shield_slow_trace(self,'slow_refreshed') end
 function modifier_enfos_lich_frost_shield_slow:OnDestroy() shield_slow_trace(self,'slow_removed') end
-function modifier_enfos_lich_frost_shield:DeclareFunctions() return { MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE } end
-function modifier_enfos_lich_frost_shield:GetModifierIncomingPhysicalDamage_Percentage()
+function modifier_enfos_lich_frost_shield:DeclareFunctions()
+    return { MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE, MODIFIER_PROPERTY_TOOLTIP }
+end
+function modifier_enfos_lich_frost_shield:GetShieldReduction()
     local p, c, ab = self:GetParent(), self:GetCaster(), self:GetAbility()
     -- Property evaluation may precede the next pulse's ownership/cleanup check.
     if not p or p:IsNull() or not p:IsAlive() or not c or c:IsNull()
         or p:GetTeamNumber() ~= c:GetTeamNumber()
         or not ab or (ab.IsNull and ab:IsNull()) then return 0 end
-    return -value(ab, 'damage_reduction')
+    return value(ab, 'damage_reduction')
 end
+function modifier_enfos_lich_frost_shield:GetModifierIncomingDamage_Percentage(event)
+    -- Native Frost Shield mitigates attacks, not every physical damage source.
+    -- Missing event data is not evidence that a spell was an attack.
+    if not event or event.damage_category == nil or event.damage_category ~= DOTA_DAMAGE_CATEGORY_ATTACK then return 0 end
+    return -self:GetShieldReduction()
+end
+function modifier_enfos_lich_frost_shield:OnTooltip() return self:GetShieldReduction() end
