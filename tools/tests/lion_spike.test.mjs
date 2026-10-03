@@ -1,6 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
 import {spawnSync,execFileSync} from 'node:child_process';import {parseKV} from '../lib/kv.mjs';
 test('Lion travelling Earth Spike snapshots damage, preserves ordinary control and closes finite resources',()=>{
+ const values=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.txt','utf8')).DOTAAbilities.enfos_lion_earth_spike.AbilityValues;
  const baseline=process.env.LION_SPIKE_BASELINE?execFileSync('git',['show','HEAD:game/scripts/vscripts/abilities/heroes/lion/q.lua'],{encoding:'utf8'}):null;
  const script=`
 package.path='game/scripts/vscripts/?.lua;'..package.path
@@ -25,7 +26,9 @@ local function unit(team)
  local t={team=team,health=100000,int=100,pos=Vector(0,0,0),mods={}}
  function t:IsNull()return self.removed end;function t:IsAlive()return self.health>0 end;function t:GetTeamNumber()return self.team end
  function t:GetAbsOrigin()return self.pos end;function t:GetForwardVector()return Vector(0,1,0)end;function t:GetIntellect()return self.int end
- function t:IsMagicImmune()return self.magic end;function t:IsDebuffImmune()return self.debuff end
+ function t:IsMagicImmune()return self.magic end;function t:IsDebuffImmune()return self.debuff end;function t:IsBuilding()return self.building end
+ function t:TriggerSpellAbsorb()error('Native Earth Spike must not trigger spell block')end
+ function t:TriggerSpellReflect()error('Native Earth Spike must not trigger spell reflect')end
  function t:EmitSound(s)assert(s=='Hero_Lion.Impale' or s=='Hero_Lion.ImpaleHitTarget');if onSound then onSound()end end
  function t:AddNewModifier(c,a,n,p)assert(n=='modifier_enfos_lion_earth_spike_stun');self.mods[#self.mods+1]={c=c,a=a,p=p}end
  return t
@@ -42,9 +45,36 @@ local normal,boss=unit(3),unit(3);boss.isBoss=true
 assert(a:OnProjectileHit_ExtraData(normal,nil,w.ExtraData)==false);assert(a:OnProjectileHit_ExtraData(boss,nil,w.ExtraData)==false)
 assert(damages[1].damage==230 and damages[2].damage==230 and normal.mods[1].p.duration==boss.mods[1].p.duration and boss.mods[1].p.duration==1.2)
 assert(particles[1].pos==normal.pos and particles[2].pos==boss.pos and releases[1] and releases[2])
-for _,mode in ipairs({'friendly','dead','removed','magic','debuff'})do
- local t=unit(mode=='friendly' and 2 or 3);if mode=='dead' then t.health=0 elseif mode=='removed' then t.removed=true elseif mode=='magic' then t.magic=true elseif mode=='debuff' then t.debuff=true end
+local rankedDamage={${values.damage.split(/\s+/).join(',')}};local rankedStun={${values.stun_duration.split(/\s+/).join(',')}}
+for rank=1,10 do
+ for _,intellect in ipairs({0,50,100,1000})do
+  for _,isBoss in ipairs({false,true})do
+   c.int=intellect;a.values.damage=rankedDamage[rank];a.values.stun_duration=rankedStun[rank]
+   local enemy=unit(3);enemy.isBoss=isBoss;a.target=enemy;a:OnSpellStart();local flight=waves[#waves]
+   local h=#damages;assert(not a:OnProjectileHit_ExtraData(enemy,nil,flight.ExtraData))
+   assert(#damages==h+1 and damages[#damages].damage==rankedDamage[rank]+intellect*${values.int_scaling_pct}/100)
+   assert(#enemy.mods==1 and enemy.mods[1].p.duration==rankedStun[rank],'Same ordinary ranked control for Boss and normal target')
+  end
+ end
+end
+c.int=900;a.values.damage=480;a.values.stun_duration=2.4;a.target=nil
+for _,mode in ipairs({'friendly','dead','removed','magic','debuff','building'})do
+ local t=unit(mode=='friendly' and 2 or 3);if mode=='dead' then t.health=0 elseif mode=='removed' then t.removed=true elseif mode=='magic' then t.magic=true elseif mode=='debuff' then t.debuff=true elseif mode=='building' then t.building=true end
  local n=#damages;assert(a:OnProjectileHit_ExtraData(t,nil,w.ExtraData)==false and #damages==n and #t.mods==0,mode)
+end
+-- Team/type changes in callbacks cannot turn an ordinary enemy impact into friendly/building damage or control.
+for _,phase in ipairs({'particle','sound','damage'})do
+ for _,mode in ipairs({'target friendly','caster team changed','target building'})do
+  local enemy=unit(3);local before=#damages;local oldTeam=c.team
+  local function change()
+   if mode=='target friendly' then enemy.team=c.team elseif mode=='caster team changed' then c.team=enemy.team else enemy.building=true end
+  end
+  if phase=='particle' then onParticle=change elseif phase=='sound' then onSound=change else onDamage=change end
+  assert(a:OnProjectileHit_ExtraData(enemy,nil,w.ExtraData)==false)
+  onParticle=nil;onSound=nil;onDamage=nil;c.team=oldTeam
+  assert(#damages==before+(phase=='damage' and 1 or 0),'No damage after ordinary target rules change: '..phase..' '..mode)
+  assert(#enemy.mods==0,'No stun after ordinary target rules change: '..phase..' '..mode)
+ end
 end
 local t=unit(3);t.health=1;assert(not a:OnProjectileHit_ExtraData(t,nil,w.ExtraData) and #t.mods==0,'Lethal damage cannot attach stun to corpse')
 local t2=unit(3);onDamage=function()t2.removed=true end;a:OnProjectileHit_ExtraData(t2,nil,w.ExtraData);onDamage=nil;assert(#t2.mods==0)
@@ -60,7 +90,7 @@ onSound=function()a.removed=true end;a:OnSpellStart();onSound=nil;assert(#waves=
 local stun=modifier_enfos_lion_earth_spike_stun;assert(stun:IsDebuff() and not stun:IsPurgable() and stun:IsPurgeException() and stun:GetTexture()=='lion_impale' and stun:CheckState()[9])
 print('Lion Spike PASS')
 `;
- const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});assert.equal(r.status,0,r.stderr);assert.match(r.stdout,/Lion Spike PASS/);
+ const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:script,encoding:'utf8'});assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');assert.match(r.stdout,/Lion Spike PASS/);
  const kv=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.txt','utf8')).DOTAAbilities.enfos_lion_earth_spike;
  assert.equal(kv.AbilityValues.width,'140');assert.equal(kv.AbilityValues.speed,'2800');assert.equal(kv.AbilityValues.length_buffer,'275');
  assert.ok(!('radius' in kv.AbilityValues)&&!('distance' in kv.AbilityValues));assert.equal(kv.SpellDispellableType,'SPELL_DISPELLABLE_YES_STRONG');

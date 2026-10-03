@@ -6,6 +6,12 @@ local function valid(x) return x and not (x.IsNull and x:IsNull()) end
 local function immune(t)
     return (t.IsDebuffImmune and t:IsDebuffImmune()) or (t.IsMagicImmune and t:IsMagicImmune())
 end
+local function eligible(c,t)
+    -- A launched spike survives caster death; ordinary recipient rules stay live.
+    return valid(c) and valid(t) and t:IsAlive()
+        and t:GetTeamNumber()~=c:GetTeamNumber()
+        and not (t.IsBuilding and t:IsBuilding()) and not immune(t)
+end
 local function positive(a,k,fallback) local n=H.value(a,k);return n>0 and n or fallback end
 
 enfos_lion_earth_spike=class({})
@@ -42,7 +48,7 @@ function enfos_lion_earth_spike:OnProjectileHit_ExtraData(t,location,data)
     if not t then Trace:Log('LION','Q','projectile_finished cleanup=engine');return true end
     local c=self:GetCaster()
     if not valid(c) then return true end
-    if not valid(t) or not t:IsAlive() or t:GetTeamNumber()==c:GetTeamNumber() or immune(t) then
+    if not eligible(c,t) then
         Trace:Log('LION','Q','impact_skipped target=%s reason=ordinary_target_gate',Trace:Name(t))
         return false
     end
@@ -51,11 +57,11 @@ function enfos_lion_earth_spike:OnProjectileHit_ExtraData(t,location,data)
     local p=ParticleManager:CreateParticle('particles/units/heroes/hero_lion/lion_spell_impale_hit_spikes.vpcf',PATTACH_WORLDORIGIN,t)
     ParticleManager:SetParticleControl(p,0,origin)
     ParticleManager:ReleaseParticleIndex(p) -- Installed instantaneous emitter, finite4.5s lifetime.
-    if not valid(self) or not valid(c) or not valid(t) or not t:IsAlive() or immune(t) then return false end
+    if not valid(self) or not eligible(c,t) then return false end
     t:EmitSound('Hero_Lion.ImpaleHitTarget')
-    if not valid(self) or not valid(c) or not valid(t) or not t:IsAlive() or immune(t) then return false end
+    if not valid(self) or not eligible(c,t) then return false end
     local dealt=H.damage(self,t,tonumber(data.damage),DAMAGE_TYPE_MAGICAL) or 0
-    if valid(self) and valid(c) and valid(t) and t:IsAlive() and not immune(t) and tonumber(data.stun_duration)>0 then
+    if valid(self) and eligible(c,t) and tonumber(data.stun_duration)>0 then
         t:AddNewModifier(c,self,'modifier_enfos_lion_earth_spike_stun',{duration=tonumber(data.stun_duration)})
     end
     Trace:Log('LION','Q','impact target=%s requested=%s actual=%s stun_requested=%s',
