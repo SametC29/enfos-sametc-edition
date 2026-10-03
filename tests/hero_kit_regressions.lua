@@ -80,6 +80,8 @@ DOTA_DAMAGE_FLAG_IGNORES_PHYSICAL_ARMOR = 128
 DOTA_DAMAGE_CATEGORY_ATTACK = 1
 DOTA_DAMAGE_CATEGORY_SPELL = 2
 PATTACH_ABSORIGIN_FOLLOW = 'mock_absorigin_follow'
+PATTACH_POINT_FOLLOW = 'mock_point_follow'
+PATTACH_WORLDORIGIN = 'mock_worldorigin'
 MODIFIER_STATE_CANNOT_MISS = 'mock_cannot_miss'
 
 ParticleManager = {
@@ -377,7 +379,7 @@ test('Sven Great Cleave delegates native damage and visuals with tuned widths an
     DoCleaveAttack,ParticleManager.CreateParticle=oldCleave,oldCreate
 end)
 
-test('Luna Moon Glaives bounces across consecutive targets with 15% falloff', function()
+test('Luna Moon Glaives chains sequential tracking-projectile impacts with 15% falloff', function()
     applied_damages = {}
     local luna = create_mock_unit('npc_dota_hero_luna', 2, Vector(0, 0, 0))
     local c1 = create_mock_unit('enfos_creep_1', 3, Vector(100, 0, 0))
@@ -388,12 +390,13 @@ test('Luna Moon Glaives bounces across consecutive targets with 15% falloff', fu
     local ab = enfos_luna_moon_glaives()
     ab.GetLevel = function() return 4 end
     ab.GetSpecialValueFor=function(_,key) return key=='bounce_count' and 6 or 0 end
+    ab.GetCaster = function() return luna end
 
     local mod = setmetatable({
         GetParent = function() return luna end,
         GetAbility = function() return ab end
     }, modifier_enfos_luna_moon_glaives_passive)
-    ab.GetCaster = function() return luna end
+
     local previous_projectile = ProjectileManager.CreateTrackingProjectile
     local glaive_projectiles = {}
     ProjectileManager.CreateTrackingProjectile = function(_, options)
@@ -401,24 +404,23 @@ test('Luna Moon Glaives bounces across consecutive targets with 15% falloff', fu
         return #glaive_projectiles
     end
 
-    mod:OnAttackLanded({
-        attacker = luna,
-        target = c1
-    })
+    mod:OnAttackLanded({ attacker = luna, target = c1 })
+    assert(#applied_damages == 0 and #glaive_projectiles == 1,
+        'Only the first bounce projectile should exist before its impact')
 
-    -- c1 was hit by basic attack. Glaive bounces: c1 -> c2 -> c3
-    assert(#applied_damages == 0 and #glaive_projectiles == 2,
-        'Glaive damage must wait for the tracking projectile impacts')
     ab:OnProjectileHit_ExtraData(c2, c2:GetAbsOrigin(), glaive_projectiles[1].ExtraData)
+    assert(#applied_damages == 1 and #glaive_projectiles == 2,
+        'First impact must deal damage and launch the next bounce')
+
     ab:OnProjectileHit_ExtraData(c3, c3:GetAbsOrigin(), glaive_projectiles[2].ExtraData)
     ProjectileManager.CreateTrackingProjectile = previous_projectile
-    assert(#applied_damages == 2, 'Glaive projectiles must apply damage on impact')
-    assert(applied_damages[1].victim == c2, 'First bounce must hit c2')
-    assert(applied_damages[2].victim == c3, 'Second bounce must hit c3')
+
+    assert(#applied_damages == 2, 'Two sequential impacts should deal two bounce hits')
+    assert(applied_damages[1].victim == c2 and applied_damages[2].victim == c3)
     local expected_dmg1 = 100 * 0.85
     local expected_dmg2 = expected_dmg1 * 0.85
-    assert(math.abs(applied_damages[1].damage - expected_dmg1) < 0.01, 'Bounce 1 should apply 85% damage')
-    assert(math.abs(applied_damages[2].damage - expected_dmg2) < 0.01, 'Bounce 2 should apply 85% * 85% damage')
+    assert(math.abs(applied_damages[1].damage - expected_dmg1) < 0.01)
+    assert(math.abs(applied_damages[2].damage - expected_dmg2) < 0.01)
 end)
 
 test('Luna Lucent Beam applies Agility scaling and triggers Lunar Resonance on nearby foes', function()
@@ -447,14 +449,14 @@ test('Luna Lucent Beam applies Agility scaling and triggers Lunar Resonance on n
     assert(applied_damages[2].victim == neighbor and applied_damages[2].damage == 330)
 end)
 
-test('Luna Eclipse uses its own ranked beam value and caps total boss damage per cast', function()
+test('Luna Eclipse applies its own ranked beam value to Boss targets without authored Boss caps', function()
     applied_damages = {}
     local luna = create_mock_unit('npc_dota_hero_luna', 2, Vector(0, 0, 0))
     local boss = create_mock_unit('enfos_boss_luna_test', 3, Vector(100, 0, 0), 1000)
     mock_world_units = { luna, boss }
     local eclipse = enfos_luna_eclipse()
     eclipse.GetSpecialValueFor = function(_, key)
-        local values = { radius = 750, beam_damage = 730, boss_damage_pct = 10, max_hits_per_target = 6 }
+        local values = { radius = 750, beam_damage = 730, max_hits_per_target = 6, beam_interval = 0.3 }
         return values[key] or 0
     end
     local thinker = setmetatable({
@@ -465,8 +467,31 @@ test('Luna Eclipse uses its own ranked beam value and caps total boss damage per
     thinker:OnCreated()
     thinker:OnIntervalThink()
     thinker:OnIntervalThink()
-    assert(#applied_damages == 1 and applied_damages[1].damage == 100,
-        'Eclipse uses its own damage rank and cannot exceed the configured per-cast boss cap')
+    assert(#applied_damages == 2, 'Two eligible Eclipse intervals should deal two hits')
+    assert(applied_damages[1].damage == 730 and applied_damages[2].damage == 730,
+        'Boss targets must use the ordinary Eclipse beam formula')
+end)
+
+test('Luna Lunar Blessing source aura shuts off under Break and at rank zero', function()
+    local luna = create_mock_unit('npc_dota_hero_luna', 2, Vector(0, 0, 0))
+    local broken = false
+    luna.PassivesDisabled = function() return broken end
+    local ab = enfos_luna_lunar_blessing()
+    local rank = 1
+    ab.GetLevel = function() return rank end
+    ab.GetSpecialValueFor = function(_, key) return key == 'radius' and 1200 or 10 end
+    local mod = setmetatable({
+        GetParent = function() return luna end,
+        GetCaster = function() return luna end,
+        GetAbility = function() return ab end,
+    }, modifier_enfos_luna_lunar_blessing)
+
+    assert(mod:IsAura() == true and mod:GetAuraRadius() == 1200)
+    broken = true
+    assert(mod:IsAura() == false and mod:GetAuraRadius() == 0, 'Break must disable the source aura')
+    broken = false
+    rank = 0
+    assert(mod:IsAura() == false and mod:GetAuraRadius() == 0, 'Rank-zero aura must stay inactive')
 end)
 
 test('Luna Lunar Orbit pulses physical damage scaling with Agility and cleans up particle', function()
