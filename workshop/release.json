@@ -1,9 +1,9 @@
 {
   "appid": "570",
   "publishedfileid": "3809160125",
-  "version": "1.0.12",
-  "title": "Enfos Team Survival - SametC Edition V1.0.12",
-  "changenote": "V1.0.12 - Individual hero repairs and tooltip updates, including Shadow Shaman channel lifecycle and ward upgrades, and Tidehunter Kraken Shell, piercing Gush Scepter, reactive Anchor Smash Shard and expanding Ravage impacts. Includes reviewed Sven and other hero corrections since the previous release. Talent/account progression remains retired. Automated validation passed; Dota gameplay, visuals, audio and balance acceptance remain pending owner testing. Published at the owner's explicit request.",
+  "version": "1.0.13",
+  "title": "Enfos Team Survival - SametC Edition V1.0.13",
+  "changenote": "V1.0.13 - Individual Lich, Vengeful Spirit and Jakiro source repairs and localized tooltips. Jakiro Dual Breath, Ice Path, Liquid Fire/Frost, native-inspired paired Shard and Macropyre Scepter reviewed; isolated modifiers, bounded cleanup and traces. Fixed diagnostic convar startup failure. Automated validation passed; actual Dota gameplay, VFX/audio, HUD and balance acceptance remain pending owner testing. Published at the owner's explicit request.",
   "visibility": "0",
   "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3809160125"
 }
