@@ -208,3 +208,27 @@ Client expectation: all three lua_global fields true and no new unknown Luna
 modifier warnings. A trailing server_context_unavailable on the client is normal.
 Verify actual Q/R damage, E armor/speed, HUD and respawn separately. No publication,
 remote push or additional hero rollout was performed; owner performs engine tests.
+
+
+## Owner client bootstrap confirmation — 2026-10-04
+
+After the client-bootstrap change, owner supplies:
+
+    [LUNA_HEALTH] server=false
+    [LUNA_HEALTH] class=modifier_enfos_luna_native_scaling lua_global=true
+    [LUNA_HEALTH] class=modifier_enfos_luna_blessing_extension lua_global=true
+    [LUNA_HEALTH] class=modifier_enfos_luna_blessing_extension_buff lua_global=true
+    [LUNA_HEALTH] server_context_unavailable IsServer=false
+
+**Client class visibility: PASS (owner engine evidence).** All three absent
+client globals are now present. The final server-context line is the expected
+guard in a client run, not a failure. This confirms the client import path;
+it does not certify C++ modifier binding/property execution or all-rank native
+behavior. Previously recorded server globals and handles were already present.
+
+No full post-change VConsole log or measured Q/R damage and E armor/speed results
+accompany this output. Unknown-modifier warning clearance, actual effects,
+Break/death/respawn and ten-rank/upgrade acceptance remain PENDING OWNER TEST.
+Do not carry forward the old all-loading-failed diagnosis as the current class
+visibility status, or close the complete Luna pilot from this narrower pass.
+No gameplay code changed while recording this evidence.
