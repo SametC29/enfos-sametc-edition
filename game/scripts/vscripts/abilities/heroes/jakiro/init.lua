@@ -2,9 +2,12 @@
 require('abilities/heroes/jakiro/q')
 require('abilities/heroes/jakiro/w')
 require('abilities/heroes/jakiro/e')
+require('abilities/heroes/jakiro/e_frost')
 require('abilities/heroes/jakiro/r')
 require('abilities/heroes/jakiro/d')
 return {
+    ['modifier_enfos_jakiro_liquid_frost_orb'] = 'abilities/heroes/jakiro/e_frost',
+    ['modifier_enfos_jakiro_liquid_frost_debuff'] = 'abilities/heroes/jakiro/e_frost',
     ['modifier_enfos_jakiro_ice_path_zone'] = 'abilities/heroes/jakiro/w',
     ['modifier_enfos_jakiro_dual_breath_burn'] = 'abilities/heroes/jakiro/q',
     ['modifier_enfos_jakiro_dual_breath_slow'] = 'abilities/heroes/jakiro/q',

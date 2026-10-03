@@ -508,7 +508,6 @@
     "DOTA_Tooltip_Ability_enfos_lion_finger_of_death_scepter_description": "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%.",
     "DOTA_Tooltip_Ability_enfos_lion_demon_soul_shard_description": "Исходящее лечение +25%.",
     "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_scepter_description": "Macropyre длится на 5 сек. дольше, наносит чистый урон и проходит сквозь невосприимчивость к эффектам. Две ледяные стены замедляют пересекающих края врагов на 60%; эффект сохраняется 0,4 сек.",
-    "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_shard_description": "Исходящее лечение +25%.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Lore": "Острый, как лезвие бритвы, панцирь — выбор самоотверженных мучеников.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note0": "Урон возвращается в изначальном количестве, до его уменьшения.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note1": "Возвращаемый урон имеет тот же тип, что и полученный.",
@@ -1408,8 +1407,13 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "Скорость атаки -%dMODIFIER_PROPERTY_TOOLTIP%. Магический урон в секунду: %fMODIFIER_PROPERTY_TOOLTIP2%. Развеивание прекращает горение.",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn": "Макропир",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "Горение. Урон в секунду: %fMODIFIER_PROPERTY_TOOLTIP%. Обычное применение наносит магический урон; усиленное Scepter — чистый, проходящий сквозь невосприимчивость к эффектам. Нельзя развеять.",
-    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_shard_description": "С Aghanim’s Shard применение Liquid Fire не расходует ману.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_shard_description": "Liquid Fire и Liquid Frost не расходуют ману и имеют независимые перезарядки. Текущие перезарядки не сбрасываются.",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_ice_slow": "Макропир: ледяной край",
-    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_ice_slow_Description": "Скорость передвижения снижена на %dMODIFIER_PROPERTY_TOOLTIP%%%."
+    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_ice_slow_Description": "Скорость передвижения снижена на %dMODIFIER_PROPERTY_TOOLTIP%%%.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_frost": "Жидкий мороз",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_frost_Description": "Добавляет атаке {{impact_damage}} магического урона. Замедляет передвижение на {{movement_slow}}% на {{duration}} сек. и добавляет {{bonus_damage}} магического урона к каждому последующему случаю урона от атак и других способностей Джакиро. Не действует на здания. Уровень следует за Liquid Fire без дополнительных очков. До получения Shard имеет общую перезарядку с Liquid Fire.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_frost_shard_description": "Liquid Fire и Liquid Frost не расходуют ману и имеют независимые перезарядки. Текущие перезарядки не сбрасываются.",
+    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff": "Жидкий мороз",
+    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff_Description": "Скорость передвижения снижена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Атаки и другие способности Джакиро наносят %fMODIFIER_PROPERTY_TOOLTIP% дополнительного магического урона."
   }
 }

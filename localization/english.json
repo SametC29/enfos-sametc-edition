@@ -552,7 +552,6 @@
     "DOTA_Tooltip_Ability_enfos_lion_finger_of_death_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
     "DOTA_Tooltip_Ability_enfos_lion_demon_soul_shard_description": "Outgoing healing +25%.",
     "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_scepter_description": "Macropyre lasts 5 seconds longer and deals pure damage that pierces debuff immunity. Two icy walls slow enemies crossing the edges by 60%, lingering 0.4 seconds.",
-    "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_shard_description": "Outgoing healing +25%.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Lore": "A razor-sharp coat of mail, it is the choice of selfless martyrs in combat.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note0": "Damage Return is calculated before any kind of reduction.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note1": "Returned damage type is the same as it was received.",
@@ -1468,8 +1467,13 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "Attack speed -%dMODIFIER_PROPERTY_TOOLTIP%. Magical damage per second: %fMODIFIER_PROPERTY_TOOLTIP2%. Can be dispelled to end the burn.",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn": "Macropyre",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "Burning. Damage per second: %fMODIFIER_PROPERTY_TOOLTIP%. Magical for an ordinary cast; pure and piercing debuff immunity for a Scepter-enhanced cast. Cannot be dispelled.",
-    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_shard_description": "Liquid Fire no longer costs mana with Aghanim’s Shard.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_shard_description": "Liquid Fire and Liquid Frost cost no mana and no longer share a cooldown. Existing cooldowns are not reset.",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_ice_slow": "Macropyre: Icy Edge",
-    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_ice_slow_Description": "Movement slowed by %dMODIFIER_PROPERTY_TOOLTIP%%%."
+    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_ice_slow_Description": "Movement slowed by %dMODIFIER_PROPERTY_TOOLTIP%%%.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_frost": "Liquid Frost",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_frost_Description": "Adds {{impact_damage}} magical damage to the attack. Slows movement by {{movement_slow}}% for {{duration}} seconds and adds {{bonus_damage}} magical damage to each subsequent damage instance from Jakiro’s attacks and other abilities. Does not affect buildings. Its rank follows Liquid Fire without extra skill points. Shares a cooldown with Liquid Fire until Shard is acquired.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_frost_shard_description": "Liquid Fire and Liquid Frost cost no mana and no longer share a cooldown. Existing cooldowns are not reset.",
+    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff": "Liquid Frost",
+    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff_Description": "Movement speed reduced by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Jakiro’s attacks and other abilities deal %fMODIFIER_PROPERTY_TOOLTIP% additional magical damage."
   }
 }

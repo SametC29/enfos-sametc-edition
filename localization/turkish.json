@@ -1122,7 +1122,6 @@
     "DOTA_Tooltip_Ability_enfos_lion_finger_of_death_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_lion_demon_soul_shard_description": "Verilen iyileştirme +%25.",
     "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_scepter_description": "Macropyre süresi 5 saniye uzar ve zayıflatma bağışıklığını delen saf hasar verir. İki buz duvarı, kenarlardan geçen düşmanları %60 yavaşlatır; 0,4 saniye sürer.",
-    "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_shard_description": "Verilen iyileştirme +%25.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Lore": "Jilet keskinliğindeki zırhlara sahip bu manto, fedakâr şehitlerin savaştaki seçimi.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note0": "Hasar Yansıtması herhangi bir azaltmadan önce hesaplanır.",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note1": "Yansıtılan hasar alınan hasar türü ile aynıdır.",
@@ -1807,8 +1806,13 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "Saldırı hızı -%dMODIFIER_PROPERTY_TOOLTIP%. Saniyelik büyü hasarı: %fMODIFIER_PROPERTY_TOOLTIP2%. Dağıtma yanmayı sonlandırır.",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn": "Macropyre",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "Yanıyor. Saniyelik hasar: %fMODIFIER_PROPERTY_TOOLTIP%. Normal kullanımda büyü hasarı; Scepter ile güçlendirilmiş kullanımda zayıflatma bağışıklığını delen saf hasar. Temizlenemez.",
-    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_shard_description": "Aghanim’s Shard ile Liquid Fire artık mana tüketmez.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_shard_description": "Sıvı Ateş ve Sıvı Buz mana tüketmez ve artık ortak bekleme süresi kullanmaz. Mevcut bekleme süreleri sıfırlanmaz.",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_ice_slow": "Macropyre: Buz Kenarı",
-    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_ice_slow_Description": "Hareket hızı %dMODIFIER_PROPERTY_TOOLTIP%%% azaltılır."
+    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_ice_slow_Description": "Hareket hızı %dMODIFIER_PROPERTY_TOOLTIP%%% azaltılır.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_frost": "Sıvı Buz",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_frost_Description": "Saldırıya {{impact_damage}} büyü hasarı ekler. Hareket hızını {{duration}} saniye boyunca %{{movement_slow}} azaltır ve Jakiro’nun sonraki saldırı ve diğer yeteneklerinin her hasar olayına {{bonus_damage}} büyü hasarı ekler. Binaları etkilemez. Rütbesi ek yetenek puanı harcamadan Sıvı Ateş ile gelişir. Shard alınana kadar Sıvı Ateş ile ortak bekleme süresi kullanır.",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_frost_shard_description": "Sıvı Ateş ve Sıvı Buz mana tüketmez ve artık ortak bekleme süresi kullanmaz. Mevcut bekleme süreleri sıfırlanmaz.",
+    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff": "Sıvı Buz",
+    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff_Description": "Hareket hızı %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% azalır. Jakiro’nun saldırıları ve diğer yetenekleri %fMODIFIER_PROPERTY_TOOLTIP% ek büyü hasarı verir."
   }
 }

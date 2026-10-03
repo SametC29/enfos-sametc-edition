@@ -145,6 +145,9 @@ function AghanimManager:UpdateHeroAghanimState(hero, role)
 	local hasScepter = self:HasScepter(hero)
 	local hasShard = self:HasShard(hero)
 	local assignedRole = role or (hero.GetUnitName and self:DetectHeroRole(hero:GetUnitName())) or "Tank"
+	if hero.GetUnitName and hero:GetUnitName()=="npc_dota_hero_jakiro" then
+		require('abilities/heroes/jakiro/e_pair').Reconcile(hero)
+	end
 	if hero.GetUnitName and hero:GetUnitName()=="npc_dota_hero_vengefulspirit" then
 		require('abilities/heroes/vengefulspirit/upgrades').Reconcile(hero, hasScepter)
 	end
@@ -298,7 +301,7 @@ modifier_enfos_shard_upgrade = class({})
 function modifier_enfos_shard_upgrade:IsHidden()
     local parent = self.GetParent and self:GetParent()
     local name = parent and parent.GetUnitName and parent:GetUnitName()
-    return name == "npc_dota_hero_lich" or name == "npc_dota_hero_sven" or name == "npc_dota_hero_shadow_shaman" or name == "npc_dota_hero_tidehunter"
+    return name == "npc_dota_hero_jakiro" or name == "npc_dota_hero_lich" or name == "npc_dota_hero_sven" or name == "npc_dota_hero_shadow_shaman" or name == "npc_dota_hero_tidehunter"
 end
 function modifier_enfos_shard_upgrade:IsPurgable() return false end
 function modifier_enfos_shard_upgrade:IsPermanent() return true end
@@ -348,7 +351,7 @@ end
 
 function modifier_enfos_shard_upgrade:GetModifierHealAmplify_PercentageSource()
 	local parent = self.GetParent and self:GetParent()
-	if parent and parent.GetUnitName and (parent:GetUnitName() == "npc_dota_hero_lich" or parent:GetUnitName() == "npc_dota_hero_vengefulspirit") then return 0 end
+	if parent and parent.GetUnitName and (parent:GetUnitName() == "npc_dota_hero_jakiro" or parent:GetUnitName() == "npc_dota_hero_lich" or parent:GetUnitName() == "npc_dota_hero_vengefulspirit") then return 0 end
 	if parent and parent.GetUnitName and parent:GetUnitName() == "npc_dota_hero_shadow_shaman" then return 0 end
 	if self.role == "Support" then return 25 end
 	return 0

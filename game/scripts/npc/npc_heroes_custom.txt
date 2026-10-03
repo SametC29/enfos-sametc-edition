@@ -1378,7 +1378,7 @@
 		"Ability3"				"enfos_jakiro_liquid_fire"
 		"Ability4"				"enfos_jakiro_macropyre"
 		"Ability5"				"enfos_jakiro_double_trouble"
-		"Ability6"				"generic_hidden"
+		"Ability6"				"enfos_jakiro_liquid_frost"
 		"Ability7" "generic_hidden"
 		"Ability8" "generic_hidden"
 		"Ability9" "generic_hidden"

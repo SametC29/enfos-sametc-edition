@@ -327,6 +327,8 @@ function create_mock_unit(name, team, origin, hp)
                 a.GetSpecialValueFor = function(_, k) return special(ab_name,k) end
                 a.IsItem = function() return false end
                 a.GetLevel = function() return ENFOS_REAL_LEVELS[ab_name] end
+                a.GetAbilityName = function() return ab_name end
+                a.GetCooldownTimeRemaining = function() return 0 end
                 a.EndCooldown = function() end
                 a.StartCooldown = function() end
                 return a
@@ -375,6 +377,8 @@ for _, hero_info in ipairs(roster) do
             ab.UseResources = function() end
             ab.ToggleAbility = function() end
             ab.IsItem = function() return false end
+            ab.GetAbilityName = function() return ab_name end
+            ab.GetCooldownTimeRemaining = function() return 0 end
             ab.EndCooldown = function() end
             ab.StartCooldown = function() end
 
@@ -749,6 +753,9 @@ do
     mock_world_units={hero,enemy,other}
 
     local fire=enfos_jakiro_liquid_fire();local automatic,ready=false,true;local fireMana=40
+    fire.GetAbilityName=function() return "enfos_jakiro_liquid_fire" end
+    fire.GetCooldownTimeRemaining=function() return ready and 0 or 12 end
+    fire.StartCooldown=function(_,duration) ready=duration<=0 end
     fire.GetCaster=function() return hero end
     fire.GetCursorTarget=function() return enemy end
     fire.GetLevel=function() return 4 end

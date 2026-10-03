@@ -10,6 +10,12 @@ local function positive(a,key,fallback) local n=value(a,key);return n>0 and n or
 local function immune(target) return (target.IsDebuffImmune and target:IsDebuffImmune()) or (target.IsMagicImmune and target:IsMagicImmune()) end
 
 enfos_jakiro_liquid_fire=class({})
+function enfos_jakiro_liquid_fire:OnUpgrade()
+    require('abilities/heroes/jakiro/e_pair').Reconcile(self:GetCaster())
+end
+function enfos_jakiro_liquid_fire:SyncLinkedCooldown()
+    require('abilities/heroes/jakiro/e_pair').MirrorCooldown(self)
+end
 function enfos_jakiro_liquid_fire:GetManaCost(level)
     if require('heroes/aghanim_manager'):HasShard(self:GetCaster()) then return 0 end
     return self.BaseClass.GetManaCost(self,level)
@@ -20,6 +26,8 @@ function enfos_jakiro_liquid_fire:OnSpellStart()
     local c,target=self:GetCaster(),self:GetCursorTarget()
     if not enemy(c,target) or not c:IsAlive() or not target:IsAlive() then return end
     if c:IsIllusion() or (c.IsSilenced and c:IsSilenced()) or (c.IsDisarmed and c:IsDisarmed()) or not c.PerformAttack then return end
+    self:SyncLinkedCooldown()
+    if not valid(self) or not enemy(c,target) then return end
     -- The engine already paid the manual spell. Only this synchronous launch may
     -- claim its funding; a later unrelated attack cannot inherit it.
     self.manual_target=target
@@ -177,6 +185,7 @@ function modifier_enfos_jakiro_liquid_fire_passive:OnAttack(params)
         self.proccing=true
         a:UseResources(true,false,false,true)
         self.proccing=false
+        if valid(a) and a.SyncLinkedCooldown then a:SyncLinkedCooldown() end
     end
     if self.closed or not valid(a) or not enemy(c,params.target) then self.records[params.record]=nil;return end
     HeroTrace:Log('JAKIRO','E','orb_launched record=%s funding=%s target=%s',tostring(params.record),manual and 'manual_engine' or 'autocast_resources',HeroTrace:Name(params.target))

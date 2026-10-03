@@ -132,7 +132,7 @@ test('every hero exposes correct ultimate/evolution contracts and migrated Enfos
       assert.equal(abilities[h.Ability6].BaseClass,'vengefulspirit_command_aura');
       assert.equal(abilities[h.Ability6].AbilityValues.bonus_base_damage,'0','Native lifecycle bridge must not stack a second damage aura');
     }
-    const shardAbility=id==='npc_dota_hero_vengefulspirit'?h.Ability1:id==='npc_dota_hero_lich'?h.Ability6:['npc_dota_hero_shadow_shaman','npc_dota_hero_tidehunter'].includes(id)?h.Ability2:h.Ability5;
+    const shardAbility=id==='npc_dota_hero_jakiro'?h.Ability3:id==='npc_dota_hero_vengefulspirit'?h.Ability1:id==='npc_dota_hero_lich'?h.Ability6:['npc_dota_hero_shadow_shaman','npc_dota_hero_tidehunter'].includes(id)?h.Ability2:h.Ability5;
     assert.equal(abilities[shardAbility].HasShardUpgrade,'1',id);
     if(id==='npc_dota_hero_vengefulspirit'){
       assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Retribution must not advertise unrelated healing');
@@ -142,6 +142,7 @@ test('every hero exposes correct ultimate/evolution contracts and migrated Enfos
       assert.equal(h.Ability6,'enfos_lich_ice_spire');
       assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Aura must not advertise the replaced generic Shard');
     }
+    if(id==='npc_dota_hero_jakiro'){assert.equal(h.Ability6,'enfos_jakiro_liquid_frost');assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined);assert.match(abilities[h.Ability6].AbilityBehavior,/NOT_LEARNABLE/);}
     if(id==='npc_dota_hero_shadow_shaman') assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Fowl Play must not advertise the replaced generic Shard');
     if(id==='npc_dota_hero_tidehunter') assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Colossal Presence must not advertise the replaced generic Shard');
     for(let i=7;i<=9;i++)assert.equal(h['Ability'+i],'generic_hidden',id+': unused ability slot');

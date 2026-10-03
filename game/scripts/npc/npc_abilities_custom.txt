@@ -5407,6 +5407,33 @@
 		}
 	}
 
+	"enfos_jakiro_liquid_frost"
+	{
+		"BaseClass" "ability_lua"
+		"ScriptFile" "abilities/heroes/jakiro/e_frost"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AUTOCAST | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
+		"AbilityTextureName" "jakiro_liquid_ice"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_3"
+		"AbilityCastPoint" "0"
+		"AbilityCastRange" "600"
+		"AbilityCooldown" "12 10 9 8 7 6 5.5 5 4.5 4"
+		"AbilityManaCost" "20"
+		"MaxLevel" "10"
+		"HasShardUpgrade" "1"
+		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES"
+		"AbilityValues"
+		{
+			"impact_damage" "8 16 24 32 40 48 56 64 72 80"
+			"bonus_damage" "8 16 24 32 40 48 56 64 72 80"
+			"movement_slow" "15 20 25 30 35 40 45 50 55 60"
+			"duration" "5"
+		}
+	}
+
 	"enfos_jakiro_macropyre"
 	{
 		"HasScepterUpgrade" "1"
@@ -5444,8 +5471,7 @@
 	}
 
 	"enfos_jakiro_double_trouble"
-	{		"HasShardUpgrade" "1"
-		"BaseClass"					"ability_lua"
+	{		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/heroes/jakiro/d"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"IsBreakable"			"1"

@@ -508,7 +508,6 @@
     "DOTA_Tooltip_Ability_enfos_lion_finger_of_death_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
     "DOTA_Tooltip_Ability_enfos_lion_demon_soul_shard_description": "施加的治疗效果+25%。",
     "DOTA_Tooltip_Ability_enfos_jakiro_macropyre_scepter_description": "烈焰焚身持续时间增加5秒，造成无视减益免疫的纯粹伤害。 两道冰墙使穿过边缘的敌人减速60%，持续0.4秒。",
-    "DOTA_Tooltip_Ability_enfos_jakiro_double_trouble_shard_description": "施加的治疗效果+25%。",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Lore": "覆盖着尖锐剃刀的盔甲，战斗中可以用来做出不顾自身安危的烈士行为。",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note0": "反弹的均为减免前的伤害。",
     "DOTA_Tooltip_Ability_item_ascended_thornplate_Note1": "反弹伤害的类型与受到时相同。",
@@ -1408,8 +1407,13 @@
     "DOTA_Tooltip_modifier_enfos_jakiro_liquid_fire_slow_Description": "攻击速度-%dMODIFIER_PROPERTY_TOOLTIP%。每秒魔法伤害：%fMODIFIER_PROPERTY_TOOLTIP2%。可驱散以终止燃烧。",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn": "烈焰焚身",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_burn_Description": "燃烧中。每秒伤害：%fMODIFIER_PROPERTY_TOOLTIP%。普通施法造成魔法伤害；神杖强化的施法造成无视减益免疫的纯粹伤害。无法驱散。",
-    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_shard_description": "拥有阿哈利姆魔晶后，液态火不再消耗魔法。",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_fire_shard_description": "液态火与液态冰霜不再消耗魔法，且不再共用冷却。现有冷却不会重置。",
     "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_ice_slow": "烈焰焚身：冰墙",
-    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_ice_slow_Description": "移动速度降低%dMODIFIER_PROPERTY_TOOLTIP%%%。"
+    "DOTA_Tooltip_modifier_enfos_jakiro_macropyre_ice_slow_Description": "移动速度降低%dMODIFIER_PROPERTY_TOOLTIP%%%。",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_frost": "液态冰霜",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_frost_Description": "攻击附加{{impact_damage}}点魔法伤害，降低{{movement_slow}}%移动速度，持续{{duration}}秒。杰奇洛后续攻击和其他技能的每次伤害附加{{bonus_damage}}点魔法伤害。不影响建筑。等级随液态火提升，不额外消耗技能点。获得魔晶前与液态火共用冷却。",
+    "DOTA_Tooltip_Ability_enfos_jakiro_liquid_frost_shard_description": "液态火与液态冰霜不再消耗魔法，且不再共用冷却。现有冷却不会重置。",
+    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff": "液态冰霜",
+    "DOTA_Tooltip_modifier_enfos_jakiro_liquid_frost_debuff_Description": "移动速度降低%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。杰奇洛攻击和其他技能附加%fMODIFIER_PROPERTY_TOOLTIP%点魔法伤害。"
   }
 }
