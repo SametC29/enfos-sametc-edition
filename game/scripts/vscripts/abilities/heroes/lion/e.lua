@@ -3,6 +3,7 @@ local H = require('abilities/shared/pve_helpers')
 local Trace = require('lib/hero_trace')
 local Upgrades = require('abilities/heroes/lion/upgrades')
 local Extras = require('abilities/heroes/lion/drain_extras')
+local Economy = require('abilities/heroes/lion/drain_economy')
 local function valid(x) return x and not (x.IsNull and x:IsNull()) end
 local function learned_source(a,c)
     return valid(a) and valid(c) and a:GetLevel()>0 and a:GetCaster()==c
@@ -169,14 +170,14 @@ function modifier_enfos_lion_mana_drain_channel:OnIntervalThink()
     local dx,dy=source.x-destination.x,source.y-destination.y
     if dx*dx+dy*dy>leash*leash then self:Abort('leash');return end
     local tick_dmg=(value(a,'mana_per_second')+get_int(c)*0.8)*0.5
-    damage(a,t,tick_dmg,DAMAGE_TYPE_MAGICAL)
-    -- Damage can kill/remove entities, close the modifier, or start another cast.
+    local gained,mode=Economy.Take(a,t,tick_dmg)
+    -- Mana reduction or damage can close the modifier or start another cast.
     if self.closed or self.revision~=revision then return end
     if not learned_source(a,c) or not c:IsAlive() then self:Abort('source after damage');return end
     if not a:IsChanneling() then self:Destroy();return end
     if not valid(t) then self:Abort('target after damage');return end
     if t:IsAlive() and not visible_enemy(c,t) then self:Abort('target rules or visibility after damage');return end
-    if c.GiveMana then c:GiveMana(tick_dmg) end
+    if gained>0 then c:GiveMana(gained) end
     if self.closed or self.revision~=revision then return end
     if not learned_source(a,c) or not c:IsAlive() then self:Abort('source after mana');return end
     if not a:IsChanneling() then self:Destroy();return end
@@ -184,7 +185,7 @@ function modifier_enfos_lion_mana_drain_channel:OnIntervalThink()
     if not visible_enemy(c,t) then self:Abort('target rules or visibility after mana');return end
     Extras.Tick(self,revision,tick_dmg,visible_enemy)
     if self.closed or self.revision~=revision then return end
-    Trace:Log('LION','E','channel tick authored_damage=%.2f authored_mana=%.2f',tick_dmg,tick_dmg)
+    Trace:Log('LION','E','channel tick mode=%s requested=%.2f mana=%.2f',mode,tick_dmg,gained)
 end
 
 modifier_enfos_lion_mana_drain_debuff=class({})

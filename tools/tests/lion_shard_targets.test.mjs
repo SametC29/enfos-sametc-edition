@@ -36,6 +36,7 @@ local function unit(team,x)
  function u:IsInvisible()return self.invisible end;function u:CanEntityBeSeenByMyTeam(t)assert(server);return not t.fog end
  function u:IsBuilding()return self.building end;function u:IsMagicImmune()return self.magic end;function u:IsDebuffImmune()return self.debuff end
  function u:GetIntellect()return 100 end;function u:GiveMana(n)mana=mana+n;if manaHook then manaHook()end end
+ function u:GetMaxMana()return 0 end -- Recipient/VFX cases model mana-less PvE conversion.
  function u:StopSound()self.playing=false end
  function u:RemoveModifierByNameAndCaster(n,c)for _,m in ipairs(self.slows)do if m.caster==c then m:Destroy()end end end
  function u:AddNewModifier(c,a,n,params)

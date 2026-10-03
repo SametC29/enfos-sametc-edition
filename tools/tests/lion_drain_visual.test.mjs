@@ -30,6 +30,7 @@ local function unit(team)
  function u:IsInvisible()assert(not self.removed);return self.invisible end;function u:CanEntityBeSeenByMyTeam(target)assert(server and not self.removed);return not target.fog end
  function u:GetTeamNumber()return self.team end;function u:IsBuilding()return self.building end;function u:IsMagicImmune()return self.magic end;function u:IsDebuffImmune()return self.debuff end
  function u:GetIntellect()return 100 end;function u:GiveMana(n)mana=mana+n;if manaHook then manaHook()end end
+ function u:GetMaxMana()return 0 end -- These damage/resource cases model mana-less PvE creeps.
  function u:StopSound(s)assert(s=='Hero_Lion.ManaDrain');self.stopped=self.stopped+1;self.playing=false end
  function u:RemoveModifierByNameAndCaster(n,c)assert(n=='modifier_enfos_lion_mana_drain_debuff');self.cleared=self.cleared+1;self.slow=nil;if slowHook then slowHook()end end
  return u

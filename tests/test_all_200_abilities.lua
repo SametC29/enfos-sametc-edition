@@ -262,6 +262,9 @@ function create_mock_unit(name, team, origin, hp)
         max_mana = 1000,
         GetMana = function(self) return self.mana end,
         GetMaxMana = function(self) return self.max_mana end,
+        Script_ReduceMana = function(self, amount, ability)
+            local taken=math.min(self.mana,amount);self.mana=self.mana-taken;return taken
+        end,
         GiveMana = function(self, amount) self.mana = math.min(self.max_mana, self.mana + amount) end,
         SpendMana = function(self, amount, ability) self.mana = math.max(0, self.mana - amount) end,
         GetPhysicalArmorValue = function(self) return self.armor end,

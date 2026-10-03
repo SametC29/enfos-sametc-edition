@@ -334,3 +334,8 @@ Prove early:
 ## Lion Mana Drain recipient economy decision — owner answer pending, 2026-10-03
 
 The current authored E damages every eligible hostile recipient and produces equal mana, even when that recipient has mana. Native Mana Drain is a mana-transfer ability. Owner preference was requested: use actual target mana drain on mana-bearing enemies with a defined conversion fallback on mana-less PvE creeps, or explicitly retain the authored damage/mana conversion for all recipients. No dependent mana-economy implementation is authorized by an unanswered preference; source/cleanup/Shard work can continue independently. Also review native allied mana-transfer targeting, empty-mana effects and final partial/channel-expiry timing before closing E. Lion remains OPEN; no mock or source check constitutes owner engine acceptance.
+
+
+## Lion E economy implementation default, 2026-10-03
+
+The earlier unanswered question requested a preference, not permission. No owner answer is claimed. Proceeding under the existing native-first hero mandate with a stated implementation default: mana-bearing hostile recipients lose actual mana, and Lion receives only the observed amount lost; zero-maximum-mana PvE recipients retain the authored damage/mana conversion. A mana-bearing recipient at zero current mana is not a mana-less recipient and cannot generate fallback mana. Primary and Shard recipients use one policy with ordinary targeting/resistance rules and source/revision guards. This supersedes the prior inferred requirement to wait for permission before any economy work. Balance, ally transfer and exact engine timing remain separately recorded; no runtime acceptance from mocks.

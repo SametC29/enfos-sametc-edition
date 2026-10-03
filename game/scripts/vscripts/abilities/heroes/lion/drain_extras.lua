@@ -3,6 +3,7 @@
 local H = require('abilities/shared/pve_helpers')
 local Upgrades = require('abilities/heroes/lion/upgrades')
 local Trace = require('lib/hero_trace')
+local Economy = require('abilities/heroes/lion/drain_economy')
 local Extras = {}
 local function valid(x) return x and not (x.IsNull and x:IsNull()) end
 local function current(m,revision)
@@ -105,13 +106,13 @@ function Extras.Tick(m,revision,amount,eligible)
         local t=entry.target
         if not entry.closed then
             if not eligible(c,t) or not within(c,t,radius) then close(m,entry) else
-                H.damage(a,t,amount,DAMAGE_TYPE_MAGICAL)
+                local gained,mode=Economy.Take(a,t,amount)
                 if not current(m,revision) or m.extra_drains~=entries then return end
                 if not valid(t) or (t:IsAlive() and not eligible(c,t)) then close(m,entry) else
-                    c:GiveMana(amount)
+                    if gained>0 then c:GiveMana(gained) end
                     if not current(m,revision) or m.extra_drains~=entries then return end
                     if not eligible(c,t) then close(m,entry) end
-                    Trace:Log('LION','E','Shard recipient tick authored_damage=%.2f authored_mana=%.2f',amount,amount)
+                    Trace:Log('LION','E','Shard recipient tick mode=%s requested=%.2f mana=%.2f',mode,amount,gained)
                 end
             end
         end
