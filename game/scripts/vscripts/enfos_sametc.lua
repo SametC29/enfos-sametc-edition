@@ -215,6 +215,7 @@ function EnfosSametC:OnNPCSpawned(event)
 		require("heroes/innates"):Apply(spawnedUnit)
 		require("heroes/match_levels"):InitializeStartingAbilityPoints(
 			spawnedUnit, self.initializedHeroAbilityPoints)
+		require("heroes/health").OnSpawn(spawnedUnit)
 		if playerId and playerId >= 0 then
 			self.playerHeroes[playerId] = spawnedUnit
 		end

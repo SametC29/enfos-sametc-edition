@@ -277,3 +277,27 @@ Q/R visual/audio and basic cast damage effect as OWNER CONFIRMED for this run.
 This does not measure authored damage numbers, rank10, death release, Scepter,
 Shard or post-fix client getter behavior. The client-safe repair was committed
 after the submitted run; its engine acceptance remains pending a new run.
+
+## Automatic selected-hero health snapshot (2026-10-04)
+
+Owner requests replacing repeated manual console entry with automatic health
+reports for whichever hero was selected. The existing npc_spawned handler now
+invokes heroes/health.OnSpawn after normal hero configuration, free passive
+restoration and initial skill-point initialization. Selected real roster heroes
+emit once per hero entity; repeated spawn notifications/respawns do not duplicate
+the report. The hero-local flag controls diagnostics only, never progression.
+No extra listener, timer, global scan, native helper restoration or state mutation
+is added. Client, illusions, ownerless, unselected and non-roster units return.
+
+SF automatic reports retain SF_HEALTH paid/provider ranks, modifiers/souls and
+both R damage queries. Other heroes emit HERO_HEALTH with their five authored
+ranks and existing intrinsic handles. Server-only intrinsic/handle APIs run only
+inside the server guard. Manual tools/sf_health remains a read-only refresh for
+later rank/death snapshots, delegating to the same reporter.21 targeted shared
+health/SF/Luna tests pass, including all roster heroes, once-only emission,
+no gameplay writes and hook order after the five initial points. Real automatic
+emission remains pending owner testing. A fresh match loads the new spawn hook.
+
+Owner now defers live validation and authorizes continuing the ordered source
+rollout while sleeping. Pending engine acceptance is preserved; do not call a
+hero engine-complete or stop all source work for missing owner tests.

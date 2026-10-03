@@ -1,0 +1,57 @@
+-- Read-only selected-hero diagnostics. No gameplay restoration or periodic scan.
+local Health={}
+local roster={}
+for _,entry in ipairs(require('heroes/roster')) do roster[entry.id]=entry end
+function Health.Report(hero,id)
+    if not IsServer() or not hero or hero:IsNull() then return false end
+    local entry=roster[hero:GetUnitName()]
+    if not entry then return false end
+    if hero:GetUnitName()=='npc_dota_hero_nevermore' then
+        print(string.format('[SF_HEALTH] player=%d level=%d points=%d alive=%s',id,hero:GetLevel(),hero:GetAbilityPoints(),tostring(hero:IsAlive())))
+        for _,name in ipairs({'enfos_sf_shadowraze','enfos_sf_necromastery','enfos_sf_presence_of_the_dark_lord',
+            'enfos_sf_requiem_of_souls','enfos_sf_feast_of_souls','nevermore_shadowraze1','nevermore_shadowraze2',
+            'nevermore_shadowraze3','nevermore_necromastery','nevermore_requiem'}) do
+            local a=hero:FindAbilityByName(name)
+            print(string.format('[SF_HEALTH] ability=%s rank=%s',name,tostring(a and not a:IsNull() and a:GetLevel() or 'missing')))
+            if a and not a:IsNull() and name=='nevermore_shadowraze1' then
+                print('[SF_HEALTH] native_raze_damage_query='..tostring(a:GetSpecialValueFor('shadowraze_damage')))
+            elseif a and not a:IsNull() and name=='nevermore_requiem' then
+                print('[SF_HEALTH] native_requiem_damage_query='..tostring(a:GetSpecialValueFor('AbilityDamage'))..
+                    ' ability_damage_getter='..tostring(a:GetAbilityDamage()))
+            end
+        end
+        for _,name in ipairs({'modifier_enfos_sf_native_scaling','modifier_enfos_sf_feast_of_souls_passive',
+            'modifier_nevermore_necromastery'}) do
+            local m=hero:FindModifierByName(name)
+            print('[SF_HEALTH] modifier='..name..' present='..tostring(m and not m:IsNull() or false)..
+                ' stacks='..tostring(m and not m:IsNull() and m:GetStackCount() or 'missing'))
+        end
+        
+    else
+        print(string.format('[HERO_HEALTH] player=%d hero=%s level=%d points=%d alive=%s',
+            id,entry.id,hero:GetLevel(),hero:GetAbilityPoints(),tostring(hero:IsAlive())))
+        for _,name in ipairs(entry.abilities) do
+            local a=hero:FindAbilityByName(name)
+            print('[HERO_HEALTH] ability='..name..' rank='..tostring(a and not a:IsNull() and a:GetLevel() or 'missing'))
+            if a and not a:IsNull() and a.GetIntrinsicModifierName then
+                local intrinsic=a:GetIntrinsicModifierName()
+                if intrinsic and intrinsic~='' then
+                    local m=hero:FindModifierByName(intrinsic)
+                    print('[HERO_HEALTH] modifier='..intrinsic..' present='..tostring(m and not m:IsNull() or false))
+                end
+            end
+        end
+    end
+    return true
+end
+function Health.OnSpawn(hero)
+    if not IsServer() or not hero or hero:IsNull() or not hero:IsRealHero() or hero:IsIllusion()
+        or hero.enfosHealthReported then return false end
+    local id=hero:GetPlayerID()
+    if not id or id<0 or not PlayerResource or not PlayerResource:IsValidPlayerID(id)
+        or PlayerResource:GetSelectedHeroEntity(id)~=hero then return false end
+    if not Health.Report(hero,id) then return false end
+    hero.enfosHealthReported=true
+    return true
+end
+return Health

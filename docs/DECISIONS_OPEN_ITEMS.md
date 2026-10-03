@@ -361,3 +361,14 @@ minimum1 second rather than allowing a negative cooldown. This is a reversible
 source default, not owner balance acceptance. Owner rank10/Scepter testing must
 review this potentially strong interaction before marking SF complete. Native
 returning lines/heal replace the previous generic40% damage/25% cooldown bonus.
+
+## Owner defers live hero testing, 2026-10-04
+
+Owner requests overnight completion of the already ordered hero source rollout
+and Necrophos addition while postponing live validation. This supersedes the
+SF engine-acceptance-before-next-source-unit gate. Continue source units
+sequentially with full native-first research and tests; record all remaining
+engine/VFX/SFX/damage/lifecycle acceptance pending. No Dota control or publishing
+authorization is added. SF Q remains its verified native directional no-target
+cast. Selected-hero diagnostics now run automatically once on initial real hero
+spawn, after point initialization, without gameplay modification.

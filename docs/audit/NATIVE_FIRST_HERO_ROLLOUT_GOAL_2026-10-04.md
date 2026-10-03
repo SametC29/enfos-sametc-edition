@@ -1,8 +1,9 @@
 # Owner-directed native-first rollout
 
 Owner instruction2026-10-04 supersedes the prior instruction to stop after
-Shadow Fiend. Complete the current Shadow Fiend source/runtime acceptance first,
-then continue the same Luna-derived process sequentially in this exact order:
+Shadow Fiend. Later owner instruction on2026-10-04 explicitly defers live
+acceptance: finish known source defects and continue source work without waiting
+for motor tests, keeping all unverified acceptance fields pending. Continue the same Luna-derived process sequentially in this exact order:
 
 1. Bristleback — npc_dota_hero_bristleback
 2. Slark — npc_dota_hero_slark
@@ -44,5 +45,9 @@ roster-count/role-count assumptions coherently when implementing the addition;
 do not bypass validators or silently replace a hero. No other-game Necromancer
 assets or invented counterpart are needed. Publication remains unauthorized.
 
-Current unit: Shadow Fiend, native Q/W/R provider integration in progress.
+Current source: SF native providers implemented; owner Q/R presentation confirmed,
+client stack getter corrected; numeric R scaling and remaining engine tests pending.
+Next source unit: Bristleback. Owner requests overnight continuation of the listed
+source units and Necrophos; scheduled continuation is attached to this chat.
+Do not stop source rollout merely because deferred owner tests are unavailable.
 Remaining listed heroes have no new engine acceptance from this instruction.
