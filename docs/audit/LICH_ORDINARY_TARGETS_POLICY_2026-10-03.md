@@ -269,3 +269,57 @@ Purge or particle disposal. Owner checklist: basic ally dispel removes Q/R
 slows; enemy dispel removes the W shield and its modifier-owned particle/pulses;
 strong dispel also works as applicable; names/icons/live values appear in all
 four locales. Full Lich source/upgrade and engine acceptance remain PENDING.
+
+## E resource decoding checkpoint (no contributor source edit)
+
+Current installed steam.inf confirms ClientVersion6943 / SourceRevision11069754.
+Decoded lich_gaze root and22 matching children outside the addon with
+Source2Viewer-CLI19.2. No asset imported. Decoded-text SHA256 (not VPK binary
+hash): root8AFF9DE6F773EF726949786BFE0339604E7434B67384F1BC82673FD0ED40DC02;
+caster_head0E7FE26D1498320DCE66709A0993B49278FA3CAE6CA0271B32EE69FE64772730;
+caster_groundAA13A5336D697218EB97424C651A6A731857B8704296DD89C389ECD21B2F21CE.
+
+| Resource below particles/units/heroes/hero_lich/ | Observed input/operator |
+| --- | --- |
+| lich_gaze.vpcf | Root max particles0; eight direct child references, no root position operators |
+| lich_gaze_caster_head.vpcf | CreateOnModel and LockToBone read CP2 and head hitbox; orientation initializer reads CP1; writes child CP10+ |
+| lich_gaze_caster_ground.vpcf | PositionLock/CreateWithinSphere read CP3; continuous emitter2 particles/sec without explicit stop duration |
+| lich_gaze_rings.vpcf | PositionLock/CreateWithinSphere read CP3; continuous emitter5 particles/sec without explicit stop duration |
+| lich_gaze_head.vpcf | Model/head-dependent operators, CP1 local offset; publishes child CP10+ |
+
+Current E uses GetEffectName on the recipient and ABSORIGIN_FOLLOW, with no
+explicit SetParticleControlEnt. This is not sufficient evidence that the engine
+automatically supplies this root's CP1/2/3/model inputs correctly. Conversely,
+the decoded files alone do not prove which additional bindings the engine's
+modifier-effect path supplies: do not label every missing explicit binding an
+observed engine defect. Persistent children require modifier-owned cleanup;
+releasing an index on cast alone would not establish channel termination.
+
+Reference-only current local corpus: Workshop2578571357 (IMBA-AI Ver0.53),
+scripts/vscripts/abilities/hero_ability/lich/imba_lich_sinister_gaze.lua,
+recipient PlayEffect explicitly uses CP0 recipient hitloc, CP1 caster portrait,
+CP2/3 recipient origin and manual destroy/release on removal. Its separate caster
+eyes effect uses attach_eye_l/attach_eye_r. Importantly, this maps CP2/3 to the
+recipient despite misleading caster_* child filenames. It cannot certify the
+current native C++ bindings, and no code/assets were copied. Exact upstream
+version/license/asset permissions remain unverified. Workshop2208582400
+(Aghanim's Pathfinders), scripts/vscripts/heroes/lich/lich_pf_sinister_gaze.lua,
+also separates caster eyes and recipient feedback, emits Target on recipients,
+and stops Cast/Target events on channel/effect removal. Its custom Boss rules
+and extra mechanics are outside our policy and are not adopted.
+
+Decoded current sound bank declares SinisterGaze.Cast using dark_ritual,
+duration3.320204s/fade-out0.25, and SinisterGaze.Target using
+frost_blast_immortal, duration3.96s/fade-out1. These event declarations do not
+establish underlying sound looping. Current E emits Cast only, with no matching
+StopSound or target event. The stop/target-feedback policy is open; do not claim
+an infinite audio leak from event duration alone. Stop ownership must account
+for interrupted/replaced channels and avoid stopping a newer cast's audio.
+
+Next E resource acceptance needs a current-native or owner-engine CP/binding
+comparison, explicit resource ownership if required, caster/recipient movement,
+rank1/10 duration, normal/Boss targets, interrupt/expiry/dispel/death/recast and
+no stale audio/particle after removal. Retain this evidence while waiting for
+the editor ownership clarification; E, contributor tests/KV/main ledger/dossier
+are unchanged. E Boss35% duration and no-pull remain known pending policy
+removals. No Lich source/visual/audio/engine completion is claimed.
