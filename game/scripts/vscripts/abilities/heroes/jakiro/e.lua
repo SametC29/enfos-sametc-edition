@@ -145,7 +145,20 @@ function modifier_enfos_jakiro_liquid_fire_passive:OnCreated()
     self.records={};self.closed=false;self.proccing=false
 end
 function modifier_enfos_jakiro_liquid_fire_passive:DeclareFunctions()
-    return {MODIFIER_EVENT_ON_ATTACK,MODIFIER_EVENT_ON_ATTACK_LANDED,MODIFIER_EVENT_ON_ATTACK_FAIL,MODIFIER_EVENT_ON_ATTACK_RECORD_DESTROY}
+    return {MODIFIER_PROPERTY_PROJECTILE_NAME,MODIFIER_EVENT_ON_ATTACK,MODIFIER_EVENT_ON_ATTACK_LANDED,MODIFIER_EVENT_ON_ATTACK_FAIL,MODIFIER_EVENT_ON_ATTACK_RECORD_DESTROY}
+end
+function modifier_enfos_jakiro_liquid_fire_passive:GetModifierProjectileName()
+    -- This engine getter has no attack-record argument. Query eligibility only;
+    -- never fund an attack or carry a stale visual override between flights.
+    if not IsServer() or self.closed then return end
+    local c,a=self:GetParent(),self:GetAbility()
+    if not valid(c) or not valid(a) or not c:IsAlive() or c:IsIllusion() or a:GetLevel()<1 then return end
+    if (c.IsSilenced and c:IsSilenced()) or (c.IsDisarmed and c:IsDisarmed()) then return end
+    local target=a.manual_target or (c.GetAggroTarget and c:GetAggroTarget())
+    if not enemy(c,target) or not target:IsAlive() then return end
+    if a.manual_target==target or (a:GetAutoCastState() and a.IsFullyCastable and a:IsFullyCastable()) then
+        return 'particles/units/heroes/hero_jakiro/jakiro_base_attack_fire.vpcf'
+    end
 end
 function modifier_enfos_jakiro_liquid_fire_passive:OnAttack(params)
     if not IsServer() or self.closed or not params or params.record==nil or self.proccing then return end
