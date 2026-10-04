@@ -5422,35 +5422,6 @@ test('Pudge Meat Shield accumulates damage to a KV threshold, caps bursts and ho
         'Illusions must not gain Meat Shield bonuses or trigger damage bursts')
 end)
 
-test('Slark Essence Shift stacks Agility on attack landed', function()
-    local slark = create_mock_unit('npc_dota_hero_slark', 2, Vector(0, 0, 0))
-    local creep = create_mock_unit('creep_slark', 3, Vector(100, 0, 0))
-    mock_world_units = { slark, creep }
-
-    local ab = enfos_slark_essence_shift()
-    ab.GetSpecialValueFor = function(_, key)
-        return ({ bonus_agi=3, duration=30, max_stacks=50 })[key] or 0
-    end
-    local mod = modifier_enfos_slark_essence_shift_passive()
-    mod.GetParent = function() return slark end
-    mod.GetAbility = function() return ab end
-
-    mod:OnAttackLanded({ attacker = slark, target = creep })
-    mod:OnAttackLanded({ attacker = slark, target = creep })
-
-    local buff = slark:FindModifierByName('modifier_enfos_slark_essence_shift_buff')
-    assert(buff ~= nil)
-    assert(buff:GetStackCount() == 2)
-    assert(buff:GetModifierBonusStats_Agility() == 6)
-    slark.PassivesDisabled = function() return true end
-    assert(buff:GetModifierBonusStats_Agility() == 0, 'Break must suppress existing Essence Shift stacks')
-    slark.PassivesDisabled = function() return false end
-    slark.IsIllusion = function() return true end
-    mod:OnAttackLanded({ attacker = slark, target = creep })
-    assert(buff:GetStackCount() == 2 and buff:GetModifierBonusStats_Agility() == 0,
-        'Essence Shift must not trigger or grant its bonus to illusions')
-end)
-
 test('Slark Pounce performs a visible timed dash and applies a true capped leash on impact', function()
     applied_damages = {}
     local slark = create_mock_unit('npc_dota_hero_slark', 2, Vector(0, 0, 0))

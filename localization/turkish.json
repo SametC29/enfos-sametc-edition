@@ -699,7 +699,7 @@
     "DOTA_Tooltip_Ability_enfos_slark_pounce": "Üstüne Atlama (Pounce)",
     "DOTA_Tooltip_Ability_enfos_slark_pounce_Description": "İleri doğru {{pounce_distance}} birim atılır. Varışta yakındaki düşmanlara {{damage}} + çevikliğinin %80’i kadar fiziksel hasar verir ve onları {{leash_duration}} saniye bağlar. Boss bağı {{boss_leash_duration}} saniyedir.",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift": "Öz Değişimi (Essence Shift)",
-    "DOTA_Tooltip_Ability_enfos_slark_essence_shift_Description": "Her saldırı {{duration}} saniyeliğine {{bonus_agi}} çeviklik kazandırır; en fazla {{max_stacks}} yük birikir.",
+    "DOTA_Tooltip_Ability_enfos_slark_essence_shift_Description": "Düşman kahramanlara saldırılar her özellikten {{stat_loss}} çalar ve {{duration}} sn boyunca {{bonus_agi}} çeviklik kazandırır. Native Öz Değişimi, {{steal_radius}} yarıçapındaki kahraman ölümlerinden yalnız bu maç için kalıcı çeviklik çalabilir. Düşman yaratıklara saldırılar {{bonus_agi}} çeviklik kazandırır; en fazla {{max_stacks}} yük, her vuruşta ortak {{duration}} sn süre yenilenir. Kırılma yeni geçici yükleri durdurur; mevcut bonuslar korunur.",
     "DOTA_Tooltip_Ability_enfos_slark_shadow_dance": "Gölge Dansı (Shadow Dance)",
     "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_Description": "Düşmanlar tarafından görülmediğinde %{{bonus_movement_speed}} hareket hızı ve saniyede {{bonus_regen}} sağlık kazanır. Tarafsız birim hasarı pasif bonusları 2 sn kapatır. Etkinleştirildiğinde {{duration}} sn boyunca görünen bir bulutta gizlenir; saldırılar, büyüler ve eşyalar Slark’ı açığa çıkarmaz.",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait": "Balık Yemi (Fish Bait)",
@@ -1839,6 +1839,8 @@
     "DOTA_Tooltip_ability_enfos_sf_requiem_of_souls_scepter_description": "Doğal Requiem dalgaları geri döner, hasar verir ve Shadow Fiend’i iyileştirir. Bekleme süresini 30 saniye azaltır; süre en az 1 saniyedir.",
     "DOTA_Tooltip_ability_enfos_sf_shadowraze_shard_description": "Doğal Shadowraze düşmanları yavaşlatır ve düşman kahramana isabet ettiğinde bekleme süresini azaltır.",
     "DOTA_Tooltip_Ability_enfos_bb_bristleback_scepter_description": "Bristleback aktifini açar: seçilen yöne beş Quill Spray salar. Bekleme 24 sn; mana 125. Hairball için ek hasar veya bekleme bonusu vermez.",
-    "DOTA_Tooltip_Ability_enfos_bb_native_hairball": "Kıl Yumağı (Hairball)"
+    "DOTA_Tooltip_Ability_enfos_bb_native_hairball": "Kıl Yumağı (Hairball)",
+    "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff": "Yaratık Özü",
+    "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff_Description": "Düşman yaratıklara saldırılardan kazanılan geçici çeviklik. Yeni vuruşlar ortak süreyi yeniler. Kırılma yeni yükleri durdurur; mevcut bonusları korur."
   }
 }

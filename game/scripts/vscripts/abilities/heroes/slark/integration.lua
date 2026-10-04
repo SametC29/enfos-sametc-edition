@@ -10,7 +10,29 @@ function Integration.Restore(hero)
         local m=hero:AddNewModifier(hero,q,'modifier_enfos_slark_native_scaling',{})
         if not m or m:IsNull() then return false end
     end
+    local e=hero:FindAbilityByName('enfos_slark_essence_shift')
+    if e and not e:IsNull() then
+        local native=hero:FindAbilityByName('slark_essence_shift') or hero:AddAbility('slark_essence_shift')
+        if not native or native:IsNull() then return false end
+        if native:GetLevel()~=1 then native:SetLevel(1) end
+        native:SetHidden(true)
+        native:SetActivated(false)
+    end
     Trace:Log('SLARK','Q','native_pact_ready rank=%s',tostring(q:GetLevel()))
+    return true
+end
+function Integration.RefreshEssence(hero)
+    if not Integration.Restore(hero) then return false end
+    local native=hero:FindAbilityByName('slark_essence_shift')
+    if not native or native:IsNull() then return false end
+    local name=native:GetIntrinsicModifierName()
+    local m=name and name~='' and hero:FindModifierByName(name)
+    if not m or m:IsNull() then
+        Trace:Log('SLARK','E','native_essence_intrinsic_missing')
+        return false
+    end
+    m:ForceRefresh()
+    Trace:Log('SLARK','E','native_essence_ready')
     return true
 end
 return Integration

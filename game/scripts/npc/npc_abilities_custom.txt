@@ -2893,6 +2893,7 @@
 		"IsBreakable" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Innate" "0"
 		"AbilityTextureName"		"slark_essence_shift"
 		"RequiredLevel"	"1"
 		"LevelsBetweenUpgrades"	"1"
@@ -2902,8 +2903,10 @@
 			"bonus_agi" "1 1 2 2 2 3 3 3 4 4"
 			"duration" "30"
 			"max_stacks" "30 35 40 45 50 55 60 65 70 75"
+			"stat_loss" "1"
+			"steal_radius" "300"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/slark/essence_shift"
 	}
 
 	"enfos_slark_shadow_dance"

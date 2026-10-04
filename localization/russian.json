@@ -452,7 +452,7 @@
     "DOTA_Tooltip_Ability_enfos_bb_warpath_shard_description": "+350 здоровья. Отражает 15% входящего вражеского урона физическим уроном.",
     "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_scepter_description": "Перезарядка Танца теней сокращается на 25%. Способность не наносит прямого урона.",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift": "Смена сущности (Essence Shift)",
-    "DOTA_Tooltip_Ability_enfos_slark_essence_shift_Description": "Каждая атака дает {{bonus_agi}} ловкости на {{duration}} сек., максимум {{max_stacks}} зарядов.",
+    "DOTA_Tooltip_Ability_enfos_slark_essence_shift_Description": "Атаки по вражеским героям крадут по {{stat_loss}} каждого атрибута и дают {{bonus_agi}} ловкости на {{duration}} сек. Нативная Essence Shift может навсегда украсть ловкость при смерти героя в радиусе {{steal_radius}}, только на текущий матч. Атаки по вражеским крипам дают {{bonus_agi}} ловкости, до {{max_stacks}} зарядов; каждый удар обновляет их общую длительность {{duration}} сек. Истощение блокирует новые временные заряды, но сохраняет существующие бонусы.",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait": "Наживка (Fish Bait)",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait_Description": "Атаки с вероятностью {{proc_chance}}% наносят по области {{cleave_pct}}% физического урона и снижают броню цели на {{armor_reduction}}; эффект суммируется до {{max_armor_stacks}} раз.",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait_shard_description": "+35 скорости атаки. Атаки замедляют движение на 25% и атаки на 25 на 3 сек.",
@@ -1449,6 +1449,8 @@
     "DOTA_Tooltip_Ability_enfos_slark_dark_pact": "Тёмный пакт",
     "DOTA_Tooltip_Ability_enfos_slark_dark_pact_Description": "Через {{delay}} сек. выпускает {{total_pulses}} импульсов в радиусе {{radius}}, нанося суммарно {{total_damage}} + Ловкость × {{agility_factor}} магического урона и применяя сильное развеивание отрицательных эффектов. Интервал {{pulse_interval}} сек. Slark также получает {{self_damage_pct}}% этого урона.",
     "DOTA_Tooltip_Ability_enfos_slark_shadow_dance": "Танец теней",
-    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_Description": "Когда враги не видят Slark, получает {{bonus_movement_speed}}% скорости передвижения и {{bonus_regen}} здоровья в секунду. Урон от нейтралов отключает пассивные бонусы на 2 сек. Активация скрывает Slark в видимом облаке на {{duration}} сек.; атаки, способности и предметы не раскрывают его."
+    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_Description": "Когда враги не видят Slark, получает {{bonus_movement_speed}}% скорости передвижения и {{bonus_regen}} здоровья в секунду. Урон от нейтралов отключает пассивные бонусы на 2 сек. Активация скрывает Slark в видимом облаке на {{duration}} сек.; атаки, способности и предметы не раскрывают его.",
+    "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff": "Эссенция крипов",
+    "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff_Description": "Временная ловкость от атак по вражеским крипам. Новые удары обновляют общую длительность. Истощение блокирует новые заряды, но сохраняет существующие бонусы."
   }
 }

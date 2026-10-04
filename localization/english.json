@@ -496,7 +496,7 @@
     "DOTA_Tooltip_Ability_enfos_bb_warpath_shard_description": "+350 health. Reflects 15% of incoming enemy damage as physical damage.",
     "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_scepter_description": "Shadow Dance cooldown reduced by 25%. This ability deals no direct spell damage.",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift": "Essence Shift",
-    "DOTA_Tooltip_Ability_enfos_slark_essence_shift_Description": "Each attack grants {{bonus_agi}} Agility for {{duration}}s, up to {{max_stacks}} stacks.",
+    "DOTA_Tooltip_Ability_enfos_slark_essence_shift_Description": "Attacks against enemy heroes drain {{stat_loss}} of each attribute and grant {{bonus_agi}} Agility for {{duration}}s. Native Essence Shift can permanently steal Agility within {{steal_radius}} on hero deaths, for this match only. Enemy creep attacks grant {{bonus_agi}} Agility, up to {{max_stacks}} stacks; each hit refreshes their shared {{duration}}s duration. Break blocks new temporary stacks; existing bonuses remain.",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait": "Fish Bait",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait_Description": "Attacks have a {{proc_chance}}% chance to cleave for {{cleave_pct}}% physical damage and reduce the target's armor by {{armor_reduction}}, stacking up to {{max_armor_stacks}} times.",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait_shard_description": "+35 attack speed. Attacks slow movement by 25% and attack speed by 25 for 3s.",
@@ -1509,6 +1509,8 @@
     "DOTA_Tooltip_Ability_enfos_slark_dark_pact": "Dark Pact",
     "DOTA_Tooltip_Ability_enfos_slark_dark_pact_Description": "After {{delay}}s, releases {{total_pulses}} pulses within {{radius}}, dealing a total of {{total_damage}} + Agility × {{agility_factor}} magical damage and strongly dispelling negative effects. Pulses occur every {{pulse_interval}}s. Slark also takes {{self_damage_pct}}% of the damage.",
     "DOTA_Tooltip_Ability_enfos_slark_shadow_dance": "Shadow Dance",
-    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_Description": "When unseen by enemies, gains {{bonus_movement_speed}}% movement speed and {{bonus_regen}} health per second. Neutral damage disables these passive bonuses for 2s. Activate to hide in a visible cloud for {{duration}}s; attacks, spells and items do not reveal Slark."
+    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_Description": "When unseen by enemies, gains {{bonus_movement_speed}}% movement speed and {{bonus_regen}} health per second. Neutral damage disables these passive bonuses for 2s. Activate to hide in a visible cloud for {{duration}}s; attacks, spells and items do not reveal Slark.",
+    "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff": "Creep Essence",
+    "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff_Description": "Temporary Agility earned from enemy creep attacks. New hits refresh the shared duration. Break blocks new stacks but preserves existing bonuses."
   }
 }

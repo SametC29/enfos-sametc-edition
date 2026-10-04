@@ -1766,7 +1766,7 @@
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
           "hasSound": true,
-          "hasParticle": false
+          "hasParticle": true
         },
         {
           "slot": 2,
@@ -1796,12 +1796,15 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
           "callbacks": [
-            "GetIntrinsicModifierName"
+            "GetIntrinsicModifierName",
+            "OnUpgrade"
           ],
           "specials": {
             "bonus_agi": "1 1 2 2 2 3 3 3 4 4",
             "duration": "30",
-            "max_stacks": "30 35 40 45 50 55 60 65 70 75"
+            "max_stacks": "30 35 40 45 50 55 60 65 70 75",
+            "stat_loss": "1",
+            "steal_radius": "300"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],

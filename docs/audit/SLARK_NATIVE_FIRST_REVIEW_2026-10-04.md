@@ -136,3 +136,64 @@ Q additive AGI bridge and the installed regen unit/endpoint interpolation.
 The full node tools/checks.mjs boundary passes with zero failed checks. These
 results establish source consistency only; every R engine gate remains pending.
 No game launch, console command, remote push or publication occurred.
+
+## E source decision before implementation
+
+Use a paid ten-rank E controller and the exact hidden native slark_essence_shift
+provider at rank1, following the reviewed linked-provider pattern. Native
+hero attacks/attribute loss, kill-radius permanent match-local AGI, per-stack
+expiry and effects stay in C++; no manual constructor names are guessed.
+An existing shared scaler bridges agi_gain/stat_loss/duration/steal_radius
+from the paid E, returning zero while untrained. ForceRefresh resolves the
+native intrinsic through GetIntrinsicModifierName on the server. No points
+or second innate slot are granted. This also preserves the exact provider ID
+for later native Pounce integration. Provider restores once after spawn.
+
+Creep extension listens only to this real Slark's landed attacks against enemy
+creeps, excluding heroes/hero illusions to prevent duplicate native gains. It
+keeps the authored1–4 AGI/rank and30–75 stack cap,30-second shared buff refresh,
+including killing attacks. Break blocks new temporary gains; existing bonuses
+remain active, matching installed Essence Shift Note4. The previous mock
+incorrectly certified suppression of existing stacks under Break. Illusions
+receive no extension, untrained/removed handles return zero, and no global scan,
+interval, damage, permanent creep steal or external progression is added.
+
+Installed snapshot has agi_gain3/stat_loss1/steal_radius300, duration10 with
+hero_levelup+2.5; choose the existing authored30-second duration and1–4 gain
+for both hero and creep paths, explicitly replacing native level-duration
+scaling. Native hero stacks retain native lifetime/cap rules, while creep
+stack cap/whole-buff refresh are the documented PvE conversion. Native
+kill-radius match-local steal and neutral/wave classification await engine tests.
+
+API index verifies IsCreep/IsHero on both sides; OnAttackLanded event;
+GetIntrinsicModifierName server-only and ForceRefresh both. ModDota BaseClass
+documentation rechecked2026-10-04; reference-only Pathfinders2208582400
+slark hero mapping and item essence upgrades reviewed, with no code imports.
+
+## E source implementation and validation
+
+Paid E controller, exact rank1 hidden native provider and four-key native-value
+bridge are installed. Existing free-passive spawn service restores the provider
+idempotently. Rank updates refresh the server-native intrinsic resolved from
+the engine; a missing intrinsic emits missing and cannot claim ready. Orphaned
+or untrained paid E returns zero through the bridge rather than native defaults.
+Creep listener/buff are isolated in Slark modifiers, registered on both sides,
+with no native hero double gains, scans, per-target modifiers or interval timers.
+Existing hit glow is retained via the shared effect helper and existing precache;
+VPK SHA f20ecca6f983e67c232168161ee56b66b74bd69365005664f3815f1e70e2ee98.
+Attachment/one-shot appearance/termination remain owner engine checks.
+Localized ability and buff text exists in all four languages. Debug-gated bounded
+trace reports creep stack changes without adding gameplay work solely for logging.
+
+Seven focused Slark tests and twelve shared Luna/bootstrap tests pass. They
+cover all paid E ranks, provider reuse, no free points, native-name refresh,
+missing intrinsic/source, client-safe reads, cap/kill-hit filtering, heroes and
+noncreeps/allies, Break and illusions. First broad source run detected the new
+controller missing from the existing shared server loader (class absent in
+smoke checks); added its explicit module import and verified rank1–10 smoke
+execution. Final full checks are recorded below; no owner engine pass is implied.
+
+Final E source boundary: node tools/checks.mjs passes with zero failed checks.
+Q/R/E source units are implemented; W/D remain open. All native C++ queries,
+rank HUD, actual stats, effects/audio, upgrades, respawn/reconnect and clean
+VConsole remain PENDING OWNER TEST. No remote push or publication occurred.

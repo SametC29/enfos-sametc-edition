@@ -418,3 +418,15 @@ Existing full-map vision can affect native passive activation; do not change
 global vision or certify actual healing from a source mock. Owner engine testing
 and balance evaluation remain pending. Generic R Scepter cooldown reduction
 stays provisional until Slark W/upgrade integration.
+
+## Slark Essence Shift native hero path and creep extension, 2026-10-04
+
+Use native rank1 hidden Essence Shift, tuned by paid E1–10, with native
+stat_loss1/steal_radius300 and authored1–4 AGI/30-second temporary duration.
+Hero level-duration scaling is replaced by authored duration. Native hero
+kill-radius permanent steal is match-local only; no account persistence.
+Creeps retain capped30–75 self-AGI stacks and whole-buff refresh; no hero
+double-gain or permanent creep steal. Break stops new temporary gains while
+existing bonuses persist, correcting the old behavior against installed Note4.
+Runtime native special reads, actual creep/boss classification, cold-start
+feedback, upgrades, life-cycle and balance remain provisional pending owner tests.

@@ -216,8 +216,6 @@ local modifier_list = {
     'modifier_enfos_pudge_meat_shield_passive',
     'modifier_enfos_slark_pounce_leash',
     'modifier_enfos_slark_pounce_dash',
-    'modifier_enfos_slark_essence_shift_passive',
-    'modifier_enfos_slark_essence_shift_buff',
     'modifier_enfos_slark_fish_bait_passive',
     'modifier_enfos_slark_fish_bait_debuff',
     'modifier_enfos_ursa_earthshock_slow',
@@ -334,6 +332,7 @@ local isolatedModifiers = require('abilities/heroes/lich/init')
 require('abilities/heroes/nevermore/modifier_links')
 require('abilities/heroes/bristleback/modifier_links')
 require('abilities/heroes/slark/modifier_links')
+require('abilities/heroes/slark/essence_shift')
 for name, path in pairs(require('abilities/heroes/vengefulspirit/init')) do
     isolatedModifiers[name] = path
 end
@@ -5437,42 +5436,6 @@ function modifier_enfos_slark_pounce_leash:IsDebuff() return true end
 function modifier_enfos_slark_pounce_leash:CheckState() return { [MODIFIER_STATE_TETHERED] = true } end
 function modifier_enfos_slark_pounce_leash:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
 function modifier_enfos_slark_pounce_leash:GetModifierMoveSpeedBonus_Percentage() return -80 end
-
-enfos_slark_essence_shift=class({})
-function enfos_slark_essence_shift:GetIntrinsicModifierName() return 'modifier_enfos_slark_essence_shift_passive' end
-
-modifier_enfos_slark_essence_shift_passive=class({})
-function modifier_enfos_slark_essence_shift_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACK_LANDED } end
-function modifier_enfos_slark_essence_shift_passive:OnAttackLanded(params)
-    if not IsServer() then return end
-    local c = self:GetParent()
-    if params.attacker ~= c or (c.PassivesDisabled and c:PassivesDisabled())
-        or (c.IsIllusion and c:IsIllusion()) then return end
-    if c.PassivesDisabled and c:PassivesDisabled() then return end
-    local t = params.target
-    if not t or (t.IsNull and t:IsNull()) or not t:IsAlive() or (t.GetTeamNumber and t:GetTeamNumber() == c:GetTeamNumber()) then return end
-    local buff = c:FindModifierByName('modifier_enfos_slark_essence_shift_buff')
-    local ability = self:GetAbility()
-    if not buff then
-        buff = c:AddNewModifier(c, ability, 'modifier_enfos_slark_essence_shift_buff', { duration = value(ability, 'duration') })
-    end
-    if buff and buff.SetStackCount then
-        local cur = (buff.GetStackCount and buff:GetStackCount()) or 0
-        local cap = value(ability, 'max_stacks')
-        buff:SetStackCount(math.min(cap > 0 and cap or 50, cur + 1))
-        buff:SetDuration(value(ability, 'duration'), true)
-        effect('particles/units/heroes/hero_slark/slark_essence_shift_hit_glow.vpcf', t)
-    end
-end
-
-modifier_enfos_slark_essence_shift_buff=class({})
-function modifier_enfos_slark_essence_shift_buff:DeclareFunctions() return { MODIFIER_PROPERTY_STATS_AGILITY_BONUS } end
-function modifier_enfos_slark_essence_shift_buff:GetModifierBonusStats_Agility()
-    local c = self:GetParent()
-    if c and ((c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion())) then return 0 end
-    local ability = self:GetAbility()
-    return (self:GetStackCount() or 0) * value(ability, 'bonus_agi')
-end
 
 enfos_slark_fish_bait=class({})
 function enfos_slark_fish_bait:GetIntrinsicModifierName() return 'modifier_enfos_slark_fish_bait_passive' end

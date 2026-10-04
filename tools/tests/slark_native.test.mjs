@@ -36,7 +36,7 @@ test('native AGI bridge uses raw rank values on client/server and restores once 
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end
 local server=true;function IsServer()return server end
-function LinkLuaModifier(name,path)assert(name=='modifier_enfos_slark_native_scaling' and path=='abilities/heroes/slark/modifiers')end
+function LinkLuaModifier(name,path)assert(path=='abilities/heroes/slark/modifiers')end
 local Integration=require('abilities/heroes/slark/integration')
 local rank,adds=1,0
 local values={${ranks}}
@@ -48,7 +48,7 @@ local q={IsNull=function()return false end,GetAbilityName=function()return 'enfo
 local handle
 local hero={IsNull=function()return false end,IsRealHero=function()return true end,IsIllusion=function()return false end,
  GetUnitName=function()return 'npc_dota_hero_slark'end,GetAgility=function()return 20 end,
- FindAbilityByName=function(_,id)assert(id=='enfos_slark_dark_pact');return q end,
+ FindAbilityByName=function(_,id)if id=='enfos_slark_dark_pact' then return q end end,
  HasModifier=function()return handle~=nil end,
  AddAbility=function()error('Native alias needs no provider')end,
  SetAbilityPoints=function()error('Scaling must not grant points')end}
@@ -97,4 +97,85 @@ test('Shadow Dance flat regen uses native endpoints rather than treating authore
   assert.ok(!desc.includes('{{health_regen_pct}}'));
   assert.ok(!tokens.DOTA_Tooltip_Ability_enfos_slark_shadow_dance_scepter_description.includes('40%'));
  }
+});
+
+function runLua(input){
+ const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{encoding:'utf8',input});
+ assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');
+}
+const essenceSetup=`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t)t.__index=t;return t end
+local server=true;function IsServer()return server end
+function LinkLuaModifier(name,path)assert(path=='abilities/heroes/slark/modifiers')end
+local I=require('abilities/heroes/slark/integration')
+local rank=1;local broke,illusion,removed=false,false,false
+local v={bonus_agi={1,1,2,2,2,3,3,3,4,4},max_stacks={30,35,40,45,50,55,60,65,70,75},duration={30},stat_loss={1},steal_radius={300}}
+local e={IsNull=function()return removed end,GetLevel=function()return rank end,GetAbilityName=function()return 'enfos_slark_essence_shift'end,
+ GetLevelSpecialValueNoOverride=function(_,key,level)return v[key][level+1] or v[key][1]end,
+ GetSpecialValueFor=function(_,key)return v[key][rank] or v[key][1]end}
+local q={IsNull=function()return false end,GetLevel=function()return 1 end}
+local mods,providers={},{};local adds,refreshes=0,0
+local hero={IsNull=function()return false end,IsRealHero=function()return true end,IsIllusion=function()return illusion end,
+ GetUnitName=function()return 'npc_dota_hero_slark'end,GetTeamNumber=function()return 2 end,PassivesDisabled=function()return broke end,
+ FindAbilityByName=function(_,id)if id=='enfos_slark_dark_pact'then return q elseif id=='enfos_slark_essence_shift'then return e else return providers[id]end end,
+ HasModifier=function(_,id)return mods[id]~=nil end,FindModifierByName=function(_,id)return mods[id]end,
+ SetAbilityPoints=function()error('No free points')end}
+hero.AddAbility=function(_,id)assert(id=='slark_essence_shift' and not providers[id]);adds=adds+1
+ local a={level=0,IsNull=function()return false end,GetAbilityName=function()return id end,GetLevel=function(self)return self.level end,
+ SetLevel=function(self,level)assert(level==1);self.level=level end,SetHidden=function(_,value)assert(value)end,
+ SetActivated=function(_,value)assert(not value)end,GetIntrinsicModifierName=function()return 'native_engine_name'end}
+ providers[id]=a;mods.native_engine_name={IsNull=function()return false end,ForceRefresh=function()refreshes=refreshes+1 end};return a end
+hero.AddNewModifier=function(_,_,a,id,p)
+ assert(id=='modifier_enfos_slark_native_scaling' or id=='modifier_enfos_slark_essence_shift_buff')
+ local m=setmetatable({count=0,IsNull=function()return false end,GetParent=function()return hero end,GetAbility=function()return a end,
+ GetStackCount=function(self)return self.count end,SetStackCount=function(self,n)self.count=n end,
+ SetDuration=function(self,n,refresh)assert(n==30 and refresh);self.duration=n end},_G[id]);mods[id]=m;return m end
+assert(I.Restore(hero) and I.Restore(hero) and adds==1)
+local listener=setmetatable({GetParent=function()return hero end,GetAbility=function()return e end},modifier_enfos_slark_essence_shift_passive)
+local target={IsNull=function()return false end,IsHero=function()return false end,IsCreep=function()return true end,GetTeamNumber=function()return 3 end,
+ IsAlive=function()error('Killing blows still count')end}
+`;
+
+test('paid Essence controller keeps native provider rank1 and native hero ownership with ten-rank authored tuning',()=>{
+ const e=all.enfos_slark_essence_shift;assert.equal(e.BaseClass,'ability_lua');assert.equal(e.ScriptFile,'abilities/heroes/slark/essence_shift');
+ assert.equal(e.Innate,'0');assert.equal(e.MaxLevel,'10');assert.equal(e.RequiredLevel,'1');assert.equal(e.LevelsBetweenUpgrades,'1');
+ assert.equal(all.slark_essence_shift,undefined);
+ const native=JSON.parse(fs.readFileSync('docs/audit/SLARK_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.slark_essence_shift;
+ assert.equal(e.AbilityValues.stat_loss,native.AbilityValues.stat_loss);assert.equal(e.AbilityValues.steal_radius,native.AbilityValues.steal_radius.value);
+ const lua=fs.readFileSync('game/scripts/vscripts/abilities/heroes/slark/modifiers.lua','utf8');
+ assert.doesNotMatch(lua,/StartIntervalThink|ApplyDamage|FindUnitsInRadius|SetAbilityPoints/);
+ assert.doesNotMatch(fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8'),/enfos_slark_essence_shift=class|modifier_enfos_slark_essence_shift_passive=class/);
+ runLua(essenceSetup+`
+ local scaler=mods.modifier_enfos_slark_native_scaling
+ local p={ability=providers.slark_essence_shift,ability_special_value='agi_gain'}
+ for r=1,10 do rank=r;assert(scaler:GetModifierOverrideAbilitySpecial(p)==1 and scaler:GetModifierOverrideAbilitySpecialValue(p)==v.bonus_agi[r]);assert(I.RefreshEssence(hero))end
+ assert(adds==1 and refreshes==10)
+ mods.native_engine_name=nil;assert(not I.RefreshEssence(hero) and refreshes==10)
+ rank=0;for _,key in ipairs({'agi_gain','stat_loss','duration','steal_radius'})do p.ability_special_value=key;assert(scaler:GetModifierOverrideAbilitySpecialValue(p)==0)end
+ server=false;hero.FindModifierByName=function()error('Client has no server modifier lookup')end
+ rank=10;p.ability_special_value='agi_gain';assert(scaler:GetModifierOverrideAbilitySpecialValue(p)==4)
+ assert(not I.Restore(hero))
+ removed=true;assert(scaler:GetModifierOverrideAbilitySpecial(p)==1 and scaler:GetModifierOverrideAbilitySpecialValue(p)==0)
+ hero.FindAbilityByName=function()return nil end
+ assert(scaler:GetModifierOverrideAbilitySpecial(p)==1 and scaler:GetModifierOverrideAbilitySpecialValue(p)==0)
+ `);
+});
+
+test('creep essence is bounded, ignores native hero hits, preserves existing stacks under Break and handles invalid sources on client',()=>{
+ runLua(essenceSetup+`
+ listener:OnAttackLanded({attacker=hero,target=target})
+ local buff=mods.modifier_enfos_slark_essence_shift_buff;assert(buff and buff.count==1 and buff:GetModifierBonusStats_Agility()==1)
+ for i=1,100 do listener:OnAttackLanded({attacker=hero,target=target})end
+ assert(buff.count==30 and buff.duration==30)
+ rank=10;listener:OnAttackLanded({attacker=hero,target=target});assert(buff.count==31 and buff:GetModifierBonusStats_Agility()==124)
+ broke=true;listener:OnAttackLanded({attacker=hero,target=target});assert(buff.count==31 and buff:GetModifierBonusStats_Agility()==124)
+ broke=false;target.IsHero=function()return true end;listener:OnAttackLanded({attacker=hero,target=target});assert(buff.count==31)
+ target.IsHero=function()return false end;target.IsCreep=function()return false end;listener:OnAttackLanded({attacker=hero,target=target});assert(buff.count==31)
+ target.IsCreep=function()return true end;target.GetTeamNumber=function()return 2 end;listener:OnAttackLanded({attacker=hero,target=target});assert(buff.count==31)
+ illusion=true;assert(buff:GetModifierBonusStats_Agility()==0);listener:OnAttackLanded({attacker=hero,target=target});assert(buff.count==31);illusion=false
+ rank=0;assert(buff:GetModifierBonusStats_Agility()==0);rank=10;removed=true;assert(buff:GetModifierBonusStats_Agility()==0);removed=false
+ server=false;hero.IsAlive=function()error('Server only')end;hero.FindModifierByName=function()error('Server only')end;hero.PassivesDisabled=function()error('Existing bonus need not query Break')end
+ assert(buff:GetModifierBonusStats_Agility()==124);listener:OnAttackLanded({attacker=hero,target=target});assert(buff.count==31)
+ `);
 });

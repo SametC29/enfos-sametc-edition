@@ -452,7 +452,7 @@
     "DOTA_Tooltip_Ability_enfos_bb_warpath_shard_description": "+350生命，将15%敌方伤害以物理伤害反弹。",
     "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_scepter_description": "暗影之舞冷却时间缩短25%。此技能不造成直接法术伤害。",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift": "能量转移 (Essence Shift)",
-    "DOTA_Tooltip_Ability_enfos_slark_essence_shift_Description": "每次攻击获得{{bonus_agi}}点敏捷，持续{{duration}}秒，最多叠加{{max_stacks}}层。",
+    "DOTA_Tooltip_Ability_enfos_slark_essence_shift_Description": "攻击敌方英雄会窃取其每种属性{{stat_loss}}点，并获得{{bonus_agi}}点敏捷，持续{{duration}}秒。原生能量转移可在{{steal_radius}}范围内的英雄死亡时永久窃取敏捷，仅限本局。攻击敌方小兵获得{{bonus_agi}}点敏捷，最多{{max_stacks}}层；每次命中刷新所有小兵层数的{{duration}}秒持续时间。破坏阻止新增临时层数，但保留已有加成。",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait": "鱼饵 (Fish Bait)",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait_Description": "攻击有{{proc_chance}}%几率溅射{{cleave_pct}}%物理伤害并使目标护甲降低{{armor_reduction}}，最多叠加{{max_armor_stacks}}层。",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait_shard_description": "+35攻速，攻击使目标移速降低25%、攻速降低25，持续3秒。",
@@ -1449,6 +1449,8 @@
     "DOTA_Tooltip_Ability_enfos_slark_dark_pact": "黑暗契约",
     "DOTA_Tooltip_Ability_enfos_slark_dark_pact_Description": "{{delay}}秒后，在{{radius}}范围释放{{total_pulses}}次脉冲，总计造成{{total_damage}} + 敏捷 × {{agility_factor}}魔法伤害，并对自身负面效果进行强驱散。脉冲间隔{{pulse_interval}}秒。斯拉克自身也承受{{self_damage_pct}}%的伤害。",
     "DOTA_Tooltip_Ability_enfos_slark_shadow_dance": "暗影之舞",
-    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_Description": "未被敌人看见时，获得{{bonus_movement_speed}}%移动速度和每秒{{bonus_regen}}点生命恢复。中立生物伤害使被动加成失效2秒。主动释放后，在可见的云雾中隐藏{{duration}}秒；攻击、施法和使用物品不会显形。"
+    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_Description": "未被敌人看见时，获得{{bonus_movement_speed}}%移动速度和每秒{{bonus_regen}}点生命恢复。中立生物伤害使被动加成失效2秒。主动释放后，在可见的云雾中隐藏{{duration}}秒；攻击、施法和使用物品不会显形。",
+    "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff": "小兵能量",
+    "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff_Description": "攻击敌方小兵获得的临时敏捷。新命中刷新所有层数的持续时间。破坏阻止新层数，但保留已有加成。"
   }
 }
