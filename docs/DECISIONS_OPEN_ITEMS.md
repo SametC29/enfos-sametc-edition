@@ -193,8 +193,8 @@ May change without reopening core design (legacy persistent XP formulas are reti
 - creep threat costs.
 
 ## Owner respawn and publication decision — 2026-10-01
-Owner decision (2026-10-01): player hero normal death respawn starts at 30 seconds
-at match start level 6, rises linearly with level (rounded to nearest second),
+Owner decision (2026-10-01, start level revised 2026-10-04): player hero normal death respawn stays at 30 seconds
+through level 6, then rises linearly with level (rounded to nearest second),
 and caps at 50 seconds at level 50. Native Aegis/Reincarnation are preserved;
 neutral Bosses never receive player respawn timers. Supersedes the old 5–20s seed.
 Live/Workshop publication now requires a new explicit owner instruction.
@@ -303,8 +303,9 @@ Prove early:
   prove this addon's level-50 cap, table indexing or skill UI behavior; verify in
   the current engine before rollout.
 - IMPLEMENTATION IN PROGRESS: `heroes/match_levels.lua` defines the level-50
-  cumulative XP curve and starts each player at level 6 with five spendable
-  points once per player after granting the free Enfos passive.
+  cumulative XP curve and starts each normal-match player at level 1 with zero
+  paid points once per player after granting the free Enfos passive. The
+  separate Tools-only test arena keeps its level-6 preload and level-10 room setup.
   `enfos_sametc.lua` installs it at game-mode startup and hero spawn. All 40
   roster heroes now have KV gates for Q/W/E/Enfos passive (level 1, interval 1)
   and R (level 5, interval 5); each has a focused contract test confirming rank

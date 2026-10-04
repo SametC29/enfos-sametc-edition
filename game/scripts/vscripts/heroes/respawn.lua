@@ -1,10 +1,11 @@
 -- Match-local player death timer; native reincarnation remains authoritative.
 local Levels = require("heroes/match_levels")
-local Respawn = { MIN_SECONDS = 30, MAX_SECONDS = 50 }
+local Respawn = { MIN_SECONDS = 30, MAX_SECONDS = 50, CURVE_START_LEVEL = 6 }
 
 function Respawn:SecondsForLevel(level)
-	local bounded = math.max(Levels.START_LEVEL, math.min(Levels.MAX_LEVEL, level))
-	local fraction = (bounded - Levels.START_LEVEL) / (Levels.MAX_LEVEL - Levels.START_LEVEL)
+	local startLevel = self.CURVE_START_LEVEL
+	local bounded = math.max(startLevel, math.min(Levels.MAX_LEVEL, level))
+	local fraction = (bounded - startLevel) / (Levels.MAX_LEVEL - startLevel)
 	return math.floor(self.MIN_SECONDS + (self.MAX_SECONDS - self.MIN_SECONDS) * fraction + 0.5)
 end
 

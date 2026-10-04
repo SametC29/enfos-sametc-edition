@@ -3,7 +3,8 @@
 local MatchLevels = {}
 
 MatchLevels.MAX_LEVEL = 50
-MatchLevels.START_LEVEL = 6
+MatchLevels.START_LEVEL = 1
+MatchLevels.TEST_START_LEVEL = 6
 MatchLevels.XP_FIRST_LEVEL_COST = 900
 MatchLevels.XP_COST_STEP = 45
 
@@ -17,6 +18,11 @@ function MatchLevels:BuildXPThresholds()
 		thresholds[currentLevel + 1] = cumulativeXP
 	end
 	return thresholds
+end
+
+function MatchLevels:StartingLevel()
+	if GetMapName and GetMapName() == "enfos_test" then return self.TEST_START_LEVEL end
+	return self.START_LEVEL
 end
 
 function MatchLevels:Configure(gameMode)
@@ -33,9 +39,9 @@ function MatchLevels:Configure(gameMode)
 	gameMode:SetUseCustomHeroLevels(true)
 end
 
--- Start each player at level 6 so the kit is testable before the first wave.
--- The fifth Enfos passive remains separately granted at rank 1. Dota levels
--- 2..6 provide five spendable ranks; levels 7..50 then provide the remaining 44.
+-- Ordinary matches start at level 1 with no paid points. The test arena starts
+-- at level 6, then its own preparation raises the hero to level 10. The fifth
+-- Enfos passive is separately granted at rank 1 in either map.
 -- The caller owns this state so respawns/reconnects never grant levels twice.
 function MatchLevels:InitializeStartingAbilityPoints(hero, initializedPlayers)
 	if not hero or hero:IsNull() or not hero:IsRealHero() or hero:IsIllusion()
@@ -45,7 +51,7 @@ function MatchLevels:InitializeStartingAbilityPoints(hero, initializedPlayers)
 	if playerID == nil or playerID < 0 then return false end
 	if initializedPlayers[playerID] then return false end
 
-	local startingLevel = math.min(self.START_LEVEL, self.MAX_LEVEL)
+	local startingLevel = math.min(self:StartingLevel(), self.MAX_LEVEL)
 	local thresholds = self:BuildXPThresholds()
 	local targetXP = thresholds[startingLevel]
 	local currentLevel = hero:GetLevel()
@@ -57,6 +63,10 @@ function MatchLevels:InitializeStartingAbilityPoints(hero, initializedPlayers)
 		-- On a newly spawned hero, these are the only points earned before
 		-- gameplay begins; leave the separately granted Enfos passive untouched.
 		hero:SetAbilityPoints(math.max(0, hero:GetLevel() - 1))
+	elseif startingLevel == 1 and currentLevel == 1 then
+		-- Dota normally grants a level-one point. This roster budgets exactly
+		-- 49 paid ranks from levels 2..50; the Enfos passive has a free rank.
+		hero:SetAbilityPoints(0)
 	end
 	initializedPlayers[playerID] = true
 	return true

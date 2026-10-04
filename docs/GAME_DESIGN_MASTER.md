@@ -452,13 +452,15 @@ Enfos passive each have **10 total ranks**. The fifth passive is project-specifi
 not the modern native Dota innate. This supersedes the provisional level-30
 Q4/W4/E4/R3/attribute7/innate8 plan; match-level migration is partially implemented.
 
-Testing start (2026-09-29): every selected hero begins the match at level **6**,
-with five spendable ability points from levels 2–6. The fifth Enfos passive is
-still granted separately at rank 1. This is a temporary testability baseline;
-the level-50 cap and XP thresholds remain unchanged. The level and point grant
-occur once per player and do not repeat on respawn or reconnect.
+Normal-match start (owner revision, 2026-10-04): every selected hero begins
+`enfos` at level **1**, with zero paid ability points. The fifth Enfos passive
+is still granted separately at rank 1. The separate Tools-only `enfos_test`
+arena keeps the level-6 preload and advances to level 10 during test-room
+preparation, with nine ordinary points. The level-50 cap and XP thresholds
+remain unchanged. Initialization occurs once per player and does not repeat
+on respawn or reconnect.
 
-The fifth Enfos passive's first rank is free; its remaining nine ranks and the four Q/W/E/R skills at ten ranks require exactly 49 paid skill ranks. Levels 2–50 grant 49 ordinary ability points. Dota talent slots Ability10–Ability17, Ability19 and Ability25 are hidden for every hero; no talent tree or extra talent points are granted. With the level-6 test start, five points are available immediately and the remaining 44 arrive at levels 7–50. Attribute Tomes remain the stat source.
+The fifth Enfos passive's first rank is free; its remaining nine ranks and the four Q/W/E/R skills at ten ranks require exactly 49 paid skill ranks. Levels 2–50 grant 49 ordinary ability points. Dota talent slots Ability10–Ability17, Ability19 and Ability25 are hidden for every hero; no talent tree or extra talent points are granted. The normal map earns all 49 points through levels 2–50; the test arena grants the first nine by level 10. Attribute Tomes remain the stat source.
 
 Manual skill points.
 

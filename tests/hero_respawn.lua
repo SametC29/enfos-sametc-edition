@@ -8,6 +8,10 @@ for level=1,100 do
  assert(seconds>=previous and seconds>=30 and seconds<=50 and seconds==math.floor(seconds))
  previous=seconds
 end
+function GetMapName() return "enfos_test" end
+assert(R:SecondsForLevel(6)==30 and R:SecondsForLevel(28)==40 and R:SecondsForLevel(50)==50,
+ "test arena keeps the previous respawn curve")
+GetMapName=nil
 local selected,entity
 PlayerResource={IsValidPlayerID=function(_,id) return id==0 end,GetSelectedHeroEntity=function() return selected end}
 function EntIndexToHScript(id) assert(id==10);return entity end
