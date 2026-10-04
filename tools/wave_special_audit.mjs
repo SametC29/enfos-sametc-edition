@@ -16,6 +16,7 @@ const records=result.stdout.trim().split(/\r?\n/).map(line=>{
   const definition=native.get(id)||custom[id];
   if(!definition)throw Error(`Wave ${wave} unresolved ability ${id}`);
   const passive=(definition.AbilityBehavior||'').includes('PASSIVE');
+  if((definition.AbilityBehavior||'').includes('VECTOR_TARGETING'))throw Error(`Wave ${wave} ability ${id} needs a two-stage vector order unsupported by creep AI`);
   if(definition.BaseClass==='ability_datadriven'&&passive&&!Object.values(definition.Modifiers||{}).some(x=>x.Passive==='1'))throw Error(`No passive modifier for ${id}`);
   const warnings=[];
   if(id==='gnoll_assassin_envenomed_weapon')warnings.push('Installed rank-1 damage_per_second=0; regeneration reduction remains 75%. Do not claim damage-over-time.');

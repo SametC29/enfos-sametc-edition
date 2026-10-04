@@ -12,7 +12,7 @@ local KITS = {
  [34]={"root"},[36]={"root","enfos_wave_raise"},[37]={"hill_troll_rally"},
  [38]={"mud_golem_hurl_boulder"},[39]={"necronomicon_warrior_mana_burn"},
  [41]={"furbolg_enrage_attack_speed"},[42]={"polar_furbolg_ursa_warrior_thunder_clap"},
- [43]={"enfos_creep_spellguard_ward"},[44]={"enraged_wildkin_hurricane"},
+ [43]={"enfos_creep_spellguard_ward"},[44]={"enraged_wildkin_tornado"},
  [46]={"enfos_creep_venomous_poison"},[47]={"centaur_khan_war_stomp"},
  [48]={"mud_golem_hurl_boulder"},[49]={"invisible"},
  [51]={"enfos_creep_exploder_burst"},[52]={"black_drake_magic_amplification_aura"},
@@ -120,8 +120,16 @@ function S.TryCast(unit,team)
    local behavior=a:GetBehaviorInt()
    local isTarget=bit.band(behavior,DOTA_ABILITY_BEHAVIOR_UNIT_TARGET)~=0
    local isPoint=bit.band(behavior,DOTA_ABILITY_BEHAVIOR_POINT)~=0
-   local range=a:GetCastRange(unit:GetAbsOrigin(),nil)
-   if not isTarget and not isPoint then range=a:GetAOERadius();if range<=0 then range=750 end end
+   local castRange=a:GetCastRange(unit:GetAbsOrigin(),nil)
+   local range=castRange
+   if not isTarget and not isPoint then
+    range=a:GetAOERadius()
+    if range<=0 and a.GetSpecialValueFor then range=a:GetSpecialValueFor('radius') end
+    if range<=0 then range=750 end -- Support summons have no impact radius.
+   elseif isPoint and castRange<=0 and a.GetSpecialValueFor then
+    -- Native self-centered point casts (Ogre Smash) expose impact radius as a special.
+    range=a:GetSpecialValueFor('radius')
+   end
    range=math.max(128,math.min(1200,range))
    local friendly=a:GetAbilityTargetTeam()==DOTA_UNIT_TARGET_TEAM_FRIENDLY
    local targets=FindUnitsInRadius(friendly and unit:GetTeamNumber() or team,unit:GetAbsOrigin(),nil,range,
@@ -137,7 +145,9 @@ function S.TryCast(unit,team)
    if target then
     local order={UnitIndex=unit:entindex(),AbilityIndex=a:entindex(),Queue=false}
     if isTarget then order.OrderType=DOTA_UNIT_ORDER_CAST_TARGET;order.TargetIndex=target:entindex()
-    elseif isPoint then order.OrderType=DOTA_UNIT_ORDER_CAST_POSITION;order.Position=target:GetAbsOrigin()
+    elseif isPoint then
+     order.OrderType=DOTA_UNIT_ORDER_CAST_POSITION
+     order.Position=castRange<=0 and unit:GetAbsOrigin() or target:GetAbsOrigin()
     else order.OrderType=DOTA_UNIT_ORDER_CAST_NO_TARGET end
     ExecuteOrderFromTable(order);S.castAfter[key]=now+3;return true
    end

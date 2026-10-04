@@ -229,7 +229,7 @@ Sorular tek tek ilerler. Yanıt, gerçek metni ve bildirilen sürüm/maç/takım
   - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
 - **MT-0095 / PENDING** — 43. dalgada tüm yaratıkların enfos_creep_spellguard_ward mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
   - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
-- **MT-0096 / PENDING** — 44. dalgada tüm yaratıkların enraged_wildkin_hurricane mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
+- **MT-0096 / PENDING** — 44. dalgada tüm yaratıkların enraged_wildkin_tornado mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
   - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md
 - **MT-0097 / PENDING** — 46. dalgada tüm yaratıkların enfos_creep_venomous_poison mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?
   - Kaynak: docs/audit/WAVE_SPECIAL_REAUDIT_2026-10-01.md

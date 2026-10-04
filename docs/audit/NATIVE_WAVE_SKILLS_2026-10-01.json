@@ -472,25 +472,25 @@
       }
     },
     {
-      "name": "enraged_wildkin_hurricane",
+      "name": "enraged_wildkin_tornado",
       "source": "scripts/npc/npc_abilities.txt",
       "value": {
         "MaxLevel": "1",
-        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_VECTOR_TARGETING | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES",
-        "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_BOTH",
-        "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP",
+        "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED |DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+        "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+        "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
         "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
-        "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
-        "SpellDispellableType": "SPELL_DISPELLABLE_YES",
-        "AbilityCastRange": "400 500 600 750",
-        "AbilityCastPoint": "0",
-        "AbilityCooldown": "30.0 28.0 26.0 22.0",
+        "SpellDispellableType": "SPELL_DISPELLABLE_NO",
+        "AbilityCastRange": "500",
+        "AbilityCastPoint": "0.4",
+        "AbilityCooldown": "40.0 36.0 32.0 26.0",
+        "AbilityChannelTime": "10.0",
         "AbilityManaCost": "100",
         "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1",
         "AbilityValues": {
-          "distance": {
-            "value": "400"
-          }
+          "duration": "15.0",
+          "linger_duration": "5.0",
+          "tornado_base_movespeed": "125 140 155 185"
         }
       }
     },

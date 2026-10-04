@@ -496,12 +496,12 @@
       "distribution": "every authored creep",
       "skills": [
         {
-          "id": "enraged_wildkin_hurricane",
+          "id": "enraged_wildkin_tornado",
           "implementation": "native Valve ability",
           "rank": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_VECTOR_TARGETING | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES",
-          "targetTeam": "DOTA_UNIT_TARGET_TEAM_BOTH",
-          "targetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED |DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "targetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+          "targetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
           "warnings": []
         }
       ]

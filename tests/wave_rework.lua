@@ -103,7 +103,7 @@ function candidate:GetHealth() return self.hp end
 function candidate:GetMaxHealth() return 100 end
 function candidate:GetTeamNumber() return 4 end
 function candidate:entindex() return 99 end
-function candidate:GetAbsOrigin() return 0 end
+function candidate:GetAbsOrigin() return 100 end
 local function casterWith(name,friendly,behavior)
  local a={}
  function a:GetAbilityName() return name end
@@ -145,6 +145,35 @@ function FindUnitsInRadius(team,pos,cache,range,flags,types) assert(range==750);
 assert(S.TryCast(support,2),'No-target support activates at the engagement distance')
 local beforeQueries=queries
 assert(not S.TryCast(support,2) and queries==beforeQueries,'Per-unit search throttle')
+FindUnitsInRadius=previousFind
+S.Reset();orders={}
+local stomp=casterWith('centaur_khan_war_stomp',false,0)
+local stompAbility=stomp.enfosSpecials[1]
+function stompAbility:GetSpecialValueFor(key) assert(key=='radius');return 250 end
+local priorFind=FindUnitsInRadius
+function FindUnitsInRadius(team,pos,cache,range,flags,types)
+ assert(range==250,'Native rank-one Stomp searches only its actual 250-unit radius')
+ return priorFind(team,pos,cache,range,flags,types)
+end
+assert(S.TryCast(stomp,2) and orders[1].OrderType==DOTA_UNIT_ORDER_CAST_NO_TARGET)
+FindUnitsInRadius=priorFind
+S.Reset();orders={}
+local smash=casterWith('ogre_bruiser_ogre_smash',false,DOTA_ABILITY_BEHAVIOR_POINT)
+local smashAbility=smash.enfosSpecials[1]
+function smashAbility:GetCastRange() return 0 end
+function smashAbility:GetSpecialValueFor(key) assert(key=='radius');return 200 end
+function FindUnitsInRadius(team,pos,cache,range,flags,types)
+ assert(range==200,'Self-centered Smash searches its native impact radius')
+ return priorFind(team,pos,cache,range,flags,types)
+end
+assert(S.TryCast(smash,2) and orders[1].OrderType==DOTA_UNIT_ORDER_CAST_POSITION
+ and orders[1].Position==0,'Zero-range point cast lands at the caster, not an unreachable enemy point')
+FindUnitsInRadius=priorFind
+assert(S.KITS[44][1]=='enraged_wildkin_tornado','Wave 44 uses the native single-target tornado supported by creep orders')
+S.Reset();orders={}
+local tornado=casterWith(S.KITS[44][1],false,DOTA_ABILITY_BEHAVIOR_UNIT_TARGET+DOTA_ABILITY_BEHAVIOR_POINT)
+assert(S.TryCast(tornado,2) and orders[1].OrderType==DOTA_UNIT_ORDER_CAST_TARGET and orders[1].TargetIndex==99,
+ 'Wave 44 native Tornado receives its defender target without a missing vector end point')
 local function audited(wave,invisible,loaded)
  return {waveNumber=wave,IsNull=function() return false end,IsAlive=function() return true end,
   IsInvisible=function() return invisible end,

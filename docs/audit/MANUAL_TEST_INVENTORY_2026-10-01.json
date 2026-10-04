@@ -1549,12 +1549,12 @@
     },
     {
       "id": "MT-0096",
-      "key": "wave:44:enraged_wildkin_hurricane",
+      "key": "wave:44:enraged_wildkin_tornado",
       "category": "Özel dalga mekanikleri",
       "status": "PENDING",
       "askedAt": null,
       "answer": null,
-      "question": "44. dalgada tüm yaratıkların enraged_wildkin_hurricane mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?",
+      "question": "44. dalgada tüm yaratıkların enraged_wildkin_tornado mekaniği oyunda çalışıyor mu? Çalışmayan örnek veya beklenmeyen etkisi varsa anlatır mısın?",
       "notes": "",
       "sources": [
         {
@@ -1562,7 +1562,7 @@
         }
       ],
       "wave": 44,
-      "ability": "enraged_wildkin_hurricane",
+      "ability": "enraged_wildkin_tornado",
       "snapshotSource": "docs/audit/WAVE_SPECIAL_CONTRACTS_2026-10-01.json"
     },
     {
