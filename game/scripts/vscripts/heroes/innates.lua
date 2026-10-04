@@ -34,6 +34,9 @@ function Innates:Apply(hero)
     if id=='enfos_storm_galvanic_core' then
         require('abilities/heroes/storm_spirit/integration').Restore(hero)
     end
+    if id=='enfos_dk_wyrm_vigor' then
+        require('abilities/heroes/dragon_knight/integration').Restore(hero)
+    end
     return true
 end
 return Innates

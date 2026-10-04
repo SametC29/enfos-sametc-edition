@@ -253,3 +253,5 @@ manual R without cumulative tiers/native upgrades. Production unchanged;
 exact native form3+Scepter4 versus paid10-rank/provider/cache/Shard linkage
 remains technical source work. Next Q native cone, followed by linked identity
 prerequisites and W/R. All engine gates stay owner-pending; no kit completion.
+
+Dragon Knight Q source progression: pure native Breathe Fire cone with exact targeting/dispel/travel/range metadata; authored10-rank curves and minimal raw STR1.2, one existing pre-XP/client scaling class, read-only Health and four locales.115 affected checks/311 mocks PASS; native actual travel/damage/cache/rank10/presentation/lifecycle remain owner-pending. Next E innate/form linkage and D Wyrm's Wrath prerequisites before W/R linked source units.

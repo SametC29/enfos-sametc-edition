@@ -1,6 +1,7 @@
 # Dragon Knight native-first source review
 
-Discovery only; production kit is still CUSTOM Lua. SOURCE_REVIEW in progress,
+Discovery is recorded below; Q now uses native alias plus raw STR scaling.
+W/E/R/D remain CUSTOM Lua pending their focused source units. SOURCE_REVIEW in progress,
 AUTOMATED_VALIDATION not a runtime certificate, OWNER_RUNTIME PENDING for every
 native migration. Existing lifecycle/target-validity fixes stay until their
 copied mechanics are deliberately retired. No Dota launch/control, remote push,
@@ -117,3 +118,32 @@ facets, innate metadata and three+Scepter form metadata checked. Existing
 40-dossier/200-slot reference checker passes. No production source changed,
 so no new full gameplay regression run is claimed for this documentation unit.
 All material C++ behavior remains source/runtime pending as stated above.
+
+## Q pre-mutation decision
+
+TUNE / NATIVE+MINIMAL EXT. Pure native alias, no ScriptFile/empty wrapper:
+native point/unit/directional targeting, ordinary enemy hero/basic, immunity
+NO, magical damage/dispellable reduction, cast.2/animation1/sound, cone150..250,
+speed1050/travel750/cast-range1000 metadata. Retain authored damage120..660,
+CD11..7, mana90..170, reduction35..62 and duration6..9. Map reduction_pct to
+native reduction and retire fixed width225. Numeric values tune native data;
+no projectile/debuff/absorb/particle/sound copy. Minimal raw damage override
+adds STR1.2 at current paid rank; GetStrength() is BOTH with no arguments,
+not GetIntellect's signature. Break must not disable this active spell.
+
+Existing free-D/pre-XP restore gets one owned scaling modifier; existing
+client bootstrap gets one reviewed path/class. No provider ability, timers,
+points, stacks, casts or extra damage events. Health reads native cone/damage
+inputs only. Native C++ raw query/cache and actual travel/targeting/damage
+are owner-pending. Reference KV already inspected; its referenced Pathfinder
+breathe_fire Lua file is absent from extracted corpus (ref_get verified), so
+no working implementation or import is claimed. Current installed hash/build
+revalidated unchanged; existing primary native-alias guidance still applies.
+
+Q source implementation: pure native alias supplies exact target/dispel/animation/sound, cone/range/speed and native metadata, with authored10-rank damage/reduction/duration/cost/CD. Cast-range1000 now matches native exposed field rather than previous750 header; travel remains750, old width225 retired. Header/value cost-range data agree. No native ID shadow, ScriptFile/empty Q wrapper, additional provider or manual hit/debuff/feedback remains. Native talents metadata copied but no talent is granted.
+
+One owned raw modifier supplies current paid-rank damage+STR1.2 on both contexts without IsAlive/Break suppression of an active spell or recursive special reads. Existing pre-XP free-D hook restores it idempotently, existing client bootstrap registers21 reviewed classes. Native Q remains sole cast/damage owner; no restoration timers/points/rank/cooldown writes. Default-off bounded Q trace reports query, not actual damage. Automatic Health is read-only. Native verified Q particles/bank remain precached for the retained native mechanism; copied Q class/link/debuff and two obsolete line/terrain mocks removed; W lifetime tests retained.
+
+Four locale descriptions/summaries and twelve mirrors describe widening travel and native reduction key.115 affected checks/311 hero mocks PASS. Five focused contracts cover exact fields/tuning, ten live raw ranks and dynamic STR/both contexts/scoped guards, idempotent server restoration,21-class client registration/read-only Health, locales/precache. A fixture Lua declaration typo was corrected before passing. OWNER_RUNTIME PENDING: point/unit/directional/terrain/cast-range/travel geometry, actual damage/STR/cache/rank10, reduction duration/dispel/immune targets/block-reflect, death/recast/cleanup, native form/Wyrm AoE linkage after those source units, VFX/SFX/animation/cold-load and VConsole. Full restart is required later for KV/bootstrap. E/D/W/R source work remains; no DK completion.
+
+Q full source boundary:0 failed check(s). The first full run exposed only a progression fixture allowlist missing the new DK Q lookup; it now accepts that known integration read while retaining all40 free-rank/respawn/point assertions. Targeted feedback checks and the repaired full suite pass. No owner engine session, remote push, deployment or publication. Existing contributor hunks remain outside this atomic source unit.

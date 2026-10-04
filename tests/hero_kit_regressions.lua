@@ -4546,67 +4546,6 @@ test('Witch Doctor Aghanim Shard grants and removes Switcheroo exactly once', fu
     assert(hero.abilities.enfos_wd_voodoo_switcheroo == nil, 'Losing Shard must remove its active ability')
 end)
 
-test('Dragon Knight Breathe Fire deals magic damage and reduces enemy attack damage', function()
-    applied_damages = {}
-    local dk = create_mock_unit('npc_dota_hero_dragon_knight', 2, Vector(0, 0, 0))
-    dk.strength = 80
-    local dummy = create_mock_unit('creep_dk', 3, Vector(200, 0, 0))
-    local off_axis = create_mock_unit('creep_dk_off_axis', 3, Vector(200, 400, 0))
-    mock_world_units = { dk, dummy, off_axis }
-
-    local ab = enfos_dk_breathe_fire()
-    ab.GetCaster = function() return dk end
-    ab.GetCursorPosition = function() return Vector(300, 0, 0) end
-    ab.GetSpecialValueFor = function(_, k)
-        if k == 'damage' then return 240 end
-        if k == 'reduction_pct' then return 40 end
-        if k == 'duration' then return 7 end
-        if k == 'range' then return 750 end
-        if k == 'width' then return 225 end
-        return 0
-    end
-
-    ab:OnSpellStart()
-    -- dmg = 240 + (80 * 1.2 = 96) = 336
-    assert(#applied_damages == 1)
-    assert(applied_damages[1].damage == 336 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
-    local debuff = dummy:FindModifierByName('modifier_enfos_dk_breathe_fire_debuff')
-    assert(debuff ~= nil and debuff.params.duration == 7)
-    assert(off_axis:FindModifierByName('modifier_enfos_dk_breathe_fire_debuff') == nil, 'Breathe Fire must respect its line width')
-end)
-
-test('Dragon Knight Breathe Fire follows the chosen planar direction across terrain heights', function()
-    -- This case needs 3D normalization; the shared fixture intentionally uses a planar vector.
-    local old_Vector=Vector
-    Vector=function(x,y,z)
-        local v=old_Vector(x,y,z)
-        function v:Normalized()
-            local length=math.sqrt(self.x*self.x+self.y*self.y+self.z*self.z)
-            if length==0 then return Vector(0,0,0) end
-            return Vector(self.x/length,self.y/length,self.z/length)
-        end
-        return v
-    end
-    local dk=create_mock_unit('npc_dota_hero_dragon_knight',2,Vector(0,0,200))
-    local intended=create_mock_unit('intended',3,Vector(0,200,200))
-    local forward=create_mock_unit('forward',3,Vector(200,0,200))
-    mock_world_units={intended,forward}
-    local a=enfos_dk_breathe_fire()
-    a.GetCaster=function() return dk end
-    a.GetCursorPosition=function() return Vector(0,500,0) end
-    a.GetSpecialValueFor=function(_,key) return ({damage=200,range=750,width=100,duration=4})[key] or 0 end
-    applied_damages={}
-    a:OnSpellStart()
-    assert(#applied_damages==1 and applied_damages[1].victim==intended,
-        'Height difference must not replace the selected sideways line with facing direction')
-    a.GetCursorPosition=function() return dk:GetAbsOrigin() end
-    applied_damages={}
-    a:OnSpellStart()
-    assert(#applied_damages==1 and applied_damages[1].victim==forward,
-        'A cursor at the caster must retain the forward fallback')
-    Vector=old_Vector
-end)
-
 test('Dragon Knight Dragon Tail rejects spell block and reads the boss stun cap from KV', function()
     applied_damages = {}
     local dk = create_mock_unit('npc_dota_hero_dragon_knight', 2, Vector(0, 0, 0))
@@ -4630,9 +4569,9 @@ test('Dragon Knight Dragon Tail rejects spell block and reads the boss stun cap 
     assert(#applied_damages == 1, 'Spell block must prevent Dragon Tail damage')
 end)
 
-test('Dragon Knight Q and W guard follow-ups after impact removes handles', function()
+test('Dragon Knight W guards follow-ups after impact removes handles', function()
     local old_damage=ApplyDamage
-    for _,id in ipairs({'enfos_dk_breathe_fire','enfos_dk_dragon_tail'}) do
+    for _,id in ipairs({'enfos_dk_dragon_tail'}) do
         for _,state in ipairs({'recipient','dead_recipient','friendly_recipient','source','dead_source','ability','next_recipient'}) do
             local dk=create_mock_unit('npc_dota_hero_dragon_knight',2,Vector(0,0,0))
             local first=create_mock_unit('first',3,Vector(100,0,0))
@@ -4666,8 +4605,7 @@ test('Dragon Knight Q and W guard follow-ups after impact removes handles', func
             end
             a:OnSpellStart()
             assert(invalid_calls==0,'Removed/dead/friendly target or source must not reach Q/W modifier application')
-            local expected=id=='enfos_dk_breathe_fire' and
-                (state=='recipient' or state=='dead_recipient' or state=='friendly_recipient') and 2 or 1
+            local expected=1
             assert(hits==expected,'Invalidated Q source/later recipient must prevent subsequent damage')
         end
     end

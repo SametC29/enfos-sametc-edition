@@ -9,7 +9,7 @@ Hero: `npc_dota_hero_dragon_knight`; role: Tank. Progression target: hero level 
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_dk_breathe_fire` | 10 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | abilities/pve_kits | dragon_knight_breathe_fire |
+| 1 | `enfos_dk_breathe_fire` | 10 | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL \| DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | NOT_EXPLICIT | dragon_knight_breathe_fire |
 | 2 | `enfos_dk_dragon_tail` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | dragon_knight_dragon_tail |
 | 3 | `enfos_dk_dragon_blood` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | dragon_knight_dragon_blood |
 | 4 | `enfos_dk_elder_dragon_form` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | dragon_knight_elder_dragon_form |
@@ -47,7 +47,7 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ### Per-ability review leads
 
-- `enfos_dk_breathe_fire`: world position, travel/impact timing and radius alignment.
+- `enfos_dk_breathe_fire`: target flags, immunity, spell block/reflect if applicable, target loss; world position, travel/impact timing and radius alignment.
 - `enfos_dk_dragon_tail`: target flags, immunity, spell block/reflect if applicable, target loss.
 - `enfos_dk_dragon_blood`: intrinsic modifier, Break/illusion behavior, live rank refresh.
 - `enfos_dk_elder_dragon_form`: ultimate unlock curve, Scepter/Blessing and boss burst.
@@ -136,24 +136,27 @@ Break/illusion, VFX, SFX, transformation and boss checks remain pending.
 
 ## Slot 1: `enfos_dk_breathe_fire`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `dragon_knight_breathe_fire` (installed Ability1).
-Decision and PvE identity rationale: preserve the iconic breath attack and attack-damage debuff while applying it to a bounded forward line for wave play.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
+Decision and PvE identity rationale: Pure native cone restores travel/targeting/attack reduction/feedback; minimal raw STR1.2 extension preserves authored damage and ten paid ranks.
+Expected cast/travel/impact/ongoing/cleanup behavior: Native point/unit/directional traveling cone, range750/speed1050/start150/end250; magical120..660+STR1.2 and dispellable35..62% reduction for6..9s. Actual engine read path/cache/targeting/impact/presentation/cleanup remains OWNER_RUNTIME PENDING.
+Normal creep / elite / boss, immunity / dispel / resistance rules: Native ordinary targets/immunityNO/magical/dispellable reduction, no Boss-only exception; actual native engine interactions pending.
 Current versus target rank curve: Breathe Fire Q ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
+2026-10-04 source implementation: [Q decision, implementation and engine gates](../../audit/DRAGON_KNIGHT_NATIVE_FIRST_REVIEW_2026-10-04.md).
+115 affected checks/311 hero mock regressions PASS. Old copied-line/terrain tests retired, W lifetime regressions retained.21 reviewed client classes; native cone/rank10/cache/actual damage remains pending.
+
 ### Resource and implementation evidence
 
-- Native ability data source + build + hash/revision: PENDING.
+- Native ability data source + build + hash/revision: FILE_VERIFIED build6943/revision11069754, hero SHA2563dcfc11f...3b2043; full record in native snapshot.
 - Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
 - Sound events + declaring banks + emission target + loop termination: PENDING.
 - Model/animation/gesture/icon evidence: PENDING.
-- Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.
+- Modifier links, ownership, refresh, stacks, death/purge/Break rules: One raw scaling class/path on both contexts; no copied reduction modifier. Shared restore idempotent, no points/ranks/provider writes. Native effects remain PENDING.
 - Precache owner and cold-start test: PENDING.
 - One-shot/persistent cleanup owner and repeated-use test: PENDING.
-- Localization keys and generated mirrors: PENDING.
+- Localization keys and generated mirrors: Four descriptions/summaries and twelve mirrors match native cone/reduction fields; source checked.
 
 ### Acceptance ledger
 
@@ -170,7 +173,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
 | Boss | PENDING | Not evaluated in this dossier setup. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Localization | PASS | Native cone/reduction text and resolved values checked in four locales and twelve mirrors. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |

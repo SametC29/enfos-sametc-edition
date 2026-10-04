@@ -41,7 +41,15 @@ function Health.Report(hero,id)
                 end
             end
         end
-        if entry.id=='npc_dota_hero_storm_spirit' then
+        if entry.id=='npc_dota_hero_dragon_knight' then
+            local q=hero:FindAbilityByName('enfos_dk_breathe_fire')
+            if q and not q:IsNull() then
+                print('[HERO_HEALTH] native_breathe_damage_query='..tostring(q:GetSpecialValueFor('damage'))..
+                    ' native_breathe_start_radius_query='..tostring(q:GetSpecialValueFor('start_radius'))..
+                    ' native_breathe_end_radius_query='..tostring(q:GetSpecialValueFor('end_radius'))..
+                    ' native_breathe_speed_query='..tostring(q:GetSpecialValueFor('speed')))
+            end
+        elseif entry.id=='npc_dota_hero_storm_spirit' then
             local innate=hero:FindAbilityByName('storm_spirit_galvanized')
             print('[HERO_HEALTH] ability=storm_spirit_galvanized rank='..tostring(innate and not innate:IsNull() and innate:GetLevel() or 'missing'))
             if innate and not innate:IsNull() then

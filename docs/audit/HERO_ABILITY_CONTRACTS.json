@@ -2321,21 +2321,28 @@
           "slot": 1,
           "id": "enfos_dk_breathe_fire",
           "maxLevel": 10,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL",
-          "callbacks": [
-            "OnSpellStart"
-          ],
+          "behavior": "DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+          "callbacks": [],
+          "implementationOwner": "NATIVE",
+          "nativeBaseClass": "dragon_knight_breathe_fire",
+          "engineAcceptance": "PENDING OWNER TEST",
           "specials": {
-            "damage": "120 180 240 300 360 420 480 540 600 660",
-            "duration": "6 6.3 6.7 7 7.3 7.7 8 8.3 8.7 9",
-            "reduction_pct": "35 38 41 44 47 50 53 56 59 62",
+            "start_radius": "150",
+            "end_radius": "250",
             "range": "750",
-            "width": "225"
+            "AbilityCastRange": "1000",
+            "AbilityCooldown": "11 10.6 10.1 9.7 9.2 8.8 8.3 7.9 7.4 7",
+            "speed": "1050",
+            "damage": "120 180 240 300 360 420 480 540 600 660",
+            "reduction": "35 38 41 44 47 50 53 56 59 62",
+            "dragon_form_bonus_pct": "0",
+            "duration": "6 6.3 6.7 7 7.3 7.7 8 8.3 8.7 9",
+            "strength_factor": "1.2"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
           "hasSound": true,
-          "hasParticle": true
+          "hasParticle": false
         },
         {
           "slot": 2,

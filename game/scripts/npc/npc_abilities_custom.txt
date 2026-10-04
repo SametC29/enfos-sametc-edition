@@ -3689,27 +3689,38 @@
 
 	"enfos_dk_breathe_fire"
 	{
-		"BaseClass"					"ability_lua"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL"
-		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
-		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
-		"AbilityTextureName"		"dragon_knight_breathe_fire"
-		"RequiredLevel"	"1"
-		"LevelsBetweenUpgrades"	"1"
-		"AbilityCastRange"			"750"
-		"AbilityCastPoint"			"0.2"
-		"AbilityCooldown"			"11 10.6 10.1 9.7 9.2 8.8 8.3 7.9 7.4 7"
-		"AbilityManaCost"			"90 99 108 117 126 135 144 153 162 170"
-		"MaxLevel"					"10"
+		"BaseClass" "dragon_knight_breathe_fire"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES"
+		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
+		"FightRecapLevel" "1"
+		"AbilitySound" "Hero_DragonKnight.BreathFire"
+		"AbilityCastPoint" "0.2"
+		"AbilityManaCost" "90 99 108 117 126 135 144 153 162 170"
+		"AbilityCooldown" "11 10.6 10.1 9.7 9.2 8.8 8.3 7.9 7.4 7"
+		"AbilityCastRange" "1000"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_1"
+		"AbilityTextureName" "dragon_knight_breathe_fire"
+		"MaxLevel" "10"
+		"RequiredLevel" "1"
+		"LevelsBetweenUpgrades" "1"
 		"AbilityValues"
 		{
-			"damage" "120 180 240 300 360 420 480 540 600 660"
-			"duration" "6 6.3 6.7 7 7.3 7.7 8 8.3 8.7 9"
-			"reduction_pct" "35 38 41 44 47 50 53 56 59 62"
+			"start_radius" { "value" "150" "affected_by_aoe_increase" "1" }
+			"end_radius" { "value" "250" "affected_by_aoe_increase" "1" }
 			"range" "750"
-			"width" "225"
+			"AbilityCastRange" "1000"
+			"AbilityCooldown" { "value" "11 10.6 10.1 9.7 9.2 8.8 8.3 7.9 7.4 7" "special_bonus_unique_dragon_knight_3" "-2" }
+			"speed" "1050"
+			"damage" { "value" "120 180 240 300 360 420 480 540 600 660" "special_bonus_unique_dragon_knight_9" "+220" "CalculateSpellDamageTooltip" "1" }
+			"reduction" { "value" "35 38 41 44 47 50 53 56 59 62" }
+			"dragon_form_bonus_pct" { "value" "0" }
+			"duration" "6 6.3 6.7 7 7.3 7.7 8 8.3 8.7 9"
+			"strength_factor" "1.2"
 		}
-		"ScriptFile"				"abilities/pve_kits"
 	}
 
 	"enfos_dk_dragon_tail"

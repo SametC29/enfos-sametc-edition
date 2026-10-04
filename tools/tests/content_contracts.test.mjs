@@ -45,11 +45,11 @@ test('Dragon Knight Elder Dragon Form keeps its native no-cast-animation behavio
 test('Dragon Knight skill particles are all present in the addon precache list',()=>{
   const mode=fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua','utf8');
   const kits=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');
-  const start=kits.indexOf('enfos_dk_breathe_fire=class({})');
+  const start=kits.indexOf('enfos_dk_dragon_tail=class({})');
   const end=kits.indexOf('-- PUDGE: MEAT HOOK',start);
   assert.ok(start>=0&&end>start,'Dragon Knight ability implementation region must be found');
   const assets=[...new Set(kits.slice(start,end).match(/particles\/units\/heroes\/hero_dragon_knight\/[\w/.-]+\.vpcf/g)||[])];
-  assert.equal(assets.length,6,'all six Dragon Knight ability particle assets should be inventoried');
+  assert.equal(assets.length,4,'remaining copied W/R particles should be inventoried; native Q has its own source contract');
   for(const asset of assets){
     assert.ok(mode.includes(asset),`missing Dragon Knight particle precache: ${asset}`);
   }

@@ -203,7 +203,6 @@ local modifier_list = {
     'modifier_enfos_wd_death_ward_visual',
     'modifier_enfos_wd_voodoo_switcheroo_buff',
     'modifier_enfos_wd_gris_gris',
-    'modifier_enfos_dk_breathe_fire_debuff',
     'modifier_enfos_dk_dragon_tail_stun',
     'modifier_enfos_dk_dragon_blood_passive',
     'modifier_enfos_dk_elder_dragon_form_buff',
@@ -4526,51 +4525,7 @@ end
 -- DRAGON KNIGHT: BREATHE FIRE, DRAGON TAIL, DRAGON BLOOD, ELDER DRAGON, WYRM VIGOR
 -- ----------------------------------------------------------------------------
 
-enfos_dk_breathe_fire=class({})
-function enfos_dk_breathe_fire:OnSpellStart()
-    local c = self:GetCaster()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
-    local origin = c:GetAbsOrigin()
-    local dir = self:GetCursorPosition() - origin
-    dir.z = 0
-    if dir:Length2D() < 1 then dir = c:GetForwardVector(); dir.z = 0 end
-    dir = dir:Normalized()
-    c:EmitSound('Hero_DragonKnight.BreathFire')
-    effect('particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire.vpcf', c)
-
-    local base = value(self, 'damage')
-    if base <= 0 then base = 240 end
-    local str = get_str(c)
-    local dmg = base + (str * 1.2)
-    local range = value(self, 'range')
-    if range <= 0 then range = 750 end
-    local width = value(self, 'width')
-    if width <= 0 then width = 225 end
-    local targets = FindUnitsInLine(c:GetTeamNumber(), origin, origin + (dir * range), nil, width,
-        DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE) or {}
-
-    for _, u in ipairs(targets) do
-        if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return end
-        if u and not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
-            damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
-            if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return end
-            if not u:IsNull() and u:GetTeamNumber() ~= c:GetTeamNumber() then
-                effect('particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire_explosion.vpcf', u)
-                if u:IsAlive() then
-                    u:AddNewModifier(c, self, 'modifier_enfos_dk_breathe_fire_debuff', { duration = value(self, 'duration') })
-                end
-            end
-        end
-    end
-end
-
-modifier_enfos_dk_breathe_fire_debuff=class({})
-function modifier_enfos_dk_breathe_fire_debuff:IsDebuff() return true end
-function modifier_enfos_dk_breathe_fire_debuff:DeclareFunctions() return { MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE } end
-function modifier_enfos_dk_breathe_fire_debuff:GetModifierBaseDamageOutgoing_Percentage()
-    local red = (self.GetAbility and value(self:GetAbility(), 'reduction_pct')) or 40
-    return -red
-end
+-- Breathe Fire is native; only raw STR scaling lives in dragon_knight/modifiers.
 
 enfos_dk_dragon_tail=class({})
 function enfos_dk_dragon_tail:OnSpellStart()
