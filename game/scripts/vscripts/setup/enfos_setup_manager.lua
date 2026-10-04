@@ -93,17 +93,10 @@ function EnfosSetupManager:ValidPlayer(id)
 	return type(id)=="number" and id==math.floor(id) and PlayerResource:IsValidPlayerID(id)
 end
 
-function EnfosSetupManager:CanConfigure(id)
+function EnfosSetupManager:CanChooseTeam(id)
 	if not self:ValidPlayer(id) then
 		Log:Warn("setup_manager", "Setup action rejected: invalid PlayerID %s", tostring(id))
 		return false
-	end
-	if GameRules and GameRules.PlayerHasCustomGameHostPrivileges and PlayerResource and PlayerResource.GetPlayer then
-		local player = PlayerResource:GetPlayer(id)
-		if not player or not GameRules:PlayerHasCustomGameHostPrivileges(player) then
-			Log:Warn("setup_manager", "Setup action rejected: player %d is not the lobby host", id)
-			return false
-		end
 	end
 	if self.isSetupComplete then
 		Log:Warn("setup_manager", "Setup action rejected: setup is already complete (player %d)", id)
@@ -113,6 +106,19 @@ function EnfosSetupManager:CanConfigure(id)
 	if state ~= DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
 		Log:Warn("setup_manager", "Setup action rejected: wrong game state %s (player %d)", tostring(state), id)
 		return false
+	end
+	return true
+end
+
+-- Team choice is personal; only match configuration requires host privileges.
+function EnfosSetupManager:CanConfigure(id)
+	if not self:CanChooseTeam(id) then return false end
+	if GameRules and GameRules.PlayerHasCustomGameHostPrivileges and PlayerResource and PlayerResource.GetPlayer then
+		local player = PlayerResource:GetPlayer(id)
+		if not player or not GameRules:PlayerHasCustomGameHostPrivileges(player) then
+			Log:Warn("setup_manager", "Setup action rejected: player %d is not the lobby host", id)
+			return false
+		end
 	end
 	return true
 end
@@ -138,7 +144,7 @@ function EnfosSetupManager:OnJoinTeam(event)
 	if not event or not event.team then return end
 	local playerId = event.PlayerID
 	Log:Info("setup_manager", "Team event received: player=%s team=%s", tostring(playerId), tostring(event.team))
-	if not self:CanConfigure(playerId) then return false end
+	if not self:CanChooseTeam(playerId) then return false end
 	local team = tonumber(event.team)
 	if team ~= (DOTA_TEAM_GOODGUYS or 2) and team ~= (DOTA_TEAM_BADGUYS or 3) then return end
 

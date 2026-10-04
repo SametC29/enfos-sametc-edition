@@ -40,6 +40,26 @@ test('setup denies non-host, missing identity and mid-match mutation',function()
  S:OnSetDifficulty({PlayerID=0,difficulty='hard'});assert(S.selectedDifficulty=='hard')
  phase=7;S:OnSetDifficulty({PlayerID=0,difficulty='hell'});assert(S.selectedDifficulty=='hard')
 end)
+test('guest can join either team during setup without host privileges',function()
+ phase=2;S:Init(nil)
+ local oldAssignment=PlayerResource.SetCustomTeamAssignment
+ PlayerResource.SetCustomTeamAssignment=function(_,id,team) players[id]=team end
+ players[1]=4
+ S:OnJoinTeam({PlayerID=1,team=2});assert(players[1]==2,'guest must be able to join the host')
+ S:OnJoinTeam({PlayerID=1,team=3});assert(players[1]==3,'guest must be able to join the opposing team')
+ S:OnStartGame({PlayerID=1});assert(not S.isSetupComplete,'guest must not start setup')
+ S:OnJoinTeam({team=2});assert(players[1]==3)
+ S:OnJoinTeam({PlayerID=99,team=2});assert(players[99]==nil)
+ S:OnJoinTeam({PlayerID=1,team=4});assert(players[1]==3)
+ phase=7;S:OnJoinTeam({PlayerID=1,team=2});assert(players[1]==3)
+ phase=2;S.isSetupComplete=true;S:OnJoinTeam({PlayerID=1,team=2});assert(players[1]==3)
+ S.isSetupComplete=false;players[1]=2
+ for _,id in ipairs({3,4,5,6,7}) do players[id]=3 end
+ S:OnJoinTeam({PlayerID=1,team=3});assert(players[1]==2,'sixth player must not enter a full team')
+ for _,id in ipairs({3,4,5,6,7}) do players[id]=nil end
+ PlayerResource.SetCustomTeamAssignment=oldAssignment
+end)
+
 test('picks accept new roster heroes, reject repeated and invalid-phase picks',function()
  phase=3;S:OnLockInHero({PlayerID=0,hero_name='npc_dota_hero_puck'});assert(S.playerPicks[0]=='npc_dota_hero_puck')
  S:OnLockInHero({PlayerID=0,hero_name='npc_dota_hero_sven'});assert(not S.teamPicks[2].npc_dota_hero_sven)
