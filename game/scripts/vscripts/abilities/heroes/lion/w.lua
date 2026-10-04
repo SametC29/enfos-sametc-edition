@@ -6,7 +6,7 @@ local function valid(x) return x and not (x.IsNull and x:IsNull()) end
 local function immune(t)
     return (t.IsDebuffImmune and t:IsDebuffImmune()) or (t.IsMagicImmune and t:IsMagicImmune())
 end
-local function living(t) return valid(t) and t:IsAlive() end
+local function living(t) return valid(t) and (not t.IsAlive or t:IsAlive()) end
 local function eligible(c,t)
     return living(c) and living(t) and t:GetTeamNumber()~=c:GetTeamNumber()
         and not (t.IsBuilding and t:IsBuilding()) and not immune(t)

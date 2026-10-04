@@ -112,7 +112,9 @@ for rank=1,10 do
    local expected=20+(rank-1)*5+math.min(20,math.max(0,stacks))*40
    assert(m:GetModifierPreAttack_BonusDamage()==expected and m:OnTooltip()==expected)
    local payload=m:AddCustomTransmitterData();local client=make();client:HandleCustomTransmitterData(payload)
-   server=false;assert(client:GetModifierPreAttack_BonusDamage()==expected and client:OnTooltip2()==kv.cleave_pct);server=true
+   local alive=c.IsAlive;c.IsAlive=nil;server=false
+   assert(client:GetModifierPreAttack_BonusDamage()==expected and client:OnTooltip2()==kv.cleave_pct)
+   server=true;c.IsAlive=alive
   end
   c.breaking=true;assert(m:CheckState()[59],'Active empowerment is not a breakable passive');c.breaking=false
   counter.ability={};assert(m:GetModifierPreAttack_BonusDamage()==20+(rank-1)*5);counter.ability=nil

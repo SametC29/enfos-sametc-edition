@@ -30,6 +30,8 @@ for _,mode in ipairs({true,false})do
  for _,name in ipairs({'npc_dota_hero_lina','npc_dota_hero_axe','npc_dota_hero_puck','npc_dota_hero_dazzle'})do
   c.name=name;assert(m:GetModifierSpellAmplify_Percentage({inflictor=ult})==40 and m:GetModifierPercentageCooldown({ability=ult})==25,name)
   assert(m:GetModifierSpellAmplify_Percentage({inflictor=basic})==0 and m:GetModifierPercentageCooldown({ability=basic})==0 and not m:IsHidden(),name)
+  assert(m:GetModifierSpellAmplify_Percentage({inflictor={}})==0 and m:GetModifierPercentageCooldown({ability={}})==0,
+   'Opaque client ability handles cannot be queried for ability type')
  end
 end
 server=true;c.name='npc_dota_hero_lion';c.native=true;assert(manager:HasScepter(c));c.native=false

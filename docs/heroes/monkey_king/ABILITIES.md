@@ -303,3 +303,12 @@ Mischief's attack-range and evasion bonuses suppress on Break and illusions.
 Both passives declare KV `IsBreakable 1`. Mock regressions cover active Jingu
 buff behavior under Break and Mischief illusion suppression. Dota's treatment
 of already-earned Jingu charges during Break remains pending engine review.
+
+2026-10-04 test-room VConsole attachment `82fe0b92-9ba6-4112-ab13-f6e20a92f2ff`
+reports Monkey King ready at level 10 with Scepter/Shard and 10 repeated client
+errors in the shared Aghanim cooldown getter: the callback's ability handle
+did not expose `GetAbilityType`. The shared getter now returns zero when the
+method is unavailable; the corresponding spell amplification getter has the
+same guard. Source/mock regression passes for opaque handles. This does not
+verify Monkey King's individual skills, Scepter effects, audiovisual behavior
+or the actual Dota retest; those acceptance areas remain PENDING.

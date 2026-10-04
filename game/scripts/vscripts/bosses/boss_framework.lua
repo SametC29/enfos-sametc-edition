@@ -10,28 +10,13 @@
 require("lib/log")
 local WaveDefinitions = require("waves/wave_definitions")
 local NativeHeroBosses = require("bosses/native_hero_bosses")
-local class = _G.class or function(...)
-	local c = {}
-	c.__index = c
-	setmetatable(c, {
-		__call = function(cls, ...)
-			return setmetatable({}, cls)
-		end
-	})
-	return c
-end
-
+local BossModifier = require("bosses/boss_modifier")
 local BossFramework = {}
 BossFramework.__index = BossFramework
 
 -- Boss Balance Caps (docs/QA_BALANCE_RELEASE.md § 7)
-BossFramework.STATUS_RESISTANCE = 60 -- Percent
-BossFramework.MAX_REFLECT_DAMAGE = 150 -- Per damage instance
-
--- Link Lua Modifiers
-if LinkLuaModifier then
-	LinkLuaModifier("modifier_enfos_boss_base", "bosses/boss_framework", LUA_MODIFIER_MOTION_NONE)
-end
+BossFramework.STATUS_RESISTANCE = BossModifier.STATUS_RESISTANCE -- Percent
+BossFramework.MAX_REFLECT_DAMAGE = BossModifier.MAX_REFLECT_DAMAGE -- Per damage instance
 
 --------------------------------------------------------------------------------
 -- Initialize Framework
@@ -122,39 +107,4 @@ function BossFramework:OnBossKilled(unit)
 end
 
 --------------------------------------------------------------------------------
--- 1. Boss Base Modifier (CC resistance and reflect cap)
-modifier_enfos_boss_base = class({})
-function modifier_enfos_boss_base:IsHidden() return true end
-function modifier_enfos_boss_base:IsPurgable() return false end
-function modifier_enfos_boss_base:DeclareFunctions()
-	return {
-		MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING,
-		MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK,
-	}
-end
-function modifier_enfos_boss_base:GetModifierStatusResistanceStacking()
-	return BossFramework.STATUS_RESISTANCE
-end
-
-function modifier_enfos_boss_base:GetModifierTotal_ConstantBlock(kv)
-	if IsServer and not IsServer() then return 0 end
-	local incoming = kv.damage or 0
-
-	-- 1. Cap reflect damage (prevents suicide-reflect loops)
-	local isReflect = false
-	if kv.damage_flags then
-		if bit and bit.band then
-			isReflect = bit.band(kv.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION or 16) ~= 0
-		else
-			isReflect = (kv.damage_flags == (DOTA_DAMAGE_FLAG_REFLECTION or 16))
-		end
-	end
-
-	if isReflect and incoming > BossFramework.MAX_REFLECT_DAMAGE then
-		return incoming - BossFramework.MAX_REFLECT_DAMAGE
-	end
-
-	return 0
-end
-
 return BossFramework

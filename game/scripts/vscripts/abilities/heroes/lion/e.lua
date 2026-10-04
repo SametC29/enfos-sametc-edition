@@ -64,7 +64,7 @@ modifier_enfos_lion_mana_drain_channel=class({})
 local function shard_channel_active(m)
     if m.closed or not valid(m) then return false end
     local c,a=m:GetParent(),m:GetAbility()
-    if not learned_source(a,c) or not c:IsAlive() then return false end
+    if not learned_source(a,c) or (c.IsAlive and not c:IsAlive()) then return false end
     if IsServer() and not a:IsChanneling() then return false end
     return Upgrades.HasShard(c)
 end

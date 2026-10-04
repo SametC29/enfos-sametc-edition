@@ -19,10 +19,14 @@ test('Boss safety modifier links on the client as well as the server',()=>{
  LUA_MODIFIER_MOTION_NONE=0
  local linked=false
  function LinkLuaModifier(name,path,motion)
-  assert(name=='modifier_enfos_boss_base' and path=='bosses/boss_framework' and motion==0)
+  assert(name=='modifier_enfos_boss_base' and path=='bosses/boss_modifier' and motion==0)
   linked=true
  end
- require('bosses/boss_framework')
+ for _,name in ipairs({'luna','nevermore','bristleback','slark','tidehunter','ursa','antimage','storm_spirit','dragon_knight'})do
+  package.loaded['abilities/heroes/'..name..'/modifier_links']={}
+ end
+ function IsClient() return true end
+ dofile('game/scripts/vscripts/addon_game_mode_client.lua')
  assert(linked and type(modifier_enfos_boss_base)=='table')
  assert(modifier_enfos_boss_base:GetModifierStatusResistanceStacking()==60)
  print('PASS client Boss modifier link')`;
@@ -34,12 +38,14 @@ test('Boss safety modifier links on the client as well as the server',()=>{
 test('player spawn lifecycle ignores neutral Boss heroes',()=>{
  const lua=`package.path='game/scripts/vscripts/?.lua;'..package.path
  function class(t) return t end
+ function IsServer() return true end
  DOTA_TEAM_GOODGUYS=2;DOTA_TEAM_BADGUYS=3
  local calls=0
  for _,entry in ipairs({{'map/hero_spawns','ConfigureHero'},{'heroes/hero_power','Apply'},
   {'heroes/innates','Apply'},{'heroes/match_levels','InitializeStartingAbilityPoints'}}) do
   package.loaded[entry[1]]={[entry[2]]=function() calls=calls+1 end}
  end
+ package.loaded['heroes/health']={OnSpawn=function() end}
  require('enfos_sametc')
  local hero={team=4,id=-1}
  function hero:IsNull() return false end

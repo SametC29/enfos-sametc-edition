@@ -12,6 +12,7 @@ package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end;function LinkLuaModifier()end
 local server=true;function IsServer()return server end;Convars={GetBool=function()return false end}
 MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE=1
+MODIFIER_STATE_DEBUFF_IMMUNE=2
 ${baseline?`assert(load([==[${baseline}]==]))()`:`require('abilities/heroes/lion/e')`}
 local function unit(team)
  local u={team=team,alive=true,maxMana=100,mana=10}
@@ -25,9 +26,15 @@ end
 local c,t=unit(2),unit(3);local a={rank=0,value=${kv.AbilityValues.slow_pct}}
 function a:GetCaster()return self.foreign or c end
 function a:IsNull()return self.removed end;function a:GetLevel()assert(not self.removed);return self.rank end
-function a:GetSpecialValueFor(k)assert(not self.removed);if k=='slow_pct' then return self.value end;assert(k=='movespeed_bonus_when_empty_pct');return ${kv.AbilityValues.movespeed_bonus_when_empty_pct} end
+function a:GetSpecialValueFor(k)assert(not self.removed);if k=='slow_pct' then return self.value end;if k=='shard_magic_resistance' then return ${kv.AbilityValues.shard_magic_resistance} end;assert(k=='movespeed_bonus_when_empty_pct');return ${kv.AbilityValues.movespeed_bonus_when_empty_pct} end
 local m=setmetatable({GetParent=function()return t end,GetCaster=function()return c end,GetAbility=function()return a end},modifier_enfos_lion_mana_drain_debuff)
 function m:IsNull()return self.removed end
+local channel=setmetatable({GetParent=function()return c end,GetAbility=function()return a end},modifier_enfos_lion_mana_drain_channel)
+local upgrades=require('heroes/aghanim_manager');local oldShard=upgrades.HasShard
+upgrades.HasShard=function()return true end
+a.rank=1;server=false;local alive=c.IsAlive;c.IsAlive=nil
+assert(channel:GetModifierMagicalResistanceBonus()==${kv.AbilityValues.shard_magic_resistance} and channel:CheckState()[MODIFIER_STATE_DEBUFF_IMMUNE])
+c.IsAlive=alive;server=true;a.rank=0;upgrades.HasShard=oldShard
 assert(m:GetModifierMoveSpeedBonus_Percentage()==0,'Rank0 cannot slow a recipient')
 a.rank=1;a.foreign=unit(2);assert(m:GetModifierMoveSpeedBonus_Percentage()==0,'Borrowed ability cannot slow a recipient');a.foreign=nil;a.rank=0
 m:OnCreated();assert(m:IsDebuff() and not m:IsHidden() and not m:IsPurgable() and not m:IsPurgeException() and m:GetTexture()=='lion_mana_drain')

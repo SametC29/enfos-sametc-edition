@@ -6,7 +6,7 @@ local function valid(x) return x and not (x.IsNull and x:IsNull()) end
 local function source(m)
     if not valid(m) or m.closed then return end
     local c,a=m:GetParent(),m:GetAbility()
-    if not valid(c) or not valid(a) or not c:IsAlive() or a:GetCaster()~=c or a:GetLevel()<=0
+    if not valid(c) or not valid(a) or (c.IsAlive and not c:IsAlive()) or a:GetCaster()~=c or a:GetLevel()<=0
         or c:IsIllusion() then return end
     return c,a
 end

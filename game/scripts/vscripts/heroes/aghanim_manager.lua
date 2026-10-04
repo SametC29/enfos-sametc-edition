@@ -304,7 +304,7 @@ function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_sven" then return 0 end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_shadow_shaman" then return 0 end
 	local a=event and event.inflictor
-	return a and a:GetAbilityType()==DOTA_ABILITY_TYPE_ULTIMATE and 40 or 0
+	return a and a.GetAbilityType and a:GetAbilityType()==DOTA_ABILITY_TYPE_ULTIMATE and 40 or 0
 end
 function modifier_enfos_scepter_upgrade:GetModifierPercentageCooldown(event)
     if require('abilities/heroes/dragon_knight/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
@@ -322,7 +322,7 @@ function modifier_enfos_scepter_upgrade:GetModifierPercentageCooldown(event)
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_tidehunter" then return 0 end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_sven" then return 0 end
 	local a=event and event.ability
-	return a and a:GetAbilityType()==DOTA_ABILITY_TYPE_ULTIMATE and 25 or 0
+	return a and a.GetAbilityType and a:GetAbilityType()==DOTA_ABILITY_TYPE_ULTIMATE and 25 or 0
 end
 
 -- Shard Role Upgrade Modifier

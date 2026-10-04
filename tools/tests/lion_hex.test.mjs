@@ -59,6 +59,9 @@ a.values.base_move_speed=99;assert(m:GetModifierMoveSpeedOverride()==140,'Existi
 local before=created;m:OnRefresh({move_speed=155});assert(created==before and m.refreshes==1 and m:GetModifierMoveSpeedOverride()==155)
 local client=setmetatable({GetParent=function()return target end},modifier_enfos_lion_hex_debuff)
 server=false;client:OnCreated({});client:HandleCustomTransmitterData(m:AddCustomTransmitterData());assert(created==before and client:GetModifierMoveSpeedOverride()==155);server=true
+local alive=target.IsAlive;target.IsAlive=nil;server=false
+assert(client:GetModifierMoveSpeedOverride()==155 and client:GetModifierModelChange()=='models/props_gameplay/frog.vmdl')
+server=true;target.IsAlive=alive
 for _,flag in ipairs({'magic','debuff','removed'})do target[flag]=true;assert(next(m:CheckState())==nil and m:GetModifierModelChange()==nil and m:GetModifierMoveSpeedOverride()==nil);target[flag]=false end
 a.removed=true;c.removed=true;assert(m:GetModifierModelChange() and m:GetModifierMoveSpeedOverride()==155,'Applied Hex does not dereference removed source');a.removed=false;c.removed=false
 m:Destroy();m:Destroy();assert(destroyed[1] and released[1] and not m:GetModifierModelChange());client:OnDestroy();assert(not client:GetModifierMoveSpeedOverride())
