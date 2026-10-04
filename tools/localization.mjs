@@ -29,6 +29,8 @@ export function generateLocalization(check = false) {
     const definition = abilities[id] ?? items[id];
     if (!definition) return rawValue;
     const specials = getAbilityValues(definition);
+    // Native damage may live in the header; keep that authored curve canonical.
+    if (definition.AbilityDamage !== undefined) specials.AbilityDamage = String(definition.AbilityDamage);
     return rawValue.replace(/\{\{(\w+)(?:\|(\w+))?\}\}/g, (_, name, format) => {
       if (specials[name] === undefined) throw new Error(`${key}: unknown special ${name}`);
       const values = specials[name].split(/\s+/);

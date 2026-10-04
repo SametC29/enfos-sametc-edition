@@ -418,6 +418,13 @@
         ],
         "returns": "CDOTA_Buff",
         "scope": "Native recipient reuse pattern; actual constructor/refresh owner pending."
+      },
+      {
+        "name": "CDOTABaseAbility:GetAbilityDamage",
+        "available": "server",
+        "arguments": [],
+        "returns": "int",
+        "scope": "Ravage outgoing denominator; query value and callback math do not prove actual C++ damage or pipeline."
       }
     ]
   },
@@ -474,5 +481,45 @@
       "nullTerminatedOffset": 50473776,
       "scope": "Identifier presence only; construction, alias special read path, refresh and non-stacking remain OWNER TEST PENDING"
     }
+  },
+  "rResearch": {
+    "observedAt": "2026-10-04",
+    "reverifiedHeroSha256": "8c96be768e85e8d845bc6ef04f99ad261c0f9bd5c0e45503aedb6ab4c5c78cda",
+    "damageSource": "top-level AbilityDamage200..450, no duplicate special",
+    "extension": "MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE:100*liveSTR*strength_factor/nativeGetAbilityDamage, owned learned Ravage only, server-only",
+    "enumEvidence": {
+      "name": "MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE",
+      "indexedValue": 46,
+      "callback": "GetModifierTotalDamageOutgoing_Percentage"
+    },
+    "eventShapeReference": "https://github.com/ModDota/API/blob/master/examples/vscript/declarations/dota-modifier-properties.d.ts",
+    "referenceOnly": [
+      {
+        "id": "2880603428",
+        "path": "scripts/vscripts/heroes/npc_dota_hero_bounty_hunter_custom/bounty_hunter_track_custom.lua",
+        "finding": "Spell-category total outgoing callback; does not prove Ravage multiplier/stacking",
+        "imported": false
+      },
+      {
+        "id": "2880603428",
+        "path": "scripts/vscripts/heroes/npc_dota_hero_earthshaker_custom/earthshaker_enchant_totem_custom.lua",
+        "finding": "Attack-category total outgoing callback; no pipeline borrowed",
+        "imported": false
+      }
+    ],
+    "nativeRestorations": {
+      "castPoint": "0.3",
+      "speed": "725",
+      "waveAndStunOwner": "native",
+      "bossOnlyCap": "removed"
+    },
+    "retainedTuning": {
+      "radius": "1000",
+      "damage": "200 228 256 283 311 339 367 394 422 450",
+      "duration": "2.4 2.5 2.6 2.7 2.8 2.8 2.9 3.0 3.1 3.2",
+      "strengthFactor": "2.0"
+    },
+    "diagnostic": "Existing default-off bounded Trace logs native_outgoing_query only; not actual final damage proof",
+    "engineAcceptance": "PENDING OWNER TEST: native curve, inflictor, outgoing factor/stacking, mitigation, ranks10, lifetime and presentation"
   }
 }

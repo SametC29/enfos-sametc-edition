@@ -500,3 +500,14 @@ or lifesteal, no native full cast and no outgoing/filter hooks. Native E restore
 cast point0.4, attack-range-plus225 and non-piercing immunity; ten-rank costs/bonus
 and STR0.75 are retained. Actual constructor/read path/refresh/non-stacking remain
 owner pending. Identifier existence and mocks do not establish engine acceptance.
+
+## Tidehunter R native damage bridge, 2026-10-04
+
+R uses native wave/hit/stun and authored200..450 header damage, radius1000 and
+2.4..3.2 duration, native0.3 cast and725 speed. Boss-only skill cap is removed;
+shared boss systems are unchanged. STR2.0 is an owned-R total-outgoing ratio
+against server GetAbilityDamage, not a claimed top-level special override or
+second hit. Live STR at native impact replaces old cast-time STR snapshot.
+Ordinary callback pipeline/stacking, actual native damage and launched-wave
+lifetime remain owner pending; query math is not engine proof. The localization
+generator renders header AbilityDamage directly without another source curve.

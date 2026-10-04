@@ -19,6 +19,7 @@ export const nativeHeroAbilities = new Map([
   ['enfos_tide_gush', 'tidehunter_gush'],
   ['enfos_tide_kraken_shell', 'tidehunter_kraken_shell'],
   ['enfos_tide_anchor_smash', 'tidehunter_anchor_smash'],
+  ['enfos_tide_ravage', 'tidehunter_ravage'],
 ]);
 
 export function isVerifiedNativeAbility(id, definition) {

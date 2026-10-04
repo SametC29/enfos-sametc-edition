@@ -12,7 +12,7 @@ Hero: `npc_dota_hero_tidehunter`; role: Tank. Progression target: hero level 50 
 | 1 | `enfos_tide_gush` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | NOT_EXPLICIT | tidehunter_gush |
 | 2 | `enfos_tide_kraken_shell` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE | NOT_EXPLICIT | tidehunter_kraken_shell |
 | 3 | `enfos_tide_anchor_smash` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | NOT_EXPLICIT | tidehunter_anchor_smash |
-| 4 | `enfos_tide_ravage` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | tidehunter_ravage |
+| 4 | `enfos_tide_ravage` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | NOT_EXPLICIT | tidehunter_ravage |
 | 5 | `enfos_tide_colossal_presence` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | tidehunter_kraken_shell |
 
 Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
@@ -259,10 +259,10 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 4: `enfos_tide_ravage`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `tidehunter_ravage` (native Ability6).
-Decision and PvE identity rationale: Keep Ravage area damage/stun; cap boss stun with a KV value so bosses cannot be locked for the full creep duration.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
+Decision and PvE identity rationale: Native Ravage owns expanding wave, damage, stun and cleanup; tune authored ranks/radius and retain STR through an owned-R outgoing multiplier. Retire the skill-specific boss cap, keeping ordinary native rules.
+Expected cast/travel/impact/ongoing/cleanup behavior: Native no-target0.3 cast, expanding wave at speed725, native hit/stun/expiry; no Lua cast timer or copied recipient.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve: Ravage R ranks 1–10 are KV-gated at levels 5, 10, …, 50; ultimate UI and point behavior remain PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
@@ -282,23 +282,25 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Native alias and scoped outgoing STR ratio source implemented; actual native damage/pipeline requires owner test. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | R gate levels 5–50 in five-level steps is declared; ultimate HUD and point behavior remain PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
+| Modifiers | PENDING | Custom stun/links retired; existing scaling modifier adds server-only owned-R factor. Actual callback/native stun remains pending. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
+| Cleanup | PENDING | No custom Ravage contexts/particles/hit sets remain; native wave lifetime and death/recast require owner test. |
+| Boss | PENDING | Skill-specific stun cap removed; ordinary native immunity/status resistance. Boss systems unchanged; engine test pending. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | Four languages/mirrors use canonical header damage/radius/duration, omit retired boss cap; HUD pending. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
 Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+
+2026-10-04 R native source migration: installed hash unchanged; ten-rank AbilityDamage200..450 and native keys, cast0.3/speed725. Existing modifier scales only owned learned R through100*liveSTR*2/GetAbilityDamage, server-only, no duplicate hits. Callback/query math passes offline; actual native damage, pipeline/stacking, caster-death lifetime and effects remain PENDING. See native-first review and snapshot.
 
 ## Slot 5: `enfos_tide_colossal_presence`
 

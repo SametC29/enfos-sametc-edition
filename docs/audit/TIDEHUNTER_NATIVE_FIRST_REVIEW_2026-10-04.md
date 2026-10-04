@@ -1,6 +1,6 @@
 # Tidehunter native-first source migration
 
-Status: Q/W/E SOURCE IMPLEMENTED / R/D IMPLEMENTATION PENDING / OWNER_RUNTIME PENDING.
+Status: Q/W/E/R SOURCE IMPLEMENTED / D IMPLEMENTATION PENDING / OWNER_RUNTIME PENDING.
 This record supersedes the old PvE-conversion assumption for the migration
 plan, not the existing production implementation or its proven source fixes.
 The owner permits proceeding to the next source hero without live acceptance.
@@ -16,7 +16,7 @@ hero assignments and queried API availability. The unchanged hero hash does
 not establish engine compatibility or acceptance.
 
 At discovery: five Lua abilities in `abilities/pve_kits.lua` with stable
-`enfos_tide_*` IDs and ten ranks. Q/W/E are now native aliases; R/D remain Lua.
+`enfos_tide_*` IDs and ten ranks. Q/W/E/R are now native aliases; D remains Lua.
 The native header explicitly assigns
 Gush, Kraken Shell, Anchor Smash, Dead in the Water, Ravage and Leviathan's
 Catch. Arm of the Deep and Blubber also have definitions; definition presence
@@ -32,7 +32,7 @@ projectile speed; installed2500 takes precedence. No external code is imported.
 
 ## Five-slot decisions before implementation
 
-These are migration decisions/leads. Q/W/E are source-implemented; none is
+These are migration decisions/leads. Q/W/E/R are source-implemented; none is
 engine-certified. Remaining rows describe planned work.
 
 | Slot / stable ID | Current behavior | Verified native counterpart | Primary class | Intended ownership / reason |
@@ -293,3 +293,56 @@ Next source unit: R Ravage damage read-path and ordinary native control.
 E validation boundary: full `node tools/checks.mjs` completed with zero failed
 checks, including333 mock-engine hero regressions and49 native/diagnostic tests.
 All source checks passed; engine acceptance remains PENDING OWNER TEST.
+
+## R implementation decision before mutation
+
+R remains TUNE: native alias owns wave, hits, stun, immunity, VFX/SFX and cleanup.
+Remove bespoke five-band timer/recipient and skill-specific boss stun cap; do not
+change boss AI, stats, waves or global classification. Retain authored radius1000,
+base200..450, stun2.4..3.2, costs and ten-rank level5/interval5 gates. Restore
+native cast point0.3 and speed725; explicit AbilityDamage top-level and native
+duration/AbilityCooldown keys, no talents/Shard active.
+
+Do not assert GetLevelSpecialValueNoOverride reads top-level AbilityDamage.
+Use an ability-scoped total outgoing percentage extension: for owned learned R
+only, percentage =100 * liveSTR * strength_factor / native GetAbilityDamage().
+This intends the factor (base+2STR)/base without copying hits or adding another
+ApplyDamage event. GetAbilityDamage is server-only; callback returns0 before
+any getter on client. Guard missing/removed/wrong-owner/untrained/illusion and
+nonpositive denominator. Do not disable the active R extension under Break or
+after caster death: native launched waves retain native lifetime. No outgoing
+bonus applies to Q/W/E/D, items or attacks. No new modifier/provider/timer/filter.
+
+Installed indexed enum verifies TOTALDAMAGEOUTGOING_PERCENTAGE and callback.
+[ModDota declaration source](https://github.com/ModDota/API/blob/master/examples/vscript/declarations/dota-modifier-properties.d.ts)
+defines optional inflictor in ModifierAttackEvent; it is a shape reference, not
+current engine certification. Corpus World of Dota2880603428 Bounty Track uses
+the outgoing callback for spell-category damage; Earthshaker Totem uses it for
+attack-category damage. Neither establishes Ravage pipeline/stacking. Those
+files remain REFERENCE_ONLY with license/version not established, no imports.
+Native hash reverified unchanged. Actual AbilityDamage curve consumption,
+callback inflictor, applied multiplier, spell amplification/outgoing stacking,
+mitigation/reflect/lifesteal and rank10 remain explicit owner tests.
+
+R source implemented: explicit native alias, header AbilityDamage200..450,
+native duration/speed/cooldown keys and authored radius1000/costs/gates retained.
+Custom band timers, hit set, VFX emission and stun class/links/localization removed;
+native owns wave and controls under ordinary engine rules without a boss cap.
+One existing persistent modifier supplies the server-only owned-R outgoing
+STR ratio. No top-level special override, duplicate ApplyDamage, provider,
+manager, modifier grant, timer or filter is added. Client returns before server
+getters; Break/caster death do not cancel the already native-owned wave.
+Existing default-off bounded R Trace reports outgoing query values, not final
+applied damage. Four-language R tooltip uses the canonical header damage curve;
+localization generator now resolves AbilityDamage headers without duplicate KV.
+Focused115 checks passed before trace/mirror guard additions;22 native/client
+checks and327 remaining hero mocks pass afterward. Retired custom R mocks are
+replaced by native contracts and scoped callback arithmetic/source/client guards.
+Full source validation pending; all engine/rank/VFX/SFX/lifecycle/stacking cases
+remain owner pending. Next source unit: D Catch native-provider/wave conversion.
+
+R validation boundary: full `node tools/checks.mjs` completed with zero failed
+checks, including327 mock-engine hero regressions and51 native/diagnostic tests.
+This proves source contracts, scoped callback math/guards and canonical-header
+localization generation, not actual native damage, stacking or motor acceptance.
+All owner runtime cases remain pending.

@@ -9,6 +9,71 @@ const q=all.enfos_tide_gush;
 const snapshot=JSON.parse(fs.readFileSync('docs/audit/TIDEHUNTER_NATIVE_SOURCE_2026-10-04.json','utf8'));
 const native=snapshot.abilities.tidehunter_gush;
 
+test('Ravage delegates wave/stun to native and preserves authored ten-rank header damage without a Boss cap',()=>{
+ const r=all.enfos_tide_ravage,n=snapshot.abilities.tidehunter_ravage;
+ assert.ok(isVerifiedNativeAbility('enfos_tide_ravage',r));
+ for(const key of ['AbilityBehavior','AbilityUnitDamageType','SpellImmunityType','SpellDispellableType','AbilitySound','AbilityCastAnimation','AbilityCastRange'])assert.equal(r[key],n[key],key);
+ assert.equal(r.AbilityCastPoint,'0.3');assert.equal(r.MaxLevel,'10');assert.equal(r.RequiredLevel,'5');assert.equal(r.LevelsBetweenUpgrades,'5');
+ assert.equal(r.AbilityDamage,'200 228 256 283 311 339 367 394 422 450');
+ assert.equal(r.AbilityValues.AbilityCooldown,r.AbilityCooldown);
+ assert.equal(r.AbilityValues.radius.value,'1000');assert.equal(r.AbilityValues.radius.affected_by_aoe_increase,'1');
+ assert.equal(r.AbilityValues.speed,n.AbilityValues.speed);assert.equal(r.AbilityValues.duration,'2.4 2.5 2.6 2.7 2.8 2.8 2.9 3.0 3.1 3.2');
+ for(const key of ['damage','boss_stun_duration','stun_duration','AbilityDamage'])assert.equal(r.AbilityValues[key],undefined);
+ const old=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');
+ assert.doesNotMatch(old,/enfos_tide_ravage\s*=\s*class|modifier_enfos_tide_ravage_stun|EnfosTideRavage_/);
+ for(const lang of ['english','turkish','russian','schinese']){
+  const t=JSON.parse(fs.readFileSync(`localization/${lang}.json`)).Tokens;
+  for(const key of ['AbilityDamage','strength_factor','radius','duration'])assert.ok(t.DOTA_Tooltip_Ability_enfos_tide_ravage_Description.includes(`{{${key}}}`));
+  assert.equal(t.DOTA_Tooltip_modifier_enfos_tide_ravage_stun,undefined);
+  for(const dir of ['content/panorama/localization','game/panorama/localization','game/resource']){
+   const mirror=parseKV(fs.readFileSync(`${dir}/addon_${lang}.txt`,'utf8')).lang.Tokens;
+   const text=mirror.DOTA_Tooltip_Ability_enfos_tide_ravage_Description;
+   assert.ok(text.includes(r.AbilityDamage.split(' ').join(' / ')),'Header curve must render without duplicate AbilityValues');
+   assert.ok(!text.includes('{{'),'No unresolved native-header placeholder');
+  }
+ }
+});
+
+test('Ravage outgoing STR factor is scoped and server-only, retaining native wave lifetime and avoiding duplicate damage',()=>{
+ const curve=all.enfos_tide_ravage.AbilityDamage.split(' ').join(',');
+ const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{encoding:'utf8',input:`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t)t.__index=t;return t end
+dofile('game/scripts/vscripts/abilities/heroes/tidehunter/modifiers.lua')
+local server=true;function IsServer()return server end
+local rank,str,removed,illusion=0,50,false,false
+local name='enfos_tide_ravage';local values={${curve}};local baseOverride=nil
+local c={IsNull=function()return removed end,IsIllusion=function()return illusion end,GetStrength=function()return str end,
+ IsAlive=function()error('Native launched wave may survive caster death')end,PassivesDisabled=function()error('Break does not disable active Ravage')end}
+local owner=c
+local a={IsNull=function()return removed end,GetLevel=function()return rank end,GetAbilityName=function()return name end,
+ GetCaster=function()return owner end,GetAbilityDamage=function()assert(server);return baseOverride or values[rank]end,
+ GetSpecialValueFor=function(_,key)assert(key=='strength_factor');return 2 end,
+ GetLevelSpecialValueNoOverride=function()error('Top-level damage is not a raw special')end}
+ApplyDamage=function()error('Native is sole damage dispatcher')end
+local m=setmetatable({GetParent=function()return c end},modifier_enfos_tide_native_scaling)
+MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE=46
+local declared=m:DeclareFunctions();assert(declared[3]==46)
+local event={inflictor=a}
+assert(m:GetModifierTotalDamageOutgoing_Percentage(event)==0)
+for i=1,10 do
+ rank=i;local pct=m:GetModifierTotalDamageOutgoing_Percentage(event)
+ assert(math.abs(pct-100*str*2/values[i])<0.00001)
+ assert(math.abs(values[i]*(1+pct/100)-(values[i]+100))<0.00001)
+end
+str=90;assert(m:GetModifierTotalDamageOutgoing_Percentage(event)==40)
+for _,other in ipairs({'enfos_tide_gush','enfos_tide_anchor_smash','item_dagon','attack'})do name=other;assert(m:GetModifierTotalDamageOutgoing_Percentage(event)==0)end
+name='enfos_tide_ravage';owner={};assert(m:GetModifierTotalDamageOutgoing_Percentage(event)==0);owner=c
+illusion=true;assert(m:GetModifierTotalDamageOutgoing_Percentage(event)==0);illusion=false
+baseOverride=0;assert(m:GetModifierTotalDamageOutgoing_Percentage(event)==0);baseOverride=-1;assert(m:GetModifierTotalDamageOutgoing_Percentage(event)==0);baseOverride=nil
+removed=true;assert(m:GetModifierTotalDamageOutgoing_Percentage(event)==0);removed=false
+assert(m:GetModifierTotalDamageOutgoing_Percentage(nil)==0 and m:GetModifierTotalDamageOutgoing_Percentage({})==0)
+assert(m:GetModifierOverrideAbilitySpecial({ability=a,ability_special_value='AbilityDamage'})==0)
+server=false;c.IsIllusion=function()error('Client getter must not run')end
+assert(m:GetModifierTotalDamageOutgoing_Percentage(event)==0)
+`});assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');
+});
+
 test('Anchor manual cast is native with exact attack keys, signed reduction and native geometry',()=>{
  const e=all.enfos_tide_anchor_smash,n=snapshot.abilities.tidehunter_anchor_smash;
  assert.ok(isVerifiedNativeAbility('enfos_tide_anchor_smash',e));

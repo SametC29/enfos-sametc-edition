@@ -107,3 +107,10 @@ reflected half-damage Shard helper reusing the native recipient. Cloned manual
 cast/debuff removed. Full source checks pass; engine cases remain pending,
 especially actual native recipient construction/refresh and attack effects.
 Proceed with R Ravage next without waiting for owner live tests.
+
+2026-10-04 Tidehunter R source progression: native Ravage replaces custom bands,
+hit sets and stun; authored10-rank header damage/costs/radius/duration retained.
+A server-only owned-R outgoing STR factor avoids guessed top-level special
+overrides and duplicate hits. Skill-specific Boss stun cap removed; shared
+Boss systems unchanged. Full source checks pass; actual damage pipeline and
+engine/presentation cases remain pending. Proceed with D Catch investigation.

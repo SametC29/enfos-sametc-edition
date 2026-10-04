@@ -1,11 +1,28 @@
--- Native Gush owns cast, impact and upgrades; this only adds authored STR damage.
+-- Native owns gameplay; this only supplies authored STR tuning.
 modifier_enfos_tide_native_scaling=class({})
 local M=modifier_enfos_tide_native_scaling
 function M:IsHidden() return true end
 function M:IsPurgable() return false end
 function M:RemoveOnDeath() return false end
 function M:DeclareFunctions()
-    return {MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL,MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL_VALUE}
+    return {MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL,MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL_VALUE,
+        MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE}
+end
+
+-- Ravage's top-level AbilityDamage is not read through the special-value bridge.
+function M:GetModifierTotalDamageOutgoing_Percentage(params)
+    if not IsServer() or not params then return 0 end
+    local c,a=self:GetParent(),params.inflictor
+    if not c or c:IsNull() or c:IsIllusion() or not a or a:IsNull()
+        or a:GetAbilityName()~='enfos_tide_ravage' or a:GetCaster()~=c or a:GetLevel()<1 then return 0 end
+    local base=a:GetAbilityDamage()
+    if base<=0 then return 0 end
+    local strength=c:GetStrength()
+    local pct=100*strength*a:GetSpecialValueFor('strength_factor')/base
+    require('lib/hero_trace'):Log('TIDEHUNTER','R',
+        'native_outgoing_query base=%s str=%s percent=%s original=%s',
+        tostring(base),tostring(strength),tostring(pct),tostring(params.original_damage))
+    return pct
 end
 local function matches(params)
     local a=params and params.ability
