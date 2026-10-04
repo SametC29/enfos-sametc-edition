@@ -324,6 +324,10 @@ OWNER_RUNTIME_PENDING: D stats all10ranks/points/free1/49/level6start,
 Persecutor slow at above/below60%/zero/full mana and zero maxmana, hero
 level6..50/illusion full slow versus no custom stats, Break/target immunity,
 repeated restore/death/reconnect and native modifier cleanup/VConsole.
-R still NATIVE_COMPOSITION_PENDING; no Anti-Mage complete/Storm advance.
+R still NATIVE_COMPOSITION_PENDING; no Anti-Mage completion is claimed.
+The existing flat/AGI R component is not an explicit owner preservation
+requirement. Owner preference between full native R and retaining that
+component remains pending. Independent Storm discovery may continue under
+the owner's deferred-live-test rollout instruction.
 
 D full source checks:0 failed check(s). Engine playtests remain separate.

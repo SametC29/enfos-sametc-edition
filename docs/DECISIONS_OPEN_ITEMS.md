@@ -558,9 +558,22 @@ readpath and actuallinkedShard/mitigation/strongdispelliveness remainownerpendin
 
 Anti-Mage R technical gate (2026-10-04): installed native exposes only
 missing-mana coefficient/control/radius, no verified flat damage input.
-Keep owner-authored flat100..650+AGI.4..1.5 at zero missing/maxmana while
-preserving one native block/reflection flow; reject guessed AbilityDamage,
+The existing authored flat100..650+AGI.4..1.5 applies at zero missing/maxmana;
+the owner has not explicitly required retaining it. A composition retaining it
+must preserve one native block/reflection flow; reject guessed AbilityDamage,
 division by zero and duplicate absorb/native casts. Source corrections
 remove Boss cap/exemption and restore primary-only control/immunity/AoE;
 R full native migration remains unresolved pending construction evidence.
-D source work remains available. This is not a new product approval request.
+D source work is implemented. Owner preference between full native R (zero
+damage at zero missing mana) and retaining the existing custom flat/AGI
+component is pending; do not interpret silence as approval. Continue independent
+Storm discovery under the owner's instruction to defer live acceptance.
+
+2026-10-04 Storm Spirit pre-mutation discovery: [five-slot matrix and evidence](audit/STORM_SPIRIT_NATIVE_FIRST_REVIEW_2026-10-04.md).
+Native W pull replaces copied AoE stun; native R flight/path damage replaces
+instant teleport/arrival-only damage and retires the skill-specific Boss cap.
+Native W owns Scepter and E owns Shard; unassigned Electric Rave is not an
+automatic extra button. Q point targeting versus header NO_TARGET, linked
+Overload identity, R damage units/mana arithmetic and Galvanized creep credit
+remain verification gates. Preserve paid D stats separately from rank1 native
+innate. Source implementation and all engine acceptance remain pending.

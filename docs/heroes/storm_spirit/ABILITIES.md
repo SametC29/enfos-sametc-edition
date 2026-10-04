@@ -58,6 +58,20 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-04 native-first discovery supersedes the historical classification
+as a migration target only; production is still the old five-slot Lua kit.
+Fresh build6943/revision11069754 has the same native hero hash shown above.
+See [pre-mutation matrix and source findings](../../audit/STORM_SPIRIT_NATIVE_FIRST_REVIEW_2026-10-04.md)
+and [fresh native snapshot](../../audit/STORM_SPIRIT_NATIVE_SOURCE_2026-10-04.json).
+All five slots are TUNE targets: Q/E native with only an evidenced INT bridge
+if needed, W/R native aliases, D native Galvanized plus separate paid stats.
+Existing W never pulls; R uses teleport/arrival-only damage; Q shares trigger
+and damage radius; E copies charges and misses killing-hit discharge.
+W Scepter/E Shard ownership, linked identities, Q targeting, R damage/mana
+read paths and innate creep credit remain open. SOURCE_IMPLEMENTATION PENDING;
+OWNER_RUNTIME PENDING. Historical mock PASS rows below are not acceptance
+of this proposed native kit. No production change in this discovery unit.
+
 2026-09-30 level-50 migration: Q/W/E/Enfos passive gates start at level 1 with interval 1; R starts at level 5 with interval 5. Static contract test added; point/HUD and gameplay acceptance remain pending for owner live test.
 
 2026-09-30 follow-up static review: verified all five Lua callbacks against the dossier's installed native identity map, named KV values, tests, localization, and existing particle precache. Confirmed two defects: Electric Vortex's tooltip promised a pull that its code never performs, and Overload cleared its charged proc before rejecting allied/invalid targets. Overload now preserves the charge on those attacks; a regression covers ally attack then enemy proc. Turkish, English, Russian and Simplified Chinese Vortex/Overload tooltips now describe the actual AoE stun and charged AoE attack; Static Remnant's trigger radius now displays the ranked value instead of a fixed 300. These fixes correct code/tooltip alignment, not ENGINE_PASS. Existing five ability mock tests pass; all six Storm particle paths have local Valve VPK validation and are registered in addon precache. Visual display, particle CPs, sound bank/event validity and audibility, form/animation, real mana/cooldown, boss balance and VConsole remain pending the owner's Dota test. Ball Lightning's engine base mana cost plus its Lua distance cost also remains an in-game acceptance check.

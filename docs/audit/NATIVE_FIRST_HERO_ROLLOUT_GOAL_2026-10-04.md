@@ -207,4 +207,13 @@ Anti-Mage D source unit: exact rank1 native Persecutor + separate paid
 AS/MS/free1/ten ranks, existing pre-XP restore idempotent, client18classes,
 readonly Health; no cloned slow/target writes/timers.131 affected/317 mocks
 PASS. Q/W/E/D source implemented, R native composition still pending; all
-engine gates owner-pending. No hero completion/Storm advance yet.
+engine gates owner-pending. No hero completion is claimed.
+
+Storm Spirit discovery progression: current build6943/hash reverified; six
+native definitions and seven assets recorded, with five-slot pre-mutation
+matrix. Existing W does not pull and R teleports instead of native flight.
+Source migration remains pending; E native identity should precede linked
+Q/W/R casts. Anti-Mage R preference/composition and all outstanding runtime
+gates stay open. The earlier assistant-added restriction on Storm advance
+does not supersede the owner's instruction to continue source work while
+deferring live tests. No production Storm behavior changed in discovery.
