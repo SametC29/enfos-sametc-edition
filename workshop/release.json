@@ -1,9 +1,9 @@
 {
   "appid": "570",
   "publishedfileid": "3809160125",
-  "version": "1.0.17",
-  "title": "Enfos Team Survival - SametC Edition V1.0.17",
-  "changenote": "V1.0.17 - Quarantine wave 37's native Rally passive after two matching desktop-crash dumps identified its modifier. Skeleton waves and rewards remain; the unsafe passive is removed from hostile units and Future Reinforcements. Normal creature health bonus is now 50%; opening hero XP requirements are lower. Multiplayer team selection fix retained. Automated checks passed; two-client waves 35-40 runtime confirmation pending. Known Future Reinforcements movement issue remains under investigation. Uncommitted contributor work excluded.",
+  "version": "1.0.18",
+  "title": "Enfos Team Survival - SametC Edition V1.0.18",
+  "changenote": "V1.0.18 - Future Reinforcements now spawn in a five-unit ring with more space between allies, addressing the crowded formation suspected in stationary-unit reports. In-game movement confirmation pending. Retains the wave 37 Rally crash quarantine, 50% normal-creep health increase, faster opening levels and multiplayer team selection fix.",
   "visibility": "0",
   "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3809160125"
 }
