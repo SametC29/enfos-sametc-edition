@@ -1,6 +1,6 @@
 # Anti-Mage native-first discovery
 
-Status: Q SOURCE IMPLEMENTED / W/E/R/D SOURCE_PENDING / OWNER_RUNTIME PENDING.
+Status: Q/W SOURCE IMPLEMENTED / E/R/D SOURCE_PENDING / OWNER_RUNTIME PENDING.
 This follows Ursa in the owner-directed rollout.
 
 ## Evidence
@@ -152,3 +152,41 @@ copying and native25% component only, Break/points/HUD/respawn/reconnect/
 coldVFX/SFX. Health queries are not actual damage certification and initial
 rank0/query0 are expected until Q training. W empowerment not yet migrated.
 Next source unit: W native Blink and Scepter link, then E/R/D.
+
+## W construction decision before mutation
+
+TUNE / pure NATIVE alias enfos_am_blink -> antimage_blink. Fresh installed
+build6943/revision11069754 and hero SHA256 b70ba50c837db7379329dc1c515847dfa25a256b6252a115f39d2d7530579b11
+match discovery. Explicit native POINT/ROOT_DISABLES/OVERSHOOT, min200,
+castpoint.4, animation2, Blink_out sound and HasScepterUpgrade1 retained.
+Keep authored range700..1150/CD9..3.5/mana50/ten paid ranks/1-1 gates;
+range and cooldown both have header and native AbilityValues value arrays.
+No talent bonuses. Copy installed Scepter base0 plus5s/20%/6s metadata,
+not unconditional empowerment. Exact Q provider already restored separately;
+no second provider, wrapper, manual teleport, projectile dodge, VFX/SFX or
+empowerment writes. Retire manual W and its raw-cursor mock. Keep verified
+startup assets. Native linked-Q lookup, short/overshoot/cliff placement, root,
+projectile dodge, ten-rank HUD/costs and actual Scepter consumption pending
+owner engine test. Boss Survival1571786267 hero_antimage.lua re-read: its
+unit-target illusion Blink differs from installed point Blink; reference-only,
+no import/license claim. ModDota ability-keyvalues re-read (no trailing slash),
+confirms BaseClass aliases only inherit exposed variables, not internal C++.
+Scepter tooltip uses verified fixed native5/20/6 facts, avoiding raw base0
+placeholder substitution; all four languages updated.
+
+## W source validation
+
+119 affected source checks and318 hero mock regressions pass. Three focused
+W contracts compare targeting/Scepter special objects with installed snapshot,
+independently authored ten-rank range/CD/mana/gates, native alias ownership,
+no manual W code/native-ID shadow, retained precache and four translated
+tooltips/twelve mirrors. Old raw-cursor teleport mock removed: it cannot
+verify native C++ movement. Existing Q provider restore remains unchanged;
+no new modifier/client class, spellcast callback, logging timer or point grant.
+All engine gates remain PENDING OWNER TEST: ten native ranks, placement/
+short/maximum/overshoot, rooted rejection, incoming projectile dodge,
+Scepter next-hit Q lookup/5s expiry/additional20%/6s undispellable mana gain
+denial, upgrades on/off, cleanup/repeated use, cold VFX/SFX, HUD/points and
+respawn/reconnect. Full restart required when owner resumes. Next source E.
+
+Full source checks:0 failed check(s). Engine playtests remain separate.

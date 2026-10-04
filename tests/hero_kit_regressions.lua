@@ -5273,18 +5273,6 @@ test('Ursa Enfos passive honors configured values and Break', function()
     assert(passive:GetModifierMoveSpeedBonus_Constant() == 0)
 end)
 
-test('Anti-Mage Blink uses ranked range and preserves native start/end VFX flow', function()
-    local am = create_mock_unit('npc_dota_hero_antimage', 2, Vector(0, 0, 0))
-    local destination = Vector(800, 200, 0)
-    local ab = enfos_am_blink()
-    ab.GetCaster = function() return am end
-    ab.GetCursorPosition = function() return destination end
-    ab.GetSpecialValueFor = function(_, k) if k == 'blink_range' then return 900 end return 0 end
-    assert(ab:GetCastRange() == 900)
-    ab:OnSpellStart()
-    assert(am.origin == destination)
-end)
-
 test('Anti-Mage Counterspell rank scales passive and active resistance and Break only shuts off passive', function()
     local am = create_mock_unit('npc_dota_hero_antimage', 2, Vector(0, 0, 0))
     local ab = enfos_am_counterspell()

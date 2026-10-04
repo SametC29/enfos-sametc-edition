@@ -5222,25 +5222,6 @@ end
 
 -- Native Mana Break owns mana damage; minimal physical proc is isolated.
 
-enfos_am_blink=class({})
-function enfos_am_blink:GetCastRange() return value(self, 'blink_range') end
-function enfos_am_blink:OnSpellStart()
-    local c = self:GetCaster()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
-    local target_pos = self:GetCursorPosition()
-    c:EmitSound('Hero_Antimage.Blink_out')
-    local p1 = ParticleManager:CreateParticle('particles/units/heroes/hero_antimage/antimage_blink_start.vpcf', PATTACH_WORLDORIGIN, nil)
-    ParticleManager:SetParticleControl(p1, 0, c:GetAbsOrigin())
-    ParticleManager:ReleaseParticleIndex(p1)
-
-    FindClearSpaceForUnit(c, target_pos, true)
-
-    local p2 = ParticleManager:CreateParticle('particles/units/heroes/hero_antimage/antimage_blink_end.vpcf', PATTACH_WORLDORIGIN, nil)
-    ParticleManager:SetParticleControl(p2, 0, target_pos)
-    ParticleManager:ReleaseParticleIndex(p2)
-    c:EmitSound('Hero_Antimage.Blink_in')
-end
-
 enfos_am_counterspell=class({})
 function enfos_am_counterspell:GetIntrinsicModifierName() return 'modifier_enfos_am_counterspell_passive' end
 function enfos_am_counterspell:OnSpellStart()

@@ -185,3 +185,8 @@ pre-XP passive restore,17clientclasses, readonlyHealth and fourlocales/12
 mirrors covered. 116 affected checks,319hero mocks/fullchecks pass with0failures.
 Actual combined damage/native Scepter/cache/illusion/Break/ranks/lifecycle
 remain ownerpending. Next W native Blink/Q empowerment, then E/R/D.
+
+Anti-Mage W source unit: native Blink alias after exact Q provider; explicit
+root/overshoot/min200/conditional Scepter metadata; authored ten-rank curves
+preserved, manual teleport removed.119 affected checks/318 mock regressions
+PASS. All live W gates owner-pending; E/R/D source remain. No publication.

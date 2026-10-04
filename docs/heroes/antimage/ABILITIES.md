@@ -10,7 +10,7 @@ Hero: `npc_dota_hero_antimage`; role: Carry. Progression target: hero level 50 /
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
 | 1 | `enfos_am_mana_break` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/antimage/q | antimage_mana_break |
-| 2 | `enfos_am_blink` | 10 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/pve_kits | antimage_blink |
+| 2 | `enfos_am_blink` | 10 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES \| DOTA_ABILITY_BEHAVIOR_OVERSHOOT | NOT_EXPLICIT | antimage_blink |
 | 3 | `enfos_am_counterspell` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | antimage_counterspell |
 | 4 | `enfos_am_mana_void` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | antimage_mana_void |
 | 5 | `enfos_am_spellbreaker` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | antimage_mana_overload |
@@ -306,3 +306,20 @@ of passive behavior remains pending.
 2026-10-04 native-first discovery: fresh installed6943/rev11069754 SHA256 b70ba50c837db7379329dc1c515847dfa25a256b6252a115f39d2d7530579b11 matches the historical6941 source. [New snapshot](../../audit/ANTIMAGE_NATIVE_SOURCE_2026-10-04.json) and [pre-mutation matrix](../../audit/ANTIMAGE_NATIVE_FIRST_REVIEW_2026-10-04.md) supersede prior blanket conversion assumptions for subsequent implementation. Q currently does not burn mana, E does not block/reflect, W lacks native root/overshoot/dodge behavior, R carries custom Boss damage/no-stun rules and Persecutor is absent. Q/R classified PVE-CONVERT with native mechanics/minimal numeric extension; W/E/D TUNE. Native Scepter belongs Q/W and Shard E; do not grant unassigned legacy fragment/ally abilities or deprecated facets. All production remains unchanged at this discovery boundary. Native engine/VFX/SFX/ranks/lifecycle/upgrades remain PENDING OWNER TEST. Next Q exact linked provider before W.
 
 2026-10-04 Q source migration: exact native antimage_mana_break provider rank0/untrained thenrank1, paidQ10rank raw tuning plus minimal real-hero physical attack bonus40..150+AGI.4..9. Explicit native endpoint interpolation25..40/1.8..4.5%, Scepter+1.5 metadata bridge, default65% damage/illusion25%/empowered20%/6s denial remain native. Copied radial cleave, mana-hit visuals and ApplyDamage removed. Shared pre-XP passive restore is idempotent;17clientclasses/paths and server rank-hook guards covered. Read-only automatic Health reports native rank/intrinsic/queries. 116 affected checks/319mocks/full checks pass with0failures. Actual native/client Scepter readpath, combined proc damage/cache/empowerment/illusions/Break/coldVFX/SFX/points/rank10/lifecycle remain PENDING OWNER TEST; W empowerment still SOURCE_PENDING. Next W Blink.
+
+## W native source migration (2026-10-04)
+
+TUNE / NATIVE: stable enfos_am_blink now BaseClass antimage_blink with no
+ScriptFile or empty Lua wrapper. Installed build6943/revision11069754/hash
+b70ba50c837db7379329dc1c515847dfa25a256b6252a115f39d2d7530579b11
+rechecked. Native point/root-disabled/overshoot flags, min200, castpoint.4,
+animation2/Blink_out, Scepter conditional5s/20%/6s fields retained. Authored
+range700..1150/CD9..3.5/mana50/ten ranks/gates1-1 preserved in explicit
+headers and native special arrays, no talents. Manual teleport/VFX/SFX and
+its raw-cursor mock retired. Q exact provider already restored; W C++ linked
+lookup remains unproven. Existing native precache retained. EN/TR/RU/zh-CN
+describe root/projectile dodge and additional Scepter burn/mana-gain denial.
+119 affected checks/318 mock regressions PASS, source only. Targeting,
+native ten-rank HUD, upgrades, VFX/SFX, cleanup, restore/reconnect and actual
+Scepter/native Q interaction PENDING OWNER TEST; no Dota launched.
+See audit/ANTIMAGE_NATIVE_FIRST_REVIEW_2026-10-04.md for decision/evidence.

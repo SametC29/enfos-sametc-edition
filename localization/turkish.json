@@ -817,7 +817,7 @@
     "DOTA_Tooltip_Ability_enfos_am_mana_break": "Mana Kırma",
     "DOTA_Tooltip_Ability_enfos_am_mana_break_Description": "Saldırılar {{mana_per_hit}} mana ve hedefin azami manasının %{{mana_per_hit_pct}} kadarını yakar; yakılan mananın %65’i kadar fiziksel hasar verir. Gerçek kahramanın saldırıları, manasız birimler dahil, {{bonus_damage}} + Çeviklik × {{agility_factor}} ek fiziksel hasar verir. Kırılma iki etkiyi de durdurur. İllüzyonlar mana yakmanın %25’ini korur; ek PvE hasarı kazanmaz.",
     "DOTA_Tooltip_Ability_enfos_am_blink": "Göz Kırpma",
-    "DOTA_Tooltip_Ability_enfos_am_blink_Description": "Belirtilen noktaya en fazla {{blink_range}} menzilde anında ışınlanır.",
+    "DOTA_Tooltip_Ability_enfos_am_blink_Description": "Seçilen noktaya en fazla {{AbilityCastRange}}, en az {{min_blink_range}} mesafeye ışınlanır. Köklenmişken kullanılamaz; gelen mermilerden sıyrılır.",
     "DOTA_Tooltip_Ability_enfos_am_counterspell": "Büyü Kalkanı",
     "DOTA_Tooltip_Ability_enfos_am_counterspell_Description": "Pasif olarak +%{{magic_resist}} büyü direnci verir. Etkinleştirildiğinde {{active_duration}} sn boyunca +%{{active_resist}} büyü direnci sağlar.",
     "DOTA_Tooltip_Ability_enfos_am_mana_void": "Mana Boşluğu",
@@ -1838,6 +1838,12 @@
     "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff_Description": "Slark’ın saldırı tetiklemeleriyle zırhı azaltılmıştır.",
     "DOTA_Tooltip_Ability_enfos_tide_gush_SummaryDescription": "Bir düşmana {{gush_damage}} + Güç × {{strength_factor}} büyü hasarı veren su fışkırtır; zırhını {{negative_armor}} ve hareket hızını {{movement_speed|abs}}% azaltır. Etkiler 4.5 saniye sürer.",
     "DOTA_Tooltip_Ability_enfos_ursa_earthshock_shard_description": "Shard, isabet alan düşmanlara 3 Öfke Pençeleri yükü uygular.",
-    "DOTA_Tooltip_Ability_enfos_am_mana_break_scepter_description": "Her vuruşta yakılan azami mana oranına {{native_scepter_mana_pct_bonus}} yüzde puan ekler."
+    "DOTA_Tooltip_Ability_enfos_am_mana_break_scepter_description": "Her vuruşta yakılan azami mana oranına {{native_scepter_mana_pct_bonus}} yüzde puan ekler.",
+    "DOTA_Tooltip_Ability_enfos_am_blink_SummaryDescription": "Seçilen noktaya en fazla {{AbilityCastRange}}, en az {{min_blink_range}} mesafeye ışınlanır. Köklenmişken kullanılamaz; gelen mermilerden sıyrılır.",
+    "DOTA_Tooltip_Ability_enfos_am_blink_scepter_description": "Göz Kırpma sonrasında 5 saniye içindeki sonraki Mana Break, hedefin azami manasının ilave %20’sini yakar ve 6 saniye boyunca mana yenilenmesini veya kazanımını engeller. Bu olumsuz etki giderilemez.",
+    "DOTA_Tooltip_ability_enfos_am_blink": "Göz Kırpma",
+    "DOTA_Tooltip_ability_enfos_am_blink_Description": "Seçilen noktaya en fazla {{AbilityCastRange}}, en az {{min_blink_range}} mesafeye ışınlanır. Köklenmişken kullanılamaz; gelen mermilerden sıyrılır.",
+    "DOTA_Tooltip_ability_enfos_am_blink_SummaryDescription": "Seçilen noktaya en fazla {{AbilityCastRange}}, en az {{min_blink_range}} mesafeye ışınlanır. Köklenmişken kullanılamaz; gelen mermilerden sıyrılır.",
+    "DOTA_Tooltip_ability_enfos_am_blink_scepter_description": "Göz Kırpma sonrasında 5 saniye içindeki sonraki Mana Break, hedefin azami manasının ilave %20’sini yakar ve 6 saniye boyunca mana yenilenmesini veya kazanımını engeller. Bu olumsuz etki giderilemez."
   }
 }

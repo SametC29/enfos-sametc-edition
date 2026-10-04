@@ -145,3 +145,35 @@ assert(out:find('mana_break_intrinsic=fixture_mana_break present=true',1,true))
 assert(out:find('native_mana_per_hit_query=25',1,true))
 local count=#lines;server=false;assert(not health.Report(c,0) and #lines==count)
 `));
+
+
+test('Blink delegates installed native targeting, animation, sound and Scepter metadata without unconditional empowerment',()=>{
+ const w=all.enfos_am_blink, source=JSON.parse(fs.readFileSync('docs/audit/ANTIMAGE_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.antimage_blink;
+ assert.equal(w.BaseClass,'antimage_blink');assert.equal(w.ScriptFile,undefined);assert.equal(all.antimage_blink,undefined);
+ for(const key of ['AbilityBehavior','HasScepterUpgrade','AbilityCastAnimation','AbilitySound'])assert.equal(w[key],source[key],key);
+ assert.equal(w.AbilityCastPoint,'0.4');assert.equal(w.AbilityValues.min_blink_range,source.AbilityValues.min_blink_range);
+ for(const key of ['empowered_mana_break_duration','empowered_max_burn_pct_tooltip','empowered_mana_break_debuff_duration_tooltip'])assert.deepEqual(Object.entries(w.AbilityValues[key]),Object.entries(source.AbilityValues[key]),key);
+ assert.equal(w.AbilityValues.blink_range,undefined);
+ assert.doesNotMatch(fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8'),/enfos_am_blink[=:]|function enfos_am_blink/);
+ for(const path of ['antimage_blink_start','antimage_blink_end'])assert.ok(fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua','utf8').includes(path+'.vpcf'));
+});
+test('Native Blink preserves the independently authored ten-rank progression, ranges, cooldowns and mana cost',()=>{
+ const w=all.enfos_am_blink;assert.equal(w.MaxLevel,'10');assert.equal(w.RequiredLevel,'1');assert.equal(w.LevelsBetweenUpgrades,'1');assert.equal(w.AbilityManaCost,'50');
+ const ranges=[700,750,800,850,900,950,1000,1050,1100,1150],cds=[9,8.3,7.6,6.9,6.2,5.5,4.8,4.2,3.8,3.5];
+ for(const[key,expected]of [['AbilityCastRange',ranges],['AbilityCooldown',cds]]){
+ assert.deepEqual(w[key].split(' ').map(Number),expected);assert.deepEqual(Object.entries(w.AbilityValues[key]),[['value',w[key]]],'No disabled talent branches or inconsistent native special');
+ }
+ const hero=parseKV(fs.readFileSync('game/scripts/npc/npc_heroes_custom.txt','utf8')).DOTAHeroes.npc_dota_hero_antimage;assert.equal(hero.Ability2,'enfos_am_blink');
+});
+test('Blink upgrade descriptions and range render in four real translations and twelve mirrors',()=>{
+ const names=[];for(const lang of ['english','turkish','russian','schinese']){
+ const tokens=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens,p='DOTA_Tooltip_Ability_enfos_am_blink';names.push(tokens[p]);
+ assert.ok(tokens[p+'_Description'].includes('{{AbilityCastRange}}'));assert.ok(tokens[p+'_Description'].includes('{{min_blink_range}}'));
+ const upgrade=tokens[p+'_scepter_description'];for(const number of ['5','20','6'])assert.ok(upgrade.includes(number));assert.doesNotMatch(upgrade,/\{\{/);
+ for(const dir of ['game/resource','game/panorama/localization','content/panorama/localization']){
+ const text=fs.readFileSync(dir+'/addon_'+lang+'.txt','utf8');assert.doesNotMatch(text,/\{\{/);
+ for(const casing of ['Ability','ability'])assert.ok(text.includes('DOTA_Tooltip_'+casing+'_enfos_am_blink_scepter_description'));
+ assert.ok(text.includes(all.enfos_am_blink.AbilityCastRange.split(' ').join(' / ')));
+ }
+ }assert.equal(new Set(names).size,4);
+});

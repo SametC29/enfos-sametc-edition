@@ -1451,6 +1451,14 @@
     "DOTA_Tooltip_Ability_enfos_tide_gush_SummaryDescription": "水流对敌人造成{{gush_damage}} + 力量 × {{strength_factor}}点魔法伤害，使护甲降低{{negative_armor}}，移动速度降低{{movement_speed|abs}}%，持续4.5秒。",
     "DOTA_Tooltip_Ability_enfos_ursa_earthshock_shard_description": "魔晶对命中的敌人施加3层怒意狂击。",
     "DOTA_Tooltip_Ability_enfos_am_mana_break_Description": "攻击燃烧{{mana_per_hit}}点魔法和目标最大魔法值的{{mana_per_hit_pct}}%，并造成等于燃烧魔法量65%的物理伤害。本体攻击额外造成{{bonus_damage}} + 敏捷 × {{agility_factor}}物理伤害，对没有魔法的单位同样有效。破坏使两种效果失效。幻象保留25%的原生魔法燃烧，不获得额外PvE伤害。",
-    "DOTA_Tooltip_Ability_enfos_am_mana_break_scepter_description": "每次攻击燃烧的最大魔法比例增加{{native_scepter_mana_pct_bonus}}个百分点。"
+    "DOTA_Tooltip_Ability_enfos_am_mana_break_scepter_description": "每次攻击燃烧的最大魔法比例增加{{native_scepter_mana_pct_bonus}}个百分点。",
+    "DOTA_Tooltip_Ability_enfos_am_blink": "闪烁",
+    "DOTA_Tooltip_Ability_enfos_am_blink_Description": "向选定地点传送，最大距离为{{AbilityCastRange}}，最小距离为{{min_blink_range}}。被缠绕时无法施放；可以躲避飞行中的弹道。",
+    "DOTA_Tooltip_Ability_enfos_am_blink_SummaryDescription": "向选定地点传送，最大距离为{{AbilityCastRange}}，最小距离为{{min_blink_range}}。被缠绕时无法施放；可以躲避飞行中的弹道。",
+    "DOTA_Tooltip_Ability_enfos_am_blink_scepter_description": "闪烁后5秒内的下一次法力损毁额外燃烧目标最大魔法值的20%，并使目标6秒内无法恢复或获得魔法。此负面效果无法驱散。",
+    "DOTA_Tooltip_ability_enfos_am_blink": "闪烁",
+    "DOTA_Tooltip_ability_enfos_am_blink_Description": "向选定地点传送，最大距离为{{AbilityCastRange}}，最小距离为{{min_blink_range}}。被缠绕时无法施放；可以躲避飞行中的弹道。",
+    "DOTA_Tooltip_ability_enfos_am_blink_SummaryDescription": "向选定地点传送，最大距离为{{AbilityCastRange}}，最小距离为{{min_blink_range}}。被缠绕时无法施放；可以躲避飞行中的弹道。",
+    "DOTA_Tooltip_ability_enfos_am_blink_scepter_description": "闪烁后5秒内的下一次法力损毁额外燃烧目标最大魔法值的20%，并使目标6秒内无法恢复或获得魔法。此负面效果无法驱散。"
   }
 }

@@ -3081,18 +3081,23 @@
           "slot": 2,
           "id": "enfos_am_blink",
           "maxLevel": 10,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT",
-          "callbacks": [
-            "GetCastRange",
-            "OnSpellStart"
-          ],
+          "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_OVERSHOOT",
+          "callbacks": [],
+          "implementationOwner": "NATIVE",
+          "nativeBaseClass": "antimage_blink",
+          "engineAcceptance": "PENDING OWNER TEST",
           "specials": {
-            "blink_range": "700 750 800 850 900 950 1000 1050 1100 1150"
+            "AbilityCastRange": "700 750 800 850 900 950 1000 1050 1100 1150",
+            "AbilityCooldown": "9 8.3 7.6 6.9 6.2 5.5 4.8 4.2 3.8 3.5",
+            "min_blink_range": "200",
+            "empowered_mana_break_duration": "0",
+            "empowered_max_burn_pct_tooltip": "0.0",
+            "empowered_mana_break_debuff_duration_tooltip": "0"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
           "hasSound": true,
-          "hasParticle": true
+          "hasParticle": false
         },
         {
           "slot": 3,
