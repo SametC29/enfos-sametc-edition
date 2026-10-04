@@ -242,13 +242,18 @@ check('hero / ability / localization references', () => {
   const whitelist = kv('game/scripts/npc/herolist.txt').CustomHeroList;
   for (const hero of Object.keys(whitelist)) if (!heroes[hero]) throw new Error(`Unknown hero ${hero}`);
   const nativeTide = JSON.parse(fs.readFileSync('docs/audit/TIDEHUNTER_NATIVE_SOURCE_2026-10-04.json', 'utf8')).abilities;
+  const nativeMaul = JSON.parse(fs.readFileSync('docs/audit/URSA_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.ursa_maul;
   for (const [heroId, hero] of Object.entries(heroes)) {
     for (const [key, ability] of Object.entries(hero)) {
       const verifiedCatch = heroId === 'npc_dota_hero_tidehunter' && key === 'Ability7'
         && ability === 'tidehunter_leviathans_catch'
         && nativeTide[ability]?.MaxLevel === '1' && nativeTide[ability]?.Innate === '1'
         && nativeTide[ability]?.AbilityBehavior.includes('DOTA_ABILITY_BEHAVIOR_HIDDEN');
-      if (/^Ability\d+$/.test(key) && ability !== 'generic_hidden' && !abilities[ability] && !verifiedCatch) throw new Error(`Unknown ability ${ability}`);
+      const verifiedMaul = heroId === 'npc_dota_hero_ursa' && key === 'Ability7'
+        && ability === 'ursa_maul'
+        && nativeMaul.MaxLevel === '1' && nativeMaul.Innate === '1'
+        && nativeMaul.AbilityBehavior.includes('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
+      if (/^Ability\d+$/.test(key) && ability !== 'generic_hidden' && !abilities[ability] && !verifiedCatch && !verifiedMaul) throw new Error(`Unknown ability ${ability}`);
     }
   }
   for (const lang of languages) {
@@ -410,7 +415,7 @@ check('retired compiled-map TreeShop and CourierZone compatibility', () => {
   if (result.status !== 0) throw new Error('Retired map trigger regressions failed');
 });
 check('Shadow Fiend reviewed native ability contracts', () => {
-  const result = spawnSync(process.execPath, ['--test', 'tools/tests/shadow_fiend_native.test.mjs', 'tools/tests/bristleback_native.test.mjs', 'tools/tests/bristleback_integration.test.mjs', 'tools/tests/slark_native.test.mjs', 'tools/tests/tidehunter_native.test.mjs', 'tools/tests/ursa_native.test.mjs', 'tools/tests/ursa_overpower_native.test.mjs', 'tools/tests/shadow_fiend_sustain.test.mjs', 'tools/tests/shadow_fiend_integration.test.mjs', 'tools/tests/hero_health.test.mjs', 'tools/tests/hero_runtime_log_report.test.mjs'], { stdio: 'inherit' });
+  const result = spawnSync(process.execPath, ['--test', 'tools/tests/shadow_fiend_native.test.mjs', 'tools/tests/bristleback_native.test.mjs', 'tools/tests/bristleback_integration.test.mjs', 'tools/tests/slark_native.test.mjs', 'tools/tests/tidehunter_native.test.mjs', 'tools/tests/ursa_native.test.mjs', 'tools/tests/ursa_overpower_native.test.mjs', 'tools/tests/ursa_maul_native.test.mjs', 'tools/tests/shadow_fiend_sustain.test.mjs', 'tools/tests/shadow_fiend_integration.test.mjs', 'tools/tests/hero_health.test.mjs', 'tools/tests/hero_runtime_log_report.test.mjs'], { stdio: 'inherit' });
   if (result.status !== 0) throw new Error('Shadow Fiend native contracts failed');
 });
 console.log(`${failures} failed check(s). Engine playtests remain separate.`);

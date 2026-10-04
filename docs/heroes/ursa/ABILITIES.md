@@ -13,9 +13,9 @@ Hero: `npc_dota_hero_ursa`; role: Fighter. Progression target: hero level 50 / a
 | 2 | `enfos_ursa_overpower` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | NOT_EXPLICIT | ursa_overpower |
 | 3 | `enfos_ursa_fury_swipes` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/ursa/e | ursa_fury_swipes |
 | 4 | `enfos_ursa_enrage` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE | NOT_EXPLICIT | ursa_enrage |
-| 5 | `enfos_ursa_ursa_minor` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | ursa_fury_swipes |
+| 5 | `enfos_ursa_ursa_minor` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/ursa/d | ursa_fury_swipes |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/ursa/e](../../../game/scripts/vscripts/abilities/heroes/ursa/e.lua), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/ursa/e](../../../game/scripts/vscripts/abilities/heroes/ursa/e.lua), [abilities/heroes/ursa/d](../../../game/scripts/vscripts/abilities/heroes/ursa/d.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -236,9 +236,9 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 ## Slot 5: `enfos_ursa_ursa_minor`
 
 Classification: TUNE
-Native counterpart: No Ursa native Ability5 (installed field is generic_hidden); explicitly an Enfos-only fifth-slot passive, separate from Dota Innate.
-Decision and PvE identity rationale: Preserve the current mobility passive as Ursa’s Enfos identity layer; remove the incorrect Innate metadata and the tooltip’s unsupported lifesteal claim; honor Break.
-Expected cast/travel/impact/ongoing/cleanup behavior: Intrinsic passive grants rank-based constant movement speed and returns zero while PassivesDisabled is active.
+Native counterpart: exact ursa_maul (installed native Ability4/rank1 innate), assigned hidden Ability7; paid fifth-slot mobility stays separate.
+Decision and PvE identity rationale: Restore native currentHP1.75% attack bonus with rank1 Maul; retain paid ten-rank mobility with Break/illusion guards, no copied HP damage or points.
+Expected cast/travel/impact/ongoing/cleanup behavior: Native Maul owns HP attack damage/Break/cleanup; paid intrinsic grants live rank-based constant movement speed and returns zero while Break/illusion/unlearned. Shared pre-XP restore preserves native handles/rank1 and hides the innate without resetting its intrinsic.
 Normal/elite/boss: native Fury Swipes uses ordinary enemy/stack rules without a custom Boss cap. Earthshock uses ordinary engine slow without a custom Boss cap. Engine immunity, dispel and resistance interactions remain PENDING OWNER TEST.
 Current versus target rank curve; free rank / point cost: 10 ranks in KV; movement bonus 8→30. Initial free rank remains granted by the separate Enfos manager; ranks 2–10 are gated at levels 2–10; in-game point/HUD behavior remains pending.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING engine review; no upgrade handler was changed in this pass.
@@ -323,3 +323,5 @@ Shard effects incl.no unlearnedR purge, coldVFX/SFX and ranks remain ownerpendin
 Q/E/R source implemented; W/D next. See currentreview/snapshot for provenance.
 
 2026-10-04 W source migration: native Overpower alias with correct exposed AS key, slow resistance25 and duration header; preserves authored ten-rank curves. Copied cast, buff, charge decrement and VFX/SFX removed. Independent bounded32-record sustain covers final-charge and killing hits without native mutation. Server-only/event-driven caster modifier enumeration uses originating W handle, not a guessed modifier ID. Native event ordering/charge exposure/healing amount, miss/purge/death/reconnect/upgrades and cold presentation remain PENDING OWNER TEST. 117 affected checks/321 mocks/full checks pass with0failures; no engine certification.
+
+2026-10-04 D source migration: exact native rank1/Innate1/NOT_LEARNABLE/Break Maul assigned hidden Ability7 and idempotently restored through existing pre-XP free-passive hook. No native-ID shadow, HP damage replica or point mutation. Paid D retains10ranks/8..30 mobility, server/client class registration and Break/illusion guards. Read-only Health reports native Maul rank/intrinsic/currentHP-percent query. 134 affected checks/321 mocks/full checks pass with0failures; actual native damage/armor/Break/illusion/HUD/freepoints/respawn/reconnect remain PENDING OWNER TEST. Allfive Ursa source units now implemented, not engine-certified.

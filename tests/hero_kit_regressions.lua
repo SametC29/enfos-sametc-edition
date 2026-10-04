@@ -5264,6 +5264,8 @@ test('Ursa Enfos passive honors configured values and Break', function()
     local passive = modifier_enfos_ursa_minor_passive()
     passive.GetParent = function() return ursa end
     local passiveAbility = enfos_ursa_ursa_minor()
+    passiveAbility.IsNull = function() return false end
+    passiveAbility.GetLevel = function() return 1 end
     passiveAbility.GetSpecialValueFor = function(_, key) if key == 'bonus_ms' then return 26 end return 0 end
     passive.GetAbility = function() return passiveAbility end
     assert(passive:GetModifierMoveSpeedBonus_Constant() == 26)

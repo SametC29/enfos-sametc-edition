@@ -31,6 +31,16 @@ function Integration.Restore(hero)
         helper:SetHidden(true)
         helper:SetActivated(false)
     end
+    local d=hero:FindAbilityByName('enfos_ursa_ursa_minor')
+    if d and not d:IsNull() then
+        local maul=hero:FindAbilityByName('ursa_maul')
+        if maul and maul:IsNull() then maul=nil end
+        if not maul then maul=hero:AddAbility('ursa_maul') end
+        if not maul or maul:IsNull() then return false end
+        if maul:GetLevel()~=1 then maul:SetLevel(1) end
+        maul:SetHidden(true)
+        Trace:Log('URSA','D','native_maul_ready rank=%s paid_rank=%s',tostring(maul:GetLevel()),tostring(d:GetLevel()))
+    end
     Trace:Log('URSA','E','native_fury_ready paid_rank=%s native_rank=%s',tostring(e:GetLevel()),tostring(rank))
     return true
 end

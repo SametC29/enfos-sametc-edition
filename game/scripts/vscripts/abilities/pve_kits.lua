@@ -1,3 +1,4 @@
+require('abilities/heroes/ursa/d')
 require('abilities/heroes/ursa/e')
 require('abilities/heroes/tidehunter/d')
 local Helpers = require('abilities/shared/pve_helpers')
@@ -210,7 +211,6 @@ local modifier_list = {
     'modifier_enfos_pudge_dismember_channel',
     'modifier_enfos_pudge_dismember_target',
     'modifier_enfos_pudge_meat_shield_passive',
-    'modifier_enfos_ursa_minor_passive',
     'modifier_enfos_mk_boundless_strike_stun',
     'modifier_enfos_mk_primal_spring_slow',
     'modifier_enfos_mk_jingu_mastery_passive',
@@ -5039,16 +5039,7 @@ end
 
 -- Enrage cast, strong dispel and Scepter are native-owned.
 
-enfos_ursa_ursa_minor=class({})
-function enfos_ursa_ursa_minor:GetIntrinsicModifierName() return 'modifier_enfos_ursa_minor_passive' end
-
-modifier_enfos_ursa_minor_passive=class({})
-function modifier_enfos_ursa_minor_passive:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT } end
-function modifier_enfos_ursa_minor_passive:GetModifierMoveSpeedBonus_Constant()
-    local c = self:GetParent()
-    if c and ((c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion())) then return 0 end
-    return value(self:GetAbility(), 'bonus_ms')
-end
+-- Native Maul and paid mobility are isolated in Ursa modules.
 
 -- ----------------------------------------------------------------------------
 -- MONKEY KING: BOUNDLESS STRIKE, PRIMAL SPRING, JINGU MASTERY, WUKONG'S, MISCHIEF

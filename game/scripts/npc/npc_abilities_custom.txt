@@ -4211,7 +4211,7 @@
 		{
 			"bonus_ms" "8 10 12 14 16 18 20 23 26 30"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/ursa/d"
 	}
 	// =========================================================================
 	// MONKEY KING ABILITIES (Batch 4 PvE Kit)

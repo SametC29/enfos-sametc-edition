@@ -152,6 +152,11 @@ test('every hero exposes correct ultimate/evolution contracts and migrated Enfos
         const native=JSON.parse(fs.readFileSync('docs/audit/TIDEHUNTER_NATIVE_SOURCE_2026-10-04.json')).abilities.tidehunter_leviathans_catch;
         assert.equal(native.MaxLevel,'1');assert.equal(native.Innate,'1');assert.match(native.AbilityBehavior,/HIDDEN/);
         assert.equal(abilities[h.Ability7],undefined,'Do not shadow the native Catch provider');
+      }else if(id==='npc_dota_hero_ursa'&&i===7){
+        assert.equal(h.Ability7,'ursa_maul');
+        const native=JSON.parse(fs.readFileSync('docs/audit/URSA_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.ursa_maul;
+        assert.equal(native.MaxLevel,'1');assert.equal(native.Innate,'1');assert.match(native.AbilityBehavior,/NOT_LEARNABLE/);
+        assert.equal(abilities[h.Ability7],undefined,'Do not shadow the native Maul provider');
       }else assert.equal(h['Ability'+i],'generic_hidden',id+': unused ability slot');
     }
     for(let i=10;i<=17;i++)assert.equal(h['Ability'+i],'generic_hidden',id+': talent slot must stay disabled');

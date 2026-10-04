@@ -1109,7 +1109,7 @@
     "DOTA_Tooltip_Ability_enfos_ursa_enrage_Description": "激怒持续{{duration}}秒，提供{{damage_reduction}}%伤害减免和{{status_resistance}}%状态抗性，并通过强驱散移除负面效果。",
     "DOTA_Tooltip_Ability_enfos_ursa_fury_swipes_Description": "连续攻击同一敌人会叠加怒意狂击层数。每层增加{{damage_per_stack}} + {{agility_factor}} × 敏捷的物理伤害。停止攻击{{bonus_reset_time}}秒后层数重置（肉山：{{bonus_reset_time_roshan}}秒）。破坏会阻止新增层数，但现有层数仍提供伤害。",
     "DOTA_Tooltip_Ability_enfos_ursa_overpower_Description": "在{{AbilityDuration}}秒内为{{max_attacks}}次攻击提供{{attack_speed_bonus_pct}}攻击速度和{{slow_resist}}%减速抗性。未命中也会消耗次数。每次命中的强化攻击（包括致命一击）按造成伤害的{{attack_heal_pct}}%治疗熊战士。",
-    "DOTA_Tooltip_Ability_enfos_ursa_ursa_minor_Description": "Pasif olarak +{{bonus_ms}} hareket hızı kazandırır. Pasif etkiler susturulunca devre dışı kalır.",
+    "DOTA_Tooltip_Ability_enfos_ursa_ursa_minor_Description": "被动增加{{bonus_ms}}移动速度，破坏期间失效。重伤按熊战士当前生命值的1.75%增加攻击伤害。重伤为单级先天技能，与此被动的十个等级分开。",
     "DOTA_Tooltip_Ability_enfos_wd_death_ward": "死亡守卫",
     "DOTA_Tooltip_Ability_enfos_wd_death_ward_Description": "引导 8 秒，每 {{attack_interval}} 秒攻击守卫周围 {{radius}} 范围内的一名随机敌人，造成 {{damage}} + 75% 智力的物理伤害。",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris": "格里-格里",

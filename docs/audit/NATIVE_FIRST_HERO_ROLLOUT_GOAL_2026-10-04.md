@@ -161,3 +161,11 @@ Health implemented. 117 affected checks,321 hero mocks and full checks pass
 with0failures. Native event order/ownership/damage/presentation remain owner
 runtime pending. Q/W/E/R source implemented; next D Maul/mobility, then
 Anti-Mage. No new gameplay tests requested while owner defers live testing.
+
+2026-10-04 Ursa D/source kit boundary: native exactrank1Maul in hiddenAbility7
+plus paidD10rankmobility, idempotent existing pre-XP restore without points
+or intrinsic refresh. HP attack damage stays native; no duplicated Lua hit.
+16clientclasses and read-only MaulHealth covered. 134 affected checks,321hero
+mocks and fullchecks pass with0failures. Allfive Ursa slots sourcecomplete;
+all unverified runtime/visual/audio/rank/lifecycle cases remain ownerpending.
+Proceed with Anti-Mage source inspection without waiting for live tests.

@@ -1,4 +1,4 @@
--- Native Fury Swipes owns attacks and target state; this supplies paid tuning.
+-- Native abilities own combat; these supply paid tuning and mobility.
 modifier_enfos_ursa_native_scaling=class({})
 local M=modifier_enfos_ursa_native_scaling
 function M:IsHidden() return true end
@@ -57,4 +57,15 @@ function M:GetModifierOverrideAbilitySpecialValue(params)
         return base+c:GetAgility()*paid:GetLevelSpecialValueNoOverride('agility_factor',rank)
     end
     return base
+end
+
+modifier_enfos_ursa_minor_passive=class({})
+function modifier_enfos_ursa_minor_passive:IsHidden() return true end
+function modifier_enfos_ursa_minor_passive:IsPurgable() return false end
+function modifier_enfos_ursa_minor_passive:RemoveOnDeath() return false end
+function modifier_enfos_ursa_minor_passive:DeclareFunctions() return {MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT} end
+function modifier_enfos_ursa_minor_passive:GetModifierMoveSpeedBonus_Constant()
+    local c,a=self:GetParent(),self:GetAbility()
+    if not c or c:IsNull() or c:IsIllusion() or c:PassivesDisabled() or not a or a:IsNull() or a:GetLevel()<1 then return 0 end
+    return a:GetSpecialValueFor('bonus_ms')
 end

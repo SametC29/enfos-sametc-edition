@@ -1171,7 +1171,7 @@
     "DOTA_Tooltip_Ability_enfos_ursa_enrage_Description": "Enrage grants {{damage_reduction}}% damage reduction and {{status_resistance}}% status resistance for {{duration}} seconds and removes debuffs with a strong dispel.",
     "DOTA_Tooltip_Ability_enfos_ursa_fury_swipes_Description": "Consecutive attacks build native Fury Swipes stacks on the same enemy. Each stack adds {{damage_per_stack}} + {{agility_factor}} × Agility physical damage. Stacks reset after {{bonus_reset_time}} seconds without another attack (Roshan: {{bonus_reset_time_roshan}} seconds). Break prevents new stacks; existing stacks retain their damage.",
     "DOTA_Tooltip_Ability_enfos_ursa_overpower_Description": "For {{AbilityDuration}}s, grants +{{attack_speed_bonus_pct}} attack speed for {{max_attacks}} attacks and {{slow_resist}}% slow resistance. Misses consume an attack. Each empowered attack that lands heals Ursa for {{attack_heal_pct}}% of its damage, including killing blows.",
-    "DOTA_Tooltip_Ability_enfos_ursa_ursa_minor_Description": "Pasif olarak +{{bonus_ms}} hareket hızı kazandırır. Pasif etkiler susturulunca devre dışı kalır.",
+    "DOTA_Tooltip_Ability_enfos_ursa_ursa_minor_Description": "Passively grants +{{bonus_ms}} movement speed, disabled by Break. Maul adds attack damage equal to 1.75% of Ursa’s current HP; Maul has one innate rank, separate from this passive’s ten ranks.",
     "DOTA_Tooltip_Ability_enfos_wd_death_ward": "Death Ward",
     "DOTA_Tooltip_Ability_enfos_wd_death_ward_Description": "During an 8-second channel, attacks a random enemy within {{radius}} of the ward every {{attack_interval}} seconds for {{damage}} + 75% of Intelligence as physical damage.",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris": "Gris-Gris",

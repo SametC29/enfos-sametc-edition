@@ -1,6 +1,6 @@
 # Ursa native-first migration
 
-Status: Q/W/E/R SOURCE IMPLEMENTED; D DISCOVERED / OWNER_RUNTIME PENDING.
+Status: ALL FIVE SOURCE IMPLEMENTED / OWNER_RUNTIME PENDING.
 Latest owner rollout permits continuing source work without live acceptance.
 
 ## Sources and boundaries
@@ -40,8 +40,8 @@ version/license/distribution permission not established.
 | R enfos_ursa_enrage | TUNE | NATIVE | Native strong dispel, mitigation/status resistance and disabled-cast Scepter; preserve authored60..90% reduction20..60% resistance4.5..8s duration/costs. Explicit ten-rank Scepter cooldown30..18 using installed endpoint interpolation. Retire generic ultimate40% spell amp/25% CDR only for owned Enfos Ursa kit, retaining item stats. No copied purge/buff/wrapper. |
 | D enfos_ursa_ursa_minor | TUNE | NATIVE Maul + minimal Enfos mobility | Keep paid stableD/free1/ranks10/49points. Native rank1 Maul separately owns1.75% currentHP attack bonus; D retains8..30 movement speed, no duplicateHP damage. Verify provider grant/hidden slot/Break/client/restore before mutation. No deprecated Bear Down facet or talents. |
 
-Rows record pre-mutation decisions. Q/W/E/R are now source-implemented; the remaining
-slots are planned work. None is engine-certified. Preserve
+Rows record pre-mutation decisions. All five slots are now source-implemented.
+None is engine-certified. Preserve
 Luna and contributor Lich work; no shared Boss/wave/respawn rewrite. Source
 changes are isolated atomic local commits, no remote push/deploy/Workshop.
 
@@ -226,3 +226,46 @@ API enum. Actual ordering, damage-field semantics, native buff ability/charge
 exposure, extra attacks, dispel-mid-attack, all ranks and cold VFX/SFX remain
 OWNER_RUNTIME PENDING. No source test supplies that engine evidence.
 Next unit: D native Maul plus paid mobility, before Anti-Mage.
+
+## D decision before mutation
+
+TUNE, exact native rank1 Maul plus existing paid mobility extension. Fresh
+installed source hash matches6943 snapshot; native Maul is Innate1/MaxLevel1/
+NOT_LEARNABLE/Break, health_as_damage_pct1.75, no level dependency. English
+source explicitly says Current HP. Assign exact native ursa_maul to hidden
+Ability7 (formerlygeneric_hidden); do not define a native-ID alias or custom
+HP damage callback. Shared Innates already restores Ursa before starting XP;
+reuse its hook, idempotently ensure native rank1/hidden by existing handle
+with AddAbility fallback for missing handles, never add points or targets.
+Five stable paid slots/free D1/49 ordinary points remain unchanged. D keeps
+bonus_ms8..30/tenrank/gates1interval1 and Break/illusion suppression, in a
+small Ursa module; class/link bootstrap must cover both client and server.
+No new timer, summon, particle or sound. Native engine owns HP attack bonus
+and modifiers/Break/lifecycle. ModDota innate tutorial supports spawn level
+grants but predates current Innate metadata; current VPK is authoritative.
+WORLD OF DOTA2880603428 customMaul uses currentHP with talent/mana variants;
+REFERENCE_ONLY, version/license unestablished, no imported code. Older
+Pathfinders dependent4rankMaul is rejected for current rank1/no dependency.
+Actual native constructor, currentHP/armor/Break/illusions, hidden innate HUD,
+point budget/respawn/reconnect remain owner-engine pending.
+
+## D source validation and kit boundary
+
+134 affected checks,321 hero mock regressions and full source checks pass
+with0failures. Five focused D checks cover exact native slot/rank/provenance
+without ID shadowing or duplicated HP damage, bounded/idempotent native
+restoration through existing free passive flow, all10 paid mobility ranks,
+Break/illusion/unlearned/null and client guards, localized currentHP description
+and read-only Health. Client bootstrap now registers16 classes once, including
+Ursa mobility, without loading server integration/point managers. Native
+Maul special query and constructor intrinsic name are read-only diagnostics,
+not actual damage proof. Source Maul restoration uses server-only SetLevel
+and SetHidden; mobility uses both-context PassivesDisabled/IsIllusion/rank
+lookup, never client IsAlive. Existing shared restoration/points are unchanged.
+[ModDota innate spawn pattern](https://moddota.com/abilities/creating-innate-abilities/)
+is historical API guidance, not current native constructor certification.
+All five Ursa source units complete; owner engine/presentation checklist
+above remains open. Native currentHP damage/armor/Break/illusion, Maul hidden
+HUD, freeD/49points/rank10/level50, respawn/reconnect, linked Q/R and W event
+order/healing remain OWNER_RUNTIME PENDING. Full restart needed when owner
+resumes testing, no live test requested now. Next ordered hero: Anti-Mage.

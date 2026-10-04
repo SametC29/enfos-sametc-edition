@@ -911,7 +911,7 @@
 		"Ability4"				"enfos_ursa_enrage"
 		"Ability5"				"enfos_ursa_ursa_minor"
 		"Ability6"				"generic_hidden"
-		"Ability7" "generic_hidden"
+		"Ability7" "ursa_maul"
 		"Ability8" "generic_hidden"
 		"Ability9" "generic_hidden"
 		"Ability10" "generic_hidden"

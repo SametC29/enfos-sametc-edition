@@ -59,6 +59,14 @@ function Health.Report(hero,id)
             end
             local r=hero:FindAbilityByName('ursa_enrage')
             print('[HERO_HEALTH] ability=ursa_enrage rank='..tostring(r and not r:IsNull() and r:GetLevel() or 'missing'))
+            local maul=hero:FindAbilityByName('ursa_maul')
+            print('[HERO_HEALTH] ability=ursa_maul rank='..tostring(maul and not maul:IsNull() and maul:GetLevel() or 'missing'))
+            if maul and not maul:IsNull() then
+                local name=maul:GetIntrinsicModifierName()
+                local intrinsic=name and name~='' and hero:FindModifierByName(name)
+                print('[HERO_HEALTH] maul_intrinsic='..tostring(name)..' present='..tostring(intrinsic and not intrinsic:IsNull() or false)..
+                    ' health_damage_pct_query='..tostring(maul:GetSpecialValueFor('health_as_damage_pct')))
+            end
             local w=hero:FindAbilityByName('enfos_ursa_overpower')
             if w and not w:IsNull() and hero.FindAllModifiers then
                 local buff=require('abilities/heroes/ursa/w_heal').NativeBuff(hero,w)

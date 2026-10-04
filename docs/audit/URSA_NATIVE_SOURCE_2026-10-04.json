@@ -356,5 +356,27 @@
       "Extra attacks/dispel-mid-attack/misses/all10ranks",
       "Cold VFX/SFX and lifecycle/reconnect"
     ]
+  },
+  "dResearch": {
+    "date": "2026-10-04",
+    "sourceSha256": "613c2cefe0a70e0a5582c5dd9def317fb93da2a346d0da650070a147b4faad9a",
+    "native": "ursa_maul exact rank1 Innate1 NOT_LEARNABLE Break, currentHP1.75; no level dependency",
+    "slot": "Ability7 hidden by shared pre-XP restore; five paid IDs unchanged",
+    "api": {
+      "SetLevel": "SERVER",
+      "SetHidden": "SERVER",
+      "PassivesDisabled": "BOTH"
+    },
+    "extension": "Paid D ten-rank mobility only; no native HP damage replica",
+    "references": [
+      "WORLD OF DOTA2880603428 scripts/vscripts/heroes/npc_dota_hero_ursa_custom/ursa_maul_custom.lua REFERENCE_ONLY; no imports; license/version unknown",
+      "ModDota innate spawn pattern historical, not current metadata proof"
+    ],
+    "enginePending": [
+      "CurrentHP damage/armor/Break/illusions",
+      "Native intrinsic initialization and hidden HUD",
+      "FreeD1/49ordinarypoints/all10ranks/level50",
+      "Respawn/reconnect and cold presentation"
+    ]
   }
 }

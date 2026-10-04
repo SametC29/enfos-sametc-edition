@@ -783,7 +783,7 @@
     "DOTA_Tooltip_Ability_enfos_ursa_enrage": "Hiddet",
     "DOTA_Tooltip_Ability_enfos_ursa_enrage_Description": "Hiddet {{duration}} sn boyunca alınan hasarı %{{damage_reduction}} azaltır ve %{{status_resistance}} durum direnci kazandırır. Güçlü arındırma ile zayıflatmaları kaldırır.",
     "DOTA_Tooltip_Ability_enfos_ursa_ursa_minor": "Bozayı Çevikliği",
-    "DOTA_Tooltip_Ability_enfos_ursa_ursa_minor_Description": "Pasif olarak +{{bonus_ms}} hareket hızı kazandırır. Pasif etkiler susturulunca devre dışı kalır.",
+    "DOTA_Tooltip_Ability_enfos_ursa_ursa_minor_Description": "Pasif olarak +{{bonus_ms}} hareket hızı verir; Kırılma sırasında devre dışıdır. Maul, Ursa’nın mevcut canının %1,75’i kadar saldırı hasarı ekler. Maul tek rütbeli doğuştan yetenektir; bu pasifin on rütbesinden ayrıdır.",
     "DOTA_Tooltip_Ability_enfos_mk_boundless_strike": "Sonsuz Darbe",
     "DOTA_Tooltip_Ability_enfos_mk_boundless_strike_Description": "{{range}} menzillik hatta saldırı hasarının %{{strike_damage}} kadarıyla fiziksel hasar verir ve düşmanları sersemletir; normal sersemletme {{stun_duration}} sn, boss {{boss_stun_duration}} sn ile sınırlıdır.",
     "DOTA_Tooltip_Ability_enfos_mk_primal_spring": "İlkel Sıçrayış",
