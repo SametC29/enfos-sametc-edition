@@ -1,9 +1,9 @@
 {
   "appid": "570",
   "publishedfileid": "3809160125",
-  "version": "1.0.15",
-  "title": "Enfos Team Survival - SametC Edition V1.0.15",
-  "changenote": "V1.0.15 - Owner-authorized public test checkpoint with current committed hero reviews, wave and Boss tuning, four-language UI synchronization and Spellbringer diagnostics. Automated release checks passed. Known issue: Future Reinforcements units remain stationary in the owner's Tools test despite accepted movement commands; movement is not certified fixed. Hero gameplay, visuals, audio and balance acceptance remain pending. Uncommitted contributor work is excluded.",
+  "version": "1.0.16",
+  "title": "Enfos Team Survival - SametC Edition V1.0.16",
+  "changenote": "V1.0.16 - Fix multiplayer team selection: non-host players can now join Radiant or Dire during setup. Difficulty selection and game start remain host-only; five-player team capacity is enforced. Automated regression and release checks passed; two-player in-game confirmation pending. Known Future Reinforcements movement issue remains under investigation. Uncommitted contributor work excluded.",
   "visibility": "0",
   "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3809160125"
 }
