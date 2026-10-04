@@ -406,3 +406,15 @@ authored Strength scaling remains. These source decisions implement the owner's
 native-first identity preference; balance, Scepter/Blessing, Shard visibility and
 native read paths remain pending owner Dota testing. Revisit this provisional
 integration if runtime evidence contradicts it; never label mocks as acceptance.
+
+## Slark native Shadow Dance healing, 2026-10-04 — provisional
+
+Installed build6943 English localization labels bonus_regen as health gained
+per second; its native values are60/90/120. Native-first R migration uses
+60–120 flat health per second interpolated over ten ranks instead of the old
+custom8–18% max-health regen. This is an explicit balance change, not a numeric
+equivalence claim. Authored movement speed, duration, cooldown and mana remain.
+Existing full-map vision can affect native passive activation; do not change
+global vision or certify actual healing from a source mock. Owner engine testing
+and balance evaluation remain pending. Generic R Scepter cooldown reduction
+stays provisional until Slark W/upgrade integration.

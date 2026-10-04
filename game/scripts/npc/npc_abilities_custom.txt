@@ -2910,11 +2910,14 @@
 	{
 		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 		"HasScepterUpgrade" "1"
-		"BaseClass"					"ability_lua"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"BaseClass"					"slark_shadow_dance"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"		"slark_shadow_dance"
 		"RequiredLevel"	"5"
 		"LevelsBetweenUpgrades"	"5"
+		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_4"
+		"AbilitySound" "Hero_Slark.ShadowDance"
 		"AbilityCastPoint"			"0.0"
 		"AbilityCooldown"			"50 47.8 45.6 43.3 41.1 38.9 36.7 34.4 32.2 30"
 		"AbilityManaCost"			"100 111 122 133 144 156 167 178 189 200"
@@ -2922,10 +2925,9 @@
 		"AbilityValues"
 		{
 			"duration" "4.5 4.9 5.3 5.7 6.1 6.4 6.8 7.2 7.6 8"
-			"bonus_ms" "40 47 53 60 67 73 80 87 93 100"
-			"health_regen_pct" "8 9 10 11 12 13 14 15 16 18"
+			"bonus_movement_speed" "40 47 53 60 67 73 80 87 93 100"
+			"bonus_regen" "60 67 73 80 87 93 100 107 113 120"
 		}
-		"ScriptFile"				"abilities/pve_kits"
 	}
 
 	"enfos_slark_fish_bait"

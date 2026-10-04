@@ -494,7 +494,7 @@
     "DOTA_Tooltip_Ability_enfos_wd_death_ward_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
     "DOTA_Tooltip_Ability_enfos_wd_voodoo_switcheroo_shard_description": "Unlocked by Aghanim's Shard; grants Voodoo Switcheroo.",
     "DOTA_Tooltip_Ability_enfos_bb_warpath_shard_description": "+350 health. Reflects 15% of incoming enemy damage as physical damage.",
-    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
+    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_scepter_description": "Shadow Dance cooldown reduced by 25%. This ability deals no direct spell damage.",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift": "Essence Shift",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift_Description": "Each attack grants {{bonus_agi}} Agility for {{duration}}s, up to {{max_stacks}} stacks.",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait": "Fish Bait",
@@ -1507,6 +1507,8 @@
     "DOTA_Tooltip_Ability_enfos_bb_bristleback_scepter_description": "Unlocks Bristleback’s active: releases five Quill Sprays in the chosen direction. Cooldown 24s; mana 125. No extra Hairball damage or cooldown bonus.",
     "DOTA_Tooltip_Ability_enfos_bb_native_hairball": "Hairball",
     "DOTA_Tooltip_Ability_enfos_slark_dark_pact": "Dark Pact",
-    "DOTA_Tooltip_Ability_enfos_slark_dark_pact_Description": "After {{delay}}s, releases {{total_pulses}} pulses within {{radius}}, dealing a total of {{total_damage}} + Agility × {{agility_factor}} magical damage and strongly dispelling negative effects. Pulses occur every {{pulse_interval}}s. Slark also takes {{self_damage_pct}}% of the damage."
+    "DOTA_Tooltip_Ability_enfos_slark_dark_pact_Description": "After {{delay}}s, releases {{total_pulses}} pulses within {{radius}}, dealing a total of {{total_damage}} + Agility × {{agility_factor}} magical damage and strongly dispelling negative effects. Pulses occur every {{pulse_interval}}s. Slark also takes {{self_damage_pct}}% of the damage.",
+    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance": "Shadow Dance",
+    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_Description": "When unseen by enemies, gains {{bonus_movement_speed}}% movement speed and {{bonus_regen}} health per second. Neutral damage disables these passive bonuses for 2s. Activate to hide in a visible cloud for {{duration}}s; attacks, spells and items do not reveal Slark."
   }
 }

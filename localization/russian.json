@@ -450,7 +450,7 @@
     "DOTA_Tooltip_Ability_enfos_wd_death_ward_scepter_description": "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%.",
     "DOTA_Tooltip_Ability_enfos_wd_voodoo_switcheroo_shard_description": "Открывает способность «Вуду-перевоплощение».",
     "DOTA_Tooltip_Ability_enfos_bb_warpath_shard_description": "+350 здоровья. Отражает 15% входящего вражеского урона физическим уроном.",
-    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_scepter_description": "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%.",
+    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_scepter_description": "Перезарядка Танца теней сокращается на 25%. Способность не наносит прямого урона.",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift": "Смена сущности (Essence Shift)",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift_Description": "Каждая атака дает {{bonus_agi}} ловкости на {{duration}} сек., максимум {{max_stacks}} зарядов.",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait": "Наживка (Fish Bait)",
@@ -1447,6 +1447,8 @@
     "DOTA_Tooltip_Ability_enfos_bb_bristleback_scepter_description": "Открывает активную способность Bristleback: пять Quill Spray в выбранном направлении. Перезарядка 24 сек.; мана 125. Не усиливает урон Hairball и не сокращает его перезарядку.",
     "DOTA_Tooltip_Ability_enfos_bb_native_hairball": "Комок шерсти",
     "DOTA_Tooltip_Ability_enfos_slark_dark_pact": "Тёмный пакт",
-    "DOTA_Tooltip_Ability_enfos_slark_dark_pact_Description": "Через {{delay}} сек. выпускает {{total_pulses}} импульсов в радиусе {{radius}}, нанося суммарно {{total_damage}} + Ловкость × {{agility_factor}} магического урона и применяя сильное развеивание отрицательных эффектов. Интервал {{pulse_interval}} сек. Slark также получает {{self_damage_pct}}% этого урона."
+    "DOTA_Tooltip_Ability_enfos_slark_dark_pact_Description": "Через {{delay}} сек. выпускает {{total_pulses}} импульсов в радиусе {{radius}}, нанося суммарно {{total_damage}} + Ловкость × {{agility_factor}} магического урона и применяя сильное развеивание отрицательных эффектов. Интервал {{pulse_interval}} сек. Slark также получает {{self_damage_pct}}% этого урона.",
+    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance": "Танец теней",
+    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_Description": "Когда враги не видят Slark, получает {{bonus_movement_speed}}% скорости передвижения и {{bonus_regen}} здоровья в секунду. Урон от нейтралов отключает пассивные бонусы на 2 сек. Активация скрывает Slark в видимом облаке на {{duration}} сек.; атаки, способности и предметы не раскрывают его."
   }
 }

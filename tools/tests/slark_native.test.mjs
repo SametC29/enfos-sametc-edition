@@ -68,3 +68,33 @@ assert(not m:RemoveOnDeath() and not m:IsPurgable())
 `});
  assert.equal(result.status,0,result.stderr);assert.equal(result.stderr,'');
 });
+
+test('Shadow Dance delegates concealment, passive visibility and cleanup to native without a Lua buff replica',()=>{
+ const r=all.enfos_slark_shadow_dance;
+ const native=JSON.parse(fs.readFileSync('docs/audit/SLARK_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.slark_shadow_dance;
+ assert.ok(isVerifiedNativeAbility('enfos_slark_shadow_dance',r));
+ for(const key of ['AbilityBehavior','SpellDispellableType','AbilitySound','AbilityCastAnimation'])assert.equal(r[key],native[key],key);
+ assert.equal(r.AbilityType,'DOTA_ABILITY_TYPE_ULTIMATE');
+ assert.equal(r.MaxLevel,'10');assert.equal(r.RequiredLevel,'5');assert.equal(r.LevelsBetweenUpgrades,'5');
+ const lua=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');
+ assert.doesNotMatch(lua,/enfos_slark_shadow_dance\s*=\s*class|modifier_enfos_slark_shadow_dance_buff/);
+ assert.equal(all.slark_shadow_dance,undefined);
+});
+test('Shadow Dance flat regen uses native endpoints rather than treating authored percentages as native units',()=>{
+ const snapshot=JSON.parse(fs.readFileSync('docs/audit/SLARK_NATIVE_SOURCE_2026-10-04.json','utf8'));
+ assert.equal(snapshot.localization.tokens.DOTA_Tooltip_ability_slark_shadow_dance_bonus_regen,'HEALTH GAINED PER SECOND:');
+ const values=all.enfos_slark_shadow_dance.AbilityValues;
+ const native=snapshot.abilities.slark_shadow_dance.AbilityValues;
+ const endpoints=native.bonus_regen.value.split(' ').map(Number);
+ assert.deepEqual(values.bonus_regen.split(' ').map(Number),Array.from({length:10},(_,i)=>Math.round(endpoints[0]+i*(endpoints.at(-1)-endpoints[0])/9)));
+ assert.equal(values.bonus_movement_speed,'40 47 53 60 67 73 80 87 93 100');
+ assert.equal(values.duration,'4.5 4.9 5.3 5.7 6.1 6.4 6.8 7.2 7.6 8');
+ assert.equal(values.health_regen_pct,undefined);assert.equal(values.bonus_ms,undefined);
+ for(const lang of ['english','turkish','russian','schinese']){
+  const tokens=JSON.parse(fs.readFileSync(`localization/${lang}.json`,'utf8')).Tokens;
+  const desc=tokens.DOTA_Tooltip_Ability_enfos_slark_shadow_dance_Description;
+  assert.ok(desc.includes('{{bonus_regen}}')&&desc.includes('{{bonus_movement_speed}}'));
+  assert.ok(!desc.includes('{{health_regen_pct}}'));
+  assert.ok(!tokens.DOTA_Tooltip_Ability_enfos_slark_shadow_dance_scepter_description.includes('40%'));
+ }
+});

@@ -5478,40 +5478,6 @@ test('Slark Pounce performs a visible timed dash and applies a true capped leash
     assert(leash and leash.params.duration == 3 and leash:CheckState()[MODIFIER_STATE_TETHERED])
 end)
 
-test('Slark Shadow Dance applies ranked states and releases its persistent particle', function()
-    local previous_create = ParticleManager.CreateParticle
-    local previous_destroy = ParticleManager.DestroyParticle
-    local previous_release = ParticleManager.ReleaseParticleIndex
-    local destroyed, released
-    ParticleManager.CreateParticle = function(_, path, attach, parent)
-        assert(path == 'particles/units/heroes/hero_slark/slark_shadow_dance.vpcf' and parent ~= nil)
-        return 91
-    end
-    ParticleManager.DestroyParticle = function(_, index) if index == 91 then destroyed = true end end
-    ParticleManager.ReleaseParticleIndex = function(_, index) if index == 91 then released = true end end
-
-    local slark = create_mock_unit('npc_dota_hero_slark', 2, Vector(0, 0, 0))
-    local ability = enfos_slark_shadow_dance()
-    ability.GetCaster = function() return slark end
-    ability.GetSpecialValueFor = function(_, key)
-        return ({ duration = 7.2, bonus_ms = 87, health_regen_pct = 15 })[key] or 0
-    end
-    ability:OnSpellStart()
-    local buff = slark:FindModifierByName('modifier_enfos_slark_shadow_dance_buff')
-    assert(buff and buff.params.duration == 7.2)
-    buff:OnCreated()
-    local states = buff:CheckState()
-    assert(states[MODIFIER_STATE_INVISIBLE] and states[MODIFIER_STATE_TRUESIGHT_IMMUNE])
-    assert(buff:GetModifierMoveSpeedBonus_Percentage() == 87 and buff:GetModifierHealthRegenPercentage() == 15)
-    assert(buff.pfx == 91)
-    buff:OnDestroy()
-    assert(destroyed and released and buff.pfx == nil, 'Modifier expiry must release the persistent particle')
-
-    ParticleManager.CreateParticle = previous_create
-    ParticleManager.DestroyParticle = previous_destroy
-    ParticleManager.ReleaseParticleIndex = previous_release
-end)
-
 test('Slark Fish Bait uses its rank values for cleave and stacked armor reduction', function()
     applied_damages = {}
     local slark = create_mock_unit('npc_dota_hero_slark', 2, Vector(0, 0, 0))

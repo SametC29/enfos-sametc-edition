@@ -218,7 +218,6 @@ local modifier_list = {
     'modifier_enfos_slark_pounce_dash',
     'modifier_enfos_slark_essence_shift_passive',
     'modifier_enfos_slark_essence_shift_buff',
-    'modifier_enfos_slark_shadow_dance_buff',
     'modifier_enfos_slark_fish_bait_passive',
     'modifier_enfos_slark_fish_bait_debuff',
     'modifier_enfos_ursa_earthshock_slow',
@@ -5474,34 +5473,6 @@ function modifier_enfos_slark_essence_shift_buff:GetModifierBonusStats_Agility()
     local ability = self:GetAbility()
     return (self:GetStackCount() or 0) * value(ability, 'bonus_agi')
 end
-
-enfos_slark_shadow_dance=class({})
-function enfos_slark_shadow_dance:OnSpellStart()
-    local c = self:GetCaster()
-    c:EmitSound('Hero_Slark.ShadowDance')
-    c:AddNewModifier(c, self, 'modifier_enfos_slark_shadow_dance_buff', { duration = value(self, 'duration') })
-end
-
-modifier_enfos_slark_shadow_dance_buff=class({})
-function modifier_enfos_slark_shadow_dance_buff:OnCreated()
-    if not IsServer() then return end
-    self.pfx = ParticleManager:CreateParticle('particles/units/heroes/hero_slark/slark_shadow_dance.vpcf', PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-end
-function modifier_enfos_slark_shadow_dance_buff:OnDestroy()
-    if self.pfx and ParticleManager then
-        ParticleManager:DestroyParticle(self.pfx, false)
-        ParticleManager:ReleaseParticleIndex(self.pfx)
-        self.pfx = nil
-    end
-end
-function modifier_enfos_slark_shadow_dance_buff:CheckState()
-    return { [MODIFIER_STATE_INVISIBLE] = true, [MODIFIER_STATE_TRUESIGHT_IMMUNE] = true }
-end
-function modifier_enfos_slark_shadow_dance_buff:DeclareFunctions()
-    return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE }
-end
-function modifier_enfos_slark_shadow_dance_buff:GetModifierMoveSpeedBonus_Percentage() return value(self:GetAbility(), 'bonus_ms') end
-function modifier_enfos_slark_shadow_dance_buff:GetModifierHealthRegenPercentage() return value(self:GetAbility(), 'health_regen_pct') end
 
 enfos_slark_fish_bait=class({})
 function enfos_slark_fish_bait:GetIntrinsicModifierName() return 'modifier_enfos_slark_fish_bait_passive' end

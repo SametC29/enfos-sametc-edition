@@ -12,7 +12,7 @@ Hero: `npc_dota_hero_slark`; role: Fighter. Progression target: hero level 50 / 
 | 1 | `enfos_slark_dark_pact` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE | NOT_EXPLICIT | slark_dark_pact |
 | 2 | `enfos_slark_pounce` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | slark_pounce |
 | 3 | `enfos_slark_essence_shift` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | slark_essence_shift |
-| 4 | `enfos_slark_shadow_dance` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | slark_shadow_dance |
+| 4 | `enfos_slark_shadow_dance` | 10 | DOTA_ABILITY_BEHAVIOR_IMMEDIATE \| DOTA_ABILITY_BEHAVIOR_NO_TARGET | NOT_EXPLICIT | slark_shadow_dance |
 | 5 | `enfos_slark_fish_bait` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | slark_fish_bait |
 
 Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
@@ -69,7 +69,19 @@ The shared spawn service restores only the scaler; no points or native providers
 are added. Both client/server register the class separately from server services.
 EN/TR/RU/zh-CN descriptions include delay, blood cost and configured total.
 Three native/source/scaling tests pass; actual C++ ten-rank reads, damage, purge,
-VFX/SFX and lifecycle remain PENDING OWNER TEST. W/E/R/D source work remains open.
+VFX/SFX and lifecycle remain PENDING OWNER TEST. W/E/D source work remains open.
+
+R source implementation2026-10-04: Shadow Dance now delegates to native
+slark_shadow_dance through its stable ten-rank alias. The custom invisibility,
+percentage-heal modifier and manual particle lifecycle are removed. Native owns
+visibility-dependent passive bonuses, neutral-hit suppression and active cloud
+concealment. Movement speed/duration/cost/CD retain authored curves; flat regen
+uses native60–120 endpoints over ten ranks, replacing the prior8–18% healing.
+Four-language tooltips describe this explicit balance change. Generic Scepter
+CD reduction remains provisional until the coherent W/upgrade source unit.
+Five focused Slark contracts and the full source checks pass (zero failed).
+Native ten-rank reads, actual healing under the existing full-map vision policy,
+concealment/detection, audio/visuals, upgrades and lifecycle remain PENDING OWNER TEST.
 
 2026-09-30 implementation record: all five Enfos abilities now have ten KV ranks; Fish Bait is separated from Dota `Innate`. Installed source mapping: Dark Pact=`slark_dark_pact` (Ability1), Pounce=`slark_pounce` (Ability2), Essence Shift=`slark_essence_shift` (Ability5), Shadow Dance=`slark_shadow_dance` (Ability6), Fish Bait adapts `slark_saltwater_shiv` (Ability3). Dark Pact now uses KV pulse count/timing/radius and a verified Dota particle; Pounce now moves over timed 0.03-second steps instead of teleporting, uses start/trail/landing/leash effects and a true `MODIFIER_STATE_TETHERED` debuff; Essence Shift reads stack/agi/duration values and honors Break; Shadow Dance owns and cleans its persistent VFX; Fish Bait now reads its proc/cleave/armor values and applies capped armor stacks. Mock coverage passes for Q/W/Essence/Fish Bait. Eight used Slark particles are present in installed ClientVersion 6941 VPK. Live dash collision, particle CP/size, audio and PvE/boss balance remain PENDING.
 

@@ -1812,19 +1812,20 @@
           "slot": 4,
           "id": "enfos_slark_shadow_dance",
           "maxLevel": 10,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
-          "callbacks": [
-            "OnSpellStart"
-          ],
+          "behavior": "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "callbacks": [],
+          "implementationOwner": "NATIVE",
+          "nativeBaseClass": "slark_shadow_dance",
+          "engineAcceptance": "PENDING OWNER TEST",
           "specials": {
             "duration": "4.5 4.9 5.3 5.7 6.1 6.4 6.8 7.2 7.6 8",
-            "bonus_ms": "40 47 53 60 67 73 80 87 93 100",
-            "health_regen_pct": "8 9 10 11 12 13 14 15 16 18"
+            "bonus_movement_speed": "40 47 53 60 67 73 80 87 93 100",
+            "bonus_regen": "60 67 73 80 87 93 100 107 113 120"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
           "hasSound": true,
-          "hasParticle": true
+          "hasParticle": false
         },
         {
           "slot": 5,

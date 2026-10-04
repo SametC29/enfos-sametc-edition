@@ -102,3 +102,37 @@ Final Q source boundary: `node tools/checks.mjs` passes with zero failed checks;
 three focused native/source/AGI tests pass. This closes only the Q source unit,
 not its engine gates or Slark's remaining four source units. No game launch,
 console command, remote push or publication occurred.
+
+## R source decision before implementation
+
+The installed English label for bonus_regen is health gained per second, while
+bonus_movement_speed has a percentage marker. This confirms the authored unit
+distinction: restore native flat regen, not 8–18 interpreted as a flat value
+or an unverified max-health conversion inside cached C++ modifiers. Use native
+60/120 endpoints interpolated over ten paid ranks (60,67,73,80,87,93,100,107,113,120).
+This explicitly changes the old percentage heal balance. Keep the authored
+duration, movement-speed, mana and cooldown curves, with native special keys.
+Native owns passive visibility checks, neutral-hit suppression, active concealment,
+non-dispellability, effects and cleanup. Full-map AddFOWViewer is pre-existing;
+do not alter it for R or assume that a passive is active under that vision policy.
+
+Keep the current generic Scepter R cooldown reduction temporarily until the
+coherent native W/Scepter unit replaces it. R deals no direct spell damage,
+so its tooltip must not advertise a damage increase. Existing Fighter Shard
+stays in D until its own integration unit; no Depth Shroud is added in R-only work.
+Native C++ rank acceptance, concealment versus detection/full vision and actual
+flat regen remain pending owner testing. No Lua state/particle replica is retained.
+
+## R source implementation and validation
+
+Stable R alias now uses native slark_shadow_dance, immediate/no-target behavior,
+verified sound/animation and non-dispellability metadata. Removed the custom R
+Lua class, buff, registration and imitation-only particle/state mock. Native
+fields bonus_movement_speed and bonus_regen replace custom-only keys. Four
+languages and generated resources now describe passive and active behavior.
+
+Five focused Slark contracts pass, covering source ownership, ten-rank fields,
+Q additive AGI bridge and the installed regen unit/endpoint interpolation.
+The full node tools/checks.mjs boundary passes with zero failed checks. These
+results establish source consistency only; every R engine gate remains pending.
+No game launch, console command, remote push or publication occurred.

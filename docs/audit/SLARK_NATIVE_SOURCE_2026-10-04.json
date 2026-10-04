@@ -237,7 +237,9 @@
       "DOTA_Tooltip_ability_slark_shadow_dance_Lore": "The hidden Thirteenth is a slippery foe.",
       "DOTA_Tooltip_ability_slark_saltwater_shiv_Description": "Slark slices the target with his salty shiv, stealing a portion of the target's movement speed, Health Regen and Health Restoration.<br><br>These effects stack independently.",
       "DOTA_Tooltip_ability_slark_depth_shroud_Description": "Creates a cloud at the target location. All allies inside the radius are hidden and affected by Shadow Dance.",
-      "DOTA_Tooltip_ability_slark_depth_shroud_Lore": "Nothing worse than a job going bad thanks to some clompy-footed friend."
+      "DOTA_Tooltip_ability_slark_depth_shroud_Lore": "Nothing worse than a job going bad thanks to some clompy-footed friend.",
+      "DOTA_Tooltip_ability_slark_shadow_dance_bonus_movement_speed": "%BONUS MOVEMENT SPEED:",
+      "DOTA_Tooltip_ability_slark_shadow_dance_bonus_regen": "HEALTH GAINED PER SECOND:"
     }
   }
 }
