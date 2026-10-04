@@ -324,6 +324,7 @@ function Activate()
 	GameRules.EnfosSametC:InitGameMode()
 	print("[ENFOS_BOOT] game mode initialized")
 	WaveManager:Init()
+	require('tools/hero_test_room'):Init()
 	print("[ENFOS_BOOT] wave manager initialized")
 	-- Register setup input and publish the first setup snapshot before optional
 	-- game systems initialize. A failure in those systems must not leave the

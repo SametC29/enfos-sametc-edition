@@ -122,6 +122,7 @@ function AghanimManager:HasShard(hero)
 
 	if hero.HasModifier then
 		-- Installed native localization identifies this permanent Shard buff.
+		if require('tools/hero_test_room'):IsEnabled() and hero:HasModifier('modifier_item_aghanims_shard_permanent_buff') then return true end
 		-- Introduce the compatibility branch only for the hero under review.
 		if hero.GetUnitName and (hero:GetUnitName()=="npc_dota_hero_lich" or hero:GetUnitName()=="npc_dota_hero_vengefulspirit" or hero:GetUnitName()=="npc_dota_hero_jakiro" or hero:GetUnitName()=="npc_dota_hero_lion" or hero:GetUnitName()=="npc_dota_hero_dragon_knight")
 			and hero:HasModifier("modifier_item_aghanims_shard_permanent_buff") then return true end

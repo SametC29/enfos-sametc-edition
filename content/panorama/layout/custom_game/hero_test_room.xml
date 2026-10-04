@@ -1,0 +1,16 @@
+<root>
+    <styles>
+        <include src="s2r://panorama/styles/dotastyles.vcss_c" />
+        <include src="file://{resources}/styles/custom_game/hero_test_room.css" />
+    </styles>
+    <scripts><include src="file://{resources}/scripts/custom_game/hero_test_room.js" /></scripts>
+    <Panel class="HeroTestRoot" hittest="false">
+    <Panel id="HeroTestRoom" visible="false">
+        <Label class="Title" text="#enfos_test_title" />
+        <Label class="Details" text="#enfos_test_details" />
+        <Button onactivate="EnfosHeroTest.Action('reset')"><Label text="#enfos_test_reset" hittest="false" /></Button>
+        <Button onactivate="EnfosHeroTest.Action('refresh')"><Label text="#enfos_test_refresh" hittest="false" /></Button>
+        <Button onactivate="EnfosHeroTest.Action('health')"><Label text="#enfos_test_health" hittest="false" /></Button>
+    </Panel>
+    </Panel>
+</root>

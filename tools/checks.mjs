@@ -275,12 +275,18 @@ check('all-hero structural inventory is current', () => {
   if(result.status!==0) throw new Error(result.stderr || result.stdout);
   console.log(result.stdout.trim());
 });
-check('production map allowlist', () => {
+check('production and local Tools map allowlist', () => {
   const maps = kv('game/addoninfo.txt').AddonInfo.maps.split(/\s+/);
-  if (maps.join(' ') !== 'enfos') throw new Error('Only the canonical enfos map may be published');
+  if (maps.join(' ') !== 'enfos enfos_test') throw new Error('Only canonical Enfos and the local test arena are approved');
+  const info=kv('game/addoninfo.txt').AddonInfo;
+  if(info.DefaultMap!=='enfos'||info.enfos_test.MaxPlayers!=='1')throw new Error('Test map must remain separate and single-player');
   const shipped = fs.existsSync('game/maps') ? fs.readdirSync('game/maps').filter(f => f.endsWith('.vpk')) : [];
   for (const file of shipped) if (!maps.includes(path.basename(file, '.vpk'))) throw new Error(`Unapproved map in game/maps: ${file}`);
-  for (const map of maps) if (fs.existsSync(`content/maps/${map}.vmap`)) throw new Error(`Unsafe placeholder source in active build tree: ${map}`);
+  if (fs.existsSync('content/maps/enfos.vmap')) throw new Error('Unsafe placeholder source in canonical Enfos build tree');
+});
+check('isolated hero test room', () => {
+  const result=spawnSync(process.execPath,['--test','tools/tests/hero_test_room.test.mjs'],{encoding:'utf8'});
+  if(result.status!==0)throw new Error(result.stderr||result.stdout);
 });
 check('installed map/theme matches recorded playable version', () => {
   const result = spawnSync(process.execPath, ['tools/check_map.mjs'], {encoding:'utf8'});

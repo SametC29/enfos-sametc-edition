@@ -1529,6 +1529,11 @@
     "DOTA_Tooltip_Ability_enfos_storm_electric_vortex_scepter_description": "Scepter changes Electric Vortex into an area cast that pulls enemies within 475 radius around Storm.",
     "DOTA_Tooltip_Ability_enfos_storm_ball_lightning_Description": "Flies toward the chosen point as electricity, damaging enemies along the path in a {{ball_lightning_aoe}} radius. Damage per 100 units: {{AbilityDamage}} + Intelligence × {{intellect_factor}}. Flight ends on arrival or when mana runs out. Initial mana: {{ball_lightning_initial_mana_base}} + {{ball_lightning_initial_mana_percentage}}% of maximum mana. Each 100 units costs {{ball_lightning_travel_cost_base}} + {{ball_lightning_travel_cost_percent}}% of maximum mana. Cannot cast while rooted; Storm is invulnerable during flight.",
     "DOTA_Tooltip_Ability_enfos_storm_galvanic_core_Description": "Grants {{mana_regen}} mana regeneration and {{bonus_int}} Intelligence; Break and illusions disable these Enfos bonuses. Galvanized gains mana-regeneration charges from eligible kills and every 3 hero levels, losing 2 charges on death. Each charge gives 0.2 mana regeneration and also adds 0.1 lasting for this match. Break prevents new kill charges.",
-    "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_shard_description": "Shard: unlocks native Fireball. Select an area of radius 275 to burn enemies for 85 magic damage per second over 6 seconds; the burn lingers for 2 seconds. Costs 80 mana, cooldown 20 seconds, base cast range 600. Supported AoE bonuses apply."
+    "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_shard_description": "Shard: unlocks native Fireball. Select an area of radius 275 to burn enemies for 85 magic damage per second over 6 seconds; the burn lingers for 2 seconds. Costs 80 mana, cooldown 20 seconds, base cast range 600. Supported AoE bonuses apply.",
+    "enfos_test_title": "Hero test room",
+    "enfos_test_details": "Level 10 · Scepter + Shard · 10 creeps + 1 boss",
+    "enfos_test_reset": "Reset enemies",
+    "enfos_test_refresh": "Restore health, mana and cooldowns",
+    "enfos_test_health": "Write Health to console"
   }
 }

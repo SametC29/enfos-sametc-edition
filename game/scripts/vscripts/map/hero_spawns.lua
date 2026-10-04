@@ -21,10 +21,12 @@ local function clearGround(position)
 end
 
 function Spawns:Init()
+    local bases=BASES
+    if GetMapName and GetMapName()=='enfos_test' then bases={[2]={{-128,-64,128}},[3]={{128,-64,128}}} end
     for _,team in ipairs({2,3}) do
         self.points[team]=self.points[team] or {}
         self.entities[team]=self.entities[team] or {}
-        for slot,position in ipairs(BASES[team]) do
+        for slot,position in ipairs(bases[team]) do
             local entity=self.entities[team][slot]
             if not entity or entity:IsNull() then
                 local p=clearGround(position)

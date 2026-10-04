@@ -1469,6 +1469,11 @@
     "DOTA_Tooltip_Ability_enfos_storm_electric_vortex_scepter_description": "Scepter превращает Electric Vortex в способность по области, притягивающую врагов в радиусе 475 вокруг Storm.",
     "DOTA_Tooltip_Ability_enfos_storm_ball_lightning_Description": "Летит к выбранной точке в виде электричества, нанося урон врагам на пути в радиусе {{ball_lightning_aoe}}. Урон за 100 единиц: {{AbilityDamage}} + интеллект × {{intellect_factor}}. Полёт заканчивается по прибытии или при истощении маны. Начальная стоимость: {{ball_lightning_initial_mana_base}} + {{ball_lightning_initial_mana_percentage}}% максимальной маны. Каждые 100 единиц стоят {{ball_lightning_travel_cost_base}} + {{ball_lightning_travel_cost_percent}}% максимальной маны. Нельзя применить под оцепенением; во время полёта Storm неуязвим.",
     "DOTA_Tooltip_Ability_enfos_storm_galvanic_core_Description": "Даёт {{mana_regen}} восстановления маны и {{bonus_int}} интеллекта; истощение и иллюзии отключают эти бонусы Enfos. Galvanized получает заряды восстановления маны за подходящие убийства и каждые 3 уровня героя, теряя 2 заряда при смерти. Каждый заряд даёт 0,2 восстановления маны и дополнительно 0,1 до конца этого матча. Истощение блокирует новые заряды за убийства.",
-    "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_shard_description": "Shard: открывает Fireball. Выберите область радиусом 275: враги горят 6 сек., получая 85 магического урона в секунду; горение сохраняется ещё 2 сек. 80 маны, перезарядка 20 сек., базовая дальность 600. Применяются подходящие бонусы области."
+    "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_shard_description": "Shard: открывает Fireball. Выберите область радиусом 275: враги горят 6 сек., получая 85 магического урона в секунду; горение сохраняется ещё 2 сек. 80 маны, перезарядка 20 сек., базовая дальность 600. Применяются подходящие бонусы области.",
+    "enfos_test_title": "Комната тестирования",
+    "enfos_test_details": "Уровень 10 · Scepter + Shard · 10 крипов + 1 босс",
+    "enfos_test_reset": "Сбросить врагов",
+    "enfos_test_refresh": "Восстановить здоровье, ману и перезарядки",
+    "enfos_test_health": "Записать Health в консоль"
   }
 }

@@ -30,10 +30,15 @@ function walk(dir) {
     const absolute = path.join(dir, entry.name);
     if (entry.isDirectory()) { walk(absolute); continue; }
     const relative = path.relative(path.join(root, 'game'), absolute).replaceAll('\\', '/');
+    if (/^maps\/enfos_test(?:[./_]|$)/.test(relative)) continue;
     if (relative !== 'addoninfo.txt' && !/^(maps|materials|panorama|resource|scripts)\//.test(relative)) continue;
     if (!allowed.has(path.extname(relative))) continue;
     if (!/^[a-z0-9_./-]+$/.test(relative)) throw new Error('Unexpected archive path: ' + relative);
-    const data = fs.readFileSync(absolute);
+    let data = fs.readFileSync(absolute);
+    if (relative === 'addoninfo.txt') {
+      const text=data.toString('utf8').replace(/("maps"\s+")[^"]*"/,'$1enfos"').replace(/\s*"enfos_test"\s*\{[^}]*\}/,'');
+      data=Buffer.from(text);
+    }
     files.push({ path: relative, data, sha256: createHash('sha256').update(data).digest('hex') });
   }
 }

@@ -133,6 +133,8 @@ end
 function WaveManager:OnThink()
 	if GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME or LifeCore.isGameOver then return nil end
 	if GameRules:IsGamePaused() then return WaveManager.THINK_INTERVAL end
+	local testRoom=require('tools/hero_test_room')
+	if testRoom:IsEnabled() then testRoom:Tick();return WaveManager.THINK_INTERVAL end
 	if GameRules:State_Get() < DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
 		return WaveManager.THINK_INTERVAL
 	end
@@ -260,6 +262,7 @@ end
 -- Start Wave
 --------------------------------------------------------------------------------
 function WaveManager:StartWave(waveNumber)
+	if require('tools/hero_test_room'):IsEnabled() then return false end
 	if waveNumber > WaveDefinitions:GetTotalWaves() then
 		Log:Info("wave_manager", "All 60 waves completed! Entering Endless or Victory.")
 		self.state = WaveManager.STATE_VICTORY
@@ -570,6 +573,7 @@ function WaveManager:CanSendNextWave()
 end
 
 function WaveManager:RequestNextWave(playerID)
+	if require('tools/hero_test_room'):IsEnabled() then return false end
 	if type(playerID) ~= "number" or not PlayerResource:IsValidPlayerID(playerID) then return false end
 	local team = PlayerResource:GetTeam(playerID)
 	if team ~= 2 and team ~= 3 then return false end

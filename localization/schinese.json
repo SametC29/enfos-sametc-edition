@@ -1469,6 +1469,11 @@
     "DOTA_Tooltip_Ability_enfos_storm_electric_vortex_scepter_description": "神杖将电子涡流变为范围技能，拉拽风暴之灵周围475范围内的敌人。",
     "DOTA_Tooltip_Ability_enfos_storm_ball_lightning_Description": "化为电流飞向指定地点，对路径上{{ball_lightning_aoe}}范围内的敌人造成伤害。每100距离伤害：{{AbilityDamage}} + 智力 × {{intellect_factor}}。到达目标或魔法耗尽时结束飞行。启动消耗：{{ball_lightning_initial_mana_base}} + 最大魔法的{{ball_lightning_initial_mana_percentage}}%。每100距离消耗{{ball_lightning_travel_cost_base}} + 最大魔法的{{ball_lightning_travel_cost_percent}}%。缠绕时无法施放，飞行中风暴之灵无敌。",
     "DOTA_Tooltip_Ability_enfos_storm_galvanic_core_Description": "提供 {{mana_regen}} 魔法恢复和 {{bonus_int}} 智力；破坏及幻象会禁用这些 Enfos 加成。Galvanized 通过符合条件的击杀及每 3 个英雄等级获得魔法恢复层数，死亡时失去 2 层。每层提供 0.2 魔法恢复，并额外增加持续至本局结束的 0.1 魔法恢复。破坏会阻止从击杀获得新层数。",
-    "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_shard_description": "魔晶：解锁火焰球。选择半径275的区域，使敌人燃烧6秒，每秒造成85魔法伤害；燃烧额外持续2秒。消耗80魔法，冷却20秒，基础施法距离600。适用的作用范围加成生效。"
+    "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_shard_description": "魔晶：解锁火焰球。选择半径275的区域，使敌人燃烧6秒，每秒造成85魔法伤害；燃烧额外持续2秒。消耗80魔法，冷却20秒，基础施法距离600。适用的作用范围加成生效。",
+    "enfos_test_title": "英雄测试房间",
+    "enfos_test_details": "等级10 · 神杖和魔晶 · 10个小怪和1个首领",
+    "enfos_test_reset": "重置敌人",
+    "enfos_test_refresh": "恢复生命、魔法并重置冷却",
+    "enfos_test_health": "将Health记录写入控制台"
   }
 }

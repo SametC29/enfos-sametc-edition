@@ -37,6 +37,7 @@ function Portals:TryTeleport(hero, now)
 end
 
 function Portals:Init()
+    if GetMapName and GetMapName()=='enfos_test' then return end
     GameRules:GetGameModeEntity():SetContextThink("EnfosPortals", function()
         if GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then return nil end
         if not GameRules:IsGamePaused() then
