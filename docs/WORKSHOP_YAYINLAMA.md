@@ -1,5 +1,13 @@
 # Steam Workshop — ilk yayın ve güncellemeler
 
+Güncel durum (2026-10-04): **V1.0.15 yüklemesi başarılı ve resmi Steam API kaydı
+herkese açık V1.0.15 başlığını gösteriyor. Temiz anonim indirme hâlâ V1.0.14
+paketini veriyor; V1.0.15 dosyalarının oyunculara teslimi doğrulanmadı.**
+Kod `e282ec3` olarak GitHub'a gönderildi; izole yayın kontrolleri geçti.
+Future Reinforcements hareket sorunu bilinen hata olarak yayın notunda belirtildi.
+Yayın, sahibin oyunu mevcut haliyle canlıya alma isteğiyle yapıldı.
+Ayrıntılar: [V1.0.15 yayın kaydı](audit/WORKSHOP_V1.0.15_2026-10-04.md).
+
 Güncel durum (2026-10-01): **V1.0.11 yüklemesi başarılı; resmi Steam API başlığı
 V1.0.11 ve görünürlüğü Public gösteriyor. Temiz anonim indirme hâlâ V1.0.10
 paketini veriyor; V1.0.11'in oyunculara teslimi doğrulanmadı.** Güncel kod GitHub'a
