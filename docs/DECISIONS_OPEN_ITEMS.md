@@ -491,3 +491,12 @@ reuse evidence or explicitly isolate the reflected extension with non-stacking
 reduction before E mutation. This is an implementation dependency, not a request
 to abandon native E or certify current custom E. Research continues; owner engine
 cases remain deferred. See the native-first Tidehunter review and source snapshot.
+
+Tidehunter E dependency resolution (source): installed server binary verifies
+modifier_tidehunter_anchor_smash identity; use it for both native manual E and
+the isolated reflected Shard helper instead of retaining a cloned recipient.
+Shard remains half average attack plus tuned bonus, with no attack-item effects
+or lifesteal, no native full cast and no outgoing/filter hooks. Native E restores
+cast point0.4, attack-range-plus225 and non-piercing immunity; ten-rank costs/bonus
+and STR0.75 are retained. Actual constructor/read path/refresh/non-stacking remain
+owner pending. Identifier existence and mocks do not establish engine acceptance.

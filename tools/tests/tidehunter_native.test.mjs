@@ -9,6 +9,87 @@ const q=all.enfos_tide_gush;
 const snapshot=JSON.parse(fs.readFileSync('docs/audit/TIDEHUNTER_NATIVE_SOURCE_2026-10-04.json','utf8'));
 const native=snapshot.abilities.tidehunter_gush;
 
+test('Anchor manual cast is native with exact attack keys, signed reduction and native geometry',()=>{
+ const e=all.enfos_tide_anchor_smash,n=snapshot.abilities.tidehunter_anchor_smash;
+ assert.ok(isVerifiedNativeAbility('enfos_tide_anchor_smash',e));
+ for(const key of ['AbilityBehavior','AbilityUnitDamageType','SpellImmunityType','SpellDispellableType','AbilitySound','AbilityCastAnimation','AbilityCastPoint'])assert.equal(e[key],n[key],key);
+ assert.equal(e.MaxLevel,'10');assert.equal(e.RequiredLevel,'1');assert.equal(e.LevelsBetweenUpgrades,'1');
+ assert.equal(e.AbilityValues.attack_damage.value,'80 97 113 130 147 163 180 197 213 230');
+ assert.equal(e.AbilityValues.damage_reduction.value,'-40 -43 -47 -50 -53 -57 -60 -63 -67 -70');
+ assert.equal(e.AbilityValues.additional_range.value,n.AbilityValues.additional_range.value);
+ assert.equal(e.AbilityValues.additional_range.affected_by_aoe_increase,'1');
+ assert.equal(e.AbilityValues.reduction_duration,'6.0');
+ for(const key of ['targets_buildings','building_pct_damage','smash_on_attack'])assert.equal(e.AbilityValues[key],'0');
+ for(const key of ['radius','attack_damage_bonus','duration'])assert.equal(e.AbilityValues[key],undefined);
+ const old=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');
+ assert.doesNotMatch(old,/enfos_tide_anchor_smash\s*=\s*class|modifier_enfos_tide_anchor_smash_debuff/);
+ for(const lang of ['english','turkish','russian','schinese']){
+  const t=JSON.parse(fs.readFileSync(`localization/${lang}.json`)).Tokens;
+  for(const key of ['attack_damage','strength_factor','additional_range','damage_reduction|abs','reduction_duration'])assert.ok(t.DOTA_Tooltip_Ability_enfos_tide_anchor_smash_Description.includes(`{{${key}}}`));
+  assert.equal(t.DOTA_Tooltip_modifier_enfos_tide_anchor_smash_debuff,undefined);
+ }
+});
+
+test('Anchor bonus bridge spans all ten ranks on client/server without native getters or recursive lookup',()=>{
+ const values=all.enfos_tide_anchor_smash.AbilityValues.attack_damage.value.split(' ').join(',');
+ const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{encoding:'utf8',input:`
+function class(t)t.__index=t;return t end
+dofile('game/scripts/vscripts/abilities/heroes/tidehunter/modifiers.lua')
+local rank,str,removed=0,80,false;local values={${values}}
+local c={IsNull=function()return removed end,GetStrength=function()return str end,IsAlive=function()error('Client server-only getter')end}
+local a={IsNull=function()return removed end,GetLevel=function()return rank end,GetAbilityName=function()return 'enfos_tide_anchor_smash'end,
+ GetSpecialValueFor=function()error('Recursive lookup')end,GetLevelSpecialValueNoOverride=function(_,key,index)if key=='attack_damage'then return values[index+1]end;assert(key=='strength_factor');return 0.75 end}
+local m=setmetatable({GetParent=function()return c end},modifier_enfos_tide_native_scaling)
+local p={ability=a,ability_special_value='attack_damage'}
+assert(m:GetModifierOverrideAbilitySpecialValue(p)==0)
+for i=1,10 do rank=i;assert(m:GetModifierOverrideAbilitySpecialValue(p)==values[i]+60)end
+str=120;assert(m:GetModifierOverrideAbilitySpecialValue(p)==320)
+p.ability_special_value='damage_reduction';assert(m:GetModifierOverrideAbilitySpecial(p)==0)
+p.ability_special_value='attack_damage';removed=true;assert(m:GetModifierOverrideAbilitySpecialValue(p)==0)
+`});assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');
+});
+
+test('Reactive half-smash uses native radius and recipient identity, reflection flags and callback guards',()=>{
+ const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{encoding:'utf8',input:`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+local server=true;function IsServer()return server end
+local removed,dead,invalidAbility=false,false,false
+DOTA_DAMAGE_FLAG_REFLECTION=16;DAMAGE_TYPE_PHYSICAL=1;DOTA_UNIT_TARGET_TEAM_ENEMY=2
+DOTA_UNIT_TARGET_HERO=1;DOTA_UNIT_TARGET_BASIC=2;DOTA_UNIT_TARGET_FLAG_NONE=0;FIND_ANY_ORDER=0;PATTACH_ABSORIGIN_FOLLOW=1
+function Vector(x,y,z)return{x=x,y=y,z=z}end
+local c={IsNull=function()return removed end,IsAlive=function()return not dead end,
+ GetTeamNumber=function()return 2 end,GetAbsOrigin=function()return Vector(0,0,0)end,
+ GetAverageTrueAttackDamage=function(_,u)assert(u);return 100 end,EmitSound=function()end}
+local radius,rank=375,1
+local e={IsNull=function()return invalidAbility end,GetLevel=function()return rank end,
+ GetAOERadius=function()assert(server);return radius end,
+ GetSpecialValueFor=function(_,key)return assert(({attack_damage=140,reduction_duration=6})[key])end}
+local effects,release,damage,mods=0,0,{},{}
+ParticleManager={CreateParticle=function(_,path,attach,parent)assert(parent==c);effects=effects+1;return effects end,
+ SetParticleControl=function(_,_,cp,v)assert(cp==2 and v.x==radius)end,ReleaseParticleIndex=function()release=release+1 end}
+local function unit(team,immune)
+ return{IsNull=function()return false end,IsAlive=function()return true end,GetTeamNumber=function()return team end,
+ IsAttackImmune=function()return immune end,AddNewModifier=function(self,caster,ability,name,p)
+ assert(caster==c and ability==e and name=='modifier_tidehunter_anchor_smash' and p.duration==6);mods[self]=(mods[self] or 0)+1 end}
+end
+local u,v,ally,immune=unit(3,false),unit(3,false),unit(2,false),unit(3,true)
+FindUnitsInRadius=function(_,_,_,r,team,types,flags)assert(r==radius and team==2 and types==3 and flags==0);return{u,v,ally,immune}end
+ApplyDamage=function(p)assert(p.damage==120 and p.damage_flags==16 and p.damage_type==1);damage[#damage+1]=p end
+local S=require('abilities/heroes/tidehunter/shard')
+S.Smash(c,e,0.5);assert(#damage==2 and mods[u]==1 and mods[v]==1 and not mods[ally] and not mods[immune]);assert(effects==1 and release==1)
+radius=525;S.Smash(c,e,0.5);assert(#damage==4 and effects==2 and release==2)
+for _,mode in ipairs({'target','caster','ability','death'})do
+ removed=false;dead=false;invalidAbility=false;mods={};damage={}
+ u.IsNull=function()return false end
+ ApplyDamage=function(p)damage[#damage+1]=p;if mode=='target'then u.IsNull=function()return true end
+ elseif mode=='caster'then removed=true elseif mode=='ability'then invalidAbility=true else dead=true end end
+ S.Smash(c,e,0.5);assert(not mods[u]);if mode~='target'then assert(#damage==1 and not mods[v])end
+end
+removed=false;dead=false;invalidAbility=false;rank=0;local old=effects;S.Smash(c,e,0.5);assert(effects==old)
+rank=1;server=false;S.Smash(c,e,0.5);assert(effects==old)
+`});assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');
+});
+
 test('Gush has one native cast/projectile/debuff owner with installed identity',()=>{
  assert.ok(isVerifiedNativeAbility('enfos_tide_gush',q));
  for(const key of ['AbilityBehavior','AbilityUnitTargetTeam','AbilityUnitTargetType','AbilityUnitDamageType',
@@ -93,7 +174,7 @@ test('Kraken Shell delegates active/block/cleanse to native while Shard stays an
  assert.doesNotMatch(old,/enfos_tide_kraken_shell\s*=\s*class|modifier_enfos_tide_kraken_shell_passive/);
  const extension=fs.readFileSync('game/scripts/vscripts/abilities/heroes/tidehunter/modifiers.lua','utf8');
  assert.doesNotMatch(extension,/Purge\(|MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK/);
- assert.match(old,/damage\(self, u, dmg, DAMAGE_TYPE_PHYSICAL, damage_flags\)/);
+ assert.doesNotMatch(old,/enfos_tide_anchor_smash\s*=\s*class|modifier_enfos_tide_anchor_smash_debuff/);
 });
 test('Shell extension bounds reflected Shard smashes without purging, handles Break/source loss and has client-safe regen',()=>{
  const w=all.enfos_tide_kraken_shell.AbilityValues;
@@ -121,10 +202,10 @@ local c={IsNull=function()return removed end,IsIllusion=function()return false e
  StartGesture=function()end,Purge=function()error('Native alone owns cleanse')end}
 local m=setmetatable({GetParent=function()return c end,GetAbility=function()return a end,
  IsNull=function()return removed end},modifier_enfos_tide_shell_extension)
-e.ApplyAnchorSmash=function(_,scale,flags)
- assert(scale==0.5 and flags==16);calls=calls+1
+package.loaded['abilities/heroes/tidehunter/shard']={Smash=function(parent,ability,scale)
+ assert(parent==c and ability==e and scale==0.5);calls=calls+1
  m:OnTakeDamage({unit=c,damage=900}) -- reflected callbacks cannot recursively trigger
-end
+end}
 local scaling=setmetatable({GetParent=function()return c end},modifier_enfos_tide_native_scaling)
 local query={ability=a,ability_special_value='damage_reduction'}
 for r=1,10 do rank=r;assert(m:GetModifierConstantHealthRegen()==regen[r]);assert(scaling:GetModifierOverrideAbilitySpecialValue(query)==block[r]+5)end

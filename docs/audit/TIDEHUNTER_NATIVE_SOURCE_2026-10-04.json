@@ -391,6 +391,33 @@
         ],
         "returns": "nil",
         "scope": "Documents real attacks, not native Anchor flags, proc exclusions or reflected half damage."
+      },
+      {
+        "name": "CDOTA_BaseNPC:GetAverageTrueAttackDamage",
+        "available": "server",
+        "arguments": [
+          "target:CDOTA_BaseNPC|nil"
+        ],
+        "returns": "int",
+        "scope": "Reactive reflected flat damage only; not used to clone manual native attacks."
+      },
+      {
+        "name": "CDOTA_BaseNPC:IsAttackImmune",
+        "available": "both",
+        "arguments": [],
+        "returns": "bool"
+      },
+      {
+        "name": "CDOTA_BaseNPC:AddNewModifier",
+        "available": "server",
+        "arguments": [
+          "caster:CDOTA_BaseNPC|nil",
+          "ability:CDOTABaseAbility|nil",
+          "modifierName:string",
+          "modifierTable:table|nil"
+        ],
+        "returns": "CDOTA_Buff",
+        "scope": "Native recipient reuse pattern; actual constructor/refresh owner pending."
       }
     ]
   },
@@ -439,6 +466,13 @@
       "Unscoped outgoing damage changes may affect item procs and unrelated damage",
       "Custom and native reduction modifiers must not silently stack"
     ],
-    "status": "SOURCE RESEARCH COMPLETE; E MIGRATION NOT IMPLEMENTED; OWNER_RUNTIME PENDING"
+    "status": "MANUAL E NATIVE SOURCE IMPLEMENTED; REACTIVE SHARD MINIMAL EXTENSION IMPLEMENTED; OWNER_RUNTIME PENDING",
+    "nativeRecipient": {
+      "source": "game/dota/bin/win64/server.dll",
+      "sha256": "8ec4b6a9b9bb35ec8d1cd27f383d9a681e592bd07c5296208112c6411461aa92",
+      "name": "modifier_tidehunter_anchor_smash",
+      "nullTerminatedOffset": 50473776,
+      "scope": "Identifier presence only; construction, alias special read path, refresh and non-stacking remain OWNER TEST PENDING"
+    }
   }
 }

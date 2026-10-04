@@ -3608,27 +3608,30 @@
 	"enfos_tide_anchor_smash"
 	{
 		"SpellDispellableType" "SPELL_DISPELLABLE_YES"
-		"BaseClass"					"ability_lua"
+		"BaseClass"					"tidehunter_anchor_smash"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_PHYSICAL"
-		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_YES"
+		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
 		"AbilityTextureName"		"tidehunter_anchor_smash"
 		"RequiredLevel"	"1"
 		"LevelsBetweenUpgrades"	"1"
-		"AbilityCastPoint"			"0.3"
+		"AbilityCastPoint"			"0.4"
 		"AbilityCastAnimation"	"ACT_DOTA_CAST_ABILITY_3"
 		"AbilityCooldown"			"6.0 5.7 5.3 5.0 4.7 4.3 4.0 3.7 3.3 3.0"
 		"AbilityManaCost"			"40 43 47 50 53 57 60 63 67 70"
 		"MaxLevel"					"10"
 		"AbilityValues"
 		{
-			"radius" "400"
-			"attack_damage_bonus" "80 97 113 130 147 163 180 197 213 230"
+			"additional_range" { "value" "225" "affected_by_aoe_increase" "1" }
+			"attack_damage" { "value" "80 97 113 130 147 163 180 197 213 230" "CalculateSpellDamageTooltip" "0" }
 			"strength_factor" "0.75"
-			"damage_reduction" "40 43 47 50 53 57 60 63 67 70"
-			"duration" "6.0"
+			"damage_reduction" { "value" "-40 -43 -47 -50 -53 -57 -60 -63 -67 -70" "CalculateSpellDamageTooltip" "0" "DamageTypeTooltip" "DAMAGE_TYPE_NONE" }
+			"reduction_duration" "6.0"
+			"targets_buildings" "0"
+			"building_pct_damage" "0"
+			"smash_on_attack" "0"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"AbilitySound" "Hero_Tidehunter.AnchorSmash"
 	}
 
 	"enfos_tide_ravage"

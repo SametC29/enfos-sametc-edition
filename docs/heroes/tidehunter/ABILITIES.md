@@ -11,7 +11,7 @@ Hero: `npc_dota_hero_tidehunter`; role: Tank. Progression target: hero level 50 
 | --- | --- | --- | --- | --- | --- |
 | 1 | `enfos_tide_gush` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | NOT_EXPLICIT | tidehunter_gush |
 | 2 | `enfos_tide_kraken_shell` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE | NOT_EXPLICIT | tidehunter_kraken_shell |
-| 3 | `enfos_tide_anchor_smash` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | tidehunter_anchor_smash |
+| 3 | `enfos_tide_anchor_smash` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | NOT_EXPLICIT | tidehunter_anchor_smash |
 | 4 | `enfos_tide_ravage` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | tidehunter_ravage |
 | 5 | `enfos_tide_colossal_presence` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | tidehunter_kraken_shell |
 
@@ -214,9 +214,9 @@ Change/test record (2026-09-30): Included in the 98 passing hero-kit mock regres
 
 Classification: TUNE
 Native counterpart: `tidehunter_anchor_smash` (native Ability3).
-Decision and PvE identity rationale: Native real attacks and attack-range-plus-additional-range geometry suit waves; tune bonus/reduction with minimal STR scaling. Production remains custom pending reflected half-Shard compatibility and non-stacking reduction ownership.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
+Decision and PvE identity rationale: Native real attacks and attack-range-plus-additional-range geometry suit waves; tune bonus/reduction with minimal STR scaling. Manual E is a native alias; a bounded reactive Shard extension reuses the native recipient. Modifier read path and refresh/non-stacking remain owner-test pending.
+Expected cast/travel/impact/ongoing/cleanup behavior: Native no-target0.4 cast -> real nearby attacks plus tuned bonus -> native reduction/expiry. Shard uses reflected flat half damage, not item-proccing attacks.
+Normal creep / elite / boss, immunity / dispel / resistance rules: Ordinary native attack/immunity/dispel rules; no Boss override. Source restores ENEMIES_NO and signed native reduction. Engine details remain PENDING.
 Current versus target rank curve: Anchor Smash E ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
@@ -235,18 +235,18 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Native manual attacks; authored rank bonus/STR bridge tested offline. Actual attacks/damage remain owner pending. |
+| Targeting | PENDING | Native attack-range-plus225 geometry and non-piercing immunity; Shard queries native server radius. Actual engine eligibility pending. |
 | Ranks | PENDING | E gate levels 1–10 are declared; in-game HUD and point behavior remain PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
+| Modifiers | PENDING | Cloned recipient removed; exact installed native identifier reused. Constructor/refresh/read path and non-stacking remain owner pending. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
 | Boss | PENDING | Not evaluated in this dossier setup. |
-| Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Upgrades | PENDING | Bounded Shard half reflected flat damage, no attack procs/lifesteal; native recipient reuse and effects await owner test. |
+| Localization | PENDING | Four languages/generated mirrors updated for native attacks/range and reactive distinction; actual HUD pending. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
@@ -254,6 +254,8 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
 
 2026-10-04 E dependency research: installed hash unchanged; native cast point0.4, ENEMIES_NO immunity, real attacks and attack-range-plus225 verified. OnSpellStart has no documented half/reflection parameters; GetAOERadius is server-only. Migration matrix/snapshot record rejected shortcuts and next native modifier/dispatcher investigation. E source migration is NOT implemented; all engine gates remain PENDING.
+
+2026-10-04 E source migration implemented: native manual cast, authored10-rank curves and0.75STR bonus bridge. Retired manual Lua/custom recipient/localization; server-only Shard half-reflection helper reuses native radius and recipient. Binary identifier and API provenance recorded in snapshot/review. Automated native/extension guards pass; actual native constructor/read path/refresh, attack procs, damage, radius and complete engine acceptance remain PENDING.
 
 ## Slot 4: `enfos_tide_ravage`
 

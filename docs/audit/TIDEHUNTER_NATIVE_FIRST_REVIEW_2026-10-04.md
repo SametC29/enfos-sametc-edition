@@ -1,6 +1,6 @@
 # Tidehunter native-first source migration
 
-Status: Q/W SOURCE IMPLEMENTED / E/R/D IMPLEMENTATION PENDING / OWNER_RUNTIME PENDING.
+Status: Q/W/E SOURCE IMPLEMENTED / R/D IMPLEMENTATION PENDING / OWNER_RUNTIME PENDING.
 This record supersedes the old PvE-conversion assumption for the migration
 plan, not the existing production implementation or its proven source fixes.
 The owner permits proceeding to the next source hero without live acceptance.
@@ -16,7 +16,7 @@ hero assignments and queried API availability. The unchanged hero hash does
 not establish engine compatibility or acceptance.
 
 At discovery: five Lua abilities in `abilities/pve_kits.lua` with stable
-`enfos_tide_*` IDs and ten ranks. Q/W are now native aliases; E/R/D remain Lua.
+`enfos_tide_*` IDs and ten ranks. Q/W/E are now native aliases; R/D remain Lua.
 The native header explicitly assigns
 Gush, Kraken Shell, Anchor Smash, Dead in the Water, Ravage and Leviathan's
 Catch. Arm of the Deep and Blubber also have definitions; definition presence
@@ -32,7 +32,7 @@ projectile speed; installed2500 takes precedence. No external code is imported.
 
 ## Five-slot decisions before implementation
 
-These are migration decisions/leads. Q/W are source-implemented; neither is
+These are migration decisions/leads. Q/W/E are source-implemented; none is
 engine-certified. Remaining rows describe planned work.
 
 | Slot / stable ID | Current behavior | Verified native counterpart | Primary class | Intended ownership / reason |
@@ -248,3 +248,48 @@ is the next research step; otherwise document an isolated extension with explici
 non-stacking reduction and reflected damage. Current production E and the verified
 W half/reflection adapter remain unchanged while that dependency is resolved.
 No new gameplay acceptance, Dota control or engine PASS is claimed.
+
+## E implementation decision before mutation
+
+Installed server.dll contains exact null-terminated native recipient name
+modifier_tidehunter_anchor_smash at offset50473776; SHA256
+8ec4b6a9b9bb35ec8d1cd27f383d9a681e592bd07c5296208112c6411461aa92.
+This establishes identifier existence, not successful modifier construction or
+non-stacking behavior. [Built-in modifier reuse](https://moddota.com/abilities/reutilizing-built-in-modifiers)
+uses AddNewModifier and the supplying ability's exposed values. Source adopts
+that pattern, with native recipient reuse/refresh/read-path owner tests pending.
+
+Manual E becomes the native alias, preserving authored10-rank costs/bonus/STR
+and reduction magnitudes, restoring native cast point0.4, attack-range-plus225
+and non-piercing immunity. Exact native attack_damage/damage_reduction/duration
+fields are explicit; no talents/building attacks/on-attack casts are granted.
+The existing capped Shard helper remains an explicit reflected flat-damage
+extension, not a claimed native attack: half of average attack plus tuned bonus,
+no attack-item procs/lifesteal. It reuses native recipient reduction instead of
+keeping a second custom debuff. No native full cast is dispatched for Shard.
+Use server native GetAOERadius for the reactive query and CP2 presentation;
+actual radius, modifier creation and refresh remain owner cases. Remove custom
+manual cast/recipient class and their localization. No shared damage filter,
+outgoing modifier, attack hooks, extra providers, managers or timers.
+
+E source implemented: manual native alias with all native exposed keys explicit,
+ten-rank authored costs/bonus/reduction and live0.75STR attack_damage bridge.
+Restored0.4 cast point, native attack-range geometry and ENEMIES_NO immunity.
+Native owns actual attacks/item mechanics, animation, effects and recipient.
+Shard uses a server-only bounded helper, native GetAOERadius for query/CP2,
+half average attack plus overridden bonus, reflection flag and native recipient
+name. It neither invokes native OnSpellStart nor performs item-proccing attacks.
+Source/caster/target deletion and death after damage stop debuff/remaining work.
+No cloned recipient class, extra provider, modifier link, timer or filter remains.
+Four-language E descriptions and Shard no-attack-proc/no-lifesteal wording updated.
+Old E mocks exercising retired manual Lua were removed; native contract/ten-rank
+bridge and isolated helper eligibility/radius/flags/invalidations replace them.
+113 affected checks and333 remaining hero mocks pass; full suite pending.
+Owner full restart, ranks1/10, attack effects, actual STR bonus, native radius,
+immunity, overlapping manual/reactive recipient refresh, dispel/status resistance,
+death/reconnect/Break, Shard VFX/SFX and VConsole all remain PENDING.
+Next source unit: R Ravage damage read-path and ordinary native control.
+
+E validation boundary: full `node tools/checks.mjs` completed with zero failed
+checks, including333 mock-engine hero regressions and49 native/diagnostic tests.
+All source checks passed; engine acceptance remains PENDING OWNER TEST.

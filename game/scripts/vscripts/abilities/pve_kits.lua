@@ -169,7 +169,6 @@ local modifier_list = {
     'modifier_enfos_dazzle_nothl_weave_debuff',
     -- Bristleback
     -- Tidehunter
-    'modifier_enfos_tide_anchor_smash_debuff',
     'modifier_enfos_tide_ravage_stun',
     'modifier_enfos_tide_colossal_presence_aura',
     'modifier_enfos_tide_colossal_presence_debuff',
@@ -3334,47 +3333,7 @@ local function tide_passive_sources(modifier)
     return c, a
 end
 
-enfos_tide_anchor_smash=class({})
-function enfos_tide_anchor_smash:OnSpellStart()
-    self:ApplyAnchorSmash(1)
-end
-function enfos_tide_anchor_smash:ApplyAnchorSmash(multiplier, damage_flags)
-    local c = self:GetCaster()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
-    local radius = value(self, 'radius')
-    c:EmitSound('Hero_Tidehunter.AnchorSmash')
-    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_tidehunter/tidehunter_anchor_hero.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
-    ParticleManager:SetParticleControl(fx, 2, Vector(radius, 0, 0))
-    ParticleManager:ReleaseParticleIndex(fx)
-
-    local base = value(self, 'attack_damage_bonus')
-    if base <= 0 then base = 160 end
-    local str = get_str(c)
-    local dmg = (get_atk(c) + base + (str * value(self, 'strength_factor'))) * multiplier
-
-    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), radius, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
-        if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return end
-        if u and not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
-            damage(self, u, dmg, DAMAGE_TYPE_PHYSICAL, damage_flags)
-            if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() then return end
-            if not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
-                u:AddNewModifier(c, self, 'modifier_enfos_tide_anchor_smash_debuff', { duration = value(self, 'duration') })
-            end
-        end
-    end
-end
-
-modifier_enfos_tide_anchor_smash_debuff=class({})
-function modifier_enfos_tide_anchor_smash_debuff:GetTexture() return 'tidehunter_anchor_smash' end
-function modifier_enfos_tide_anchor_smash_debuff:IsDebuff() return true end
-function modifier_enfos_tide_anchor_smash_debuff:IsPurgable() return true end
-function modifier_enfos_tide_anchor_smash_debuff:IsPurgeException() return false end
-function modifier_enfos_tide_anchor_smash_debuff:DeclareFunctions()
-    return { MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE }
-end
-function modifier_enfos_tide_anchor_smash_debuff:GetModifierBaseDamageOutgoing_Percentage()
-    return -((self.GetAbility and value(self:GetAbility(), 'damage_reduction')) or 50)
-end
+-- Anchor Smash manual cast/attacks/debuff delegate to native.
 
 enfos_tide_ravage=class({})
 function enfos_tide_ravage:OnSpellStart()

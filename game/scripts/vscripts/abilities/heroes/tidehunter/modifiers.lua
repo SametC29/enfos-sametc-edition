@@ -11,7 +11,8 @@ local function matches(params)
     local a=params and params.ability
     return a and not a:IsNull() and ((a:GetAbilityName()=='enfos_tide_gush'
         and params.ability_special_value=='gush_damage') or (a:GetAbilityName()=='enfos_tide_kraken_shell'
-        and params.ability_special_value=='damage_reduction'))
+        and params.ability_special_value=='damage_reduction') or (a:GetAbilityName()=='enfos_tide_anchor_smash'
+        and params.ability_special_value=='attack_damage'))
 end
 function M:GetModifierOverrideAbilitySpecial(params)
     return matches(params) and 1 or 0
@@ -68,6 +69,6 @@ function S:OnTakeDamage(params)
     c:StartGesture(ACT_DOTA_CAST_ABILITY_3)
     if self:IsNull() then return end
     if c:IsNull() or not c:IsAlive() or a:IsNull() or e:IsNull() then self.triggering=false;return end
-    e:ApplyAnchorSmash(scale,DOTA_DAMAGE_FLAG_REFLECTION)
+    require('abilities/heroes/tidehunter/shard').Smash(c,e,scale)
     if not self:IsNull() then self.triggering=false end
 end

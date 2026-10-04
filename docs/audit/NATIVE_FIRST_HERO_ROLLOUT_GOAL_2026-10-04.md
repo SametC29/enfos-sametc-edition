@@ -100,3 +100,10 @@ for active defense, block and cleanse. Flat regeneration and a capped independen
 Shard damage-threshold half-smash remain isolated extensions; custom Purge and
 block replication are retired. Full source checks pass (337 mock regressions);
 engine acceptance remains pending. Proceed with E Anchor Smash next.
+
+2026-10-04 Tidehunter E source progression: native manual Anchor Smash with
+ten-rank bonus/STR bridge, restored native geometry/attack/immunity and an isolated
+reflected half-damage Shard helper reusing the native recipient. Cloned manual
+cast/debuff removed. Full source checks pass; engine cases remain pending,
+especially actual native recipient construction/refresh and attack effects.
+Proceed with R Ravage next without waiting for owner live tests.

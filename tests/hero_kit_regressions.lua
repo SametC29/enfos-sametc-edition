@@ -3167,77 +3167,6 @@ test('Dazzle Shadow Wave heals allies and includes immune enemies in its piercin
     assert(applied_damages[2].damage == 250 and applied_damages[2].damage_type == DAMAGE_TYPE_PHYSICAL)
 end)
 
-test('Tidehunter Anchor Smash deals attack damage plus strength scaling and applies damage reduction debuff', function()
-    applied_damages = {}
-    local tide = create_mock_unit('npc_dota_hero_tidehunter', 2, Vector(0, 0, 0))
-    tide.strength = 80
-    local target = create_mock_unit('creep_tide', 3, Vector(150, 0, 0))
-    mock_world_units = { tide, target }
-
-    local ab = enfos_tide_anchor_smash()
-    ab.GetCaster = function() return tide end
-    ab.GetSpecialValueFor = function(_, k)
-        if k == 'attack_damage_bonus' or k == 'bonus_damage' then return 160 end
-        if k == 'strength_factor' then return 0.5 end
-        if k == 'radius' then return 450 end
-        if k == 'duration' then return 6 end
-        return 0
-    end
-
-    ab:OnSpellStart()
-    -- Mock strength factor is 0.5: attack (100) + bonus (160) + (80 * 0.5 = 40) = 300.
-    assert(#applied_damages == 1)
-    assert(applied_damages[1].damage == 300 and applied_damages[1].damage_type == DAMAGE_TYPE_PHYSICAL)
-    assert(last_find_units_flags == DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-        'Anchor Smash declares SPELL_IMMUNITY_ENEMIES_YES and must include immune enemies in its radius query')
-    local debuff = target:FindModifierByName('modifier_enfos_tide_anchor_smash_debuff')
-    assert(debuff ~= nil, 'Anchor smash must apply debuff')
-end)
-
-test('Tidehunter active and reactive Anchor particles receive their gameplay radius', function()
-    local old_create, old_control, old_release = ParticleManager.CreateParticle,
-        ParticleManager.SetParticleControl, ParticleManager.ReleaseParticleIndex
-    local entries = {}
-    ParticleManager.CreateParticle = function(_, path, attachment, owner)
-        entries[#entries + 1] = {path=path, attachment=attachment, owner=owner, cp={}}
-        return #entries
-    end
-    ParticleManager.SetParticleControl = function(_, id, cp, vector) entries[id].cp[cp] = vector end
-    ParticleManager.ReleaseParticleIndex = function(_, id) entries[id].released = true end
-    local tide = create_mock_unit('npc_dota_hero_tidehunter', 2, Vector(500, 300, 0))
-    mock_world_units = {tide}
-    local radius = 450
-    local ab = enfos_tide_anchor_smash()
-    ab.GetCaster = function() return tide end
-    ab.GetSpecialValueFor = function(_, key) return key == 'radius' and radius or 0 end
-    ab:OnSpellStart()
-    radius = 850
-    ab:ApplyAnchorSmash(0.5)
-    ParticleManager.CreateParticle, ParticleManager.SetParticleControl, ParticleManager.ReleaseParticleIndex =
-        old_create, old_control, old_release
-    assert(#entries == 2)
-    for i, expected in ipairs({450, 850}) do
-        local entry = entries[i]
-        assert(entry.cp[2] and entry.cp[2].x == expected,
-            'Anchor child particle CP2.x must receive the actual radius on active and reactive casts')
-        assert(entry.cp[2].y == 0 and entry.cp[2].z == 0)
-        assert(entry.owner == tide and entry.released,
-            'Both finite Anchor roots must remain caster-owned and release their indices')
-    end
-end)
-
-test('Tidehunter reactive Anchor is reflected while manual Anchor remains ordinary damage', function()
-    local tide=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
-    local target=create_mock_unit('tide_reflection_target',3,Vector(100,0,0))
-    local a=enfos_tide_anchor_smash();a.GetCaster=function() return tide end
-    a.GetSpecialValueFor=function(_,k) return ({radius=400,attack_damage_bonus=80,duration=6})[k] or 0 end
-    mock_world_units={tide,target};applied_damages={}
-    a:OnSpellStart();assert(applied_damages[1].damage_flags==0)
-    a:ApplyAnchorSmash(0.5,DOTA_DAMAGE_FLAG_REFLECTION)
-    assert(applied_damages[2].damage_flags==DOTA_DAMAGE_FLAG_REFLECTION)
-    assert(applied_damages[2].damage==applied_damages[1].damage*0.5)
-end)
-
 test('Tidehunter unique Scepter suppresses generic ultimate bonuses without affecting other tanks', function()
     local name='npc_dota_hero_tidehunter'
     local parent={GetUnitName=function() return name end}
@@ -3246,29 +3175,6 @@ test('Tidehunter unique Scepter suppresses generic ultimate bonuses without affe
     assert(m:GetModifierSpellAmplify_Percentage({inflictor=ult})==0 and m:GetModifierPercentageCooldown({ability=ult})==0 and m:IsHidden())
     name='npc_dota_hero_axe'
     assert(m:GetModifierSpellAmplify_Percentage({inflictor=ult})==40 and m:GetModifierPercentageCooldown({ability=ult})==25 and not m:IsHidden())
-end)
-
-test('Tidehunter impacts cannot apply debuffs after synchronous target or source removal', function()
-    local oldDamage=ApplyDamage
-    for _,className in ipairs({'enfos_tide_anchor_smash'}) do
-        for _,mode in ipairs({'target','caster','ability'}) do
-            local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
-            local target=create_mock_unit('tide_impact_target',3,Vector(100,0,0))
-            local removedTarget,removedCaster,removedAbility=false,false,false
-            hero.IsNull=function() return removedCaster end;target.IsNull=function() return removedTarget end
-            local a=_G[className]();a.GetCaster=function() return hero end;a.IsNull=function() return removedAbility end
-            a.GetSpecialValueFor=function() assert(not removedAbility,'deleted ability read');return 300 end
-            mock_world_units={hero,target}
-            target.AddNewModifier=function()
-                assert(not removedTarget and not removedCaster and not removedAbility,'Damage callbacks can invalidate handles before debuff application')
-            end
-            ApplyDamage=function()
-                removedTarget=mode=='target';removedCaster=mode=='caster';removedAbility=mode=='ability'
-            end
-            a:OnSpellStart()
-        end
-    end
-    ApplyDamage=oldDamage
 end)
 
 test('Tidehunter Shard replaces generic tank health and reflection while other tanks retain them', function()
@@ -3281,11 +3187,6 @@ test('Tidehunter Shard replaces generic tank health and reflection while other t
 end)
 
 test('Tidehunter modifiers declare basic, strong-only and intrinsic dispel policies', function()
-    for _,cls in ipairs({modifier_enfos_tide_anchor_smash_debuff}) do
-        local m=cls()
-        assert(m.IsPurgable and m:IsPurgable()==true,'Ordinary Tidehunter debuffs must explicitly allow basic dispel')
-        assert(m.IsPurgeException and m:IsPurgeException()==false)
-    end
     local stun=modifier_enfos_tide_ravage_stun()
     assert(stun.IsPurgable and stun:IsPurgable()==false,'Ravage cannot be removed by basic dispel')
     assert(stun.IsPurgeException and stun:IsPurgeException()==true,'Strong dispel must remove Ravage stun')

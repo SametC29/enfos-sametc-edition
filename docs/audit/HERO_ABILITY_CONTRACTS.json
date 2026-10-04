@@ -2252,21 +2252,24 @@
           "id": "enfos_tide_anchor_smash",
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
-          "callbacks": [
-            "ApplyAnchorSmash",
-            "OnSpellStart"
-          ],
+          "callbacks": [],
+          "implementationOwner": "NATIVE",
+          "nativeBaseClass": "tidehunter_anchor_smash",
+          "engineAcceptance": "PENDING OWNER TEST",
           "specials": {
-            "radius": "400",
-            "attack_damage_bonus": "80 97 113 130 147 163 180 197 213 230",
+            "additional_range": "225",
+            "attack_damage": "80 97 113 130 147 163 180 197 213 230",
             "strength_factor": "0.75",
-            "damage_reduction": "40 43 47 50 53 57 60 63 67 70",
-            "duration": "6.0"
+            "damage_reduction": "-40 -43 -47 -50 -53 -57 -60 -63 -67 -70",
+            "reduction_duration": "6.0",
+            "targets_buildings": "0",
+            "building_pct_damage": "0",
+            "smash_on_attack": "0"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
           "hasSound": true,
-          "hasParticle": true
+          "hasParticle": false
         },
         {
           "slot": 4,
