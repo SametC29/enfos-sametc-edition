@@ -4,7 +4,7 @@ print = function(line) lines[#lines + 1] = line end
 IsServer = function() return server end
 IsInToolsMode = function() return tools end
 GameRules = {GetGameTime=function() return now end, GetGameModeEntity=function()
-    return {SetContextThink=function(_,name,fn,delay) assert(delay==1 or delay==2 or delay==3); timers[name]=fn end}
+    return {SetContextThink=function(_,name,fn,delay) assert(delay==0.03 or delay==1 or delay==2 or delay==3); timers[name]=fn end}
 end}
 PlayerResource = {IsValidPlayerID=function(_,id) return id==0 end}
 local reachable=true
@@ -61,34 +61,32 @@ function class(t) return t end
 require('enfos_sametc')
 DOTA_UNIT_ORDER_SELL_ITEM=33
 EnfosSpellbringerOrderAudit=function() error('simulated stale diagnostic handle') end
-local forwarded
-a.SetContextThink=function(_,name,callback,delay)
-    assert(name=='SpellbringerManualMove' and delay>0)
-    forwarded=callback
-end
 a.MoveToPosition=function(_,destination) a.directMove=destination end
 a.MoveToPositionAggressive=function(_,destination) a.aggressiveMove=destination end
+a.removed=false
 assert(EnfosSametC:OrderFilter(order)==true, 'a diagnostic error must never reject movement')
 assert(EnfosSpellbringerOrderAudit==nil)
-forwarded=nil
+assert(timers.SpellbringerManualMove_1, 'game-mode thinker scheduled')
+timers.SpellbringerManualMove_1=nil
 a.removed=false
 local mixed={issuer_player_id_const=0,order_type=1,units={['0']=1,['1']=2,['2']=3},
     position_x=400,position_y=500}
-assert(EnfosSametC:OrderFilter(mixed)==true and forwarded,
+assert(EnfosSametC:OrderFilter(mixed)==true and timers.SpellbringerManualMove_1,
     'mixed selection keeps its native order and forwards only owned reinforcements')
 assert(not a.directMove, 'direct move must wait for the native group order')
-forwarded();assert(a.directMove.x==400 and a.directMove.y==500 and a.directMove.z==0)
-forwarded=nil
+timers.SpellbringerManualMove_1();assert(a.directMove.x==400 and a.directMove.y==500 and a.directMove.z==0)
+assert(timers.SpellbringerManualSample_1, 'Tools motion sample scheduled after dispatch')
+timers.SpellbringerManualMove_1=nil
 mixed.order_type=3;mixed.position_x=600
-assert(EnfosSametC:OrderFilter(mixed)==true and forwarded)
-forwarded();assert(a.aggressiveMove.x==600 and a.aggressiveMove.y==500)
-forwarded=nil
+assert(EnfosSametC:OrderFilter(mixed)==true and timers.SpellbringerManualMove_1)
+timers.SpellbringerManualMove_1();assert(a.aggressiveMove.x==600 and a.aggressiveMove.y==500)
+timers.SpellbringerManualMove_1=nil
 mixed.order_type=21;EnfosSametC:OrderFilter(mixed)
-assert(not forwarded, 'unrelated orders must remain native')
+assert(not timers.SpellbringerManualMove_1, 'unrelated orders must remain native')
 mixed.order_type=1;mixed.position_x=0/0;EnfosSametC:OrderFilter(mixed)
-assert(not forwarded, 'invalid destinations must not schedule a movement command')
+assert(not timers.SpellbringerManualMove_1, 'invalid destinations must not schedule a movement command')
 mixed.position_x=700;EnfosSametC:OrderFilter(mixed);a.removed=true
-forwarded();assert(a.directMove.x==400, 'removed units must not receive a late motor command')
+timers.SpellbringerManualMove_1();assert(a.directMove.x==400, 'removed units must not receive a late motor command')
 -- Explicit spawn handles must report even an incorrect player assignment.
 a.removed=false;now=0
 Entities.FindAllByClassname=function() error('spawn diagnostics must not scan global units') end

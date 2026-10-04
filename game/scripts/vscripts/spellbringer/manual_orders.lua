@@ -1,7 +1,9 @@
 -- Player orders for Future Reinforcements reach the order filter but the
 -- engine's ordinary order path leaves these controllable creeps stationary.
 -- Forward only ground movement to the NPC motor on the next tick, after the
--- original group order has completed. Other selected units keep their order.
+-- original group order has completed. Use the game-mode thinker: the Tools
+-- comparison proved this scheduler can drive the same NPC motor successfully.
+-- Other selected units keep their order.
 local ManualOrders = {}
 
 function ManualOrders.Forward(filterTable)
@@ -21,12 +23,29 @@ function ManualOrders.Forward(filterTable)
             and unit:GetPlayerOwnerID() == playerID then
             local z = tonumber(filterTable.position_z) or unit:GetAbsOrigin().z
             local destination = Vector(x, y, z)
-            unit:SetContextThink("SpellbringerManualMove", function()
+            local start = unit:GetAbsOrigin()
+            local entity = unit:entindex()
+            local mode = GameRules:GetGameModeEntity()
+            local diagnostic = IsInToolsMode and IsInToolsMode()
+            if diagnostic then
+                print(string.format("[SPELLBRINGER_MANUAL] entity=%d scheduled type=%s", entity, tostring(orderType)))
+            end
+            mode:SetContextThink("SpellbringerManualMove_" .. entity, function()
                 if unit:IsNull() or not unit:IsAlive() or unit:GetPlayerOwnerID() ~= playerID then return nil end
                 if orderType == DOTA_UNIT_ORDER_ATTACK_MOVE then
                     unit:MoveToPositionAggressive(destination)
                 else
                     unit:MoveToPosition(destination)
+                end
+                if diagnostic then
+                    print(string.format("[SPELLBRINGER_MANUAL] entity=%d dispatched type=%s", entity, tostring(orderType)))
+                    mode:SetContextThink("SpellbringerManualSample_" .. entity, function()
+                        if unit:IsNull() or not unit:IsAlive() then return nil end
+                        local after = unit:GetAbsOrigin()
+                        local dx, dy = after.x - start.x, after.y - start.y
+                        print(string.format("[SPELLBRINGER_MANUAL] entity=%d displacement=%.1f", entity, math.sqrt(dx*dx + dy*dy)))
+                        return nil
+                    end, 1)
                 end
                 return nil
             end, 0.03)
