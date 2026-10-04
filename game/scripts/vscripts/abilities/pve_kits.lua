@@ -1,3 +1,4 @@
+require('abilities/heroes/antimage/q')
 require('abilities/heroes/ursa/d')
 require('abilities/heroes/ursa/e')
 require('abilities/heroes/tidehunter/d')
@@ -217,7 +218,6 @@ local modifier_list = {
     'modifier_enfos_mk_jingu_mastery_buff',
     'modifier_enfos_mk_wukongs_command_thinker',
     'modifier_enfos_mk_mischief_passive',
-    'modifier_enfos_am_mana_break_passive',
     'modifier_enfos_am_counterspell_passive',
     'modifier_enfos_am_counterspell_active',
     'modifier_enfos_am_mana_void_stun',
@@ -5220,33 +5220,7 @@ end
 -- ANTI-MAGE: MANA BREAK, BLINK, COUNTERSPELL, MANA VOID, SPELLBREAKER
 -- ----------------------------------------------------------------------------
 
-enfos_am_mana_break=class({})
-function enfos_am_mana_break:GetIntrinsicModifierName() return 'modifier_enfos_am_mana_break_passive' end
-
-modifier_enfos_am_mana_break_passive=class({})
-function modifier_enfos_am_mana_break_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACK_LANDED } end
-function modifier_enfos_am_mana_break_passive:OnAttackLanded(params)
-    if not IsServer() then return end
-    local c = self:GetParent()
-    if not c or params.attacker ~= c or (c.PassivesDisabled and c:PassivesDisabled())
-        or (c.IsIllusion and c:IsIllusion()) then return end
-    local t = params.target
-    if not t or (t.IsNull and t:IsNull()) or not t:IsAlive()
-        or t:GetTeamNumber() == c:GetTeamNumber() then return end
-
-    local ab = self:GetAbility()
-    local base = (ab and value(ab, 'bonus_damage')) or 70
-    local agi = get_agi(c)
-    local dmg = base + (agi * ((ab and value(ab, 'agility_factor')) or 0.6))
-
-    damage(self:GetAbility(), t, dmg, DAMAGE_TYPE_PHYSICAL)
-    effect('particles/units/heroes/hero_antimage/antimage_manabreak_enemy_debuff.vpcf', t)
-    local radius = (ab and value(ab, 'cleave_radius')) or 250
-    local cleave = (ab and value(ab, 'cleave_pct')) or 35
-    for _, u in ipairs(enemies(c, t:GetAbsOrigin(), radius, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
-        if u ~= t then damage(ab, u, dmg * cleave / 100, DAMAGE_TYPE_PHYSICAL) end
-    end
-end
+-- Native Mana Break owns mana damage; minimal physical proc is isolated.
 
 enfos_am_blink=class({})
 function enfos_am_blink:GetCastRange() return value(self, 'blink_range') end

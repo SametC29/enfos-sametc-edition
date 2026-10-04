@@ -28,6 +28,9 @@ function Innates:Apply(hero)
     if id=='enfos_ursa_ursa_minor' then
         require('abilities/heroes/ursa/integration').Restore(hero)
     end
+    if id=='enfos_am_spellbreaker' then
+        require('abilities/heroes/antimage/integration').Restore(hero)
+    end
     return true
 end
 return Innates

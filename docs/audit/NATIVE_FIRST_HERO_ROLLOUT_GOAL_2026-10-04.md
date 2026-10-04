@@ -177,3 +177,11 @@ root/overshoot/dodge, R has Boss exceptions, Persecutor absent. Mana-zero
 and caster-mana evidence supports minimal PvE components. Source not yet
 migrated; R extension/block sequencing explicitly unresolved. Next Q exact
 native provider before W Scepter, then E/R/D. Runtime remains ownerpending.
+
+2026-10-04 Anti-Mage Q source progression: exact native provider plus paid
+raw tenrank bridge and minimal real-hero physical PvE proc. Native burn/
+Scepter/illusion/feedback retained; cleave/manual hit copy removed. Existing
+pre-XP passive restore,17clientclasses, readonlyHealth and fourlocales/12
+mirrors covered. 116 affected checks,319hero mocks/fullchecks pass with0failures.
+Actual combined damage/native Scepter/cache/illusion/Break/ranks/lifecycle
+remain ownerpending. Next W native Blink/Q empowerment, then E/R/D.

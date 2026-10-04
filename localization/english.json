@@ -1509,6 +1509,8 @@
     "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff": "Fish Bait",
     "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff_Description": "Armor reduced by Slark’s attack procs.",
     "DOTA_Tooltip_Ability_enfos_tide_gush_SummaryDescription": "Summons water to deal {{gush_damage}} + Strength × {{strength_factor}} magical damage to an enemy, reducing armor by {{negative_armor}} and movement speed by {{movement_speed|abs}}% for 4.5 seconds.",
-    "DOTA_Tooltip_Ability_enfos_ursa_earthshock_shard_description": "Shard applies 3 native Fury Swipes stacks to enemies hit."
+    "DOTA_Tooltip_Ability_enfos_ursa_earthshock_shard_description": "Shard applies 3 native Fury Swipes stacks to enemies hit.",
+    "DOTA_Tooltip_Ability_enfos_am_mana_break_Description": "Attacks burn {{mana_per_hit}} mana plus {{mana_per_hit_pct}}% of the target’s maximum mana and deal physical damage equal to 65% of mana burned. Real hero attacks add {{bonus_damage}} + Agility × {{agility_factor}} physical damage, including against units without mana. Break disables both effects; illusions retain 25% of mana burn and gain no added PvE damage.",
+    "DOTA_Tooltip_Ability_enfos_am_mana_break_scepter_description": "Adds {{native_scepter_mana_pct_bonus}} percentage points to maximum mana burned per hit."
   }
 }

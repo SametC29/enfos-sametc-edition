@@ -9,13 +9,13 @@ Hero: `npc_dota_hero_antimage`; role: Carry. Progression target: hero level 50 /
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_am_mana_break` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | antimage_mana_break |
+| 1 | `enfos_am_mana_break` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/antimage/q | antimage_mana_break |
 | 2 | `enfos_am_blink` | 10 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/pve_kits | antimage_blink |
 | 3 | `enfos_am_counterspell` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | antimage_counterspell |
 | 4 | `enfos_am_mana_void` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | antimage_mana_void |
 | 5 | `enfos_am_spellbreaker` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | antimage_mana_overload |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/antimage/q](../../../game/scripts/vscripts/abilities/heroes/antimage/q.lua), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -84,11 +84,11 @@ application and death/reconnect behavior remain PENDING.
 
 Classification: PVE-CONVERT
 Native counterpart: `antimage_mana_break` (native Ability1, installed ClientVersion 6941 snapshot).
-Decision and PvE identity rationale: mana burn loses most value against PvE creeps; preserve the anti-mana strike identity through Agility-scaled physical damage and bounded cleave.
-Expected cast/travel/impact/ongoing/cleanup behavior: real enemy attack adds physical bonus damage and cleave with the native enemy debuff particle; no thinker or persistent modifier.
-Normal creep / elite / boss, immunity / dispel / resistance rules: enemy hits only; Break and illusions disable; damage is reduced by physical armor; boss receives ordinary attack damage.
+Decision and PvE identity rationale: Native Mana Break restores real mana burn/physical mana-derived damage, Break/illusions/upgrades; preserve authored flat/AGI as a minimal real-hero enemy attack bonus, retire radial cleave.
+Expected cast/travel/impact/ongoing/cleanup behavior: Exact hidden native provider rank0 until paid Q learned, then rank1; native burn/physical mana-derived damage/feedback/cleanup. Persistent paid modifier supplies raw rank values and a side-effect-free real-hero physical proc bonus, no copied burn/cleave/particle or timer.
+Normal creep / elite / boss, immunity / dispel / resistance rules: Native mana burn follows installed immunity/Break rules, with25% illusion mana burn. Enfos flat/AGI bonus applies to real-hero enemy hero/basic/creature attacks under ordinary physical armor/attack rules; Break and illusions suppress only this extra component. No special Boss cap. Engine composition/immunity remains pending.
 Current versus target rank curve; free rank / point cost: Mana Break slot 1 ranks 1–10 are gated at hero levels 1–10, one rank per level; engine point/HUD behavior remains PENDING.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: existing shard flag retained; the shard effect was not changed or runtime certified.
+Shard / Scepter / Blessing / Evolution / Ascended interactions: Native Q Scepter adds1.5 percentage points maxmana burn; empowerment depends on native Blink migration next. Existing generic Carry Shard is a separate unfinished-upgrade review; native E Shard belongs Counterspell. No Q Shard grant or cloned native upgrade. All engine upgrades pending.
 
 ### Resource and implementation evidence
 
@@ -304,3 +304,5 @@ Counterspell remains an active buff after Break by design; runtime verification
 of passive behavior remains pending.
 
 2026-10-04 native-first discovery: fresh installed6943/rev11069754 SHA256 b70ba50c837db7379329dc1c515847dfa25a256b6252a115f39d2d7530579b11 matches the historical6941 source. [New snapshot](../../audit/ANTIMAGE_NATIVE_SOURCE_2026-10-04.json) and [pre-mutation matrix](../../audit/ANTIMAGE_NATIVE_FIRST_REVIEW_2026-10-04.md) supersede prior blanket conversion assumptions for subsequent implementation. Q currently does not burn mana, E does not block/reflect, W lacks native root/overshoot/dodge behavior, R carries custom Boss damage/no-stun rules and Persecutor is absent. Q/R classified PVE-CONVERT with native mechanics/minimal numeric extension; W/E/D TUNE. Native Scepter belongs Q/W and Shard E; do not grant unassigned legacy fragment/ally abilities or deprecated facets. All production remains unchanged at this discovery boundary. Native engine/VFX/SFX/ranks/lifecycle/upgrades remain PENDING OWNER TEST. Next Q exact linked provider before W.
+
+2026-10-04 Q source migration: exact native antimage_mana_break provider rank0/untrained thenrank1, paidQ10rank raw tuning plus minimal real-hero physical attack bonus40..150+AGI.4..9. Explicit native endpoint interpolation25..40/1.8..4.5%, Scepter+1.5 metadata bridge, default65% damage/illusion25%/empowered20%/6s denial remain native. Copied radial cleave, mana-hit visuals and ApplyDamage removed. Shared pre-XP passive restore is idempotent;17clientclasses/paths and server rank-hook guards covered. Read-only automatic Health reports native rank/intrinsic/queries. 116 affected checks/319mocks/full checks pass with0failures. Actual native/client Scepter readpath, combined proc damage/cache/empowerment/illusions/Break/coldVFX/SFX/points/rank10/lifecycle remain PENDING OWNER TEST; W empowerment still SOURCE_PENDING. Next W Blink.

@@ -25,7 +25,7 @@ export function generateLocalization(check = false) {
 
   const resolveSpecials = (key, rawValue, abilityIdOverride = null) => {
     if (!rawValue || typeof rawValue !== 'string') return rawValue ?? '';
-    const id = abilityIdOverride ?? key.match(/^DOTA_Tooltip_[Aa]bility_(.+)_(?:Description|SummaryDescription|DesignDescription)$/)?.[1];
+    const id = abilityIdOverride ?? key.match(/^DOTA_Tooltip_[Aa]bility_(.+)_(?:Description|SummaryDescription|DesignDescription|scepter_description|shard_description)$/)?.[1];
     const definition = abilities[id] ?? items[id];
     if (!definition) return rawValue;
     const specials = getAbilityValues(definition);

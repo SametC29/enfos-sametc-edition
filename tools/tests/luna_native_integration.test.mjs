@@ -208,7 +208,7 @@ assert(not package.loaded['abilities/heroes/luna/integration'],'Probe must not l
 `));
 
 
-test('Shared client bootstrap registers Luna, SF, BB, Slark, Tidehunter and Ursa classes once without loading server services',()=>lua(`
+test('Shared client bootstrap registers reviewed hero classes once without loading server services',()=>lua(`
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end
 local client=false;function IsClient()return client end
@@ -217,7 +217,7 @@ LUA_MODIFIER_MOTION_NONE=0
 local links={};local count=0
 function LinkLuaModifier(name,path,motion)
  assert(client and motion==0)
- assert(path=='abilities/heroes/luna/modifiers' or path=='abilities/heroes/nevermore/d' or path=='abilities/heroes/nevermore/modifiers' or path=='abilities/heroes/bristleback/modifiers' or path=='abilities/heroes/slark/modifiers' or path=='abilities/heroes/slark/d' or path=='abilities/heroes/tidehunter/modifiers' or path=='abilities/heroes/tidehunter/d' or path=='abilities/heroes/ursa/modifiers')
+ assert(path=='abilities/heroes/luna/modifiers' or path=='abilities/heroes/nevermore/d' or path=='abilities/heroes/nevermore/modifiers' or path=='abilities/heroes/bristleback/modifiers' or path=='abilities/heroes/slark/modifiers' or path=='abilities/heroes/slark/d' or path=='abilities/heroes/tidehunter/modifiers' or path=='abilities/heroes/tidehunter/d' or path=='abilities/heroes/ursa/modifiers' or path=='abilities/heroes/antimage/modifiers')
  assert(type(_G[name])=='table' and not links[name])
  links[name]=true;count=count+1
 end
@@ -225,17 +225,17 @@ local entry='game/scripts/vscripts/addon_game_mode_client.lua'
 assert(loadfile(entry))();assert(count==0)
 client=true
 assert(loadfile(entry))();assert(loadfile(entry))()
-assert(count==16 and links.modifier_enfos_luna_native_scaling)
+assert(count==17 and links.modifier_enfos_luna_native_scaling)
 assert(links.modifier_enfos_luna_blessing_extension and links.modifier_enfos_luna_blessing_extension_buff)
 assert(links.modifier_enfos_sf_feast_of_souls_passive)
-assert(links.modifier_enfos_sf_native_scaling)
+assert(links.modifier_enfos_sf_native_scaling and links.modifier_enfos_am_native_scaling)
 assert(links.modifier_enfos_bb_native_scaling)
 assert(links.modifier_enfos_tide_wave_catch and links.modifier_enfos_ursa_native_scaling and links.modifier_enfos_ursa_minor_passive)
 assert(links.modifier_enfos_slark_native_scaling and links.modifier_enfos_tide_native_scaling and links.modifier_enfos_tide_shell_extension)
 assert(links.modifier_enfos_slark_essence_shift_passive and links.modifier_enfos_slark_essence_shift_buff)
 assert(links.modifier_enfos_slark_fish_bait_passive and links.modifier_enfos_slark_fish_bait_debuff)
 for _,name in ipairs({'abilities/heroes/luna/integration','abilities/heroes/luna/scaling',
- 'abilities/heroes/luna/e','abilities/heroes/bristleback/integration','abilities/heroes/slark/integration','abilities/heroes/tidehunter/integration','abilities/heroes/ursa/integration','heroes/innates','heroes/aghanim_manager','enfos_sametc','abilities/pve_kits'}) do
+ 'abilities/heroes/luna/e','abilities/heroes/bristleback/integration','abilities/heroes/slark/integration','abilities/heroes/tidehunter/integration','abilities/heroes/ursa/integration','abilities/heroes/antimage/integration','heroes/innates','heroes/aghanim_manager','enfos_sametc','abilities/pve_kits'}) do
  assert(package.loaded[name]==nil,'Client imported server service '..name)
 end
 assert(GameRules==nil and PlayerResource==nil,'Client registration requires no server context')

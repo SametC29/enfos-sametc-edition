@@ -390,5 +390,31 @@
       "status": "FILE_VERIFIED",
       "sha256": "7470fd0b9fe764702182285b4e6618487bfcf03f990e6d4962f17f81f2f4a73d"
     }
-  ]
+  ],
+  "qResearch": {
+    "date": "2026-10-04",
+    "verifiedBuild": "6943/rev11069754",
+    "provider": "Exact antimage_mana_break rank0 until trained/rank1 after, hidden, no ID shadow",
+    "rawKeys": [
+      "mana_per_hit",
+      "mana_per_hit_pct"
+    ],
+    "rankTuning": "Ten-rank explicit installed endpoint interpolation25..40 and1.8..4.5%",
+    "scepter": "One explicit HasScepter1.5 increment from plain paid metadata; empowered20%/6s fields remain native",
+    "extension": "Physical proc40..150+liveAGI.4..9 only real-hero enemy hero/basic/creature; no manual burn/damage/cleave/VFX",
+    "api": {
+      "GetLevelSpecialValueNoOverride": "BOTH",
+      "HasScepter": "BOTH",
+      "HeroGetAgility": "BOTH",
+      "GetAssociatedPrimaryAbilities": "SERVER",
+      "PROCATTACK_BONUS_DAMAGE_PHYSICAL": "GetModifierProcAttack_BonusDamage_Physical"
+    },
+    "enginePending": [
+      "Combined native+extension damage/crit/sustain",
+      "Native mana/immunity/Break/illusions and copied abilities",
+      "Paid rank cache refresh and empowerment retention",
+      "Native/client Scepter readpath and no double bonus",
+      "Points/rank10/respawn/reconnect and cold VFX/SFX"
+    ]
+  }
 }

@@ -5273,58 +5273,6 @@ test('Ursa Enfos passive honors configured values and Break', function()
     assert(passive:GetModifierMoveSpeedBonus_Constant() == 0)
 end)
 
-test('Anti-Mage Mana Break deals physical damage scaling with Agility and cleaves', function()
-    applied_damages = {}
-    local am = create_mock_unit('npc_dota_hero_antimage', 2, Vector(0, 0, 0))
-    am.agility = 100
-    local primary = create_mock_unit('creep_am', 3, Vector(100, 0, 0))
-    local secondary = create_mock_unit('creep_am_2', 3, Vector(150, 0, 0))
-    mock_world_units = { am, primary, secondary }
-
-    local ab = enfos_am_mana_break()
-    ab.GetSpecialValueFor = function(_, k)
-        if k == 'bonus_damage' then return 80 end
-        if k == 'agility_factor' then return 0.6 end
-        if k == 'cleave_radius' then return 250 end
-        if k == 'cleave_pct' then return 35 end
-        return 0
-    end
-    local mod = modifier_enfos_am_mana_break_passive()
-    mod.GetParent = function() return am end
-    mod.GetAbility = function() return ab end
-
-    mod:OnAttackLanded({ attacker = am, target = primary })
-    -- primary dmg = 80 + (100 * 0.6 = 60) = 140
-    -- secondary cleave = 140 * 0.35 = 49
-    assert(#applied_damages == 2)
-    assert(applied_damages[1].victim == primary and applied_damages[1].damage == 140)
-    assert(applied_damages[2].victim == secondary and applied_damages[2].damage == 49)
-    assert(last_find_units_flags == DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-        'physical Mana Break cleave should also search spell-immune enemies')
-end)
-
-test('Anti-Mage Mana Break is disabled by Break, rejects illusions and ignores allies', function()
-    applied_damages = {}
-    local am = create_mock_unit('npc_dota_hero_antimage', 2, Vector(0, 0, 0))
-    local enemy = create_mock_unit('enemy_am', 3, Vector(100, 0, 0))
-    local ally = create_mock_unit('ally_am', 2, Vector(120, 0, 0))
-    mock_world_units = { am, enemy, ally }
-    local ab = enfos_am_mana_break()
-    ab.GetSpecialValueFor = function(_, k)
-        return ({ bonus_damage = 100, agility_factor = 0.5, cleave_radius = 250, cleave_pct = 30 })[k] or 0
-    end
-    local mod = modifier_enfos_am_mana_break_passive()
-    mod.GetParent = function() return am end
-    mod.GetAbility = function() return ab end
-    mod:OnAttackLanded({ attacker = am, target = ally })
-    am.PassivesDisabled = function() return true end
-    mod:OnAttackLanded({ attacker = am, target = enemy })
-    am.PassivesDisabled = function() return false end
-    am.IsIllusion = function() return true end
-    mod:OnAttackLanded({ attacker = am, target = enemy })
-    assert(#applied_damages == 0)
-end)
-
 test('Anti-Mage Blink uses ranked range and preserves native start/end VFX flow', function()
     local am = create_mock_unit('npc_dota_hero_antimage', 2, Vector(0, 0, 0))
     local destination = Vector(800, 200, 0)

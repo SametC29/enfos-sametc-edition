@@ -1,7 +1,7 @@
 # Anti-Mage native-first discovery
 
-Status: DISCOVERED / SOURCE MIGRATION NOT STARTED / OWNER_RUNTIME PENDING.
-This follows Ursa in the owner-directed rollout; no gameplay source changed.
+Status: Q SOURCE IMPLEMENTED / W/E/R/D SOURCE_PENDING / OWNER_RUNTIME PENDING.
+This follows Ursa in the owner-directed rollout.
 
 ## Evidence
 
@@ -88,7 +88,7 @@ Both REFERENCE_ONLY; zero code/asset imports. Neither proves current C++.
 
 ## Validation / progression
 
-Next source unit: Q native linked provider and minimal PvE proc, then W,
+Source sequence: Q native linked provider and minimal PvE proc, then W,
 E, R (prove extension/block path first), D. Finish this hero before Storm
 Spirit. Shared health already selects every roster hero automatically; add
 read-only native-provider queries within it as needed, no manual console
@@ -106,3 +106,49 @@ mana/native+PvE total/no Boss cap; Persecutor level50/zero maxmana/illusions;
 all10paidranks/HUD/points/upgrades/respawn/reconnect/repeated-use/coldVFX/SFX
 and VConsole. SOURCE_PENDING and OWNER_RUNTIME_PENDING are separate gates.
 No live test requested now; owner defers gameplay tests. No push/deploy.
+
+## Q source construction decision before mutation
+
+Paid controller keeps ten ranks and installs one tuning/attack-bonus modifier;
+exact hidden antimage_mana_break provider is rank0 until trained, then rank1.
+Existing shared free-D restore hook creates/tunes provider before starting XP.
+No second native alias/intrinsic, native-ID shadow or copied mana reduction.
+Only mana_per_hit and mana_per_hit_pct are overridden by raw paid arrays:
+25/26.7/28.3/30/31.7/33.3/35/36.7/38.3/40 mana and1.8/2.1/2.4/2.7/3/3.3/
+3.6/3.9/4.2/4.5% are explicit ten-rank interpolations of installed endpoints.
+Native damage_per_burn65%, illusion25%, Scepter empowered20% and6s denial
+remain engine-owned/unoverridden. The mana-percent bridge adds verified
+Scepter1.5 only via HasScepter (BOTH) and a plain paid metadata field; it does
+not assume GetLevelSpecialValueNoOverride includes special_bonus_scepter.
+Native own modifier still constructs empowered attacks/Break/feedback.
+Minimal real-hero enemy hero/basic/creature proc bonus uses the physical
+attack property, raw40..150+liveAGI.4..9, no ApplyDamage, scans, particles
+or native burn copy. Native and extra proc composition is engine pending.
+Client getter returns0 before loading server diagnostics. Existing modifier
+link/bootstrap pattern gains one class; no server services on client.
+Rank-up refresh only the native caster intrinsic, not target effects or
+Blink empowerment; actual cache/state behavior remains owner pending.
+GetAgility is on CDOTA_BaseNPC_Hero (BOTH), not the base NPC class.
+Restore/lifecycle preserves points/handles/rank and adds no timers.
+
+## Q source validation
+
+116 affected checks,319 hero mock regressions and full source checks pass
+with0failures. Seven focused Q checks cover source ownership/tuning,
+idempotent provider/rank-up restore without points or target writes, both
+client/server raw getter/Scepter math, physical PvE proc/all10ranks/liveAGI/
+Break/illusions/invalid targets/killing hits, client rank-hook guards, all
+fourlocales/12mirrors and read-only native Health. Bootstrap registers17
+classes once; source only loads Antimage classes on client, not restoration.
+Existing passive/free-rank hook used, shared point/lifecycle managers unchanged.
+Header/key matching now renders Scepter/Shard description placeholders from
+canonical KV; generated mirrors pass. Native burn/65% damage/illusion25%/
+empowered20%/6s deny/VFX/SFX remain native with no extra ApplyDamage or burn.
+Old radial cleave and particle emission/attack-landed copy removed.
+OWNER_RUNTIME PENDING: actual native burn/zero-mana and immunity eligibility,
+combined native+extra proc/crit/sustain, paid rank cache refresh preserving
+empowerment, Scepter bridge readpath (including no double bonus), illusion
+copying and native25% component only, Break/points/HUD/respawn/reconnect/
+coldVFX/SFX. Health queries are not actual damage certification and initial
+rank0/query0 are expected until Q training. W empowerment not yet migrated.
+Next source unit: W native Blink and Scepter link, then E/R/D.

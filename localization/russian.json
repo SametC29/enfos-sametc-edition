@@ -1449,6 +1449,8 @@
     "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff": "Наживка",
     "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff_Description": "Броня снижена срабатываниями атак Сларка.",
     "DOTA_Tooltip_Ability_enfos_tide_gush_SummaryDescription": "Поток воды наносит врагу {{gush_damage}} + сила × {{strength_factor}} магического урона, снижает броню на {{negative_armor}} и скорость передвижения на {{movement_speed|abs}}% на 4.5 сек.",
-    "DOTA_Tooltip_Ability_enfos_ursa_earthshock_shard_description": "Shard накладывает 3 заряда Fury Swipes на поражённых врагов."
+    "DOTA_Tooltip_Ability_enfos_ursa_earthshock_shard_description": "Shard накладывает 3 заряда Fury Swipes на поражённых врагов.",
+    "DOTA_Tooltip_Ability_enfos_am_mana_break_Description": "Атаки сжигают {{mana_per_hit}} маны плюс {{mana_per_hit_pct}}% максимальной маны цели и наносят физический урон в размере 65% сожжённой маны. Атаки настоящего героя добавляют {{bonus_damage}} + ловкость × {{agility_factor}} физического урона, в том числе врагам без маны. Истощение отключает оба эффекта; иллюзии сохраняют 25% сжигания маны и не получают дополнительный PvE-урон.",
+    "DOTA_Tooltip_Ability_enfos_am_mana_break_scepter_description": "Увеличивает долю максимальной маны, сжигаемой за удар, на {{native_scepter_mana_pct_bonus}} процентного пункта."
   }
 }
