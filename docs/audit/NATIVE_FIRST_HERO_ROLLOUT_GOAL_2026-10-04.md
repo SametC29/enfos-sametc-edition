@@ -76,6 +76,14 @@ replacement of an unfinished goal. Do not mark that goal falsely complete to
 replace it. This latest owner instruction and this ledger supersede its old
 stop-after-SF gate for actual work. Engine acceptance remains unachieved.
 
+2026-10-04 Dragon Knight E source progression: exact native Dragon Blood
+innate plus learnable ten-rank E raw armor/regen/STR bridge, replacing copied
+stat ownership. Native50% form multiplier remains native, dependent R linkage
+still source/runtime pending. Server paid rank-up refresh only; idempotent
+restore, existing21-class bootstrap and read-only Health, four locales,
+106 affected checks/311 hero mocks/full0 failures. E/Q source implemented;
+D Wyrm's Wrath is next prerequisite, then W/R. No whole-kit or engine acceptance.
+
 2026-10-04 source progression: Bristleback native D and linked Q/W/E/R source
 units are implemented, with paid ten-rank controllers, one native-value bridge,
 native Scepter E, explicit Tank Shard extension, four-language tooltips and

@@ -1,4 +1,5 @@
 require('abilities/heroes/antimage/d')
+require('abilities/heroes/dragon_knight/e')
 require('abilities/heroes/storm_spirit/e')
 require('abilities/heroes/storm_spirit/d')
 require('abilities/heroes/antimage/q')
@@ -204,7 +205,6 @@ local modifier_list = {
     'modifier_enfos_wd_voodoo_switcheroo_buff',
     'modifier_enfos_wd_gris_gris',
     'modifier_enfos_dk_dragon_tail_stun',
-    'modifier_enfos_dk_dragon_blood_passive',
     'modifier_enfos_dk_elder_dragon_form_buff',
     'modifier_enfos_dk_dragon_frost_slow',
     'modifier_enfos_dk_wyrm_vigor_passive',
@@ -4559,9 +4559,6 @@ modifier_enfos_dk_dragon_tail_stun=class({})
 function modifier_enfos_dk_dragon_tail_stun:IsDebuff() return true end
 function modifier_enfos_dk_dragon_tail_stun:CheckState() return { [MODIFIER_STATE_STUNNED] = true } end
 
-enfos_dk_dragon_blood=class({})
-function enfos_dk_dragon_blood:GetIntrinsicModifierName() return 'modifier_enfos_dk_dragon_blood_passive' end
-
 local function dk_passive_sources(modifier)
     local c = modifier:GetParent()
     if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled())
@@ -4569,23 +4566,6 @@ local function dk_passive_sources(modifier)
     local a = modifier:GetAbility()
     if not a or (a.IsNull and a:IsNull()) or (a.GetLevel and a:GetLevel() <= 0) then return nil end
     return c, a
-end
-
-modifier_enfos_dk_dragon_blood_passive=class({})
-function modifier_enfos_dk_dragon_blood_passive:DeclareFunctions()
-    return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS, MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT }
-end
-function modifier_enfos_dk_dragon_blood_passive:GetModifierPhysicalArmorBonus()
-    local c, a = dk_passive_sources(self)
-    if not c then return 0 end
-    return value(a, 'bonus_armor')
-end
-function modifier_enfos_dk_dragon_blood_passive:GetModifierConstantHealthRegen()
-    local c, a = dk_passive_sources(self)
-    if not c then return 0 end
-    local str = get_str(c)
-    local base = value(a, 'bonus_hp_regen')
-    return base + (str * 0.05)
 end
 
 enfos_dk_elder_dragon_form=class({})

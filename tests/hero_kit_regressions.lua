@@ -4612,41 +4612,32 @@ test('Dragon Knight W guards follow-ups after impact removes handles', function(
     ApplyDamage=old_damage
 end)
 
-test('Dragon Knight passives respect Break and read ten-rank ability values', function()
+test('Dragon Knight Wyrm Vigor respects Break and does not grant illusion stats', function()
     local dk = create_mock_unit('npc_dota_hero_dragon_knight', 2, Vector(0, 0, 0))
-    local ability = { GetSpecialValueFor = function(_, key) return key == 'bonus_armor' and 20 or key == 'bonus_hp_regen' and 30 or 20 end }
-    local blood = modifier_enfos_dk_dragon_blood_passive()
-    blood.GetParent = function() return dk end
-    blood.GetAbility = function() return ability end
-    assert(blood:GetModifierPhysicalArmorBonus() == 20)
-    assert(blood:GetModifierConstantHealthRegen() == 32.5)
+    local ability = { GetSpecialValueFor = function() return 20 end }
     dk.PassivesDisabled = function() return true end
-    assert(blood:GetModifierPhysicalArmorBonus() == 0 and blood:GetModifierConstantHealthRegen() == 0)
     local vigor = modifier_enfos_dk_wyrm_vigor_passive()
     vigor.GetParent = function() return dk end
     vigor.GetAbility = function() return ability end
     assert(vigor:GetModifierMagicalResistanceBonus() == 0 and vigor:GetModifierBonusStats_Strength() == 0)
     dk.PassivesDisabled = function() return false end
     dk.IsIllusion = function() return true end
-    assert(blood:GetModifierPhysicalArmorBonus() == 0 and blood:GetModifierConstantHealthRegen() == 0
-        and vigor:GetModifierMagicalResistanceBonus() == 0 and vigor:GetModifierBonusStats_Strength() == 0,
-        'Dragon Blood and Wyrm Vigor passive stats must not duplicate on illusions')
+    assert(vigor:GetModifierMagicalResistanceBonus() == 0 and vigor:GetModifierBonusStats_Strength() == 0,
+        'Wyrm Vigor passive stats must not duplicate on illusions')
 end)
 
-test('Dragon Knight passives grant no stats from inactive or removed sources', function()
+test('Dragon Knight Wyrm Vigor grants no stats from inactive or removed sources', function()
     local dk=create_mock_unit('npc_dota_hero_dragon_knight',2,Vector(0,0,0))
     local a={GetLevel=function() return 0 end,
-        GetSpecialValueFor=function(_,key) return ({bonus_armor=20,bonus_hp_regen=30,magic_resist=25,bonus_strength=40})[key] or 0 end}
-    local blood=modifier_enfos_dk_dragon_blood_passive()
+        GetSpecialValueFor=function(_,key) return ({magic_resist=25,bonus_strength=40})[key] or 0 end}
     local vigor=modifier_enfos_dk_wyrm_vigor_passive()
     local parent,ability=dk,a
-    for _,mod in ipairs({blood,vigor}) do
+    for _,mod in ipairs({vigor}) do
         mod.GetParent=function() return parent end
         mod.GetAbility=function() return ability end
     end
     local function values()
-        return {blood:GetModifierPhysicalArmorBonus(),blood:GetModifierConstantHealthRegen(),
-            vigor:GetModifierMagicalResistanceBonus(),vigor:GetModifierBonusStats_Strength()}
+        return {vigor:GetModifierMagicalResistanceBonus(),vigor:GetModifierBonusStats_Strength()}
     end
     local function no_stats()
         for _,bonus in ipairs(values()) do assert(bonus==0,'Inactive Dragon Knight passives must not grant any residual stats') end
@@ -4654,7 +4645,7 @@ test('Dragon Knight passives grant no stats from inactive or removed sources', f
     no_stats()
     a.GetLevel=function() return 1 end
     local bonuses=values()
-    assert(bonuses[1]==20 and bonuses[2]==32.5 and bonuses[3]==25 and bonuses[4]==40)
+    assert(bonuses[1]==25 and bonuses[2]==40)
     a.IsNull=function() return true end;no_stats()
     a.IsNull=function() return false end
     ability=nil;no_stats()

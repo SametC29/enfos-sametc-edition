@@ -11,11 +11,11 @@ Hero: `npc_dota_hero_dragon_knight`; role: Tank. Progression target: hero level 
 | --- | --- | --- | --- | --- | --- |
 | 1 | `enfos_dk_breathe_fire` | 10 | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL \| DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | NOT_EXPLICIT | dragon_knight_breathe_fire |
 | 2 | `enfos_dk_dragon_tail` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | dragon_knight_dragon_tail |
-| 3 | `enfos_dk_dragon_blood` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | dragon_knight_dragon_blood |
+| 3 | `enfos_dk_dragon_blood` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/dragon_knight/e | dragon_knight_dragon_blood |
 | 4 | `enfos_dk_elder_dragon_form` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | dragon_knight_elder_dragon_form |
 | 5 | `enfos_dk_wyrm_vigor` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | dragon_knight_wyrms_wrath |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [abilities/heroes/dragon_knight/e](../../../game/scripts/vscripts/abilities/heroes/dragon_knight/e.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -234,46 +234,46 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 3: `enfos_dk_dragon_blood`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `dragon_knight_dragon_blood` (installed Ability5).
-Decision and PvE identity rationale: retain Dragon Knight's armor and regeneration identity as rank-scaled passive sustain; Break suppresses these passive values.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
+Decision and PvE identity rationale: NATIVE+MINIMAL EXT; paid ten-rank controller tunes exact native innate armor/regen, retaining STR.05. Native owns the sole stat intrinsic and50% form multiplier; copied stat modifier removed.
+Expected cast/travel/impact/ongoing/cleanup behavior: passive; raw overrides replace native base/hero-level stats, zero before training/during Break/on illusions. Live native cache/stat result remains PENDING.
+Normal creep / elite / boss, immunity / dispel / resistance rules: self passive, no target searches or Boss exceptions; native stat/Break behavior pending engine.
 Current versus target rank curve: Dragon Blood E ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
+Shard / Scepter / Blessing / Evolution / Ascended interactions: native form multiplier stays native. R native linkage remains a dependent source unit; current custom form is not certified to trigger it. Full upgrades PENDING.
 
 ### Resource and implementation evidence
 
-- Native ability data source + build + hash/revision: PENDING.
-- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
-- Sound events + declaring banks + emission target + loop termination: PENDING.
-- Model/animation/gesture/icon evidence: PENDING.
-- Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.
-- Precache owner and cold-start test: PENDING.
-- One-shot/persistent cleanup owner and repeated-use test: PENDING.
-- Localization keys and generated mirrors: PENDING.
+- Native ability data source + build + hash/revision: installed6943/revision11069754, unchanged SHA2563dcfc11f...3b2043 freshly re-read; [snapshot](../../audit/DRAGON_KNIGHT_NATIVE_SOURCE_2026-10-04.json) and [E decision/references](../../audit/DRAGON_KNIGHT_NATIVE_FIRST_REVIEW_2026-10-04.md).
+- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: no extension cast/particle; native passive and form own feedback, engine PENDING.
+- Sound events + declaring banks + emission target + loop termination: no extension sound; existing DragonKnight bank retained, native engine PENDING.
+- Model/animation/gesture/icon evidence: verified native Dragon Blood icon; E does not transform models or animate casts.
+- Modifier links, ownership, refresh, stacks, death/purge/Break rules: existing reviewed client/server scaling class/path, no extra class; live native intrinsic name queried. Server-only paid rank-up refresh; ordinary restore never refreshes. Break/illusion zero raw queries; actual native stats PENDING.
+- Precache owner and cold-start test: existing native hero/model/bank owns kit resources; no new asset, cold-load PENDING.
+- One-shot/persistent cleanup owner and repeated-use test: native intrinsic lifecycle; idempotent exact provider restore, no timers/points/stat copy. Engine death/reconnect PENDING.
+- Localization keys and generated mirrors: four authored descriptions/summaries and12 mirrors; retired custom passive/direct modifier aliases removed.
 
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Raw ten-rank replacements/STR/source guards pass both-context fixtures; actual armor/regen/hero-level math/cache pending owner. |
+| Targeting | N/A | Passive self statistics, no target or cast. |
 | Ranks | PENDING | E gates at levels 1–10 declared; in-game HUD/point behavior remains PENDING. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
-| Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
-| Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
-| Performance | PENDING | Not evaluated in this dossier setup. |
-| Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | PENDING | Not evaluated in this dossier setup. |
+| VFX | PENDING | No Lua duplicate, native passive/form feedback owner test pending. |
+| SFX | PENDING | Native passive/form, no extension emitter; owner test pending. |
+| Animation | N/A | Passive has no manual cast; R transformation is recorded separately. |
+| Modifiers | PENDING | Source idempotence/rank-up refresh/zero-source fixtures pass; native creation/cache/Break/illusion pending. |
+| Precache | PENDING | No new asset; native kit ownership retained, actual cold-load pending. |
+| Cleanup | PENDING | No extension thinker/particle; native death/recast/reconnect pending. |
+| Boss | N/A | Self stats have no enemy-type or Boss branch. |
+| Upgrades | PENDING | Native50% form multiplier untouched; dependent native R linkage and upgrades pending. |
+| Localization | PENDING | Four-language canonical/mirror contracts pass; actual native/paid HUD pending. |
+| Performance | PENDING | No scan/timer, bounded trace and paid-upgrade refresh; dense engine session pending. |
+| Reconnect | PENDING | One hidden exact innate/single scaling restore fixtures pass, no points writes; engine restore pending. |
+| VConsole | PENDING | No owner E session; automatic read-only provider/intrinsic/stat queries added. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record2026-10-04:106 affected source checks/311 hero mocks PASS. SOURCE_REVIEW implemented, OWNER_RUNTIME PENDING. Full restart later for KV/bootstrap. Native form multiplier needs R source unit; raw query fixtures do not prove native cache or actual stats. No imported reference code/assets.
 
 ## Slot 4: `enfos_dk_elder_dragon_form`
 

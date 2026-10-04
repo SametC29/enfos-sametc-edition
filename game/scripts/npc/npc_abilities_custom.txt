@@ -3751,6 +3751,7 @@
 	"enfos_dk_dragon_blood"
 	{
 		"IsBreakable" "1"
+		"Innate" "0"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"dragon_knight_dragon_blood"
@@ -3759,10 +3760,11 @@
 		"MaxLevel"					"10"
 		"AbilityValues"
 		{
-			"bonus_armor" "6 8 10 12 14 16 18 20 22 24"
-			"bonus_hp_regen" "10 13 17 20 23 27 30 33 37 40"
+			"armor" "6 8 10 12 14 16 18 20 22 24"
+			"health_regen" "10 13 17 20 23 27 30 33 37 40"
+			"strength_regen_factor" "0.05"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/dragon_knight/e"
 	}
 
 	"enfos_dk_elder_dragon_form"

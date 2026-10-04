@@ -147,3 +147,58 @@ One owned raw modifier supplies current paid-rank damage+STR1.2 on both contexts
 Four locale descriptions/summaries and twelve mirrors describe widening travel and native reduction key.115 affected checks/311 hero mocks PASS. Five focused contracts cover exact fields/tuning, ten live raw ranks and dynamic STR/both contexts/scoped guards, idempotent server restoration,21-class client registration/read-only Health, locales/precache. A fixture Lua declaration typo was corrected before passing. OWNER_RUNTIME PENDING: point/unit/directional/terrain/cast-range/travel geometry, actual damage/STR/cache/rank10, reduction duration/dispel/immune targets/block-reflect, death/recast/cleanup, native form/Wyrm AoE linkage after those source units, VFX/SFX/animation/cold-load and VConsole. Full restart is required later for KV/bootstrap. E/D/W/R source work remains; no DK completion.
 
 Q full source boundary:0 failed check(s). The first full run exposed only a progression fixture allowlist missing the new DK Q lookup; it now accepts that known integration read while retaining all40 free-rank/respawn/point assertions. Targeted feedback checks and the repaired full suite pass. No owner engine session, remote push, deployment or publication. Existing contributor hunks remain outside this atomic source unit.
+
+## E pre-mutation decision
+
+TUNE / NATIVE+MINIMAL EXT. Exact native `dragon_knight_dragon_blood` supplies
+the sole armor/regen intrinsic and native50% Elder Dragon Form multiplier.
+Paid stable E remains a learnable ten-rank controller, not Innate/NOT_LEARNABLE.
+Retain authored armor6..24, regen10..40+STR.05 via raw `armor`/`health_regen`
+override, including zero before E training or during Break/on illusions.
+Do not add a second stat modifier or native2+.5/hero-level bonus on top.
+The native form multiplier key stays untouched. Current custom R does not yet
+establish native form linkage: that remains a dependent R source/engine gate.
+
+Existing owned scaling modifier and pre-XP/restore hook provide one hidden
+rank1 exact native innate, activated only while paid E is learned. Ordinary
+restore never refreshes its intrinsic. Paid rank-up alone queries the live
+native intrinsic name and refreshes it on the server; no guessed modifier,
+timer, extra points, copied form detection or counter reset. Installed API
+`CDOTA_Buff:ForceRefresh` is BOTH, but this call is deliberately server-only.
+GetStrength() and PassivesDisabled() are both-context. Raw override replaces
+the query; actual C++ hero-level arithmetic/cache/live STR/HUD remain pending.
+Zero override, not activation alone, is the guard against free innate stats.
+
+Fresh VPK hash/build matches the installed snapshot above. WorldofDota2880603428
+`scripts/vscripts/heroes/npc_dota_hero_dragon_knight_custom/dragon_knight_dragon_blood_custom.lua`
+was read: caches stats in OnCreated/OnRefresh and checks custom form modifiers,
+with extra talent poison. REFERENCE_ONLY, version/license unknown, no import.
+Its cache is not proof of native C++ caching; its custom forms/procs are rejected.
+[ModDota exposed-variable guidance](https://moddota.com/abilities/ability-keyvalues)
+re-read; it does not certify native internal read paths. Retire only copied E
+class/link/stats; retain dk_passive_sources while D still uses it. Four locales,
+read-only Health, raw ten-rank/source/both-context and bounded rank-refresh
+regressions accompany the source unit; all owner runtime gates stay pending.
+
+E source implementation2026-10-04: paid controller isolated under
+abilities/heroes/dragon_knight/e, ten authored curves preserved under native
+stat keys; one existing both-context scaling class supplies raw overrides.
+Copied armor/regen properties and class/link/tooltip aliases retired. Exact
+native innate restored at rank1, hidden and training-activated; no default
+stats through intended zero raw query at E0. No native ID shadow, form checks,
+extra stat owner, scan, timer, points mutation or proc. Native multiplier50
+untouched; current custom R linkage is not certified. Only server paid upgrade
+refreshes live queried intrinsic; respawn/reconnect restore does not. Native
+innate auto-level interaction and cached stat/live STR changes remain pending.
+
+Read-only automatic Health now includes exact native rank/intrinsic presence,
+armor/regen/form multiplier queries. These are not actual character stats.
+Four-language descriptions/summaries and12mirrors regenerated; obsolete E
+copymocks replaced by native raw/restore fixtures, D guard mocks preserved.
+106 affected checks,311 hero mocks and full source suite pass with0 failures;
+full native/integration set136 checks. No engine session or owner E acceptance.
+Owner later restarts fully, compares E0/rank1/rank10 armor and regen, hero-level/
+STR changes, Break/illusion, native R form50% after R migration, death/respawn/
+reconnect/freeD+ordinarypoints and VConsole. Next source prerequisite: D Wyrm's
+Wrath, followed by W/R native linkage. No DK kit completion, remote push or
+publication; contributor work excluded from commit.

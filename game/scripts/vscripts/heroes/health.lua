@@ -42,6 +42,16 @@ function Health.Report(hero,id)
             end
         end
         if entry.id=='npc_dota_hero_dragon_knight' then
+            local blood=hero:FindAbilityByName('dragon_knight_dragon_blood')
+            print('[HERO_HEALTH] ability=dragon_knight_dragon_blood rank='..tostring(blood and not blood:IsNull() and blood:GetLevel() or 'missing'))
+            if blood and not blood:IsNull() then
+                local name=blood:GetIntrinsicModifierName()
+                local m=name and name~='' and hero:FindModifierByName(name)
+                print('[HERO_HEALTH] dragon_blood_intrinsic='..tostring(name)..' present='..tostring(m and not m:IsNull() or false))
+                print('[HERO_HEALTH] native_blood_armor_query='..tostring(blood:GetSpecialValueFor('armor'))..
+                    ' native_blood_regen_query='..tostring(blood:GetSpecialValueFor('health_regen'))..
+                    ' native_blood_form_multiplier_query='..tostring(blood:GetSpecialValueFor('regen_and_armor_multiplier_during_dragon_form')))
+            end
             local q=hero:FindAbilityByName('enfos_dk_breathe_fire')
             if q and not q:IsNull() then
                 print('[HERO_HEALTH] native_breathe_damage_query='..tostring(q:GetSpecialValueFor('damage'))..
