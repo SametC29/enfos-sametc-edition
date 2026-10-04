@@ -152,6 +152,24 @@ assert(s:GetModifierSpellAmplify_Percentage({inflictor=r})==40)
 assert(s:GetModifierPercentageCooldown({ability=r})==25)
 `));
 
+test('E cast range does not call a server-only native method from the client HUD',()=>lua(`
+assert(Integration.Restore(hero))
+local paid=abilities.enfos_bb_bristleback
+local native=abilities.bristleback_bristleback
+native.GetCastRange=function(_,location,target)assert(server);return 0 end
+assert(paid:GetCastRange(nil,nil)==0)
+server=false;native.GetCastRange=nil
+assert(paid:GetCastRange(nil,nil)==0)
+`));
+
+test('Hairball alias explicitly supplies installed target and projectile data instead of assuming BaseClass copies KV',()=>{
+ const source=JSON.parse(fs.readFileSync('docs/audit/BRISTLEBACK_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.bristleback_hairball;
+ const provider=all.enfos_bb_native_hairball;
+ for(const key of ['AbilityUnitTargetTeam','AbilityUnitTargetType','SpellImmunityType','SpellDispellableType',
+  'AbilityCastRange','AbilityCastPoint','AbilityCastAnimation','AbilityCooldown','AbilityManaCost'])assert.equal(provider[key],source[key],key);
+ assert.deepEqual(JSON.parse(JSON.stringify(provider.AbilityValues)),source.AbilityValues);
+});
+
 test('Hairball provider cannot be granted by Shard; E owns native Scepter while authored Tank Shard remains separate',()=>{
  const provider=all.enfos_bb_native_hairball;
  assert.equal(provider.BaseClass,'bristleback_hairball');assert.equal(provider.IsGrantedByShard,'0');assert.equal(provider.MaxLevel,'1');

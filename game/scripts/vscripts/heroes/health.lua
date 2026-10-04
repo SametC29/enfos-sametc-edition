@@ -41,6 +41,22 @@ function Health.Report(hero,id)
                 end
             end
         end
+        if entry.id=='npc_dota_hero_bristleback' then
+            for _,name in ipairs({'bristleback_viscous_nasal_goo','bristleback_quill_spray',
+                'bristleback_bristleback','enfos_bb_native_hairball'}) do
+                local a=hero:FindAbilityByName(name)
+                print('[HERO_HEALTH] ability='..name..' rank='..tostring(a and not a:IsNull() and a:GetLevel() or 'missing'))
+                if a and not a:IsNull() then
+                    if name=='bristleback_quill_spray' then
+                        print('[HERO_HEALTH] native_quill_damage_query='..tostring(a:GetSpecialValueFor('quill_base_damage')))
+                    elseif name=='enfos_bb_native_hairball' then
+                        print('[HERO_HEALTH] native_hairball_radius_query='..tostring(a:GetSpecialValueFor('radius')))
+                        print('[HERO_HEALTH] native_hairball_quills_query='..tostring(a:GetSpecialValueFor('quill_stacks')))
+                        print('[HERO_HEALTH] native_hairball_speed_query='..tostring(a:GetSpecialValueFor('projectile_speed')))
+                    end
+                end
+            end
+        end
     end
     return true
 end

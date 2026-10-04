@@ -48,6 +48,9 @@ function enfos_bb_bristleback:GetCooldown(level)
     return hero and not hero:IsNull() and hero:HasScepter() and self:GetSpecialValueFor('activation_cooldown') or 0
 end
 function enfos_bb_bristleback:GetCastRange(location,target)
+    -- GetCastRange on a native ability is server-only; HUD calls this on client.
+    -- Installed native E has no cast range (the Scepter cone starts at the hero).
+    if not IsServer() then return 0 end
     local hero=self:GetCaster()
     local native=hero and not hero:IsNull() and hero:FindAbilityByName('bristleback_bristleback')
     return native and not native:IsNull() and native:GetCastRange(location,target) or 0

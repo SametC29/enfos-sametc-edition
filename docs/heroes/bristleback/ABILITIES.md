@@ -58,6 +58,15 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-04 owner runtime reopening: owner confirms W Quill damage, reports
+ground-targeted Hairball with no damage, and has not tested Scepter. The
+[full log review](../../audit/BRISTLEBACK_SLARK_OWNER_LOG_2026-10-04.md) records
+ten repeated client E GetCastRange errors, missing Health snapshots, visibility
+order spam and resource warnings separately. E now guards its server-only
+native range call; Hairball's alias explicitly supplies installed targeting and
+projectile KV; Health retries once selection is ready. Hairball actual damage
+after these repairs remains PENDING OWNER RETEST, never SOURCE_PASS as ENGINE_PASS.
+
 2026-10-04 native-first reopening: the following 2026-09-30 records are historical
 custom-implementation evidence. Current per-slot classifications are TUNE, with
 native/minimal-extension choices and linked Q/W/E/R boundaries recorded in
