@@ -926,3 +926,7 @@ When unspecified, optimize for:
 8. veteran can learn wave timing and plan;
 9. systems scale cleanly to 100 heroes;
 10. major features are testable, observable and reversible.
+
+## Opening balance revision — 2026-10-04
+
+Normal matches still start at level 1 with zero paid points. The first five level transitions cost 150 / 300 / 450 / 650 / 850 XP, enabling early skills from kills sooner. Normal creature health is increased by 30% through the match snapshot; Boss pressure and normal damage retain existing tuning. Values remain provisional until owner playtest. See audit/OPENING_BALANCE_2026-10-04.md.

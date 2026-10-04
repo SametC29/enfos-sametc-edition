@@ -5,6 +5,8 @@ local MatchLevels = {}
 MatchLevels.MAX_LEVEL = 50
 MatchLevels.START_LEVEL = 1
 MatchLevels.TEST_START_LEVEL = 6
+MatchLevels.VERSION = "match-xp-2026-10-04-opening-1"
+MatchLevels.EARLY_LEVEL_COSTS = {150, 300, 450, 650, 850}
 MatchLevels.XP_FIRST_LEVEL_COST = 900
 MatchLevels.XP_COST_STEP = 45
 
@@ -13,8 +15,9 @@ function MatchLevels:BuildXPThresholds()
 	local thresholds = { 0 }
 	local cumulativeXP = 0
 	for currentLevel = 1, self.MAX_LEVEL - 1 do
-		cumulativeXP = cumulativeXP + self.XP_FIRST_LEVEL_COST
-			+ self.XP_COST_STEP * (currentLevel - 1)
+		local cost = self.EARLY_LEVEL_COSTS[currentLevel]
+			or (self.XP_FIRST_LEVEL_COST + self.XP_COST_STEP * (currentLevel - 1))
+		cumulativeXP = cumulativeXP + cost
 		thresholds[currentLevel + 1] = cumulativeXP
 	end
 	return thresholds

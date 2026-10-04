@@ -4,11 +4,13 @@ local MatchLevels = require("heroes/match_levels")
 local xp = MatchLevels:BuildXPThresholds()
 assert(#xp == 50, "custom XP table must contain one cumulative threshold per hero level")
 assert(xp[1] == 0, "level 1 threshold starts at zero")
+assert(xp[2]==150 and xp[3]==450 and xp[4]==900 and xp[5]==1550, "opening skills unlock progressively")
+assert(xp[7]-xp[6]==1125, "later per-level cost resumes the existing curve")
 assert(MatchLevels.START_LEVEL == 1 and MatchLevels.TEST_START_LEVEL == 6, "normal and test starts stay separate")
 local mapName="enfos"
 function GetMapName() return mapName end
-assert(xp[6] == 4950, "level 6 start requires the first five level thresholds")
-assert(xp[50] == 97020, "level 50 threshold matches the 49 transition costs")
+assert(xp[6] == 2400, "level 6 start requires the first five level thresholds")
+assert(xp[50] == 94470, "level 50 threshold matches the 49 transition costs")
 for level = 2, #xp do
 	assert(xp[level] > xp[level - 1], "XP thresholds must strictly increase")
 end
@@ -16,7 +18,7 @@ end
 local callOrder = {}
 local gameMode = {
 	SetCustomXPRequiredToReachNextLevel = function(_, thresholds)
-		assert(thresholds[50] == 97020)
+		assert(thresholds[50] == 94470)
 		callOrder[#callOrder + 1] = "xp"
 	end,
 	SetCustomHeroMaxLevel = function(_, level)

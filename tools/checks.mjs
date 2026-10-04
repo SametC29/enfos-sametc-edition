@@ -380,6 +380,10 @@ check('audit behavior regressions', () => {
   console.log(result.stdout);
   if (result.status !== 0 || result.stderr || !result.stdout.includes('audit regression tests passed')) throw new Error(result.stderr || 'Audit regressions did not finish');
 });
+check('opening balance regressions',()=>{
+ const r=spawnSync(process.execPath,['--test','tools/tests/opening_balance.test.mjs'],{stdio:'inherit'});
+ if(r.status!==0) throw new Error('Opening balance regressions failed');
+});
 check('scoreboard stats regressions',()=>{
  const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','tests/scoreboard_regressions.lua'],{encoding:'utf8'});
  if(r.status!==0||r.stderr||!r.stdout.includes('Scoreboard regression tests passed'))throw Error(r.stderr||r.stdout);

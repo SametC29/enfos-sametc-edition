@@ -580,3 +580,7 @@ remain verification gates. Preserve paid D stats separately from rank1 native
 innate. Source implementation and all engine acceptance remain pending.
 
 2026-10-04 Monkey King native-first discovery: [pre-mutation matrix](audit/MONKEY_KING_NATIVE_FIRST_REVIEW_2026-10-04.md). Restore Q attack-based strike, W native Tree Dance/channelled Spring rather than teleport, R native soldiers rather than radial damage; retain separate authored D stats plus native active Mischief innate. E Jingu and R soldiers are explicitly HERO-only in installed native localization: creep compatibility is an unresolved technical gate. Do not assume BASIC KV changes C++ filters or claim PvE restoration from native presence. Prefer minimal native acquisition/target extension; scoped fallback needs evidence, not a wholesale rewrite. All paid five-slot/gate/point contracts remain; auxiliary native swap/HUD/caps/costs need inspection. Discovery only, production unchanged and owner runtime pending.
+
+## Opening balance revision — 2026-10-04
+
+Owner feedback supersedes the old first-five transition costs: 150 / 300 / 450 / 650 / 850 XP, then the existing later-level costs resume. Level 50 cumulative threshold becomes 94,470. Normal creep HP gains a snapshotted 30% increase; damage and Boss pressure stay unchanged. Provisional values require multiplayer runtime testing. See audit/OPENING_BALANCE_2026-10-04.md.
