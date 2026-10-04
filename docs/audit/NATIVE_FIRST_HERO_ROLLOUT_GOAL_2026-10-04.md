@@ -169,3 +169,11 @@ or intrinsic refresh. HP attack damage stays native; no duplicated Lua hit.
 mocks and fullchecks pass with0failures. Allfive Ursa slots sourcecomplete;
 all unverified runtime/visual/audio/rank/lifecycle cases remain ownerpending.
 Proceed with Anti-Mage source inspection without waiting for live tests.
+
+2026-10-04 Anti-Mage discovery: fresh installed6943/hash verified; allnine
+native definitions/resources/localization and five-slot classification
+matrix recorded. Q lacks mana burn, E lacks reflection, W lacks native
+root/overshoot/dodge, R has Boss exceptions, Persecutor absent. Mana-zero
+and caster-mana evidence supports minimal PvE components. Source not yet
+migrated; R extension/block sequencing explicitly unresolved. Next Q exact
+native provider before W Scepter, then E/R/D. Runtime remains ownerpending.

@@ -1,0 +1,394 @@
+{
+  "observedAt": "2026-10-04T03:23:12.983Z",
+  "source": "scripts/npc/heroes/npc_dota_hero_antimage.txt",
+  "sha256": "b70ba50c837db7379329dc1c515847dfa25a256b6252a115f39d2d7530579b11",
+  "build": "ClientVersion=6943\r\nServerVersion=6943\r\nProductName=dota2_workshop\r\nappID=570\r\nServerAppID=373310\r\nCustomGameServerAppID=471280\r\nToolsAppID=316570\r\nSourceRevision=11069754\r\nVersionDate=Oct 01 2026\r\nVersionTime=15:53:48\r\n",
+  "header": {
+    "Model": "models/heroes/antimage/antimage.vmdl",
+    "Ability1": "antimage_mana_break",
+    "Ability2": "antimage_blink",
+    "Ability3": "antimage_counterspell",
+    "Ability4": "generic_hidden",
+    "Ability5": "antimage_persectur",
+    "Ability6": "antimage_mana_void",
+    "AbilityDraftAbilities": {
+      "Ability1": "antimage_mana_break",
+      "Ability2": "antimage_blink",
+      "Ability3": "antimage_counterspell",
+      "Ability4": "antimage_mana_void"
+    },
+    "Ability10": "special_bonus_hp_regen_3",
+    "Ability11": "special_bonus_unique_antimage_manavoid_aoe",
+    "Ability12": "special_bonus_unique_antimage_5",
+    "Ability13": "special_bonus_unique_antimage_6",
+    "Ability14": "special_bonus_unique_antimage_3",
+    "Ability15": "special_bonus_unique_antimage_8",
+    "Ability16": "special_bonus_unique_antimage",
+    "Ability17": "special_bonus_unique_antimage_2",
+    "Facets": {
+      "antimage_magebanes_mirror": {
+        "Icon": "ricochet",
+        "Color": "Purple",
+        "GradientID": "1",
+        "Deprecated": "true"
+      },
+      "antimage_mana_thirst": {
+        "Icon": "mana",
+        "Color": "Blue",
+        "GradientID": "3",
+        "Deprecated": "true"
+      }
+    },
+    "GameSoundsFile": "soundevents/game_sounds_heroes/game_sounds_antimage.vsndevts"
+  },
+  "abilities": {
+    "antimage_mana_break": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+      "AbilityUnitDamageType": "DAMAGE_TYPE_PHYSICAL",
+      "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+      "AbilitySound": "Hero_Antimage.ManaBreak",
+      "IsBreakable": "1",
+      "HasScepterUpgrade": "1",
+      "AbilityValues": {
+        "percent_damage_per_burn": {
+          "value": "65",
+          "display_type": "kDebuffPercentage"
+        },
+        "mana_per_hit": {
+          "value": "25 30 35 40"
+        },
+        "mana_per_hit_pct": {
+          "value": "1.8 2.7 3.6 4.5",
+          "special_bonus_scepter": "+1.5",
+          "display_type": "kManaPercentage"
+        },
+        "illusion_percentage": "25",
+        "empowered_max_burn_pct": {
+          "value": "0.0",
+          "special_bonus_scepter": "+20.0"
+        },
+        "empowered_mana_break_debuff_duration": {
+          "value": "0",
+          "special_bonus_scepter": "+6.0"
+        }
+      },
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1"
+    },
+    "antimage_persectur": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE",
+      "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+      "MaxLevel": "1",
+      "Innate": "1",
+      "IsBreakable": "1",
+      "AbilityValues": {
+        "move_slow_min": {
+          "value": "12",
+          "hero_levelup": "+0.5",
+          "special_bonus_unique_antimage_5": "+9"
+        },
+        "move_slow_max": {
+          "value": "24",
+          "hero_levelup": "+1",
+          "special_bonus_unique_antimage_5": "+18"
+        },
+        "mana_threshold": "60",
+        "slow_duration": "0.75",
+        "zero_tooltip": "0"
+      }
+    },
+    "antimage_blink": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_OVERSHOOT",
+      "HasScepterUpgrade": "1",
+      "AbilityCastPoint": "0.4 0.4 0.4 0.4",
+      "AbilityManaCost": "60 55 50 45",
+      "AbilitySound": "Hero_Antimage.Blink_out",
+      "AbilityValues": {
+        "AbilityCooldown": {
+          "value": "10.5 9 7.5 6",
+          "special_bonus_unique_antimage": "-1"
+        },
+        "AbilityCastRange": {
+          "value": "875 950 1025 1100",
+          "special_bonus_unique_antimage_3": "+125"
+        },
+        "min_blink_range": "200",
+        "empowered_mana_break_duration": {
+          "value": "0",
+          "special_bonus_scepter": "+5.0"
+        },
+        "empowered_max_burn_pct_tooltip": {
+          "value": "0.0",
+          "special_bonus_scepter": "+20.0"
+        },
+        "empowered_mana_break_debuff_duration_tooltip": {
+          "value": "0",
+          "special_bonus_scepter": "+6.0"
+        }
+      },
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_2"
+    },
+    "antimage_spell_shield": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+      "AbilityValues": {
+        "spell_shield_resistance": "20 30 40 50",
+        "scepter_cooldown": "12"
+      },
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_3"
+    },
+    "antimage_counterspell": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE",
+      "SpellDispellableType": "SPELL_DISPELLABLE_YES",
+      "FightRecapLevel": "1",
+      "IsBreakable": "1",
+      "HasShardUpgrade": "1",
+      "AbilityCastRange": "0",
+      "AbilityCastPoint": "0 0 0 0",
+      "AbilityManaCost": "50",
+      "AbilityValues": {
+        "magic_resistance": {
+          "value": "14 21 28 35",
+          "display_type": "kBuffPercentage"
+        },
+        "duration": "1.3",
+        "duration_illusion": "4",
+        "outgoing_damage": "0",
+        "incoming_damage": "100",
+        "does_reflect": {
+          "value": "1"
+        },
+        "reflected_spell_amp": {
+          "value": "0",
+          "display_type": "kBuffPercentage"
+        },
+        "AbilityCooldown": {
+          "value": "15 11 7 3"
+        },
+        "heal_pct": {
+          "value": "0"
+        }
+      },
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_3",
+      "AbilityCastGestureSlot": "DEFAULT"
+    },
+    "antimage_counterspell_ally": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE",
+      "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_FRIENDLY",
+      "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO",
+      "SpellDispellableType": "SPELL_DISPELLABLE_YES",
+      "FightRecapLevel": "1",
+      "MaxLevel": "1",
+      "AbilityCastRange": "600",
+      "AbilityCastPoint": "0 0 0 0",
+      "AbilityManaCost": "50",
+      "AbilityValues": {
+        "AbilityCooldown": {
+          "value": "3"
+        },
+        "duration": "1.2",
+        "duration_illusion": "4",
+        "outgoing_damage": "-25",
+        "incoming_damage": "100",
+        "does_reflect": {
+          "value": "1"
+        },
+        "reflected_spell_amp": {
+          "value": "0"
+        }
+      },
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_3",
+      "AbilityCastGestureSlot": "DEFAULT"
+    },
+    "antimage_mana_void": {
+      "AbilityType": "ABILITY_TYPE_ULTIMATE",
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE",
+      "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+      "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+      "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+      "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+      "FightRecapLevel": "2",
+      "AbilitySound": "Hero_Antimage.ManaVoid",
+      "IsBreakable": "1",
+      "AbilityCastRange": "600",
+      "AbilityCastPoint": "0.3 0.3 0.3 0.3",
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_4",
+      "AbilityManaCost": "100 150 200",
+      "AbilityModifierSupportValue": "0.0",
+      "AbilityValues": {
+        "AbilityCooldown": {
+          "value": "100 85 70",
+          "special_bonus_unique_antimage_2": "-50"
+        },
+        "mana_void_damage_per_mana": {
+          "value": "1.0",
+          "special_bonus_unique_antimage_6": "+0.2"
+        },
+        "mana_void_ministun": {
+          "value": "0.3",
+          "special_bonus_unique_antimage_8": "+0.8"
+        },
+        "mana_void_aoe_radius": {
+          "value": "400 450 500",
+          "special_bonus_unique_antimage_manavoid_aoe": "+200",
+          "affected_by_aoe_increase": "1"
+        },
+        "thirst_enabled": {
+          "value": "0"
+        },
+        "thirst_range": {
+          "value": "0",
+          "affected_by_aoe_increase": "1"
+        },
+        "threshold_pct": {
+          "value": "0"
+        },
+        "min_bonus_pct": {
+          "value": "0"
+        },
+        "max_bonus_pct": {
+          "value": "0"
+        },
+        "bonus_attack_damage": {
+          "value": "0",
+          "CalculateSpellDamageTooltip": "0",
+          "DamageTypeTooltip": "DAMAGE_TYPE_PHYSICAL"
+        },
+        "linger_duration": {
+          "value": "0"
+        }
+      }
+    },
+    "antimage_mana_overload": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_SHOW_IN_GUIDES",
+      "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+      "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+      "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+      "FightRecapLevel": "1",
+      "MaxLevel": "1",
+      "IsGrantedByScepter": "1",
+      "HasScepterUpgrade": "1",
+      "AbilityCastRange": "0",
+      "AbilityCastPoint": "0.2",
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_2",
+      "AbilityCooldown": "0",
+      "AbilityCharges": "2",
+      "AbilityChargeRestoreTime": "20",
+      "AbilityManaCost": "50",
+      "AbilityValues": {
+        "duration": "7",
+        "outgoing_damage": "-25",
+        "incoming_damage": "100"
+      }
+    },
+    "antimage_mana_thirst": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE",
+      "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+      "MaxLevel": "1",
+      "Innate": "1",
+      "IsBreakable": "1",
+      "AbilityValues": {
+        "thirst_range": {
+          "value": "2000",
+          "affected_by_aoe_increase": "1"
+        },
+        "threshold_pct": {
+          "value": "15"
+        },
+        "min_bonus_pct": {
+          "value": "60"
+        },
+        "max_bonus_pct": {
+          "value": "15"
+        },
+        "bonus_attack_damage": {
+          "hero_levelup": "+3",
+          "CalculateSpellDamageTooltip": "0",
+          "DamageTypeTooltip": "DAMAGE_TYPE_PHYSICAL"
+        },
+        "linger_duration": {
+          "value": "4.0"
+        }
+      }
+    }
+  },
+  "localization": {
+    "source": "resource/localization/abilities_english.txt",
+    "sha256": "562494850a6a660994fcfe7ea39ce0b04ada85f30311a34635fa4a4e7e0cc5d0",
+    "tokens": {
+      "DOTA_Tooltip_ability_antimage_mana_break": "Mana Break",
+      "DOTA_Tooltip_ability_antimage_mana_break_Description": "Burns an opponent's mana on each attack and deals damage equal to a percentage of the mana burnt.",
+      "DOTA_Tooltip_ability_antimage_mana_break_Lore": "A modified technique of the Turstarkuri monks' peaceful ways is to turn magical energies on their owner.",
+      "DOTA_Tooltip_ability_antimage_mana_break_scepter_Description": "Increases Max Mana Burned per Hit.",
+      "DOTA_Tooltip_ability_antimage_mana_break_Note0": "Mana Break has %illusion_percentage%%% mana burn effect if caused by illusions.",
+      "DOTA_Tooltip_ability_antimage_mana_break_mana_per_hit": "MANA BURNED PER HIT:",
+      "DOTA_Tooltip_ability_antimage_mana_break_mana_per_hit_pct": "MAX MANA BURNED PER HIT:",
+      "DOTA_Tooltip_ability_antimage_mana_break_percent_damage_per_burn": "MANA BURNED AS DAMAGE:",
+      "DOTA_Tooltip_ability_antimage_persectur": "Persecutor",
+      "DOTA_Tooltip_ability_antimage_persectur_Description": "Attacks slow enemies based on how much mana they are missing. Min slow at %mana_threshold%%% mana, up to max slow at 0%% mana. No effect if enemy is above %mana_threshold%%% mana.",
+      "DOTA_Tooltip_ability_antimage_persectur_Note0": "Full effect if caused by illusions.",
+      "DOTA_Tooltip_ability_antimage_persectur_move_slow_min": "%MIN MOVEMENT SLOW:",
+      "DOTA_Tooltip_ability_antimage_persectur_move_slow_max": "%MAX MOVEMENT SLOW:",
+      "DOTA_Tooltip_ability_antimage_persectur_slow_duration": "SLOW DURATION:",
+      "DOTA_Tooltip_ability_antimage_blink": "Blink",
+      "DOTA_Tooltip_ability_antimage_blink_Description": "Short distance teleportation that allows Anti-Mage to move in and out of combat.",
+      "DOTA_Tooltip_ability_antimage_blink_Lore": "In his encounter with the Dead Gods, Anti-Mage learned the value of being elusive.",
+      "DOTA_Tooltip_ability_antimage_blink_Note0": "You can use Blink to dodge incoming projectiles.",
+      "DOTA_Tooltip_ability_antimage_blink_scepter_Description": "After casting Blink, your next Mana Break within %empowered_mana_break_duration%s burns an additional %empowered_max_burn_pct_tooltip%%% max mana and prevents the target from regenerating or gaining mana for a short duration. This debuff is undispellable.",
+      "DOTA_Tooltip_ability_antimage_blink_empowered_mana_break_debuff_duration_tooltip": "DEBUFF DURATION:",
+      "DOTA_Tooltip_ability_antimage_counterspell_ally": "Counterspell Ally",
+      "DOTA_Tooltip_ability_antimage_counterspell_ally_Facet_antimage_magebanes_mirror": "Counterspell burns a percentage of the countered spell's mana cost from its caster and does damage based on %damage_from_mana_drain_percent%%% of the burned mana cost, up to a maximum of %max_damage_from_mana_drain% damage per reflected spell.",
+      "DOTA_Tooltip_ability_antimage_counterspell_ally_Description": "Counterspell Ally may be activated to create an anti-magic shell around an allied hero that blocks and reflects any targeted spells. Any time a spell is blocked by Counterspell or Counterspell Ally, an illusion of Anti-Mage will be created next to the enemy.",
+      "DOTA_Tooltip_ability_antimage_counterspell_ally_Lore": "The only magic that Anti-Mage will even barely tolerate... is friendship.",
+      "DOTA_Tooltip_ability_antimage_counterspell_ally_duration": "DURATION:",
+      "DOTA_Tooltip_ability_antimage_counterspell": "Counterspell",
+      "DOTA_Tooltip_ability_antimage_counterspell_Facet_antimage_magebanes_mirror": "Counterspell burns a percentage of the countered spell's mana cost from its caster and does damage based on %damage_from_mana_drain_percent%%% of the burned mana cost, up to a maximum of %max_damage_from_mana_drain% damage per reflected spell.",
+      "DOTA_Tooltip_ability_antimage_counterspell_shard_Description": "Creates a blinked fragment of Anti-Mage next to the enemy caster upon reflecting their unit-targeted spell while active.",
+      "DOTA_Tooltip_ability_antimage_counterspell_Description": "Passively grants magic resistance. Counterspell may be activated to create an anti-magic shell around Anti-Mage that blocks and reflects any targeted spells.",
+      "DOTA_Tooltip_ability_antimage_counterspell_Lore": "With the proper focus, Anti-Mage turns innate resistance into calculated retaliation.",
+      "DOTA_Tooltip_ability_antimage_counterspell_Note0": "Break disables the passive magic resistance.",
+      "DOTA_Tooltip_ability_antimage_counterspell_magic_resistance": "MAGIC RESISTANCE:",
+      "DOTA_Tooltip_ability_antimage_counterspell_duration": "DURATION:",
+      "DOTA_Tooltip_ability_antimage_counterspell_reflected_spell_amp": "REFLECTED SPELL AMP:",
+      "DOTA_Tooltip_ability_antimage_mana_void": "Mana Void",
+      "DOTA_Tooltip_ability_antimage_mana_void_Description": "For each point of mana missing by the target unit, damage is dealt to it and surrounding enemies.  The main target is also mini-stunned.",
+      "DOTA_Tooltip_ability_antimage_mana_void_Facet_antimage_mana_thirst": "Passively grants attack damage when an enemy hero's mana falls below %min_bonus_pct%%%, with the bonuses increasing as their mana falls further.<br><br> If the enemies mana falls below %threshold_pct%%% Anti-Mage gains the maximum amount of damage, as well as vision and True Sight of that hero. Applies to enemy heroes within %thirst_range% range. Bonuses stack per hero.",
+      "DOTA_Tooltip_ability_antimage_mana_void_Lore": "After bringing enemies to their knees, Anti-Mage punishes them for their use of the arcane arts.",
+      "DOTA_Tooltip_ability_antimage_mana_void_Note0": "Damage is calculated based on the primary target's mana, but applied to all enemies within the area of effect.",
+      "DOTA_Tooltip_ability_antimage_mana_void_mana_void_damage_per_mana": "DAMAGE PER 1 MANA MISSING:",
+      "DOTA_Tooltip_ability_antimage_mana_void_mana_void_ministun": "STUN DURATION:",
+      "DOTA_Tooltip_ability_antimage_mana_void_mana_void_aoe_radius": "RADIUS:",
+      "DOTA_Tooltip_ability_antimage_mana_void_bonus_attack_damage": "MANA THIRST MAX ATTACK DAMAGE:"
+    }
+  },
+  "resources": [
+    {
+      "path": "particles/units/heroes/hero_antimage/antimage_blink_start.vpcf_c",
+      "status": "FILE_VERIFIED",
+      "sha256": "a1b59227a5fc9a022cc07adff7c001249890a976c03b9de90514e260fcf5ea9e"
+    },
+    {
+      "path": "particles/units/heroes/hero_antimage/antimage_blink_end.vpcf_c",
+      "status": "FILE_VERIFIED",
+      "sha256": "a0441312a72293b6c0ca3da6ca64e871e82bd07c21d20d93be99310cb925df76"
+    },
+    {
+      "path": "particles/units/heroes/hero_antimage/antimage_spellshield.vpcf_c",
+      "status": "FILE_VERIFIED",
+      "sha256": "7ac218bd6a7a0f6741d081289030fd0cb9956290e34821d02a4b5b4b67026cd3"
+    },
+    {
+      "path": "particles/units/heroes/hero_antimage/antimage_manavoid.vpcf_c",
+      "status": "FILE_VERIFIED",
+      "sha256": "de1e4d1ae5c0fdf732354237fb0c8ae123b21e0385db3fe9758fd99f68fa0112"
+    },
+    {
+      "path": "particles/units/heroes/hero_antimage/antimage_manabreak_enemy_debuff.vpcf_c",
+      "status": "FILE_VERIFIED",
+      "sha256": "ae565f2aff71eadc489ea0c512b4e69eb1507de793e9bae38b982965baa17b18"
+    },
+    {
+      "path": "soundevents/game_sounds_heroes/game_sounds_antimage.vsndevts_c",
+      "status": "FILE_VERIFIED",
+      "sha256": "7470fd0b9fe764702182285b4e6618487bfcf03f990e6d4962f17f81f2f4a73d"
+    }
+  ]
+}
