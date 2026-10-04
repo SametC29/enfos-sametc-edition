@@ -7,6 +7,7 @@
 // Ursa source: docs/audit/URSA_NATIVE_SOURCE_2026-10-04.json (build 6943).
 // Anti-Mage source: docs/audit/ANTIMAGE_NATIVE_SOURCE_2026-10-04.json (build 6943).
 // Storm source: docs/audit/STORM_SPIRIT_NATIVE_SOURCE_2026-10-04.json (build 6943).
+// Dragon Knight source: docs/audit/DRAGON_KNIGHT_NATIVE_SOURCE_2026-10-04.json (build 6943).
 export const nativeHeroAbilities = new Map([
   ['enfos_luna_moon_glaives', 'luna_moon_glaive'],
   ['enfos_luna_lunar_orbit', 'luna_lunar_orbit'],
@@ -32,6 +33,7 @@ export const nativeHeroAbilities = new Map([
   ['enfos_storm_electric_vortex', 'storm_spirit_electric_vortex'],
   ['enfos_storm_ball_lightning', 'storm_spirit_ball_lightning'],
   ['enfos_dk_breathe_fire', 'dragon_knight_breathe_fire'],
+  ['enfos_dk_dragon_tail', 'dragon_knight_dragon_tail'],
 ]);
 
 export function isVerifiedNativeAbility(id, definition) {

@@ -262,3 +262,60 @@ native form/upgrades/cold-load/presentation/VConsole. Full restart later.
 No native model/particle/sound rewriting, imported reference code, remote push,
 deployment or publication. Next W/R source units, especially exact native form
 linkage and Shard Fireball; Q/E/D source implemented, entire DK still incomplete.
+
+## W pre-mutation decision
+
+TUNE / NATIVE+MINIMAL EXT. Fresh6943/11069754 installed hash unchanged.
+Pure `dragon_knight_dragon_tail` BaseClass alias at stable paid W, no ScriptFile
+or Lua wrapper: native enemy hero/basic, magical/non-piercing, strong dispel,
+sound/animation2/zero cast point, range150, projectile1600, dragon_cast_range150,
+damage_pct0 and aoe50 with affected_by_aoe_increase1. Keep authored ten-rank
+damage150..600+STR1, duration2.5..4.3, mana70..130 and CD12..6. Native exposed
+damage key gets live paid-rank raw+STR bridge; native remains sole hit/stun/
+absorb/reflect/geometry/feedback owner. Remove physical immunity-piercing Lua
+damage, custom stun class/link and skill-only Boss duration cap; shared Boss
+systems stay unchanged. Active W is not suppressed by Break. No IsAlive or
+server-only getter in the numeric bridge, no new provider or cast callback.
+
+Native R supplies bonus_ability_cast_range350; do not copy an old450 field or
+manual form detection. Native exact R identity is a dependent next unit, so
+current custom form range/projectile linkage remains pending. Native W AoE/
+status resistance and rank10/raw C++ query/cache need owner engine tests.
+Existing verified W impact particle precache remains owned, no replacement
+assets/CP or new sound emitter. Health reads W inputs only, not actual hits.
+
+Pathfinder2208582400 scripts/npc/heroes/dragon_knight/npc_abilities_dragon_knight.txt
+full retrieved again: custom W has AoE behavior/radius150, old dragon range450,
+attack_damage and facet conversion, unlike installed aoe50/damage_pct0/current
+deprecated color facets. Referenced scripts/vscripts/heroes/dragon_knight/dragon_tail.lua
+absent in corpus (ref_get); no Lua execution claim. REFERENCE_ONLY, version/
+license unknown, no import. [ModDota native/exposed KV guidance](https://moddota.com/abilities/ability-keyvalues)
+re-read; not C++ proof. Retire two copymocks of removed W code, add meaningful
+exact native fields/raw ranks/ownership/Health/locales/resource contracts, preserve
+other hero and native Q/E/D cases. SOURCE_REVIEW only; full restart/live owner
+tests remain deferred under current rollout contract.
+
+W source implementation2026-10-04: pure alias/native registration supplies
+all installed target/magic/immunity/dispel/sound/animation/cast/travel/AoE keys,
+authored ten-rank costs/damage/duration and raw live STR1 via existing scaling
+class. No native ID shadow, ScriptFile/empty wrapper, new ability grant, copied
+hit/stun/absorb/particle/sound or skill Boss cap. Native talent metadata retained
+without granting talents. Native range150/dragon_cast_range150 and projectile1600
+are distinct from R's future350 range bonus; form linkage not claimed yet.
+Existing22-class bootstrap unchanged. Automatic Health queries W values only.
+Four authored descriptions/summaries and12mirrors now describe native rules.
+Verified impact particle stays precached; remaining custom R3particle inventory
+still checked. Two removed custom W mocks retired, native-field/live raw-rank/
+both-context/scoped ownership/Health/locales/resource contracts added.
+
+126 affected checks/309 hero mocks PASS; full source suite0 failures, native/
+integration set144 checks. Initial focused fixture used an unverified stun
+resource path; corrected to the actual verified impact record, no production
+asset added. KV parser's null-prototype metadata comparison also corrected by
+comparing entries; all native fields remain asserted. OWNER_RUNTIME PENDING:
+rank1/10/HUD/points, actual magical+STR damage/cache, native primary/nearby hits,
+Wyrm's Wrath AoE, resistance/immunity/strong-dispel/Boss/block/reflect, exact
+native R melee/form range/projectile/recipient loss, death/respawn/reconnect,
+cold-load/animation/VFX/SFX/VConsole. Full restart later. Q/W/E/D source
+implemented; next native R tiers and Shard Fireball unit, no DK engine closure,
+remote push, deployment or publication. Contributor changes preserved.

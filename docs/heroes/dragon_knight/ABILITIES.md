@@ -10,12 +10,12 @@ Hero: `npc_dota_hero_dragon_knight`; role: Tank. Progression target: hero level 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
 | 1 | `enfos_dk_breathe_fire` | 10 | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL \| DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | NOT_EXPLICIT | dragon_knight_breathe_fire |
-| 2 | `enfos_dk_dragon_tail` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | dragon_knight_dragon_tail |
+| 2 | `enfos_dk_dragon_tail` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | NOT_EXPLICIT | dragon_knight_dragon_tail |
 | 3 | `enfos_dk_dragon_blood` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/dragon_knight/e | dragon_knight_dragon_blood |
 | 4 | `enfos_dk_elder_dragon_form` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | dragon_knight_elder_dragon_form |
 | 5 | `enfos_dk_wyrm_vigor` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/dragon_knight/d | dragon_knight_wyrms_wrath |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [abilities/heroes/dragon_knight/e](../../../game/scripts/vscripts/abilities/heroes/dragon_knight/e.lua), [abilities/heroes/dragon_knight/d](../../../game/scripts/vscripts/abilities/heroes/dragon_knight/d.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/dragon_knight/e](../../../game/scripts/vscripts/abilities/heroes/dragon_knight/e.lua), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [abilities/heroes/dragon_knight/d](../../../game/scripts/vscripts/abilities/heroes/dragon_knight/d.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -182,15 +182,15 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 2: `enfos_dk_dragon_tail`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `dragon_knight_dragon_tail` (installed Ability2).
-Decision and PvE identity rationale: preserve the close-range stun and add rank-scaled damage; boss duration is capped by KV rather than a hidden constant.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
+Decision and PvE identity rationale: NATIVE+MINIMAL EXT; pure native alias owns targeting, hit/stun/projectile/absorb/reflect and feedback. Ten-rank authored damage+STR1/duration/cost/CD retained via exposed KV/raw numeric bridge. Copied physical damage and Boss-only cap removed.
+Expected cast/travel/impact/ongoing/cleanup behavior: native unit targeting, cast0/animation2/sound, native damage/stun on primary and nearby enemies; form projectile1600/linked range. Native R linkage is the next source unit; current custom R is not certified.
+Normal creep / elite / boss, immunity / dispel / resistance rules: magical/non-piercing/strong-dispel native rules on all enemies, AoE50 with native increase flag, no skill Boss branch; actual resistance/immunity/block/reflect pending.
 Current versus target rank curve: Dragon Tail W ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
+Shard / Scepter / Blessing / Evolution / Ascended interactions: native R350 range bonus and D native AoE are linked engine gates; R/Fireball source unit pending, no copied form checks.
 
-2026-10-02 source comparison: the installed native Ability2 uses
+Historical2026-10-02 source comparison (superseded by2026-10-04 native W): the installed native Ability2 uses
 `SpellImmunityType SPELL_IMMUNITY_ENEMIES_NO`; the Enfos W currently uses
 `SPELL_IMMUNITY_ENEMIES_YES`, physical damage, and a separately capped Boss
 stun. This changes native immunity behavior. No design decision was found that
@@ -201,36 +201,36 @@ boss-duration cap.
 
 ### Resource and implementation evidence
 
-- Native ability data source + build + hash/revision: PENDING.
-- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
-- Sound events + declaring banks + emission target + loop termination: PENDING.
-- Model/animation/gesture/icon evidence: PENDING.
-- Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.
-- Precache owner and cold-start test: PENDING.
-- One-shot/persistent cleanup owner and repeated-use test: PENDING.
-- Localization keys and generated mirrors: PENDING.
+- Native ability data source + build + hash/revision: installed6943/11069754, unchanged SHA2563dcfc11f...3b2043 fresh re-read; [snapshot](../../audit/DRAGON_KNIGHT_NATIVE_SOURCE_2026-10-04.json), [W decision/references](../../audit/DRAGON_KNIGHT_NATIVE_FIRST_REVIEW_2026-10-04.md).
+- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: native owns travel/stun/impact, no extension CP/emitter. Verified dragon_knight_dragon_tail_impact resource retained; actual projectile/feedback pending.
+- Sound events + declaring banks + emission target + loop termination: exact native AbilitySound/DragonKnight bank; copied EmitSound removed, actual audio pending.
+- Model/animation/gesture/icon evidence: native ACT_DOTA_CAST_ABILITY_2 and icon; no custom animation/model assignment.
+- Modifier links, ownership, refresh, stacks, death/purge/Break rules: custom stun/link removed; existing22-class raw bridge has live STR/current paid ranks on both contexts; active W unaffected by Break. Native modifier lifecycle pending.
+- Precache owner and cold-start test: verified native impact/native hero resources remain startup-owned; no guessed new asset; cold-load pending.
+- One-shot/persistent cleanup owner and repeated-use test: native owns recipient/projectile/stun, no additional hit sets/timers/search; actual cleanup pending.
+- Localization keys and generated mirrors: four authored descriptions/summaries and12 mirrors updated to magical/nonpiercing/strong-dispel/AoE/form projectile; retired Boss cap field/text removed.
 
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Exact native fields/raw rank1..10/live STR source fixtures pass; actual damage/travel/cache pending. |
+| Targeting | PENDING | Native enemy hero/basic, melee/form linked range/AoE/projectile/absorb/reflect pending owner. |
 | Ranks | PENDING | W gates at levels 1–10 declared; in-game HUD/point behavior remains PENDING. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
-| Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
-| Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
-| Performance | PENDING | Not evaluated in this dossier setup. |
-| Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | PENDING | Not evaluated in this dossier setup. |
+| VFX | PENDING | Native impact/projectile/stun presentation needs owner session. |
+| SFX | PENDING | Exact native sound/bank retained, actual audio pending. |
+| Animation | PENDING | Native animation2/cast0 metadata verified; actual melee/form animation pending. |
+| Modifiers | PENDING | Copied stun retired; native duration/resistance/strong-dispel/lifecycle pending. |
+| Precache | PENDING | Native impact resource/ownership verified, actual cold-load pending. |
+| Cleanup | PENDING | No extension casts/hits/thinkers; native recipient loss/death/recast pending. |
+| Boss | PENDING | Ordinary native rules, skill-only cap removed; actual stun/resistance pending. |
+| Upgrades | PENDING | Native form linkage and D AoE, R/Fireball source unit and actual upgrades pending. |
+| Localization | PENDING | Four-locale source/mirror contracts pass, actual HUD/values pending. |
+| Performance | PENDING | No additional hit/damage/search/timer; dense native engine session pending. |
+| Reconnect | PENDING | Existing idempotent raw bridge retained, no W grant/rank/points writes; native engine pending. |
+| VConsole | PENDING | Automatic read-only W raw damage/stun/AoE/range/speed added; no owner native W session. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record2026-10-04:126 affected checks/309 hero mocks PASS. Pure native alias with exact metadata/tuning, no W Lua wrapper or copied stun/Boss cap. SOURCE_REVIEW implemented, OWNER_RUNTIME PENDING. Full restart later; current custom R linkage is not native form acceptance. No reference import.
 
 ## Slot 3: `enfos_dk_dragon_blood`
 

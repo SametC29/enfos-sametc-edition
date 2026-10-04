@@ -42,6 +42,14 @@ function Health.Report(hero,id)
             end
         end
         if entry.id=='npc_dota_hero_dragon_knight' then
+            local w=hero:FindAbilityByName('enfos_dk_dragon_tail')
+            if w and not w:IsNull() then
+                print('[HERO_HEALTH] native_tail_damage_query='..tostring(w:GetSpecialValueFor('damage'))..
+                    ' native_tail_stun_query='..tostring(w:GetSpecialValueFor('stun_duration'))..
+                    ' native_tail_aoe_query='..tostring(w:GetSpecialValueFor('aoe'))..
+                    ' native_tail_dragon_range_query='..tostring(w:GetSpecialValueFor('dragon_cast_range'))..
+                    ' native_tail_projectile_speed_query='..tostring(w:GetSpecialValueFor('projectile_speed')))
+            end
             local wrath=hero:FindAbilityByName('dragon_knight_wyrms_wrath')
             print('[HERO_HEALTH] ability=dragon_knight_wyrms_wrath rank='..tostring(wrath and not wrath:IsNull() and wrath:GetLevel() or 'missing'))
             if wrath and not wrath:IsNull() then

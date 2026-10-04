@@ -3725,27 +3725,42 @@
 
 	"enfos_dk_dragon_tail"
 	{
-		"BaseClass"					"ability_lua"
+		"BaseClass"					"dragon_knight_dragon_tail"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityUnitDamageType"		"DAMAGE_TYPE_PHYSICAL"
-		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
+		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"		"SPELL_DISPELLABLE_YES_STRONG"
+		"FightRecapLevel" "1"
+		"AbilitySound" "Hero_DragonKnight.DragonTail.Target"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_2"
 		"AbilityTextureName"		"dragon_knight_dragon_tail"
 		"RequiredLevel"	"1"
 		"LevelsBetweenUpgrades"	"1"
 		"AbilityCastRange"			"150"
-		"AbilityCastPoint"			"0.1"
+		"AbilityCastPoint"			"0.0 0.0 0.0 0.0"
 		"AbilityCooldown"			"12 11.3 10.7 10 9.3 8.7 8 7.3 6.7 6"
 		"AbilityManaCost"			"70 77 83 90 97 103 110 117 123 130"
 		"MaxLevel"					"10"
 		"AbilityValues"
 		{
 			"damage" "150 200 250 300 350 400 450 500 550 600"
-			"stun_duration" "2.5 2.7 2.9 3.1 3.3 3.5 3.7 3.9 4.1 4.3"
-			"boss_stun_duration" "0.75 0.78 0.82 0.85 0.88 0.92 0.95 0.98 1.02 1.05"
+			"stun_duration"
+			{
+				"value" "2.5 2.7 2.9 3.1 3.3 3.5 3.7 3.9 4.1 4.3"
+				"special_bonus_unique_dragon_knight_2" "+0.4"
+			}
+			"strength_factor" "1.0"
+			"damage_pct" "0"
+			"dragon_cast_range" "150"
+			"projectile_speed" "1600"
+			"aoe"
+			{
+				"value" "50"
+				"affected_by_aoe_increase" "1"
+			}
 		}
-		"ScriptFile"				"abilities/pve_kits"
 	}
 
 	"enfos_dk_dragon_blood"

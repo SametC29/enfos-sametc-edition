@@ -205,7 +205,6 @@ local modifier_list = {
     'modifier_enfos_wd_death_ward_visual',
     'modifier_enfos_wd_voodoo_switcheroo_buff',
     'modifier_enfos_wd_gris_gris',
-    'modifier_enfos_dk_dragon_tail_stun',
     'modifier_enfos_dk_elder_dragon_form_buff',
     'modifier_enfos_dk_dragon_frost_slow',
     'modifier_enfos_pudge_rot_aura',
@@ -4525,39 +4524,7 @@ end
 -- DRAGON KNIGHT: BREATHE FIRE, DRAGON TAIL, DRAGON BLOOD, ELDER DRAGON, WYRM VIGOR
 -- ----------------------------------------------------------------------------
 
--- Breathe Fire is native; only raw STR scaling lives in dragon_knight/modifiers.
-
-enfos_dk_dragon_tail=class({})
-function enfos_dk_dragon_tail:OnSpellStart()
-    local c = self:GetCaster()
-    local t = self:GetCursorTarget()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or (t.IsNull and t:IsNull())
-        or not t:IsAlive() or (t.GetTeamNumber and t:GetTeamNumber() == c:GetTeamNumber()) then return end
-    if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
-
-    c:EmitSound('Hero_DragonKnight.DragonTail.Target')
-    effect('particles/units/heroes/hero_dragon_knight/dragon_knight_dragon_tail_impact.vpcf', t)
-
-    local base = value(self, 'damage')
-    if base <= 0 then base = 250 end
-    local str = get_str(c)
-    local dmg = base + (str * 1.0)
-
-    damage(self, t, dmg, DAMAGE_TYPE_PHYSICAL)
-    if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive()
-        or t:IsNull() or not t:IsAlive() or t:GetTeamNumber() == c:GetTeamNumber() then return end
-    local stun_dur = value(self, 'stun_duration')
-    if stun_dur <= 0 then stun_dur = 2.5 end
-    if is_boss(t) then
-        local boss_stun = value(self, 'boss_stun_duration')
-        if boss_stun > 0 then stun_dur = math.min(stun_dur, boss_stun) end
-    end
-    t:AddNewModifier(c, self, 'modifier_enfos_dk_dragon_tail_stun', { duration = stun_dur })
-end
-
-modifier_enfos_dk_dragon_tail_stun=class({})
-function modifier_enfos_dk_dragon_tail_stun:IsDebuff() return true end
-function modifier_enfos_dk_dragon_tail_stun:CheckState() return { [MODIFIER_STATE_STUNNED] = true } end
+-- Breathe Fire/Dragon Tail are native; raw STR scaling is in dragon_knight/modifiers.
 
 enfos_dk_elder_dragon_form=class({})
 function enfos_dk_elder_dragon_form:OnSpellStart()

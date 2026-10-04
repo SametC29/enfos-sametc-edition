@@ -192,7 +192,7 @@ for _,context in ipairs({true,false})do server=context;for rank=1,10 do q.rank=r
 hero.str=100;assert(m:GetModifierOverrideAbilitySpecialValue(p)==780)
 p.ability_special_value='reduction';assert(m:GetModifierOverrideAbilitySpecial(p)==0);p.ability_special_value='damage'
 q.GetCaster=function()return {}end;assert(m:GetModifierOverrideAbilitySpecial(p)==0);q.GetCaster=function()return hero end
-q.GetAbilityName=function()return 'enfos_dk_dragon_tail'end;assert(m:GetModifierOverrideAbilitySpecial(p)==0);q.GetAbilityName=function()return 'enfos_dk_breathe_fire'end
+q.GetAbilityName=function()return 'enfos_dk_elder_dragon_form'end;assert(m:GetModifierOverrideAbilitySpecial(p)==0);q.GetAbilityName=function()return 'enfos_dk_breathe_fire'end
 hero.null=true;assert(m:GetModifierOverrideAbilitySpecialValue(p)==0);hero.null=false;q.null=true;assert(m:GetModifierOverrideAbilitySpecialValue(p)==0);q.null=false
 assert(m:GetModifierOverrideAbilitySpecial(nil)==0);assert(mods==1)
 `));
@@ -218,4 +218,44 @@ server=false;local count=#out;assert(not require('heroes/health').Report(hero,0)
 test('Four Q locale descriptions/mirrors use native cone and reduction keys; verified native particle precache stays available',()=>{
  for(const lang of ['english','turkish','russian','schinese']){const t=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens;for(const suffix of ['Description','SummaryDescription']){const desc=t['DOTA_Tooltip_Ability_enfos_dk_breathe_fire_'+suffix];for(const key of ['damage','strength_factor','reduction','duration','range','speed','start_radius','end_radius'])assert.ok(desc.includes('{{'+key+'}}'),key);assert.doesNotMatch(desc,/225|reduction_pct/);}for(const dir of ['game/resource','game/panorama/localization','content/panorama/localization']){const text=fs.readFileSync(dir+'/addon_'+lang+'.txt','utf8');assert.doesNotMatch(text,/\{\{/);assert.ok(text.includes('120 / 180 / 240 / 300 / 360 / 420 / 480 / 540 / 600 / 660'));}}
  const precache=fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua','utf8');for(const end of ['breathe_fire','breathe_fire_explosion']){const path='particles/units/heroes/hero_dragon_knight/dragon_knight_'+end+'.vpcf';assert.ok(precache.includes(path)&&source.assets.find(x=>x.path===path));}
+});
+
+const tailSetup=`
+local w={rank=0,null=false,IsNull=function(self)return self.null end,GetCaster=function()return hero end,
+GetAbilityName=function()return 'enfos_dk_dragon_tail'end,GetLevel=function(self)return self.rank end,
+GetSpecialValueFor=function()error('recursive W read')end,
+GetLevelSpecialValueNoOverride=function(self,key,rank)assert(rank==math.min(10,self.rank)-1);if key=='strength_factor'then return 1 end;assert(key=='damage');return 150+50*rank end}
+local find=hero.FindAbilityByName;hero.FindAbilityByName=function(_,id)if id=='enfos_dk_dragon_tail'then return w else return find(hero,id)end end
+`;
+test('Dragon Tail uses exact native targeting/immunity/dispel/animation/projectile/AoE fields with authored ten-rank costs and no Boss cap',()=>{
+ const w=all.enfos_dk_dragon_tail,n=source.abilities.dragon_knight_dragon_tail;
+ assert.ok(isVerifiedNativeAbility('enfos_dk_dragon_tail',w));assert.equal(w.ScriptFile,undefined);assert.equal(all.dragon_knight_dragon_tail,undefined);assert.equal(w.MaxLevel,'10');assert.equal(w.RequiredLevel,'1');assert.equal(w.LevelsBetweenUpgrades,'1');
+ for(const key of ['AbilityBehavior','AbilityUnitTargetTeam','AbilityUnitTargetType','AbilityUnitDamageType','SpellImmunityType','SpellDispellableType','AbilitySound','AbilityCastAnimation','AbilityCastPoint','AbilityCastRange','FightRecapLevel'])assert.equal(w[key],n[key],key);
+ for(const key of ['damage_pct','dragon_cast_range','projectile_speed'])assert.equal(w.AbilityValues[key],n.AbilityValues[key],key);
+ assert.deepEqual(Object.entries(w.AbilityValues.aoe),Object.entries(n.AbilityValues.aoe));
+ assert.equal(w.AbilityValues.damage,'150 200 250 300 350 400 450 500 550 600');assert.equal(w.AbilityValues.strength_factor,'1.0');assert.equal(w.AbilityValues.stun_duration.value,'2.5 2.7 2.9 3.1 3.3 3.5 3.7 3.9 4.1 4.3');assert.equal(w.AbilityValues.stun_duration.special_bonus_unique_dragon_knight_2,n.AbilityValues.stun_duration.special_bonus_unique_dragon_knight_2);assert.equal(w.AbilityValues.boss_stun_duration,undefined);assert.equal(w.AbilityManaCost,'70 77 83 90 97 103 110 117 123 130');assert.equal(w.AbilityCooldown,'12 11.3 10.7 10 9.3 8.7 8 7.3 6.7 6');
+ assert.doesNotMatch(fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8'),/enfos_dk_dragon_tail=class|modifier_enfos_dk_dragon_tail_stun/);
+});
+test('W raw damage/STR is live at all ranks on both contexts; active spell survives Break and rejects foreign/key/null/untrained inputs',()=>lua(tailSetup+`
+assert(integration.Restore(hero));local m=hero.mod;local p={ability=w,ability_special_value='damage',ability_special_level=99}
+assert(m:GetModifierOverrideAbilitySpecial(p)==1 and m:GetModifierOverrideAbilitySpecialValue(p)==0)
+hero.PassivesDisabled=function()return true end
+for _,context in ipairs({true,false})do server=context;for rank=1,10 do w.rank=rank;assert(m:GetModifierOverrideAbilitySpecialValue(p)==150+50*(rank-1)+80)end end
+hero.str=100;assert(m:GetModifierOverrideAbilitySpecialValue(p)==700)
+p.ability_special_value='stun_duration';assert(m:GetModifierOverrideAbilitySpecial(p)==0);p.ability_special_value='damage'
+w.null=true;assert(m:GetModifierOverrideAbilitySpecialValue(p)==0);w.null=false
+w.GetCaster=function()return {}end;assert(m:GetModifierOverrideAbilitySpecial(p)==0);w.GetCaster=function()return hero end
+hero.name='npc_dota_hero_luna';assert(m:GetModifierOverrideAbilitySpecial(p)==0);hero.name='npc_dota_hero_dragon_knight'
+assert(mods==1 and w.rank==10)
+`));
+test('W automatic Health reports query values without a native cast, and locales/native particles follow installed ownership',()=>{
+ lua(tailSetup+`
+hero.GetLevel=function()return 6 end;hero.GetAbilityPoints=function()return 5 end;hero.IsAlive=function()return true end
+w.GetIntrinsicModifierName=function()return ''end;w.GetSpecialValueFor=function(_,key)return assert(({damage=230,stun_duration=2.5,aoe=50,dragon_cast_range=150,projectile_speed=1600})[key])end
+q.GetIntrinsicModifierName=function()return ''end;q.GetSpecialValueFor=function()return 0 end
+local out={};print=function(s)out[#out+1]=s end;w.OnSpellStart=function()error('Health casts W')end
+assert(require('heroes/health').Report(hero,0));assert(table.concat(out,'|'):find('native_tail_damage_query=230 native_tail_stun_query=2.5 native_tail_aoe_query=50 native_tail_dragon_range_query=150 native_tail_projectile_speed_query=1600',1,true))
+`);
+ for(const lang of ['english','turkish','russian','schinese']){const t=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens;for(const suffix of ['Description','SummaryDescription']){const d=t['DOTA_Tooltip_Ability_enfos_dk_dragon_tail_'+suffix];for(const key of ['damage','strength_factor','stun_duration','aoe','projectile_speed'])assert.ok(d.includes('{{'+key+'}}'));assert.doesNotMatch(d,/boss_stun_duration|physical damage|fiziksel/);}}
+ const mode=fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua','utf8');const path='particles/units/heroes/hero_dragon_knight/dragon_knight_dragon_tail_impact.vpcf';assert.ok(mode.includes(path)&&source.assets.some(x=>x.path===path));
 });

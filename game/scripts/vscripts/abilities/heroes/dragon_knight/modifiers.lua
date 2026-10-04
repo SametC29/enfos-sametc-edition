@@ -13,6 +13,7 @@ local function route(mod,p)
         or not a or a:IsNull() or a:GetCaster()~=c then return end
     local id,key=a:GetAbilityName(),p.ability_special_value
     if id=='enfos_dk_breathe_fire' and key=='damage' then return c,a,'Q' end
+    if id=='enfos_dk_dragon_tail' and key=='damage' then return c,a,'W' end
     if id=='dragon_knight_dragon_blood' and (key=='armor' or key=='health_regen') then
         return c,c:FindAbilityByName('enfos_dk_dragon_blood'),'E'
     end
@@ -40,7 +41,7 @@ function M:GetModifierOverrideAbilitySpecialValue(p)
     local strength=c:GetStrength()
     local value=a:GetLevelSpecialValueNoOverride('damage',rank)+strength*a:GetLevelSpecialValueNoOverride('strength_factor',rank)
     if IsServer() then
-        require('lib/hero_trace'):Log('DK','Q','native_damage_query rank=%s str=%s value=%s',tostring(rank+1),tostring(strength),tostring(value))
+        require('lib/hero_trace'):Log('DK',slot,'native_damage_query rank=%s str=%s value=%s',tostring(rank+1),tostring(strength),tostring(value))
     end
     return value
 end

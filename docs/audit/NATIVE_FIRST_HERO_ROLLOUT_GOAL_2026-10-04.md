@@ -91,6 +91,13 @@ refresh, reviewed22-class bootstrap/read-only Health, four locales;123 affected
 checks/311 hero mocks/full0 failures. Q/E/D source implemented. Next W/R linked
 native form/Shard units; actual proc/AoE/form/cache/lifecycle remain owner pending.
 
+2026-10-04 Dragon Knight W source progression: pure native Dragon Tail alias,
+magical/non-piercing/strong-dispel targeting and native AoE/projectile metadata,
+retained ten-rank curves/raw STR1, copied physical damage/stun/Boss cap removed.
+Four locales/read-only Health;126 affected checks/309 hero mocks/full0 failures.
+Q/W/E/D source implemented; next R exact native tiers/Shard Fireball linkage.
+Actual damage/cache/form/target rules/lifecycle/presentation still owner pending.
+
 2026-10-04 source progression: Bristleback native D and linked Q/W/E/R source
 units are implemented, with paid ten-rank controllers, one native-value bridge,
 native Scepter E, explicit Tank Shard extension, four-language tooltips and
