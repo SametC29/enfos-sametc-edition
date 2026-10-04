@@ -1,6 +1,6 @@
 # Anti-Mage native-first discovery
 
-Status: Q/W SOURCE IMPLEMENTED / E/R/D SOURCE_PENDING / OWNER_RUNTIME PENDING.
+Status: Q/W/E SOURCE IMPLEMENTED / R/D SOURCE_PENDING / OWNER_RUNTIME PENDING.
 This follows Ursa in the owner-directed rollout.
 
 ## Evidence
@@ -190,3 +190,46 @@ denial, upgrades on/off, cleanup/repeated use, cold VFX/SFX, HUD/points and
 respawn/reconnect. Full restart required when owner resumes. Next source E.
 
 Full source checks:0 failed check(s). Engine playtests remain separate.
+
+## E construction decision before mutation
+
+TUNE / NATIVE alias enfos_am_counterspell -> antimage_counterspell.
+Installed hero hash/build reverified unchanged. Native NO_TARGET/IMMEDIATE,
+Break/passive MR, dispellable shell, animation3/default gesture, Shard flag,
+does_reflect1, reflectedamp0/healpct0, illusion4s/outgoing0/incoming100
+retained. Keep authored MR20..50, shell duration1.4..3/CD12..6/mana40 and
+ten paid ranks/gates1-1. Retire broad active resistance60..100 and manual
+feedback/modifiers. Native owns block/reflect/fragment construction/cleanup;
+no extra ally Counterspell/Mana Overload/facet spell or hidden E provider.
+WORLD OF DOTA2880603428 counterspell_custom.lua re-read: manually copies
+ABSORB/REFLECT/stolen spells and per-frame cleanup/global illusion search,
+with custom talents. REFERENCE_ONLY, no imports; does not prove native
+linked lookups. AssociatedPrimary API SERVER verified; query actual result
+only, no guessed linked ID. Two reference-suggested native resource paths
+counter.vpcf_c and spellshield_reflect.vpcf_c verified directly in installed
+VPK (hashes in snapshot eResearch); preload in existing startup owner,
+no manual CP/particle recreation. Presence is not presentation certification.
+Native Shard replaces generic Carry15%MS/12%pure attack proc for this
+owned Anti-Mage kit, following Luna suppression pattern; no other hero
+changes. New ownership predicate is client-safe and imports no services;
+no new client modifier. Scepter generic ultimate remains for R unit review.
+All native spell/illusion/Shard/ten-rank/lifecycle/Break engine gates pending.
+
+## E source validation
+
+123 affected checks and317 hero mock regressions PASS. Four focused E tests
+compare installed native fields, independently authored ten-rank curves,
+absence of local duplicate modifiers/native-ID shadow, two verified startup
+assets, four translations/twelve mirrors, client-safe ownership and selective
+generic Carry Shard suppression with unchanged other Carry output. Existing
+client bootstrap17classes remains; no new modifier/class/restoration/timer.
+Retired old broad-active-resistance mock cannot certify native reflection.
+Native Break/illusion passive resistance and reflected-spell/Shard internal
+lookup remain owner pending. No hardcoded legacy or extra provider grant.
+Full restart before owner test: targeted unit spell block+reflection versus
+AoE, reflection recursion/block/immune/channel/target-death, native Shard
+4s fragment/copy abilities/no generic15%MS/12%pure and expiry/death cleanup,
+Break/passive MR/ten ranks/HUD/points/cold VFX/SFX/respawn/reconnect/VConsole.
+Source unit E only; generic Scepter review and R extension unresolved next.
+
+Full source checks:0 failed check(s). Engine verification remains pending.

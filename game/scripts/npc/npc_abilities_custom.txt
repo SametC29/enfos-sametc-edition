@@ -4630,24 +4630,34 @@
 
 	"enfos_am_counterspell"
 	{
+		"BaseClass" "antimage_counterspell"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityTextureName" "antimage_counterspell"
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES"
 		"IsBreakable" "1"
-		"BaseClass"					"ability_lua"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"		"antimage_counterspell"
-		"AbilityCastAnimation"	"ACT_DOTA_CAST_ABILITY_3"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"12 11.3 10.6 9.9 9.2 8.5 7.8 7.1 6.5 6"
-		"AbilityManaCost"			"40"
-		"MaxLevel"					"10"
-						"RequiredLevel"					"1"
-						"LevelsBetweenUpgrades"	"1"
+		"HasShardUpgrade" "1"
+		"FightRecapLevel" "1"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_3"
+		"AbilityCastGestureSlot" "DEFAULT"
+		"AbilityCastPoint" "0.0"
+		"AbilityCastRange" "0"
+		"AbilityCooldown" "12 11.3 10.6 9.9 9.2 8.5 7.8 7.1 6.5 6"
+		"AbilityManaCost" "40"
+		"MaxLevel" "10"
+		"RequiredLevel" "1"
+		"LevelsBetweenUpgrades" "1"
 		"AbilityValues"
 		{
-			"magic_resist" "20 23 26 29 32 35 38 42 46 50"
-			"active_resist" "60 64 68 72 76 80 85 90 95 100"
-			"active_duration" "1.4 1.55 1.7 1.85 2 2.15 2.3 2.5 2.75 3"
+			"magic_resistance" { "value" "20 23 26 29 32 35 38 42 46 50" "display_type" "kBuffPercentage" }
+			"duration" "1.4 1.55 1.7 1.85 2 2.15 2.3 2.5 2.75 3"
+			"AbilityCooldown" { "value" "12 11.3 10.6 9.9 9.2 8.5 7.8 7.1 6.5 6" }
+			"duration_illusion" "4"
+			"outgoing_damage" "0"
+			"incoming_damage" "100"
+			"does_reflect" { "value" "1" }
+			"reflected_spell_amp" { "value" "0" "display_type" "kBuffPercentage" }
+			"heal_pct" { "value" "0" }
 		}
-		"ScriptFile"				"abilities/pve_kits"
 	}
 
 	"enfos_am_mana_void"

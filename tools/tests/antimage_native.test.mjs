@@ -3,9 +3,28 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import {parseKV} from '../lib/kv.mjs';
+import {isVerifiedNativeAbility} from '../lib/native_hero_abilities.mjs';
 const all=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.txt','utf8')).DOTAAbilities;
 const q=all.enfos_am_mana_break;
 const native=JSON.parse(fs.readFileSync('docs/audit/ANTIMAGE_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.antimage_mana_break;
+test('Counterspell delegates installed reflection, Shard, dispel, illusion and animation metadata',()=>{
+ const e=all.enfos_am_counterspell,source=JSON.parse(fs.readFileSync('docs/audit/ANTIMAGE_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.antimage_counterspell;
+ assert.ok(isVerifiedNativeAbility('enfos_am_counterspell',e));assert.equal(all.antimage_counterspell,undefined);
+ for(const key of ['AbilityBehavior','SpellDispellableType','FightRecapLevel','IsBreakable','HasShardUpgrade','AbilityCastRange','AbilityCastAnimation','AbilityCastGestureSlot'])assert.equal(e[key],source[key],key);
+ for(const key of ['duration_illusion','outgoing_damage','incoming_damage','does_reflect','reflected_spell_amp','heal_pct'])assert.deepEqual(JSON.parse(JSON.stringify(e.AbilityValues[key])),source.AbilityValues[key],key);
+ for(const key of ['magic_resist','active_resist','active_duration'])assert.equal(e.AbilityValues[key],undefined);
+ assert.doesNotMatch(fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8'),/enfos_am_counterspell|modifier_enfos_am_counterspell/);
+ for(const name of ['antimage_counter','antimage_spellshield_reflect'])assert.ok(fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua','utf8').includes(name+'.vpcf'));
+ const evidence=JSON.parse(fs.readFileSync('docs/audit/ANTIMAGE_NATIVE_SOURCE_2026-10-04.json','utf8')).eResearch.resources;assert.equal(evidence.length,2);assert.ok(evidence.every(x=>x.status==='FILE_VERIFIED' && x.sha256.length===64));
+});
+test('Counterspell preserves authored ten-rank curves and four translated tooltips use native specials',()=>{
+ const e=all.enfos_am_counterspell;assert.equal(e.MaxLevel,'10');assert.equal(e.RequiredLevel,'1');assert.equal(e.LevelsBetweenUpgrades,'1');assert.equal(e.AbilityManaCost,'40');assert.equal(e.AbilityCastPoint,'0.0');
+ assert.equal(e.AbilityValues.magic_resistance.value,'20 23 26 29 32 35 38 42 46 50');assert.equal(e.AbilityValues.duration,'1.4 1.55 1.7 1.85 2 2.15 2.3 2.5 2.75 3');assert.equal(e.AbilityCooldown,'12 11.3 10.6 9.9 9.2 8.5 7.8 7.1 6.5 6');assert.equal(e.AbilityValues.AbilityCooldown.value,e.AbilityCooldown);
+ const names=[];for(const lang of ['english','turkish','russian','schinese']){
+ const t=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens,p='DOTA_Tooltip_Ability_enfos_am_counterspell';names.push(t[p]);for(const key of ['magic_resistance','duration'])assert.ok(t[p+'_Description'].includes('{{'+key+'}}'));assert.doesNotMatch(t[p+'_Description'],/active_resist|active_duration/);assert.ok(t[p+'_shard_description'].includes('{{duration_illusion}}'));
+ for(const dir of ['game/resource','game/panorama/localization','content/panorama/localization']){const text=fs.readFileSync(dir+'/addon_'+lang+'.txt','utf8');assert.doesNotMatch(text,/\{\{/);assert.ok(text.includes(e.AbilityValues.magic_resistance.value.split(' ').join(' / ')));assert.ok(text.includes('DOTA_Tooltip_ability_enfos_am_counterspell_shard_description'));}
+ }assert.equal(new Set(names).size,4);
+});
 test('Paid Mana Break has one exact native provider, ten-rank tuning and no copied burn, damage, cleave or assets',()=>{
  assert.equal(q.BaseClass,'ability_lua');assert.equal(q.ScriptFile,'abilities/heroes/antimage/q');assert.equal(q.MaxLevel,'10');assert.equal(q.RequiredLevel,'1');assert.equal(q.LevelsBetweenUpgrades,'1');
  assert.equal(q.IsBreakable,native.IsBreakable);assert.equal(q.HasScepterUpgrade,native.HasScepterUpgrade);assert.equal(q.SpellImmunityType,native.SpellImmunityType);assert.equal(q.AbilityUnitDamageType,native.AbilityUnitDamageType);
@@ -56,6 +75,30 @@ c.FindModifierByName=function(_,name)if name=='fixture_mana_break' then return i
 local integration=require('abilities/heroes/antimage/integration')
 `;
 function lua(body){const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{encoding:'utf8',input:setup+body});assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');}
+test('Native Shard ownership is client-safe and rejects missing, null and foreign kits',()=>lua(`
+server=false;local ownership=require('abilities/heroes/antimage/ownership')
+local e={IsNull=function()return false end}
+local hero={GetUnitName=function()return 'npc_dota_hero_antimage'end,FindAbilityByName=function(_,id)assert(id=='enfos_am_counterspell');return e end}
+assert(ownership.UsesNativeShard(hero));assert(not ownership.UsesNativeShard(nil));assert(not ownership.UsesNativeShard({}))
+e.IsNull=function()return true end;assert(not ownership.UsesNativeShard(hero))
+hero.FindAbilityByName=function()return nil end;assert(not ownership.UsesNativeShard(hero))
+hero.GetUnitName=function()return 'npc_dota_hero_faceless_void'end;hero.FindAbilityByName=function()error('Foreign hero query')end;assert(not ownership.UsesNativeShard(hero))
+`));
+test('Native Shard suppresses Anti-Mage generic Carry speed and proc while other Carry heroes retain them',()=>lua(`
+function LinkLuaModifier()end
+package.loaded['abilities/heroes/luna/integration']={UsesNativeShard=function()return false end}
+package.loaded['abilities/heroes/nevermore/ownership']={IsEnfos=function()return false end}
+require('heroes/aghanim_manager')
+local e={IsNull=function()return false end};local hero={GetUnitName=function()return 'npc_dota_hero_antimage'end,FindAbilityByName=function()return e end,GetTeamNumber=function()return 2 end}
+local m=setmetatable({role='Carry',GetParent=function()return hero end},{__index=modifier_enfos_shard_upgrade})
+assert(m:IsHidden());assert(m:GetModifierMoveSpeedBonus_Percentage()==0)
+ApplyDamage=function()error('Native Shard cannot add generic proc')end;m:OnAttackLanded({attacker=hero,target={IsNull=function()error('No native attack processing')end}})
+hero.GetUnitName=function()return 'npc_dota_hero_faceless_void'end;assert(m:GetModifierMoveSpeedBonus_Percentage()==15)
+local dealt;ApplyDamage=function(args)dealt=args.damage end
+local target={IsNull=function()return false end,IsAlive=function()return true end,GetTeamNumber=function()return 3 end}
+DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION=0;DAMAGE_TYPE_PURE=4;m:OnAttackLanded({attacker=hero,target=target,damage=100});assert(dealt==12)
+server=false;ApplyDamage=function()error('Client damage')end;m:OnAttackLanded({attacker=hero,target=target,damage=100})
+`));
 test('Provider is installed after tuning, rank0 until trained, idempotent through restore and rank-up with no points or target state writes',()=>lua(`
 assert(integration.Restore(c));assert(adds==1 and mods==1 and sets==0 and n.rank==0 and n.hidden and not n.active)
 assert(integration.Restore(c));assert(adds==1 and mods==1 and sets==0)

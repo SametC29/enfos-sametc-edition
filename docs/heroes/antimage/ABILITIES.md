@@ -11,7 +11,7 @@ Hero: `npc_dota_hero_antimage`; role: Carry. Progression target: hero level 50 /
 | --- | --- | --- | --- | --- | --- |
 | 1 | `enfos_am_mana_break` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/antimage/q | antimage_mana_break |
 | 2 | `enfos_am_blink` | 10 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES \| DOTA_ABILITY_BEHAVIOR_OVERSHOOT | NOT_EXPLICIT | antimage_blink |
-| 3 | `enfos_am_counterspell` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | antimage_counterspell |
+| 3 | `enfos_am_counterspell` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE | NOT_EXPLICIT | antimage_counterspell |
 | 4 | `enfos_am_mana_void` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | antimage_mana_void |
 | 5 | `enfos_am_spellbreaker` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | antimage_mana_overload |
 
@@ -168,13 +168,13 @@ Change/test record (2026-09-30): mock rank-range/relocation check and VPK lookup
 
 ## Slot 3: `enfos_am_counterspell`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `antimage_counterspell` (native Ability3).
-Decision and PvE identity rationale: retain passive magical defense and add a short active protection window for PvE encounters where enemy spell behavior differs from player spell reflection.
-Expected cast/travel/impact/ongoing/cleanup behavior: intrinsic rank-scaled resistance; active cast sound/particle and timed self-buff whose attached particle ends with the modifier.
+Decision and PvE identity rationale: preserve native passive defense and targeted spell block/reflection; retire copied broad active resistance.
+Expected cast/travel/impact/ongoing/cleanup behavior: native intrinsic rank-scaled resistance and immediate self shell, native block/reflection/feedback, native Shard fragment/cleanup.
 Normal creep / elite / boss, immunity / dispel / resistance rules: self-only; Break suppresses passive resistance; active buff remains independently applied.
-Current versus target rank curve; free rank / point cost: Counterspell slot 3 ranks 1–10 are gated at hero levels 1–10, one rank per level. Passive resistance, active resistance and active duration are rank-scaled; engine point/HUD behavior remains PENDING.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: shard flag retained; actual shard behavior not changed or engine-certified.
+Current versus target rank curve; free rank / point cost: Counterspell slot 3 ranks 1–10 are gated at hero levels 1–10, one rank per level. Passive resistance20..50 and shell duration1.4..3 are rank-scaled; CD12..6/mana40 retained. Engine point/HUD behavior remains PENDING.
+Shard / Scepter / Blessing / Evolution / Ascended interactions: native Shard4s fragment retained; generic Carry15%MS/12%pure proc suppressed only for the owned Anti-Mage kit. Engine verification pending.
 
 ### Resource and implementation evidence
 
@@ -323,3 +323,22 @@ describe root/projectile dodge and additional Scepter burn/mana-gain denial.
 native ten-rank HUD, upgrades, VFX/SFX, cleanup, restore/reconnect and actual
 Scepter/native Q interaction PENDING OWNER TEST; no Dota launched.
 See audit/ANTIMAGE_NATIVE_FIRST_REVIEW_2026-10-04.md for decision/evidence.
+
+## E native source migration (2026-10-04)
+
+TUNE / NATIVE: stable enfos_am_counterspell now aliases antimage_counterspell
+without ScriptFile/wrapper. Fresh build6943/rev11069754 hero hash unchanged
+from audit snapshot; current fields supersede older custom inventory. Native
+immediate/self, Break/dispellable shell, animation3/default gesture, Shard,
+reflect1/amp0/heal0, illusion4s/outgoing0/incoming100 copied explicitly;
+authored MR20..50/duration1.4..3/CD12..6/mana40/ten ranks/gates1-1 retained.
+Old broad resistance60..100, manual feedback and two Lua modifiers/links
+removed. Native cleanup/fragment/reflect not cloned. Two native particle
+paths verified/hashed in snapshot eResearch and startup precached.
+EN/TR/RU/zh-CN updated. Pure client-safe ownership predicate suppresses only
+this kit's generic Carry Shard speed/pure proc, no new modifier bootstrap.
+123 affected checks/317 mock regressions PASS; all gameplay/VFX/SFX/
+reflection/Shard/Break/ten-rank/lifecycle gates PENDING OWNER TEST.
+WORLD OF DOTA reference not imported; associated-primary query SERVER only.
+No extra ally/legacy provider, innate/facet guess or gameplay timer.
+See audit/ANTIMAGE_NATIVE_FIRST_REVIEW_2026-10-04.md for E decision/retest.

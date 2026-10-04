@@ -26,6 +26,7 @@ export const nativeHeroAbilities = new Map([
   ['enfos_ursa_overpower', 'ursa_overpower'],
   ['enfos_ursa_earthshock', 'ursa_earthshock'],
   ['enfos_am_blink', 'antimage_blink'],
+  ['enfos_am_counterspell', 'antimage_counterspell'],
 ]);
 
 export function isVerifiedNativeAbility(id, definition) {

@@ -5273,29 +5273,6 @@ test('Ursa Enfos passive honors configured values and Break', function()
     assert(passive:GetModifierMoveSpeedBonus_Constant() == 0)
 end)
 
-test('Anti-Mage Counterspell rank scales passive and active resistance and Break only shuts off passive', function()
-    local am = create_mock_unit('npc_dota_hero_antimage', 2, Vector(0, 0, 0))
-    local ab = enfos_am_counterspell()
-    ab.GetCaster = function() return am end
-    ab.GetSpecialValueFor = function(_, k)
-        return ({ magic_resist = 45, active_resist = 90, active_duration = 2.75 })[k] or 0
-    end
-    local passive = modifier_enfos_am_counterspell_passive()
-    passive.GetParent = function() return am end
-    passive.GetAbility = function() return ab end
-    assert(passive:GetModifierMagicalResistanceBonus() == 45)
-    am.PassivesDisabled = function() return true end
-    assert(passive:GetModifierMagicalResistanceBonus() == 0)
-    am.PassivesDisabled = function() return false end
-    am.IsIllusion = function() return true end
-    assert(passive:GetModifierMagicalResistanceBonus() == 0, 'Counterspell passive resistance must not duplicate on illusions')
-    local active = modifier_enfos_am_counterspell_active()
-    active.GetAbility = function() return ab end
-    assert(active:GetModifierMagicalResistanceBonus() == 90)
-    ab:OnSpellStart()
-    assert(am.modifiers.modifier_enfos_am_counterspell_active.params.duration == 2.75)
-end)
-
 test('Anti-Mage Mana Void uses missing mana, magical damage and a per-boss health cap', function()
     applied_damages = {}
     local am = create_mock_unit('npc_dota_hero_antimage', 2, Vector(0, 0, 0))

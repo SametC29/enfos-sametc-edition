@@ -1519,6 +1519,14 @@
     "DOTA_Tooltip_ability_enfos_am_blink": "Blink",
     "DOTA_Tooltip_ability_enfos_am_blink_Description": "Teleports to the chosen point up to {{AbilityCastRange}} distance, with a minimum distance of {{min_blink_range}}. Cannot be cast while rooted; disjoints incoming projectiles.",
     "DOTA_Tooltip_ability_enfos_am_blink_SummaryDescription": "Teleports to the chosen point up to {{AbilityCastRange}} distance, with a minimum distance of {{min_blink_range}}. Cannot be cast while rooted; disjoints incoming projectiles.",
-    "DOTA_Tooltip_ability_enfos_am_blink_scepter_description": "After Blink, the next Mana Break within 5 seconds burns an additional 20% of the target’s maximum mana and prevents mana regeneration or mana gain for 6 seconds. This debuff cannot be dispelled."
+    "DOTA_Tooltip_ability_enfos_am_blink_scepter_description": "After Blink, the next Mana Break within 5 seconds burns an additional 20% of the target’s maximum mana and prevents mana regeneration or mana gain for 6 seconds. This debuff cannot be dispelled.",
+    "DOTA_Tooltip_Ability_enfos_am_counterspell": "Counterspell",
+    "DOTA_Tooltip_Ability_enfos_am_counterspell_Description": "Passively grants {{magic_resistance}}% magic resistance. Activate a shell for {{duration}} seconds to block and reflect targeted spells. Break disables passive resistance.",
+    "DOTA_Tooltip_Ability_enfos_am_counterspell_SummaryDescription": "Passively grants {{magic_resistance}}% magic resistance. Activate a shell for {{duration}} seconds to block and reflect targeted spells. Break disables passive resistance.",
+    "DOTA_Tooltip_Ability_enfos_am_counterspell_shard_description": "Reflecting a unit-targeted spell creates a blinked fragment beside its caster for {{duration_illusion}} seconds.",
+    "DOTA_Tooltip_ability_enfos_am_counterspell": "Counterspell",
+    "DOTA_Tooltip_ability_enfos_am_counterspell_Description": "Passively grants {{magic_resistance}}% magic resistance. Activate a shell for {{duration}} seconds to block and reflect targeted spells. Break disables passive resistance.",
+    "DOTA_Tooltip_ability_enfos_am_counterspell_SummaryDescription": "Passively grants {{magic_resistance}}% magic resistance. Activate a shell for {{duration}} seconds to block and reflect targeted spells. Break disables passive resistance.",
+    "DOTA_Tooltip_ability_enfos_am_counterspell_shard_description": "Reflecting a unit-targeted spell creates a blinked fragment beside its caster for {{duration_illusion}} seconds."
   }
 }

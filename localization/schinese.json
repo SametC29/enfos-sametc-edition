@@ -1459,6 +1459,14 @@
     "DOTA_Tooltip_ability_enfos_am_blink": "闪烁",
     "DOTA_Tooltip_ability_enfos_am_blink_Description": "向选定地点传送，最大距离为{{AbilityCastRange}}，最小距离为{{min_blink_range}}。被缠绕时无法施放；可以躲避飞行中的弹道。",
     "DOTA_Tooltip_ability_enfos_am_blink_SummaryDescription": "向选定地点传送，最大距离为{{AbilityCastRange}}，最小距离为{{min_blink_range}}。被缠绕时无法施放；可以躲避飞行中的弹道。",
-    "DOTA_Tooltip_ability_enfos_am_blink_scepter_description": "闪烁后5秒内的下一次法力损毁额外燃烧目标最大魔法值的20%，并使目标6秒内无法恢复或获得魔法。此负面效果无法驱散。"
+    "DOTA_Tooltip_ability_enfos_am_blink_scepter_description": "闪烁后5秒内的下一次法力损毁额外燃烧目标最大魔法值的20%，并使目标6秒内无法恢复或获得魔法。此负面效果无法驱散。",
+    "DOTA_Tooltip_Ability_enfos_am_counterspell": "法术反制",
+    "DOTA_Tooltip_Ability_enfos_am_counterspell_Description": "被动提供{{magic_resistance}}%魔法抗性。主动开启持续{{duration}}秒的护盾，抵挡并反弹指向性技能。破坏会禁用被动抗性。",
+    "DOTA_Tooltip_Ability_enfos_am_counterspell_SummaryDescription": "被动提供{{magic_resistance}}%魔法抗性。主动开启持续{{duration}}秒的护盾，抵挡并反弹指向性技能。破坏会禁用被动抗性。",
+    "DOTA_Tooltip_Ability_enfos_am_counterspell_shard_description": "反弹一个以单位为目标的技能时，在施法者身旁产生持续{{duration_illusion}}秒的敌法师幻象。",
+    "DOTA_Tooltip_ability_enfos_am_counterspell": "法术反制",
+    "DOTA_Tooltip_ability_enfos_am_counterspell_Description": "被动提供{{magic_resistance}}%魔法抗性。主动开启持续{{duration}}秒的护盾，抵挡并反弹指向性技能。破坏会禁用被动抗性。",
+    "DOTA_Tooltip_ability_enfos_am_counterspell_SummaryDescription": "被动提供{{magic_resistance}}%魔法抗性。主动开启持续{{duration}}秒的护盾，抵挡并反弹指向性技能。破坏会禁用被动抗性。",
+    "DOTA_Tooltip_ability_enfos_am_counterspell_shard_description": "反弹一个以单位为目标的技能时，在施法者身旁产生持续{{duration_illusion}}秒的敌法师幻象。"
   }
 }

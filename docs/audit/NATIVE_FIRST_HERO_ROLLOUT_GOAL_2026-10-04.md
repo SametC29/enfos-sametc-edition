@@ -190,3 +190,8 @@ Anti-Mage W source unit: native Blink alias after exact Q provider; explicit
 root/overshoot/min200/conditional Scepter metadata; authored ten-rank curves
 preserved, manual teleport removed.119 affected checks/318 mock regressions
 PASS. All live W gates owner-pending; E/R/D source remain. No publication.
+
+Anti-Mage E source unit: native Counterspell self block/reflect/Shard
+metadata, authored ten-rank defense/duration/costs; retired broad active
+resistance. Generic Carry Shard suppressed only for owned Anti-Mage kit.
+123 affected checks/317 mocks PASS; all engine gates owner-pending. R/D remain.

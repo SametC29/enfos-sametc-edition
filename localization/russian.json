@@ -1459,6 +1459,14 @@
     "DOTA_Tooltip_ability_enfos_am_blink": "Скачок",
     "DOTA_Tooltip_ability_enfos_am_blink_Description": "Телепортируется к выбранной точке на расстояние до {{AbilityCastRange}}, но не менее {{min_blink_range}}. Нельзя использовать при оцепенении; уклоняется от летящих снарядов.",
     "DOTA_Tooltip_ability_enfos_am_blink_SummaryDescription": "Телепортируется к выбранной точке на расстояние до {{AbilityCastRange}}, но не менее {{min_blink_range}}. Нельзя использовать при оцепенении; уклоняется от летящих снарядов.",
-    "DOTA_Tooltip_ability_enfos_am_blink_scepter_description": "После скачка следующий Mana Break в течение 5 секунд дополнительно сжигает 20% максимальной маны цели и запрещает восстановление или получение маны на 6 секунд. Этот эффект нельзя развеять."
+    "DOTA_Tooltip_ability_enfos_am_blink_scepter_description": "После скачка следующий Mana Break в течение 5 секунд дополнительно сжигает 20% максимальной маны цели и запрещает восстановление или получение маны на 6 секунд. Этот эффект нельзя развеять.",
+    "DOTA_Tooltip_Ability_enfos_am_counterspell": "Отражение",
+    "DOTA_Tooltip_Ability_enfos_am_counterspell_Description": "Пассивно даёт {{magic_resistance}}% сопротивления магии. Создаёт оболочку на {{duration}} сек., блокирующую и отражающую направленные заклинания. Истощение отключает пассивное сопротивление.",
+    "DOTA_Tooltip_Ability_enfos_am_counterspell_SummaryDescription": "Пассивно даёт {{magic_resistance}}% сопротивления магии. Создаёт оболочку на {{duration}} сек., блокирующую и отражающую направленные заклинания. Истощение отключает пассивное сопротивление.",
+    "DOTA_Tooltip_Ability_enfos_am_counterspell_shard_description": "При отражении направленного на юнита заклинания рядом с его владельцем появляется фрагмент Антимага на {{duration_illusion}} сек.",
+    "DOTA_Tooltip_ability_enfos_am_counterspell": "Отражение",
+    "DOTA_Tooltip_ability_enfos_am_counterspell_Description": "Пассивно даёт {{magic_resistance}}% сопротивления магии. Создаёт оболочку на {{duration}} сек., блокирующую и отражающую направленные заклинания. Истощение отключает пассивное сопротивление.",
+    "DOTA_Tooltip_ability_enfos_am_counterspell_SummaryDescription": "Пассивно даёт {{magic_resistance}}% сопротивления магии. Создаёт оболочку на {{duration}} сек., блокирующую и отражающую направленные заклинания. Истощение отключает пассивное сопротивление.",
+    "DOTA_Tooltip_ability_enfos_am_counterspell_shard_description": "При отражении направленного на юнита заклинания рядом с его владельцем появляется фрагмент Антимага на {{duration_illusion}} сек."
   }
 }

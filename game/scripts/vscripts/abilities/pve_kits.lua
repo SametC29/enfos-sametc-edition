@@ -218,8 +218,6 @@ local modifier_list = {
     'modifier_enfos_mk_jingu_mastery_buff',
     'modifier_enfos_mk_wukongs_command_thinker',
     'modifier_enfos_mk_mischief_passive',
-    'modifier_enfos_am_counterspell_passive',
-    'modifier_enfos_am_counterspell_active',
     'modifier_enfos_am_mana_void_stun',
     'modifier_enfos_am_spellbreaker_passive',
     'modifier_enfos_void_time_dilation_debuff',
@@ -5221,33 +5219,6 @@ end
 -- ----------------------------------------------------------------------------
 
 -- Native Mana Break owns mana damage; minimal physical proc is isolated.
-
-enfos_am_counterspell=class({})
-function enfos_am_counterspell:GetIntrinsicModifierName() return 'modifier_enfos_am_counterspell_passive' end
-function enfos_am_counterspell:OnSpellStart()
-    local c = self:GetCaster()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
-    c:EmitSound('Hero_Antimage.Counterspell.Cast')
-    effect('particles/units/heroes/hero_antimage/antimage_spellshield.vpcf', c)
-    c:AddNewModifier(c, self, 'modifier_enfos_am_counterspell_active', { duration = value(self, 'active_duration') })
-end
-
-modifier_enfos_am_counterspell_passive=class({})
-function modifier_enfos_am_counterspell_passive:DeclareFunctions() return { MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS } end
-function modifier_enfos_am_counterspell_passive:GetModifierMagicalResistanceBonus()
-    local c = self:GetParent()
-    if c and ((c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion())) then return 0 end
-    return (self.GetAbility and value(self:GetAbility(), 'magic_resist')) or 40
-end
-
-modifier_enfos_am_counterspell_active=class({})
-function modifier_enfos_am_counterspell_active:DeclareFunctions() return { MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS } end
-function modifier_enfos_am_counterspell_active:GetModifierMagicalResistanceBonus()
-    local ab = self:GetAbility()
-    return ab and value(ab, 'active_resist') or 100
-end
-function modifier_enfos_am_counterspell_active:GetEffectName() return 'particles/units/heroes/hero_antimage/antimage_spellshield.vpcf' end
-function modifier_enfos_am_counterspell_active:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 
 enfos_am_mana_void=class({})
 function enfos_am_mana_void:OnSpellStart()

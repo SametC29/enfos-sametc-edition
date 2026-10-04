@@ -818,8 +818,8 @@
     "DOTA_Tooltip_Ability_enfos_am_mana_break_Description": "Saldırılar {{mana_per_hit}} mana ve hedefin azami manasının %{{mana_per_hit_pct}} kadarını yakar; yakılan mananın %65’i kadar fiziksel hasar verir. Gerçek kahramanın saldırıları, manasız birimler dahil, {{bonus_damage}} + Çeviklik × {{agility_factor}} ek fiziksel hasar verir. Kırılma iki etkiyi de durdurur. İllüzyonlar mana yakmanın %25’ini korur; ek PvE hasarı kazanmaz.",
     "DOTA_Tooltip_Ability_enfos_am_blink": "Göz Kırpma",
     "DOTA_Tooltip_Ability_enfos_am_blink_Description": "Seçilen noktaya en fazla {{AbilityCastRange}}, en az {{min_blink_range}} mesafeye ışınlanır. Köklenmişken kullanılamaz; gelen mermilerden sıyrılır.",
-    "DOTA_Tooltip_Ability_enfos_am_counterspell": "Büyü Kalkanı",
-    "DOTA_Tooltip_Ability_enfos_am_counterspell_Description": "Pasif olarak +%{{magic_resist}} büyü direnci verir. Etkinleştirildiğinde {{active_duration}} sn boyunca +%{{active_resist}} büyü direnci sağlar.",
+    "DOTA_Tooltip_Ability_enfos_am_counterspell": "Karşı Büyü",
+    "DOTA_Tooltip_Ability_enfos_am_counterspell_Description": "Pasif olarak %{{magic_resistance}} büyü direnci verir. {{duration}} saniyelik kalkan, hedefli büyüleri engeller ve yansıtır. Break pasif direnci devre dışı bırakır.",
     "DOTA_Tooltip_Ability_enfos_am_mana_void": "Mana Boşluğu",
     "DOTA_Tooltip_Ability_enfos_am_mana_void_Description": "Hedefin eksik manası üzerinden patlama yaratır: {{base_damage}} + eksik mana x {{damage_per_missing_mana}} + Çeviklik x {{agility_factor}} büyü hasarı verir (yarıçap {{radius}}). Boss hasarı en fazla canının %{{boss_damage_cap_pct}} kadardır; bosslar sersemletilmez.",
     "DOTA_Tooltip_Ability_enfos_am_spellbreaker": "Büyü Kırıcı",
@@ -1844,6 +1844,12 @@
     "DOTA_Tooltip_ability_enfos_am_blink": "Göz Kırpma",
     "DOTA_Tooltip_ability_enfos_am_blink_Description": "Seçilen noktaya en fazla {{AbilityCastRange}}, en az {{min_blink_range}} mesafeye ışınlanır. Köklenmişken kullanılamaz; gelen mermilerden sıyrılır.",
     "DOTA_Tooltip_ability_enfos_am_blink_SummaryDescription": "Seçilen noktaya en fazla {{AbilityCastRange}}, en az {{min_blink_range}} mesafeye ışınlanır. Köklenmişken kullanılamaz; gelen mermilerden sıyrılır.",
-    "DOTA_Tooltip_ability_enfos_am_blink_scepter_description": "Göz Kırpma sonrasında 5 saniye içindeki sonraki Mana Break, hedefin azami manasının ilave %20’sini yakar ve 6 saniye boyunca mana yenilenmesini veya kazanımını engeller. Bu olumsuz etki giderilemez."
+    "DOTA_Tooltip_ability_enfos_am_blink_scepter_description": "Göz Kırpma sonrasında 5 saniye içindeki sonraki Mana Break, hedefin azami manasının ilave %20’sini yakar ve 6 saniye boyunca mana yenilenmesini veya kazanımını engeller. Bu olumsuz etki giderilemez.",
+    "DOTA_Tooltip_Ability_enfos_am_counterspell_SummaryDescription": "Pasif olarak %{{magic_resistance}} büyü direnci verir. {{duration}} saniyelik kalkan, hedefli büyüleri engeller ve yansıtır. Break pasif direnci devre dışı bırakır.",
+    "DOTA_Tooltip_Ability_enfos_am_counterspell_shard_description": "Birime hedeflenen bir büyü yansıtıldığında, büyüyü kullananın yanında {{duration_illusion}} saniyeliğine bir kopya oluşur.",
+    "DOTA_Tooltip_ability_enfos_am_counterspell": "Karşı Büyü",
+    "DOTA_Tooltip_ability_enfos_am_counterspell_Description": "Pasif olarak %{{magic_resistance}} büyü direnci verir. {{duration}} saniyelik kalkan, hedefli büyüleri engeller ve yansıtır. Break pasif direnci devre dışı bırakır.",
+    "DOTA_Tooltip_ability_enfos_am_counterspell_SummaryDescription": "Pasif olarak %{{magic_resistance}} büyü direnci verir. {{duration}} saniyelik kalkan, hedefli büyüleri engeller ve yansıtır. Break pasif direnci devre dışı bırakır.",
+    "DOTA_Tooltip_ability_enfos_am_counterspell_shard_description": "Birime hedeflenen bir büyü yansıtıldığında, büyüyü kullananın yanında {{duration_illusion}} saniyeliğine bir kopya oluşur."
   }
 }

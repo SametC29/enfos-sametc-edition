@@ -416,5 +416,29 @@
       "Native/client Scepter readpath and no double bonus",
       "Points/rank10/respawn/reconnect and cold VFX/SFX"
     ]
+  },
+  "eResearch": {
+    "date": "2026-10-04",
+    "verifiedBuild": "6943/rev11069754",
+    "decision": "Native alias; no copied absorb/reflect/illusion logic; preserve authored resistance20..50,duration1.4..3,CD12..6,mana40; retire active broad resistance60..100",
+    "resources": [
+      {
+        "path": "particles/units/heroes/hero_antimage/antimage_counter.vpcf_c",
+        "status": "FILE_VERIFIED",
+        "sha256": "b917ddc1a3943c8752b241e971f74431fca90017ca867a7759f4fa2396abe528"
+      },
+      {
+        "path": "particles/units/heroes/hero_antimage/antimage_spellshield_reflect.vpcf_c",
+        "status": "FILE_VERIFIED",
+        "sha256": "1b421955c2596b5dde8b3d8659908619a02d6281b9cea2df9dc0c5c1b7d95479"
+      }
+    ],
+    "associatedAbilityApi": "GetAssociatedPrimaryAbilities SERVER; no guess of native linked identity",
+    "enginePending": [
+      "Native block/reflect and Shard fragment ability copying/cleanup",
+      "Native reflection recursion/blocked spells/channel/AoE/immune eligibility",
+      "Ten native ranks/passive Break/illusions/points/HUD",
+      "cold VFX/SFX/respawn/reconnect"
+    ]
   }
 }
