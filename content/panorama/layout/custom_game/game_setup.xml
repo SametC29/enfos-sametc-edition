@@ -12,8 +12,8 @@
 		<Panel class="SetupContent">
 			<!-- Header -->
 			<Panel class="HeaderContainer">
-				<Label class="SetupTitle" text="ENFOS TEAM SURVIVAL" />
-				<Label class="SetupSubtitle" text="GAME SETUP" />
+				<Label class="SetupTitle" text="#enfos_brand" />
+				<Label class="SetupSubtitle" text="#enfos_setup_title" />
 			</Panel>
 
 			<!-- Teams Container -->
@@ -21,7 +21,7 @@
 				<!-- Radiant -->
 				<Button id="RadiantPanel" class="TeamCard" onactivate="EnfosSetup.JoinTeam(2)">
 					<Panel class="TeamHeaderBar RadiantHeaderBar" hittest="false">
-						<Label class="TeamHeaderText RadiantText" text="RADIANT" hittest="false" />
+						<Label class="TeamHeaderText RadiantText" text="#enfos_setup_radiant" hittest="false" />
 					</Panel>
 					<Panel id="RadiantSlots" class="SlotsContainer" hittest="false" />
 				</Button>
@@ -29,7 +29,7 @@
 				<!-- Dire -->
 				<Button id="DirePanel" class="TeamCard" onactivate="EnfosSetup.JoinTeam(3)">
 					<Panel class="TeamHeaderBar DireHeaderBar" hittest="false">
-						<Label class="TeamHeaderText DireText" text="DIRE" hittest="false" />
+						<Label class="TeamHeaderText DireText" text="#enfos_setup_dire" hittest="false" />
 					</Panel>
 					<Panel id="DireSlots" class="SlotsContainer" hittest="false" />
 				</Button>
@@ -37,45 +37,45 @@
 
 			<!-- Difficulty Section -->
 			<Panel class="DifficultySection">
-				<Label class="DifficultyLabel" text="DIFFICULTY" />
+				<Label class="DifficultyLabel" text="#enfos_setup_difficulty" />
 				
 				<Button id="DifficultyDropdown" class="DifficultySelector" onactivate="EnfosSetup.ToggleDifficultyDropdown()">
-					<Label id="SelectedDifficultyText" text="NORMAL" hittest="false" />
+					<Label id="SelectedDifficultyText" text="#enfos_setup_diff_normal" hittest="false" />
 					<Panel class="DropdownArrow" hittest="false" />
 				</Button>
 
 				<Panel id="DifficultyOptions" class="DifficultyDropdownMenu">
 					<Button class="DifficultyOption" onactivate="EnfosSetup.SelectDifficulty('casual')">
-						<Label class="OptionTitle" text="CASUAL" hittest="false" />
-						<Label class="OptionDesc" text="Creature HP x0.75" hittest="false" />
+						<Label class="OptionTitle" text="#enfos_setup_diff_casual" hittest="false" />
+						<Label class="OptionDesc" text="#enfos_setup_hp_casual" hittest="false" />
 					</Button>
 					<Button class="DifficultyOption" onactivate="EnfosSetup.SelectDifficulty('normal')">
-						<Label class="OptionTitle" text="NORMAL" hittest="false" />
-						<Label class="OptionDesc" text="Creature HP x1.00" hittest="false" />
+						<Label class="OptionTitle" text="#enfos_setup_diff_normal" hittest="false" />
+						<Label class="OptionDesc" text="#enfos_setup_hp_normal" hittest="false" />
 					</Button>
 					<Button class="DifficultyOption" onactivate="EnfosSetup.SelectDifficulty('hard')">
-						<Label class="OptionTitle" text="HARD" hittest="false" />
-						<Label class="OptionDesc" text="Creature HP x1.25" hittest="false" />
+						<Label class="OptionTitle" text="#enfos_setup_diff_hard" hittest="false" />
+						<Label class="OptionDesc" text="#enfos_setup_hp_hard" hittest="false" />
 					</Button>
 					<Button class="DifficultyOption" onactivate="EnfosSetup.SelectDifficulty('nightmare')">
-						<Label class="OptionTitle" text="NIGHTMARE" hittest="false" />
-						<Label class="OptionDesc" text="Creature HP x1.50" hittest="false" />
+						<Label class="OptionTitle" text="#enfos_setup_diff_nightmare" hittest="false" />
+						<Label class="OptionDesc" text="#enfos_setup_hp_nightmare" hittest="false" />
 					</Button>
 					<Button class="DifficultyOption" onactivate="EnfosSetup.SelectDifficulty('hell')">
-						<Label class="OptionTitle" text="HELL" hittest="false" />
-						<Label class="OptionDesc" text="Creature HP x2.00" hittest="false" />
+						<Label class="OptionTitle" text="#enfos_setup_diff_hell" hittest="false" />
+						<Label class="OptionDesc" text="#enfos_setup_hp_hell" hittest="false" />
 					</Button>
 				</Panel>
 
-				<Label id="DifficultyDetail" text="Creature HP x1.0" />
+				<Label id="DifficultyDetail" text="#enfos_setup_hp_normal" />
 			</Panel>
 
 			<!-- Start Game Action -->
 			<Panel class="ActionContainer">
 				<Button id="StartGameButton" class="StartGameBtn" onactivate="EnfosSetup.StartGame()">
-					<Label id="StartGameLabel" text="START GAME" hittest="false" />
+					<Label id="StartGameLabel" text="#enfos_setup_start" hittest="false" />
 				</Button>
-				<Label id="AutoStartTimer" class="AutoStartText" text="Auto-starting..." />
+				<Label id="AutoStartTimer" class="AutoStartText" text="#enfos_setup_autostart" />
 			</Panel>
 		</Panel>
 	</Panel>

@@ -7,8 +7,8 @@ import { readAbilitySources } from './lib/ability_sources.mjs';
 
 export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-// Turkish is the source of truth.  Other languages auto-mirror Turkish
-// tokens until real translations are provided.
+// Turkish is the authored source. Every supported locale must translate every
+// source token; missing translations fail generation instead of leaking Turkish.
 export const SOURCE_LANG = 'turkish';
 export const languages = ['english', 'turkish', 'russian', 'schinese'];
 const langDisplayName = { english: 'English', turkish: 'Turkish', russian: 'Russian', schinese: 'SChinese' };
@@ -20,6 +20,7 @@ export function generateLocalization(check = false) {
   // Load Turkish source first
   const sourceData = JSON.parse(fs.readFileSync(path.join(root, `localization/${SOURCE_LANG}.json`), 'utf8'));
   const sourceKeys = Object.keys(sourceData.Tokens).sort();
+  const placeholderShape = value => (value.match(/\{\{[^{}]+\}\}|%[df][A-Z0-9_]+%+/g) ?? []).sort().join('\n');
 
   const escape = value => value.replaceAll('"', '\\"');
 
@@ -46,16 +47,32 @@ export function generateLocalization(check = false) {
   for (const lang of languages) {
     let data;
     if (lang === SOURCE_LANG) {
-      data = sourceData;
+      // Alias generation below mutates the working token map. Keep the
+      // authored source immutable so later locale checks compare raw values.
+      data = { ...sourceData, Tokens: { ...sourceData.Tokens } };
     } else {
-      // Mirror: use existing lang file but fill missing tokens from Turkish
+      // Require complete locale coverage so Turkish source text cannot leak
+      // into English, Russian, or Simplified Chinese builds.
       const langFile = path.join(root, `localization/${lang}.json`);
       data = JSON.parse(fs.readFileSync(langFile, 'utf8'));
-      for (const key of sourceKeys) {
-        if (!(key in data.Tokens)) {
-          data.Tokens[key] = sourceData.Tokens[key]; // Turkish placeholder
-        }
-      }
+      const missing = sourceKeys.filter(key => !(key in data.Tokens));
+      if (missing.length) throw new Error(`${lang}: missing ${missing.length} translations: ${missing.slice(0, 20).join(', ')}`);
+      const mismatched = sourceKeys.filter(key => placeholderShape(sourceData.Tokens[key]) !== placeholderShape(data.Tokens[key]));
+      if (mismatched.length) throw new Error(`${lang}: placeholder mismatch in ${mismatched.length} translations: ${mismatched.slice(0, 20).join(', ')}`);
+    }
+
+    // Wave labels are deliberately generated: their number and Boss cadence
+    // are data, while the visible wording belongs to the selected locale.
+    for (let wave = 1; wave <= 60; wave++) {
+      const boss = wave % 5 === 0;
+      const title = {
+        english: boss ? `Boss Fight: Wave ${wave}` : `Assault: Wave ${wave}`,
+        turkish: `${boss ? 'Boss Karşılaşması' : 'Saldırı'}: Dalga ${wave}`,
+        russian: `${boss ? 'Битва с боссом' : 'Натиск'}: волна ${wave}`,
+        schinese: boss ? `首领战：第${wave}波` : `进攻：第${wave}波`,
+      }[lang];
+      data.Tokens[`enfos_wave_title_${wave}`] = title;
+      data.Tokens[`enfos_wave_desc_${wave}`] = title;
     }
 
     // Native tooltips request lowercase 'ability'; cover names and descriptions

@@ -807,7 +807,7 @@ All authored heroes are available to every player. Additional heroes are added t
 ## 31. Localization
 
 Mandatory:
-- English (`en`) — fallback/source
+- English (`en`) — in-game fallback; Turkish is the authored source file
 - Turkish (`tr`)
 - Russian (`ru`)
 - Simplified Chinese (`zh-CN`)
@@ -815,10 +815,10 @@ Mandatory:
 No user-visible hard-coded strings.
 
 Localize all:
-heroes, skills, Innates, Evolution, Shard/Scepter, Passive Tree, creeps, waves, Elite/Boss, Spellbringer, Boons/Pacts, Ascended items, progression, errors, onboarding, patch notices.
+heroes, skills, Innates, Shard/Scepter, creeps, scheduled waves and bosses, Spellbringer, Boons/Pacts, Ascended items, match-local leveling, errors, onboarding, and patch notices.
 
 Validation:
-- missing keys,
+- missing keys or placeholder mismatches (localization generation fails if a supported locale lacks a Turkish source token or changes its runtime placeholders),
 - orphan keys,
 - duplicate keys,
 - placeholder mismatch,

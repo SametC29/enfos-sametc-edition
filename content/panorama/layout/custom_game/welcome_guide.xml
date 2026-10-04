@@ -14,12 +14,12 @@
 			<!-- Header -->
 			<Panel class="GuideHeader">
 				<Panel class="GuideTitleRow">
-					<Label class="GuideTitle" text="ENFOS TEAM SURVIVAL" />
+					<Label class="GuideTitle" text="#enfos_guide_title" />
 					<Button class="GuideCloseBtn" onactivate="EnfosWelcomeGuide.CloseGuide()">
 						<Label text="✕" />
 					</Button>
 				</Panel>
-				<Label class="GuideSubtitle" text="HIZLI BAŞLANGIÇ & OYUN REHBERİ • QUICK START GUIDE" />
+				<Label class="GuideSubtitle" text="#enfos_guide_subtitle" />
 				<Panel class="GuideGoldLine" />
 			</Panel>
 
@@ -27,76 +27,71 @@
 			<Panel class="GuideColumnsContainer">
 				<!-- Column 1: Core Rules & Waves -->
 				<Panel class="GuideColumn">
-					<Label class="ColumnHeader" text="TEMEL KURALLAR & DALGALAR" />
+					<Label class="ColumnHeader" text="#enfos_guide_rules" />
 					
 					<Panel class="GuideRow">
 						<Label class="RowBullet" text="•" />
-						<Label class="RowText" text="Takım Canı 100 ile başlar. Koridorlardaki birim sınırı aşıldığında biriken fazlalık düşmanlar doğrudan can kaybı yaratır." />
+						<Label class="RowText" text="#enfos_guide_life" />
 					</Panel>
 
 					<Panel class="GuideRow">
 						<Label class="RowBullet" text="•" />
-						<Label class="RowText" text="Toplam 60 Dalga: Her 5. dalga yalnız bir Boss içerir ve Kereste kazandırır. Her 6. dalga Elit yaratıklar çıkarır." />
+						<Label class="RowText" text="#enfos_guide_waves" />
 					</Panel>
 
 					<Panel class="GuideRow">
 						<Label class="RowBullet" text="•" />
-						<Label class="RowText" text="Spellbringer (F3): Ayrı manaya sahip büyü taşıyıcınız ile acil durumlarda takımı kurtarabilir veya rakip takımı zora sokabilirsiniz." />
+						<Label class="RowText" text="#enfos_guide_spellbringer" />
 					</Panel>
 				</Panel>
 
 				<!-- Column 2: Economy & Ascended -->
 				<Panel class="GuideColumn">
-					<Label class="ColumnHeader" text="EKONOMİ & YÜKSELMİŞ EŞYALAR" />
+					<Label class="ColumnHeader" text="#enfos_guide_economy" />
 					
 					<Panel class="GuideRow">
 						<Label class="RowBullet" text="•" />
-						<Label class="RowText" text="Yükselmiş Dükkan (B): Boss dalgalarından gelen Kereste ile normal eşyalarınızı efsanevi Yükselmiş kademeye geçirin." />
+						<Label class="RowText" text="#enfos_guide_ascended" />
 					</Panel>
 
 					<Panel class="GuideRow">
 						<Label class="RowBullet" text="•" />
-						<Label class="RowText" text="Aghanim'in Lütfu: Aghanim'in Asasını tüketerek envanter yuvasını serbest bırakır ve bonuslarını kalıcı olarak korur." />
-					</Panel>
-
-					<Panel class="GuideRow">
-						<Label class="RowBullet" text="•" />
-						<Label class="RowText" text="Gelişim Seçimleri (N): Seviye 4, 7, 10, 13, 16 ve 19'da oyun tarzınızı özelleştiren dallar seçin veya sıraya alın." />
+						<Label class="RowText" text="#enfos_guide_scepter" />
 					</Panel>
 				</Panel>
 
 				<!-- Column 3: Shortcuts & Controls -->
 				<Panel class="GuideColumn">
-					<Label class="ColumnHeader" text="KISAYOLLAR & KONTROLLER" />
+					<Label class="ColumnHeader" text="#enfos_guide_controls" />
 					
 					<Panel class="ShortcutRow">
 						<Panel class="KeyBadge"><Label text="F1" /></Panel>
-						<Label class="ShortcutDesc" text="Kahramanı Seç" />
+						<Label class="ShortcutDesc" text="#enfos_guide_hero" />
 					</Panel>
 
 					<Panel class="ShortcutRow">
 						<Panel class="KeyBadge"><Label text="F2" /></Panel>
-						<Label class="ShortcutDesc" text="Kuryeyi Seç" />
+						<Label class="ShortcutDesc" text="#enfos_guide_courier" />
 					</Panel>
 
 					<Panel class="ShortcutRow">
 						<Panel class="KeyBadge"><Label text="F3" /></Panel>
-						<Label class="ShortcutDesc" text="Spellbringer'ı Seç" />
+						<Label class="ShortcutDesc" text="#enfos_guide_select_spellbringer" />
 					</Panel>
 
 					<Panel class="ShortcutRow">
 						<Panel class="KeyBadge"><Label text="B" /></Panel>
-						<Label class="ShortcutDesc" text="Yükselmiş Dükkan (Ascended Shop)" />
+						<Label class="ShortcutDesc" text="#enfos_guide_open_shop" />
 					</Panel>
 
 					<Panel class="ShortcutRow">
 						<Panel class="KeyBadge"><Label text="N" /></Panel>
-						<Label class="ShortcutDesc" text="Gelişim Kuyruğu (Milestones)" />
+						<Label class="ShortcutDesc" text="#enfos_guide_scoreboard" />
 					</Panel>
 
 					<Panel class="ShortcutRow">
 						<Panel class="KeyBadge"><Label text="V" /></Panel>
-						<Label class="ShortcutDesc" text="Kutsama Oylaması (Boon Vote)" />
+						<Label class="ShortcutDesc" text="#enfos_guide_vote" />
 					</Panel>
 				</Panel>
 			</Panel>
@@ -104,7 +99,7 @@
 			<!-- Footer Action -->
 			<Panel class="GuideFooter">
 				<Button class="GuideReadyButton" onactivate="EnfosWelcomeGuide.CloseGuide()">
-					<Label text="ANLADIM, SAVAŞA BAŞLA / READY" />
+					<Label text="#enfos_guide_ready" />
 				</Button>
 			</Panel>
 		</Panel>

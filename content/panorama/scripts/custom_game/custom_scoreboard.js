@@ -206,11 +206,13 @@ if (typeof GameUI !== "undefined" && GameUI.CustomUIConfig) {
             if (heroName) {
                 r.heroImg.heroname = heroName;
                 var cleanHeroName = heroName.replace("npc_dota_hero_", "");
-                r.heroSub.text = cleanHeroName.toUpperCase();
+                var heroToken = "#npc_dota_hero_" + cleanHeroName;
+                var localizedHeroName = $.Localize(heroToken);
+                r.heroSub.text = localizedHeroName && localizedHeroName !== heroToken ? localizedHeroName.toUpperCase() : cleanHeroName.toUpperCase();
             }
 
-            var pName = Players.GetPlayerName ? Players.GetPlayerName(pid) : ("Player " + pid);
-            r.nameLabel.text = pName || ("Player " + pid);
+            var pName = Players.GetPlayerName ? Players.GetPlayerName(pid) : ($.Localize("#enfos_player") + " " + pid);
+                r.nameLabel.text = pName || ($.Localize("#enfos_player") + " " + pid);
 
             var stats = (typeof CustomNetTables !== "undefined") ? CustomNetTables.GetTableValue("player_stats", String(pid)) : null;
             var econ = (typeof CustomNetTables !== "undefined") ? CustomNetTables.GetTableValue("economy_state", String(pid)) : null;

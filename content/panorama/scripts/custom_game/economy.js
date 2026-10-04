@@ -54,17 +54,17 @@ function OnEconomyStateChanged(table_name, key, data) {
 	// Update Tome Labels with dynamic escalating costs
 	var strLabel = $("#StrTomeLabel");
 	if (strLabel && data.tome_str_cost) {
-		strLabel.text = "STR +2 (" + data.tome_str_cost + "g) [" + (data.tome_str_count || 0) + "]";
+		strLabel.text = $.Localize("#enfos_economy_str") + " +2 (" + data.tome_str_cost + "g) [" + (data.tome_str_count || 0) + "]";
 	}
 
 	var agiLabel = $("#AgiTomeLabel");
 	if (agiLabel && data.tome_agi_cost) {
-		agiLabel.text = "AGI +2 (" + data.tome_agi_cost + "g) [" + (data.tome_agi_count || 0) + "]";
+		agiLabel.text = $.Localize("#enfos_economy_agi") + " +2 (" + data.tome_agi_cost + "g) [" + (data.tome_agi_count || 0) + "]";
 	}
 
 	var intLabel = $("#IntTomeLabel");
 	if (intLabel && data.tome_int_cost) {
-		intLabel.text = "INT +2 (" + data.tome_int_cost + "g) [" + (data.tome_int_count || 0) + "]";
+		intLabel.text = $.Localize("#enfos_economy_int") + " +2 (" + data.tome_int_cost + "g) [" + (data.tome_int_count || 0) + "]";
 	}
 }
 
@@ -86,7 +86,7 @@ function UpdateTeammateList() {
 
 		var nameLabel = $.CreatePanel("Label", row, "");
 		nameLabel.AddClass("TeammateName");
-		nameLabel.text = Players.GetPlayerName(pid) || ("Player " + pid);
+		nameLabel.text = Players.GetPlayerName(pid) || ($.Localize("#enfos_player") + " " + pid);
 
 		// Gold send buttons
 		var goldBtn500 = $.CreatePanel("Button", row, "");

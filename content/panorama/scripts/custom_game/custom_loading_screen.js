@@ -5,24 +5,24 @@ var EnfosLoading = (function () {
 
 	var tips = [
 		{
-			category: "EKONOMİ & GELİŞİM",
-			text: "Boss dalgalarından kazanılan Kereste ile eşyalarınızı Yükselmiş (Ascended) seviyeye çıkarabilir veya Aghanim'in Lütfu ile envanter yuvası kazanabilirsiniz."
+			category: "#enfos_loading_tip_economy",
+			text: "#enfos_loading_tip_economy_desc"
 		},
 		{
-			category: "SPELLBRINGER TAKTİĞİ",
-			text: "Spellbringer bağımsız bir mana havuzuna sahiptir. Dalga sıkışması anında Şok Dalgası veya Kalkan Büyüsü ile takım canınızı kurtarın."
+			category: "#enfos_loading_tip_spellbringer",
+			text: "#enfos_loading_tip_spellbringer_desc"
 		},
 		{
-			category: "TAKIM CANI (TEAM LIFE)",
-			text: "Takım Canınız 100 ile başlar. Koridordaki birim sınırı aşıldığında biriken her fazlalık düşman doğrudan kalıcı Can kaybına dönüşür."
+			category: "#enfos_loading_tip_life",
+			text: "#enfos_loading_tip_life_desc"
 		},
 		{
-			category: "GELİŞİM MİLESTONE SEÇİMLERİ",
-			text: "Seviye 4, 7, 10, 13, 16 ve 19'da oyun tarzınıza uygun uzmanlaşma dallarını seçin. Seçimi erteleyebilir veya sıraya alabilirsiniz."
+			category: "#enfos_loading_tip_waves",
+			text: "#enfos_loading_tip_waves_desc"
 		},
 		{
-			category: "ELİT VE BOSS TEHLİKELERİ",
-			text: "Her 5. dalga sadece Boss içerir. Her 6. dalga ise tehlikeli Elit yaratıklar doğurur; kitle kontrol ve zırh kırma yeteneklerinizi hazır tutun."
+			category: "#enfos_loading_tip_boss",
+			text: "#enfos_loading_tip_boss_desc"
 		}
 	];
 
@@ -35,8 +35,8 @@ var EnfosLoading = (function () {
 		var catLabel = $("#TipCategory");
 		var textLabel = $("#StrategyTipText");
 
-		if (catLabel) catLabel.text = tip.category;
-		if (textLabel) textLabel.text = tip.text;
+		if (catLabel) catLabel.text = $.Localize(tip.category);
+		if (textLabel) textLabel.text = $.Localize(tip.text);
 
 		$.Schedule(4.5, RotateTip);
 	}
