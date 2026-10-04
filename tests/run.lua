@@ -834,7 +834,8 @@ test("native Boss AI finds the defended team as friendlies and issues a native t
     function ability:GetAbilityTargetFlags() return DOTA_UNIT_TARGET_FLAG_NONE end
     function ability:GetCastRange() return 600 end
     function ability:entindex() return 77 end
-    local boss={}
+    local boss={creepState={}}
+    function boss:HasModifier() return false end
     function boss:IsNull() return false end
     function boss:IsAlive() return true end
     function boss:IsStunned() return false end

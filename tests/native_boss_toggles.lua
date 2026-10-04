@@ -22,7 +22,8 @@ local ability={IsNull=function() return false end,IsHidden=function() return fal
  GetBehaviorInt=function() return 48 end,GetToggleState=function() return on end,
  GetAbilityTargetTeam=function() return DOTA_UNIT_TARGET_TEAM_FRIENDLY end,
  entindex=function() return 77 end}
-local unit={IsNull=function() return false end,IsAlive=function() return true end,
+local unit={creepState={},HasModifier=function() return false end,
+ IsNull=function() return false end,IsAlive=function() return true end,
  IsStunned=function() return false end,IsChanneling=function() return false end,
  IsSilenced=function() return false end,IsMuted=function() return false end,
  GetAbilityByIndex=function(_,slot) return slot==0 and ability or nil end,

@@ -269,11 +269,42 @@ local function nearbyDefenders(unit, state, ability, radiusLimit)
 			and target:GetTeamNumber() == state.defendingTeam
 			and not (target.IsInvulnerable and target:IsInvulnerable())
 			and not (target.IsInvisible and target:IsInvisible())
+			and not (target.IsOutOfGame and target:IsOutOfGame())
 			and (castRange <= 0 or (target:GetAbsOrigin() - unit:GetAbsOrigin()):Length2D() <= castRange) then
 			defenders[#defenders + 1] = target
 		end
 	end
-	return defenders
+	-- Preserve nearest order within each group; actual players outrank summons
+	-- and illusions even when those units stand between the Boss and the hero.
+	local prioritized = {}
+	for _, target in ipairs(defenders) do
+		if target.IsRealHero and target:IsRealHero() then prioritized[#prioritized + 1] = target end
+	end
+	for _, target in ipairs(defenders) do
+		if not (target.IsRealHero and target:IsRealHero()) then prioritized[#prioritized + 1] = target end
+	end
+	return prioritized
+end
+
+-- Both routed waves and the unrouted Tools arena use the same focus policy.
+-- A current hero remains the focus while eligible, avoiding attack animation
+-- resets and oscillation between equally good players every 0.4 seconds.
+function NativeBosses:SelectAttackTarget(unit, state, inCorridor)
+	local current = unit:GetAttackTarget()
+	local preferred, retained
+	for _, target in ipairs(nearbyDefenders(unit, state, nil, 750)) do
+		if not (target.IsAttackImmune and target:IsAttackImmune())
+			and (not inCorridor or inCorridor(target)) then
+			preferred = preferred or target
+			if target == current then retained = target end
+		end
+	end
+	if retained and preferred then
+		local preferredHero = preferred.IsRealHero and preferred:IsRealHero() or false
+		local retainedHero = retained.IsRealHero and retained:IsRealHero() or false
+		if preferredHero == retainedHero then return retained end
+	end
+	return preferred
 end
 
 local function issueCast(unit, ability, orderType, target)
@@ -387,7 +418,11 @@ end
 function NativeBosses:Think(unit, state)
 	if not unit or unit:IsNull() or not unit:IsAlive() then return nil end
 	if GameRules and GameRules.IsGamePaused and GameRules:IsGamePaused() then return THINK_INTERVAL end
-	if unit:IsStunned() or unit:IsChanneling() then return THINK_INTERVAL end
+	if unit:IsStunned() or unit:IsChanneling()
+		or (unit.IsCommandRestricted and unit:IsCommandRestricted())
+		or unit:HasModifier("modifier_enfos_axe_call_taunt")
+		or unit:HasModifier("modifier_enfos_legion_duel_buff")
+		or unit:HasModifier("modifier_enfos_pve_taunt") then return THINK_INTERVAL end
 	-- Checking only the candidate spell's phase allowed a later slot or item
 	-- to replace the already-started spell with another nonqueued order.
 	local activeAbility = unit.GetCurrentActiveAbility and unit:GetCurrentActiveAbility()
@@ -405,6 +440,15 @@ function NativeBosses:Think(unit, state)
 	if not (unit.IsMuted and unit:IsMuted()) then
 		for slot = 0, 5 do
 			if tryItem(unit, state, slot) then return THINK_INTERVAL end
+		end
+	end
+	-- The Tools arena has no Core route thinker. Native neutral acquisition
+	-- alone can stay on a creep, so explicitly acquire the preferred defender.
+	if not unit.creepState then
+		local target = self:SelectAttackTarget(unit, state)
+		if target and target ~= unit:GetAttackTarget() then
+			ExecuteOrderFromTable({UnitIndex = unit:entindex(), OrderType = DOTA_UNIT_ORDER_ATTACK_TARGET,
+				TargetIndex = target:entindex(), Queue = false})
 		end
 	end
 	return THINK_INTERVAL

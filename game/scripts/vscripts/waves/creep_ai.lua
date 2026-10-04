@@ -217,6 +217,7 @@ function CreepAI:OnThink(state)
 	local activeAbility = unit.GetCurrentActiveAbility and unit:GetCurrentActiveAbility()
 	local casting = activeAbility and not activeAbility:IsNull() and activeAbility:IsInAbilityPhase()
 	if unit:IsStunned() or unit:IsRooted() or unit:IsChanneling()
+		or (state.isBoss and unit.IsCommandRestricted and unit:IsCommandRestricted())
 		or casting
 		or unit:HasModifier("modifier_enfos_axe_call_taunt")
 		or unit:HasModifier("modifier_enfos_legion_duel_buff")
@@ -268,35 +269,54 @@ function CreepAI:OnThink(state)
 		else
 			state.leashed = false
 			local target = unit:GetAttackTarget()
-			if target and not target:IsNull() and target:IsAlive() then
-				state.stuckTimer = 0
-				state.lastPos = currentPos
-				return THINK_INTERVAL
-			end
-			-- Explicit acquisition: Query defending team's units (heroes, summons) within aggro range.
-			local enemies = FindUnitsInRadius(
-				state.defendingTeam,
-				currentPos,
-				nil,
-				750,
-				DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-				DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-				DOTA_UNIT_TARGET_FLAG_NONE,
-				FIND_CLOSEST,
-				false
-			)
-			for _, enemy in ipairs(enemies) do
-				if enemy and not enemy:IsNull() and enemy:IsAlive() and not enemy:IsInvulnerable() then
-					ExecuteOrderFromTable({
-						UnitIndex = unit:entindex(),
-						OrderType = DOTA_UNIT_ORDER_ATTACK_TARGET,
-						TargetIndex = enemy:entindex(),
-						Queue = false,
-					})
+			if state.isBoss then
+				local preferred = require("bosses/native_hero_bosses"):SelectAttackTarget(unit, state, function(enemy)
+					return self:DistanceToSegment(enemy:GetAbsOrigin(), previous, currentWaypoint) <= LEASH_DISTANCE
+				end)
+				if preferred then
+					if preferred ~= target or state.bossCastPending then
+						ExecuteOrderFromTable({UnitIndex = unit:entindex(), OrderType = DOTA_UNIT_ORDER_ATTACK_TARGET,
+							TargetIndex = preferred:entindex(), Queue = false})
+					end
+					state.bossCastPending = nil
 					state.stuckTimer = 0
+					state.lastPos = currentPos
 					return THINK_INTERVAL
 				end
-			end
+				-- No eligible defender: invalidate stale auto-acquisition and resume
+				-- the Core route rather than waiting forever on an immune target.
+				if target then state.bossCastPending = true end
+			else
+				if target and not target:IsNull() and target:IsAlive() then
+					state.stuckTimer = 0
+					state.lastPos = currentPos
+					return THINK_INTERVAL
+				end
+				-- Explicit acquisition: Query defending team's units (heroes, summons) within aggro range.
+				local enemies = FindUnitsInRadius(
+					state.defendingTeam,
+					currentPos,
+					nil,
+					750,
+					DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+					DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+					DOTA_UNIT_TARGET_FLAG_NONE,
+					FIND_CLOSEST,
+					false
+				)
+				for _, enemy in ipairs(enemies) do
+					if enemy and not enemy:IsNull() and enemy:IsAlive() and not enemy:IsInvulnerable() then
+						ExecuteOrderFromTable({
+							UnitIndex = unit:entindex(),
+							OrderType = DOTA_UNIT_ORDER_ATTACK_TARGET,
+							TargetIndex = enemy:entindex(),
+							Queue = false,
+						})
+						state.stuckTimer = 0
+						return THINK_INTERVAL
+					end
+				end
+			end -- Ordinary creep acquisition retains its existing behavior.
 		end
 	end
 
