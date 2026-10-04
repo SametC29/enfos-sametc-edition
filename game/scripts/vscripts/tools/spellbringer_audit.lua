@@ -189,6 +189,24 @@ function Audit.Compare(playerID)
                     local after = Audit.Snapshot(u)
                     local distance = math.sqrt((after.x-start.x)^2+(after.y-start.y)^2)
                     print(string.format("[SPELLBRINGER_COMPARE] case=%s entity=%d displacement=%.1f",case.label,u:entindex(),distance))
+                    -- If the normal server order fails, use the NPC movement
+                    -- method on temporary fixtures only. This distinguishes
+                    -- order acceptance from the unit motor/navigation itself.
+                    if case.label == "custom_bare" or case.label == "native_priest" then
+                        local directStart = u:GetAbsOrigin()
+                        local directX, directY = directStart.x, directStart.y
+                        u:MoveToPosition(destination)
+                        GameRules:GetGameModeEntity():SetContextThink("SpellbringerDirect_"..u:entindex(),function()
+                            if u:IsNull() or not u:IsAlive() then
+                                print("[SPELLBRINGER_COMPARE] case="..case.label.." direct=inconclusive_removed_or_dead")
+                                return nil
+                            end
+                            local directEnd = u:GetAbsOrigin()
+                            local directDistance = math.sqrt((directEnd.x-directX)^2+(directEnd.y-directY)^2)
+                            print(string.format("[SPELLBRINGER_COMPARE] case=%s entity=%d direct_displacement=%.1f",case.label,u:entindex(),directDistance))
+                            return nil
+                        end,2)
+                    end
                     return nil
                 end,3)
             else

@@ -4,7 +4,7 @@ print = function(line) lines[#lines + 1] = line end
 IsServer = function() return server end
 IsInToolsMode = function() return tools end
 GameRules = {GetGameTime=function() return now end, GetGameModeEntity=function()
-    return {SetContextThink=function(_,name,fn,delay) assert(delay==1 or delay==3); timers[name]=fn end}
+    return {SetContextThink=function(_,name,fn,delay) assert(delay==1 or delay==2 or delay==3); timers[name]=fn end}
 end}
 PlayerResource = {IsValidPlayerID=function(_,id) return id==0 end}
 local reachable=true
@@ -87,6 +87,7 @@ CreateUnitByName=function(name,pos,clear,owner,npcOwner,team)
         u[method]=function(self,...) self[method..'Args']={...} end
     end
     u.AddNewModifier=function(self,_,_,name,kv) assert(name=='modifier_kill' and kv.duration==8) end
+    u.MoveToPosition=function(self,destination) self.directDestination=destination end
     spawned[#spawned+1]=u;return u
 end
 ExecuteOrderFromTable=function(order) orders[#orders+1]=order end
@@ -108,6 +109,16 @@ assert(not audit.Compare(0) and #spawned==3,'repeated calls cannot accumulate fi
 spawned[1].pos.x=spawned[1].pos.x+150
 timers.SpellbringerCompare_10()
 assert(lines[#lines]:find('case=custom_bare',1,true) and lines[#lines]:find('displacement=150.0',1,true))
+assert(spawned[1].directDestination and timers.SpellbringerDirect_10,
+    'bare fixture should receive a direct-motor order after the normal order sample')
+spawned[1].pos.x=spawned[1].pos.x+120
+assert(timers.SpellbringerDirect_10()==nil)
+assert(lines[#lines]:find('case=custom_bare',1,true) and lines[#lines]:find('direct_displacement=120.0',1,true))
 spawned[2].removed=true;timers.SpellbringerCompare_11()
 assert(lines[#lines]:find('inconclusive=removed_or_dead',1,true))
+timers.SpellbringerCompare_12()
+assert(spawned[3].directDestination and timers.SpellbringerDirect_12,
+    'native control should also receive a direct-motor order')
+spawned[3].removed=true;timers.SpellbringerDirect_12()
+assert(lines[#lines]:find('direct=inconclusive_removed_or_dead',1,true))
 io.write('PASS Spellbringer read-only movement diagnostics\n')
