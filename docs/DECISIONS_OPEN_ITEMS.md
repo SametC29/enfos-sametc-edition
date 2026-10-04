@@ -511,3 +511,14 @@ second hit. Live STR at native impact replaces old cast-time STR snapshot.
 Ordinary callback pipeline/stacking, actual native damage and launched-wave
 lifetime remain owner pending; query math is not engine proof. The localization
 generator renders header AbilityDamage directly without another source curve.
+
+## Tidehunter D paid Catch/wave conversion, 2026-10-04
+
+PVE-CONVERT: exact native hidden rank1 Catch at hero Ability7, with native
+hero-kill/even-level fish, native health/range/conditional block and lifecycle.
+Paid D10 ranks/free D1 remain separate. Wave last hits add capped25 match loads,
+full-load authored health50..200 plus2 range/load; no wave fish, native grants,
+second block getter or creep hero-kill duplication. Break suspends wave bonuses
+without deleting loads; death/rank/reconnect use current values. Old flat armor
+and enemy aura are retired. Initial native free fish/points/UI and stats/cleanup
+are owner pending. Native assets are file-verified only; no engine acceptance.

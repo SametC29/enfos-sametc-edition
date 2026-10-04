@@ -217,7 +217,7 @@ LUA_MODIFIER_MOTION_NONE=0
 local links={};local count=0
 function LinkLuaModifier(name,path,motion)
  assert(client and motion==0)
- assert(path=='abilities/heroes/luna/modifiers' or path=='abilities/heroes/nevermore/d' or path=='abilities/heroes/nevermore/modifiers' or path=='abilities/heroes/bristleback/modifiers' or path=='abilities/heroes/slark/modifiers' or path=='abilities/heroes/slark/d' or path=='abilities/heroes/tidehunter/modifiers')
+ assert(path=='abilities/heroes/luna/modifiers' or path=='abilities/heroes/nevermore/d' or path=='abilities/heroes/nevermore/modifiers' or path=='abilities/heroes/bristleback/modifiers' or path=='abilities/heroes/slark/modifiers' or path=='abilities/heroes/slark/d' or path=='abilities/heroes/tidehunter/modifiers' or path=='abilities/heroes/tidehunter/d')
  assert(type(_G[name])=='table' and not links[name])
  links[name]=true;count=count+1
 end
@@ -225,11 +225,12 @@ local entry='game/scripts/vscripts/addon_game_mode_client.lua'
 assert(loadfile(entry))();assert(count==0)
 client=true
 assert(loadfile(entry))();assert(loadfile(entry))()
-assert(count==13 and links.modifier_enfos_luna_native_scaling)
+assert(count==14 and links.modifier_enfos_luna_native_scaling)
 assert(links.modifier_enfos_luna_blessing_extension and links.modifier_enfos_luna_blessing_extension_buff)
 assert(links.modifier_enfos_sf_feast_of_souls_passive)
 assert(links.modifier_enfos_sf_native_scaling)
 assert(links.modifier_enfos_bb_native_scaling)
+assert(links.modifier_enfos_tide_wave_catch)
 assert(links.modifier_enfos_slark_native_scaling and links.modifier_enfos_tide_native_scaling and links.modifier_enfos_tide_shell_extension)
 assert(links.modifier_enfos_slark_essence_shift_passive and links.modifier_enfos_slark_essence_shift_buff)
 assert(links.modifier_enfos_slark_fish_bait_passive and links.modifier_enfos_slark_fish_bait_debuff)

@@ -9,6 +9,116 @@ const q=all.enfos_tide_gush;
 const snapshot=JSON.parse(fs.readFileSync('docs/audit/TIDEHUNTER_NATIVE_SOURCE_2026-10-04.json','utf8'));
 const native=snapshot.abilities.tidehunter_gush;
 
+test('Automatic Tidehunter health reports native provider and wave loads without restoring or granting gameplay state',()=>{
+ const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{encoding:'utf8',input:`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+local server=true;function IsServer()return server end
+local lines={};print=function(v)lines[#lines+1]=v end
+local H=require('heroes/health')
+local native={IsNull=function()return false end,GetLevel=function()return 1 end,
+ GetIntrinsicModifierName=function()return 'modifier_tidehunter_leviathans_catch'end}
+local hero={IsNull=function()return false end,GetUnitName=function()return 'npc_dota_hero_tidehunter'end,
+ GetLevel=function()return 6 end,GetAbilityPoints=function()return 5 end,IsAlive=function()assert(server);return true end,
+ FindAbilityByName=function(_,id)if id=='tidehunter_leviathans_catch'then return native end end,
+ FindModifierByName=function(_,id)if id=='modifier_tidehunter_leviathans_catch'then return{IsNull=function()return false end}end
+ if id=='modifier_enfos_tide_wave_catch'then return{IsNull=function()return false end,GetStackCount=function()return 8 end}end end,
+ AddAbility=function()error('Read-only probe')end,AddNewModifier=function()error('Read-only probe')end}
+assert(H.Report(hero,0));local s=table.concat(lines,'|')
+assert(s:find('ability=tidehunter_leviathans_catch rank=1',1,true))
+assert(s:find('catch_intrinsic=modifier_tidehunter_leviathans_catch present=true',1,true))
+assert(s:find('wave_catch_stacks=8',1,true))
+local count=#lines;server=false;assert(not H.Report(hero,0) and #lines==count)
+`});assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');
+});
+
+test('Paid Catch keeps ten Enfos ranks while an exact hidden native rank1 provider is assigned before starting XP',()=>{
+ const d=all.enfos_tide_colossal_presence;
+ const hero=parseKV(fs.readFileSync('game/scripts/npc/npc_heroes_custom.txt','utf8')).DOTAHeroes.npc_dota_hero_tidehunter;
+ assert.equal(hero.Ability5,'enfos_tide_colossal_presence');assert.equal(hero.Ability7,'tidehunter_leviathans_catch');
+ assert.equal(snapshot.abilities.tidehunter_leviathans_catch.MaxLevel,'1');assert.equal(snapshot.abilities.tidehunter_leviathans_catch.Innate,'1');
+ assert.equal(all.tidehunter_leviathans_catch,undefined);
+ assert.equal(d.MaxLevel,'10');assert.equal(d.RequiredLevel,'1');assert.equal(d.LevelsBetweenUpgrades,'1');assert.equal(d.Innate,undefined);
+ assert.equal(d.ScriptFile,'abilities/heroes/tidehunter/d');assert.equal(d.AbilityTextureName,'tidehunter_leviathans_catch');
+ assert.equal(d.AbilityValues.wave_stack_cap,'25');assert.equal(d.AbilityValues.wave_attack_range,'2');
+ assert.equal(d.AbilityValues.wave_health_max,'50 67 83 100 117 133 150 167 183 200');
+ for(const key of ['bonus_armor','radius','enemy_slow_pct','enemy_damage_reduction'])assert.equal(d.AbilityValues[key],undefined);
+ const old=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');
+ assert.doesNotMatch(old,/modifier_enfos_tide_colossal_presence_aura|modifier_enfos_tide_colossal_presence_debuff|tide_passive_sources/);
+ const extension=fs.readFileSync('game/scripts/vscripts/abilities/heroes/tidehunter/d.lua','utf8');
+ assert.doesNotMatch(extension,/CreateUnit|FindUnits|StartIntervalThink|PHYSICAL_CONSTANT_BLOCK|ForceRefresh/);
+ const precache=fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua','utf8');
+ assert.ok(precache.includes('models/heroes/tidehunter/tidehunter_fish_pickup.vmdl'));
+ assert.ok(precache.includes('particles/units/heroes/hero_tidehunter/tidehunter_leviathans_catch.vpcf'));
+ for(const lang of ['english','turkish','russian','schinese']){
+  const t=JSON.parse(fs.readFileSync(`localization/${lang}.json`)).Tokens;
+  for(const key of ['wave_stack_cap','wave_health_max','wave_attack_range'])assert.ok(t.DOTA_Tooltip_Ability_enfos_tide_colossal_presence_Description.includes(`{{${key}}}`));
+  assert.equal(t.DOTA_Tooltip_modifier_enfos_tide_colossal_presence_debuff,undefined);
+ }
+});
+
+test('Native Catch restore preserves its handle/state and never duplicates fish, points or native rank-up grants',()=>{
+ const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{encoding:'utf8',input:`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t)t.__index=t;return t end
+function IsServer()return true end
+function LinkLuaModifier()end
+local I=require('abilities/heroes/tidehunter/integration')
+local native,adds,sets,mod=nil,0,0,nil
+local q={IsNull=function()return false end,GetLevel=function()return 0 end}
+local d={IsNull=function()return false end}
+local hero={IsNull=function()return false end,IsRealHero=function()return true end,IsIllusion=function()return false end,
+ GetUnitName=function()return 'npc_dota_hero_tidehunter'end,
+ FindAbilityByName=function(_,id)if id=='enfos_tide_gush'then return q elseif id=='enfos_tide_colossal_presence'then return d elseif id=='tidehunter_leviathans_catch'then return native end;assert(id=='enfos_tide_kraken_shell')end,
+ HasModifier=function()return mod~=nil end,AddNewModifier=function()mod={IsNull=function()return false end};return mod end,
+ SetAbilityPoints=function()error('No point mutation')end}
+hero.AddAbility=function(_,id)
+ assert(id=='tidehunter_leviathans_catch');adds=adds+1
+ native={rank=0,fish=7,IsNull=function()return false end,GetLevel=function(self)return self.rank end,
+ SetLevel=function(self,v)assert(v==1);sets=sets+1;self.rank=v end,SetHidden=function(_,v)assert(v)end,
+ ForceRefresh=function()error('Do not reset native state')end,SetStackCount=function()error('No fish grants')end}
+ return native
+end
+assert(I.Restore(hero));local handle=native;assert(I.Restore(hero));assert(native==handle and native.fish==7 and adds==1 and sets==1)
+native=nil;hero.AddAbility=function()return nil end;assert(not I.Restore(hero))
+`});assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');
+});
+
+test('Wave Catch is capped, Creature-aware, source/Break/client-safe and retains match stacks through death and rank changes',()=>{
+ const values=all.enfos_tide_colossal_presence.AbilityValues.wave_health_max.split(' ').join(',');
+ const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{encoding:'utf8',input:`
+function class(t)t.__index=t;return t end
+dofile('game/scripts/vscripts/abilities/heroes/tidehunter/d.lua')
+local server=true;function IsServer()return server end
+local rank,broken,removed,illusion,alive=1,false,false,false,true
+local recalcs,stacks=0,0;local values={${values}}
+local a={IsNull=function()return removed end,GetLevel=function()return rank end,GetSpecialValueFor=function(_,k)
+ return assert(({wave_stack_cap=25,wave_attack_range=2,wave_health_max=values[rank]})[k])end}
+local c={IsNull=function()return removed end,IsIllusion=function()return illusion end,PassivesDisabled=function()return broken end,
+ IsAlive=function()assert(server);return alive end,GetTeamNumber=function()return 2 end,CalculateStatBonus=function(_,v)assert(server and v);recalcs=recalcs+1 end}
+local m=setmetatable({GetParent=function()return c end,GetAbility=function()return a end,GetStackCount=function()return stacks end},modifier_enfos_tide_wave_catch)
+m.SetStackCount=function(_,v)stacks=v;m:OnStackCountChanged()end
+local function unit(team,hero,illusion,creep,creature)return {IsNull=function()return false end,GetTeamNumber=function()return team end,
+ IsHero=function()return hero end,IsIllusion=function()return illusion end,IsCreep=function()return creep end,IsCreature=function()return creature end}end
+local u=unit(3,false,false,false,true)
+for i=1,100 do m:OnDeath({attacker=c,unit=u})end
+assert(stacks==25 and recalcs==25 and m:GetModifierAttackRangeBonus()==50)
+for i=1,10 do rank=i;assert(m:GetModifierHealthBonus()==values[i]);assert(stacks==25)end
+stacks=10;local old=stacks
+for _,t in ipairs({unit(2,false,false,true,false),unit(3,true,false,false,false),unit(3,false,true,true,false),unit(3,false,false,false,false)})do m:OnDeath({attacker=c,unit=t});assert(stacks==old)end
+m:OnDeath({attacker={},unit=u});m:OnDeath({unit=u});m:OnDeath(nil);assert(stacks==old)
+broken=true;m:OnDeath({attacker=c,unit=u});assert(stacks==old and m:GetModifierHealthBonus()==0 and m:GetModifierAttackRangeBonus()==0);broken=false
+illusion=true;m:OnDeath({attacker=c,unit=u});assert(stacks==old);illusion=false
+alive=false;m:OnDeath({attacker=c,unit=u});assert(stacks==old and not m:RemoveOnDeath());alive=true
+rank=0;m:OnDeath({attacker=c,unit=u});assert(stacks==old and m:GetModifierHealthBonus()==0);rank=1
+removed=true;assert(m:GetModifierHealthBonus()==0 and m:GetModifierAttackRangeBonus()==0);removed=false
+server=false;c.IsAlive=function()error('Client server getter')end
+assert(m:GetModifierHealthBonus()==20 and m:GetModifierAttackRangeBonus()==20);m:OnDeath({attacker=c,unit=u});assert(stacks==old)
+local d=setmetatable({GetCaster=function()return c end},enfos_tide_colossal_presence)
+d:OnUpgrade();m:OnStackCountChanged();assert(recalcs==25)
+assert(m:IsHidden() and not m:IsPurgable())
+`});assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');
+});
+
 test('Ravage delegates wave/stun to native and preserves authored ten-rank header damage without a Boss cap',()=>{
  const r=all.enfos_tide_ravage,n=snapshot.abilities.tidehunter_ravage;
  assert.ok(isVerifiedNativeAbility('enfos_tide_ravage',r));
@@ -187,7 +297,7 @@ test('STR bridge is live, rank-correct and client-safe; restore is idempotent an
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end
 local server=true;function IsServer()return server end
-function LinkLuaModifier(name,path)assert((name=='modifier_enfos_tide_native_scaling' or name=='modifier_enfos_tide_shell_extension') and path=='abilities/heroes/tidehunter/modifiers')end
+function LinkLuaModifier(name,path)assert(((name=='modifier_enfos_tide_native_scaling' or name=='modifier_enfos_tide_shell_extension') and path=='abilities/heroes/tidehunter/modifiers') or (name=='modifier_enfos_tide_wave_catch' and path=='abilities/heroes/tidehunter/d'))end
 local Integration=require('abilities/heroes/tidehunter/integration')
 local rank,adds,str=0,0,40;local qnull,parentnull=false,false
 local values={${ranks}}
@@ -201,7 +311,7 @@ local q={IsNull=function()return qnull end,GetAbilityName=function()return 'enfo
 local handle
 local hero={IsNull=function()return parentnull end,IsRealHero=function()return true end,IsIllusion=function()return false end,
  GetUnitName=function()return 'npc_dota_hero_tidehunter'end,GetStrength=function()assert(not parentnull);return str end,
- FindAbilityByName=function(_,id)if id=='enfos_tide_gush' then return q end;assert(id=='enfos_tide_kraken_shell')end,
+ FindAbilityByName=function(_,id)if id=='enfos_tide_gush' then return q end;assert(id=='enfos_tide_kraken_shell' or id=='enfos_tide_colossal_presence')end,
  HasModifier=function()return handle~=nil end,
  AddAbility=function()error('No provider required')end,SetAbilityPoints=function()error('No point grants')end}
 local m=setmetatable({IsNull=function()return false end,GetParent=function()return hero end},modifier_enfos_tide_native_scaling)

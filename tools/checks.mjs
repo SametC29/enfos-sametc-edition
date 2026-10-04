@@ -241,9 +241,14 @@ check('hero / ability / localization references', () => {
   const items = kv('game/scripts/npc/npc_items_custom.txt').DOTAItems;
   const whitelist = kv('game/scripts/npc/herolist.txt').CustomHeroList;
   for (const hero of Object.keys(whitelist)) if (!heroes[hero]) throw new Error(`Unknown hero ${hero}`);
-  for (const hero of Object.values(heroes)) {
+  const nativeTide = JSON.parse(fs.readFileSync('docs/audit/TIDEHUNTER_NATIVE_SOURCE_2026-10-04.json', 'utf8')).abilities;
+  for (const [heroId, hero] of Object.entries(heroes)) {
     for (const [key, ability] of Object.entries(hero)) {
-      if (/^Ability\d+$/.test(key) && ability !== 'generic_hidden' && !abilities[ability]) throw new Error(`Unknown ability ${ability}`);
+      const verifiedCatch = heroId === 'npc_dota_hero_tidehunter' && key === 'Ability7'
+        && ability === 'tidehunter_leviathans_catch'
+        && nativeTide[ability]?.MaxLevel === '1' && nativeTide[ability]?.Innate === '1'
+        && nativeTide[ability]?.AbilityBehavior.includes('DOTA_ABILITY_BEHAVIOR_HIDDEN');
+      if (/^Ability\d+$/.test(key) && ability !== 'generic_hidden' && !abilities[ability] && !verifiedCatch) throw new Error(`Unknown ability ${ability}`);
     }
   }
   for (const lang of languages) {

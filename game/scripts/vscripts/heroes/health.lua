@@ -41,7 +41,17 @@ function Health.Report(hero,id)
                 end
             end
         end
-        if entry.id=='npc_dota_hero_bristleback' then
+        if entry.id=='npc_dota_hero_tidehunter' then
+            local a=hero:FindAbilityByName('tidehunter_leviathans_catch')
+            print('[HERO_HEALTH] ability=tidehunter_leviathans_catch rank='..tostring(a and not a:IsNull() and a:GetLevel() or 'missing'))
+            if a and not a:IsNull() then
+                local name=a:GetIntrinsicModifierName()
+                local m=name and name~='' and hero:FindModifierByName(name)
+                print('[HERO_HEALTH] catch_intrinsic='..tostring(name)..' present='..tostring(m and not m:IsNull() or false))
+            end
+            local m=hero:FindModifierByName('modifier_enfos_tide_wave_catch')
+            print('[HERO_HEALTH] wave_catch_stacks='..tostring(m and not m:IsNull() and m:GetStackCount() or 'missing'))
+        elseif entry.id=='npc_dota_hero_bristleback' then
             for _,name in ipairs({'bristleback_viscous_nasal_goo','bristleback_quill_spray',
                 'bristleback_bristleback','enfos_bb_native_hairball'}) do
                 local a=hero:FindAbilityByName(name)

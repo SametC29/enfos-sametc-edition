@@ -425,6 +425,28 @@
         "arguments": [],
         "returns": "int",
         "scope": "Ravage outgoing denominator; query value and callback math do not prove actual C++ damage or pipeline."
+      },
+      {
+        "name": "CDOTA_BaseNPC:IsCreature",
+        "available": "both",
+        "arguments": [],
+        "returns": "bool"
+      },
+      {
+        "name": "CDOTA_BaseNPC:AddAbility",
+        "available": "server",
+        "arguments": [
+          "abilityName:string"
+        ],
+        "returns": "CDOTABaseAbility"
+      },
+      {
+        "name": "CDOTA_BaseNPC_Hero:CalculateStatBonus",
+        "available": "server",
+        "arguments": [
+          "force:bool"
+        ],
+        "returns": "nil"
       }
     ]
   },
@@ -521,5 +543,50 @@
     },
     "diagnostic": "Existing default-off bounded Trace logs native_outgoing_query only; not actual final damage proof",
     "engineAcceptance": "PENDING OWNER TEST: native curve, inflictor, outgoing factor/stacking, mitigation, ranks10, lifetime and presentation"
+  },
+  "dResearch": {
+    "observedAt": "2026-10-04",
+    "reverifiedHeroSha256": "8c96be768e85e8d845bc6ef04f99ad261c0f9bd5c0e45503aedb6ab4c5c78cda",
+    "classification": "PVE-CONVERT",
+    "nativeProvider": {
+      "id": "tidehunter_leviathans_catch",
+      "rank": 1,
+      "heroSlot": "Ability7",
+      "ownership": "Native hero-kill/even-level fish and native stats; no Lua grants/refresh/reset"
+    },
+    "paidD": {
+      "id": "enfos_tide_colossal_presence",
+      "ranks": 10,
+      "freeStartingRank": true,
+      "waveStackCap": 25,
+      "waveHealthMax": "50 67 83 100 117 133 150 167 183 200",
+      "rangePerLoad": 2,
+      "scope": "Only own enemy non-hero/non-illusion Creep/Creature last hits; no wave fish entities/block getter"
+    },
+    "resources": [
+      {
+        "path": "models/heroes/tidehunter/tidehunter_fish_pickup.vmdl_c",
+        "sha256": "f31dc09595fd041ade37990b00affb245b254288ca0fab3f52c51d6e06997e94",
+        "status": "FILE_VERIFIED; cold start/ownership/visual pending"
+      },
+      {
+        "path": "particles/units/heroes/hero_tidehunter/tidehunter_leviathans_catch.vpcf_c",
+        "sha256": "da1793fdd6fcd75f8c918118131ece364a7f1752e26fc7ff82c207cc56c017d0",
+        "status": "FILE_VERIFIED; cold start/ownership/visual pending"
+      }
+    ],
+    "binaryIdentifiers": [
+      "modifier_tidehunter_leviathans_catch",
+      "modifier_tidehunter_leviathans_catch_counter",
+      "modifier_tidehunter_leviathans_catch_stacks"
+    ],
+    "binarySource": "Installed server.dll, existing E snapshot hash8ec4b6a9b9bb35ec8d1cd27f383d9a681e592bd07c5296208112c6411461aa92; identity only",
+    "referenceOnly": {
+      "id": "2880603428",
+      "path": "scripts/npc/npc_heroes_custom.txt",
+      "line": 2982,
+      "findings": "Native Catch Ability7 assignment; no source import or runtime proof"
+    },
+    "engineAcceptance": "PENDING OWNER TEST: initial free fish/points/UI, native pickups/HP/range/block, Break, rank changes, death/respawn/reconnect and resource/cold start"
   }
 }

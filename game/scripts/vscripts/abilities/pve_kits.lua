@@ -1,3 +1,4 @@
+require('abilities/heroes/tidehunter/d')
 local Helpers = require('abilities/shared/pve_helpers')
 local value, enemies, is_boss, get_int, damage = Helpers.value, Helpers.enemies, Helpers.is_boss, Helpers.get_int, Helpers.damage
 
@@ -169,8 +170,6 @@ local modifier_list = {
     'modifier_enfos_dazzle_nothl_weave_debuff',
     -- Bristleback
     -- Tidehunter
-    'modifier_enfos_tide_colossal_presence_aura',
-    'modifier_enfos_tide_colossal_presence_debuff',
     -- Wraith King
     'modifier_enfos_wk_wraithfire_blast_stun',
     'modifier_enfos_wk_wraithfire_blast_dot',
@@ -3324,59 +3323,7 @@ end
 -- ----------------------------------------------------------------------------
 
 -- Gush delegates gameplay/presentation to native; STR scaling is isolated.
-local function tide_passive_sources(modifier)
-    local c = modifier:GetParent()
-    if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled()) then return nil end
-    local a = modifier:GetAbility()
-    if not a or (a.IsNull and a:IsNull()) or (a.GetLevel and a:GetLevel() <= 0) then return nil end
-    return c, a
-end
-
--- Anchor Smash manual cast/attacks/debuff delegate to native.
-
--- Ravage wave, hit/stun ownership and cleanup delegate to native.
-
-enfos_tide_colossal_presence=class({})
-function enfos_tide_colossal_presence:GetIntrinsicModifierName() return 'modifier_enfos_tide_colossal_presence_aura' end
-
-modifier_enfos_tide_colossal_presence_aura=class({})
-function modifier_enfos_tide_colossal_presence_aura:IsHidden() return true end
-function modifier_enfos_tide_colossal_presence_aura:IsPurgable() return false end
-function modifier_enfos_tide_colossal_presence_aura:IsAura()
-    return tide_passive_sources(self) ~= nil
-end
-function modifier_enfos_tide_colossal_presence_aura:GetAuraRadius()
-    return (self.GetAbility and value(self:GetAbility(), 'radius')) or 900
-end
-function modifier_enfos_tide_colossal_presence_aura:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_ENEMY end
-function modifier_enfos_tide_colossal_presence_aura:GetAuraSearchType() return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC end
-function modifier_enfos_tide_colossal_presence_aura:GetModifierAura() return 'modifier_enfos_tide_colossal_presence_debuff' end
-function modifier_enfos_tide_colossal_presence_aura:DeclareFunctions()
-    return { MODIFIER_PROPERTY_EXTRA_HEALTH_BONUS, MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS }
-end
-function modifier_enfos_tide_colossal_presence_aura:GetModifierExtraHealthBonus()
-    local c, a = tide_passive_sources(self)
-    if not c then return 0 end
-    return value(a, 'bonus_health')
-end
-function modifier_enfos_tide_colossal_presence_aura:GetModifierPhysicalArmorBonus()
-    local c, a = tide_passive_sources(self)
-    if not c then return 0 end
-    return value(a, 'bonus_armor')
-end
-
-modifier_enfos_tide_colossal_presence_debuff=class({})
-function modifier_enfos_tide_colossal_presence_debuff:GetTexture() return 'tidehunter_kraken_shell' end
-function modifier_enfos_tide_colossal_presence_debuff:IsDebuff() return true end
-function modifier_enfos_tide_colossal_presence_debuff:DeclareFunctions()
-    return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE }
-end
-function modifier_enfos_tide_colossal_presence_debuff:GetModifierMoveSpeedBonus_Percentage()
-    return -((self.GetAbility and value(self:GetAbility(), 'enemy_slow_pct')) or 15)
-end
-function modifier_enfos_tide_colossal_presence_debuff:GetModifierBaseDamageOutgoing_Percentage()
-    return -((self.GetAbility and value(self:GetAbility(), 'enemy_damage_reduction')) or 15)
-end
+-- Native Q/W/E/R and paid Catch extension live in the Tidehunter modules.
 
 -- ----------------------------------------------------------------------------
 -- WRAITH KING: WRAITHFIRE BLAST, VAMPIRIC AURA, MORTAL STRIKE, REINCARNATION, SKELETON ARMY

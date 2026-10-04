@@ -3186,45 +3186,6 @@ test('Tidehunter Shard replaces generic tank health and reflection while other t
     name='npc_dota_hero_axe';assert(m:GetModifierHealthBonus()==350 and not m:IsHidden())
 end)
 
-test('Tidehunter modifiers declare basic, strong-only and intrinsic dispel policies', function()
-    for _,cls in ipairs({modifier_enfos_tide_colossal_presence_aura}) do
-        local m=cls()
-        assert(m.IsPurgable and m:IsPurgable()==false,'Intrinsic Tidehunter passives use Break, not ordinary purge removal')
-    end
-end)
-
-test('Tidehunter passives reject unlearned, missing and removed ability sources', function()
-    local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
-    local purges=0;hero.Purge=function() purges=purges+1 end
-    for _,mode in ipairs({'unlearned','removed','missing'}) do
-        local a=enfos_tide_colossal_presence()
-        a.IsNull=function() return mode=='removed' end
-        a.GetLevel=function() assert(mode~='removed','removed ability rank read');return mode=='unlearned' and 0 or 1 end
-        a.GetSpecialValueFor=function() assert(mode~='removed','removed ability value read');return 100 end
-        local p=modifier_enfos_tide_colossal_presence_aura()
-        for _,m in ipairs({p}) do
-            m.GetParent=function() return hero end
-            m.GetAbility=function() if mode~='missing' then return a end end
-        end
-        assert(not p:IsAura() and p:GetModifierExtraHealthBonus()==0 and p:GetModifierPhysicalArmorBonus()==0,
-            'Colossal Presence requires a live learned source for aura and stats')
-    end
-end)
-
-test('Tidehunter Colossal Presence grants configured stats and shuts off under Break', function()
-    local tide = create_mock_unit('npc_dota_hero_tidehunter', 2, Vector(0, 0, 0))
-    local ab = enfos_tide_colossal_presence()
-    ab.GetLevel = function() return 1 end
-    ab.GetSpecialValueFor = function(_, key) return ({bonus_health=180,bonus_armor=8,radius=850})[key] or 0 end
-    local mod = modifier_enfos_tide_colossal_presence_aura()
-    mod.GetParent = function() return tide end
-    mod.GetAbility = function() return ab end
-    assert(mod:IsAura() and mod:GetModifierExtraHealthBonus() == 180 and mod:GetModifierPhysicalArmorBonus() == 8)
-    assert(mod:GetAuraRadius() == 850)
-    tide.PassivesDisabled = function() return true end
-    assert(not mod:IsAura() and mod:GetModifierExtraHealthBonus() == 0 and mod:GetModifierPhysicalArmorBonus() == 0)
-end)
-
 test('Wraith King Mortal Strike procs cleave damage around target', function()
     applied_damages = {}
     local wk = create_mock_unit('npc_dota_hero_skeleton_king', 2, Vector(0, 0, 0))

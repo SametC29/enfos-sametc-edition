@@ -3669,19 +3669,17 @@
 		"IsBreakable" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityTextureName"		"tidehunter_kraken_shell"
+		"AbilityTextureName"		"tidehunter_leviathans_catch"
 		"RequiredLevel"	"1"
 		"LevelsBetweenUpgrades"	"1"
 		"MaxLevel"					"10"
 		"AbilityValues"
 		{
-			"bonus_health" "50 67 83 100 117 133 150 167 183 200"
-			"bonus_armor" "1 2 3 4 5 6 7 8 9 10"
-			"radius" "900"
-			"enemy_slow_pct" "5 6 7 8 9 10 11 12 14 15"
-			"enemy_damage_reduction" "5 6 7 8 9 10 11 12 14 15"
+			"wave_stack_cap" "25"
+			"wave_attack_range" "2"
+			"wave_health_max" "50 67 83 100 117 133 150 167 183 200"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/tidehunter/d"
 	}
 
 	// =========================================================================

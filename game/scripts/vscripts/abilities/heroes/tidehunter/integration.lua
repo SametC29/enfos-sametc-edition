@@ -15,6 +15,14 @@ function Integration.Restore(hero)
         local m=hero:AddNewModifier(hero,w,'modifier_enfos_tide_shell_extension',{})
         if not m or m:IsNull() then return false end
     end
+    local d=hero:FindAbilityByName('enfos_tide_colossal_presence')
+    if d and not d:IsNull() then
+        local native=hero:FindAbilityByName('tidehunter_leviathans_catch') or hero:AddAbility('tidehunter_leviathans_catch')
+        if not native or native:IsNull() then return false end
+        if native:GetLevel()~=1 then native:SetLevel(1) end
+        native:SetHidden(true)
+        Trace:Log('TIDEHUNTER','D','native_catch_ready rank=%s',tostring(native:GetLevel()))
+    end
     Trace:Log('TIDEHUNTER','Q','native_gush_ready rank=%s',tostring(q:GetLevel()))
     return true
 end

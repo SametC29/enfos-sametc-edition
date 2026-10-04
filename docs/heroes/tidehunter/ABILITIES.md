@@ -13,9 +13,9 @@ Hero: `npc_dota_hero_tidehunter`; role: Tank. Progression target: hero level 50 
 | 2 | `enfos_tide_kraken_shell` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE | NOT_EXPLICIT | tidehunter_kraken_shell |
 | 3 | `enfos_tide_anchor_smash` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | NOT_EXPLICIT | tidehunter_anchor_smash |
 | 4 | `enfos_tide_ravage` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | NOT_EXPLICIT | tidehunter_ravage |
-| 5 | `enfos_tide_colossal_presence` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | tidehunter_kraken_shell |
+| 5 | `enfos_tide_colossal_presence` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/tidehunter/d | tidehunter_leviathans_catch |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/heroes/tidehunter/d.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -304,10 +304,10 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 5: `enfos_tide_colossal_presence`
 
-Classification: REPLACE
-Native counterpart: No native counterpart — custom Enfos passive in slot 5.
-Decision and PvE identity rationale: Use the free-start Enfos passive system (heroes/innates.lua), entirely separate from Dota Innate metadata. Grants Tidehunter flat health/armor and weakens nearby enemies; Break disables the passive.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
+Classification: PVE-CONVERT
+Native counterpart: `tidehunter_leviathans_catch`, exact hidden native rank1 provider in Ability7.
+Decision and PvE identity rationale: Native Catch owns hero-kill/even-level fish and their health/range/conditional block. Separate paid10-rank D tunes bounded wave-last-hit health/range growth, with no extra block/units/native grants. Retire unrelated armor and enemy aura.
+Expected cast/travel/impact/ongoing/cleanup behavior: Native fish collection/expiry stays native; wave growth is one capped event-driven modifier retained through death.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve: The Enfos passive rank 1 is granted separately; ranks 2–10 are KV-gated at levels 2–10; engine point/UI behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
@@ -327,23 +327,25 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Native Catch provider and capped25 wave growth source implemented; actual native fish/stat behavior awaits owner. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | The separate passive rank 1 grant remains; ranks 2–10 gates are declared; in-game HUD and point behavior remain PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
+| Modifiers | PENDING | Exact rank1 provider preserved; custom aura/recipient removed. One client-linked wave modifier, Break/source guards and retained stacks tested offline. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
 | Boss | PENDING | Not evaluated in this dossier setup. |
 | Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
-| Performance | PENDING | Not evaluated in this dossier setup. |
+| Localization | PENDING | Four locales/mirrors describe Catch/wave conversion; old aura tooltip removed. Engine HUD pending. |
+| Performance | PENDING | Event-driven capped25 stacks, no wave fish units/timers/scans. Dense-wave engine performance pending. |
 | Reconnect | PENDING | Not evaluated in this dossier setup. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
 Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+
+2026-10-04 paid Catch source implemented: native hidden Ability7 rank1 assigned before starting XP; idempotent restore without fish grants/refresh. Own wave last hits add capped25 retained loads, maxhealth50..200 by rank and2 range/load. Armor/enemy aura retired.14 client classes/119 affected source checks pass; initial native fish/HUD/points, pickups, Break/recalculation, death/respawn/reconnect/resources and actual gameplay remain PENDING.
 
 2026-09-30 level-cap integration: all five Tidehunter abilities now declare KV rank gates. Q/W/E and the Enfos passive use one rank per level; passive rank 1 remains a separate Enfos grant. Ravage ranks 1–10 unlock on levels 5, 10, …, 50. Static KV contract passes; actual rank buttons, level-up points, ultimate badge and match-start level 6 remain PENDING for owner testing.
 

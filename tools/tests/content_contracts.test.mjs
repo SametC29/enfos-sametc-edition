@@ -146,7 +146,14 @@ test('every hero exposes correct ultimate/evolution contracts and migrated Enfos
     if(id==='npc_dota_hero_lion') assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Demon Soul must not advertise removed generic healing');
     if(id==='npc_dota_hero_shadow_shaman') assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Fowl Play must not advertise the replaced generic Shard');
     if(id==='npc_dota_hero_tidehunter') assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Colossal Presence must not advertise the replaced generic Shard');
-    for(let i=7;i<=9;i++)assert.equal(h['Ability'+i],'generic_hidden',id+': unused ability slot');
+    for(let i=7;i<=9;i++){
+      if(id==='npc_dota_hero_tidehunter' && i===7){
+        assert.equal(h.Ability7,'tidehunter_leviathans_catch');
+        const native=JSON.parse(fs.readFileSync('docs/audit/TIDEHUNTER_NATIVE_SOURCE_2026-10-04.json')).abilities.tidehunter_leviathans_catch;
+        assert.equal(native.MaxLevel,'1');assert.equal(native.Innate,'1');assert.match(native.AbilityBehavior,/HIDDEN/);
+        assert.equal(abilities[h.Ability7],undefined,'Do not shadow the native Catch provider');
+      }else assert.equal(h['Ability'+i],'generic_hidden',id+': unused ability slot');
+    }
     for(let i=10;i<=17;i++)assert.equal(h['Ability'+i],'generic_hidden',id+': talent slot must stay disabled');
     assert.equal(h.Ability19,'generic_hidden',id+': native attribute bonus must be hidden');
     assert.equal(h.Ability25,'generic_hidden',id+': native Ability25 bonus must be hidden');

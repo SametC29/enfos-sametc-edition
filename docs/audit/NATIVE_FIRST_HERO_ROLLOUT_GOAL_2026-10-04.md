@@ -114,3 +114,13 @@ A server-only owned-R outgoing STR factor avoids guessed top-level special
 overrides and duplicate hits. Skill-specific Boss stun cap removed; shared
 Boss systems unchanged. Full source checks pass; actual damage pipeline and
 engine/presentation cases remain pending. Proceed with D Catch investigation.
+
+2026-10-04 Tidehunter D source progression: hidden native rank1 Catch assigned
+before starting XP with idempotent restore; five paid Enfos IDs and shared points
+remain unchanged. Native fish/pickups/block plus capped25 wave-last-hit health
+and range extension replace the former armor/debuff aura. Read-only automatic
+Health includes Catch provider and wave loads. Full source checks pass with0
+failures,119 affected checks and324 hero mock regressions. All five Tidehunter
+slots are source-implemented; native fish initialization, rank/HUD/points, actual
+damage/lifecycle/presentation remain OWNER_RUNTIME PENDING. Next source hero:
+Ursa; do not wait for live acceptance or certify it from mocks.

@@ -1,27 +1,28 @@
 # Tidehunter owner runtime checklist
 
-Status: OWNER_RUNTIME PENDING. Gameplay source revision: `447084a`.
-Installed reference: Dota ClientVersion6943 / SourceRevision11069754.
-Owner launches/controls Dota; no agent launch or live control is authorized.
-Start a fresh match after KV/asset changes. Record build, tested revision,
-rank, upgrades, team and relevant VConsole excerpt for each result.
+Status: OWNER_RUNTIME PENDING. Current source: native-first Q/W/E/R and paid
+Catch extension; record exact tested commit from the native-first review/log.
+Installed reference: build6943/revision11069754. Owner alone launches/controls
+Dota. Full restart required after structural KV/client-bootstrap/provider changes.
+Automatic Health reports selected hero, native Catch rank/intrinsic presence and
+wave stacks; diagnostics/query values do not establish actual engine acceptance.
 
 | Test | Measurable expected result | Result |
-|---|---|---|
-| Progression | Rank1 and10 available within level50; R gates5/10/…/50. Fifth free rank separate from49 spendable points; no talents or account progression. | PENDING |
-| Q normal | Mana/CD match current rank; no damage before projectile impact; one valid enemy hit, armor/slow applied. Dodged/lost/dead/friendly target produces no impact. Test absorb/reflect separately. | PENDING |
-| Q Scepter/Blessing | Point cursor replaces unit cursor. Pierces multiple enemies, range2200/width radius260/speed1500. Base cooldown min(normal,7); rank10 remains6 before other cooldown modifiers. Dropping Scepter restores ordinary cast; in-flight wave remains piercing. | PENDING |
-| W block/regen | Compare received physical hits and health regeneration at rank1/10 with and without Break. No learned-source bonus when W is unlearned/removed. Compare current Strength contribution. | PENDING |
-| W cleanse | Sustained positive damage crosses450 and removes strong-dispellable effects. Seven damage-free game-time seconds reset accumulation; pause does not consume this window. Observe remainder, lethal hit, self/allied/reflected damage and respawn. | PENDING |
-| Shard | Cleanse with learned E produces one visible/audible reactive Smash at50% computed damage and ordinary E debuff; repeated cleanses within5s do not retrigger. Active E mana/CD unaffected; no generic350HP/15% reflection. Test item removal and Break. | PENDING |
-| E | Damage = current average attack damage + ranked bonus +75% Strength before mitigation. Radius400 and effect edge agree; debuff affects base attack damage, not all damage. Test ordinary/immune/Boss targets and basic dispel. | PENDING |
-| R | Inner ring immediate; outer rings visibly advance through1.3s. Stationary far target not hit instantly. Moving target receives at most one hit per cast; Refresher casts remain independent and origin stays fixed. | PENDING |
-| R control | Boss stun no more than1s before status resistance. Basic dispel does not remove stun; strong dispel does. Test high resistance/immunity, source death/removal and pause; no lingering context errors. | PENDING |
-| Fifth | Own health/armor and enemy slow/base-damage values match rank. Break disables owner effects; engine aura fade measured. Rank-up refresh, entering/leaving aura, two Tidehunters, illusions, immune targets and death/respawn tested separately. | PENDING |
-| Presentation | Q/E/R cast animation, native sound and visible effects; reactive E gesture. Hover four secondary debuffs in EN/TR/RU/zh-CN: correct names/icons, signed current property values, no raw tokens. | PENDING |
-| Cleanup/reconnect | Repeat casts and upgrade changes, kill targets during impacts, reconnect. No duplicated ranks/modifiers, endless audio/effects or accumulating cast contexts. | PENDING |
-| Cold start / dense waves | Fresh match loads all particles/banks. Dense wave combat adds no relevant Lua traceback, missing resource/modifier/particle/sound warning or sustained log spam; capture performance observations. | PENDING |
+| --- | --- | --- |
+| Progression | Level6 start, five ordinary starting points, separate free D1,49 ordinary points through level50; Q/W/E/D ten ranks, R levels5/10/…/50; no talents/profile. Hidden Catch rank1 never consumes ordinary points or exposes another paid slot. | PENDING |
+| Q | Native projectile/armor/slow, authored damage+STR, targeting/block/reflect/dodge; ranks1/10 and actual HP change. | PENDING |
+| Q Scepter/Blessing | Native point wave2200/260/1500 and cooldown7 including ranks9/10 before other modifiers; dropping item restores normal targeting. | PENDING |
+| W defense | Authored20..80+0.05STR, native creep50% penalty/item-block stacking; active doubles effectiveness4s with40% move penalty,45 mana/CD30; flat5..20 regen. | PENDING |
+| W cleanse | Actual strong dispel450/reset7, pause/death/lethal/reflect and neutral-wave versus player-owned damage eligibility. No duplicate Lua Purge. Separate Blubber dependency remains a question. | PENDING |
+| Shard | Independent450 received-damage counter/reset7/cap5; learned E half average attack plus tuned bonus as reflected damage. No lifesteal/attack item procs; no generic350HP/15% reflection. Native radius/debuff reused; actual construction/read/refresh test. | PENDING |
+| E | Native actual attacks/item effects, bonus80..230+0.75STR, attack range+225 radius, cast0.4, non-piercing immunity, signed40..70 reduction/duration6. Native and reactive recipient overlap refresh without double reduction. | PENDING |
+| R damage | Native header200..450 plus intended live2STR outgoing factor; measure actual HP at ranks1/10 with STR and spell amp/outgoing modifiers, mitigation and reflect. Debug outgoing query is not final damage evidence. | PENDING |
+| R control/lifetime | Native expanding wave speed725/authored radius1000, stun2.4..3.2 with ordinary immunity/resistance/dispel; no Boss-only cap. Repeated/Refresher casts, paused time, caster/target death/removal and cleanup. | PENDING |
+| Native Catch | Exact hidden rank1 provider/intrinsic exists at startup. Observe free fish for even levels2/4/6 once, then8..50; native hero-kill fish pickup/expiry and HP/range/conditional block. No Lua backfill/grant duplicates. | PENDING |
+| Wave growth | Only own enemy Creep/Creature last hits, no hero/illusion/friendly/ally/summon-attacker credit; cap25, maxhealth50..200 by current paid rank, range2 per load/cap50. No wave fish entities. | PENDING |
+| Passive lifecycle | Break suspends wave collection/bonuses but preserves loads; death/respawn/reconnect and rank changes retain loads and correctly recalculate HP/range; no duplicate native provider or points. Native Catch Break behavior separately observed. | PENDING |
+| Presentation | Native Q/W/E/R/fish effects, icons and audio/cold start; Shard gesture/CP2 radius; all four locales and modifier tooltips, no raw keys. | PENDING |
+| Performance/VConsole | Dense waves/repeated casts/reconnect without timers/entities/modifier accumulation, Lua/API/precache errors or repetitive warnings. Record Health plus exact session/revision. | PENDING |
 
-Damage assertions must account for armor, magic resistance, spell amplification,
-other modifiers and Boss rules. Mocks prove wiring/control flow only. Record
-PASS/FAIL/PARTIAL with observations, never convert an untested row to PASS.
+Source checks are tracked in the native-first review. Earlier custom-band/aura
+checklist expectations are superseded; no historical mock pass certifies this kit.

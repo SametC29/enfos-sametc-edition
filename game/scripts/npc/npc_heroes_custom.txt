@@ -767,7 +767,7 @@
 		"Ability4"				"enfos_tide_ravage"
 		"Ability5"				"enfos_tide_colossal_presence"
 		"Ability6"				"generic_hidden"
-		"Ability7" "generic_hidden"
+		"Ability7" "tidehunter_leviathans_catch"
 		"Ability8" "generic_hidden"
 		"Ability9" "generic_hidden"
 		"Ability10" "generic_hidden"

@@ -1,6 +1,6 @@
 # Tidehunter native-first source migration
 
-Status: Q/W/E/R SOURCE IMPLEMENTED / D IMPLEMENTATION PENDING / OWNER_RUNTIME PENDING.
+Status: ALL FIVE SOURCE IMPLEMENTED / OWNER_RUNTIME PENDING.
 This record supersedes the old PvE-conversion assumption for the migration
 plan, not the existing production implementation or its proven source fixes.
 The owner permits proceeding to the next source hero without live acceptance.
@@ -16,7 +16,7 @@ hero assignments and queried API availability. The unchanged hero hash does
 not establish engine compatibility or acceptance.
 
 At discovery: five Lua abilities in `abilities/pve_kits.lua` with stable
-`enfos_tide_*` IDs and ten ranks. Q/W/E/R are now native aliases; D remains Lua.
+`enfos_tide_*` IDs and ten ranks. Q/W/E/R are native aliases; paid D is the isolated native-Catch/wave extension.
 The native header explicitly assigns
 Gush, Kraken Shell, Anchor Smash, Dead in the Water, Ravage and Leviathan's
 Catch. Arm of the Deep and Blubber also have definitions; definition presence
@@ -32,8 +32,8 @@ projectile speed; installed2500 takes precedence. No external code is imported.
 
 ## Five-slot decisions before implementation
 
-These are migration decisions/leads. Q/W/E/R are source-implemented; none is
-engine-certified. Remaining rows describe planned work.
+The decisions below record the original behavior and final migration ownership.
+All five slots are source-implemented; none is engine-certified.
 
 | Slot / stable ID | Current behavior | Verified native counterpart | Primary class | Intended ownership / reason |
 | --- | --- | --- | --- | --- |
@@ -41,9 +41,9 @@ engine-certified. Remaining rows describe planned work.
 | W `enfos_tide_kraken_shell` | Passive block + STR, flat regen, custom damage counter/purge and reactive Shard smash | `tidehunter_kraken_shell` | TUNE | Native active/passive shell with numeric tuning. Flat regen is an explicit Enfos extension. Establish native cleanse ownership before retiring the custom counter; no duplicate Blubber/purge. Shard conversion remains a separate evidence item. |
 | E `enfos_tide_anchor_smash` | Fixed400 radius; average attack + bonus + STR through flat physical damage; custom debuff | `tidehunter_anchor_smash` | TUNE | Native attacks and native attack-range-plus-additional-range geometry. Tune native bonus damage/reduction with STR bridge. Items, attack procs, attack immunity and native effects belong to engine. |
 | R `enfos_tide_ravage` | Five custom timed damage bands and stun, STR scaling, one-second boss stun cap | `tidehunter_ravage` | TUNE | Native expanding Ravage, damage/stun/effects and ordinary engine immunity/resistance. Preserve authored rank/cost curves where exposed. Direct native AbilityDamage read-path must be established before claiming STR scaling. |
-| D `enfos_tide_colossal_presence` | Authored self HP/armor plus enemy slow/damage aura | `tidehunter_leviathans_catch` | PVE-CONVERT (provisional) | Native fish passive is meaningful through free fish on even hero levels; hero-kill fish alone loses value against waves. Research native provider, rank bridge and bounded creep component before choosing minimal extension. Do not discard it merely because the existing aura is simpler. Production D stays unchanged during this discovery gate. |
+| D `enfos_tide_colossal_presence` | Authored self HP/armor plus enemy slow/damage aura | `tidehunter_leviathans_catch` | PVE-CONVERT | Native hidden rank1 Catch owns fish, pickups and conditional block. Paid D controls capped25 owned wave-last-hit loads, health50..200 at cap and2 attack range/load; no wave fish grants, aura, extra block or native state mutation. |
 
-D's provisional class is a research lead, not authorization for a guessed fish
+At discovery D's provisional class was a research lead, not authorization for a guessed fish
 entity/modifier or a fully custom replacement. Resolve it before touching D.
 Retain fifth-slot free rank, ten total ranks, match-only progression and the
 existing shared restore service. Hidden native providers must not consume points,
@@ -346,3 +346,58 @@ checks, including327 mock-engine hero regressions and51 native/diagnostic tests.
 This proves source contracts, scoped callback math/guards and canonical-header
 localization generation, not actual native damage, stacking or motor acceptance.
 All owner runtime cases remain pending.
+
+## D implementation decision before mutation
+
+D final classification PVE-CONVERT: retain exact native Catch rank1 and native
+hero-kill/even-level fish, lifecycle and native damage-block semantics. Give the
+exact hidden provider native hero Ability7 before match XP initialization, with
+idempotent find/add/rank1 fallback through existing Restore. Do not manually grant
+fish, force-refresh/reset its modifier or assign high native ranks. Ability10–17,
+19 and25 remain hidden. Five paid Enfos slots and separate free D1 are retained.
+Source ordering avoids deliberately adding the provider only after level6; native
+even-level catch-up/points/lifecycle still need owner evidence.
+
+Stable paid D controls an isolated wave-kill extension: only owned last hits on
+enemy non-hero, non-illusion Creep/Creature units add1 stack, capped25 per match
+hero. At25 stacks the authored health50..200 curve is fully reached; range2 per
+stack (cap50). No wave fish entity, native stack mutation, hero-kill duplicate,
+second block getter, timer or scan. Native Catch handles native HP/range/block;
+wave extension supplies health/range only. Break suspends wave collection/bonuses
+but retains accrued stacks; death/reconnect retains the same modifier. Rank
+changes use current values and recalculate stats, not grants. Old flat armor,
+enemy slow/damage aura and cloned recipient are retired explicitly. This replaces
+the unrelated aura with Catch identity plus bounded wave usefulness.
+
+Provider/innate metadata and3HP/2range/1block per native fish come from installed
+KV/localization, hero hash reverified unchanged. World of Dota2880603428 assigns
+exact Catch at Ability7; it proves a reference wiring pattern, not engine behavior.
+REFERENCE_ONLY, license/version not established, no imported code. Installed
+server binary contains Catch/counter/stacks identifiers and fish pickup model;
+no native modifiers are constructed or modified by the extension. Pickup model
+and Catch particle exist with hashes added to snapshot; precache is FILE_VERIFIED,
+not cold-start/VFX acceptance. No new live control is authorized.
+
+D source implemented: native rank1 Catch assigned at hidden Ability7, idempotent
+Restore fallback preserves native handles/state; paid D keeps10 ranks and the
+shared free-rank service. No Lua fish grants/catch-up/native modifier refresh.
+One client-safe persistent extension supplies capped25 wave-kill loads, health
+at full loads50..200 and range2/load. Only owned enemy Creep/Creature last hits,
+no hero/illusion/friendly/summon-attacker credit. Native fish owns separate
+conditional block; no extra block getter/aura or wave fish units are created.
+Break/source-loss suspends wave bonuses; loads persist through death. Stats
+recalculate server-side on stack/rank change, client getters avoid IsAlive.
+Old custom aura/recipient/helpers/localization are removed. Source locales/mirrors
+name Catch and explain the conversion; pickup model/Catch particle explicitly
+precache without a synchronous full hero spawn.14 client classes register.
+Automatic Health reads provider rank/intrinsic and wave loads without mutation.
+119 affected checks and324 hero mock regressions pass. Full source checks pass
+with0 failed checks, including localization/reference/client-registration gates.
+The checker now permits only Tidehunter Ability7 with the installed hidden rank1
+Catch definition; arbitrary unknown abilities remain rejected.
+The accidental over-broad KV edit was corrected before validation; reviewed
+remaining KV diff contains only paid D and the original unstaged Lich animation.
+Native even-level initial fish, rank/HUD/points, pickup/lifecycle/Break/item block,
+actual max HP/range recalculation and full VFX/SFX/cold-start remain owner pending.
+Current owner checklist supersedes the historical custom bands/aura expectations.
+Next source hero: Ursa, keeping Tidehunter engine gates open.
