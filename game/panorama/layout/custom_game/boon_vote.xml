@@ -23,37 +23,37 @@
 				<!-- Card 1 -->
 				<Panel id="Card1" class="BoonCard" onactivate="VoteForCard(1)">
 					<Panel class="CardTop">
-						<Label id="Card1Category" class="CategoryBadge" text="OFFENSIVE" />
-						<Label id="Card1Tag" class="TagBadge Hidden" text="TEKİL" />
+						<Label id="Card1Category" class="CategoryBadge" text="#enfos_boon_offensive" />
+						<Label id="Card1Tag" class="TagBadge Hidden" text="#enfos_boon_unique_tag" />
 					</Panel>
-					<Label id="Card1Title" class="CardTitle" text="Boon 1" />
-					<Label id="Card1Desc" class="CardDesc" text="Description..." />
+					<Label id="Card1Title" class="CardTitle" text="#enfos_boon_vote_title" />
+					<Label id="Card1Desc" class="CardDesc" text="#enfos_boon_vote_subtitle" />
 					<Panel class="CardFooter">
-						<Label id="Card1Stacks" class="StacksLabel" text="0 / 3" />
+						<Label id="Card1Stacks" class="StacksLabel" text="" />
 						<Button id="VoteBtn1" class="VoteBtn">
-							<Label id="VoteBtnLabel1" text="OY VER" />
+							<Label id="VoteBtnLabel1" text="#enfos_boon_vote_button" />
 						</Button>
 					</Panel>
-					<Label id="Card1VoteTally" class="VoteTally" text="0 Oy" />
+					<Label id="Card1VoteTally" class="VoteTally" text="0" />
 				</Panel>
 
-				<Label class="VsDivider" text="VS" />
+				<Label class="VsDivider" text="#enfos_boon_vs" />
 
 				<!-- Card 2 -->
 				<Panel id="Card2" class="BoonCard" onactivate="VoteForCard(2)">
 					<Panel class="CardTop">
-						<Label id="Card2Category" class="CategoryBadge" text="DEFENSIVE" />
-						<Label id="Card2Tag" class="TagBadge Hidden" text="TEKİL" />
+						<Label id="Card2Category" class="CategoryBadge" text="#enfos_boon_defensive" />
+						<Label id="Card2Tag" class="TagBadge Hidden" text="#enfos_boon_unique_tag" />
 					</Panel>
-					<Label id="Card2Title" class="CardTitle" text="Boon 2" />
-					<Label id="Card2Desc" class="CardDesc" text="Description..." />
+					<Label id="Card2Title" class="CardTitle" text="#enfos_boon_vote_title" />
+					<Label id="Card2Desc" class="CardDesc" text="#enfos_boon_vote_subtitle" />
 					<Panel class="CardFooter">
-						<Label id="Card2Stacks" class="StacksLabel" text="0 / 3" />
+						<Label id="Card2Stacks" class="StacksLabel" text="" />
 						<Button id="VoteBtn2" class="VoteBtn">
-							<Label id="VoteBtnLabel2" text="OY VER" />
+							<Label id="VoteBtnLabel2" text="#enfos_boon_vote_button" />
 						</Button>
 					</Panel>
-					<Label id="Card2VoteTally" class="VoteTally" text="0 Oy" />
+					<Label id="Card2VoteTally" class="VoteTally" text="0" />
 				</Panel>
 			</Panel>
 		</Panel>

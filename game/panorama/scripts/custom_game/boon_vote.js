@@ -20,11 +20,11 @@ function UpdateVoteButtons() {
 
 	if (btn1 && lbl1) {
 		btn1.SetHasClass("Selected", g_LocalPlayerVote === 1);
-		lbl1.text = (g_LocalPlayerVote === 1) ? "SEÇİLDİ ✓" : "OY VER";
+		lbl1.text = $.Localize(g_LocalPlayerVote === 1 ? "#enfos_boon_selected" : "#enfos_boon_vote_button");
 	}
 	if (btn2 && lbl2) {
 		btn2.SetHasClass("Selected", g_LocalPlayerVote === 2);
-		lbl2.text = (g_LocalPlayerVote === 2) ? "SEÇİLDİ ✓" : "OY VER";
+		lbl2.text = $.Localize(g_LocalPlayerVote === 2 ? "#enfos_boon_selected" : "#enfos_boon_vote_button");
 	}
 }
 
@@ -54,14 +54,14 @@ function OnBoonStateChanged(table_name, key, data) {
 	$("#Card1Title").text = $.Localize("#enfos_boon_" + c1Id);
 	$("#Card1Desc").text = $.Localize("#enfos_boon_" + c1Id + "_desc");
 	var c1Stacks = (data.stacks && data.stacks[c1Id]) || 0;
-	$("#Card1Stacks").text = "Mevcut: " + c1Stacks + " / 3";
+	$("#Card1Stacks").text = $.Localize("#enfos_boon_current") + ": " + c1Stacks + " / 3";
 
 	// Update Card 2
 	var c2Id = activeVote.card2_id;
 	$("#Card2Title").text = $.Localize("#enfos_boon_" + c2Id);
 	$("#Card2Desc").text = $.Localize("#enfos_boon_" + c2Id + "_desc");
 	var c2Stacks = (data.stacks && data.stacks[c2Id]) || 0;
-	$("#Card2Stacks").text = "Mevcut: " + c2Stacks + " / 3";
+	$("#Card2Stacks").text = $.Localize("#enfos_boon_current") + ": " + c2Stacks + " / 3";
 
 	// Tally votes
 	var votes1 = 0;
@@ -77,8 +77,8 @@ function OnBoonStateChanged(table_name, key, data) {
 		}
 	}
 
-	$("#Card1VoteTally").text = votes1 + " Oy";
-	$("#Card2VoteTally").text = votes2 + " Oy";
+	$("#Card1VoteTally").text = votes1 + " " + $.Localize("#enfos_boon_votes");
+	$("#Card2VoteTally").text = votes2 + " " + $.Localize("#enfos_boon_votes");
 	UpdateVoteButtons();
 }
 

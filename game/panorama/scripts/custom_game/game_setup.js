@@ -51,18 +51,18 @@ var EnfosSetup = (function () {
 			selectedDifficulty = data.difficulty;
 			var diffLabel = $("#SelectedDifficultyText");
 			if (diffLabel) {
-				diffLabel.text = data.difficulty_name || data.difficulty.toUpperCase();
+				diffLabel.text = $.Localize("#enfos_setup_diff_" + data.difficulty);
 			}
 			var detailLabel = $("#DifficultyDetail");
 			if (detailLabel) {
-				detailLabel.text = data.detail_label || ("Creature HP x" + (data.hp_multiplier || 1.0).toFixed(2));
+				detailLabel.text = $.Localize("#enfos_setup_hp_" + data.difficulty);
 			}
 		}
 
 		if (data.remaining_time !== undefined) {
 			var timer = $("#AutoStartTimer");
 			if (timer) {
-				timer.text = "Auto-starting in " + data.remaining_time + "s...";
+				timer.text = $.Localize("#enfos_setup_autostart") + " " + data.remaining_time + $.Localize("#enfos_seconds_short") + "...";
 			}
 		}
 
@@ -144,7 +144,7 @@ var EnfosSetup = (function () {
 			"0": {
 				player_id: 0,
 				team: 2,
-				name: Players.GetPlayerName(0) || "Player 1"
+				name: Players.GetPlayerName(0) || ($.Localize("#enfos_player") + " 1")
 			}
 		});
 	}

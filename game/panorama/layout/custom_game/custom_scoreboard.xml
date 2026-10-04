@@ -10,7 +10,7 @@
             <!-- Header -->
             <Panel class="ScoreboardHeader">
                 <Panel class="ScoreboardTitleGroup">
-                    <Label class="ScoreboardTitle" text="ENFOS TEAM SURVIVAL" />
+                    <Label class="ScoreboardTitle" text="#enfos_brand" />
                     <Label class="ScoreboardSubtitle" text="#enfos_score_title" />
                 </Panel>
                 <Panel class="ScoreboardControls">

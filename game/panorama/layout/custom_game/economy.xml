@@ -43,13 +43,13 @@
 				<Label class="SectionHeader" text="#enfos_economy_tomes_header" />
 				<Panel class="TomesRow">
 					<Button id="BuyStrTomeBtn" class="TomeBtn StrTome" onactivate="BuyTome('str')">
-						<Label id="StrTomeLabel" text="STR +2 (500g)" />
+						<Label id="StrTomeLabel" text="#enfos_economy_str_tome_initial" />
 					</Button>
 					<Button id="BuyAgiTomeBtn" class="TomeBtn AgiTome" onactivate="BuyTome('agi')">
-						<Label id="AgiTomeLabel" text="AGI +2 (500g)" />
+						<Label id="AgiTomeLabel" text="#enfos_economy_agi_tome_initial" />
 					</Button>
 					<Button id="BuyIntTomeBtn" class="TomeBtn IntTome" onactivate="BuyTome('int')">
-						<Label id="IntTomeLabel" text="INT +2 (500g)" />
+						<Label id="IntTomeLabel" text="#enfos_economy_int_tome_initial" />
 					</Button>
 				</Panel>
 			</Panel>

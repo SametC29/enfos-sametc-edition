@@ -16,8 +16,8 @@
 		<Panel class="LoadingContent">
 			<!-- Title & Branding -->
 			<Panel class="TitleContainer">
-				<Label class="MainTitle" text="ENFOS TEAM SURVIVAL" />
-				<Label class="SubTitle" text="SAMETC EDITION • MODERN PVEVP DEFENSE" />
+				<Label class="MainTitle" text="#enfos_loading_title" />
+				<Label class="SubTitle" text="#enfos_loading_subtitle" />
 				<Panel class="GoldDivider" />
 			</Panel>
 
@@ -27,7 +27,7 @@
 				<Panel class="PillarCard">
 					<Panel class="PillarHeader">
 						<Panel class="PillarIcon IconWaves" />
-						<Label class="PillarTitle" text="60 Authored Waves" />
+						<Label class="PillarTitle" text="#enfos_loading_wave_title" />
 					</Panel>
 					<Label class="PillarDesc" text="#enfos_loading_wave_format" />
 				</Panel>
@@ -36,7 +36,7 @@
 				<Panel class="PillarCard">
 					<Panel class="PillarHeader">
 						<Panel class="PillarIcon IconLife" />
-						<Label class="PillarTitle" text="100 Team Life" />
+						<Label class="PillarTitle" text="#enfos_loading_core_title" />
 					</Panel>
 					<Label class="PillarDesc" text="#enfos_loading_core_format" />
 				</Panel>
@@ -45,35 +45,35 @@
 				<Panel class="PillarCard">
 					<Panel class="PillarHeader">
 						<Panel class="PillarIcon IconSpellbringer" />
-						<Label class="PillarTitle" text="Spellbringer Arsenal" />
+						<Label class="PillarTitle" text="#enfos_loading_spellbringer_title" />
 					</Panel>
-					<Label class="PillarDesc" text="Command your team's Spellbringer entity with 8 tactical abilities and a separate mana pool to turn the tide of battle." />
+						<Label class="PillarDesc" text="#enfos_loading_spellbringer_desc" />
 				</Panel>
 
 				<!-- Pillar 4: Ascended Forge -->
 				<Panel class="PillarCard">
 					<Panel class="PillarHeader">
 						<Panel class="PillarIcon IconAscended" />
-						<Label class="PillarTitle" text="Ascended Forge" />
+						<Label class="PillarTitle" text="#enfos_loading_ascended_title" />
 					</Panel>
-					<Label class="PillarDesc" text="Spend Lumber to ascend 30 Dota items into god-tier artifacts, and consume Aghanim's Blessing to free vital inventory slots." />
+						<Label class="PillarDesc" text="#enfos_loading_ascended_desc" />
 				</Panel>
 			</Panel>
 
 			<!-- Rotating Strategy Tips Box -->
 			<Panel class="TipContainer">
 				<Panel class="TipHeaderRow">
-					<Panel class="TipBadge"><Label text="STRATEGY TIP" /></Panel>
-					<Label id="TipCategory" class="TipCategoryText" text="ECONOMY & UPGRADES" />
+				<Panel class="TipBadge"><Label text="#enfos_loading_tip_label" /></Panel>
+					<Label id="TipCategory" class="TipCategoryText" text="#enfos_loading_tip_economy" />
 				</Panel>
-				<Label id="StrategyTipText" class="StrategyTipLabel" text="Save Lumber from Boss waves to rush your hero's Ascended item or convert Aghanim's Scepter to free your 6th item slot." />
+				<Label id="StrategyTipText" class="StrategyTipLabel" text="#enfos_loading_tip_economy_desc" />
 			</Panel>
 
 			<!-- Loading Progress Bar & Indicator -->
 			<Panel class="ProgressSection">
 				<Panel class="StatusRow">
 					<Panel class="LoadingSpinner" />
-					<Label id="LoadingStatus" class="StatusText" text="Initializing match environment..." />
+					<Label id="LoadingStatus" class="StatusText" text="#enfos_loading_status" />
 				</Panel>
 				<Panel class="ProgressBarTrack">
 					<Panel id="ProgressBarFill" class="ProgressBarThumb" />
