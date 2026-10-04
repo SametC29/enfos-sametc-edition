@@ -27,7 +27,7 @@ Luna/SF/BB are reused; no new hero manager or spawn listener is needed.
 | W enfos_slark_pounce | slark_pounce | TUNE (reviewed2026-10-04) | NATIVE directional leap, first-hero leash and Scepter charges. Mobility remains meaningful against waves; Q provides wave damage/purge, E provides creep attack scaling and R concealment/sustain. A wave nuke/root is unnecessary to preserve this slot’s role. Preserve native hero-only latch and zero direct damage; remove endpoint-only movement/control imitation. Native KV keys tune paid leash/CD/mana curves; ten-rank C++ acceptance remains pending. |
 | E enfos_slark_essence_shift | slark_essence_shift | PVE-CONVERT | NATIVE hero essence/attribute interactions with minimal bounded creep AGI extension. Native is hidden, nonlearnable, innate rank1 and supports hero kill AGI within the match. Paid ten-rank E must remain separate from innate auto-scaling. Creeps lack the hero attributes assumed by native stealing; avoid duplicating the native hero attack bonus. Existing whole-buff refresh/cap is an authored creep conversion, not proof of native per-stack expiry. |
 | R enfos_slark_shadow_dance | slark_shadow_dance | TUNE | NATIVE concealment/passive visibility rules and native regen, with minimal authored rank integration. Source bonus_regen is flat 60/90/120, not the current custom health_regen_pct=8..18; do not silently route percentages into that field. Native passive works while not visible to enemy team and has neutral damage suppression. Current custom invisibility/truesight states do not prove those rules. |
-| D enfos_slark_fish_bait | slark_saltwater_shiv (historical design counterpart); slark_fish_bait is a different shard active | PVE-CONVERT | Resolve native attack-proc integration first. Saltwater Shiv steals movement, regen and health-restoration from heroes; this is not the current random physical cleave/armor stacks. Native active hero-only targeting and limited creep healing make a direct passive alias invalid. Preserve five-slot passive/10-rank contract; document any necessary custom portion instead of calling the old rewrite native. |
+| D enfos_slark_fish_bait | slark_saltwater_shiv (historical design counterpart); slark_fish_bait is a different shard active | REPLACE | Dedicated Enfos passive, custom by necessity. Current native candidates are active abilities; rank/target tuning cannot turn their C++ attack/cast transaction into the mandatory free-rank passive. Keep the existing capped armor/cleave attack reward, isolate and repair its source guards, zero-damage behavior and caster ownership. Do not imitate or double-trigger native Shiv attacks or label this passive native. |
 
 ## Confirmed source differences
 
@@ -255,3 +255,86 @@ open. No Dota control, remote push or publication occurred.
 References checked2026-10-04: [ModDota built-in modifiers](https://moddota.com/abilities/reutilizing-built-in-modifiers),
 [official China Workshop modifier list](https://www.dota2.com.cn/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Modifier_Names.htm).
 Neither name lists nor examples verify Pounce's current private constructor.
+
+## D decision before implementation
+
+D is an Enfos-only passive, classified REPLACE before changes. KEEP/TUNE fail
+because both installed candidates are active casts. Target-only PvE conversion
+would still be an active; dispatching native Saltwater Shiv from OnAttackLanded
+could add another native attack/resource transaction, and no verified passive
+proc API/constructor evidence exists. Do not invent that bridge or duplicate
+health-restoration stealing. Keep the existing five-slot passive contract,
+25% proc, authored20–60% circular physical cleave, rank1–5 armor loss with5
+per-caster stacks/4-second duration and250 radius; this is a dedicated attack
+reward for Enfos waves, not current native Saltwater Shiv or Shard Fish Bait.
+
+Repair confirmed source defects: invalid ability/caster guards before RNG,
+removed sources during debuff/damage callbacks, fabricated150 damage when the
+attack event omits damage, dead-target exclusion suppressing killing-hit cleave,
+client armor getters from removed/untrained abilities, and caster ownership for
+multi-Slark debuffs. Snapshot impact center and cleave budget before callbacks.
+Killing hits cleave but do not place armor on a dead target. Missing/zero/invalid
+damage can apply landed-hit armor but cannot invent cleave damage. Break and
+illusions block new procs; already applied armor remains independent.
+
+Separate modifiers per caster via MULTIPLE, reusing the matching caster handle
+for capped refresh; no unbounded per-hit modifiers, summons or interval scans.
+One engine radius query per actual damaging proc; never cap scheduled waves.
+Keep existing Fighter Shard35AS/slow as explicit Enfos extension; native active
+Depth Shroud is not added to the mandatory passive slot. No new passive sound;
+normal Slark attack audio remains native. Existing proc splash/helper/precache
+retained; VPK SHA1d1a127ccd1833e8268fd1f46db8b40515906976e27f5b1bcaef044366522c91.
+Actual attachments, one-shot cleanup, audio and physical mitigation await owner.
+
+Native source snapshot6943/rev11069754 and installed Shiv localization reviewed.
+API confirms server-only FindModifierByNameAndCaster. Rechecked ModDota built-in
+modifier/API docs; reference-only World of Dota2880603428 KV1950/hero2086 has
+native Shiv slot/definition, no verified passive transaction. No imports.
+
+## D implementation and Slark source closure
+
+D's isolated passive/debuff are loaded and linked on server/client by the
+existing Slark bootstrap; no source classes remain in pve_kits. No extra hero
+manager, points, native active cast or native attack transaction is added.
+Landed-hit validation and snapshots guard removed sources during callbacks;
+per-caster capped armor refresh uses verified server FindModifierByNameAndCaster.
+Client armor getter handles removed/untrained sources, with no server-only
+lookup/alive calls. Splash and native attack sound remain as documented;
+trace is default-off/bounded with no timer or search solely for logging.
+
+Twelve focused Slark tests and twelve Luna/shared-client tests pass;342
+hero-kit regressions pass. D-specific contracts cover missing/zero damage,
+killing hits, cap/refresh, independent caster modifiers, Break/illusions, invalid
+input/source and mid-callback invalidation, physical magic-immune inclusion
+and client getters. A full source run exposed only the broad smoke fixture
+missing the supported FindModifierByNameAndCaster API; added the exact
+matching-caster fixture method, with no production fallback or weaker gate.
+Final full-check result is recorded below. Four-language ability/buff text and
+Q/R dossiers are aligned with the current native ownership and slot matrix.
+
+Remaining owner checklist after full restart: initial selected-hero Health
+prints once;5 paid skills/10 ranks/5 initial points/free D1; Q ranks1/10 actual
+damage/delay/purge/blood cost; W face direction/hero latch/creep pass-over/
+root restriction/Essence link/Scepter2 charges12s900/Blessing/Refresher;
+E hero temporary/permanent match-only AGI and creep cap/Break/kill-hit split;
+R flat regen/visibility/full-map vision/cloud/detection; D actual hit damage
+versus physical mitigation,0/missing damage,killing-hit spread,stack refresh/
+purge/two casters/Fighter Shard; all slots cold-start VFX/SFX/cleanup,
+death/respawn/reconnect/rank refresh, dense waves and clean client/server
+VConsole. Source closure is IMPLEMENTED BUT NOT ENGINE-VERIFIED.
+
+Final source target audit: wave definitions use BaseClass npc_dota_creature.
+Indexed IsCreature is available on both sides. E/D explicitly accept Creature
+NPCs as well as IsCreep, while E still excludes heroes and D still excludes
+allies/noncombat targets. This does not assume IsCreep and IsCreature are
+identical in C++; an independent mock with IsCreep=false/IsCreature=true covers
+both extension paths. Actual wave/Boss combat still needs owner verification.
+
+Final Slark source boundary: node tools/checks.mjs passes with zero failed
+checks;13 focused Slark contracts and12 shared Luna/client tests pass.
+Source statuses: Q/W/R NATIVE, E NATIVE plus bounded creep/Creature extension,
+D CUSTOM with documented REPLACE reason. Scepter native W; Fighter Shard
+explicit Enfos extension. All five source units are implemented and reviewed.
+OWNER_RUNTIME remains PENDING OWNER TEST, not DONE/ENGINE_PASS. Next ordered
+source hero is Tidehunter; deferred live tests do not block source progression.
+Local atomic commit only; no game launch, remote push or publication.

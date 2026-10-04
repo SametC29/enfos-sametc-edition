@@ -214,8 +214,6 @@ local modifier_list = {
     'modifier_enfos_pudge_dismember_channel',
     'modifier_enfos_pudge_dismember_target',
     'modifier_enfos_pudge_meat_shield_passive',
-    'modifier_enfos_slark_fish_bait_passive',
-    'modifier_enfos_slark_fish_bait_debuff',
     'modifier_enfos_ursa_earthshock_slow',
     'modifier_enfos_ursa_overpower_buff',
     'modifier_enfos_ursa_fury_swipes_passive',
@@ -5357,52 +5355,6 @@ function modifier_enfos_pudge_meat_shield_passive:OnTakeDamage(params)
             damage(ability, u, burst, DAMAGE_TYPE_PHYSICAL)
         end
     end
-end
-
--- ----------------------------------------------------------------------------
--- SLARK: DARK PACT, POUNCE, ESSENCE SHIFT, SHADOW DANCE, FISH BAIT
--- ----------------------------------------------------------------------------
-
-enfos_slark_fish_bait=class({})
-function enfos_slark_fish_bait:GetIntrinsicModifierName() return 'modifier_enfos_slark_fish_bait_passive' end
-
-modifier_enfos_slark_fish_bait_passive=class({})
-function modifier_enfos_slark_fish_bait_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACK_LANDED } end
-function modifier_enfos_slark_fish_bait_passive:OnAttackLanded(params)
-    if not IsServer() then return end
-    local c = self:GetParent()
-    if params.attacker ~= c or (c.PassivesDisabled and c:PassivesDisabled())
-        or (c.IsIllusion and c:IsIllusion()) then return end
-    local t = params.target
-    if not t or (t.IsNull and t:IsNull()) or not t:IsAlive() or (t.GetTeamNumber and t:GetTeamNumber() == c:GetTeamNumber()) then return end
-
-    local ability = self:GetAbility()
-    if RollPercentage(value(ability, 'proc_chance')) then
-        effect('particles/units/heroes/hero_slark/slark_shard_fish_bait_impact_splash.vpcf', t)
-        local existing = t.FindModifierByNameAndCaster and t:FindModifierByNameAndCaster('modifier_enfos_slark_fish_bait_debuff', c) or nil
-        local cap = value(ability, 'max_armor_stacks')
-        if cap <= 0 then cap = 5 end
-        if existing then
-            existing:SetStackCount(math.min(cap, existing:GetStackCount() + 1))
-            existing:SetDuration(value(ability, 'debuff_duration'), true)
-        else
-            local debuff = t:AddNewModifier(c, ability, 'modifier_enfos_slark_fish_bait_debuff', { duration = value(ability, 'debuff_duration') })
-            if debuff and debuff.SetStackCount then debuff:SetStackCount(1) end
-        end
-        local cleave = (params.damage or 150) * value(ability, 'cleave_pct') / 100
-        local radius = value(ability, 'cleave_radius')
-        if radius <= 0 then radius = 250 end
-        for _, u in ipairs(enemies(c, t:GetAbsOrigin(), radius, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
-            if u ~= t then damage(self:GetAbility(), u, cleave, DAMAGE_TYPE_PHYSICAL) end
-        end
-    end
-end
-
-modifier_enfos_slark_fish_bait_debuff=class({})
-function modifier_enfos_slark_fish_bait_debuff:IsDebuff() return true end
-function modifier_enfos_slark_fish_bait_debuff:DeclareFunctions() return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS } end
-function modifier_enfos_slark_fish_bait_debuff:GetModifierPhysicalArmorBonus()
-    return -value(self:GetAbility(), 'armor_reduction') * (self:GetStackCount() or 1)
 end
 
 -- ----------------------------------------------------------------------------

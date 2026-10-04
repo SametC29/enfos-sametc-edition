@@ -454,7 +454,7 @@
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift": "Смена сущности (Essence Shift)",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift_Description": "Атаки по вражеским героям крадут по {{stat_loss}} каждого атрибута и дают {{bonus_agi}} ловкости на {{duration}} сек. Нативная Essence Shift может навсегда украсть ловкость при смерти героя в радиусе {{steal_radius}}, только на текущий матч. Атаки по вражеским крипам дают {{bonus_agi}} ловкости, до {{max_stacks}} зарядов; каждый удар обновляет их общую длительность {{duration}} сек. Истощение блокирует новые временные заряды, но сохраняет существующие бонусы.",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait": "Наживка (Fish Bait)",
-    "DOTA_Tooltip_Ability_enfos_slark_fish_bait_Description": "Атаки с вероятностью {{proc_chance}}% наносят по области {{cleave_pct}}% физического урона и снижают броню цели на {{armor_reduction}}; эффект суммируется до {{max_armor_stacks}} раз.",
+    "DOTA_Tooltip_Ability_enfos_slark_fish_bait_Description": "Атаки с вероятностью {{proc_chance}}% снижают броню цели на {{armor_reduction}} на {{debuff_duration}} сек., до {{max_armor_stacks}} зарядов от каждого Сларка. Также наносят {{cleave_pct}}% нанесённого ударом урона как физический урон другим врагам в радиусе {{cleave_radius}}. Смертельные удары тоже распространяют урон. Истощение и иллюзии не могут активировать пассивный эффект.",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait_shard_description": "+35 скорости атаки. Атаки замедляют движение на 25% и атаки на 25 на 3 сек.",
     "DOTA_Tooltip_Ability_enfos_luna_eclipse_scepter_description": "Позволяет выбрать союзную цель или точку на расстоянии 2500, сокращает интервал лучей до 0,3 сек. и увеличивает число лучей и лимит попаданий по цели в зависимости от уровня Eclipse.",
     "DOTA_Tooltip_Ability_enfos_luna_lucent_beam": "Лунный луч (Lucent Beam)",
@@ -1454,6 +1454,8 @@
     "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff_Description": "Временная ловкость от атак по вражеским крипам. Новые удары обновляют общую длительность. Истощение блокирует новые заряды, но сохраняет существующие бонусы.",
     "DOTA_Tooltip_Ability_enfos_slark_pounce": "Прыжок (Pounce)",
     "DOTA_Tooltip_Ability_enfos_slark_pounce_Description": "Прыгает на {{pounce_distance}} в направлении взгляда, привязывая первого вражеского героя в радиусе {{pounce_radius}} на {{leash_duration}} сек. в пределах {{leash_radius}} и накладывая {{essence_stacks}} зарядов Essence Shift, если она изучена. Перепрыгивает крипов, не наносит прямого урона. Нельзя начать под оцепенением.",
-    "DOTA_Tooltip_Ability_enfos_slark_pounce_scepter_description": "Pounce получает 2 заряда с восстановлением 12 сек.; дальность прыжка становится 900."
+    "DOTA_Tooltip_Ability_enfos_slark_pounce_scepter_description": "Pounce получает 2 заряда с восстановлением 12 сек.; дальность прыжка становится 900.",
+    "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff": "Наживка",
+    "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff_Description": "Броня снижена срабатываниями атак Сларка."
   }
 }

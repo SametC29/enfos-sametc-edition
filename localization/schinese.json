@@ -454,7 +454,7 @@
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift": "能量转移 (Essence Shift)",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift_Description": "攻击敌方英雄会窃取其每种属性{{stat_loss}}点，并获得{{bonus_agi}}点敏捷，持续{{duration}}秒。原生能量转移可在{{steal_radius}}范围内的英雄死亡时永久窃取敏捷，仅限本局。攻击敌方小兵获得{{bonus_agi}}点敏捷，最多{{max_stacks}}层；每次命中刷新所有小兵层数的{{duration}}秒持续时间。破坏阻止新增临时层数，但保留已有加成。",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait": "鱼饵 (Fish Bait)",
-    "DOTA_Tooltip_Ability_enfos_slark_fish_bait_Description": "攻击有{{proc_chance}}%几率溅射{{cleave_pct}}%物理伤害并使目标护甲降低{{armor_reduction}}，最多叠加{{max_armor_stacks}}层。",
+    "DOTA_Tooltip_Ability_enfos_slark_fish_bait_Description": "攻击有{{proc_chance}}%概率降低目标{{armor_reduction}}点护甲，持续{{debuff_duration}}秒，每个斯拉克最多{{max_armor_stacks}}层。同时将该次命中已造成伤害的{{cleave_pct}}%作为物理伤害扩散给{{cleave_radius}}内的其他敌人。致命一击也能扩散伤害。破坏和幻象无法触发此被动。",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait_shard_description": "+35攻速，攻击使目标移速降低25%、攻速降低25，持续3秒。",
     "DOTA_Tooltip_Ability_enfos_luna_eclipse_scepter_description": "可在2500距离内指定友方单位或地点，将月光间隔缩短为0.3秒，并根据月蚀等级提高月光数量和每个目标的命中上限。",
     "DOTA_Tooltip_Ability_enfos_luna_lucent_beam": "月光 (Lucent Beam)",
@@ -1454,6 +1454,8 @@
     "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff_Description": "攻击敌方小兵获得的临时敏捷。新命中刷新所有层数的持续时间。破坏阻止新层数，但保留已有加成。",
     "DOTA_Tooltip_Ability_enfos_slark_pounce": "突袭（Pounce）",
     "DOTA_Tooltip_Ability_enfos_slark_pounce_Description": "朝面向方向跳跃{{pounce_distance}}，将{{pounce_radius}}范围内接触的第一个敌方英雄束缚在{{leash_radius}}范围内，持续{{leash_duration}}秒；若已学习能量转移，则施加{{essence_stacks}}层。跳过小兵，不造成直接伤害。被缠绕时无法开始。",
-    "DOTA_Tooltip_Ability_enfos_slark_pounce_scepter_description": "突袭获得2次充能，每次恢复需12秒，跳跃距离变为900。"
+    "DOTA_Tooltip_Ability_enfos_slark_pounce_scepter_description": "突袭获得2次充能，每次恢复需12秒，跳跃距离变为900。",
+    "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff": "鱼饵",
+    "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff_Description": "护甲因斯拉克的攻击触发效果而降低。"
   }
 }

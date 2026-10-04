@@ -443,3 +443,14 @@ is2 charges/12s restore/distance900, replacing generic R25% cooldown reduction.
 No guessed native leash constructor, creep root or new wave damage is added.
 Balance, C++ rank/scaling, targeting, HUD, upgrades and actual movement remain
 pending owner engine tests; reopen on contradictory gameplay evidence.
+
+## Slark fifth Enfos passive and Shard, 2026-10-04
+
+Classify D as REPLACE: native Saltwater Shiv and Fish Bait/Depth Shroud are
+active casts; direct alias or numeric tuning cannot implement the mandatory
+free-rank passive. Retain the existing capped cleave/armor Enfos passive in an
+isolated module, without claiming native Shiv mechanics. Correct zero/missing
+hit damage, killing-hit cleave, caster-specific armor stacks and invalid handles.
+Keep Fighter Shard35AS/3-second attack slow as explicit Enfos extension; do not
+add native active Depth Shroud or a second passive/resource transaction.
+Source/rank/stack/client/trace checks are separate from owner engine acceptance.

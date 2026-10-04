@@ -36,7 +36,7 @@ test('native AGI bridge uses raw rank values on client/server and restores once 
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end
 local server=true;function IsServer()return server end
-function LinkLuaModifier(name,path)assert(path=='abilities/heroes/slark/modifiers')end
+function LinkLuaModifier(name,path)assert(path=='abilities/heroes/slark/modifiers' or path=='abilities/heroes/slark/d')end
 local Integration=require('abilities/heroes/slark/integration')
 local rank,adds=1,0
 local values={${ranks}}
@@ -107,7 +107,7 @@ const essenceSetup=`
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end
 local server=true;function IsServer()return server end
-function LinkLuaModifier(name,path)assert(path=='abilities/heroes/slark/modifiers')end
+function LinkLuaModifier(name,path)assert(path=='abilities/heroes/slark/modifiers' or path=='abilities/heroes/slark/d')end
 local I=require('abilities/heroes/slark/integration')
 local rank=1;local broke,illusion,removed=false,false,false
 local v={bonus_agi={1,1,2,2,2,3,3,3,4,4},max_stacks={30,35,40,45,50,55,60,65,70,75},duration={30},stat_loss={1},steal_radius={300}}
@@ -225,3 +225,81 @@ present=false;assert(not m:IsHidden() and m:GetModifierSpellAmplify_Percentage(e
 present=true;unit='npc_dota_hero_drow_ranger';assert(m:GetModifierSpellAmplify_Percentage(event)==40 and m:GetModifierPercentageCooldown(event)==25)
 unit='npc_dota_hero_slark';w.IsNull=function()return true end;assert(not m:IsHidden() and m:GetModifierPercentageCooldown(event)==25)
 `));
+
+const fishSetup=`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t)t.__index=t;return t end
+local server=true;function IsServer()return server end
+MODIFIER_ATTRIBUTE_MULTIPLE=8
+DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES=16;DAMAGE_TYPE_PHYSICAL=1
+DOTA_UNIT_TARGET_TEAM_ENEMY=2;DOTA_UNIT_TARGET_HERO=1;DOTA_UNIT_TARGET_BASIC=2;FIND_ANY_ORDER=0
+require('abilities/heroes/slark/d')
+local removed,broken,illusion,rank=false,false,false,1
+local values={proc_chance=25,cleave_pct=40,cleave_radius=250,armor_reduction=3,max_armor_stacks=5,debuff_duration=4}
+local a={IsNull=function()return removed end,GetLevel=function()return rank end,GetSpecialValueFor=function(_,k)return values[k]end}
+local function unit(team) return {alive=true,mods={},IsNull=function(self)return self.removed or false end,IsAlive=function(self)return self.alive end,
+ IsHero=function()return false end,IsCreep=function()return true end,GetTeamNumber=function()return team end,GetAbsOrigin=function()return 'impact_center'end}end
+local c,t,n,n2=unit(2),unit(3),unit(3),unit(3)
+c.IsIllusion=function()return illusion end;c.PassivesDisabled=function()return broken end;a.GetCaster=function()return c end
+local rng,searches,hits=0,0,{}
+function RollPercentage(chance)assert(chance==25);rng=rng+1;return true end
+local function attach(target,caster,ability)
+ local m=setmetatable({count=0,IsNull=function()return false end,GetAbility=function()return ability end,GetCaster=function()return caster end,
+ GetStackCount=function(self)return self.count end,SetStackCount=function(self,value)self.count=value end,SetDuration=function(self,d,r)assert(d==4 and r);self.duration=d end},modifier_enfos_slark_fish_bait_debuff)
+ target.mods[caster]=m;return m
+end
+t.FindModifierByNameAndCaster=function(self,_,caster)return self.mods[caster]end
+t.AddNewModifier=function(self,caster,ability,_,p)assert(p.duration==4);return attach(self,caster,ability)end
+function FindUnitsInRadius(team,center,_,radius,targetTeam,targetType,flags)
+ assert(team==2 and center=='impact_center' and radius==250 and flags==16);searches=searches+1;return {t,n,n2}
+end
+function ApplyDamage(p)assert(p.damage==40 and p.damage_type==1 and p.attacker==c);hits[#hits+1]=p.victim;return p.damage end
+local d=setmetatable({GetParent=function()return c end,GetAbility=function()return a end},modifier_enfos_slark_fish_bait_passive)
+local event={attacker=c,target=t,damage=100}
+`;
+
+test('Enfos passive is isolated and handles missing damage, killing hits, capped per-caster armor and client rank/source guards',()=>{
+ assert.equal(all.enfos_slark_fish_bait.ScriptFile,'abilities/heroes/slark/d');
+ runLua(fishSetup+`
+ d:OnAttackLanded(event);assert(rng==1 and searches==1 and #hits==2 and t.mods[c].count==1)
+ for i=1,10 do d:OnAttackLanded(event)end;assert(t.mods[c].count==5 and t.mods[c].duration==4)
+ local m=t.mods[c];assert(m:GetModifierPhysicalArmorBonus()==-15 and m:GetAttributes()==8 and m:IsPurgable())
+ local other=unit(2);local om=attach(t,other,a);om.count=2
+ assert(t.mods[c]~=t.mods[other] and om:GetModifierPhysicalArmorBonus()==-6)
+ broken=true;local rolls=rng;d:OnAttackLanded(event);assert(rng==rolls and m:GetModifierPhysicalArmorBonus()==-15);broken=false
+ local searchesBefore=searches;event.damage=nil;d:OnAttackLanded(event);assert(searches==searchesBefore)
+ event.damage=0;d:OnAttackLanded(event);assert(searches==searchesBefore)
+ event.damage=100;t.alive=false;t.mods[c]=nil;d:OnAttackLanded(event);assert(searches==searchesBefore+1 and t.mods[c]==nil)
+ server=false;c.IsAlive=function()error('Server only')end;t.FindModifierByNameAndCaster=function()error('Server only')end
+ assert(m:GetModifierPhysicalArmorBonus()==-15);d:OnAttackLanded(event)
+ rank=0;assert(m:GetModifierPhysicalArmorBonus()==0);rank=1;removed=true;assert(m:GetModifierPhysicalArmorBonus()==0)
+ `);
+});
+
+test('Fish Bait rejects invalid/ally/illusion/untrained hits before RNG and stops damage after callback invalidation',()=>runLua(fishSetup+`
+ illusion=true;d:OnAttackLanded(event);illusion=false
+ rank=0;d:OnAttackLanded(event);rank=1
+ removed=true;d:OnAttackLanded(event);removed=false
+ d:OnAttackLanded({attacker=n,target=t,damage=100})
+ t.GetTeamNumber=function()return 2 end;d:OnAttackLanded(event);t.GetTeamNumber=function()return 3 end
+ t.IsCreep=function()return false end;d:OnAttackLanded(event);t.IsCreep=function()return true end
+ assert(rng==0 and searches==0 and #hits==0)
+ t.AddNewModifier=function()removed=true;return nil end
+ d:OnAttackLanded(event);assert(searches==0 and #hits==0)
+ removed=false;t.AddNewModifier=function(self,caster,ability)return attach(self,caster,ability)end
+ function ApplyDamage(p)hits[#hits+1]=p.victim;removed=true;return p.damage end
+ d:OnAttackLanded(event);assert(searches==1 and #hits==1)
+ `));
+
+test('Slark wave extensions include the authored Creature NPC class without requiring IsCreep to be true',()=>{
+ runLua(fishSetup+`
+ t.IsCreep=function()return false end;t.IsCreature=function()return true end
+ d:OnAttackLanded(event);assert(rng==1 and searches==1 and #hits==2 and t.mods[c].count==1)
+ `);
+ runLua(essenceSetup+`
+ target.IsCreep=function()return false end;target.IsCreature=function()return true end
+ listener:OnAttackLanded({attacker=hero,target=target})
+ local buff=mods.modifier_enfos_slark_essence_shift_buff;assert(buff and buff.count==1 and buff:GetModifierBonusStats_Agility()==1)
+ target.IsHero=function()return true end;listener:OnAttackLanded({attacker=hero,target=target});assert(buff.count==1)
+ `);
+});

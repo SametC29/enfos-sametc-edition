@@ -498,7 +498,7 @@
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift": "Essence Shift",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift_Description": "Attacks against enemy heroes drain {{stat_loss}} of each attribute and grant {{bonus_agi}} Agility for {{duration}}s. Native Essence Shift can permanently steal Agility within {{steal_radius}} on hero deaths, for this match only. Enemy creep attacks grant {{bonus_agi}} Agility, up to {{max_stacks}} stacks; each hit refreshes their shared {{duration}}s duration. Break blocks new temporary stacks; existing bonuses remain.",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait": "Fish Bait",
-    "DOTA_Tooltip_Ability_enfos_slark_fish_bait_Description": "Attacks have a {{proc_chance}}% chance to cleave for {{cleave_pct}}% physical damage and reduce the target's armor by {{armor_reduction}}, stacking up to {{max_armor_stacks}} times.",
+    "DOTA_Tooltip_Ability_enfos_slark_fish_bait_Description": "Attacks have a {{proc_chance}}% chance to lower the target’s armor by {{armor_reduction}} for {{debuff_duration}}s, up to {{max_armor_stacks}} stacks per Slark. Also deals {{cleave_pct}}% of the damage dealt by the hit as physical damage to other enemies within {{cleave_radius}}. Killing hits can spread damage. Break and illusions cannot trigger this passive.",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait_shard_description": "+35 attack speed. Attacks slow movement by 25% and attack speed by 25 for 3s.",
     "DOTA_Tooltip_Ability_enfos_luna_eclipse_scepter_description": "Allows allied-unit or ground targeting at 2500 range, shortens beam intervals to 0.3s and increases beam count and the per-target hit limit according to Eclipse rank.",
     "DOTA_Tooltip_Ability_enfos_luna_lucent_beam": "Lucent Beam",
@@ -1514,6 +1514,8 @@
     "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff_Description": "Temporary Agility earned from enemy creep attacks. New hits refresh the shared duration. Break blocks new stacks but preserves existing bonuses.",
     "DOTA_Tooltip_Ability_enfos_slark_pounce": "Pounce",
     "DOTA_Tooltip_Ability_enfos_slark_pounce_Description": "Leaps {{pounce_distance}} in the facing direction, leashing the first enemy hero within {{pounce_radius}} for {{leash_duration}}s inside {{leash_radius}} and applying {{essence_stacks}} Essence Shift stacks if learned. Passes over creeps and deals no direct damage. Cannot start while rooted.",
-    "DOTA_Tooltip_Ability_enfos_slark_pounce_scepter_description": "Pounce gains 2 charges, with a 12s restore time, and leap distance becomes 900."
+    "DOTA_Tooltip_Ability_enfos_slark_pounce_scepter_description": "Pounce gains 2 charges, with a 12s restore time, and leap distance becomes 900.",
+    "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff": "Fish Bait",
+    "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff_Description": "Armor reduced by Slark’s attack procs."
   }
 }

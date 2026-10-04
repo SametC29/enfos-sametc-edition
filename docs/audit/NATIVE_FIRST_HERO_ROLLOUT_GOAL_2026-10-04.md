@@ -81,3 +81,10 @@ units are implemented, with paid ten-rank controllers, one native-value bridge,
 native Scepter E, explicit Tank Shard extension, four-language tooltips and
 resource/client/regression coverage. Engine cases remain pending in its dossier.
 Next sequential source unit: Slark. Deferred owner tests do not block that move.
+
+2026-10-04 Slark source progression: native Q/W/R, exact native Essence Shift
+provider with paid-rank bridge/Creature extension, and isolated capped custom
+Enfos D are implemented. Native Scepter belongs to W; Fighter Shard is an
+explicit extension. Full source checks pass; all engine/rank HUD/VFX/SFX/lifecycle
+cases remain pending in Slark's dossier and current review. Proceed to
+Tidehunter as the next ordered source unit, without waiting for live tests.

@@ -5429,6 +5429,8 @@ test('Slark Fish Bait uses its rank values for cleave and stacked armor reductio
     local neighbor = create_mock_unit('creep_fish_bait_neighbor', 3, Vector(150, 0, 0))
     mock_world_units = { slark, target, neighbor }
     local ability = enfos_slark_fish_bait()
+    ability.GetLevel = function() return 1 end
+    target.IsCreep = function() return true end
     ability.GetSpecialValueFor = function(_, key)
         return ({ proc_chance=25, cleave_pct=40, cleave_radius=250, armor_reduction=3, max_armor_stacks=5, debuff_duration=4 })[key] or 0
     end

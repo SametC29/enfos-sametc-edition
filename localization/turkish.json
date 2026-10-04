@@ -703,7 +703,7 @@
     "DOTA_Tooltip_Ability_enfos_slark_shadow_dance": "Gölge Dansı (Shadow Dance)",
     "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_Description": "Düşmanlar tarafından görülmediğinde %{{bonus_movement_speed}} hareket hızı ve saniyede {{bonus_regen}} sağlık kazanır. Tarafsız birim hasarı pasif bonusları 2 sn kapatır. Etkinleştirildiğinde {{duration}} sn boyunca görünen bir bulutta gizlenir; saldırılar, büyüler ve eşyalar Slark’ı açığa çıkarmaz.",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait": "Balık Yemi (Fish Bait)",
-    "DOTA_Tooltip_Ability_enfos_slark_fish_bait_Description": "Saldırılar {{proc_chance}}% ihtimalle {{cleave_pct}}% fiziksel hasarı çevreye yayar ve hedefin zırhını {{armor_reduction}} azaltır. Zırh etkisi en fazla {{max_armor_stacks}} yük birikir.",
+    "DOTA_Tooltip_Ability_enfos_slark_fish_bait_Description": "Saldırılar %{{proc_chance}} ihtimalle hedefin zırhını {{debuff_duration}} sn boyunca {{armor_reduction}} azaltır; her Slark için en fazla {{max_armor_stacks}} yük. Ayrıca vuruşun verdiği hasarın %{{cleave_pct}} kadarını {{cleave_radius}} içindeki diğer düşmanlara fiziksel olarak yayar. Öldürücü vuruşlar da hasar yayabilir. Kırılma ve illüzyonlar pasifi tetikleyemez.",
     "DOTA_Tooltip_Ability_enfos_luna_lucent_beam": "Işıltılı Ay Işını (Lucent Beam)",
     "DOTA_Tooltip_Ability_enfos_luna_lucent_beam_Description": "Hedefe {{beam_damage}} + Çeviklik × {{agility_multiplier}} büyü hasarı verir ve {{stun_duration}} saniye sersemletir.",
     "DOTA_Tooltip_Ability_enfos_luna_moon_glaives": "Ay Bıçakları (Moon Glaives)",
@@ -1842,6 +1842,8 @@
     "DOTA_Tooltip_Ability_enfos_bb_native_hairball": "Kıl Yumağı (Hairball)",
     "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff": "Yaratık Özü",
     "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff_Description": "Düşman yaratıklara saldırılardan kazanılan geçici çeviklik. Yeni vuruşlar ortak süreyi yeniler. Kırılma yeni yükleri durdurur; mevcut bonusları korur.",
-    "DOTA_Tooltip_Ability_enfos_slark_pounce_scepter_description": "Sıçrama 2 yük kazanır; yük yenilenmesi 12 sn, sıçrama mesafesi 900 olur."
+    "DOTA_Tooltip_Ability_enfos_slark_pounce_scepter_description": "Sıçrama 2 yük kazanır; yük yenilenmesi 12 sn, sıçrama mesafesi 900 olur.",
+    "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff": "Balık Yemi",
+    "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff_Description": "Slark’ın saldırı tetiklemeleriyle zırhı azaltılmıştır."
   }
 }

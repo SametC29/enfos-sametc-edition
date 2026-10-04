@@ -321,6 +321,10 @@ function create_mock_unit(name, team, origin, hp)
             return mod
         end,
         FindModifierByName = function(self, mod_name) return self.modifiers[mod_name] end,
+        FindModifierByNameAndCaster = function(self, mod_name, caster)
+            local mod=self.modifiers[mod_name]
+            if mod and mod.caster==caster then return mod end
+        end,
         HasModifier = function(self, mod_name) return self.modifiers[mod_name] ~= nil end,
         RemoveModifierByName = function(self, mod_name)
             local mod = self.modifiers[mod_name]

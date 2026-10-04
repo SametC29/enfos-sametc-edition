@@ -59,7 +59,7 @@ function E:OnAttackLanded(params)
         or params.attacker~=c or not c:IsRealHero() or c:IsIllusion()
         or c:PassivesDisabled() then return end
     local t=params.target
-    if not t or t:IsNull() or t:IsHero() or not t:IsCreep()
+    if not t or t:IsNull() or t:IsHero() or not (t:IsCreep() or (t.IsCreature and t:IsCreature()))
         or t:GetTeamNumber()==c:GetTeamNumber() then return end
     local duration,cap=a:GetSpecialValueFor('duration'),a:GetSpecialValueFor('max_stacks')
     if duration<=0 or cap<1 then return end

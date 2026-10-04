@@ -2959,7 +2959,7 @@
 			"max_armor_stacks" "5"
 			"cleave_radius" "250"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/slark/d"
 	}
 // LUNA ABILITIES
 	// =========================================================================
