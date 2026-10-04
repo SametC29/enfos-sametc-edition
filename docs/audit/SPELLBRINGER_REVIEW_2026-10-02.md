@@ -191,7 +191,7 @@ destination connectivity/blocking, queue flag, moving/idle/frozen state and acti
 ability. Explicit **owner-run** server command, immediately after casting an early
 wave-6 group and issuing a move at least 128 units away:
 
-`script require("tools/spellbringer_audit").Compare(0)`
+The earlier `script require("tools/spellbringer_audit").Compare(0)` instruction was invalid in the owner's VConsole (`script` was not recognized). After a new local Workshop Tools session loads this revision and the first Future Reinforcements cast registers the command, use `enfos_spellbringer_compare 0` instead. The console registration is Tools-only; the comparison itself also checks Tools mode. This command has not yet been verified in the owner's running engine; if it is not recognized, do not infer a movement cause from that failure.
 
 This issues one server move to an actual reinforcement and three fresh fixtures:
 same custom profile without the special, same custom profile with its heal, and
@@ -219,3 +219,12 @@ zero rewards, removed fixture handling and measured movement). No new owner
 engine result for the comparison tool yet; no runtime fix claimed.
 `npm run check`: PASS, zero failed checks; all-60-wave reinforcement regression
 also PASS. No gameplay/asset/KV changes or publication in this evidence unit.
+
+
+## 2026-10-04 renewed eight-skill source review — displacement defect before repair
+
+The reported Future Reinforcements manual movement failure is still unclassified pending the owner-run four-case motion comparison. The October3 runtime log proves received manual move/attack-move orders with zero displacement for five wave6 allies; it does not prove path connectivity or a specific engine cause. Installed Valve KV, current MCP API and reference control assignment confirm that `SetControllableByPlayer(playerID,true)` is a valid control call and `true` means skip position adjustment. No speculative movement rewrite.
+
+Separate proven source defect in Whole Displacement: `GetActiveHostiles` includes Spellbringer's stationary War Standard and Thorn Idol, both registered with `defendingTeam`; their KV declares `DOTA_UNIT_CAP_MOVE_NONE`. Current `CastWholeDisplacement` teleports every non-Boss returned unit, including those stationary auras, and only tries route recovery when `creepState` exists. TUNE target eligibility to mobile units with an attached lane route; this keeps the stated non-Boss creep return behavior and excludes stationary objects and orphaned hostiles that cannot resume their lane. Verify with actual Lua callbacks and existing Spellbringer regressions. No changed asset or external code import.
+
+Implemented that eligibility guard: only a mobile, non-Boss hostile with an attached route is returned to its own lane start, then its waypoint order resumes. Mock Lua regressions cover a regular creep, Boss, distant creep, stationary aura and unrouted creep. This does not alter or resolve Future Reinforcements' manual movement failure, which still needs the four-case owner runtime comparison. The eight spells' rendered effects, sounds and animations remain pending actual Dota observation; asset presence alone is not runtime acceptance.

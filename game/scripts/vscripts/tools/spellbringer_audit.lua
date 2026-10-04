@@ -1,10 +1,11 @@
 -- Read-only observation automatically armed by Future Reinforcements.
 -- Compare is a separate, explicit owner-run Tools experiment with temporary units.
--- Does not cast, move or select units. Can also be armed manually:
--- Server console: script require("tools/spellbringer_audit").Run(0)
+-- Does not cast, move or select units. A Tools-only comparison command is
+-- registered when the first reinforcement group is observed.
 -- Then select a reinforcement and issue move/attack/stop/hold orders for 30s.
 local Audit = {}
 local latest, comparisonUntil = {}, {}
+local comparisonCommandRegistered = false
 
 local function reinforcement(unit)
     return unit and not unit:IsNull() and unit.is_allied_reinforcement
@@ -55,6 +56,18 @@ function Audit.Run(playerID, spawnedUnits)
     if not PlayerResource:IsValidPlayerID(playerID) then
         print("[SPELLBRINGER_AUDIT] invalid player")
         return nil
+    end
+    if not comparisonCommandRegistered and Convars and Convars.RegisterCommand then
+        local ok, err = pcall(function()
+            Convars:RegisterCommand("enfos_spellbringer_compare", function(_, requestedPlayerID)
+                Audit.Compare(requestedPlayerID or playerID)
+            end, "Compare reinforcement movement in Workshop Tools only", 0)
+        end)
+        if ok then
+            comparisonCommandRegistered = true
+        else
+            print("[SPELLBRINGER_AUDIT] comparison command registration failed: " .. tostring(err))
+        end
     end
     local rows, watched = {}, {}
     for _, unit in ipairs(spawnedUnits or Entities:FindAllByClassname("npc_dota_creature")) do
@@ -108,7 +121,7 @@ end
 
 -- Explicit owner-run experiment, never invoked by a cast or normal gameplay.
 -- Server console after casting wave-6 reinforcements and trying a move:
--- script require("tools/spellbringer_audit").Compare(0)
+-- enfos_spellbringer_compare 0
 -- Compare the actual summon with fresh copies with/without its native heal,
 -- and the installed native priest. This is evidence collection, not a fix.
 function Audit.Compare(playerID)

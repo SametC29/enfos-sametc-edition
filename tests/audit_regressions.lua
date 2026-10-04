@@ -293,17 +293,23 @@ test('Spellbringer displacement returns only nearby regular hostile creeps to th
   function u:entindex() return self.id end
   function u:GetUnitName() return self.name end
   function u:GetAbsOrigin() return self.pos end
+  function u:HasMovementCapability() return self.movable~=false end
   function u:EmitSound(sound) self.sound=sound end
   return u
  end
  local regular=creep(1101,'enfos_creep_soldier',7520,false)
  local boss=creep(1102,'npc_dota_hero_sven',7525,true)
  local outside=creep(1103,'enfos_creep_soldier',8100,false)
- B.waveManager={activeCreeps={[2]={regular,boss,outside}}}
+ local stationary=creep(1104,'enfos_spellbringer_war_standard',7530,false)
+ stationary.creepState=nil;stationary.movable=false
+ local orphan=creep(1105,'enfos_creep_soldier',7540,false)
+ orphan.creepState=nil
+ B.waveManager={activeCreeps={[2]={regular,boss,outside,stationary,orphan}}}
  local oldClear=FindClearSpaceForUnit
  FindClearSpaceForUnit=function(unit,pos) moved[#moved+1]={unit=unit,pos=pos};unit.pos=pos end
  assert(B:CastWholeDisplacement(2,B.ABILITY_DEFS.spellbringer_whole_displacement,center))
  assert(#moved==1 and moved[1].unit==regular and moved[1].pos==start)
+ assert(stationary.sound==nil and orphan.sound==nil, 'stationary or unrouted summons must stay in place')
  assert(regular.creepState.waypointIndex==1 and regular.creepState.lastPos==start and regular.creepState.ordered)
  assert(regular.sound=='Hero_Chen.TeleportOut')
  FindClearSpaceForUnit=oldClear

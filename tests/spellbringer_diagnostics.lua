@@ -33,11 +33,17 @@ local unrelated=unit(3,'npc_dota_furion_treant',0)
 Entities={FindAllByClassname=function(_,name) assert(name=='npc_dota_creature'); return {a,b,unrelated} end}
 EntIndexToHScript=function(index) return ({a,b,unrelated})[index] end
 local audit=require('tools/spellbringer_audit')
+local registered, registrations
+Convars={RegisterCommand=function(_,name,callback,description,flags)
+    assert(name=='enfos_spellbringer_compare' and flags==0 and description)
+    registered=callback;registrations=(registrations or 0)+1
+end}
 server=false; assert(audit.Run(0)==nil and EnfosSpellbringerOrderAudit==nil)
 server=true;tools=false;assert(audit.Run(0)==nil and EnfosSpellbringerOrderAudit==nil)
 tools=true;assert(audit.Run(7)==nil and EnfosSpellbringerOrderAudit==nil)
 local rows=audit.Run(0)
 assert(#rows==1 and rows[1].owner==0 and rows[1].movable and rows[1].modifiers=='modifier_kill')
+assert(registered and registrations==1, 'Tools comparison command registered once after a valid spawn')
 local order={issuer_player_id_const=0,order_type=1,units={['0']='1',['1']=2,['2']=3},position_x=300,position_y=100}
 local watch=EnfosSpellbringerOrderAudit
 watch({issuer_player_id_const=1,units={['0']=1}});assert(next(timers)==nil)
@@ -62,6 +68,7 @@ a.removed=false;now=0
 Entities.FindAllByClassname=function() error('spawn diagnostics must not scan global units') end
 rows=audit.Run(0,{b})
 assert(#rows==1 and rows[1].owner==1, 'report wrong ownership instead of filtering it out')
+assert(registrations==1, 'repeated spawns must not re-register the command')
 timers={}
 EnfosSpellbringerOrderAudit({issuer_player_id_const=0,order_type=1,units={['0']=2}})
 assert(timers.SpellbringerOrderAudit_2, 'observe orders to the supplied spawn despite ownership mismatch')
@@ -92,7 +99,8 @@ local pathLine=lines[lineCount+3]
 assert(pathLine:find('[SPELLBRINGER_PATH]',1,true) and pathLine:find('reachable=true',1,true)
     and pathLine:find('queued=0',1,true))
 reachable=false;assert(not audit.Compare(0) and #spawned==0);reachable=true
-assert(audit.Compare(0) and #spawned==3 and #orders==4 and #configured==1)
+registered(nil,'0')
+assert(#spawned==3 and #orders==4 and #configured==1)
 assert(spawned[1]:GetUnitName()=='enfos_wave_06' and configured[1]==spawned[2])
 assert(spawned[3]:GetUnitName()=='npc_dota_neutral_forest_troll_high_priest')
 for _,u in ipairs(spawned) do assert(u.enfosNoReward and u.SetDeathXPArgs[1]==0) end

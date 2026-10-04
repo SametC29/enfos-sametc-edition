@@ -539,8 +539,6 @@ end
 function SpellbringerService:CastWholeDisplacement(casterTeam, def, targetPos)
 	local pos = targetPos or self:GetDefaultLanePos(casterTeam)
 	local CreepAI = require("waves/creep_ai")
-	local laneStart = CreepAI and CreepAI.ROUTES and CreepAI.ROUTES[casterTeam] and CreepAI.ROUTES[casterTeam].left and CreepAI.ROUTES[casterTeam].left[1]
-	if not laneStart then laneStart = self:GetSpawnPos(casterTeam) end
 
 	local units = self:GetActiveHostiles(casterTeam, pos, def.radius)
 
@@ -548,14 +546,14 @@ function SpellbringerService:CastWholeDisplacement(casterTeam, def, targetPos)
 	for _, unit in ipairs(units) do
 		local name = unit:GetUnitName()
 		-- Bosses cannot be displaced; regular wave creeps can be moved.
-		if unit.defendingTeam==casterTeam and not unit.isBoss and not name:find("enfos_boss_", 1, true) then
-			local destination=unit.creepState and unit.creepState.route[1] or laneStart
+		local route = unit.creepState and unit.creepState.route
+		if unit.defendingTeam==casterTeam and not unit.isBoss and not name:find("enfos_boss_", 1, true)
+			and unit:HasMovementCapability() and route and route[1] then
+			local destination=route[1]
 			FindClearSpaceForUnit(unit, destination, true)
-			if unit.creepState then
-				unit.creepState.waypointIndex = 1
-				unit.creepState.lastPos = destination
-				CreepAI:OrderMoveToWaypoint(unit.creepState)
-			end
+			unit.creepState.waypointIndex = 1
+			unit.creepState.lastPos = destination
+			CreepAI:OrderMoveToWaypoint(unit.creepState)
 			unit:EmitSound("Hero_Chen.TeleportOut")
 			displaced = displaced + 1
 		end
