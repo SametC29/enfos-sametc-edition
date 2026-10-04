@@ -58,6 +58,16 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-04 native-first migration discovery: installed build6943/revision11069754
+hero hash reverified unchanged. The new [source snapshot](../../audit/TIDEHUNTER_NATIVE_SOURCE_2026-10-04.json)
+and [migration matrix](../../audit/TIDEHUNTER_NATIVE_FIRST_REVIEW_2026-10-04.md)
+record Q/W/E/R TUNE migration decisions and D's provisional PVE-CONVERT lead.
+Current production below remains Lua; no migrated skill or new engine acceptance
+is claimed. Native W includes an active shell; E performs real attacks; R uses
+native AbilityDamage; D catch/Shard/cleanse dependencies need explicit resolution.
+The historical custom review remains evidence of its source fixes, not a reason
+to retain duplicated native mechanics. Next source unit: native Q integration.
+
 2026-10-02 source review closure: all five source implementations and their
 current KV/upgrade/presentation ownership have individual reviewed contracts in
 [the review ledger](../../audit/TIDEHUNTER_INDIVIDUAL_REVIEW_2026-10-02.md).

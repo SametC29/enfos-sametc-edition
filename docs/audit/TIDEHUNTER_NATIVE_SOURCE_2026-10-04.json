@@ -1,0 +1,360 @@
+{
+  "observedAt": "2026-10-04T01:04:39.648Z",
+  "source": "scripts/npc/heroes/npc_dota_hero_tidehunter.txt",
+  "build": "ClientVersion=6943\r\nServerVersion=6943\r\nProductName=dota2_workshop\r\nappID=570\r\nServerAppID=373310\r\nCustomGameServerAppID=471280\r\nToolsAppID=316570\r\nSourceRevision=11069754\r\nVersionDate=Oct 01 2026\r\nVersionTime=15:53:48",
+  "sha256": "8c96be768e85e8d845bc6ef04f99ad261c0f9bd5c0e45503aedb6ab4c5c78cda",
+  "abilities": {
+    "tidehunter_gush": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+      "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+      "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+      "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+      "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+      "SpellDispellableType": "SPELL_DISPELLABLE_YES",
+      "FightRecapLevel": "1",
+      "HasScepterUpgrade": "1",
+      "AbilitySound": "Ability.GushCast",
+      "AbilityCastRange": "700",
+      "AbilityCastPoint": "0.3 0.3 0.3 0.3",
+      "AbilityCooldown": "12",
+      "AbilityDuration": "4.5",
+      "AbilityManaCost": "100",
+      "AbilityValues": {
+        "gush_damage": {
+          "value": "100 160 220 280",
+          "special_bonus_unique_tidehunter_2": "+90"
+        },
+        "projectile_speed": "2500",
+        "movement_speed": {
+          "value": "-40 -40 -40 -40",
+          "special_bonus_unique_tidehunter_5": "-20"
+        },
+        "negative_armor": {
+          "value": "3 4 5 6",
+          "special_bonus_unique_tidehunter": "+4"
+        },
+        "speed_scepter": {
+          "special_bonus_scepter": "1500"
+        },
+        "aoe_scepter": {
+          "special_bonus_scepter": "260",
+          "affected_by_aoe_increase": "1"
+        },
+        "cooldown_scepter": {
+          "special_bonus_scepter": "7"
+        },
+        "cast_range_scepter": {
+          "special_bonus_scepter": "2200"
+        }
+      },
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1"
+    },
+    "tidehunter_kraken_shell": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE",
+      "SpellDispellableType": "SPELL_DISPELLABLE_NO",
+      "AbilitySound": "Hero_Tidehunter.KrakenShell",
+      "IsBreakable": "1",
+      "AbilityCastRange": "0",
+      "AbilityCastPoint": "0 0 0 0",
+      "AbilityManaCost": "45",
+      "AbilityValues": {
+        "AbilityCooldown": {
+          "value": "30"
+        },
+        "damage_reduction": {
+          "value": "15 35 55 75"
+        },
+        "bonus_reduction_per_kill": {
+          "value": "0",
+          "special_bonus_facet_tidehunter_kraken_swell": "1 2 3 4"
+        },
+        "creep_reduction_penalty_pct": "50.0",
+        "active_pct_effectiveness": "200.0",
+        "active_move_speed_penalty_pct": "40",
+        "active_duration": "4.0",
+        "damage_cleanse": "600 550 500 450",
+        "damage_reset_interval": "7.0",
+        "smash_on_purge": {
+          "special_bonus_unique_tidehunter_smash_on_blubber": "50"
+        }
+      },
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_2"
+    },
+    "tidehunter_anchor_smash": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+      "AbilityUnitDamageType": "DAMAGE_TYPE_PHYSICAL",
+      "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+      "SpellDispellableType": "SPELL_DISPELLABLE_YES",
+      "FightRecapLevel": "1",
+      "AbilitySound": "Hero_Tidehunter.AnchorSmash",
+      "AbilityCastPoint": "0.4",
+      "AbilityCooldown": "7.0 6.0 5.0 4.0",
+      "AbilityManaCost": "40 45 50 55",
+      "AbilityValues": {
+        "attack_damage": {
+          "value": "50 100 150 200",
+          "CalculateSpellDamageTooltip": "0"
+        },
+        "damage_reduction": {
+          "value": "-25 -30 -35 -40",
+          "special_bonus_unique_tidehunter_3": "-10",
+          "CalculateSpellDamageTooltip": "0",
+          "DamageTypeTooltip": "DAMAGE_TYPE_NONE"
+        },
+        "reduction_duration": "6.0 6.0 6.0 6.0",
+        "targets_buildings": {
+          "value": "0",
+          "special_bonus_unique_tidehunter_10": "+1"
+        },
+        "building_pct_damage": {
+          "value": "0",
+          "special_bonus_unique_tidehunter_10": "+50"
+        },
+        "smash_on_attack": {
+          "special_bonus_unique_tidehunter_8": "1"
+        },
+        "additional_range": {
+          "value": "225",
+          "affected_by_aoe_increase": "1"
+        }
+      },
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_3"
+    },
+    "tidehunter_ravage": {
+      "AbilityType": "ABILITY_TYPE_ULTIMATE",
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+      "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+      "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+      "SpellDispellableType": "SPELL_DISPELLABLE_YES_STRONG",
+      "FightRecapLevel": "2",
+      "AbilitySound": "Ability.Ravage",
+      "AbilityDraftExtraAbilities": {
+        "tidehunter_dead_in_the_water": "shard"
+      },
+      "AbilityCastRange": "0",
+      "AbilityCastPoint": "0.3 0.3 0.3",
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_4",
+      "AbilityDamage": "275 375 475",
+      "AbilityManaCost": "125 225 325",
+      "AbilityValues": {
+        "AbilityCooldown": {
+          "value": "150.0 145.0 140.0",
+          "special_bonus_unique_tidehunter_ravage_cooldown": "-15"
+        },
+        "radius": {
+          "value": "1250",
+          "affected_by_aoe_increase": "1"
+        },
+        "speed": "725",
+        "duration": {
+          "value": "2.0 2.2 2.4",
+          "special_bonus_unique_tidehunter_7": "+1.0"
+        }
+      }
+    },
+    "tidehunter_arm_of_the_deep": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING",
+      "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+      "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+      "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+      "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+      "SpellDispellableType": "SPELL_DISPELLABLE_YES_STRONG",
+      "FightRecapLevel": "2",
+      "AbilitySound": "Ability.Ravage",
+      "IsGrantedByShard": "1",
+      "MaxLevel": "1",
+      "AbilityCastRange": "0",
+      "AbilityCastPoint": "0.3 0.3 0.3",
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_5",
+      "AbilityCastGestureSlot": "DEFAULT",
+      "AbilityCooldown": "20",
+      "AbilityManaCost": "80",
+      "AbilityValues": {
+        "projectile_width": "150",
+        "damage_pct": "50",
+        "duration_pct": "50",
+        "range_pct": "75"
+      }
+    },
+    "tidehunter_dead_in_the_water": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+      "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+      "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO",
+      "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+      "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+      "SpellDispellableType": "SPELL_DISPELLABLE_NO",
+      "FightRecapLevel": "2",
+      "IsGrantedByShard": "1",
+      "MaxLevel": "1",
+      "AbilityCastRange": "350",
+      "AbilityCastPoint": "0.3",
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_5",
+      "AbilityCastGestureSlot": "DEFAULT",
+      "AbilityCooldown": "35",
+      "AbilityDamage": "0",
+      "AbilityManaCost": "110",
+      "AbilityValues": {
+        "attacks_to_destroy": "4",
+        "max_movement_speed": "100",
+        "chain_length": "350",
+        "duration": "10",
+        "projectile_speed": "1000"
+      }
+    },
+    "tidehunter_leviathans_catch": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_FORCE_NO_INNATE_UI | DOTA_ABILITY_BEHAVIOR_HIDDEN",
+      "SpellDispellableType": "SPELL_DISPELLABLE_NO",
+      "MaxLevel": "1",
+      "Innate": "1",
+      "AbilityValues": {
+        "model_scale": {
+          "value": "0"
+        },
+        "attack_range": {
+          "value": "0"
+        },
+        "anchor_smash_radius": {
+          "value": "0"
+        },
+        "fish_duration": "30",
+        "fish_strength_gain": "0",
+        "fish_attack_range": "2",
+        "fish_damage_block": "1",
+        "fish_health_bonus": "3",
+        "fish_model_scale": "1.1",
+        "max_fish_spawn_distance": "200",
+        "health_bar_offset_base": "160",
+        "health_bar_offset_per_level": "5",
+        "permanent_health_gain": {
+          "dynamic_value": "true"
+        },
+        "permanent_attack_range_gain": {
+          "dynamic_value": "true"
+        },
+        "permanent_damage_block_gain": {
+          "dynamic_value": "true"
+        }
+      }
+    },
+    "tidehunter_blubber": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI",
+      "Innate": "1",
+      "MaxLevel": "1",
+      "IsBreakable": "1",
+      "AbilityValues": {
+        "damage_cleanse": {
+          "value": "450"
+        },
+        "smash_on_purge": {
+          "special_bonus_unique_tidehunter_smash_on_blubber": "50"
+        },
+        "damage_reset_interval": "7.0"
+      },
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_2"
+    }
+  },
+  "localization": {
+    "source": "resource/localization/abilities_english.txt",
+    "sha256": "562494850a6a660994fcfe7ea39ce0b04ada85f30311a34635fa4a4e7e0cc5d0",
+    "tokens": {
+      "DOTA_Tooltip_ability_tidehunter_gush": "Gush",
+      "DOTA_Tooltip_ability_tidehunter_gush_Description": "Summons a gush of water to damage an enemy unit, reducing their movement speed and armor.",
+      "DOTA_Tooltip_ability_tidehunter_gush_Lore": "During his championship of the Sunken Isles, Leviathan gained mastery over the open sea.",
+      "DOTA_Tooltip_ability_tidehunter_gush_movement_speed": "%SLOW:",
+      "DOTA_Tooltip_ability_tidehunter_gush_negative_armor": "ARMOR REDUCTION:",
+      "DOTA_Tooltip_ability_tidehunter_gush_gush_damage": "DAMAGE:",
+      "DOTA_Tooltip_ability_tidehunter_gush_abilityduration": "DEBUFF DURATION:",
+      "DOTA_Tooltip_ability_tidehunter_gush_cast_range_scepter": "RANGE:",
+      "DOTA_Tooltip_ability_tidehunter_gush_aoe_scepter": "RADIUS:",
+      "DOTA_Tooltip_ability_tidehunter_gush_cooldown_scepter": "COOLDOWN:",
+      "DOTA_Tooltip_ability_tidehunter_gush_scepter_description": "Gush becomes a ground targeted wave ability that affects enemy units in a line.  Decreases cooldown.",
+      "DOTA_Tooltip_ability_tidehunter_kraken_shell": "Kraken Shell",
+      "DOTA_Tooltip_ability_tidehunter_kraken_shell_Description": "Thickens Tidehunter's hide to passively block a portion of any incoming physical attack damage. Reduced block amount versus creeps. The hide also removes negative status effects if the damage taken crosses a threshold.\\n\\nCan be activated to double the block amount at the cost of %active_move_speed_penalty_pct%%% movement speed. Lasts %active_duration%s.\\n\\nDISPEL TYPE: Strong Dispel",
+      "DOTA_Tooltip_ability_tidehunter_kraken_shell_Facet_tidehunter_kraken_swell": "Kraken Shell gains permanent Damage Block when an enemy hero dies under the effects of Anchor Smash.",
+      "DOTA_Tooltip_ability_tidehunter_kraken_shell_Lore": "Claddish navymen tell tales of a mighty sea-faring beast that suffered spear and sword but continued to lay waste to the fleet.",
+      "DOTA_Tooltip_ability_tidehunter_kraken_shell_Note2": "Does not stack with items that provide Damage Block.",
+      "DOTA_Tooltip_ability_tidehunter_kraken_shell_damage_cleanse": "DAMAGE CLEANSE THRESHOLD:",
+      "DOTA_Tooltip_ability_tidehunter_kraken_shell_damage_reset_interval": "DAMAGE RESET INTERVAL:",
+      "DOTA_Tooltip_ability_tidehunter_kraken_shell_damage_reduction": "DAMAGE BLOCK:",
+      "DOTA_Tooltip_ability_tidehunter_kraken_shell_bonus_reduction_per_kill": "DAMAGE BLOCK PER KILL:",
+      "DOTA_Tooltip_ability_tidehunter_kraken_shell_creep_reduction_penalty_pct": "%CREEP PENALTY:",
+      "DOTA_Tooltip_ability_tidehunter_anchor_smash": "Anchor Smash",
+      "DOTA_Tooltip_ability_tidehunter_anchor_smash_Description": "Tidehunter swings his mighty anchor to attack and deal bonus damage to nearby enemies and reduce their attack damage. The radius of Anchor Smash is Tidehunter's attack range plus %additional_range% units.",
+      "DOTA_Tooltip_ability_tidehunter_anchor_smash_Lore": "Stolen from one of Admiral Kunkka's flagships, Leviathan's heavy anchor proves useful as a melee weapon.",
+      "DOTA_Tooltip_ability_tidehunter_anchor_smash_Note0": "Anchor Smash works on all Ancient creeps except for Roshan.",
+      "DOTA_Tooltip_ability_tidehunter_anchor_smash_Note1": "Damage done by Anchor Smashes triggered by Kraken Shell Cleanse is considered reflected damage. Reflected damage does not provide any lifesteal and cannot be reflected.",
+      "DOTA_Tooltip_ability_tidehunter_anchor_smash_attack_damage": "ATTACK BONUS DAMAGE:",
+      "DOTA_Tooltip_ability_tidehunter_anchor_smash_damage_reduction": "%DAMAGE REDUCTION:",
+      "DOTA_Tooltip_ability_tidehunter_anchor_smash_reduction_duration": "DURATION:",
+      "DOTA_Tooltip_ability_tidehunter_anchor_smash_radius": "RADIUS:",
+      "DOTA_Tooltip_ability_tidehunter_ravage": "Ravage",
+      "DOTA_Tooltip_ability_tidehunter_ravage_Description": "Slams the ground, causing tentacles to erupt in all directions, damaging and stunning all nearby enemy units.",
+      "DOTA_Tooltip_ability_tidehunter_ravage_Lore": "Calling to the abyssal god Maelrawn has resulted in entire armadas being lost at sea.",
+      "DOTA_Tooltip_ability_tidehunter_ravage_Note0": "Ravage will hit invisible units.",
+      "DOTA_Tooltip_ability_tidehunter_ravage_Note1": "Ravage waves move outwards at a speed of %speed%.",
+      "DOTA_Tooltip_ability_tidehunter_ravage_radius": "RADIUS:",
+      "DOTA_Tooltip_ability_tidehunter_ravage_duration": "DURATION:",
+      "DOTA_Tooltip_ability_tidehunter_blubber": "Blubber",
+      "DOTA_Tooltip_ability_tidehunter_blubber_Description": "Tidehunter's hide removes negative status effects if he takes more than %damage_cleanse% damage. Removes most debuffs, even if they are generally not purgable.\\n\\nDISPEL TYPE: Strong Dispel",
+      "DOTA_Tooltip_ability_tidehunter_blubber_Note0": "Only damage from player owned sources is counted towards debuff removal.",
+      "DOTA_Tooltip_ability_tidehunter_blubber_Note1": "The counter will reset if no player owned damage is taken for %damage_reset_interval% seconds.",
+      "DOTA_Tooltip_ability_tidehunter_dead_in_the_water": "Dead in the Water",
+      "DOTA_Tooltip_ability_tidehunter_dead_in_the_water_Description": "Tidehunter attaches a heavy anchor to an enemy hero. The hero is leashed while attached to the anchor. Attempting to move more than %chain_length% units away from the anchor forces the hero to %max_movement_speed% move speed, dragging the anchor behind them. The anchor can be destroyed with %attacks_to_destroy% hero attacks.",
+      "DOTA_Tooltip_ability_tidehunter_dead_in_the_water_Lore": "Anchors Aweigh!",
+      "DOTA_Tooltip_ability_tidehunter_dead_in_the_water_attacks_to_destroy": "ATTACKS TO DESTROY:",
+      "DOTA_Tooltip_ability_tidehunter_dead_in_the_water_max_movement_speed": "ANCHOR DRAG SPEED:",
+      "DOTA_Tooltip_ability_tidehunter_dead_in_the_water_chain_length": "CHAIN LENGTH:",
+      "DOTA_Tooltip_ability_tidehunter_dead_in_the_water_duration": "ANCHOR DURATION:",
+      "DOTA_Tooltip_Ability_tidehunter_leviathans_catch": "Leviathan's Catch",
+      "DOTA_Tooltip_Ability_tidehunter_leviathans_catch_Description": "Whenever an enemy hero is killed by Tidehunter or dies under his debuffs, a fish appears in their place; Tidehunter can eat the fish to permanently gain %fish_health_bonus% Health, %fish_attack_range% Attack Range, and %fish_damage_block% Bonus Damage Block.<br><br>Tidehunter eats a free fish every time he reaches an even hero level.",
+      "DOTA_Tooltip_Ability_tidehunter_leviathans_catch_Note0": "Enemies can destroy the fish.",
+      "DOTA_Tooltip_Ability_tidehunter_leviathans_catch_Note1": "Bonus Damage Block only applies if another source of Damage Block will be affecting the incoming physical attack.",
+      "DOTA_Tooltip_Ability_tidehunter_leviathans_catch_permanent_health_gain": "HEALTH GAINED:",
+      "DOTA_Tooltip_Ability_tidehunter_leviathans_catch_permanent_attack_range_gain": "ATTACK RANGE GAINED:",
+      "DOTA_Tooltip_Ability_tidehunter_leviathans_catch_permanent_damage_block_gain": "BONUS DAMAGE BLOCK GAINED:",
+      "DOTA_Tooltip_Ability_tidehunter_leviathans_catch_attack_range_tooltip": "ATTACK RANGE:",
+      "DOTA_Tooltip_Ability_tidehunter_leviathans_catch_anchor_smash_range_tooltip": "ANCHOR SMASH RANGE:"
+    }
+  },
+  "heroFields": {
+    "Model": "models/heroes/tidehunter/tidehunter.vmdl",
+    "SoundSet": "Hero_Tidehunter",
+    "Ability1": "tidehunter_gush",
+    "Ability2": "tidehunter_kraken_shell",
+    "Ability3": "tidehunter_anchor_smash",
+    "Ability4": "tidehunter_dead_in_the_water",
+    "Ability5": "generic_hidden",
+    "Ability6": "tidehunter_ravage",
+    "Ability7": "tidehunter_leviathans_catch",
+    "Ability10": "special_bonus_unique_tidehunter_3",
+    "Ability11": "special_bonus_unique_tidehunter_5",
+    "Ability12": "special_bonus_unique_tidehunter_2",
+    "Ability13": "special_bonus_unique_tidehunter_ravage_cooldown",
+    "Ability14": "special_bonus_unique_tidehunter_smash_on_blubber",
+    "Ability15": "special_bonus_unique_tidehunter",
+    "Ability16": "special_bonus_unique_tidehunter_7",
+    "Ability17": "special_bonus_unique_tidehunter_10",
+    "particle_folder": "particles/units/heroes/hero_tidehunter",
+    "GameSoundsFile": "soundevents/game_sounds_heroes/game_sounds_tidehunter.vsndevts"
+  },
+  "apiEvidence": {
+    "observedAt": "2026-10-04",
+    "methods": [
+      {
+        "name": "CDOTA_BaseNPC_Hero:GetStrength",
+        "available": "both",
+        "returns": "float"
+      },
+      {
+        "name": "CDOTABaseAbility:GetLevelSpecialValueNoOverride",
+        "available": "both",
+        "arguments": [
+          "name:string",
+          "level:int"
+        ],
+        "returns": "float",
+        "scope": "Special-value block; does not prove native Ravage top-level AbilityDamage consumption."
+      }
+    ]
+  }
+}
