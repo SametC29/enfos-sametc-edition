@@ -202,3 +202,9 @@ Q/W Scepter ownership replaces generic R amp/CDR; retire D generic Shard
 claim (E owns it).125 affected/317 mocks PASS. R native flat-at-zero/block/
 reflect composition remains technical SOURCE_PENDING, all engine gates
 owner-pending. D source action remains; no hero completion/advance yet.
+
+Anti-Mage D source unit: exact rank1 native Persecutor + separate paid
+AS/MS/free1/ten ranks, existing pre-XP restore idempotent, client18classes,
+readonly Health; no cloned slow/target writes/timers.131 affected/317 mocks
+PASS. Q/W/E/D source implemented, R native composition still pending; all
+engine gates owner-pending. No hero completion/Storm advance yet.

@@ -7,6 +7,12 @@ import {isVerifiedNativeAbility} from '../lib/native_hero_abilities.mjs';
 const all=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.txt','utf8')).DOTAAbilities;
 const q=all.enfos_am_mana_break;
 const native=JSON.parse(fs.readFileSync('docs/audit/ANTIMAGE_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.antimage_mana_break;
+test('Paid Spellbreaker has ten ranks and a separate exact native innate without copied slow or legacy upgrade grants',()=>{
+ const d=all.enfos_am_spellbreaker;assert.equal(d.ScriptFile,'abilities/heroes/antimage/d');assert.equal(d.MaxLevel,'10');assert.equal(d.RequiredLevel,'1');assert.equal(d.LevelsBetweenUpgrades,'1');assert.equal(d.Innate,undefined);assert.equal(d.HasShardUpgrade,undefined);
+ assert.equal(d.AbilityValues.bonus_as,'10 15 20 25 30 35 45 60 80 100');assert.equal(d.AbilityValues.bonus_ms,'5 8 11 14 17 20 25 32 40 50');assert.equal(all.antimage_persectur,undefined);
+ const files=['d','integration','modifiers'].map(x=>fs.readFileSync('game/scripts/vscripts/abilities/heroes/antimage/'+x+'.lua','utf8')).join('\n');assert.doesNotMatch(files,/CreateTimer|StartIntervalThink|FindUnits|SetAbilityPoints|SetModifierStackCount|CreateParticle|EmitSound|ReduceMana|ApplyDamage/);
+ assert.doesNotMatch(fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8'),/enfos_am_spellbreaker=class|modifier_enfos_am_spellbreaker_passive/);
+});
 test('Mana Void focused corrections match installed targeting and immunity without falsely declaring native ownership',()=>{
  const r=all.enfos_am_mana_void,source=JSON.parse(fs.readFileSync('docs/audit/ANTIMAGE_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.antimage_mana_void;
  for(const key of ['AbilityBehavior','SpellImmunityType','AbilityUnitTargetTeam','AbilityUnitTargetType','AbilityUnitDamageType','AbilityCastRange','AbilityCastAnimation'])assert.equal(r[key],source[key],key);
@@ -52,7 +58,7 @@ const setup=`
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end
 local server=true;function IsServer()return server end
-LUA_MODIFIER_MOTION_NONE=0;function LinkLuaModifier(n,p)assert(n=='modifier_enfos_am_native_scaling' and p=='abilities/heroes/antimage/modifiers')end
+LUA_MODIFIER_MOTION_NONE=0;function LinkLuaModifier(n,p)assert((n=='modifier_enfos_am_native_scaling' or n=='modifier_enfos_am_spellbreaker_passive') and p=='abilities/heroes/antimage/modifiers')end
 package.loaded['lib/hero_trace']={Log=function()end}
 local q={rank=0,null=false,IsNull=function(self)return self.null end,GetLevel=function(self)return self.rank end,
 GetLevelSpecialValueNoOverride=function(self,key,rank)
@@ -83,6 +89,58 @@ c.FindModifierByName=function(_,name)if name=='fixture_mana_break' then return i
 local integration=require('abilities/heroes/antimage/integration')
 `;
 function lua(body){const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{encoding:'utf8',input:setup+body});assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');}
+test('Native Persecutor restores once before starting XP and remains rank one through paid rank-up without points or slow refresh',()=>lua(`
+local d={rank=1,IsNull=function()return false end,GetLevel=function(self)return self.rank end}
+local p={rank=0,IsNull=function()return false end,GetLevel=function(self)return self.rank end,
+SetLevel=function(self,rank)assert(rank==1);self.rank=rank end,SetHidden=function(self,v)self.hidden=v end,SetActivated=function(self,v)self.active=v end}
+local lookup,add=c.FindAbilityByName,c.AddAbility;local innate,grants,rankWrites=nil,0,0
+p.SetLevel=function(self,rank)assert(rank==1);self.rank=rank;rankWrites=rankWrites+1 end
+c.FindAbilityByName=function(self,name)if name=='enfos_am_spellbreaker'then return d elseif name=='antimage_persectur'then return innate end;return lookup(self,name)end
+c.AddAbility=function(self,name)if name=='antimage_persectur'then grants=grants+1;innate=p;return p end;return add(self,name)end
+assert(integration.Restore(c));assert(grants==1 and rankWrites==1 and p.rank==1 and p.hidden and p.active)
+for rank=1,10 do d.rank=rank;assert(integration.Restore(c));assert(integration.RestorePersecutor(c))end
+assert(grants==1 and rankWrites==1 and c.points==5 and q.rank==0 and n.empowered_state==13)
+c.illusion=true;assert(not integration.RestorePersecutor(c));c.illusion=false
+server=false;assert(not integration.RestorePersecutor(c));assert(grants==1)
+`));
+test('Paid D getters preserve all ten rank curves on both contexts and suppress Break, illusions and untrained ranks without server APIs',()=>lua(`
+local d={rank=0,IsNull=function()return false end,GetLevel=function(self)return self.rank end,
+GetSpecialValueFor=function(self,key)local rows={bonus_as={10,15,20,25,30,35,45,60,80,100},bonus_ms={5,8,11,14,17,20,25,32,40,50}};return rows[key][self.rank]end}
+local m=setmetatable({GetParent=function()return c end,GetAbility=function()return d end},{__index=modifier_enfos_am_spellbreaker_passive})
+c.IsAlive=function()error('No server-only life query')end
+assert(m:IsHidden() and not m:IsPurgable() and not m:RemoveOnDeath())
+assert(m:GetModifierAttackSpeedBonus_Constant()==0 and m:GetModifierMoveSpeedBonus_Constant()==0)
+for _,context in ipairs({true,false})do server=context;for rank=1,10 do d.rank=rank
+assert(m:GetModifierAttackSpeedBonus_Constant()==d:GetSpecialValueFor('bonus_as'))
+assert(m:GetModifierMoveSpeedBonus_Constant()==d:GetSpecialValueFor('bonus_ms'))
+end end
+c.broken=true;assert(m:GetModifierAttackSpeedBonus_Constant()==0);c.broken=false
+c.illusion=true;assert(m:GetModifierMoveSpeedBonus_Constant()==0);c.illusion=false
+d.IsNull=function()return true end;assert(m:GetModifierMoveSpeedBonus_Constant()==0)
+`));
+test('Paid D rank hook loads no server restoration on the client',()=>lua(`
+server=false;package.loaded['abilities/heroes/antimage/integration']=nil
+package.preload['abilities/heroes/antimage/integration']=function()error('Client restoration')end
+require('abilities/heroes/antimage/d');enfos_am_spellbreaker.OnUpgrade({GetCaster=function()error('Client caster')end})
+assert(enfos_am_spellbreaker:GetIntrinsicModifierName()=='modifier_enfos_am_spellbreaker_passive')
+`));
+test('Automatic Persecutor Health reads exact provider queries without adding abilities or modifiers',()=>lua(`
+local lookup=c.FindAbilityByName
+local p={IsNull=function()return false end,GetLevel=function()return 1 end,
+GetIntrinsicModifierName=function()return ''end,GetSpecialValueFor=function(_,key)assert(key=='move_slow_min' or key=='move_slow_max');return key=='move_slow_min' and 12 or 24 end}
+c.FindAbilityByName=function(self,id)if id=='antimage_persectur'then return p end;return lookup(self,id)end
+c.GetLevel=function()return 6 end;c.GetAbilityPoints=function()return 5 end;c.IsAlive=function()return true end
+c.AddAbility=function()error('Health restores abilities')end;c.AddNewModifier=function()error('Health restores modifier')end
+local lines={};print=function(s)lines[#lines+1]=s end
+local health=require('heroes/health');assert(health.Report(c,0));local out=table.concat(lines,'|')
+assert(out:find('ability=antimage_persectur rank=1',1,true));assert(out:find('native_slow_min_query=12 native_slow_max_query=24',1,true))
+local count=#lines;server=false;assert(not health.Report(c,0) and #lines==count)
+`));
+test('D descriptions render canonical stats and describe native Persecutor independently in four locales and twelve mirrors',()=>{
+ for(const lang of ['english','turkish','russian','schinese']){const t=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens,p='DOTA_Tooltip_Ability_enfos_am_spellbreaker';assert.ok(t[p+'_Description'].includes('{{bonus_as}}')&&t[p+'_Description'].includes('{{bonus_ms}}'));assert.ok(t[p+'_Description'].includes('60'));assert.equal(t[p+'_shard_description'],undefined);
+ for(const dir of ['game/resource','game/panorama/localization','content/panorama/localization']){const s=fs.readFileSync(dir+'/addon_'+lang+'.txt','utf8');assert.doesNotMatch(s,/\{\{/);assert.ok(s.includes(all.enfos_am_spellbreaker.AbilityValues.bonus_as.split(' ').join(' / ')));}
+ }
+});
 test('Native Q/Blink Scepter ownership suppresses generic ultimate amplification and cooldown only for the owned Anti-Mage kit',()=>lua(`
 function LinkLuaModifier()end
 package.loaded['abilities/heroes/luna/integration']={UsesNativeScepter=function()return false end}

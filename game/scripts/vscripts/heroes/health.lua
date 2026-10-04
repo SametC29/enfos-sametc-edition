@@ -51,6 +51,15 @@ function Health.Report(hero,id)
                 print('[HERO_HEALTH] native_mana_per_hit_query='..tostring(a:GetSpecialValueFor('mana_per_hit'))..
                     ' native_mana_pct_query='..tostring(a:GetSpecialValueFor('mana_per_hit_pct')))
             end
+            local innate=hero:FindAbilityByName('antimage_persectur')
+            print('[HERO_HEALTH] ability=antimage_persectur rank='..tostring(innate and not innate:IsNull() and innate:GetLevel() or 'missing'))
+            if innate and not innate:IsNull() then
+                local name=innate:GetIntrinsicModifierName()
+                local m=name and name~='' and hero:FindModifierByName(name)
+                print('[HERO_HEALTH] persecutor_intrinsic='..tostring(name)..' present='..tostring(m and not m:IsNull() or false))
+                print('[HERO_HEALTH] native_slow_min_query='..tostring(innate:GetSpecialValueFor('move_slow_min'))..
+                    ' native_slow_max_query='..tostring(innate:GetSpecialValueFor('move_slow_max')))
+            end
         elseif entry.id=='npc_dota_hero_ursa' then
             local a=hero:FindAbilityByName('ursa_fury_swipes')
             print('[HERO_HEALTH] ability=ursa_fury_swipes rank='..tostring(a and not a:IsNull() and a:GetLevel() or 'missing'))

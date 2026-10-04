@@ -5329,6 +5329,8 @@ end)
 test('Anti-Mage Spellbreaker rank stats honor Break', function()
     local am = create_mock_unit('npc_dota_hero_antimage', 2, Vector(0, 0, 0))
     local ab = enfos_am_spellbreaker()
+    ab.GetLevel=function()return 9 end
+    ab.IsNull=function()return false end
     ab.GetSpecialValueFor = function(_, k) return ({ bonus_as = 80, bonus_ms = 40 })[k] or 0 end
     local mod = modifier_enfos_am_spellbreaker_passive()
     mod.GetParent = function() return am end

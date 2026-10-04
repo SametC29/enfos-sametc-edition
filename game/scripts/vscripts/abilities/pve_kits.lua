@@ -1,3 +1,4 @@
+require('abilities/heroes/antimage/d')
 require('abilities/heroes/antimage/q')
 require('abilities/heroes/ursa/d')
 require('abilities/heroes/ursa/e')
@@ -219,7 +220,6 @@ local modifier_list = {
     'modifier_enfos_mk_wukongs_command_thinker',
     'modifier_enfos_mk_mischief_passive',
     'modifier_enfos_am_mana_void_stun',
-    'modifier_enfos_am_spellbreaker_passive',
     'modifier_enfos_void_time_dilation_debuff',
     'modifier_enfos_void_time_lock_passive',
     'modifier_enfos_void_time_lock_stun',
@@ -5254,24 +5254,6 @@ end
 modifier_enfos_am_mana_void_stun=class({})
 function modifier_enfos_am_mana_void_stun:IsDebuff() return true end
 function modifier_enfos_am_mana_void_stun:CheckState() return { [MODIFIER_STATE_STUNNED] = true } end
-
-enfos_am_spellbreaker=class({})
-function enfos_am_spellbreaker:GetIntrinsicModifierName() return 'modifier_enfos_am_spellbreaker_passive' end
-
-modifier_enfos_am_spellbreaker_passive=class({})
-function modifier_enfos_am_spellbreaker_passive:DeclareFunctions()
-    return { MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT }
-end
-function modifier_enfos_am_spellbreaker_passive:GetModifierAttackSpeedBonus_Constant()
-    local c = self:GetParent()
-    if c and ((c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion())) then return 0 end
-    return value(self:GetAbility(), 'bonus_as')
-end
-function modifier_enfos_am_spellbreaker_passive:GetModifierMoveSpeedBonus_Constant()
-    local c = self:GetParent()
-    if c and ((c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion())) then return 0 end
-    return value(self:GetAbility(), 'bonus_ms')
-end
 
 -- ----------------------------------------------------------------------------
 -- FACELESS VOID: TIME WALK, TIME DILATION, TIME LOCK, CHRONOSPHERE, BACKTRACK

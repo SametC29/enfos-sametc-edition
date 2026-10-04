@@ -3151,7 +3151,8 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
           "callbacks": [
-            "GetIntrinsicModifierName"
+            "GetIntrinsicModifierName",
+            "OnUpgrade"
           ],
           "specials": {
             "bonus_as": "10 15 20 25 30 35 45 60 80 100",

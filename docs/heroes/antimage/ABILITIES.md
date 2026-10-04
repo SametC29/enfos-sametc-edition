@@ -13,9 +13,9 @@ Hero: `npc_dota_hero_antimage`; role: Carry. Progression target: hero level 50 /
 | 2 | `enfos_am_blink` | 10 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES \| DOTA_ABILITY_BEHAVIOR_OVERSHOOT | NOT_EXPLICIT | antimage_blink |
 | 3 | `enfos_am_counterspell` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE | NOT_EXPLICIT | antimage_counterspell |
 | 4 | `enfos_am_mana_void` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_AOE | abilities/pve_kits | antimage_mana_void |
-| 5 | `enfos_am_spellbreaker` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | antimage_mana_overload |
+| 5 | `enfos_am_spellbreaker` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/antimage/d | antimage_mana_overload |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/antimage/q](../../../game/scripts/vscripts/abilities/heroes/antimage/q.lua), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/antimage/q](../../../game/scripts/vscripts/abilities/heroes/antimage/q.lua), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [abilities/heroes/antimage/d](../../../game/scripts/vscripts/abilities/heroes/antimage/d.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -255,9 +255,9 @@ Change/test record (2026-09-30): mock verifies missing mana, magical damage type
 ## Slot 5: `enfos_am_spellbreaker`
 
 Classification: TUNE
-Native counterpart: none; native Ability5 is `antimage_persectur`; this Enfos fifth-slot passive is separate and is not marked Dota Innate.
+Native counterpart: exact rank1 `antimage_persectur` owns missing-mana slow; paid fifth-slot stats remain separate and are not marked Dota Innate.
 Decision and PvE identity rationale: rank-scaled attack/movement speed supports Anti-Mage’s Carry role.
-Expected cast/travel/impact/ongoing/cleanup behavior: intrinsic modifier supplies attack and movement speed; no cast, particle or timer.
+Expected cast/travel/impact/ongoing/cleanup behavior: native Persecutor owns slow; persistent paid intrinsic supplies attack and movement speed; no copied cast/slow/particle/timer.
 Normal creep / elite / boss, immunity / dispel / resistance rules: self-only; Break disables both bonuses.
 Current versus target rank curve; free rank / point cost: Enfos passive rank 1 is granted separately; Spellbreaker ranks 2–10 are gated at hero levels 2–10. Engine passive grant, points and HUD behavior remain PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: obsolete generic D Shard flag/tooltip retired; E owns native Shard. D stats remain unchanged pending separate migration.
@@ -359,3 +359,20 @@ Zero/fullmana, primary Boss/secondary control, blocked/reflected/immune
 spell casts, targeting circle, upgrades, cleanup/VFX/SFX and lifecycle
 remain PENDING OWNER TEST. D source work can proceed while R gate stays
 open; no next-hero closure from these checks.
+
+## D native source migration (2026-10-04)
+
+TUNE / NATIVE+minimal paid stats: exact antimage_persectur rank1 hidden/
+activated restores once before initial XP via existing hook, no native-ID
+shadow, duplicate points/provider, innate cache refresh or cloned slow.
+Fresh installed6943/rev11069754 hash unchanged. Native hero_levelup fields/
+threshold60/duration.75/Break/illusion identity stay native. Paid D10ranks
+AS10..100/MS5..50/freeD1/gates1-1 retained in d.lua plus persistent hidden
+nonpurge stat modifier. One existing-name client class added, bootstrap18.
+Old shared D implementation/link retired. Health queries exact provider and
+actual intrinsic readonly. Four locale descriptions and mirrors updated.
+131 affected/317 mock regressions PASS. Native innate hero-level scaling
+to50/zero maxmana/illusion copy/native cleanup plus paid HUD/points/stats/
+Break/restore/respawn/reconnect remain PENDING OWNER TEST. No new assets;
+reference texture NOT FOUND so independent paid icon preserved. R native
+composition unresolved, this does not close Anti-Mage or authorize advance.

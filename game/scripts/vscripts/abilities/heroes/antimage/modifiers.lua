@@ -1,5 +1,18 @@
 -- Native Mana Break owns burn, upgrades and feedback; no duplicate damage cast.
 modifier_enfos_am_native_scaling=class({})
+modifier_enfos_am_spellbreaker_passive=class({})
+function modifier_enfos_am_spellbreaker_passive:IsHidden() return true end
+function modifier_enfos_am_spellbreaker_passive:IsPurgable() return false end
+function modifier_enfos_am_spellbreaker_passive:RemoveOnDeath() return false end
+function modifier_enfos_am_spellbreaker_passive:DeclareFunctions() return {MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT} end
+local function paidStat(mod,key)
+    local hero,ability=mod:GetParent(),mod:GetAbility()
+    if not hero or hero:IsNull() or hero:IsIllusion() or hero:PassivesDisabled()
+        or not ability or ability:IsNull() or ability:GetLevel()<1 then return 0 end
+    return ability:GetSpecialValueFor(key)
+end
+function modifier_enfos_am_spellbreaker_passive:GetModifierAttackSpeedBonus_Constant() return paidStat(self,'bonus_as') end
+function modifier_enfos_am_spellbreaker_passive:GetModifierMoveSpeedBonus_Constant() return paidStat(self,'bonus_ms') end
 local M=modifier_enfos_am_native_scaling
 function M:IsHidden() return true end
 function M:IsPurgable() return false end

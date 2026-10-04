@@ -225,10 +225,10 @@ local entry='game/scripts/vscripts/addon_game_mode_client.lua'
 assert(loadfile(entry))();assert(count==0)
 client=true
 assert(loadfile(entry))();assert(loadfile(entry))()
-assert(count==17 and links.modifier_enfos_luna_native_scaling)
+assert(count==18 and links.modifier_enfos_luna_native_scaling)
 assert(links.modifier_enfos_luna_blessing_extension and links.modifier_enfos_luna_blessing_extension_buff)
 assert(links.modifier_enfos_sf_feast_of_souls_passive)
-assert(links.modifier_enfos_sf_native_scaling and links.modifier_enfos_am_native_scaling)
+assert(links.modifier_enfos_sf_native_scaling and links.modifier_enfos_am_native_scaling and links.modifier_enfos_am_spellbreaker_passive)
 assert(links.modifier_enfos_bb_native_scaling)
 assert(links.modifier_enfos_tide_wave_catch and links.modifier_enfos_ursa_native_scaling and links.modifier_enfos_ursa_minor_passive)
 assert(links.modifier_enfos_slark_native_scaling and links.modifier_enfos_tide_native_scaling and links.modifier_enfos_tide_shell_extension)

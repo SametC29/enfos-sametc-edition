@@ -467,5 +467,27 @@
       "status": "REFERENCE_ONLY; no imports; pure custom missing-mana-only damage"
     },
     "runtime": "PENDING OWNER TEST"
+  },
+  "dResearch": {
+    "date": "2026-10-04",
+    "verifiedBuild": "6943/rev11069754",
+    "ownership": "Exact antimage_persectur rank1 hidden/active idempotent native provider; separate ten-rank paid D stats",
+    "nativeValues": "No overrides:12/24 hero_levelup+.5/+1 threshold60 duration.75",
+    "reference": {
+      "id": "2880603428",
+      "path": "scripts/vscripts/heroes/npc_dota_hero_antimage_custom/antimage_persectur_custom.lua",
+      "status": "REFERENCE_ONLY/no imports"
+    },
+    "rejectedTexture": {
+      "path": "panorama/images/spellicons/antimage_persectur_png.vtex_c",
+      "status": "NOT_FOUND_IN_INSTALLED_VPK; preserve existing paid icon"
+    },
+    "client": "18class bootstrap, stat getters no server-only APIs; no client restoration",
+    "enginePending": [
+      "Native innate level6..50 scaling and zeroMaxMana",
+      "Native illusion full slow/owned modifier cleanup",
+      "Paid10ranks/freeD1/fivepoints/49/respawn/reconnect/Break",
+      "Actual native/client presentation and Health intrinsic handles"
+    ]
   }
 }

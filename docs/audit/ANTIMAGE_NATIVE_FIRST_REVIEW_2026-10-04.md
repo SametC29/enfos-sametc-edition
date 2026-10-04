@@ -1,6 +1,6 @@
 # Anti-Mage native-first discovery
 
-Status: Q/W/E SOURCE IMPLEMENTED / R/D SOURCE_PENDING / OWNER_RUNTIME PENDING.
+Status: Q/W/E/D SOURCE IMPLEMENTED / R NATIVE_COMPOSITION_PENDING / OWNER_RUNTIME PENDING.
 This follows Ursa in the owner-directed rollout.
 
 ## Evidence
@@ -279,3 +279,51 @@ Full checks initially exposed a missing UnitFilter mock API in the all200
 dispatch fixture, not a missing installed API. Added signature/team smoke
 fixture without claiming engine immunity acceptance; focused dispatch PASS,
 full source checks then0failures. R native composition remains unresolved.
+
+## D construction decision before mutation
+
+TUNE / NATIVE Persecutor + minimal paid AS/MS. Fresh installed6943/
+rev11069754 hero SHA256 unchanged. Exact spelling antimage_persectur,
+MaxLevel1/Innate1/passive-INNATE_UI-NOT_LEARNABLE/Break; native missing-mana
+slow12/24, hero_levelup+.5/+1, threshold60/duration.75. Native owns slow,
+illusion full effect, eligibility and level scaling. Add exact provider once
+rank1/hidden/activated through existing pre-XP restore, only real owned hero,
+no native-ID shadow/special override/copied slow or target writes. Paid D
+ten ranks retains AS10..100/MS5..50/freeD1/49points/gates1-1; module d.lua
+plus persistent hidden nonpurge stat modifier, one client-registered class.
+Rank-up ensures native provider without changing points or other ranks.
+Do not force-refresh native innate/cache/targets each rank; native rank1
+stays fixed. Native50-level scaling and zero maxmana behavior remain owner
+pending. WORLD OF DOTA2880603428 persectur_custom.lua re-read: custom
+attack-landed/slow explicitly rejects zero maxmana and scales own talents;
+REFERENCE_ONLY/no import, does not certify installed C++ behavior.
+Reference icon antimage_persectur_png.vtex_c NOT FOUND in installed VPK;
+do not adopt guessed texture. Preserve paid D existing independent stat
+icon; native presentation remains engine-owned. No new particles/sounds.
+EN/TR/RU/zh-CN describe native mana-based slow without guessing level50
+formula; no grant obsolete Mana Thirst/Magebane/Mana Overload/extra ally.
+
+## D source validation
+
+131 affected checks/317 hero mock regressions PASS. Six D checks cover
+ten-rank ownership/curves/no slow copy, native innate once/idempotent through
+pre-XP and paid rank-up with no point/cache/target writes, both-context stat
+getters/Break/illusion/untrained/null paths, client upgrade hook, automatic
+read-only native Health and four locales/twelve mirrors. Shared bootstrap
+registers18classes once with no server integration imports. Existing Q
+restore extends with D native provider only when paid D is present; Q-only
+fixtures remain supported. Existing shared point/respawn lifecycle unchanged.
+Native innate rank1 stays activated/hidden, paidDfree1 stays separate; no
+restore on illusions. Engine-generated copies/innate level50/zeroMaxMana
+behavior and native/caster modifier ownership remain owner pending.
+Health reports actual intrinsic name/provider rank/min-max queries; these
+are not slow damage or native auto-level acceptance. No native D ID shadow,
+new slow modifier/timer/particle/sound. Paid stat icon retained because
+reference Persecutor texture path could not be verified.
+OWNER_RUNTIME_PENDING: D stats all10ranks/points/free1/49/level6start,
+Persecutor slow at above/below60%/zero/full mana and zero maxmana, hero
+level6..50/illusion full slow versus no custom stats, Break/target immunity,
+repeated restore/death/reconnect and native modifier cleanup/VConsole.
+R still NATIVE_COMPOSITION_PENDING; no Anti-Mage complete/Storm advance.
+
+D full source checks:0 failed check(s). Engine playtests remain separate.

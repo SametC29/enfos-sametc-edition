@@ -4703,7 +4703,7 @@
 			"bonus_as" "10 15 20 25 30 35 45 60 80 100"
 			"bonus_ms" "5 8 11 14 17 20 25 32 40 50"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/antimage/d"
 	}
 	// =========================================================================
 	// FACELESS VOID ABILITIES (Batch 4 PvE Kit)
