@@ -1,12 +1,15 @@
 {
   "evidence": "Static definitions and production kit inventory; engine execution pending",
   "normalWaves": 48,
-  "specialWaves": 44,
+  "specialWaves": 43,
   "basicOpeningWaves": [
     1,
     2,
     3,
     4
+  ],
+  "quarantinedSpecialWaves": [
+    37
   ],
   "records": [
     {
@@ -403,18 +406,8 @@
     },
     {
       "wave": 37,
-      "distribution": "every authored creep",
-      "skills": [
-        {
-          "id": "hill_troll_rally",
-          "implementation": "native Valve ability",
-          "rank": 1,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
-          "targetTeam": "not specified",
-          "targetType": "not specified",
-          "warnings": []
-        }
-      ]
+      "distribution": "Rally quarantined after client crash evidence",
+      "skills": []
     },
     {
       "wave": 38,

@@ -1,9 +1,9 @@
 {
   "appid": "570",
   "publishedfileid": "3809160125",
-  "version": "1.0.16",
-  "title": "Enfos Team Survival - SametC Edition V1.0.16",
-  "changenote": "V1.0.16 - Fix multiplayer team selection: non-host players can now join Radiant or Dire during setup. Difficulty selection and game start remain host-only; five-player team capacity is enforced. Automated regression and release checks passed; two-player in-game confirmation pending. Known Future Reinforcements movement issue remains under investigation. Uncommitted contributor work excluded.",
+  "version": "1.0.17",
+  "title": "Enfos Team Survival - SametC Edition V1.0.17",
+  "changenote": "V1.0.17 - Quarantine wave 37's native Rally passive after two matching desktop-crash dumps identified its modifier. Skeleton waves and rewards remain; the unsafe passive is removed from hostile units and Future Reinforcements. Normal creature health bonus is now 50%; opening hero XP requirements are lower. Multiplayer team selection fix retained. Automated checks passed; two-client waves 35-40 runtime confirmation pending. Known Future Reinforcements movement issue remains under investigation. Uncommitted contributor work excluded.",
   "visibility": "0",
   "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3809160125"
 }

@@ -9,7 +9,10 @@ local KITS = {
  [22]={"satyr_trickster_purge"},[23]={"satyr_soulstealer_mana_burn"},[24]={"ogre_bruiser_ogre_smash"},
  [26]={"enfos_creep_frostguard_aura"},[27]={"enfos_creep_spellguard_ward"},[28]={"enfos_creep_mindstealer_burn"},[29]={"mudgolem_cloak_aura"},
  [31]={"centaur_khan_war_stomp"},[32]={"satyr_hellcaller_shockwave"},[33]={"warpine_raider_seed_shot"},
- [34]={"root"},[36]={"root","enfos_wave_raise"},[37]={"hill_troll_rally"},
+ -- Wave 37 Rally is quarantined: two owner crash dumps identify the native
+ -- CDOTA_Modifier_HillTroll_Rally at the same client.dll access violation.
+ -- Keep the skeleton wave, but do not instantiate this passive (also allies).
+ [34]={"root"},[36]={"root","enfos_wave_raise"},
  [38]={"mud_golem_hurl_boulder"},[39]={"necronomicon_warrior_mana_burn"},
  [41]={"furbolg_enrage_attack_speed"},[42]={"polar_furbolg_ursa_warrior_thunder_clap"},
  [43]={"enfos_creep_spellguard_ward"},[44]={"enraged_wildkin_tornado"},

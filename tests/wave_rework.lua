@@ -44,6 +44,19 @@ local function unit()
  return u
 end
 S.Reset()
+-- Crash isolation must cover hostile spawns and Future Reinforcements alike.
+-- Native Rally creates its modifier on SetLevel; skipping casts is insufficient.
+for _,allied in ipairs({false,true}) do
+ local skeleton=unit();S.Configure(skeleton,37,2,allied)
+ assert(#skeleton.mods==0 and #skeleton.abilities==0,
+  "Wave 37 must never instantiate the crashing native Rally modifier")
+ assert(S.TryCast(skeleton,2)==false)
+end
+for wave,kit in pairs(S.KITS) do
+ for _,name in ipairs(kit) do
+  assert(name~="hill_troll_rally","Quarantined Rally must not return in any wave kit")
+ end
+end
 for wave=1,4 do
  local u=unit();S.Configure(u,wave,2,false)
  assert(#u.mods==0 and #u.abilities==0 and u.enfosSpecials==nil)

@@ -5,6 +5,9 @@
 
 # DECISIONS AND OPEN ITEMS
 
+## 2026-10-04 wave 37 crash quarantine
+- Two matching owner desktop-crash dumps identify `CDOTA_Modifier_HillTroll_Rally` in the installed client. Remove wave 37's added native `hill_troll_rally` passive for hostile units and Future Reinforcements; preserve the skeleton wave and its existing base statistics/rewards. Do not restore Rally without a new engine safety reproduction. Source/regressions pass; two-client waves 35–40 acceptance remains pending. [Evidence](audit/WAVE_37_RALLY_CRASH_2026-10-04.md).
+
 ## 2026-10-02 hero upgrade source findings — follow-up remains open
 - Witch Doctor source review confirms Support Shard healing25% plus unique Switcheroo, but Scepter still supplies generic ultimate40%amplification/25%cooldown. Native build6943 Death Ward bounce radius575/lifesteal10 are absent. Unique Scepter/PvE mechanics remain OPEN; Support pulse_heal200 is configuration without a handler, not a completed ability. Individual source closure and passing mocks do not resolve this requested implementation.
 - Zeus's current Mage Shard provides15%spell amplification. The shared Mage configuration also lists5%mana restoration but has no runtime mana handler. Zeus's four-language tooltip now describes implemented behavior; no mana mechanic was removed. The earlier unique hero Shard/Scepter request is not satisfied by these generic role/ultimate bonuses. Keep that design/implementation follow-up open while individual hero audits continue; do not count corrected text or generic acquisition checks as completing it.
