@@ -354,6 +354,43 @@
         ],
         "returns": "float",
         "scope": "Special-value block; does not prove native Ravage top-level AbilityDamage consumption."
+      },
+      {
+        "name": "CDOTABaseAbility:OnSpellStart",
+        "available": "server",
+        "arguments": [],
+        "returns": "nil",
+        "scope": "No documented scale/reflection argument. Does not establish an internal native reactive-smash entry point."
+      },
+      {
+        "name": "CDOTA_BaseNPC:Script_GetAttackRange",
+        "available": "both",
+        "arguments": [],
+        "returns": "float",
+        "scope": "Attack range after modifiers; installed Anchor adds additional_range."
+      },
+      {
+        "name": "CDOTABaseAbility:GetAOERadius",
+        "available": "server",
+        "arguments": [],
+        "returns": "float",
+        "scope": "Do not repeat BB client range failure in a native E HUD bridge."
+      },
+      {
+        "name": "CDOTA_BaseNPC:PerformAttack",
+        "available": "server",
+        "arguments": [
+          "target:CDOTA_BaseNPC",
+          "useCastAttackOrb:bool",
+          "processProcs:bool",
+          "skipCooldown:bool",
+          "ignoreInvis:bool",
+          "useProjectile:bool",
+          "fakeAttack:bool",
+          "neverMiss:bool"
+        ],
+        "returns": "nil",
+        "scope": "Documents real attacks, not native Anchor flags, proc exclusions or reflected half damage."
       }
     ]
   },
@@ -373,5 +410,35 @@
       "sha256": "8dfa2f24660fadef4bc67ab0e6b03f7032bcb41757f6cf062afe038fc65a1d6f",
       "status": "FILE_VERIFIED; engine presentation pending"
     }
-  ]
+  ],
+  "eResearch": {
+    "observedAt": "2026-10-04",
+    "reverifiedHeroSha256": "8c96be768e85e8d845bc6ef04f99ad261c0f9bd5c0e45503aedb6ab4c5c78cda",
+    "nativeCastPoint": "0.4",
+    "currentCastPoint": "0.3",
+    "nativeGeometry": "Script_GetAttackRange + additional_range225",
+    "currentGeometry": "fixed radius400",
+    "nativeDamageModel": "real attack + attack_damage",
+    "currentDamageModel": "GetAverageTrueAttackDamage + bonus + STR through ApplyDamage",
+    "nativeImmunity": "SPELL_IMMUNITY_ENEMIES_NO",
+    "currentImmunity": "SPELL_IMMUNITY_ENEMIES_YES",
+    "reactiveConstraint": "half damage and DOTA_DAMAGE_FLAG_REFLECTION; no duplicate base-damage reduction when native/manual and extension/reactive overlap",
+    "apiSearch": {
+      "query": "Anchor",
+      "result": "No matches in indexed API; absence is not proof that no internal engine entry point exists."
+    },
+    "reference": {
+      "id": "2880603428",
+      "path": "scripts/vscripts/heroes/npc_dota_hero_tidehunter_custom/tidehunter_anchor_smash_custom.lua",
+      "use": "REFERENCE_ONLY",
+      "findings": "Custom Lua uses PerformAttack plus temporary bonus and suppress-cleave modifier; it is not a native half/reflection dispatcher. License/version not established; no code imported."
+    },
+    "rejectedShortcuts": [
+      "OnSpellStart(0.5) is not a documented scaling interface",
+      "Temporary special attack_damage scaling cannot halve base attack damage",
+      "Unscoped outgoing damage changes may affect item procs and unrelated damage",
+      "Custom and native reduction modifiers must not silently stack"
+    ],
+    "status": "SOURCE RESEARCH COMPLETE; E MIGRATION NOT IMPLEMENTED; OWNER_RUNTIME PENDING"
+  }
 }

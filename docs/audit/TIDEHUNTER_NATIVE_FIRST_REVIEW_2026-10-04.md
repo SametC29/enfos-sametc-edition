@@ -211,3 +211,40 @@ Ten-rank block/STR queries, client-safe regen, source/Break/death guards,
 Shard threshold/cooldown/reentry and manual-versus-reflected E flags pass.
 These checks do not certify native block, cleanse, active presentation or
 actual engine damage; all corresponding owner tests remain pending.
+
+## E dependency review, 2026-10-04
+
+Installed hero hash re-read from VPK and still matches the snapshot. E retains
+TUNE classification. Native has cast point0.4 (current0.3), attack-range-plus225
+geometry (current fixed400), real attacks plus attack_damage (current average
+attack plus authored bonus/STR through ApplyDamage), signed reduction and
+ENEMIES_NO immunity (current ENEMIES_YES). Migration must disclose these changes;
+copying old flat damage is not native attack parity. Ten-rank bonus80..230,
+STR0.75, reduction40..70 and six-second duration remain explicit tuning leads.
+
+API re-read: OnSpellStart is server-only with no parameters. It is not evidence
+for OnSpellStart(0.5) or a reflected native cast. Script_GetAttackRange is both
+realms; GetAOERadius is server-only. PerformAttack is server-only and does not
+expose reflection flags or document all native Anchor proc exclusions. Search
+for Anchor returned no indexed API; this is a documented evidence limit, not
+proof that no internal engine method exists. Added these results to the snapshot.
+
+Reference corpus World of Dota2880603428,
+`scripts/vscripts/heroes/npc_dota_hero_tidehunter_custom/tidehunter_anchor_smash_custom.lua`:
+real attacks with temporary bonus/suppress-cleave and custom recipient modifiers.
+It does not solve native reflected half damage. License/version not established;
+REFERENCE_ONLY, no code imported. Pathfinders native-name references were found
+but the attempted Lua path was absent; no behavior was inferred from that miss.
+The [native alias documentation](https://moddota.com/abilities/ability-keyvalues)
+limits inheritance to exposed values; it does not expose internal C++ structure.
+
+Before E mutation, choose and verify the minimal reactive path alongside native
+manual E. Half-scaling only attack_damage would leave base attack damage full.
+An unscoped outgoing modifier risks changing unrelated item/proc damage. Keeping
+a custom recipient reduction beside native Anchor risks double reduction.
+Neither a full native reactive cast advertised as half nor a broad attack/damage
+filter rewrite is accepted. Native modifier reuse/internal dispatcher evidence
+is the next research step; otherwise document an isolated extension with explicit
+non-stacking reduction and reflected damage. Current production E and the verified
+W half/reflection adapter remain unchanged while that dependency is resolved.
+No new gameplay acceptance, Dota control or engine PASS is claimed.

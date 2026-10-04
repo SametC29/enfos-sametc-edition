@@ -212,9 +212,9 @@ Change/test record (2026-09-30): Included in the 98 passing hero-kit mock regres
 
 ## Slot 3: `enfos_tide_anchor_smash`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `tidehunter_anchor_smash` (native Ability3).
-Decision and PvE identity rationale: Keep the close-range anchor sweep and attack-damage debuff; add Strength scaling for PvE and retain configured radius/duration. Both native identity and Enfos scaling are explicit.
+Decision and PvE identity rationale: Native real attacks and attack-range-plus-additional-range geometry suit waves; tune bonus/reduction with minimal STR scaling. Production remains custom pending reflected half-Shard compatibility and non-stacking reduction ownership.
 Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve: Anchor Smash E ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
@@ -252,6 +252,8 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
 Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+
+2026-10-04 E dependency research: installed hash unchanged; native cast point0.4, ENEMIES_NO immunity, real attacks and attack-range-plus225 verified. OnSpellStart has no documented half/reflection parameters; GetAOERadius is server-only. Migration matrix/snapshot record rejected shortcuts and next native modifier/dispatcher investigation. E source migration is NOT implemented; all engine gates remain PENDING.
 
 ## Slot 4: `enfos_tide_ravage`
 

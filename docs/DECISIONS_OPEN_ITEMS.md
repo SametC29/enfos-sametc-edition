@@ -479,3 +479,15 @@ per installed Anchor Note1. Wording no longer promises a native-purge callback.
 Generic Tank suppression stays; no talent/facet/native Shard active is granted.
 E migration must preserve half/reflected semantics or record a new evidence-backed
 decision, never dispatch a full attack as half damage.
+
+## Tidehunter E reactive dispatch dependency, 2026-10-04
+
+E remains TUNE/native-first. Installed native performs real attacks; the current
+Shard half-smash is reflected flat physical damage. Public OnSpellStart has no
+documented scaling/reflection arguments. Do not silently upgrade Shard to a full
+attack, halve only bonus damage, add an unscoped outgoing modifier, or stack custom
+and native attack-reduction debuffs. Resolve native internal dispatcher/modifier
+reuse evidence or explicitly isolate the reflected extension with non-stacking
+reduction before E mutation. This is an implementation dependency, not a request
+to abandon native E or certify current custom E. Research continues; owner engine
+cases remain deferred. See the native-first Tidehunter review and source snapshot.
