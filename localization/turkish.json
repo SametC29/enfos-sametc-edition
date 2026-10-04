@@ -1855,6 +1855,7 @@
     "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_SummaryDescription": "{{duration}} saniye boyunca ejderhaya dönüşür, menzilli saldırılar ve +{{bonus_attack_damage}} saldırı hasarı kazanır. R1 yeşil ejderhada aşındırıcı saldırılar sağlar; R2 kırmızı ejderhada alan hasarı ekler; R3 ve sonrası mavi ejderhada soğuk etkisi de ekler. Sonraki rütbeler süre ve hasarı artırır. Ejderha Kanı form bonusunu, Ejder Kuyruğu ejderha formunun menzil bonusunu kazanır. Form güçlü arındırmayla kaldırılmaz.",
     "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_shard_description": "Shard: Ateş Topunu açar. Seçilen 275 yarıçaplı alanda 6 saniye boyunca saniyede 85 büyü hasarı verir; yanma 2 saniye daha sürer. 80 mana, 20 saniye bekleme süresi, temel menzil 600. Desteklenen alan bonusları uygulanır.",
     "enfos_test_title": "Hero test odası",
+    "enfos_test_selection": "Hero seçimine dön",
     "enfos_test_details": "Seviye 10 · Scepter + Shard · 10 yaratık + 1 boss",
     "enfos_test_reset": "Düşmanları sıfırla",
     "enfos_test_refresh": "Can, mana ve bekleme sürelerini yenile",

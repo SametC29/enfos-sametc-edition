@@ -138,8 +138,14 @@ function Room:Action(event)
     if not hero or not state or state.hero~=hero then return false end
     local now=GameRules:GetGameTime()
     if now-(self.lastAction[id] or -10)<0.5 then return false end
-    if event.action~='reset' and event.action~='refresh' and event.action~='health' then return false end
+    if event.action~='reset' and event.action~='refresh' and event.action~='health' and event.action~='selection' then return false end
     self.lastAction[id]=now
+    if event.action=='selection' then
+        -- Map teardown clears engine-owned summons, delayed spells and hero state.
+        Log:Info('hero_test','return_to_selection player=%d hero=%s',id,hero:GetUnitName())
+        SendToConsole('dota_launch_custom_game enfos_sametc enfos_test')
+        return true
+    end
     if not state.ready and event.action=='reset' then state.attempted=true;return self:Prepare(hero,state) end
     if event.action=='refresh' then self:Refresh(hero)
     elseif event.action=='health' then require('heroes/health').Report(hero,id)

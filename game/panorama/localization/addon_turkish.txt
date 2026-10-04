@@ -3033,6 +3033,7 @@
 		"enfos_test_health" "Health kaydını konsola yaz"
 		"enfos_test_refresh" "Can, mana ve bekleme sürelerini yenile"
 		"enfos_test_reset" "Düşmanları sıfırla"
+		"enfos_test_selection" "Hero seçimine dön"
 		"enfos_test_title" "Hero test odası"
 		"enfos_thornplate_active" "Aktif: {duration} saniye boyunca alınan hasarı %{reduction} azaltır. Hasar yansıtmaz."
 		"enfos_vs_swap_invalid_target" "Geçersiz yer değiştirme hedefi."

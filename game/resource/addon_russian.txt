@@ -3037,6 +3037,7 @@
 		"enfos_test_health" "Записать Health в консоль"
 		"enfos_test_refresh" "Восстановить здоровье, ману и перезарядки"
 		"enfos_test_reset" "Сбросить врагов"
+		"enfos_test_selection" "Вернуться к выбору героя"
 		"enfos_test_title" "Комната тестирования"
 		"enfos_thornplate_active" "Активно: снижает входящий урон на {reduction}% на {duration} сек. Не отражает урон."
 		"enfos_vs_swap_invalid_target" "Недопустимая цель для обмена."

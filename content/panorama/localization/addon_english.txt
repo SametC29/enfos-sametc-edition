@@ -3037,6 +3037,7 @@
 		"enfos_test_health" "Write Health to console"
 		"enfos_test_refresh" "Restore health, mana and cooldowns"
 		"enfos_test_reset" "Reset enemies"
+		"enfos_test_selection" "Return to hero selection"
 		"enfos_test_title" "Hero test room"
 		"enfos_thornplate_active" "Active: reduces incoming damage by {reduction}% for {duration} seconds. Does not reflect damage."
 		"enfos_vs_swap_invalid_target" "Invalid swap target."

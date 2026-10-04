@@ -37,6 +37,7 @@ DOTA_MAX_TEAM_PLAYERS=1;DOTA_GAMERULES_STATE_PRE_GAME=8;DOTA_ModifyXP_Unspecifie
 local time=0;GameRules={State_Get=function()return 10 end,GetGameTime=function()return time end}
 local net={};CustomNetTables={SetTableValue=function(_,table,key,v)net[key]=v end};CustomGameEventManager={RegisterListener=function()end}
 local created,removed={},{};local failAt
+local commands={};function SendToConsole(command)commands[#commands+1]=command end
 function CreateUnitByName(name,pos,clear,a,b,team)
  if #created+1==failAt then return nil end;assert(team==4)
  local u={name=name,pos=pos,IsNull=function()return false end,SetRespawnsDisabled=function()end,
@@ -47,6 +48,15 @@ local room=require('tools/hero_test_room');room:Init()
 assert(not room:IsEnabled());assert(not room:Enable());map='enfos_test'
 `;
 function lua(body){const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:setup+body,encoding:'utf8'});assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');}
+test('Return to selection reloads only the fixed test arena for a valid owner; duplicate requests are throttled',()=>lua(`
+assert(not room:Action({PlayerID=0,action='selection'}));assert(#commands==0)
+room:Enable();ready=true;room:Tick()
+assert(not room:Action({PlayerID=1,action='selection'}));assert(#commands==0)
+map='enfos';assert(not room:Action({PlayerID=0,action='selection'}));assert(#commands==0);map='enfos_test'
+assert(room:Action({PlayerID=0,action='selection',map='enfos',command='arbitrary'}))
+assert(#commands==1 and commands[1]=='dota_launch_custom_game enfos_sametc enfos_test')
+assert(not room:Action({PlayerID=0,action='selection'}));assert(#commands==1)
+`));
 test('Separate test map automatically enables Tools mode; switching to normal map rejects actions and spawns',()=>lua(`
 room:Init();assert(room:IsEnabled() and plans==1);ready=true;room:Tick();assert(#created==11)
 map='enfos';assert(not room:IsEnabled());time=1;assert(not room:Action({PlayerID=0,action='reset'}));room:Tick();assert(#created==11)
@@ -84,5 +94,6 @@ test('Test HUD is controlled by authoritative mode and sends only the selected f
  vm.runInNewContext(fs.readFileSync('content/panorama/scripts/custom_game/hero_test_room.js','utf8'),context);
  assert.equal(panel.visible,false);enabled=true;listeners.net('game_setup','hero_test_room');assert.equal(panel.visible,true);
  context.EnfosHeroTest.Action('reset');assert.equal(sent[0].name,'enfos_test_room_action');assert.equal(sent[0].data.action,'reset');state=11;listeners.state();assert.equal(panel.visible,false);
- for(const lang of ['english','turkish','russian','schinese']){const t=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens;for(const key of ['title','details','reset','refresh','health'])assert.ok(t['enfos_test_'+key]);}
+ context.EnfosHeroTest.Action('selection');assert.equal(sent[1].data.action,'selection');
+ for(const lang of ['english','turkish','russian','schinese']){const t=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens;for(const key of ['title','details','reset','refresh','health','selection'])assert.ok(t['enfos_test_'+key]);}
 });

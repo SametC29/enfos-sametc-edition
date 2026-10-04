@@ -3037,6 +3037,7 @@
 		"enfos_test_health" "将Health记录写入控制台"
 		"enfos_test_refresh" "恢复生命、魔法并重置冷却"
 		"enfos_test_reset" "重置敌人"
+		"enfos_test_selection" "返回英雄选择"
 		"enfos_test_title" "英雄测试房间"
 		"enfos_thornplate_active" "主动：在{duration}秒内降低{reduction}%受到的伤害。不反弹伤害。"
 		"enfos_vs_swap_invalid_target" "无效的交换目标。"
