@@ -1,6 +1,6 @@
 # Tidehunter native-first source migration
 
-Status: Q SOURCE IMPLEMENTED / W/E/R/D IMPLEMENTATION PENDING / OWNER_RUNTIME PENDING.
+Status: Q/W SOURCE IMPLEMENTED / E/R/D IMPLEMENTATION PENDING / OWNER_RUNTIME PENDING.
 This record supersedes the old PvE-conversion assumption for the migration
 plan, not the existing production implementation or its proven source fixes.
 The owner permits proceeding to the next source hero without live acceptance.
@@ -16,7 +16,7 @@ hero assignments and queried API availability. The unchanged hero hash does
 not establish engine compatibility or acceptance.
 
 At discovery: five Lua abilities in `abilities/pve_kits.lua` with stable
-`enfos_tide_*` IDs and ten ranks. Q is now a native alias; W/E/R/D remain Lua.
+`enfos_tide_*` IDs and ten ranks. Q/W are now native aliases; E/R/D remain Lua.
 The native header explicitly assigns
 Gush, Kraken Shell, Anchor Smash, Dead in the Water, Ravage and Leviathan's
 Catch. Arm of the Deep and Blubber also have definitions; definition presence
@@ -32,7 +32,7 @@ projectile speed; installed2500 takes precedence. No external code is imported.
 
 ## Five-slot decisions before implementation
 
-These are migration decisions/leads. Only Q is source-implemented; it is not
+These are migration decisions/leads. Q/W are source-implemented; neither is
 engine-certified. Remaining rows describe planned work.
 
 | Slot / stable ID | Current behavior | Verified native counterpart | Primary class | Intended ownership / reason |
@@ -163,3 +163,51 @@ No Dota control was used. Owner Q ranks1/10, actual damage/STR, ordinary/Scepter
 aiming, rank9/10 upgraded cooldown, Blessing, dodge/reflect/dispel, caster/target
 death, respawn/reconnect, VFX/SFX/cold start and logs all remain pending.
 Next source unit: W Kraken Shell and its native cleanse/Shard dependency.
+
+## W implementation decision before mutation
+
+Use a native Kraken Shell alias with all exposed native active/block/cleanse
+values explicit. Retain20–80 + STR*0.05 block and flat5–20 Enfos regeneration;
+native owns block stacking,50% creep penalty,4-second200% active,40% movement
+penalty,45 mana/30s cooldown and cleanse. Do not instantiate Blubber merely
+because its definition exists. Native cleanse consumption/source eligibility
+remains an owner test, especially non-player-owned wave damage.
+
+Retire the custom purge call and its block getter. Preserve the existing Shard
+half-Anchor utility as an explicitly independent450 received-damage trigger,
+seven-second inactivity reset and five-second cap. This small extension does
+not observe or duplicate native cleanse. Its tooltip must say damage threshold,
+not assert it fires on a native purge. Keep generic Tank Shard suppression.
+Native installed Anchor Note1 specifies reflected damage for reactive smashes:
+pass DOTA_DAMAGE_FLAG_REFLECTION only on this Shard path, retaining ordinary
+manual E flags. Native E migration will replace the remaining Anchor implementation
+as a coherent follow-up; don't silently dispatch a full-strength native attack
+and advertise half damage. No new Shard active/fish entity/talent is added.
+
+W source implemented: native alias with explicit active and defensive values;
+block20–80 + STR*0.05, creep penalty50%, active200% for4s with40% movement
+penalty,45 mana/30s cooldown, cleanse450/reset7. Flat regen5–20 and a bounded
+independent Shard counter are isolated in the client-safe modifier module.
+Custom W block, damage cleanse and Purge implementation are removed. Native
+smash_on_purge/bonus_reduction_per_kill are0 (no talent/facet grant).
+The extension never purges or adds block. Shard requires learned E, obeys Break,
+resets its counter on death/no Shard/invalid sources, suppresses recursive callbacks
+and caps one half-damage reflected smash per5s. Ordinary E damage remains unflagged.
+Native block item-stacking and actual cleanse eligibility, including neutral-wave
+sources and the separate Blubber definition, remain owner questions. No arbitrary
+Blubber modifier/provider was instantiated.
+
+Restore adds the shell extension idempotently through the existing service;
+13 client classes load without server managers. Four-language W/Shard tooltips
+distinguish native cleanse from the independent Shard threshold. No new particle
+path/bank/thinker/query loop is added. Existing E root/CP2 and Tidehunter sound
+bank remain precached. Installed6943 source evidence is reused; automated checks
+are source evidence only. Next source unit: E native attacks, geometry and
+reactive Shard compatibility.
+
+W validation: full `node tools/checks.mjs` completed with zero failed checks,
+including 337 mock-engine hero regressions and 46 native/diagnostic tests.
+Ten-rank block/STR queries, client-safe regen, source/Break/death guards,
+Shard threshold/cooldown/reentry and manual-versus-reflected E flags pass.
+These checks do not certify native block, cleanse, active presentation or
+actual engine damage; all corresponding owner tests remain pending.

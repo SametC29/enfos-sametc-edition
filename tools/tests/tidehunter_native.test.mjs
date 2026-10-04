@@ -41,7 +41,7 @@ test('STR bridge is live, rank-correct and client-safe; restore is idempotent an
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end
 local server=true;function IsServer()return server end
-function LinkLuaModifier(name,path)assert(name=='modifier_enfos_tide_native_scaling' and path=='abilities/heroes/tidehunter/modifiers')end
+function LinkLuaModifier(name,path)assert((name=='modifier_enfos_tide_native_scaling' or name=='modifier_enfos_tide_shell_extension') and path=='abilities/heroes/tidehunter/modifiers')end
 local Integration=require('abilities/heroes/tidehunter/integration')
 local rank,adds,str=0,0,40;local qnull,parentnull=false,false
 local values={${ranks}}
@@ -55,7 +55,7 @@ local q={IsNull=function()return qnull end,GetAbilityName=function()return 'enfo
 local handle
 local hero={IsNull=function()return parentnull end,IsRealHero=function()return true end,IsIllusion=function()return false end,
  GetUnitName=function()return 'npc_dota_hero_tidehunter'end,GetStrength=function()assert(not parentnull);return str end,
- FindAbilityByName=function(_,id)assert(id=='enfos_tide_gush');return q end,
+ FindAbilityByName=function(_,id)if id=='enfos_tide_gush' then return q end;assert(id=='enfos_tide_kraken_shell')end,
  HasModifier=function()return handle~=nil end,
  AddAbility=function()error('No provider required')end,SetAbilityPoints=function()error('No point grants')end}
 local m=setmetatable({IsNull=function()return false end,GetParent=function()return hero end},modifier_enfos_tide_native_scaling)
@@ -77,6 +77,69 @@ p.ability=nil;assert(m:GetModifierOverrideAbilitySpecial(p)==0)
 assert(not m:RemoveOnDeath() and not m:IsPurgable() and m:IsHidden())
 server=true;handle=nil;hero.AddNewModifier=function()return nil end
 assert(not Integration.Restore(hero))
+`});
+ assert.equal(result.status,0,result.stderr);assert.equal(result.stderr,'');
+});
+
+test('Kraken Shell delegates active/block/cleanse to native while Shard stays an explicit Enfos threshold extension',()=>{
+ const w=all.enfos_tide_kraken_shell,n=snapshot.abilities.tidehunter_kraken_shell;
+ assert.ok(isVerifiedNativeAbility('enfos_tide_kraken_shell',w));
+ for(const key of ['AbilityBehavior','AbilitySound','SpellDispellableType','IsBreakable','AbilityManaCost','AbilityCastAnimation'])assert.equal(w[key],n[key]);
+ assert.equal(w.AbilityCooldown,n.AbilityValues.AbilityCooldown.value);
+ assert.equal(w.MaxLevel,'10');assert.equal(w.RequiredLevel,'1');assert.equal(w.LevelsBetweenUpgrades,'1');
+ for(const key of ['active_duration','active_pct_effectiveness','active_move_speed_penalty_pct','creep_reduction_penalty_pct','damage_reset_interval'])assert.equal(w.AbilityValues[key],n.AbilityValues[key]);
+ assert.equal(w.AbilityValues.smash_on_purge,'0');assert.equal(w.AbilityValues.bonus_reduction_per_kill,'0');
+ const old=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');
+ assert.doesNotMatch(old,/enfos_tide_kraken_shell\s*=\s*class|modifier_enfos_tide_kraken_shell_passive/);
+ const extension=fs.readFileSync('game/scripts/vscripts/abilities/heroes/tidehunter/modifiers.lua','utf8');
+ assert.doesNotMatch(extension,/Purge\(|MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK/);
+ assert.match(old,/damage\(self, u, dmg, DAMAGE_TYPE_PHYSICAL, damage_flags\)/);
+});
+test('Shell extension bounds reflected Shard smashes without purging, handles Break/source loss and has client-safe regen',()=>{
+ const w=all.enfos_tide_kraken_shell.AbilityValues;
+ const result=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{encoding:'utf8',input:`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t)t.__index=t;return t end
+require('abilities/heroes/tidehunter/modifiers')
+local server=true;function IsServer()return server end
+local now=0;GameRules={GetGameTime=function()return now end}
+DOTA_DAMAGE_FLAG_REFLECTION=16
+local broken,shard,removed,untrained=false,true,false,false
+local calls=0
+local e={IsNull=function()return removed end,GetLevel=function()return untrained and 0 or 1 end}
+local rank=1;local regen={${w.bonus_hp_regen.split(' ').join(',')}}
+local block={${w.damage_reduction.split(' ').join(',')}}
+local vals={shard_reset_interval=7,shard_damage_threshold=450,shard_smash_cooldown=5,shard_smash_damage_pct=50}
+local a={IsNull=function()return removed end,GetLevel=function()return rank end,
+ GetAbilityName=function()return 'enfos_tide_kraken_shell'end,
+ GetLevelSpecialValueNoOverride=function(_,key,index)if key=='damage_reduction'then return block[index+1]end;assert(key=='strength_factor');return 0.05 end,
+ GetSpecialValueFor=function(_,key)if key=='bonus_hp_regen'then return regen[rank]end;return assert(vals[key])end}
+local c={IsNull=function()return removed end,IsIllusion=function()return false end,
+ GetStrength=function()return 100 end,
+ PassivesDisabled=function()return broken end,HasShard=function()return shard end,IsAlive=function()assert(server);return true end,
+ FindAbilityByName=function(_,id)assert(id=='enfos_tide_anchor_smash');return e end,
+ StartGesture=function()end,Purge=function()error('Native alone owns cleanse')end}
+local m=setmetatable({GetParent=function()return c end,GetAbility=function()return a end,
+ IsNull=function()return removed end},modifier_enfos_tide_shell_extension)
+e.ApplyAnchorSmash=function(_,scale,flags)
+ assert(scale==0.5 and flags==16);calls=calls+1
+ m:OnTakeDamage({unit=c,damage=900}) -- reflected callbacks cannot recursively trigger
+end
+local scaling=setmetatable({GetParent=function()return c end},modifier_enfos_tide_native_scaling)
+local query={ability=a,ability_special_value='damage_reduction'}
+for r=1,10 do rank=r;assert(m:GetModifierConstantHealthRegen()==regen[r]);assert(scaling:GetModifierOverrideAbilitySpecialValue(query)==block[r]+5)end
+m:OnTakeDamage({unit=c,damage=449});assert(calls==0)
+m:OnTakeDamage({unit=c,damage=1});assert(calls==1)
+m:OnTakeDamage({unit=c,damage=900});assert(calls==1)
+now=5;m:OnTakeDamage({unit=c,damage=450});assert(calls==2)
+now=6;m:OnTakeDamage({unit=c,damage=449});now=13;m:OnTakeDamage({unit=c,damage=1});assert(calls==2)
+broken=true;m:OnTakeDamage({unit=c,damage=900});assert(m:GetModifierConstantHealthRegen()==0 and calls==2);broken=false
+m.damage_counter=400;m:OnDeath({unit=c});assert(m.damage_counter==0 and m.last_damage_time==nil)
+shard=false;m:OnTakeDamage({unit=c,damage=900});assert(calls==2);shard=true
+untrained=true;now=20;m:OnTakeDamage({unit=c,damage=450});assert(calls==2);untrained=false
+server=false;c.IsAlive=function()error('Client server-only call')end
+assert(m:GetModifierConstantHealthRegen()==20);m:OnTakeDamage({unit=c,damage=450});assert(calls==2)
+removed=true;assert(m:GetModifierConstantHealthRegen()==0)
 `});
  assert.equal(result.status,0,result.stderr);assert.equal(result.stderr,'');
 });

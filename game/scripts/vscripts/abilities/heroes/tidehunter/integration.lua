@@ -10,6 +10,11 @@ function Integration.Restore(hero)
         local m=hero:AddNewModifier(hero,q,'modifier_enfos_tide_native_scaling',{})
         if not m or m:IsNull() then return false end
     end
+    local w=hero:FindAbilityByName('enfos_tide_kraken_shell')
+    if w and not w:IsNull() and not hero:HasModifier('modifier_enfos_tide_shell_extension') then
+        local m=hero:AddNewModifier(hero,w,'modifier_enfos_tide_shell_extension',{})
+        if not m or m:IsNull() then return false end
+    end
     Trace:Log('TIDEHUNTER','Q','native_gush_ready rank=%s',tostring(q:GetLevel()))
     return true
 end

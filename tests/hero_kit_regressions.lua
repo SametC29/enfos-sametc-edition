@@ -3226,6 +3226,18 @@ test('Tidehunter active and reactive Anchor particles receive their gameplay rad
     end
 end)
 
+test('Tidehunter reactive Anchor is reflected while manual Anchor remains ordinary damage', function()
+    local tide=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
+    local target=create_mock_unit('tide_reflection_target',3,Vector(100,0,0))
+    local a=enfos_tide_anchor_smash();a.GetCaster=function() return tide end
+    a.GetSpecialValueFor=function(_,k) return ({radius=400,attack_damage_bonus=80,duration=6})[k] or 0 end
+    mock_world_units={tide,target};applied_damages={}
+    a:OnSpellStart();assert(applied_damages[1].damage_flags==0)
+    a:ApplyAnchorSmash(0.5,DOTA_DAMAGE_FLAG_REFLECTION)
+    assert(applied_damages[2].damage_flags==DOTA_DAMAGE_FLAG_REFLECTION)
+    assert(applied_damages[2].damage==applied_damages[1].damage*0.5)
+end)
+
 test('Tidehunter unique Scepter suppresses generic ultimate bonuses without affecting other tanks', function()
     local name='npc_dota_hero_tidehunter'
     local parent={GetUnitName=function() return name end}
@@ -3259,101 +3271,6 @@ test('Tidehunter impacts cannot apply debuffs after synchronous target or source
     ApplyDamage=oldDamage
 end)
 
-test('Tidehunter Kraken Shell respects Break and applies configured block and regeneration', function()
-    local tide = create_mock_unit('npc_dota_hero_tidehunter', 2, Vector(0, 0, 0))
-    local purges = 0
-    tide.Purge = function() purges = purges + 1 end
-    local ab = enfos_tide_kraken_shell()
-    ab.GetLevel = function() return 1 end
-    ab.GetSpecialValueFor = function(_, key) return ({damage_block=70,strength_factor=0.08,bonus_hp_regen=12,purge_damage_threshold=100})[key] or 0 end
-    local mod = modifier_enfos_tide_kraken_shell_passive()
-    mod.GetParent = function() return tide end
-    mod.GetAbility = function() return ab end
-    local declared = {}
-    for _, property in ipairs(mod:DeclareFunctions()) do declared[property] = true end
-    assert(declared[MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT],
-        'Kraken Shell must register its health regeneration property with the engine')
-    assert(mod:GetModifierPhysical_ConstantBlock() == 74, 'configured block plus named Strength scaling must be applied')
-    assert(mod:GetModifierConstantHealthRegen() == 12)
-    mod:OnTakeDamage({ unit=tide, damage=60 })
-    assert(purges == 0, 'the configured purge threshold should accumulate damage before purging')
-    mod:OnTakeDamage({ unit=tide, damage=50 })
-    assert(purges == 1, 'crossing the configured damage threshold should purge debuffs')
-    tide.PassivesDisabled = function() return true end
-    assert(mod:GetModifierPhysical_ConstantBlock() == 0 and mod:GetModifierConstantHealthRegen() == 0)
-end)
-
-test('Tidehunter Kraken Shell resets accumulated damage after inactivity and ignores zero events', function()
-    local oldRules=GameRules
-    local time,purges=0,0
-    GameRules={GetGameTime=function() return time end}
-    local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
-    hero.Purge=function() purges=purges+1 end
-    local a=enfos_tide_kraken_shell();a.GetSpecialValueFor=function(_,k) return ({purge_damage_threshold=100,purge_reset_interval=7})[k] or 0 end
-    local m=modifier_enfos_tide_kraken_shell_passive();m.GetParent=function() return hero end;m.GetAbility=function() return a end;m:OnCreated()
-    m:OnTakeDamage({unit=hero,damage=60})
-    time=7;m:OnTakeDamage({unit=hero,damage=0});m:OnTakeDamage({unit=hero,damage=-10})
-    assert(m.damage_counter==60,'Nonpositive events cannot reduce the counter or extend its damage window')
-    m:OnTakeDamage({unit=hero,damage=50})
-    assert(purges==0 and m.damage_counter==50,'Exactly seven seconds without positive damage resets precharged cleanse progress')
-    time=13.9;m:OnTakeDamage({unit=hero,damage=40})
-    assert(m.damage_counter==90 and purges==0,'Damage within the configured window continues accumulating')
-    time=14;m:OnTakeDamage({unit=hero,damage=10})
-    assert(purges==1 and m.damage_counter==0,'Crossing threshold inside the active window still strongly dispels')
-    GameRules=oldRules
-end)
-
-test('Tidehunter Shard cleanse triggers a bounded half-damage learned Anchor Smash', function()
-    local oldRules=GameRules;local time=0;GameRules={GetGameTime=function() return time end}
-    local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
-    local target=create_mock_unit('shard_anchor_target',3,Vector(100,0,0))
-    local hasShard=true;hero.HasShard=function() return hasShard end
-    local anchor=enfos_tide_anchor_smash();local rank=1
-    anchor.GetCaster=function() return hero end;anchor.GetLevel=function() return rank end
-    anchor.GetSpecialValueFor=function(_,k) return ({attack_damage_bonus=100,strength_factor=1,radius=400,duration=6})[k] or 0 end
-    anchor.StartCooldown=function() error('Reactive Smash cannot spend active Anchor cooldown') end
-    hero.SpendMana=function() error('Reactive Smash cannot spend hero mana') end
-    hero.FindAbilityByName=function(_,name) if name=='enfos_tide_anchor_smash' then return anchor end end
-    local a=enfos_tide_kraken_shell();a.GetLevel=function() return 1 end
-    a.GetSpecialValueFor=function(_,k) return ({purge_damage_threshold=100,purge_reset_interval=7,shard_smash_cooldown=5,shard_smash_damage_pct=50})[k] or 0 end
-    local m=modifier_enfos_tide_kraken_shell_passive();m.GetParent=function() return hero end;m.GetAbility=function() return a end;m:OnCreated()
-    local purges=0;hero.Purge=function() purges=purges+1 end
-    mock_world_units={hero,target};applied_damages={}
-    m:OnTakeDamage({unit=hero,damage=100})
-    assert(#applied_damages==1 and applied_damages[1].damage==125 and applied_damages[1].ability==anchor)
-    assert(target.modifiers.modifier_enfos_tide_anchor_smash_debuff.params.duration==6)
-    time=4.9;m:OnTakeDamage({unit=hero,damage=100});assert(#applied_damages==1 and purges==2)
-    time=5;m:OnTakeDamage({unit=hero,damage=100});assert(#applied_damages==2)
-    time=10;rank=0;m:OnTakeDamage({unit=hero,damage=100});assert(#applied_damages==2)
-    rank=1;hasShard=false;m:OnTakeDamage({unit=hero,damage=100});assert(#applied_damages==2)
-    hasShard=true;hero.PassivesDisabled=function() return true end
-    m:OnTakeDamage({unit=hero,damage=100});assert(#applied_damages==2 and purges==5)
-    GameRules=oldRules
-end)
-
-test('Tidehunter cleanse prevents purge reentry and rejects source removal before reactive Smash', function()
-    for _,mode in ipairs({'nested','ability','caster','modifier'}) do
-        local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
-        local removed=false;hero.HasShard=function() return true end
-        hero.IsNull=function() return removed and mode=='caster' end
-        local a=enfos_tide_kraken_shell();a.GetLevel=function() return 1 end
-        a.IsNull=function() return removed and mode=='ability' end
-        a.GetSpecialValueFor=function() return 100 end
-        local m=modifier_enfos_tide_kraken_shell_passive()
-        m.IsNull=function() return removed and mode=='modifier' end
-        m.GetParent=function() assert(not (removed and mode=='modifier'),'removed modifier parent read');return hero end
-        m.GetAbility=function() return a end;m:OnCreated()
-        local purges=0
-        hero.Purge=function()
-            purges=purges+1
-            if mode=='nested' and purges==1 then m:OnTakeDamage({unit=hero,damage=100}) else removed=true end
-        end
-        hero.FindAbilityByName=function() return nil end
-        m:OnTakeDamage({unit=hero,damage=100})
-        assert(purges==1,'Strong purge callbacks must not recursively trigger another cleanse')
-    end
-end)
-
 test('Tidehunter Shard replaces generic tank health and reflection while other tanks retain them', function()
     local name='npc_dota_hero_tidehunter'
     local parent={GetUnitName=function() return name end}
@@ -3373,7 +3290,7 @@ test('Tidehunter modifiers declare basic, strong-only and intrinsic dispel polic
     assert(stun.IsPurgable and stun:IsPurgable()==false,'Ravage cannot be removed by basic dispel')
     assert(stun.IsPurgeException and stun:IsPurgeException()==true,'Strong dispel must remove Ravage stun')
     assert(stun.IsStunDebuff and stun:IsStunDebuff()==true)
-    for _,cls in ipairs({modifier_enfos_tide_kraken_shell_passive,modifier_enfos_tide_colossal_presence_aura}) do
+    for _,cls in ipairs({modifier_enfos_tide_colossal_presence_aura}) do
         local m=cls()
         assert(m.IsPurgable and m:IsPurgable()==false,'Intrinsic Tidehunter passives use Break, not ordinary purge removal')
     end
@@ -3498,21 +3415,15 @@ test('Tidehunter passives reject unlearned, missing and removed ability sources'
     local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
     local purges=0;hero.Purge=function() purges=purges+1 end
     for _,mode in ipairs({'unlearned','removed','missing'}) do
-        local a=enfos_tide_kraken_shell()
+        local a=enfos_tide_colossal_presence()
         a.IsNull=function() return mode=='removed' end
         a.GetLevel=function() assert(mode~='removed','removed ability rank read');return mode=='unlearned' and 0 or 1 end
         a.GetSpecialValueFor=function() assert(mode~='removed','removed ability value read');return 100 end
-        local w=modifier_enfos_tide_kraken_shell_passive()
         local p=modifier_enfos_tide_colossal_presence_aura()
-        for _,m in ipairs({w,p}) do
+        for _,m in ipairs({p}) do
             m.GetParent=function() return hero end
             m.GetAbility=function() if mode~='missing' then return a end end
         end
-        w:OnCreated()
-        assert(w:GetModifierPhysical_ConstantBlock()==0,'An inactive Kraken source cannot grant residual Strength block')
-        assert(w:GetModifierConstantHealthRegen()==0,'An unlearned Kraken source cannot grant regen')
-        w:OnTakeDamage({unit=hero,damage=1000})
-        assert(purges==0 and w.damage_counter==0,'An inactive Kraken source cannot charge or trigger cleanse')
         assert(not p:IsAura() and p:GetModifierExtraHealthBonus()==0 and p:GetModifierPhysicalArmorBonus()==0,
             'Colossal Presence requires a live learned source for aura and stats')
     end

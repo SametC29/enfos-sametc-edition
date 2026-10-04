@@ -10,7 +10,7 @@ Hero: `npc_dota_hero_tidehunter`; role: Tank. Progression target: hero level 50 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
 | 1 | `enfos_tide_gush` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | NOT_EXPLICIT | tidehunter_gush |
-| 2 | `enfos_tide_kraken_shell` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | tidehunter_kraken_shell |
+| 2 | `enfos_tide_kraken_shell` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE | NOT_EXPLICIT | tidehunter_kraken_shell |
 | 3 | `enfos_tide_anchor_smash` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | tidehunter_anchor_smash |
 | 4 | `enfos_tide_ravage` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | tidehunter_ravage |
 | 5 | `enfos_tide_colossal_presence` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | tidehunter_kraken_shell |
@@ -49,7 +49,7 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 ### Per-ability review leads
 
 - `enfos_tide_gush`: target flags, immunity, spell block/reflect if applicable, target loss.
-- `enfos_tide_kraken_shell`: intrinsic modifier, Break/illusion behavior, live rank refresh.
+- `enfos_tide_kraken_shell`: cast/impact/modifier contract and lifetime.
 - `enfos_tide_anchor_smash`: cast/impact/modifier contract and lifetime.
 - `enfos_tide_ravage`: ultimate unlock curve, Scepter/Blessing and boss burst.
 - `enfos_tide_colossal_presence`: Enfos passive free starting rank, native innate separation, respawn/point budget; intrinsic modifier, Break/illusion behavior, live rank refresh.
@@ -167,13 +167,15 @@ interaction; both remain PENDING for owner testing.
 
 ## Slot 2: `enfos_tide_kraken_shell`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `tidehunter_kraken_shell` (native Ability2).
-Decision and PvE identity rationale: Keep the defensive shell identity; retain physical damage block, add the existing Enfos health-regeneration special, and make both obey Break. This is a focused passive implementation, not a native innate.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
+Decision and PvE identity rationale: Native active/passive Kraken Shell preserves tank identity. Tune block with STR and keep flat Enfos regeneration. Native alone owns attack block, creep penalty, active and cleanse. Shard remains a separate bounded received-damage trigger, not a duplicate cleanse implementation.
+Expected cast/travel/impact/ongoing/cleanup behavior: Native immediate no-target active doubles block for4s with40% movement penalty,45 mana/30s cooldown. Native clean-duration/source rules remain owner-test pending. Hidden Enfos extension supplies regen and reflected half-Anchor Shard, without Purge or block callbacks.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve: Kraken Shell W ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
+
+2026-10-04 source migration: explicit native W alias, ten ranks, block20–80 + STR*0.05, regen5–20. Native creep block penalty50%, active200%/4s/40% penalty, cleanse450/reset7. No extra Blubber or facet/talent. Shard threshold450/reset7/cap5s now independent of native cleanse; generic Tank suppression retained. Source/client/counter/reflection tests pass; engine cases remain PENDING.
 
 ### Resource and implementation evidence
 
@@ -190,20 +192,20 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Kraken Shell computes its configured HP regeneration, and its Lua modifier now declares the engine's constant-health-regen property so the engine can request it; a regression checks the declaration. Actual in-game regeneration still requires owner testing. |
+| Gameplay | PENDING | Native owns block/active/cleanse; flat regeneration and bounded Shard are explicit extensions; actual defense/cleanse pending. |
 | Targeting | PENDING | Not evaluated in this dossier setup. |
 | Ranks | PENDING | W gate levels 1–10 are declared; in-game HUD and point behavior remain PENDING. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
 | Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
+| Modifiers | PENDING | Custom W intrinsic/block/Purge removed. Isolated regen/Shard extension linked both realms; death resets its counter. Native modifiers pending. |
 | Precache | PENDING | Not evaluated in this dossier setup. |
 | Cleanup | PENDING | Not evaluated in this dossier setup. |
 | Boss | PENDING | Not evaluated in this dossier setup. |
-| Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
+| Upgrades | PENDING | Shard450 received damage -> half reflected Anchor, reset7s/cap5s; not advertised as a native-cleanse observer. Owner test pending. |
+| Localization | PENDING | Four languages/generated mirrors updated for active/creep penalty/independent Shard; engine HUD pending. |
 | Performance | PENDING | Not evaluated in this dossier setup. |
-| Reconnect | PENDING | Not evaluated in this dossier setup. |
+| Reconnect | PENDING | Existing restore idempotently installs two extensions; no points/providers added. Owner reconnect pending. |
 | VConsole | PENDING | Not evaluated in this dossier setup. |
 
 Change/test record (2026-09-30): Included in the 98 passing hero-kit mock regressions and full repository checks. No real Dota/VConsole test has been performed; gameplay, VFX/SFX quality, modifier edge cases, and engine acceptance remain PENDING.

@@ -94,3 +94,9 @@ with one client/server STR bridge, explicit Scepter fields and four-language
 tooltips. Remaining W/E/R/D are not migrated; proceed with Kraken Shell next.
 Owner BB log reopens Hairball damage; dbc8aa2 fixes missing native provider data,
 client E range error and delayed Health reporting, pending owner retest.
+
+2026-10-04 Tidehunter W source progression: Kraken Shell uses a native alias
+for active defense, block and cleanse. Flat regeneration and a capped independent
+Shard damage-threshold half-smash remain isolated extensions; custom Purge and
+block replication are retired. Full source checks pass (337 mock regressions);
+engine acceptance remains pending. Proceed with E Anchor Smash next.

@@ -464,4 +464,18 @@ and base cooldown7; this deliberately removes the old min(7,rank cooldown) rule
 at ranks9/10. No blanket wave nuke or boss-only exception is added. Stable ID,
 shared level/point/passive restore and generic Tidehunter upgrade suppression
 stay compatible. Actual native special consumption, Scepter/Blessing, HUD,
-VFX/SFX and lifecycle remain owner-test pending. W/E/R/D migration is not complete.
+VFX/SFX and lifecycle remain owner-test pending. W/E/R/D migration was not complete
+at this Q decision; W's subsequent source unit is recorded below.
+
+## Tidehunter W and reactive Shard, 2026-10-04
+
+Native Kraken Shell now owns active/block/cleanse. Retain authored20–80 +0.05STR
+block and5–20 regen; restore native50% creep block penalty,200% active4s/40%
+movement penalty,45 mana/30s cooldown and450 cleanse/reset7. No duplicated Lua
+purge or automatic Blubber addition. C++ actual cleanse/neutral eligibility is
+owner pending. Shard's half-Anchor utility becomes an explicit independent450
+received-damage/reset7s trigger, capped once per5s and marked reflected damage
+per installed Anchor Note1. Wording no longer promises a native-purge callback.
+Generic Tank suppression stays; no talent/facet/native Shard active is granted.
+E migration must preserve half/reflected semantics or record a new evidence-backed
+decision, never dispatch a full attack as half damage.
