@@ -1105,7 +1105,7 @@
     "DOTA_Tooltip_Ability_enfos_underlord_atrophy_aura": "Аура увядания",
     "DOTA_Tooltip_Ability_enfos_underlord_atrophy_aura_Description": "Пассивно снижает урон от атак врагов на {{reduction}}%. Даёт Underlord +{{bonus_damage}} к урону от атак и ещё +{{bonus_damage_per_stack}} за каждый полученный заряд после смерти врагов поблизости ({{normal_kill_stacks}} за обычного врага, {{boss_kill_stacks}} за босса).",
     "DOTA_Tooltip_Ability_enfos_underlord_firestorm_SummaryDescription": "Создаёт {{wave_count}} волн в выбранной области с интервалом {{wave_interval}} сек. Каждая волна наносит {{wave_damage}} + сила × 0,3 магического урона и в течение {{burn_duration}} сек. сжигает 1% максимального здоровья врагов каждые 0,5 сек.",
-    "DOTA_Tooltip_Ability_enfos_ursa_earthshock_Description": "{{radius}} menzildeki düşmanlara {{damage}} + Güç x {{strength_factor}} fiziksel hasar verir ve hareket hızını %{{slow_pct}} yavaşlatır ({{slow_duration}} sn). Boss yavaşlatması {{boss_slow_duration}} sn ile sınırlıdır.",
+    "DOTA_Tooltip_Ability_enfos_ursa_earthshock_Description": "Прыгает вперёд на {{hop_distance}} единиц и наносит врагам в радиусе {{shock_radius}} магический урон: {{AbilityDamage}} + {{strength_factor}} × сила. Замедляет передвижение на {{movement_slow|abs}}% на {{AbilityDuration}} сек.",
     "DOTA_Tooltip_Ability_enfos_ursa_enrage_Description": "Ярость снижает получаемый урон на {{damage_reduction}}% и даёт {{status_resistance}}% сопротивления эффектам на {{duration}} сек. Применяет сильное развеивание отрицательных эффектов.",
     "DOTA_Tooltip_Ability_enfos_ursa_fury_swipes_Description": "Последовательные атаки накапливают заряды Fury Swipes на одной цели. Каждый заряд добавляет {{damage_per_stack}} + {{agility_factor}} × ловкость физического урона. Без новых атак заряды исчезают через {{bonus_reset_time}} сек. (Рошан: {{bonus_reset_time_roshan}} сек.). Истощение запрещает новые заряды, но сохраняет урон существующих.",
     "DOTA_Tooltip_Ability_enfos_ursa_overpower_Description": "{{buff_duration}} sn boyunca saldırı hızını +{{attack_speed}} artırır. En fazla {{max_attacks}} düşman saldırısı; her vuruş Ursa’yı verilen hasarın %{{attack_heal_pct}} kadarı iyileştirir.",
@@ -1448,6 +1448,7 @@
     "DOTA_Tooltip_Ability_enfos_slark_pounce_scepter_description": "Pounce получает 2 заряда с восстановлением 12 сек.; дальность прыжка становится 900.",
     "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff": "Наживка",
     "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff_Description": "Броня снижена срабатываниями атак Сларка.",
-    "DOTA_Tooltip_Ability_enfos_tide_gush_SummaryDescription": "Поток воды наносит врагу {{gush_damage}} + сила × {{strength_factor}} магического урона, снижает броню на {{negative_armor}} и скорость передвижения на {{movement_speed|abs}}% на 4.5 сек."
+    "DOTA_Tooltip_Ability_enfos_tide_gush_SummaryDescription": "Поток воды наносит врагу {{gush_damage}} + сила × {{strength_factor}} магического урона, снижает броню на {{negative_armor}} и скорость передвижения на {{movement_speed|abs}}% на 4.5 сек.",
+    "DOTA_Tooltip_Ability_enfos_ursa_earthshock_shard_description": "Shard накладывает 3 заряда Fury Swipes на поражённых врагов."
   }
 }

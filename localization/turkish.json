@@ -775,7 +775,7 @@
     "DOTA_Tooltip_Ability_enfos_underlord_abyssal_carapace": "Abis Kabuğu",
     "DOTA_Tooltip_Ability_enfos_underlord_abyssal_carapace_Description": "Pasif olarak +{{bonus_armor}} zırh ve +{{bonus_hp}} azami can kazandırır.",
     "DOTA_Tooltip_Ability_enfos_ursa_earthshock": "Yer Sarsıntısı",
-    "DOTA_Tooltip_Ability_enfos_ursa_earthshock_Description": "{{radius}} menzildeki düşmanlara {{damage}} + Güç x {{strength_factor}} fiziksel hasar verir ve hareket hızını %{{slow_pct}} yavaşlatır ({{slow_duration}} sn). Boss yavaşlatması {{boss_slow_duration}} sn ile sınırlıdır.",
+    "DOTA_Tooltip_Ability_enfos_ursa_earthshock_Description": "Yüzünün dönük olduğu yöne {{hop_distance}} birim sıçrar. {{shock_radius}} yarıçapındaki düşmanlara {{AbilityDamage}} + Güç × {{strength_factor}} büyü hasarı verir; {{AbilityDuration}} sn boyunca hareket hızını %{{movement_slow|abs}} azaltır.",
     "DOTA_Tooltip_Ability_enfos_ursa_overpower": "Ezici Güç",
     "DOTA_Tooltip_Ability_enfos_ursa_overpower_Description": "{{buff_duration}} sn boyunca saldırı hızını +{{attack_speed}} artırır. En fazla {{max_attacks}} düşman saldırısı; her vuruş Ursa’yı verilen hasarın %{{attack_heal_pct}} kadarı iyileştirir.",
     "DOTA_Tooltip_Ability_enfos_ursa_fury_swipes": "Öfke Pençeleri",
@@ -1836,6 +1836,7 @@
     "DOTA_Tooltip_Ability_enfos_slark_pounce_scepter_description": "Sıçrama 2 yük kazanır; yük yenilenmesi 12 sn, sıçrama mesafesi 900 olur.",
     "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff": "Balık Yemi",
     "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff_Description": "Slark’ın saldırı tetiklemeleriyle zırhı azaltılmıştır.",
-    "DOTA_Tooltip_Ability_enfos_tide_gush_SummaryDescription": "Bir düşmana {{gush_damage}} + Güç × {{strength_factor}} büyü hasarı veren su fışkırtır; zırhını {{negative_armor}} ve hareket hızını {{movement_speed|abs}}% azaltır. Etkiler 4.5 saniye sürer."
+    "DOTA_Tooltip_Ability_enfos_tide_gush_SummaryDescription": "Bir düşmana {{gush_damage}} + Güç × {{strength_factor}} büyü hasarı veren su fışkırtır; zırhını {{negative_armor}} ve hareket hızını {{movement_speed|abs}}% azaltır. Etkiler 4.5 saniye sürer.",
+    "DOTA_Tooltip_Ability_enfos_ursa_earthshock_shard_description": "Shard, isabet alan düşmanlara 3 Öfke Pençeleri yükü uygular."
   }
 }

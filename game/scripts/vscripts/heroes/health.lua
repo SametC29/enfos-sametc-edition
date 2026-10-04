@@ -50,6 +50,15 @@ function Health.Report(hero,id)
                 print('[HERO_HEALTH] fury_intrinsic='..tostring(name)..' present='..tostring(m and not m:IsNull() or false))
                 print('[HERO_HEALTH] native_fury_damage_query='..tostring(a:GetSpecialValueFor('damage_per_stack')))
             end
+            local q=hero:FindAbilityByName('enfos_ursa_earthshock')
+            if q and not q:IsNull() then
+                print('[HERO_HEALTH] native_earthshock_damage_getter='..tostring(q:GetAbilityDamage()))
+                if q.GetAssociatedSecondaryAbilities then
+                    print('[HERO_HEALTH] earthshock_secondary='..tostring(q:GetAssociatedSecondaryAbilities()))
+                end
+            end
+            local r=hero:FindAbilityByName('ursa_enrage')
+            print('[HERO_HEALTH] ability=ursa_enrage rank='..tostring(r and not r:IsNull() and r:GetLevel() or 'missing'))
         elseif entry.id=='npc_dota_hero_tidehunter' then
             local a=hero:FindAbilityByName('tidehunter_leviathans_catch')
             print('[HERO_HEALTH] ability=tidehunter_leviathans_catch rank='..tostring(a and not a:IsNull() and a:GetLevel() or 'missing'))

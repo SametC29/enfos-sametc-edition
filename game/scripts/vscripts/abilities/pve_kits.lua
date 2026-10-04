@@ -210,7 +210,6 @@ local modifier_list = {
     'modifier_enfos_pudge_dismember_channel',
     'modifier_enfos_pudge_dismember_target',
     'modifier_enfos_pudge_meat_shield_passive',
-    'modifier_enfos_ursa_earthshock_slow',
     'modifier_enfos_ursa_overpower_buff',
     'modifier_enfos_ursa_minor_passive',
     'modifier_enfos_mk_boundless_strike_stun',
@@ -5033,35 +5032,7 @@ end
 -- URSA: EARTHSHOCK, OVERPOWER, FURY SWIPES, ENRAGE, URSA MINOR
 -- ----------------------------------------------------------------------------
 
-enfos_ursa_earthshock=class({})
-function enfos_ursa_earthshock:OnSpellStart()
-    local c = self:GetCaster()
-    c:EmitSound('Hero_Ursa.Earthshock')
-    effect('particles/units/heroes/hero_ursa/ursa_earthshock.vpcf', c)
-
-    local base = value(self, 'damage')
-    if base <= 0 then base = 220 end
-    local str = get_str(c)
-    local dmg = base + (str * value(self, 'strength_factor'))
-    local radius = value(self, 'radius')
-    if radius <= 0 then radius = 385 end
-
-    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), radius)) do
-        damage(self, u, dmg, DAMAGE_TYPE_PHYSICAL)
-        local duration = value(self, 'slow_duration')
-        if is_boss(u) then duration = math.min(duration, value(self, 'boss_slow_duration')) end
-        u:AddNewModifier(c, self, 'modifier_enfos_ursa_earthshock_slow', {
-            duration = duration, slow_pct = value(self, 'slow_pct')
-        })
-    end
-end
-
-modifier_enfos_ursa_earthshock_slow=class({})
-function modifier_enfos_ursa_earthshock_slow:IsDebuff() return true end
-function modifier_enfos_ursa_earthshock_slow:OnCreated(params) self.slow_pct = tonumber(params.slow_pct) or value(self:GetAbility(), 'slow_pct') end
-function modifier_enfos_ursa_earthshock_slow:OnRefresh(params) self:OnCreated(params) end
-function modifier_enfos_ursa_earthshock_slow:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
-function modifier_enfos_ursa_earthshock_slow:GetModifierMoveSpeedBonus_Percentage() return -(self.slow_pct or value(self:GetAbility(), 'slow_pct')) end
+-- Earthshock hop, impact and slow are native-owned; STR tuning is isolated.
 
 enfos_ursa_overpower=class({})
 function enfos_ursa_overpower:OnSpellStart()

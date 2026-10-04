@@ -235,3 +235,123 @@ assert(s:find('native_fury_damage_query=107',1,true))
 local count=#lines;server=false;assert(not Health.Report(h,0) and #lines==count)
 `});assert.equal(run.status,0,run.stderr);assert.equal(run.stderr,'');
 });
+
+test('Earthshock keeps the installed native hop/magic/Shard contract with authored ten-rank header curves',()=>{
+ const q=all.enfos_ursa_earthshock,n=snapshot.abilities.ursa_earthshock;
+ assert.ok(isVerifiedNativeAbility('enfos_ursa_earthshock',q));assert.equal(q.ScriptFile,undefined);
+ for(const k of ['AbilityBehavior','AbilityUnitDamageType','SpellImmunityType','SpellDispellableType','FightRecapLevel','AbilitySound','HasShardUpgrade','AbilityCastAnimation','AbilityCastGestureSlot','AbilityCastRange'])assert.equal(q[k],n[k],k);
+ assert.equal(q.MaxLevel,'10');assert.equal(q.RequiredLevel,'1');assert.equal(q.LevelsBetweenUpgrades,'1');assert.equal(q.AbilityCastPoint,'0');
+ assert.equal(q.AbilityDamage,'120 180 240 300 360 420 480 540 600 660');
+ assert.equal(q.AbilityDuration,'2.5 2.7 2.9 3.1 3.3 3.5 3.7 3.9 4.2 4.5');
+ assert.equal(q.AbilityValues.AbilityCooldown.value,q.AbilityCooldown);assert.equal(q.AbilityValues.AbilityChargeRestoreTime.value,q.AbilityCooldown);
+ assert.equal(q.AbilityValues.shock_radius.value,n.AbilityValues.shock_radius.value);assert.equal(q.AbilityValues.shock_radius.affected_by_aoe_increase,'1');
+ assert.equal(q.AbilityValues.hop_distance,n.AbilityValues.hop_distance.value);assert.equal(q.AbilityValues.hop_duration,n.AbilityValues.hop_duration);assert.equal(q.AbilityValues.hop_height,n.AbilityValues.hop_height);
+ assert.equal(q.AbilityValues.fury_swipe_stacks_on_hit.value,'0');assert.equal(q.AbilityValues.fury_swipe_stacks_on_hit.special_bonus_shard,n.AbilityValues.fury_swipe_stacks_on_hit.special_bonus_shard);
+ assert.deepEqual(JSON.parse(JSON.stringify(q.AbilityValues.shard_enrage_duration)),n.AbilityValues.shard_enrage_duration);
+ assert.equal(q.AbilityValues.movement_slow,'-20 -24 -28 -32 -36 -40 -44 -48 -52 -56');
+ assert.equal(q.AbilityValues.AbilityCharges.value,'0');assert.equal(q.AbilityValues.strength_factor,'1.5');
+ for(const k of ['AbilityDamage','damage','radius','slow_pct','slow_duration','boss_slow_duration'])assert.equal(q.AbilityValues[k],undefined);
+ assert.doesNotMatch(JSON.stringify(q),/special_bonus_unique|facet/);
+ const shared=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');assert.doesNotMatch(shared,/enfos_ursa_earthshock=class|modifier_enfos_ursa_earthshock_slow/);
+});
+
+test('Earthshock STR factor is server-only, scoped and has no duplicate damage or top-level special override',()=>{
+ const q=all.enfos_ursa_earthshock;
+ const p=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{encoding:'utf8',input:`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t)t.__index=t;return t end
+local server=true;function IsServer()return server end
+require('abilities/heroes/ursa/modifiers')
+local rank,str,null,illusion,baseOverride=0,80,false,false,nil
+local values={${q.AbilityDamage.split(' ').join(',')}}
+local c={IsNull=function()return null end,IsIllusion=function()return illusion end,GetStrength=function()return str end,
+ IsAlive=function()error('No client/server alive query')end,GetUnitName=function()return 'npc_dota_hero_ursa'end,
+ FindAbilityByName=function()return nil end}
+local owner=c;local name='enfos_ursa_earthshock'
+local a={IsNull=function()return null end,GetAbilityName=function()return name end,GetCaster=function()return owner end,
+ GetLevel=function()return rank end,GetAbilityDamage=function()assert(server,'Server-only GetAbilityDamage');return baseOverride or values[rank]end,
+ GetSpecialValueFor=function(_,key)assert(key=='strength_factor');return 1.5 end}
+local m=setmetatable({GetParent=function()return c end},modifier_enfos_ursa_native_scaling)
+local event={inflictor=a,original_damage=660}
+assert(m:GetModifierTotalDamageOutgoing_Percentage(event)==0)
+for i=1,10 do rank=i;local pct=m:GetModifierTotalDamageOutgoing_Percentage(event)
+ assert(math.abs(values[i]*(1+pct/100)-(values[i]+120))<.0001)
+end
+str=120;assert(math.abs(m:GetModifierTotalDamageOutgoing_Percentage(event)-18000/660)<.0001)
+for _,other in ipairs({'ursa_enrage','ursa_fury_swipes','enfos_ursa_enrage','item_dagon','attack'})do name=other;assert(m:GetModifierTotalDamageOutgoing_Percentage(event)==0)end
+name='enfos_ursa_earthshock';owner={};assert(m:GetModifierTotalDamageOutgoing_Percentage(event)==0);owner=c
+illusion=true;assert(m:GetModifierTotalDamageOutgoing_Percentage(event)==0);illusion=false
+baseOverride=0;assert(m:GetModifierTotalDamageOutgoing_Percentage(event)==0);baseOverride=-1;assert(m:GetModifierTotalDamageOutgoing_Percentage(event)==0);baseOverride=nil
+null=true;assert(m:GetModifierTotalDamageOutgoing_Percentage(event)==0);null=false
+assert(m:GetModifierTotalDamageOutgoing_Percentage(nil)==0 and m:GetModifierTotalDamageOutgoing_Percentage({})==0)
+assert(m:GetModifierOverrideAbilitySpecial({ability=a,ability_special_value='AbilityDamage'})==0)
+server=false;assert(m:GetModifierTotalDamageOutgoing_Percentage(event)==0)
+`});assert.equal(p.status,0,p.stderr);assert.equal(p.stderr,'');
+});
+
+test('Q/R exact Enrage compatibility restores once without casts, extra points or native target-state changes',()=>furyLua(`
+local q={IsNull=function()return false end}
+local r={rank=0,IsNull=function()return false end,GetLevel=function(self)return self.rank end,
+ GetLevelSpecialValueNoOverride=function(self,key,rank)assert(rank==self.rank-1)
+ local values={duration={4.5,4.8,5.1,5.4,5.7,6,6.4,6.8,7.4,8},damage_reduction={60,63,66,69,72,75,78,82,86,90},
+ status_resistance={20,24,28,32,36,40,44,48,54,60},aoe_radius={0},damage_increase={0},damage_increase_duration={0}}
+ local v=values[key];assert(v,key);return v[rank+1] or v[1] end,
+ GetSpecialValueFor=function()error('Recursive paid lookup')end}
+hero.abilities.enfos_ursa_earthshock=q;hero.abilities.enfos_ursa_enrage=r
+local helpers,helperSets=0,0
+local helper={rank=0,IsNull=function()return false end,GetAbilityName=function()return 'ursa_enrage'end,
+ GetCaster=function()return hero end,GetLevel=function(self)return self.rank end,
+ SetLevel=function(self,v)assert(server and v==1);helperSets=helperSets+1;self.rank=v end,
+ SetHidden=function(self,v)assert(server);self.hidden=v end,SetActivated=function(self,v)assert(server);self.active=v end,
+ OnSpellStart=function()error('Compatibility provider cannot be manually cast')end}
+local add=hero.AddAbility
+hero.AddAbility=function(self,id)if id=='ursa_enrage'then helpers=helpers+1;self.abilities[id]=helper;return helper end;return add(self,id)end
+assert(integration.Restore(hero));assert(helpers==1 and helperSets==1 and helper.hidden and not helper.active)
+local m=hero.modifiers.modifier_enfos_ursa_native_scaling
+local p={ability=helper,ability_special_value='duration'}
+assert(m:GetModifierOverrideAbilitySpecial(p)==1 and m:GetModifierOverrideAbilitySpecialValue(p)==0)
+for rank=1,10 do r.rank=rank;assert(integration.Restore(hero))
+ for _,key in ipairs({'duration','damage_reduction','status_resistance','aoe_radius','damage_increase','damage_increase_duration'})do
+  p.ability_special_value=key;assert(m:GetModifierOverrideAbilitySpecialValue(p)==r:GetLevelSpecialValueNoOverride(key,rank-1))
+ end
+end
+assert(helpers==1 and helperSets==1 and adds==1 and mods==1 and hero.points==5 and native.target_stack_count==17)
+p.ability_special_value='duration';server=false;assert(m:GetModifierOverrideAbilitySpecialValue(p)==8)
+server=true;r.rank=0;assert(m:GetModifierOverrideAbilitySpecialValue(p)==0)
+hero.abilities.ursa_enrage=nil;hero.AddAbility=function()return nil end;assert(not integration.Restore(hero))
+`));
+
+test('Earthshock canonical header duration/damage render in every locale and mirror without old physical/Boss placeholders',()=>{
+ const q=all.enfos_ursa_earthshock;
+ for(const lang of ['english','turkish','russian','schinese']){
+ const t=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens;
+ const text=t.DOTA_Tooltip_Ability_enfos_ursa_earthshock_Description;
+ for(const key of ['AbilityDamage','AbilityDuration','hop_distance','shock_radius','movement_slow|abs','strength_factor'])assert.ok(text.includes('{{'+key+'}}'));
+ assert.doesNotMatch(text,/boss_slow_duration|slow_pct|slow_duration|\{\{damage\}\}/);
+ assert.match(t.DOTA_Tooltip_Ability_enfos_ursa_earthshock_shard_description,/3/);
+ for(const prefix of ['game/resource','game/panorama/localization','content/panorama/localization']){
+ const data=parseKV(fs.readFileSync(prefix+'/addon_'+lang+'.txt','utf8')).lang.Tokens;
+ const desc=data.DOTA_Tooltip_Ability_enfos_ursa_earthshock_Description;
+ assert.ok(desc.includes(q.AbilityDamage.split(' ').join(' / ')));assert.ok(desc.includes(q.AbilityDuration.split(' ').join(' / ')));
+ assert.doesNotMatch(desc,/\{\{|boss_slow_duration/);
+ }
+ }
+});
+
+test('Ursa Health exposes native Q queries and exact R identity without gameplay calls',()=>{
+ const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{encoding:'utf8',input:`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+local server=true;function IsServer()return server end
+local logs={};print=function(v)logs[#logs+1]=v end
+local q={IsNull=function()return false end,GetLevel=function()return 10 end,
+ GetAbilityDamage=function()assert(server);return 660 end,GetAssociatedSecondaryAbilities=function()assert(server);return 'ursa_enrage'end}
+local helper={IsNull=function()return false end,GetLevel=function()return 1 end}
+local hero={IsNull=function()return false end,GetUnitName=function()return 'npc_dota_hero_ursa'end,
+ GetLevel=function()return 50 end,GetAbilityPoints=function()return 0 end,IsAlive=function()assert(server);return true end,
+ FindAbilityByName=function(_,id)if id=='enfos_ursa_earthshock'then return q elseif id=='ursa_enrage'then return helper end end,
+ AddAbility=function()error('Health must not restore')end,AddNewModifier=function()error('Health must not mutate')end}
+local H=require('heroes/health');assert(H.Report(hero,0));local s=table.concat(logs,'|')
+assert(s:find('native_earthshock_damage_getter=660',1,true));assert(s:find('earthshock_secondary=ursa_enrage',1,true))
+assert(s:find('ability=ursa_enrage rank=1',1,true));local before=#logs;server=false;assert(not H.Report(hero,0)and#logs==before)
+`});assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');
+});

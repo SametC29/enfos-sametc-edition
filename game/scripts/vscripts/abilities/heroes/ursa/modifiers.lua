@@ -5,18 +5,37 @@ function M:IsHidden() return true end
 function M:IsPurgable() return false end
 function M:RemoveOnDeath() return false end
 function M:DeclareFunctions()
-    return {MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL,MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL_VALUE}
+    return {MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL,MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL_VALUE,
+        MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE}
 end
 local keys={['damage_per_stack']=true,['bonus_reset_time']=true,['bonus_reset_time_roshan']=true,
     ['stun_stack_count']=true,['stun_duration']=true}
+local enrage_keys={['duration']=true,['damage_reduction']=true,['status_resistance']=true,
+    ['aoe_radius']=true,['damage_increase']=true,['damage_increase_duration']=true}
 local function sources(mod,params)
     local c,a=mod:GetParent(),params and params.ability
     if not c or c:IsNull() or c:GetUnitName()~='npc_dota_hero_ursa' or not a or a:IsNull()
-        or a:GetAbilityName()~='ursa_fury_swipes' or a:GetCaster()~=c
-        or not keys[params.ability_special_value] then return end
-    local paid=c:FindAbilityByName('enfos_ursa_fury_swipes')
+        or a:GetCaster()~=c then return end
+    local id,key=a:GetAbilityName(),params.ability_special_value
+    local paid
+    if id=='ursa_fury_swipes' and keys[key] then paid=c:FindAbilityByName('enfos_ursa_fury_swipes')
+    elseif id=='ursa_enrage' and enrage_keys[key] then paid=c:FindAbilityByName('enfos_ursa_enrage') end
     if not paid or paid:IsNull() then return end
     return c,paid
+end
+-- Header AbilityDamage is server-only and distinct from special values.
+function M:GetModifierTotalDamageOutgoing_Percentage(params)
+    if not IsServer() or not params then return 0 end
+    local c,a=self:GetParent(),params.inflictor
+    if not c or c:IsNull() or c:GetUnitName()~='npc_dota_hero_ursa' or c:IsIllusion() or not a or a:IsNull()
+        or a:GetAbilityName()~='enfos_ursa_earthshock' or a:GetCaster()~=c or a:GetLevel()<1 then return 0 end
+    local base=a:GetAbilityDamage()
+    if base<=0 then return 0 end
+    local strength=c:GetStrength()
+    local pct=100*strength*a:GetSpecialValueFor('strength_factor')/base
+    require('lib/hero_trace'):Log('URSA','Q','native_outgoing_query base=%s str=%s percent=%s original=%s',
+        tostring(base),tostring(strength),tostring(pct),tostring(params.original_damage))
+    return pct
 end
 function M:GetModifierOverrideAbilitySpecial(params)
     return sources(self,params) and 1 or 0

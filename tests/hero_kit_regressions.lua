@@ -5259,24 +5259,6 @@ test('Monkey King Wukong pulses within its configured ring and Mischief honors B
         'Mischief bonuses must not be duplicated on illusions')
 end)
 
-test('Ursa Earthshock reads radius, rank damage and boss slow cap from KV', function()
-    applied_damages = {}
-    local ursa = create_mock_unit('npc_dota_hero_ursa', 2, Vector(0, 0, 0))
-    local boss = create_mock_unit('enfos_boss_ursa', 3, Vector(300, 0, 0), 20000)
-    local outside = create_mock_unit('creep_outside_ursa', 3, Vector(500, 0, 0))
-    mock_world_units = { ursa, boss, outside }
-    local ability = enfos_ursa_earthshock()
-    ability.GetCaster = function() return ursa end
-    ability.GetSpecialValueFor = function(_, key)
-        return ({ damage=240, strength_factor=1.5, radius=385, slow_duration=3.5, boss_slow_duration=1.0, slow_pct=44 })[key] or 0
-    end
-    ability:OnSpellStart()
-    assert(#applied_damages == 1 and applied_damages[1].victim == boss)
-    assert(applied_damages[1].damage == 315 and applied_damages[1].damage_type == DAMAGE_TYPE_PHYSICAL)
-    assert(boss:FindModifierByName('modifier_enfos_ursa_earthshock_slow').params.duration == 1.0)
-    assert(boss:FindModifierByName('modifier_enfos_ursa_earthshock_slow').params.slow_pct == 44)
-end)
-
 test('Ursa Overpower reads attack count and only consumes on enemy attacks', function()
     local ursa = create_mock_unit('npc_dota_hero_ursa', 2, Vector(0, 0, 0), 200)
     local ally = create_mock_unit('ally_ursa', 2, Vector(100, 0, 0))

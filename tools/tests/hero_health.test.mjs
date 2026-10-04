@@ -20,7 +20,8 @@ local function hero(entry)
  SetAbilityPoints=function()error('diagnostic changed points')end}
  h.FindAbilityByName=function(_,id)
   for _,name in ipairs(entry.abilities)do if id==name then return {IsNull=function()return false end,
-   GetLevel=function()return 0 end,GetIntrinsicModifierName=function()return nil end}end end
+   GetLevel=function()return 0 end,GetAbilityDamage=function()return 0 end,
+   GetIntrinsicModifierName=function()return nil end}end end
  end
  return h
 end

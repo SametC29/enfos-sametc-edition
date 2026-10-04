@@ -19,6 +19,18 @@ function Integration.Restore(hero)
     if native:GetLevel()~=rank then native:SetLevel(rank) end
     native:SetHidden(true)
     native:SetActivated(rank>0)
+    -- Installed AbilityDraft note names Enrage as a Q Shard dependency.
+    -- Supply identity without another player cast or manual Shard effects.
+    local q,r=hero:FindAbilityByName('enfos_ursa_earthshock'),hero:FindAbilityByName('enfos_ursa_enrage')
+    if q and not q:IsNull() and r and not r:IsNull() then
+        local helper=hero:FindAbilityByName('ursa_enrage')
+        if helper and helper:IsNull() then helper=nil end
+        if not helper then helper=hero:AddAbility('ursa_enrage') end
+        if not helper or helper:IsNull() then return false end
+        if helper:GetLevel()~=1 then helper:SetLevel(1) end
+        helper:SetHidden(true)
+        helper:SetActivated(false)
+    end
     Trace:Log('URSA','E','native_fury_ready paid_rank=%s native_rank=%s',tostring(e:GetLevel()),tostring(rank))
     return true
 end

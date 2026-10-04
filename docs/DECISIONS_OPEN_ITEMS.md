@@ -542,3 +542,14 @@ stack cap instead of a guessed secondary damage event. Native focused attack
 identity, per-caster target state, reset and Break retaining existing damage
 are the target. This resolves the earlier conditional cleave lead; actual
 AGI/native cache/refresh/Shard interaction stays owner pending.
+
+## Ursa Q native hop/damage and linked identity, 2026-10-04
+
+TUNE: restore native magical facing hop instead of stationary physical AoE,
+retain authored damage/cost/CD/slow/duration curves, remove Boss-only slowcap.
+NativeShard3Fury stacks/defaultemptyEnrage duration; exactFury provider ready.
+AbilityDraft note requiresEnrage whileShard text referencesFury; exact native
+R rank1 hiddeninactive identity with rawpaidR fields (0untrained) is a scoped
+compatibility decision, not proof thecurrent C++ still requiresR. No manual
+Enrage cast/purge or new points. NativeQ STR1.5 outgoingfactor/servergetter
+readpath and actuallinkedShard/mitigation/strongdispelliveness remainownerpending.

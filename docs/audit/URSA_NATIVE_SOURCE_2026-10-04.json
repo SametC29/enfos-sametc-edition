@@ -314,5 +314,27 @@
       "GetAgility": "CDOTA_BaseNPC_Hero: both"
     },
     "engineAcceptance": "PENDING OWNER TEST"
+  },
+  "qResearch": {
+    "classification": "TUNE",
+    "alias": "enfos_ursa_earthshock -> ursa_earthshock",
+    "ownership": "Native magical hop/impact/slow/Shard/cleanup + minimal STR outgoing factor",
+    "authored": "Damage120..660; duration2.5..4.5; slow-20..-56; costs/CD preserved",
+    "native": "Hop250/.25/83, radius385/AoE, no-target immediate, magical, Shard+3 Fury stacks; empty shard_enrage_duration retained",
+    "enrageIdentity": {
+      "provider": "ursa_enrage",
+      "rank": 1,
+      "hidden": true,
+      "activated": false,
+      "rationale": "Installed AbilityDraft note requires Enrage. Supply exact identity only for owned Q/R; does not prove current C++ relationship.",
+      "tuning": "Exact scoped raw paidR fields, zero while untrained; no manual cast/purge"
+    },
+    "api": {
+      "GetAbilityDamage": "server",
+      "GetAssociatedSecondaryAbilities": "server/read-only Health",
+      "GetModifierTotalDamageOutgoing_Percentage": "both/event API; server guard before native getter"
+    },
+    "references": "Pathfinders Q Lua not in harvested corpus; no shard_enrage_duration matches; old KV reviewed previously, reference only, no import",
+    "engineAcceptance": "PENDING OWNER TEST, especially native attribution/header STR factor stacking and actual Q Shard/Enrage identity"
   }
 }

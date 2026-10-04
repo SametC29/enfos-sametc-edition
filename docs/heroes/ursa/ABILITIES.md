@@ -9,7 +9,7 @@ Hero: `npc_dota_hero_ursa`; role: Fighter. Progression target: hero level 50 / a
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_ursa_earthshock` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | ursa_earthshock |
+| 1 | `enfos_ursa_earthshock` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE \| DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | NOT_EXPLICIT | ursa_earthshock |
 | 2 | `enfos_ursa_overpower` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | ursa_overpower |
 | 3 | `enfos_ursa_fury_swipes` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/ursa/e | ursa_fury_swipes |
 | 4 | `enfos_ursa_enrage` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE | NOT_EXPLICIT | ursa_enrage |
@@ -63,11 +63,11 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Slot 1: `enfos_ursa_earthshock`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: ursa_earthshock (installed native Ability1; Ursa source snapshot, ClientVersion 6941 / SourceRevision 11041083).
-Decision and PvE identity rationale: Keep the recognizable point-blank ground slam, physical damage, and slow; convert it for PvE with ten ranks, Strength scaling, configurable radius/slow, and a shorter boss slow cap.
-Expected cast/travel/impact/ongoing/cleanup behavior: No-target cast emits Hero_Ursa.Earthshock and the verified ursa_earthshock particle; damage and slow only enemies in KV radius; slow expires with modifier and boss duration is capped.
-Normal/elite/boss: native Fury Swipes uses ordinary enemy/stack rules without a custom Boss cap. Earthshock still has its old Boss slow cap pending Q migration. Engine immunity, dispel and resistance interactions remain PENDING OWNER TEST.
+Decision and PvE identity rationale: Native facing hop and magical impact/slow with ten-rank authored tuning and minimal STR outgoing bridge. Boss-only slow cap and stationary physical damage replica retired.
+Expected cast/travel/impact/ongoing/cleanup behavior: Native immediate no-target hop250/.25/83 toward facing, landing impact385radius/AoE and magical damage/dispellable slow; engine owns recipients, immunity, VFX/SFX/animation and cleanup. Shard3Fury uses exact native E identity; hiddeninactive exactR compatibility, no manual Enrage or purge.
+Normal/elite/boss: native Fury Swipes uses ordinary enemy/stack rules without a custom Boss cap. Earthshock uses ordinary engine slow without a custom Boss cap. Engine immunity, dispel and resistance interactions remain PENDING OWNER TEST.
 Current versus target rank curve; free rank / point cost: 10 ranks in KV; damage 120→660, radius 385, Strength factor 1.5. Q rank gates at levels 1–10 are now declared; in-game points/HUD remain pending.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING engine review; no upgrade handler was changed in this pass.
 
@@ -110,7 +110,7 @@ Classification: PVE-CONVERT
 Native counterpart: ursa_overpower (installed native Ability2; same source snapshot).
 Decision and PvE identity rationale: Preserve Ursa’s rapid-attack window while scaling attack speed and attack charges over ten ranks; heal only from landed attacks on living enemies.
 Expected cast/travel/impact/ongoing/cleanup behavior: No-target cast applies the buff particle, attack-speed bonus, duration and charge count from KV; enemy attacks consume one charge and heal by configured share of landed damage; allied attacks do not consume charges.
-Normal/elite/boss: native Fury Swipes uses ordinary enemy/stack rules without a custom Boss cap. Earthshock still has its old Boss slow cap pending Q migration. Engine immunity, dispel and resistance interactions remain PENDING OWNER TEST.
+Normal/elite/boss: native Fury Swipes uses ordinary enemy/stack rules without a custom Boss cap. Earthshock uses ordinary engine slow without a custom Boss cap. Engine immunity, dispel and resistance interactions remain PENDING OWNER TEST.
 Current versus target rank curve; free rank / point cost: 10 ranks in KV; charges 3→10, attack speed 350→800, duration 8→15s, attack-heal share 10→28%. Rank gates at levels 1–10 are now declared; in-game points/HUD remain pending.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING engine review; no upgrade handler was changed in this pass.
 
@@ -153,7 +153,7 @@ Classification: TUNE
 Native counterpart: exact ursa_fury_swipes provider, installed build6943/revision11069754 with unchanged hero hash; paid Enfos controller is separate.
 Decision and PvE identity rationale: Restore native focused attack stacks/reset/Break preserving existing effects. Minimal paid-rank/AGI bridge; retire custom radial cleave and normal/Boss caps. No native attack or target debuff clone.
 Expected cast/travel/impact/ongoing/cleanup behavior: Native Fury Swipes owns attack damage, per-caster target stacks, reset, hit/debuff effects, immunity and cleanup. Provider remains rank0 until paid E learned then rank1; paid OnUpgrade refreshes only caster intrinsic cache.
-Normal/elite/boss: native Fury Swipes uses ordinary enemy/stack rules without a custom Boss cap. Earthshock still has its old Boss slow cap pending Q migration. Engine immunity, dispel and resistance interactions remain PENDING OWNER TEST.
+Normal/elite/boss: native Fury Swipes uses ordinary enemy/stack rules without a custom Boss cap. Earthshock uses ordinary engine slow without a custom Boss cap. Engine immunity, dispel and resistance interactions remain PENDING OWNER TEST.
 Current versus target rank curve; free rank / point cost: paid10ranks/base20→92+AGI0.15/reset6→10s; nativeRoshan reset8s/stun defaults0. No custom stack caps or cleave. Hidden provider manually0/1 without skill points; actual engine rank buttons/points remain pending.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING engine review; no upgrade handler was changed in this pass.
 
@@ -196,7 +196,7 @@ Classification: TUNE
 Native counterpart: ursa_enrage (installed native Ability6; same source snapshot).
 Decision and PvE identity rationale: Native Enrage with authored ten-rank tuning preserves self-defense and strong dispel; native Scepter owns disabled casting and explicit30..18 cooldown.
 Expected cast/travel/impact/ongoing/cleanup behavior: Native Enrage owns cast, strong dispel, buff, reduction/status resistance and expiry. No Lua purge/buff replica remains.
-Normal/elite/boss: native Fury Swipes uses ordinary enemy/stack rules without a custom Boss cap. Earthshock still has its old Boss slow cap pending Q migration. Engine immunity, dispel and resistance interactions remain PENDING OWNER TEST.
+Normal/elite/boss: native Fury Swipes uses ordinary enemy/stack rules without a custom Boss cap. Earthshock uses ordinary engine slow without a custom Boss cap. Engine immunity, dispel and resistance interactions remain PENDING OWNER TEST.
 Current versus target rank curve; free rank / point cost: 10 ranks in KV; duration 4.5→8s, reduction 60→90%, status resistance 20→60%. The shared level-50 XP/point curve is implemented; engine point/HUD behavior remains pending owner verification.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING engine review; no upgrade handler was changed in this pass.
 
@@ -239,7 +239,7 @@ Classification: TUNE
 Native counterpart: No Ursa native Ability5 (installed field is generic_hidden); explicitly an Enfos-only fifth-slot passive, separate from Dota Innate.
 Decision and PvE identity rationale: Preserve the current mobility passive as Ursa’s Enfos identity layer; remove the incorrect Innate metadata and the tooltip’s unsupported lifesteal claim; honor Break.
 Expected cast/travel/impact/ongoing/cleanup behavior: Intrinsic passive grants rank-based constant movement speed and returns zero while PassivesDisabled is active.
-Normal/elite/boss: native Fury Swipes uses ordinary enemy/stack rules without a custom Boss cap. Earthshock still has its old Boss slow cap pending Q migration. Engine immunity, dispel and resistance interactions remain PENDING OWNER TEST.
+Normal/elite/boss: native Fury Swipes uses ordinary enemy/stack rules without a custom Boss cap. Earthshock uses ordinary engine slow without a custom Boss cap. Engine immunity, dispel and resistance interactions remain PENDING OWNER TEST.
 Current versus target rank curve; free rank / point cost: 10 ranks in KV; movement bonus 8→30. Initial free rank remains granted by the separate Enfos manager; ranks 2–10 are gated at levels 2–10; in-game point/HUD behavior remains pending.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING engine review; no upgrade handler was changed in this pass.
 
@@ -312,3 +312,12 @@ AGI bridge and rank1 linked provider. Registered client extension, idempotent
 shared restore, read-only Health, no custom attacks/debuffs/stack mutation.
 See current review for exact evidence and owner pending tests. Q/W/D remain
 source work; E/R source validation does not establish engine acceptance.
+
+2026-10-04 Q source migration supersedes historical physical/no-hop/Boss-cap
+records: native magical facing hop/slow/Shard with authored10rankheader
+damage/duration/costs and server-only STR1.5 outgoing factor. ExactFury and
+hiddeninactive exactR identities, paidR numeric helper fields; compatibility
+not proof of currentnativeShard lookup. No directcast/purge/points/targetstate
+mutation. 120 focused/322hero mocks pass; actual hop, damage pipeline/stacking,
+Shard effects incl.no unlearnedR purge, coldVFX/SFX and ranks remain ownerpending.
+Q/E/R source implemented; W/D next. See currentreview/snapshot for provenance.

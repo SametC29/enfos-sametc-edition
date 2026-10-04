@@ -1,6 +1,6 @@
 # Ursa native-first migration
 
-Status: E/R SOURCE IMPLEMENTED; Q/W/D DISCOVERED / OWNER_RUNTIME PENDING.
+Status: Q/E/R SOURCE IMPLEMENTED; W/D DISCOVERED / OWNER_RUNTIME PENDING.
 Latest owner rollout permits continuing source work without live acceptance.
 
 ## Sources and boundaries
@@ -40,7 +40,7 @@ version/license/distribution permission not established.
 | R enfos_ursa_enrage | TUNE | NATIVE | Native strong dispel, mitigation/status resistance and disabled-cast Scepter; preserve authored60..90% reduction20..60% resistance4.5..8s duration/costs. Explicit ten-rank Scepter cooldown30..18 using installed endpoint interpolation. Retire generic ultimate40% spell amp/25% CDR only for owned Enfos Ursa kit, retaining item stats. No copied purge/buff/wrapper. |
 | D enfos_ursa_ursa_minor | TUNE | NATIVE Maul + minimal Enfos mobility | Keep paid stableD/free1/ranks10/49points. Native rank1 Maul separately owns1.75% currentHP attack bonus; D retains8..30 movement speed, no duplicateHP damage. Verify provider grant/hidden slot/Break/client/restore before mutation. No deprecated Bear Down facet or talents. |
 
-Rows record pre-mutation decisions. E/R are now source-implemented; the remaining
+Rows record pre-mutation decisions. Q/E/R are now source-implemented; the remaining
 slots are planned work. None is engine-certified. Preserve
 Luna and contributor Lich work; no shared Boss/wave/respawn rewrite. Source
 changes are isolated atomic local commits, no remote push/deploy/Workshop.
@@ -130,3 +130,57 @@ E lookup while preserving all free-rank/respawn/49point assertions. Actual nativ
 refresh preserving target stacks, killing hits, two Ursas, Break existing
 stacks, QShard and cold native VFX/SFX remain PENDING OWNER TEST. Next: Q
 Earthshock native linked identities and damage pipeline; W/D pending too.
+
+## Q final decision before mutation
+
+TUNE, native Earthshock alias with authored ten-rank header damage/duration/
+costs/CD, negative slow, native facing250 hop/.25duration/83height,385 radius
+withAoE metadata, magical/immunity/dispellable/instant/native animation and
+feedback. Remove physical Lua damage, manual slow/particle and Boss-only cap.
+Native Shard field supplies3 Fury stacks and old shard_enrage_duration remains
+installed empty/default0; no invented Enrage duration. Existing exactFury
+provider handles its linked identity. Installed English AbilityDraft note
+requires Enrage; current nativeShard token namesFury instead. Their actual
+C++ relation cannot be proved from text/API. A hidden inactive exactEnrage
+rank1 compatibility provider is added only for owned Q/R to satisfy identity,
+with scoped raw paidR fields (0untillearned); no manualcast, grant, event,
+replica or second displayed R. This is an explicit compatibility decision,
+not proof of a current C++ required lookup or abilitydraftnote freshness.
+Native aliasR remains the sole player cast; actual native linkage is pending.
+
+Q topAbilityDamage is not a special-block override. Add STR1.5 as a scoped
+server-only outgoing percentage against GetAbilityDamage, like the reviewed
+TideR source pattern; no second damage event. This is additive numerator
+math, not proof of engine property stacking/mitigation/damage attribution.
+Client returns0 before nativegetter. Native effects remain engine-owned.
+Read-only Health exposes Q header query/association and compatibility rank.
+No new timer, scan, cast wrapper or gameplay diagnostic mutations.
+
+## Q source implementation and acceptance
+
+Native Earthshock now owns hop/impact/slow/Shard/immunity/cleanup. Authored
+headerDamage120..660,Duration2.5..4.5,negativeSlow-20..-56,CD11..5,mana75..150
+retained; native250/.25/83hop,385radius/AoE,immediatecast,magical/dispellable
+metadata explicit. No talent/charge grant; charges0,restoretime10rank complete.
+Old LuaQ class/manualeffect/damage/debuff and Boss-only slowcap retired.
+Existing native-scoped persistent bridge supplies server-only STR1.5 ratio
+against headerGetAbilityDamage; client returns0 beforegetter, no duplicate hit.
+Live STR at native impact replaces oldcast-time STRsnapshot. Header duration
+localization support renders canonical curve with no duplicate specialdata.
+Four languages/12mirrors describe native facing hop/magical/slow/Shard3Fury.
+Existing particle/soundbank retained; no resource/runtime certification.
+
+ExactFury identity and optionalownedQ/R hidden inactive rank1Enrage identity
+restore once; rawnativeR helper keys read paidR rank (0untrained). No player
+R replacement/secondcast, no directPurge/OnSpellStart/targetstack calls/points.
+CurrentShard enrageDuration remains installedempty(default0), no invented
+Enrage grant. The native note/code linkage and zero-untrained nofreepurge
+condition require owner evidence; compatibility constructor is not proof
+of those outcomes. Health prints QdamageGetter/serversecondaryassociation
+and exactR rank read-only. Query outputs are not measured damage/Shard proof.
+
+120 affected source/client/locale regressions and322 hero mock regressions
+pass. Fullsourcechecks pass with0failures. Owner: native hop centre/root/path/immunity,
+actualSTR damage/mitigation/itemamp/property stacking, learned/unlearnedR/E
+Shard3Fury and no undescribedEnrage/purge, r1/r10 cost/CD/slow, coldVFX/SFX/
+lifecycle/reconnect/densewaveVConsole. W/D source work remains; nextW Overpower.

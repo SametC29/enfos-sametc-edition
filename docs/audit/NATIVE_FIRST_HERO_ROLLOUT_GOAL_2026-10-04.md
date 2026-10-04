@@ -143,3 +143,12 @@ rank cache refresh,15client classes and read-only Health verified in fixtures.
 Native cached AGI/readpath/target-state/rank/Shard/presentation remain owner
 pending. Next source: Q Earthshock linkedidentities and native damage pipeline;
 W/D also pending. Do not advance to Anti-Mage before those source units.
+
+2026-10-04 Ursa Q source progression: native Earthshock facing hop, magical
+damage, slow and Shard replace the copied physical AoE. Authored ten-rank
+header curves and server-scoped STR factor retained. Exact Enrage identity
+helper is a documented compatibility hypothesis, not proven native lookup;
+no manual cast or duplicate damage. Read-only Health reports Q damage and
+linked identity. 120 affected checks,322 hero mocks and full source checks
+pass with0failures. Native damage/Shard/untrained R and presentation remain
+OWNER_RUNTIME PENDING. Next source unit: W Overpower, then D Maul/mobility.
