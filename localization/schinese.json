@@ -1445,6 +1445,8 @@
     "DOTA_Tooltip_ability_enfos_sf_requiem_of_souls_scepter_description": "原生魂之挽歌会返回，造成伤害并治疗影魔。冷却时间减少30秒，最低为1秒。",
     "DOTA_Tooltip_ability_enfos_sf_shadowraze_shard_description": "原生毁灭阴影减速敌人，命中敌方英雄时缩短冷却时间。",
     "DOTA_Tooltip_Ability_enfos_bb_bristleback_scepter_description": "解锁钢毛后背主动技能：向选定方向释放五次针刺扫射。冷却24秒；魔法消耗125。不提高毛团伤害或缩短其冷却。",
-    "DOTA_Tooltip_Ability_enfos_bb_native_hairball": "毛团"
+    "DOTA_Tooltip_Ability_enfos_bb_native_hairball": "毛团",
+    "DOTA_Tooltip_Ability_enfos_slark_dark_pact": "黑暗契约",
+    "DOTA_Tooltip_Ability_enfos_slark_dark_pact_Description": "{{delay}}秒后，在{{radius}}范围释放{{total_pulses}}次脉冲，总计造成{{total_damage}} + 敏捷 × {{agility_factor}}魔法伤害，并对自身负面效果进行强驱散。脉冲间隔{{pulse_interval}}秒。斯拉克自身也承受{{self_damage_pct}}%的伤害。"
   }
 }

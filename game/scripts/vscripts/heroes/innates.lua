@@ -19,6 +19,9 @@ function Innates:Apply(hero)
     if id=='enfos_bb_warpath' then
         require('abilities/heroes/bristleback/integration').Restore(hero)
     end
+    if id=='enfos_slark_fish_bait' then
+        require('abilities/heroes/slark/integration').Restore(hero)
+    end
     return true
 end
 return Innates

@@ -214,7 +214,6 @@ local modifier_list = {
     'modifier_enfos_pudge_dismember_channel',
     'modifier_enfos_pudge_dismember_target',
     'modifier_enfos_pudge_meat_shield_passive',
-    'modifier_enfos_slark_dark_pact_buff',
     'modifier_enfos_slark_pounce_leash',
     'modifier_enfos_slark_pounce_dash',
     'modifier_enfos_slark_essence_shift_passive',
@@ -335,6 +334,7 @@ _G.ENFOS_PVE_MODIFIER_LIST = modifier_list
 local isolatedModifiers = require('abilities/heroes/lich/init')
 require('abilities/heroes/nevermore/modifier_links')
 require('abilities/heroes/bristleback/modifier_links')
+require('abilities/heroes/slark/modifier_links')
 for name, path in pairs(require('abilities/heroes/vengefulspirit/init')) do
     isolatedModifiers[name] = path
 end
@@ -5366,46 +5366,6 @@ end
 -- ----------------------------------------------------------------------------
 -- SLARK: DARK PACT, POUNCE, ESSENCE SHIFT, SHADOW DANCE, FISH BAIT
 -- ----------------------------------------------------------------------------
-
-enfos_slark_dark_pact=class({})
-function enfos_slark_dark_pact:OnSpellStart()
-    local c = self:GetCaster()
-    c:EmitSound('Hero_Slark.DarkPact.Cast')
-    effect('particles/units/heroes/hero_slark/slark_dark_pact_pulses.vpcf', c)
-    local count = value(self, 'pulse_count')
-    local interval = value(self, 'tick_interval')
-    c:AddNewModifier(c, self, 'modifier_enfos_slark_dark_pact_buff', { duration = (count > 0 and count or 10) * (interval > 0 and interval or 0.15) })
-end
-
-modifier_enfos_slark_dark_pact_buff=class({})
-function modifier_enfos_slark_dark_pact_buff:OnCreated()
-    if not IsServer() then return end
-    self.ticks = 0
-    local interval = value(self:GetAbility(), 'tick_interval')
-    self:StartIntervalThink(interval > 0 and interval or 0.15)
-end
-function modifier_enfos_slark_dark_pact_buff:OnIntervalThink()
-    local c = self:GetParent()
-    local a = self:GetAbility()
-    if c.Purge then c:Purge(false, true, false, true, true) end
-
-    self.ticks = (self.ticks or 0) + 1
-    local base = (a and value(a, 'damage')) or 200
-    local agi = get_agi(c)
-    local interval = value(a, 'tick_interval')
-    if interval <= 0 then interval = 0.15 end
-    local pulse_count = value(a, 'pulse_count')
-    if pulse_count <= 0 then pulse_count = 10 end
-    local agility_factor = value(a, 'agility_factor')
-    local tick_dmg = (base + (agi * agility_factor)) / pulse_count
-    local radius = value(a, 'radius')
-    if radius <= 0 then radius = 350 end
-
-    for _, u in ipairs(enemies(c, c:GetAbsOrigin(), radius)) do
-        damage(a, u, tick_dmg, DAMAGE_TYPE_MAGICAL)
-    end
-    if self.ticks >= pulse_count then self:Destroy() end
-end
 
 enfos_slark_pounce=class({})
 function enfos_slark_pounce:OnSpellStart()

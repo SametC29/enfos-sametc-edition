@@ -1445,6 +1445,8 @@
     "DOTA_Tooltip_ability_enfos_sf_requiem_of_souls_scepter_description": "Стандартные волны Requiem возвращаются, наносят урон и исцеляют Shadow Fiend. Перезарядка уменьшается на 30 секунд, минимум — 1 секунда.",
     "DOTA_Tooltip_ability_enfos_sf_shadowraze_shard_description": "Стандартный Shadowraze замедляет врагов и сокращает перезарядку при попадании по вражескому герою.",
     "DOTA_Tooltip_Ability_enfos_bb_bristleback_scepter_description": "Открывает активную способность Bristleback: пять Quill Spray в выбранном направлении. Перезарядка 24 сек.; мана 125. Не усиливает урон Hairball и не сокращает его перезарядку.",
-    "DOTA_Tooltip_Ability_enfos_bb_native_hairball": "Комок шерсти"
+    "DOTA_Tooltip_Ability_enfos_bb_native_hairball": "Комок шерсти",
+    "DOTA_Tooltip_Ability_enfos_slark_dark_pact": "Тёмный пакт",
+    "DOTA_Tooltip_Ability_enfos_slark_dark_pact_Description": "Через {{delay}} сек. выпускает {{total_pulses}} импульсов в радиусе {{radius}}, нанося суммарно {{total_damage}} + Ловкость × {{agility_factor}} магического урона и применяя сильное развеивание отрицательных эффектов. Интервал {{pulse_interval}} сек. Slark также получает {{self_damage_pct}}% этого урона."
   }
 }

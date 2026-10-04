@@ -9,7 +9,7 @@ Hero: `npc_dota_hero_slark`; role: Fighter. Progression target: hero level 50 / 
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_slark_dark_pact` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | slark_dark_pact |
+| 1 | `enfos_slark_dark_pact` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE | NOT_EXPLICIT | slark_dark_pact |
 | 2 | `enfos_slark_pounce` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | slark_pounce |
 | 3 | `enfos_slark_essence_shift` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | slark_essence_shift |
 | 4 | `enfos_slark_shadow_dance` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | slark_shadow_dance |
@@ -56,6 +56,20 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 <!-- END GENERATED INVENTORY -->
 
 ## Human decisions and runtime evidence (preserve on refresh)
+
+2026-10-04 native-first reopening: use the [current slot matrix/source
+review](../../audit/SLARK_NATIVE_FIRST_REVIEW_2026-10-04.md) and [installed
+build6943 ability/localization snapshot](../../audit/SLARK_NATIVE_SOURCE_2026-10-04.json).
+Historical custom implementations and mocks below do not certify native behavior.
+Q is classified TUNE and now delegates to native slark_dark_pact, with one
+AGI special-value modifier rather than a custom pulse/dispelling loop. It preserves
+authored ten-rank totals/radius/cost/CD, restores the native1.5-second delay and
+30% blood cost, and tunes native pulses to the existing0.15-second interval.
+The shared spawn service restores only the scaler; no points or native providers
+are added. Both client/server register the class separately from server services.
+EN/TR/RU/zh-CN descriptions include delay, blood cost and configured total.
+Three native/source/scaling tests pass; actual C++ ten-rank reads, damage, purge,
+VFX/SFX and lifecycle remain PENDING OWNER TEST. W/E/R/D source work remains open.
 
 2026-09-30 implementation record: all five Enfos abilities now have ten KV ranks; Fish Bait is separated from Dota `Innate`. Installed source mapping: Dark Pact=`slark_dark_pact` (Ability1), Pounce=`slark_pounce` (Ability2), Essence Shift=`slark_essence_shift` (Ability5), Shadow Dance=`slark_shadow_dance` (Ability6), Fish Bait adapts `slark_saltwater_shiv` (Ability3). Dark Pact now uses KV pulse count/timing/radius and a verified Dota particle; Pounce now moves over timed 0.03-second steps instead of teleporting, uses start/trail/landing/leash effects and a true `MODIFIER_STATE_TETHERED` debuff; Essence Shift reads stack/agi/duration values and honors Break; Shadow Dance owns and cleans its persistent VFX; Fish Bait now reads its proc/cleave/armor values and applies capped armor stacks. Mock coverage passes for Q/W/Essence/Fish Bait. Eight used Slark particles are present in installed ClientVersion 6941 VPK. Live dash collision, particle CP/size, audio and PvE/boss balance remain PENDING.
 

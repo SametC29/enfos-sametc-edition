@@ -5451,31 +5451,6 @@ test('Slark Essence Shift stacks Agility on attack landed', function()
         'Essence Shift must not trigger or grant its bonus to illusions')
 end)
 
-test('Slark Dark Pact pulses its configured total damage in the configured radius', function()
-    applied_damages = {}
-    local slark = create_mock_unit('npc_dota_hero_slark', 2, Vector(0, 0, 0))
-    slark.agility = 20
-    local near = create_mock_unit('creep_dark_pact_near', 3, Vector(100, 0, 0), 1000)
-    local far = create_mock_unit('creep_dark_pact_far', 3, Vector(500, 0, 0), 1000)
-    mock_world_units = { slark, near, far }
-    local ability = enfos_slark_dark_pact()
-    ability.GetCaster = function() return slark end
-    ability.GetSpecialValueFor = function(_, key)
-        return ({ damage=100, radius=200, tick_interval=0.1, pulse_count=10, agility_factor=1 })[key] or 0
-    end
-    ability:OnSpellStart()
-    local modifier = slark:FindModifierByName('modifier_enfos_slark_dark_pact_buff')
-    modifier.GetParent = function() return slark end
-    modifier.GetAbility = function() return ability end
-    modifier.StartIntervalThink = function() end
-    modifier.Destroy = function(self) self.finished = true end
-    modifier:OnCreated()
-    for _ = 1, 10 do modifier:OnIntervalThink() end
-    assert(modifier.finished and #applied_damages == 10)
-    assert(applied_damages[1].damage == 12, 'Each of 10 pulses applies one tenth of configured total')
-    assert(far.hp == 1000, 'Dark Pact must respect the configured radius')
-end)
-
 test('Slark Pounce performs a visible timed dash and applies a true capped leash on impact', function()
     applied_damages = {}
     local slark = create_mock_unit('npc_dota_hero_slark', 2, Vector(0, 0, 0))

@@ -1505,6 +1505,8 @@
     "DOTA_Tooltip_ability_enfos_sf_requiem_of_souls_scepter_description": "Native Requiem lines return, dealing damage and healing Shadow Fiend. Reduces cooldown by 30 seconds, with a minimum of 1 second.",
     "DOTA_Tooltip_ability_enfos_sf_shadowraze_shard_description": "Native Shadowraze slows enemies and reduces cooldown when it hits an enemy hero.",
     "DOTA_Tooltip_Ability_enfos_bb_bristleback_scepter_description": "Unlocks Bristleback’s active: releases five Quill Sprays in the chosen direction. Cooldown 24s; mana 125. No extra Hairball damage or cooldown bonus.",
-    "DOTA_Tooltip_Ability_enfos_bb_native_hairball": "Hairball"
+    "DOTA_Tooltip_Ability_enfos_bb_native_hairball": "Hairball",
+    "DOTA_Tooltip_Ability_enfos_slark_dark_pact": "Dark Pact",
+    "DOTA_Tooltip_Ability_enfos_slark_dark_pact_Description": "After {{delay}}s, releases {{total_pulses}} pulses within {{radius}}, dealing a total of {{total_damage}} + Agility × {{agility_factor}} magical damage and strongly dispelling negative effects. Pulses occur every {{pulse_interval}}s. Slark also takes {{self_damage_pct}}% of the damage."
   }
 }

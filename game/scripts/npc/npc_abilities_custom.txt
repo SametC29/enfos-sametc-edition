@@ -2836,26 +2836,30 @@
 
 	"enfos_slark_dark_pact"
 	{
-		"BaseClass"					"ability_lua"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"BaseClass"					"slark_dark_pact"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_MAGICAL"
 		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
 		"AbilityTextureName"		"slark_dark_pact"
 		"RequiredLevel"	"1"
 		"LevelsBetweenUpgrades"	"1"
-		"AbilityCastPoint"			"0.0"
+		"AbilityCastAnimation" "ACT_INVALID"
+		"AbilitySound" "Hero_Slark.DarkPact.Cast"
+		"AbilityCastPoint"			"0.001"
 		"AbilityCooldown"			"9 8.6 8.1 7.7 7.2 6.8 6.3 5.9 5.4 5"
 		"AbilityManaCost"			"60 64 69 73 78 82 87 91 96 100"
 		"MaxLevel"					"10"
 		"AbilityValues"
 		{
-			"damage" "100 150 200 250 300 350 400 450 500 550"
+			"total_damage" "100 150 200 250 300 350 400 450 500 550"
 			"radius" "350"
-			"tick_interval" "0.15"
-			"pulse_count" "10"
+			"pulse_interval" "0.15"
+			"total_pulses" "10"
+			"delay" "1.5"
+			"pulse_duration" "1.5"
+			"self_damage_pct" "30"
 			"agility_factor" "1.0"
 		}
-		"ScriptFile"				"abilities/pve_kits"
 	}
 
 	"enfos_slark_pounce"

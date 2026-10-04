@@ -695,7 +695,7 @@
     "DOTA_Tooltip_Ability_enfos_bb_hairball": "Kıl Yumağı (Hairball)",
     "DOTA_Tooltip_Ability_enfos_bb_hairball_Description": "Seçilen noktaya bir tüy yumağı fırlatır. İsabette {{radius}} alanına {{goo_stacks}} Goo yükü ve {{quill_stacks}} diken yükü uygular; Goo ve Quill Spray değerlerini kullanır.",
     "DOTA_Tooltip_Ability_enfos_slark_dark_pact": "Karanlık Anlaşma (Dark Pact)",
-    "DOTA_Tooltip_Ability_enfos_slark_dark_pact_Description": "{{pulse_count}} nabız boyunca çevrendeki {{radius}} menzilli düşmanlara toplam {{damage}} + çevikliğin kadar büyü hasarı verir; her nabızda üzerindeki etkileri temizler.",
+    "DOTA_Tooltip_Ability_enfos_slark_dark_pact_Description": "{{delay}} sn sonra {{radius}} alanında {{total_pulses}} nabız salar; toplam {{total_damage}} + Çeviklik × {{agility_factor}} büyü hasarı verir ve olumsuz etkileri güçlü arındırmayla temizler. Nabız aralığı {{pulse_interval}} sn. Slark da hasarın %{{self_damage_pct}} kadarını alır.",
     "DOTA_Tooltip_Ability_enfos_slark_pounce": "Üstüne Atlama (Pounce)",
     "DOTA_Tooltip_Ability_enfos_slark_pounce_Description": "İleri doğru {{pounce_distance}} birim atılır. Varışta yakındaki düşmanlara {{damage}} + çevikliğinin %80’i kadar fiziksel hasar verir ve onları {{leash_duration}} saniye bağlar. Boss bağı {{boss_leash_duration}} saniyedir.",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift": "Öz Değişimi (Essence Shift)",
