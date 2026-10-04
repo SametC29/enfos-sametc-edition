@@ -17,7 +17,13 @@ for (const file of manifest.files) {
   if (file.path.includes('..') || path.isAbsolute(file.path)) throw new Error('Invalid payload path');
   const bytes = await archive.read(file.path);
   if (bytes.length !== file.size || hash(bytes) !== file.sha256) throw new Error('Archive data mismatch: ' + file.path);
-  if (hash(fs.readFileSync(path.join(root, 'game', file.path))) !== file.sha256) throw new Error('Game changed; rebuild package: ' + file.path);
+  let source = fs.readFileSync(path.join(root, 'game', file.path));
+  // The release builder strips the Tools-only arena from the addon manifest.
+  // Compare that production view while checking every other source byte exactly.
+  if (file.path === 'addoninfo.txt') {
+    source = Buffer.from(source.toString('utf8').replace(/("maps"\s+")[^"]*"/,'$1enfos"').replace(/\s*"enfos_test"\s*\{[^}]*\}/,''));
+  }
+  if (hash(source) !== file.sha256) throw new Error('Game changed; rebuild package: ' + file.path);
 }
 const map = JSON.parse(fs.readFileSync(path.join(root, 'game/map-theme-build.json')));
 for (const file of map.files) if (hash(await archive.read(file.path)) !== file.sha256) throw new Error('Map integrity failure: ' + file.path);
