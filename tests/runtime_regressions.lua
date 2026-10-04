@@ -113,7 +113,7 @@ test('solo softens opening enemies and retains hero empowerment while difficulty
  function unit:SetBaseDamageMin(v) self.lo=v end
  function unit:SetBaseDamageMax(v) self.hi=v end
  B.Apply(unit,cfg,1)
- assert(unit.hp==273 and unit.currentHP==273 and unit.lo==12 and unit.hi==16)
+ assert(unit.hp==315 and unit.currentHP==315 and unit.lo==12 and unit.hi==16)
  local h,d=B.Multipliers(cfg,30);assert(h==1 and d==1)
  for wave=1,60 do local hp,dmg=B.Multipliers(cfg,wave);assert(hp>=0.75 and hp<=1 and dmg>=0.70 and dmg<=1) end
  assert(cfg.heroPower.health==600 and cfg.heroPower.spellAmp==15 and cfg.heroPower.cooldown==10)

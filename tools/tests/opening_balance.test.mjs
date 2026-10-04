@@ -28,8 +28,8 @@ test('normal creep health increases without changing damage or Boss pressure',()
  local B=require('waves/balance_config')
  local function unit(boss)return {isBoss=boss,hp=120,lo=10,hi=11,GetMaxHealth=function(s)return s.hp end,SetBaseMaxHealth=function()end,SetMaxHealth=function(s,v)s.hp=v end,SetHealth=function()end,GetBaseDamageMin=function(s)return s.lo end,GetBaseDamageMax=function(s)return s.hi end,SetBaseDamageMin=function(s,v)s.lo=v end,SetBaseDamageMax=function(s,v)s.hi=v end}end
  for _,counts in ipairs({{1,0},{2,0},{1,1},{5,5}})do
-  local cfg=B.Snapshot('normal',counts[1],counts[2]);assert(cfg.regularHP==1.3 and cfg.matchXPVersion)
-  local u=unit(false);B.Apply(u,cfg,1);assert(u.hp==(cfg.solo and 117 or 156));assert(u.lo==(cfg.solo and 7 or 10))
+  local cfg=B.Snapshot('normal',counts[1],counts[2]);assert(cfg.regularHP==1.5 and cfg.matchXPVersion)
+  local u=unit(false);B.Apply(u,cfg,1);assert(u.hp==(cfg.solo and 135 or 180));assert(u.lo==(cfg.solo and 7 or 10))
   local old={};for k,v in pairs(cfg)do old[k]=v end;old.regularHP=nil
   local a,b=unit(true),unit(true);B.Apply(a,cfg,5);B.Apply(b,old,5);assert(a.hp==b.hp and a.lo==b.lo)
   local legacy=unit(false);B.Apply(legacy,old,1);assert(legacy.hp==(cfg.solo and 90 or 120))

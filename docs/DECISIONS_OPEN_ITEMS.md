@@ -583,4 +583,4 @@ innate. Source implementation and all engine acceptance remain pending.
 
 ## Opening balance revision — 2026-10-04
 
-Owner feedback supersedes the old first-five transition costs: 150 / 300 / 450 / 650 / 850 XP, then the existing later-level costs resume. Level 50 cumulative threshold becomes 94,470. Normal creep HP gains a snapshotted 30% increase; damage and Boss pressure stay unchanged. Provisional values require multiplayer runtime testing. See audit/OPENING_BALANCE_2026-10-04.md.
+Owner feedback supersedes the old first-five transition costs: 150 / 300 / 450 / 650 / 850 XP, then the existing later-level costs resume. Level 50 cumulative threshold becomes 94,470. Normal creep HP gains a snapshotted 50% increase; damage and Boss pressure stay unchanged. Provisional values require multiplayer runtime testing. See audit/OPENING_BALANCE_2026-10-04.md.
