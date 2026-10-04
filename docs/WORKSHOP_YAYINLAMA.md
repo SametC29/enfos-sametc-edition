@@ -1,5 +1,7 @@
 # Steam Workshop — ilk yayın ve güncellemeler
 
+Güncel durum (2026-10-04): **V1.0.16 takım seçimi düzeltmesi başarıyla yüklendi; resmi Steam kaydı herkese açık V1.0.16 gösteriyor. Temiz anonim indirme henüz V1.0.15 veriyor; düzeltmenin abonelere teslimi bekliyor.** İzole kod ve paket kontrolleri geçti. İki oyunculu oyun içi kabul bekliyor. [Yayın kanıtı](audit/WORKSHOP_V1.0.16_2026-10-04.md).
+
 Güncel durum (2026-10-04): **V1.0.15 yüklemesi başarılı ve resmi Steam API kaydı
 herkese açık V1.0.15 başlığını gösteriyor. Temiz anonim indirme hâlâ V1.0.14
 paketini veriyor; V1.0.15 dosyalarının oyunculara teslimi doğrulanmadı.**
