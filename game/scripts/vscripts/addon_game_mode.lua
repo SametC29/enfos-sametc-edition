@@ -272,6 +272,13 @@ function Precache(context)
 	PrecacheResource("particle", "particles/units/heroes/hero_bristleback/bristleback_quill_spray.vpcf", context)
 	PrecacheResource("particle", "particles/units/heroes/hero_bristleback/bristleback_viscous_nasal_goo.vpcf", context)
 	PrecacheResource("particle", "particles/units/heroes/hero_bristleback/bristleback_warpath.vpcf", context)
+	-- Native linked providers are added after spawn; preload their verified
+	-- Hairball and rear-damage parents as well as the existing Goo/Quill assets.
+	for _,particle in ipairs({"bristleback_hairball","bristleback_hairball_trail",
+		"bristleback_hairball_splat","bristleback_hairball_model",
+		"bristleback_back_dmg","bristleback_back_lrg_dmg"}) do
+		PrecacheResource("particle","particles/units/heroes/hero_bristleback/"..particle..".vpcf",context)
+	end
 	PrecacheResource("particle", "particles/units/heroes/hero_slark/slark_dark_pact_pulses.vpcf", context)
 	PrecacheResource("particle", "particles/units/heroes/hero_slark/slark_shadow_dance.vpcf", context)
 	PrecacheResource("particle", "particles/units/heroes/hero_slark/slark_pounce_start.vpcf", context)

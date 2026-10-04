@@ -42,7 +42,8 @@ test('all 40 innates receive only their initial free rank; respawn cannot reset 
    GetUnitName=function() return name end,FindAbilityByName=function(_,key)
     if key==id then return a end
     assert((name=='npc_dota_hero_luna' and (key=='enfos_luna_lucent_beam' or key=='enfos_luna_lunar_blessing'))
-     or (name=='npc_dota_hero_nevermore' and key=='enfos_sf_shadowraze'))
+     or (name=='npc_dota_hero_nevermore' and key=='enfos_sf_shadowraze')
+     or (name=='npc_dota_hero_bristleback' and key=='enfos_bb_viscous_nasal_goo'))
     return nil -- This progression-only fixture has no native kit integration.
    end}
   assert(service:Apply(h) and a.level==1);a.level=4;service:Apply(h);assert(a.level==4);count=count+1

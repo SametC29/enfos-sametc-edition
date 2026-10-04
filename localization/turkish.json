@@ -687,13 +687,13 @@
     "DOTA_Tooltip_Ability_enfos_bb_viscous_nasal_goo": "Yapışkan Burun Salgısı (Viscous Nasal Goo)",
     "DOTA_Tooltip_Ability_enfos_bb_viscous_nasal_goo_Description": "Hedefi {{duration}} sn boyunca zırh başına yük için {{armor_reduction}} azaltır ve {{base_slow_pct}}% + her yük için {{slow_per_stack}}% yavaşlatır. En fazla {{max_stacks}} yük birikir.",
     "DOTA_Tooltip_Ability_enfos_bb_quill_spray": "Diken Püskürtme (Quill Spray)",
-    "DOTA_Tooltip_Ability_enfos_bb_quill_spray_Description": "{{radius}} menzildeki düşmanlara {{base_damage}} + Kuvvet × {{strength_damage_factor}} fiziksel hasar verir. Hedefteki her önceki Diken yükü hasarı {{stack_damage}} + Kuvvet × {{stack_strength_factor}} artırır. Yükler {{debuff_duration}} sn sürer ve {{max_stacks}} ile sınırlıdır.",
+    "DOTA_Tooltip_Ability_enfos_bb_quill_spray_Description": "{{radius}} alanına dikenler salarak {{base_damage}} + Güç × {{strength_damage_factor}} fiziksel hasar verir. Hedefteki her diken yükü {{stack_damage}} + Güç × {{stack_strength_factor}} hasar ekler; vuruş başına sınır {{max_damage}}. Yükler {{debuff_duration}} sn sürer.",
     "DOTA_Tooltip_Ability_enfos_bb_bristleback": "Dikenli Sırt (Bristleback)",
     "DOTA_Tooltip_Ability_enfos_bb_bristleback_Description": "Önden alınan hasarı azaltmaz. Yanlardan gelen hasarı %{{side_damage_reduction}}, arkadan gelen hasarı %{{back_damage_reduction}} azaltır (yan açı {{side_angle}}°, arka açı {{rear_angle}}°). Arkadan toplam {{quill_damage_threshold}} hasar alınca Quill Spray tetikler. Kırılma pasifi devre dışı bırakır.",
     "DOTA_Tooltip_Ability_enfos_bb_warpath": "Savaş Yolu (Warpath)",
     "DOTA_Tooltip_Ability_enfos_bb_warpath_Description": "Her yetenek kullanımı {{stack_duration}} sn süren bir yük kazandırır. Yük başına {{damage_per_stack}} saldırı hasarı ve %{{move_speed_per_stack}} hareket hızı verir; en fazla {{max_stacks}} yük birikir. Kırılma pasifi devre dışı bırakır.",
     "DOTA_Tooltip_Ability_enfos_bb_hairball": "Kıl Yumağı (Hairball)",
-    "DOTA_Tooltip_Ability_enfos_bb_hairball_Description": "Hedef noktadaki {{radius}} yarıçapında düşmanlara iki Yapışkan Burun Salgısı yükü uygular ve Quill Spray’i aynı noktada patlatır.",
+    "DOTA_Tooltip_Ability_enfos_bb_hairball_Description": "Seçilen noktaya bir tüy yumağı fırlatır. İsabette {{radius}} alanına {{goo_stacks}} Goo yükü ve {{quill_stacks}} diken yükü uygular; Goo ve Quill Spray değerlerini kullanır.",
     "DOTA_Tooltip_Ability_enfos_slark_dark_pact": "Karanlık Anlaşma (Dark Pact)",
     "DOTA_Tooltip_Ability_enfos_slark_dark_pact_Description": "{{pulse_count}} nabız boyunca çevrendeki {{radius}} menzilli düşmanlara toplam {{damage}} + çevikliğin kadar büyü hasarı verir; her nabızda üzerindeki etkileri temizler.",
     "DOTA_Tooltip_Ability_enfos_slark_pounce": "Üstüne Atlama (Pounce)",
@@ -1077,7 +1077,6 @@
     "DOTA_Tooltip_Ability_enfos_zeus_thundergods_wrath_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_wd_death_ward_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris_shard_description": "Verilen iyileştirme +%25.",
-    "DOTA_Tooltip_Ability_enfos_bb_hairball_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_bb_warpath_shard_description": "+350 can. Düşmandan gelen hasarın %15’ini fiziksel olarak yansıtır.",
     "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait_shard_description": "+35 saldırı hızı. Saldırılar hedefin hareket hızını %25, saldırı hızını 25 azaltır (3 sn).",
@@ -1838,6 +1837,8 @@
     "DOTA_Tooltip_ability_enfos_sf_requiem_of_souls_SummaryDescription": "Biriktirilen ruhlara göre doğal Requiem dalgaları salar. Her giden dalga {{damage_per_wave}} + {{intelligence_multiplier}} × Zekâ büyü hasarı verir. Doğal korku ve ölümde salınım uygulanır.",
     "DOTA_Tooltip_Ability_enfos_sf_shadowraze_shard_description": "Doğal Shadowraze düşmanları yavaşlatır ve düşman kahramana isabet ettiğinde bekleme süresini azaltır.",
     "DOTA_Tooltip_ability_enfos_sf_requiem_of_souls_scepter_description": "Doğal Requiem dalgaları geri döner, hasar verir ve Shadow Fiend’i iyileştirir. Bekleme süresini 30 saniye azaltır; süre en az 1 saniyedir.",
-    "DOTA_Tooltip_ability_enfos_sf_shadowraze_shard_description": "Doğal Shadowraze düşmanları yavaşlatır ve düşman kahramana isabet ettiğinde bekleme süresini azaltır."
+    "DOTA_Tooltip_ability_enfos_sf_shadowraze_shard_description": "Doğal Shadowraze düşmanları yavaşlatır ve düşman kahramana isabet ettiğinde bekleme süresini azaltır.",
+    "DOTA_Tooltip_Ability_enfos_bb_bristleback_scepter_description": "Bristleback aktifini açar: seçilen yöne beş Quill Spray salar. Bekleme 24 sn; mana 125. Hairball için ek hasar veya bekleme bonusu vermez.",
+    "DOTA_Tooltip_Ability_enfos_bb_native_hairball": "Kıl Yumağı (Hairball)"
   }
 }

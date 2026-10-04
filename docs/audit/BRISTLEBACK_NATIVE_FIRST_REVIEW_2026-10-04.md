@@ -1,6 +1,7 @@
 # Bristleback native-first source review
 
-Status: SOURCE REVIEW IN PROGRESS; all engine acceptance remains PENDING.
+Status: NATIVE SOURCE IMPLEMENTED; final validation recorded below.
+All engine acceptance remains PENDING; this is not whole-hero runtime certification.
 Owner defers live testing and authorizes sequential source work. This record
 supersedes the older blanket PVE-CONVERT classification, not its historical tests.
 
@@ -113,3 +114,81 @@ Reference corpus search for bristleback_warpath found Aghanim's Pathfinders
 lines 226/231 and `scripts/npc/heroes/bristleback/bristleback.txt` line 12:
 it assigns a custom Lua Warpath. REFERENCE_ONLY; no license-verified import,
 no copied code/assets and no claim that its implementation is current native.
+
+## Linked Q/W/E/R source implementation, 2026-10-04
+
+The former instant damage/debuff/retaliation implementation is removed. Four
+paid ten-rank controllers dispatch Q/W/E/R into native code; they do not call
+ApplyDamage, FindUnitsInRadius, create particles or implement Goo/Quill modifiers.
+Native Q/W/E use exact native IDs so linked callbacks can resolve them; engine
+read-path and fixed-name behavior still require owner verification. Hairball has
+one reviewed native alias `enfos_bb_native_hairball`, rank one, hidden and with
+IsGrantedByShard explicitly zero. Hairball is already paid R, so buying Shard
+must not expose another free active. Native R's linked Q/W providers remain
+the exact Dota IDs. Native providers stay rank one (E zero until trained), while
+a single server/client special-value bridge reads raw paid ranks 1–10. Direct
+native callbacks retain ordinary targets, projectile/impact, immunity, armor,
+stack ownership/lifetime, VFX/SFX and cleanup; none is ENGINE_PASS here.
+
+Goo's base armor is zero and per-stack armor uses the prior authored curve;
+slow/duration/cap preserve numerical intent. Quill damage and stack damage retain
+the previous Strength coefficients through native special queries. Restored
+native max_damage=500 replaces the custom ten-stack cap; this is an explicit
+native-first balance change. Native projectile speeds remain untouched. Hairball
+keeps authored radius/cooldown and correctly describes two then three Goo stacks.
+Its GetAOERadius returns the paid radius for the cursor reticle. Native Snot
+Rocket goo_radius is pinned to zero, and no new innate/talent/facet bonus is added.
+
+E's dynamic native behavior exposes Scepter activation, with native five sprays,
+24-second cooldown and 125 mana. Generic Hairball +40% damage/-25% cooldown is
+removed only for the Enfos BB kit; unrelated heroes retain their existing rules.
+The existing Tank Shard +350 health/15% reflection remains an explicit Enfos
+extension: native Shard's sole Hairball unlock would duplicate the paid R slot.
+See the provisional upgrade entry in DECISIONS_OPEN_ITEMS.md. No native Shard
+bonus is advertised on Hairball; D retains the existing Tank Shard tooltip.
+
+The current spawn/passive service restores these providers idempotently, without
+new points, managers, listeners or timers. Rank-up refresh uses native intrinsic
+names returned by the engine, not guessed modifier IDs. Client registration loads
+classes and one link only; client special getters do not read server-only handles
+or IsAlive. The existing order filter relays W autocast only for its owning
+player; native cast events synchronize paid cooldown. Manual casts do not spend
+native mana again or synthesize a second ability-cast event. Native autocast mana,
+cooldown timing and Warpath interactions remain engine questions.
+
+Installed VScript API evidence: CDOTA_BaseNPC:SetCursorCastTarget and
+SetCursorPosition are server-only; CDOTABaseAbility:GetBehavior is both-context;
+ToggleAutoCast is server-only; dotaunitorder_t includes CAST_TOGGLE_AUTO.
+GetStrength belongs to CDOTA_BaseNPC_Hero and is both-context (the base-NPC
+method lookup is absent). No guessed OnToggleAutoCast callback was used.
+Additional corpus Hairball hits: Boss Survival Adventure, Workshop1571786267,
+scripts/vscripts/abilities/bosses/bristleback/bristleback.lua:546.
+REFERENCE_ONLY; no imported code/assets or engine proof.
+
+Cold-start resource ownership: the previously verified Bristleback sound bank
+and Goo/Quill/Warpath assets remain. Installed archive path search confirms the
+Hairball, Hairball trail/splat/model and rear-damage parent particles; these six
+are explicitly precached because providers are added after spawn. Engine owns
+CPs and resource lifetime. Archive presence is not visual/audio acceptance.
+
+Focused checks: seven native/integration tests pass; 346 existing Lua kit
+regressions pass. Shared client test now covers all six Luna/SF/BB modifier links
+once and rejects server services. Reviewed provider smoke dispatch passes ranks
+1–10 without pretending to execute C++. Removed five obsolete custom BB tests;
+replacement integration tests independently assert cursor identity, source curves,
+zero untrained scaling, provider caps, autocast ownership and no local damage/search.
+Structural audit now follows explicitly named native override-reader modules;
+its unused-field hints are not proof that native code reads those specials.
+
+Final source validation: general `tools/checks.mjs` passes gameplay, Lua smoke,
+rank/point, localization, client registration and integration tests; its remaining
+stale generated-dossier check was fixed by regeneration and independently passes
+`node tools/hero_reference_docs.mjs --check`. Focused source/client/content
+suite: 110 tests, zero failures. No Dota launch or gameplay MCP was used.
+
+Remaining acceptance: owner full restart and Q/W/E/R/D visual/audio/VConsole,
+native query versus actual damage at ranks 1/10, maximum Quill damage, multicasters,
+Goo spell block/reflection, travel/target loss, Hairball without/with Shard,
+Scepter/Blessing activation and interruption, Break, illusions, death/reconnect,
+autocast mana/cooldown, dense waves and the rank/point HUD. Source work may proceed
+to Slark after this unit's checks; none of these deferred cases is silently passed.

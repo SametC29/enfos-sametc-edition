@@ -393,3 +393,16 @@ rollout goal contract supersedes the old SF-only stop gate. Automatic selected
 hero Health remains; owner shares logs manually. No collector/publication is
 restored. Goal API objective editing is unavailable; do not fabricate completion
 of the old SF goal to create a replacement.
+
+## Bristleback native-first upgrade integration, 2026-10-04 — provisional
+
+Source implementation moves Scepter from the generic Hairball amp/CD upgrade
+to native Bristleback E's active cone sprays. Hairball remains the existing paid
+ten-rank R, so its hidden native provider explicitly cannot be granted by Shard.
+Retain the existing Tank Shard (+350 health, 15% reflection) as an Enfos extension
+instead of charging for a redundant native Hairball unlock. No new Shard mechanic
+is invented. Native Quill max_damage=500 replaces the custom ten-stack cap while
+authored Strength scaling remains. These source decisions implement the owner's
+native-first identity preference; balance, Scepter/Blessing, Shard visibility and
+native read paths remain pending owner Dota testing. Revisit this provisional
+integration if runtime evidence contradicts it; never label mocks as acceptance.

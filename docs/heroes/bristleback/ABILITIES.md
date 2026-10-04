@@ -9,13 +9,13 @@ Hero: `npc_dota_hero_bristleback`; role: Tank. Progression target: hero level 50
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_bb_viscous_nasal_goo` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | bristleback_viscous_nasal_goo |
-| 2 | `enfos_bb_quill_spray` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | bristleback_quill_spray |
-| 3 | `enfos_bb_bristleback` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | bristleback_bristleback |
-| 4 | `enfos_bb_hairball` | 10 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_AOE | abilities/pve_kits | bristleback_hairball |
+| 1 | `enfos_bb_viscous_nasal_goo` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/heroes/bristleback/controllers | bristleback_viscous_nasal_goo |
+| 2 | `enfos_bb_quill_spray` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE \| DOTA_ABILITY_BEHAVIOR_AUTOCAST | abilities/heroes/bristleback/controllers | bristleback_quill_spray |
+| 3 | `enfos_bb_bristleback` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/bristleback/controllers | bristleback_bristleback |
+| 4 | `enfos_bb_hairball` | 10 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_AOE | abilities/heroes/bristleback/controllers | bristleback_hairball |
 | 5 | `enfos_bb_warpath` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | NOT_EXPLICIT | bristleback_warpath |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/heroes/bristleback/controllers.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -49,7 +49,7 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 ### Per-ability review leads
 
 - `enfos_bb_viscous_nasal_goo`: target flags, immunity, spell block/reflect if applicable, target loss.
-- `enfos_bb_quill_spray`: cast/impact/modifier contract and lifetime.
+- `enfos_bb_quill_spray`: manual/autocast parity, attack proc and duplicate events.
 - `enfos_bb_bristleback`: intrinsic modifier, Break/illusion behavior, live rank refresh.
 - `enfos_bb_hairball`: world position, travel/impact timing and radius alignment; ultimate unlock curve, Scepter/Blessing and boss burst.
 - `enfos_bb_warpath`: Enfos passive free starting rank, native innate separation, respawn/point budget; intrinsic modifier, Break/illusion behavior, live rank refresh.
@@ -78,6 +78,19 @@ preserved until the linked native upgrade unit. Two native-source contracts and
 Break, lifecycle, VFX/SFX, upgrades and cold-start remain PENDING OWNER TEST.
 Historical Warpath custom-modifier evidence below does not certify this native
 replacement.
+
+Linked Q/W/E/R source update2026-10-04: custom Goo/Quill/debuff/directional
+retaliation/Hairball replicas are removed. Native providers perform gameplay,
+VFX/SFX and cleanup; minimal controllers retain the four stable paid slots and
+a single shared special-value modifier reads their ten ranks. Hairball has a
+hidden rank-one native alias that cannot be granted by Shard, plus a paid-radius
+cursor reticle. Native E owns Scepter activation; generic Hairball Scepter bonuses
+are removed. Tank Shard remains an explicit Enfos extension because Hairball is
+already paid R. Native max_damage=500 replaces the custom Quill stack cap. Four
+languages reflect projectile impact, the damage cap and ranked Hairball stacks.
+All historical custom-modifier acceptance rows below are superseded by the
+[current linked-kit review](../../audit/BRISTLEBACK_NATIVE_FIRST_REVIEW_2026-10-04.md).
+Every native engine, visual/audio and lifecycle area remains PENDING OWNER TEST.
 
 ## Slot 1: `enfos_bb_viscous_nasal_goo`
 

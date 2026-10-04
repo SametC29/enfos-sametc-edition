@@ -1630,7 +1630,8 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
           "callbacks": [
-            "OnSpellStart"
+            "OnSpellStart",
+            "OnUpgrade"
           ],
           "specials": {
             "armor_reduction": "2 2.3 2.7 3 3.3 3.7 4 4.3 4.7 5",
@@ -1641,16 +1642,18 @@
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
-          "hasSound": true,
-          "hasParticle": true
+          "hasSound": false,
+          "hasParticle": false
         },
         {
           "slot": 2,
           "id": "enfos_bb_quill_spray",
           "maxLevel": 10,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_AUTOCAST",
           "callbacks": [
-            "OnSpellStart"
+            "GetAOERadius",
+            "OnSpellStart",
+            "OnUpgrade"
           ],
           "specials": {
             "radius": "700",
@@ -1658,13 +1661,13 @@
             "stack_damage": "25 28 32 35 38 42 45 48 52 55",
             "strength_damage_factor": "0.4",
             "stack_strength_factor": "0.15",
-            "max_stacks": "10",
+            "max_damage": "500",
             "debuff_duration": "14.0"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
-          "hasSound": true,
-          "hasParticle": true
+          "hasSound": false,
+          "hasParticle": false
         },
         {
           "slot": 3,
@@ -1672,19 +1675,27 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
           "callbacks": [
-            "GetIntrinsicModifierName"
+            "GetBehavior",
+            "GetCastRange",
+            "GetCooldown",
+            "GetIntrinsicModifierName",
+            "GetManaCost",
+            "OnSpellStart",
+            "OnUpgrade"
           ],
           "specials": {
             "side_damage_reduction": "15 17 18 20 22 23 25 27 28 30",
             "back_damage_reduction": "25 27 28 30 32 33 35 37 38 40",
             "rear_angle": "70",
             "side_angle": "110",
-            "quill_damage_threshold": "200"
+            "quill_damage_threshold": "200",
+            "activation_cooldown": "24",
+            "activation_manacost": "125"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
-          "hasSound": true,
-          "hasParticle": true
+          "hasSound": false,
+          "hasParticle": false
         },
         {
           "slot": 4,
@@ -1692,16 +1703,19 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE",
           "callbacks": [
-            "OnSpellStart"
+            "GetAOERadius",
+            "OnSpellStart",
+            "OnUpgrade"
           ],
           "specials": {
             "radius": "400 411 422 433 444 456 467 478 489 500",
+            "quill_stacks": "1",
             "goo_stacks": "2 2 2 2 2 3 3 3 3 3"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
-          "hasSound": true,
-          "hasParticle": true
+          "hasSound": false,
+          "hasParticle": false
         },
         {
           "slot": 5,
@@ -1973,11 +1987,7 @@
             "radius": "250",
             "intelligence_multiplier": "1.0"
           },
-          "unreferencedSpecials": [
-            "damage",
-            "radius",
-            "intelligence_multiplier"
-          ],
+          "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
           "hasSound": false,
           "hasParticle": false
@@ -1998,12 +2008,7 @@
             "souls_per_hero_kill": "4",
             "spell_amp_per_soul": "1.0"
           },
-          "unreferencedSpecials": [
-            "damage_per_soul",
-            "souls_per_kill",
-            "souls_per_hero_kill",
-            "spell_amp_per_soul"
-          ],
+          "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
           "hasSound": false,
           "hasParticle": false
@@ -2046,11 +2051,7 @@
             "intelligence_multiplier": "1.8",
             "AbilityCooldown": "80 65 50 45 40 35 32 29 26 23"
           },
-          "unreferencedSpecials": [
-            "damage_per_wave",
-            "radius",
-            "intelligence_multiplier"
-          ],
+          "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
           "hasSound": false,
           "hasParticle": false

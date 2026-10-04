@@ -49,7 +49,12 @@ for(const [id,hero] of Object.entries(heroes).filter(([,h])=>h.Role)){
     const externalReaders=[...ownerSource.entries()].filter(([otherAbility,body])=>otherAbility!==ability&&(body.includes(`'${ability}'`)||body.includes(`\"${ability}\"`))).map(([,body])=>body);
     const helperBodies=[...relatedHelpers].map(name=>helperSource.get(name)||'');
     for(const body of helperBodies) for(const match of body.matchAll(/['\"](modifier_[A-Za-z0-9_]+)['\"]/g)) relatedModifiers.add(match[1]);
-    const text=ownText+'\n'+externalReaders.join('\n')+'\n'+[...relatedModifiers].map(name=>classSource.get(name)||'').join('\n')+'\n'+helperBodies.join('\n');
+    // Native rank bridges may route source IDs through a module-level table.
+    // Follow only override-reader modules explicitly naming this paid ability;
+    // this is an inventory hint, not proof of the native C++ read path.
+    const bridgeReaders=[...sources.values()].filter(body=>body.includes('GetModifierOverrideAbilitySpecialValue')
+      && (body.includes(`'${ability}'`)||body.includes(`"${ability}"`)));
+    const text=ownText+'\n'+externalReaders.join('\n')+'\n'+[...relatedModifiers].map(name=>classSource.get(name)||'').join('\n')+'\n'+helperBodies.join('\n')+'\n'+bridgeReaders.join('\n');
     if(behavior.includes('PASSIVE')&&/PassivesDisabled/.test(text)&&kv.IsBreakable!=='1')
       throw new Error(`Passive checks PassivesDisabled but is not marked IsBreakable: ${id}`);
     const specials=getAbilityValues(kv);

@@ -156,6 +156,9 @@ function EnfosSametC:OrderFilter(filterTable)
 	end
 	local playerID = filterTable.issuer_player_id_const
 	if playerID == nil or not PlayerResource:IsValidPlayerID(playerID) then return true end
+	if DOTA_UNIT_ORDER_CAST_TOGGLE_AUTO and filterTable.order_type==DOTA_UNIT_ORDER_CAST_TOGGLE_AUTO then
+		require("abilities/heroes/bristleback/integration").AutocastOrder(filterTable)
+	end
 	if filterTable.order_type == DOTA_UNIT_ORDER_SELL_ITEM then
 		local it = filterTable.entindex_ability and EntIndexToHScript(filterTable.entindex_ability)
 		if it and not it:IsNull() and require("economy/ascended_shop").LOOKUP[it:GetAbilityName()] then

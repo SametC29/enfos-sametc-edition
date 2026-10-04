@@ -333,17 +333,22 @@ function create_mock_unit(name, team, origin, hp)
         end,
         Heal = function(self, amount, source) self.hp = math.min(self.max_hp, self.hp + amount) end,
         Purge = function() end,
-        -- Native SF helpers are dispatch-only mocks. C++ damage/death/VFX remain pending.
+        -- Native SF/BB providers are dispatch-only mocks. C++ gameplay/VFX remain pending.
+        SetCursorCastTarget=function(self,target) self.nativeCursorTarget=target end,
+        SetCursorPosition=function(self,point) self.nativeCursorPoint=point end,
         AddAbility = function(self, id)
-            assert(self.name=='npc_dota_hero_nevermore')
+            assert(self.name=='npc_dota_hero_nevermore' or self.name=='npc_dota_hero_bristleback')
             local known={nevermore_shadowraze1=true,nevermore_shadowraze2=true,nevermore_shadowraze3=true,
                 nevermore_necromastery=true,nevermore_requiem=true}
+            if self.name=='npc_dota_hero_bristleback' then known={bristleback_viscous_nasal_goo=true,
+                bristleback_quill_spray=true,bristleback_bristleback=true,enfos_bb_native_hairball=true} end
             assert(known[id], 'Unexpected native SF provider '..id)
             self.sfProviders=self.sfProviders or {}
             assert(not self.sfProviders[id], 'Duplicate native provider')
             local a={level=0,IsNull=function()return false end,GetLevel=function(m)return m.level end,
                 SetLevel=function(m,v)assert(v==0 or v==1);m.level=v end,
                 SetHidden=function(_,v)assert(v)end,SetActivated=function()end,
+                GetAbilityName=function()return id end,GetIntrinsicModifierName=function()return ''end,
                 GetCooldownTimeRemaining=function()return 0 end,StartCooldown=function()end,
                 OnSpellStart=function()end,OnAbilityPhaseStart=function()return true end,
                 OnAbilityPhaseInterrupted=function()end}
@@ -351,6 +356,9 @@ function create_mock_unit(name, team, origin, hp)
         end,
         FindAbilityByName = function(self, ab_name)
             if self.sfProviders and self.sfProviders[ab_name] then return self.sfProviders[ab_name] end
+            if self.name=='npc_dota_hero_bristleback' and ab_name=='enfos_bb_warpath' then
+                return {IsNull=function()return false end,GetLevel=function()return ENFOS_REAL_LEVELS[ab_name]end}
+            end
             local cls = _G[ab_name]
             if cls then
                 local a = cls()

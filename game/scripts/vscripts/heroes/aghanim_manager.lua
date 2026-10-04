@@ -279,6 +279,7 @@ function modifier_enfos_scepter_upgrade:DeclareFunctions()
 	}
 end
 function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event)
+    if require('abilities/heroes/bristleback/ownership').IsEnfos(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/nevermore/ownership').IsEnfos(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/luna/integration').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_lion" then return 0 end
@@ -292,6 +293,7 @@ function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event
 	return a and a:GetAbilityType()==DOTA_ABILITY_TYPE_ULTIMATE and 40 or 0
 end
 function modifier_enfos_scepter_upgrade:GetModifierPercentageCooldown(event)
+    if require('abilities/heroes/bristleback/ownership').IsEnfos(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/nevermore/ownership').IsEnfos(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/luna/integration').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_lion" then return 0 end

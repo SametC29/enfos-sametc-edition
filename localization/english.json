@@ -493,7 +493,6 @@
     "DOTA_Tooltip_Ability_enfos_zeus_thundergods_wrath_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
     "DOTA_Tooltip_Ability_enfos_wd_death_ward_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
     "DOTA_Tooltip_Ability_enfos_wd_voodoo_switcheroo_shard_description": "Unlocked by Aghanim's Shard; grants Voodoo Switcheroo.",
-    "DOTA_Tooltip_Ability_enfos_bb_hairball_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
     "DOTA_Tooltip_Ability_enfos_bb_warpath_shard_description": "+350 health. Reflects 15% of incoming enemy damage as physical damage.",
     "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift": "Essence Shift",
@@ -1055,9 +1054,9 @@
     "DOTA_Tooltip_Ability_enfos_bb_bristleback": "Bristleback",
     "DOTA_Tooltip_Ability_enfos_bb_bristleback_Description": "Reduces no damage from the front. Reduces side damage by {{side_damage_reduction}}% and rear damage by {{back_damage_reduction}}% (side angle {{side_angle}}°, rear angle {{rear_angle}}°). Taking {{quill_damage_threshold}} damage from the rear triggers Quill Spray.",
     "DOTA_Tooltip_Ability_enfos_bb_hairball": "Hairball",
-    "DOTA_Tooltip_Ability_enfos_bb_hairball_Description": "Applies two Viscous Nasal Goo stacks to enemies in a {{radius}} radius around the target point and detonates Quill Spray at that same point.",
+    "DOTA_Tooltip_Ability_enfos_bb_hairball_Description": "Launches a Hairball at the chosen point. On impact, applies {{goo_stacks}} Goo stacks and {{quill_stacks}} Quill stack within {{radius}}, using Goo and Quill Spray values.",
     "DOTA_Tooltip_Ability_enfos_bb_quill_spray": "Quill Spray",
-    "DOTA_Tooltip_Ability_enfos_bb_quill_spray_Description": "Deals {{base_damage}} + Strength × {{strength_damage_factor}} physical damage to enemies within {{radius}}. Each existing Quill stack on a target adds {{stack_damage}} + Strength × {{stack_strength_factor}} damage. Stacks last {{debuff_duration}}s, up to {{max_stacks}}.",
+    "DOTA_Tooltip_Ability_enfos_bb_quill_spray_Description": "Releases native Quills within {{radius}}, dealing {{base_damage}} + Strength × {{strength_damage_factor}} physical damage. Each existing Quill stack adds {{stack_damage}} + Strength × {{stack_strength_factor}} damage, capped at {{max_damage}} per hit. Stacks last {{debuff_duration}}s.",
     "DOTA_Tooltip_Ability_enfos_bb_viscous_nasal_goo": "Viscous Nasal Goo",
     "DOTA_Tooltip_Ability_enfos_bb_viscous_nasal_goo_Description": "Reduces the target’s armor by {{armor_reduction}} per stack and slows it by {{base_slow_pct}}% + {{slow_per_stack}}% per stack for {{duration}}s. Stacks up to {{max_stacks}} times.",
     "DOTA_Tooltip_Ability_enfos_bb_warpath": "Warpath",
@@ -1504,6 +1503,8 @@
     "DOTA_Tooltip_ability_enfos_sf_requiem_of_souls_SummaryDescription": "Releases native Requiem lines based on stored souls. Each outgoing line deals {{damage_per_wave}} + {{intelligence_multiplier}} × Intelligence magic damage. Native fear and death release apply.",
     "DOTA_Tooltip_Ability_enfos_sf_shadowraze_shard_description": "Native Shadowraze slows enemies and reduces cooldown when it hits an enemy hero.",
     "DOTA_Tooltip_ability_enfos_sf_requiem_of_souls_scepter_description": "Native Requiem lines return, dealing damage and healing Shadow Fiend. Reduces cooldown by 30 seconds, with a minimum of 1 second.",
-    "DOTA_Tooltip_ability_enfos_sf_shadowraze_shard_description": "Native Shadowraze slows enemies and reduces cooldown when it hits an enemy hero."
+    "DOTA_Tooltip_ability_enfos_sf_shadowraze_shard_description": "Native Shadowraze slows enemies and reduces cooldown when it hits an enemy hero.",
+    "DOTA_Tooltip_Ability_enfos_bb_bristleback_scepter_description": "Unlocks Bristleback’s active: releases five Quill Sprays in the chosen direction. Cooldown 24s; mana 125. No extra Hairball damage or cooldown bonus.",
+    "DOTA_Tooltip_Ability_enfos_bb_native_hairball": "Hairball"
   }
 }

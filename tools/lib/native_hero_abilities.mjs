@@ -10,6 +10,7 @@ export const nativeHeroAbilities = new Map([
   ['enfos_luna_eclipse', 'luna_eclipse'],
   ['enfos_sf_presence_of_the_dark_lord', 'nevermore_dark_lord'],
   ['enfos_bb_warpath', 'bristleback_warpath'],
+  ['enfos_bb_native_hairball', 'bristleback_hairball'],
 ]);
 
 export function isVerifiedNativeAbility(id, definition) {

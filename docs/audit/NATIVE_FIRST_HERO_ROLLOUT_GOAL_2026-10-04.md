@@ -75,3 +75,9 @@ the available goal API exposes status updates, not objective editing or
 replacement of an unfinished goal. Do not mark that goal falsely complete to
 replace it. This latest owner instruction and this ledger supersede its old
 stop-after-SF gate for actual work. Engine acceptance remains unachieved.
+
+2026-10-04 source progression: Bristleback native D and linked Q/W/E/R source
+units are implemented, with paid ten-rank controllers, one native-value bridge,
+native Scepter E, explicit Tank Shard extension, four-language tooltips and
+resource/client/regression coverage. Engine cases remain pending in its dossier.
+Next sequential source unit: Slark. Deferred owner tests do not block that move.

@@ -48,10 +48,10 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ### Per-ability review leads
 
-- `enfos_sf_shadowraze`: static unreferenced-special candidates: damage, radius, intelligence_multiplier (not confirmed defects).
-- `enfos_sf_necromastery`: intrinsic modifier, Break/illusion behavior, live rank refresh; static unreferenced-special candidates: damage_per_soul, souls_per_kill, souls_per_hero_kill, spell_amp_per_soul (not confirmed defects).
+- `enfos_sf_shadowraze`: cast/impact/modifier contract and lifetime.
+- `enfos_sf_necromastery`: intrinsic modifier, Break/illusion behavior, live rank refresh.
 - `enfos_sf_presence_of_the_dark_lord`: intrinsic modifier, Break/illusion behavior, live rank refresh.
-- `enfos_sf_requiem_of_souls`: ultimate unlock curve, Scepter/Blessing and boss burst; static unreferenced-special candidates: damage_per_wave, radius, intelligence_multiplier (not confirmed defects).
+- `enfos_sf_requiem_of_souls`: ultimate unlock curve, Scepter/Blessing and boss burst.
 - `enfos_sf_feast_of_souls`: Enfos passive free starting rank, native innate separation, respawn/point budget; intrinsic modifier, Break/illusion behavior, live rank refresh.
 
 <!-- END GENERATED INVENTORY -->

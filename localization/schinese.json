@@ -449,7 +449,6 @@
     "DOTA_Tooltip_Ability_enfos_zeus_thundergods_wrath_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
     "DOTA_Tooltip_Ability_enfos_wd_death_ward_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
     "DOTA_Tooltip_Ability_enfos_wd_voodoo_switcheroo_shard_description": "解锁巫毒变身。",
-    "DOTA_Tooltip_Ability_enfos_bb_hairball_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
     "DOTA_Tooltip_Ability_enfos_bb_warpath_shard_description": "+350生命，将15%敌方伤害以物理伤害反弹。",
     "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift": "能量转移 (Essence Shift)",
@@ -993,9 +992,9 @@
     "DOTA_Tooltip_Ability_enfos_bb_bristleback": "钢背兽",
     "DOTA_Tooltip_Ability_enfos_bb_bristleback_Description": "正面受击不减伤。侧面伤害降低{{side_damage_reduction}}%，背后伤害降低{{back_damage_reduction}}%（侧面角度{{side_angle}}°，背后角度{{rear_angle}}°）。背后累计受到{{quill_damage_threshold}}点伤害时触发刺针扫射。",
     "DOTA_Tooltip_Ability_enfos_bb_hairball": "毛团",
-    "DOTA_Tooltip_Ability_enfos_bb_hairball_Description": "对目标点{{radius}}范围内的敌人施加两层粘稠鼻液，并在同一位置释放刺针扫射。",
+    "DOTA_Tooltip_Ability_enfos_bb_hairball_Description": "向选定地点投掷毛团。命中后在{{radius}}范围施加{{goo_stacks}}层鼻涕和{{quill_stacks}}层针刺，使用鼻涕与针刺扫射的数值。",
     "DOTA_Tooltip_Ability_enfos_bb_quill_spray": "刺针扫射",
-    "DOTA_Tooltip_Ability_enfos_bb_quill_spray_Description": "对{{radius}}范围内的敌人造成{{base_damage}} + 力量 × {{strength_damage_factor}}点物理伤害。目标已有的每层刺针效果额外造成{{stack_damage}} + 力量 × {{stack_strength_factor}}点伤害。效果持续{{debuff_duration}}秒，最多{{max_stacks}}层。",
+    "DOTA_Tooltip_Ability_enfos_bb_quill_spray_Description": "向{{radius}}范围释放针刺，造成{{base_damage}} + 力量 × {{strength_damage_factor}}物理伤害。目标每层针刺额外造成{{stack_damage}} + 力量 × {{stack_strength_factor}}伤害，每次命中上限{{max_damage}}。叠层持续{{debuff_duration}}秒。",
     "DOTA_Tooltip_Ability_enfos_bb_viscous_nasal_goo": "粘稠鼻液",
     "DOTA_Tooltip_Ability_enfos_bb_viscous_nasal_goo_Description": "每层使目标护甲降低{{armor_reduction}}点，并减速{{base_slow_pct}}% + 每层{{slow_per_stack}}%，持续{{duration}}秒。最多叠加{{max_stacks}}层。",
     "DOTA_Tooltip_Ability_enfos_bb_warpath": "战意",
@@ -1444,6 +1443,8 @@
     "DOTA_Tooltip_ability_enfos_sf_requiem_of_souls_SummaryDescription": "根据储存的灵魂释放原生魂之挽歌。每道向外的波造成{{damage_per_wave}} + {{intelligence_multiplier}} × 智力的魔法伤害。保留原生恐惧和死亡释放。",
     "DOTA_Tooltip_Ability_enfos_sf_shadowraze_shard_description": "原生毁灭阴影减速敌人，命中敌方英雄时缩短冷却时间。",
     "DOTA_Tooltip_ability_enfos_sf_requiem_of_souls_scepter_description": "原生魂之挽歌会返回，造成伤害并治疗影魔。冷却时间减少30秒，最低为1秒。",
-    "DOTA_Tooltip_ability_enfos_sf_shadowraze_shard_description": "原生毁灭阴影减速敌人，命中敌方英雄时缩短冷却时间。"
+    "DOTA_Tooltip_ability_enfos_sf_shadowraze_shard_description": "原生毁灭阴影减速敌人，命中敌方英雄时缩短冷却时间。",
+    "DOTA_Tooltip_Ability_enfos_bb_bristleback_scepter_description": "解锁钢毛后背主动技能：向选定方向释放五次针刺扫射。冷却24秒；魔法消耗125。不提高毛团伤害或缩短其冷却。",
+    "DOTA_Tooltip_Ability_enfos_bb_native_hairball": "毛团"
   }
 }

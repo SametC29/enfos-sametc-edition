@@ -2704,6 +2704,7 @@
 		"RequiredLevel"	"1"
 		"LevelsBetweenUpgrades"	"1"
 		"AbilityCastRange"			"600"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_1"
 		"AbilityCastPoint"			"0.3"
 		"AbilityCooldown"			"2.0 1.92 1.83 1.75 1.67 1.58 1.5 1.42 1.33 1.25"
 		"AbilityManaCost"			"25"
@@ -2716,18 +2717,19 @@
 			"base_slow_pct" "15"
 			"slow_per_stack" "3"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/bristleback/controllers"
 	}
 
 	"enfos_bb_quill_spray"
 	{
 		"BaseClass"					"ability_lua"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_AUTOCAST"
 		"AbilityUnitDamageType"		"DAMAGE_TYPE_PHYSICAL"
 		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityTextureName"		"bristleback_quill_spray"
 		"RequiredLevel"	"1"
 		"LevelsBetweenUpgrades"	"1"
+		"AbilityCastAnimation" "ACT_INVALID"
 		"AbilityCastPoint"			"0.0"
 		"AbilityCooldown"			"3.0"
 		"AbilityManaCost"			"35"
@@ -2739,14 +2741,17 @@
 			"stack_damage" "25 28 32 35 38 42 45 48 52 55"
 			"strength_damage_factor" "0.4"
 			"stack_strength_factor" "0.15"
-			"max_stacks" "10"
+			"max_damage" "500"
 			"debuff_duration" "14.0"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/bristleback/controllers"
 	}
 
 	"enfos_bb_bristleback"
 	{
+		"HasScepterUpgrade" "1"
+		"AbilityCastAnimation" "ACT_DOTA_SPAWN"
+		"AbilityCastPoint" "0"
 		"IsBreakable" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
@@ -2761,8 +2766,10 @@
 			"rear_angle" "70"
 			"side_angle" "110"
 			"quill_damage_threshold" "200"
+			"activation_cooldown" "24"
+			"activation_manacost" "125"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/bristleback/controllers"
 	}
 
 	"enfos_bb_warpath"
@@ -2790,10 +2797,18 @@
 		}
 	}
 
+	"enfos_bb_native_hairball"
+	{
+		"BaseClass" "bristleback_hairball"
+		"MaxLevel" "1"
+		"IsGrantedByShard" "0"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+	}
+
 	"enfos_bb_hairball"
 	{
 		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
-		"HasScepterUpgrade" "1"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_4"
 
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
@@ -2808,9 +2823,10 @@
 		"AbilityValues"
 		{
 			"radius" "400 411 422 433 444 456 467 478 489 500"
+			"quill_stacks" "1"
 			"goo_stacks" "2 2 2 2 2 3 3 3 3 3"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/bristleback/controllers"
 	}
 
 	// =========================================================================
