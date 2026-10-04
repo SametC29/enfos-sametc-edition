@@ -1,6 +1,7 @@
 require('abilities/heroes/antimage/d')
 require('abilities/heroes/dragon_knight/e')
 require('abilities/heroes/dragon_knight/d')
+require('abilities/heroes/dragon_knight/r')
 require('abilities/heroes/storm_spirit/e')
 require('abilities/heroes/storm_spirit/d')
 require('abilities/heroes/antimage/q')
@@ -205,8 +206,6 @@ local modifier_list = {
     'modifier_enfos_wd_death_ward_visual',
     'modifier_enfos_wd_voodoo_switcheroo_buff',
     'modifier_enfos_wd_gris_gris',
-    'modifier_enfos_dk_elder_dragon_form_buff',
-    'modifier_enfos_dk_dragon_frost_slow',
     'modifier_enfos_pudge_rot_aura',
     'modifier_enfos_pudge_rot_debuff',
     'modifier_enfos_pudge_flesh_heap_passive',
@@ -4525,104 +4524,6 @@ end
 -- ----------------------------------------------------------------------------
 
 -- Breathe Fire/Dragon Tail are native; raw STR scaling is in dragon_knight/modifiers.
-
-enfos_dk_elder_dragon_form=class({})
-function enfos_dk_elder_dragon_form:OnSpellStart()
-    if not IsServer() then return end
-    local c = self:GetCaster()
-    if not c or (c.IsNull and c:IsNull()) then return end
-    c:EmitSound('Hero_DragonKnight.ElderDragonForm')
-    effect('particles/units/heroes/hero_dragon_knight/dragon_knight_transform_red.vpcf', c)
-    c:AddNewModifier(c, self, 'modifier_enfos_dk_elder_dragon_form_buff', { duration = value(self, 'duration') })
-end
-
-modifier_enfos_dk_elder_dragon_form_buff=class({})
-function modifier_enfos_dk_elder_dragon_form_buff:IsPurgable() return false end
-function modifier_enfos_dk_elder_dragon_form_buff:GetTexture() return 'dragon_knight_elder_dragon_form' end
-function modifier_enfos_dk_elder_dragon_form_buff:OnCreated()
-    if not IsServer() then return end
-    local p = self:GetParent()
-    if not p or (p.IsNull and p:IsNull()) then return end
-    self.original_model = p and p.GetModelName and p:GetModelName() or nil
-    self.original_projectile = p and p.GetRangedProjectileName and p:GetRangedProjectileName() or nil
-    self.original_attack_capability = p.GetAttackCapability and p:GetAttackCapability() or DOTA_UNIT_CAP_MELEE_ATTACK
-    if p and p.SetAttackCapability then
-        p:SetAttackCapability(DOTA_UNIT_CAP_RANGED_ATTACK)
-        if p.SetRangedProjectileName then
-            p:SetRangedProjectileName('particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_fire.vpcf')
-        end
-    end
-    if p and p.SetModel and p.SetOriginalModel then
-        local dragon_model = 'models/heroes/dragon_knight/dragon_knight_dragon.vmdl'
-        p:SetModel(dragon_model)
-        p:SetOriginalModel(dragon_model)
-    end
-end
-function modifier_enfos_dk_elder_dragon_form_buff:OnDestroy()
-    if not IsServer() then return end
-    local p = self:GetParent()
-    if not p or (p.IsNull and p:IsNull()) then return end
-    if p and p.SetAttackCapability then
-        p:SetAttackCapability(self.original_attack_capability or DOTA_UNIT_CAP_MELEE_ATTACK)
-    end
-    if p and p.SetRangedProjectileName and self.original_projectile ~= nil then
-        p:SetRangedProjectileName(self.original_projectile)
-    end
-    if p and self.original_model and p.SetModel and p.SetOriginalModel then
-        p:SetModel(self.original_model)
-        p:SetOriginalModel(self.original_model)
-    end
-end
-function modifier_enfos_dk_elder_dragon_form_buff:DeclareFunctions()
-    return { MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE, MODIFIER_PROPERTY_ATTACK_RANGE_BONUS, MODIFIER_EVENT_ON_ATTACK_LANDED }
-end
-function modifier_enfos_dk_elder_dragon_form_buff:GetModifierPreAttack_BonusDamage()
-    return (self.GetAbility and value(self:GetAbility(), 'bonus_damage')) or 60
-end
-function modifier_enfos_dk_elder_dragon_form_buff:GetModifierAttackRangeBonus()
-    local bonus = self:GetAbility() and value(self:GetAbility(), 'attack_range_bonus') or 350
-    return bonus > 0 and bonus or 350
-end
-function modifier_enfos_dk_elder_dragon_form_buff:OnAttackLanded(params)
-    if not IsServer() or not params then return end
-    local c = self:GetParent()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or params.attacker ~= c then return end
-    local t = params.target
-    if not t or (t.IsNull and t:IsNull()) or t:GetTeamNumber() == c:GetTeamNumber() then return end
-
-    local ability = self:GetAbility()
-    if not ability or (ability.IsNull and ability:IsNull()) or (ability.GetLevel and ability:GetLevel() <= 0) then return end
-    local splash_pct = value(ability, 'splash_damage_pct')
-    if splash_pct <= 0 then splash_pct = 80 end
-    local radius = value(ability, 'splash_radius')
-    if radius <= 0 then radius = 300 end
-    local splash_dmg = (params.damage or 0) * splash_pct / 100
-    if splash_dmg <= 0 then return end
-    for _, u in ipairs(enemies(c, t:GetAbsOrigin(), radius)) do
-        if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() or (ability.IsNull and ability:IsNull()) then return end
-        if u ~= t and u and not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
-            damage(ability, u, splash_dmg, DAMAGE_TYPE_PHYSICAL)
-            if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive() or (ability.IsNull and ability:IsNull()) then return end
-            if not u:IsNull() and u:IsAlive() and u:GetTeamNumber() ~= c:GetTeamNumber() then
-                effect('particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_fire_explosion.vpcf', u)
-                u:AddNewModifier(c, ability, 'modifier_enfos_dk_dragon_frost_slow', { duration = value(ability, 'splash_slow_duration') })
-            end
-        end
-    end
-end
-
-modifier_enfos_dk_dragon_frost_slow=class({})
-function modifier_enfos_dk_dragon_frost_slow:IsDebuff() return true end
-function modifier_enfos_dk_dragon_frost_slow:GetTexture() return 'dragon_knight_elder_dragon_form' end
-function modifier_enfos_dk_dragon_frost_slow:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT } end
-function modifier_enfos_dk_dragon_frost_slow:GetModifierMoveSpeedBonus_Percentage()
-    local slow = self:GetAbility() and value(self:GetAbility(), 'splash_slow_pct') or 30
-    return -slow
-end
-function modifier_enfos_dk_dragon_frost_slow:GetModifierAttackSpeedBonus_Constant()
-    local slow = self:GetAbility() and value(self:GetAbility(), 'splash_attack_speed_slow') or 30
-    return -slow
-end
 
 -- ----------------------------------------------------------------------------
 -- PUDGE: MEAT HOOK, ROT, FLESH HEAP, DISMEMBER, MEAT SHIELD

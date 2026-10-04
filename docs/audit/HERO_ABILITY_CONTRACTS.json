@@ -2392,22 +2392,17 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
           "callbacks": [
-            "OnSpellStart"
+            "OnSpellStart",
+            "OnUpgrade"
           ],
           "specials": {
             "duration": "30 33 37 40 43 47 50 53 57 60",
-            "bonus_damage": "30 40 50 60 70 80 90 100 110 120",
-            "attack_range_bonus": "350",
-            "splash_radius": "300",
-            "splash_damage_pct": "80",
-            "splash_slow_duration": "3",
-            "splash_slow_pct": "30",
-            "splash_attack_speed_slow": "30"
+            "bonus_attack_damage": "30 40 50 60 70 80 90 100 110 120"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
           "hasSound": true,
-          "hasParticle": true
+          "hasParticle": false
         },
         {
           "slot": 5,

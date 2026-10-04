@@ -123,7 +123,7 @@ function AghanimManager:HasShard(hero)
 	if hero.HasModifier then
 		-- Installed native localization identifies this permanent Shard buff.
 		-- Introduce the compatibility branch only for the hero under review.
-		if hero.GetUnitName and (hero:GetUnitName()=="npc_dota_hero_lich" or hero:GetUnitName()=="npc_dota_hero_vengefulspirit" or hero:GetUnitName()=="npc_dota_hero_jakiro" or hero:GetUnitName()=="npc_dota_hero_lion")
+		if hero.GetUnitName and (hero:GetUnitName()=="npc_dota_hero_lich" or hero:GetUnitName()=="npc_dota_hero_vengefulspirit" or hero:GetUnitName()=="npc_dota_hero_jakiro" or hero:GetUnitName()=="npc_dota_hero_lion" or hero:GetUnitName()=="npc_dota_hero_dragon_knight")
 			and hero:HasModifier("modifier_item_aghanims_shard_permanent_buff") then return true end
 		if hero:HasModifier("modifier_item_aghanims_shard_consumed") or
 		   hero:HasModifier("modifier_aghanims_shard_consumed") then
@@ -145,6 +145,9 @@ function AghanimManager:UpdateHeroAghanimState(hero, role)
 	local hasScepter = self:HasScepter(hero)
 	local hasShard = self:HasShard(hero)
 	local assignedRole = role or (hero.GetUnitName and self:DetectHeroRole(hero:GetUnitName())) or "Tank"
+	if require('abilities/heroes/dragon_knight/ownership').UsesNativeShard(hero) then
+		require('abilities/heroes/dragon_knight/integration').ReconcileFireball(hero,hasShard)
+	end
 	if hero.GetUnitName and hero:GetUnitName()=="npc_dota_hero_jakiro" then
 		require('abilities/heroes/jakiro/e_pair').Reconcile(hero)
 	end
@@ -261,6 +264,7 @@ end
 -- Scepter Major Upgrade Modifier
 modifier_enfos_scepter_upgrade = class({})
 function modifier_enfos_scepter_upgrade:IsHidden()
+    if require('abilities/heroes/dragon_knight/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return true end
     if require('abilities/heroes/storm_spirit/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return true end
     local parent = self.GetParent and self:GetParent()
     local name = parent and parent.GetUnitName and parent:GetUnitName()
@@ -283,6 +287,7 @@ function modifier_enfos_scepter_upgrade:DeclareFunctions()
 	}
 end
 function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event)
+    if require('abilities/heroes/dragon_knight/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/storm_spirit/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/ursa/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/antimage/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
@@ -301,6 +306,7 @@ function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event
 	return a and a:GetAbilityType()==DOTA_ABILITY_TYPE_ULTIMATE and 40 or 0
 end
 function modifier_enfos_scepter_upgrade:GetModifierPercentageCooldown(event)
+    if require('abilities/heroes/dragon_knight/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/storm_spirit/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/ursa/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/antimage/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
@@ -321,6 +327,7 @@ end
 -- Shard Role Upgrade Modifier
 modifier_enfos_shard_upgrade = class({})
 function modifier_enfos_shard_upgrade:IsHidden()
+    if require('abilities/heroes/dragon_knight/ownership').UsesNativeShard(self.GetParent and self:GetParent()) then return true end
     local parent = self.GetParent and self:GetParent()
     local name = parent and parent.GetUnitName and parent:GetUnitName()
     return name == "npc_dota_hero_lion" or name == "npc_dota_hero_jakiro" or name == "npc_dota_hero_lich" or name == "npc_dota_hero_sven" or name == "npc_dota_hero_shadow_shaman" or name == "npc_dota_hero_tidehunter"
@@ -354,6 +361,7 @@ function modifier_enfos_shard_upgrade:DeclareFunctions()
 end
 
 function modifier_enfos_shard_upgrade:GetModifierHealthBonus()
+    if require('abilities/heroes/dragon_knight/ownership').UsesNativeShard(self.GetParent and self:GetParent()) then return 0 end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_tidehunter" then return 0 end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_sven" then return 0 end
 	if self.role == "Tank" then return 350 end
@@ -388,6 +396,7 @@ function modifier_enfos_shard_upgrade:GetModifierHealAmplify_PercentageSource()
 end
 
 function modifier_enfos_shard_upgrade:OnTakeDamage(keys)
+    if require('abilities/heroes/dragon_knight/ownership').UsesNativeShard(self.GetParent and self:GetParent()) then return end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_tidehunter" then return end
     if self.GetParent and self:GetParent().GetUnitName and self:GetParent():GetUnitName()=="npc_dota_hero_sven" then return end
 	if not IsServer or not IsServer() then return end

@@ -319,3 +319,55 @@ native R melee/form range/projectile/recipient loss, death/respawn/reconnect,
 cold-load/animation/VFX/SFX/VConsole. Full restart later. Q/W/E/D source
 implemented; next native R tiers and Shard Fireball unit, no DK engine closure,
 remote push, deployment or publication. Contributor changes preserved.
+
+## R / native upgrades pre-mutation decision
+
+TUNE / NATIVE+MINIMAL EXT. Fresh installed6943/11069754 hero SHA256 unchanged.
+Keep ten paid R gates5/5, costs100..200/CD90..45, duration30..60 and authored
+attack bonus30..120 remapped to native bonus_attack_damage. Exact native
+`dragon_knight_elder_dragon_form` stays rank0 before training, then min(3,paidR).
+Paid R1 green/R2 red/R3..10 blue; native Scepter bonus_levels1 supplies the
+next tier/black at capped base3. Other native tier data untouched: corrosive,
+splash0/75/75/100, frost0/0/3/3, form move/range/scale/MR/free pathing. No
+unsupported native rank10, replicated skin/projectile/model/attack/splash/frost.
+
+Paid controller calls verified CDOTABaseAbility:OnSpellStart SERVER exactly
+once, then synchronizes hidden provider cooldown to paid remainder; engine
+charges paid mana/CD once, no native UseResources/order/second charge. Provider
+failure refunds paid cost/CD through verified SERVER APIs. Raw bridge replaces
+only native duration/bonus_attack_damage using live paid rank; native owns form
+modifier/stats and E50%/W range linkage. No guessed modifier name, force refresh
+or manual form cleanup on restore. Native cached rank-up/Scepter mid-form,
+cast readiness/order/events/costs and actual numeric read paths remain pending.
+
+Add exact native `dragon_knight_fireball` only when Shard detected by existing
+Aghanim manager; rank1, visible/active, no custom fire zone. Reuse existing
+periodic reconciliation, not a new timer. Hide/deactivate existing ability on
+loss, preserve native cooldown/ongoing effect; repeated restore cannot rerank,
+reset CD or duplicate grants. Installed API has no HasShard method; extend
+only DK's existing manager detection to VPK-localized
+modifier_item_aghanims_shard_permanent_buff (token freshly verified), retaining
+legacy/item compatibility. Fireball native MaxLevel1/IsGrantedByShard1, AoE275,
+85DPS/6s/.5interval/2linger, cost80/CD20/range600/animation5 are unmodified.
+Replace scoped generic Tank Shard350HP/15%reflect and generic R40%amp/25%CDR
+with native upgrades; other heroes unchanged. Four-language descriptions and
+read-only Health describe provider inputs, not engine-certified behavior.
+
+Boss Survival1571786267 exact dragon_knight_elder_dragon_form_lua .txt/.lua and
+modifier .lua under scripts/vscripts/heroes/hero_dragon were fully read:
+old120CD/30%ScepterMR/manual model/skin/frame thinker and copied splash/frost
+differ from installed100CD/20%MR/source keys. REFERENCE_ONLY/version/license
+unknown, no import; reject reproduction of native model/procs. Native API
+OnSpellStart/SetLevel/RefundManaCost SERVER verified. [ModDota exposed/native KV guidance](https://moddota.com/abilities/ability-keyvalues)
+re-read; native C++ details remain runtime gates. VPK list found exact native
+green/blue/black transforms, black attack, corrosion, Fireball parent/cast/
+projectile and native W parents; hash retained roots and precache deliberately,
+without claiming C++ call sites/CP/presentation proof. No unrelated map/wave/Boss
+changes or imported resources. Old R modifiers/copymocks/tooltip aliases retire
+with native ownership; whole-kit/source tests do not grant engine acceptance.
+
+## R / native upgrades source result
+
+Exact native form provider capped0..3, paid R controller/raw duration and attack bonus implemented. Native form/proc/model/projectile/frost ownership replaces copied Lua classes and six obsolete mocks. Existing manager detects DK native permanent Shard, conditionally grants native Fireball rank1, hides/deactivates on loss and preserves cooldowns. Owned DK generic Scepter amp/CDR and Tank Shard HP/reflect suppressed; other hero behavior regression checked. Native tier data never shadowed. Four locales/12 mirrors and automatic read-only Health updated;22 native resource records hashed with explicit precache roots. No imported reference code/assets.
+
+116 affected checks/303 hero mocks PASS; full source suite0 failures. Tests cover all ten paid ranks and both contexts, native cap/idempotence/points preservation, one delegated cast/no second resource charge/failure refund/invalidation, conditional Fireball grant/loss/reconnect/foreign/illusion/client guards, existing manager native Shard detection/scoped bonuses, read-only Health, native metadata/resources/locales. Initial old generic Shard contract correctly redirected to R with explicit D absence. SOURCE_REVIEW implemented, AUTOMATED_VALIDATION PASS, OWNER_RUNTIME PENDING. Full restart required before owner tests. Actual native cast ordering/cooldown/mana, tier visuals/procs, mid-form rank/Scepter updates, E50% stats/W form range/D AoE, Fireball damage/targeting/HUD, death/reconnect/cold-load/VFX/SFX/VConsole remain pending. All DK source units implemented; next ordered discovery Monkey King. Contributor work preserved; local commit only, no push/deploy/publication.

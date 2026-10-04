@@ -29,6 +29,107 @@ local integration=require('abilities/heroes/dragon_knight/integration')
 `;
 function lua(body){const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:setup+body,encoding:'utf8'});assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');}
 
+const formSetup=`
+require('abilities/heroes/dragon_knight/r')
+local r=setmetatable({rank=0,null=false,refunds=0,ends=0,
+IsNull=function(self)return self.null end,GetCaster=function()return hero end,
+GetAbilityName=function()return 'enfos_dk_elder_dragon_form'end,GetLevel=function(self)return self.rank end,
+GetLevelSpecialValueNoOverride=function(self,key,rank)assert(rank==self.rank-1);return assert(({duration={30,33,36,40,43,46,50,53,56,60},bonus_attack_damage={30,40,50,60,70,80,90,100,110,120}})[key])[rank+1]end,
+GetCooldownTimeRemaining=function()return 42 end,EndCooldown=function(self)self.ends=self.ends+1 end,
+RefundManaCost=function(self)self.refunds=self.refunds+1 end},{__index=enfos_dk_elder_dragon_form})
+local form,fireball;local grants,writes,casts,cooldowns=0,0,0,0
+local find=hero.FindAbilityByName
+hero.FindAbilityByName=function(_,id)if id=='enfos_dk_elder_dragon_form'then return r elseif id=='dragon_knight_elder_dragon_form'then return form elseif id=='dragon_knight_fireball'then return fireball else return find(hero,id)end end
+hero.IsAlive=function()assert(server);return not hero.dead end
+hero.AddAbility=function(_,id)assert(server);grants=grants+1
+local a={rank=0,null=false,IsNull=function(self)return self.null end,GetCaster=function()return hero end,
+GetAbilityName=function()return id end,GetLevel=function(self)return self.rank end,
+SetLevel=function(self,rank)assert(rank>=0 and rank<=(id=='dragon_knight_fireball'and 1 or 3));writes=writes+1;self.rank=rank end,
+SetHidden=function(self,v)self.hidden=v end,SetActivated=function(self,v)self.active=v end,
+OnSpellStart=function(self)assert(server);casts=casts+1;if self.invalidate then self.null=true end end,
+StartCooldown=function(self,v)assert(v==42);cooldowns=cooldowns+1 end,
+UseResources=function()error('second resource charge')end}
+if id=='dragon_knight_elder_dragon_form'then form=a elseif id=='dragon_knight_fireball'then fireball=a else error(id)end;return a end
+`;
+
+test('R uses a capped native form provider, preserves ten paid ranks and delegates exactly one server cast without double costs',()=>lua(formSetup+`
+assert(integration.Restore(hero));assert(form.rank==0 and form.hidden and not form.active and grants==1)
+for rank=1,10 do r.rank=rank;assert(integration.Restore(hero));assert(form.rank==math.min(3,rank) and r.rank==rank)end
+local count=writes;assert(integration.Restore(hero));assert(writes==count and grants==1 and casts==0 and cooldowns==0)
+r:OnSpellStart();assert(casts==1 and cooldowns==1 and r.refunds==0)
+server=false;r:OnSpellStart();r:OnUpgrade();assert(casts==1 and cooldowns==1);server=true
+hero.dead=true;r:OnSpellStart();assert(casts==1 and r.refunds==1 and r.ends==1);hero.dead=false
+form.invalidate=true;r:OnSpellStart();assert(casts==2 and cooldowns==1)
+`));
+
+test('R raw tuning covers ten ranks on both contexts without overriding native tier/Scepter fields or suppressing active casts under Break',()=>lua(formSetup+`
+assert(integration.Restore(hero));local m=hero.mod;local p={ability=form,ability_special_value='duration'}
+assert(m:GetModifierOverrideAbilitySpecial(p)==1 and m:GetModifierOverrideAbilitySpecialValue(p)==0)
+for _,context in ipairs({true,false})do server=context;for rank=1,10 do r.rank=rank;assert(m:GetModifierOverrideAbilitySpecialValue(p)==r:GetLevelSpecialValueNoOverride('duration',rank-1));p.ability_special_value='bonus_attack_damage';assert(m:GetModifierOverrideAbilitySpecialValue(p)==30+(rank-1)*10);p.ability_special_value='duration'end end
+hero.broken=true;assert(m:GetModifierOverrideAbilitySpecialValue(p)==60)
+for _,key in ipairs({'scepter_bonus_levels','frost_duration','magic_resistance','bonus_ability_cast_range'})do p.ability_special_value=key;assert(m:GetModifierOverrideAbilitySpecial(p)==0)end
+p.ability_special_value='duration';r.null=true;assert(m:GetModifierOverrideAbilitySpecialValue(p)==0);r.null=false
+r.GetCaster=function()return {}end;assert(m:GetModifierOverrideAbilitySpecialValue(p)==0);r.GetCaster=function()return hero end
+form.GetCaster=function()return {}end;assert(m:GetModifierOverrideAbilitySpecial(p)==0)
+`));
+
+test('Shard Fireball reconciles grant/loss/reconnect without a duplicate provider, rank write or cooldown reset and respects owned/server guards',()=>lua(formSetup+`
+assert(integration.ReconcileFireball(hero,false) and grants==0)
+assert(integration.ReconcileFireball(hero,true));assert(grants==1 and fireball.rank==1 and not fireball.hidden and fireball.active)
+for i=1,3 do assert(integration.ReconcileFireball(hero,true))end;assert(grants==1 and writes==1 and cooldowns==0)
+assert(integration.ReconcileFireball(hero,false));assert(fireball.hidden and not fireball.active and fireball.rank==1)
+assert(integration.ReconcileFireball(hero,true));assert(grants==1 and writes==1 and cooldowns==0)
+server=false;assert(not integration.ReconcileFireball(hero,true));server=true
+hero.illusion=true;assert(not integration.ReconcileFireball(hero,true));hero.illusion=false
+hero.name='npc_dota_hero_axe';assert(not integration.ReconcileFireball(hero,true));hero.name='npc_dota_hero_dragon_knight'
+r.GetCaster=function()return {}end;assert(not integration.ReconcileFireball(hero,true));r.GetCaster=function()return hero end
+fireball.GetCaster=function()return {}end;assert(not integration.ReconcileFireball(hero,true))
+`));
+
+test('R source retains native tier data and has no copied form/proc/cleanup or misleading generic upgrade tooltips',()=>{
+ const r=all.enfos_dk_elder_dragon_form,n=source.abilities.dragon_knight_elder_dragon_form;
+ assert.equal(r.MaxLevel,'10');assert.equal(r.RequiredLevel,'5');assert.equal(r.LevelsBetweenUpgrades,'5');assert.equal(r.ScriptFile,'abilities/heroes/dragon_knight/r');
+ assert.equal(n.MaxLevel,'3');assert.equal(n.AbilityValues.scepter_bonus_levels,'1');
+ assert.deepEqual(Object.keys(r.AbilityValues).sort(),['bonus_attack_damage','duration']);
+ assert.equal(all.dragon_knight_elder_dragon_form,undefined);assert.equal(all.dragon_knight_fireball,undefined);
+ const kits=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');assert.doesNotMatch(kits,/modifier_enfos_dk_(elder_dragon_form_buff|frost)|enfos_dk_elder_dragon_form=class/);
+ for(const lang of ['english','turkish','russian','schinese']){const t=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens;
+ for(const suffix of ['Description','SummaryDescription'])for(const key of ['duration','bonus_attack_damage'])assert.ok(t['DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_'+suffix].includes('{{'+key+'}}'));
+ assert.ok(t.DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_shard_description);assert.equal(t.DOTA_Tooltip_Ability_enfos_dk_wyrm_vigor_shard_description,undefined);
+ }
+});
+
+test('Existing Aghanim reconciliation detects native DK Shard, restores Fireball and suppresses only owned DK generic bonuses',()=>lua(formSetup+`
+LinkLuaModifier=function()end;package.loaded['lib/log']={Info=function()end}
+local manager=require('heroes/aghanim_manager');local has=false
+hero.HasModifier=function()return has end;hero.HasScepter=function()return false end
+manager.OnShardAcquired=function()end;manager.OnShardLost=function()end
+assert(not manager:HasShard(hero));has=true;assert(manager:HasShard(hero))
+manager:UpdateHeroAghanimState(hero,'Tank');assert(fireball and fireball.active and grants==1)
+manager:UpdateHeroAghanimState(hero,'Tank');assert(grants==1 and writes==1)
+has=false;manager:UpdateHeroAghanimState(hero,'Tank');assert(fireball.hidden and not fireball.active)
+local s=setmetatable({GetParent=function()return hero end},{__index=modifier_enfos_scepter_upgrade})
+local shard=setmetatable({role='Tank',GetParent=function()return hero end},{__index=modifier_enfos_shard_upgrade})
+assert(s:IsHidden() and s:GetModifierSpellAmplify_Percentage({})==0 and s:GetModifierPercentageCooldown({})==0)
+assert(shard:IsHidden() and shard:GetModifierHealthBonus()==0);shard:OnTakeDamage({})
+hero.name='npc_dota_hero_axe';hero.FindAbilityByName=function()return nil end
+DOTA_ABILITY_TYPE_ULTIMATE=1;local ult={GetAbilityType=function()return 1 end}
+assert(s:GetModifierSpellAmplify_Percentage({inflictor=ult})==40 and s:GetModifierPercentageCooldown({ability=ult})==25)
+assert(shard:GetModifierHealthBonus()==350)
+`));
+
+test('R automatic Health reports native form/Fireball queries without a cast, provider restore or cooldown change',()=>lua(formSetup+`
+r.rank=10;assert(integration.Restore(hero));assert(integration.ReconcileFireball(hero,true))
+hero.GetLevel=function()return 50 end;hero.GetAbilityPoints=function()return 0 end
+q.GetSpecialValueFor=function()return 0 end
+form.GetSpecialValueFor=function(_,key)return assert(({duration=60,bonus_attack_damage=120,scepter_bonus_levels=1})[key])end
+hero.AddAbility=function()error('Health grant')end;local out={};print=function(s)out[#out+1]=s end
+assert(require('heroes/health').Report(hero,0));local joined=table.concat(out,'|')
+assert(joined:find('ability=dragon_knight_elder_dragon_form rank=3',1,true))
+assert(joined:find('native_form_duration_query=60 native_form_bonus_damage_query=120 native_form_scepter_levels_query=1',1,true))
+assert(joined:find('ability=dragon_knight_fireball rank=1',1,true));assert(casts==0 and cooldowns==0)
+`));
+
 const bloodSetup=`
 local armor={6,8,10,12,14,16,18,20,22,24};local regen={10,13,17,20,23,27,30,33,37,40}
 local e={rank=0,null=false,IsNull=function(self)return self.null end,GetCaster=function()return hero end,

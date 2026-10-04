@@ -29,6 +29,21 @@ local function restoreWrath(hero)
     require('lib/hero_trace'):Log('DK','D','native_wrath_ready paid_rank=%s native_rank=%s',tostring(d:GetLevel()),tostring(rank))
     return true
 end
+local function restoreForm(hero)
+    local r=hero:FindAbilityByName('enfos_dk_elder_dragon_form')
+    if not r then return true end
+    if r:IsNull() or r:GetCaster()~=hero then return false end
+    local native=hero:FindAbilityByName('dragon_knight_elder_dragon_form')
+    if native and native:IsNull() then native=nil end
+    if not native then native=hero:AddAbility('dragon_knight_elder_dragon_form') end
+    if not native or native:IsNull() or native:GetCaster()~=hero then return false end
+    local rank=math.min(3,r:GetLevel())
+    if native:GetLevel()~=rank then native:SetLevel(rank) end
+    native:SetHidden(true)
+    native:SetActivated(rank>0)
+    require('lib/hero_trace'):Log('DK','R','native_form_ready paid_rank=%s native_rank=%s',tostring(r:GetLevel()),tostring(rank))
+    return true
+end
 function Integration.Restore(hero)
     if not IsServer() or not hero or hero:IsNull() or not hero:IsRealHero() or hero:IsIllusion()
         or hero:GetUnitName()~='npc_dota_hero_dragon_knight' then return false end
@@ -39,7 +54,7 @@ function Integration.Restore(hero)
         if not m or m:IsNull() then return false end
     end
     require('lib/hero_trace'):Log('DK','Q','native_scaling_ready paid_rank=%s',tostring(q:GetLevel()))
-    return restoreBlood(hero) and restoreWrath(hero)
+    return restoreBlood(hero) and restoreWrath(hero) and restoreForm(hero)
 end
 function Integration.RefreshDragonBlood(hero)
     if not Integration.Restore(hero) then return false end
@@ -68,6 +83,27 @@ function Integration.RefreshWyrmsWrath(hero)
         return false
     end
     m:ForceRefresh()
+    return true
+end
+function Integration.FormProvider(ability)
+    if not IsServer() or not ability or ability:IsNull() or ability:GetAbilityName()~='enfos_dk_elder_dragon_form'
+        or ability:GetLevel()<1 then return end
+    local hero=ability:GetCaster()
+    if not Integration.Restore(hero) or not hero:IsAlive() then return end
+    return hero:FindAbilityByName('dragon_knight_elder_dragon_form')
+end
+function Integration.ReconcileFireball(hero,hasShard)
+    if not IsServer() or not require('abilities/heroes/dragon_knight/ownership').UsesNativeShard(hero)
+        or not hero:IsRealHero() or hero:IsIllusion() then return false end
+    local a=hero:FindAbilityByName('dragon_knight_fireball')
+    if a and a:IsNull() then a=nil end
+    if not a and hasShard then a=hero:AddAbility('dragon_knight_fireball') end
+    if not a then return not hasShard end
+    if a:IsNull() or a:GetCaster()~=hero then return false end
+    if hasShard and a:GetLevel()~=1 then a:SetLevel(1) end
+    a:SetHidden(not hasShard)
+    a:SetActivated(hasShard and true or false)
+    require('lib/hero_trace'):Log('DK','R','native_fireball_ready shard=%s rank=%s',tostring(hasShard),tostring(a:GetLevel()))
     return true
 end
 return Integration

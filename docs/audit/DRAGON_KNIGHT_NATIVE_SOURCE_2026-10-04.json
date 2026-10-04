@@ -411,6 +411,83 @@
       "compiled": "soundevents/game_sounds_heroes/game_sounds_dragon_knight.vsndevts_c",
       "sha256": "69775797eb737494a3f873c9354c855120d8782d06227bb5d030f9a8f19d9ac9",
       "bytes": 4782
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_transform_green.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_transform_green.vpcf_c",
+      "sha256": "1bce74f1e43153e8323e3d3626355a124b7968a10bddb48ac478898ce8d22889",
+      "bytes": 2464,
+      "source": "installed VPK directory listing, R/Shard source unit; C++ call sites/CP/engine presentation pending"
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_transform_blue.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_transform_blue.vpcf_c",
+      "sha256": "8750c3fe17cca099bb12190505212f9eadf3cc68577cf35198274416a80fcaa3",
+      "bytes": 2687,
+      "source": "installed VPK directory listing, R/Shard source unit; C++ call sites/CP/engine presentation pending"
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_transform_black.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_transform_black.vpcf_c",
+      "sha256": "fd44cc051d9cbe48838d29aee904d537a0d091ec63e5ac92fa728138f7098b30",
+      "bytes": 1410,
+      "source": "installed VPK directory listing, R/Shard source unit; C++ call sites/CP/engine presentation pending"
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_attack_black.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_attack_black.vpcf_c",
+      "sha256": "06d53eb8296e5fd5b5594f9325694a401931363c0a839fd10ea497509ee60405",
+      "bytes": 3095,
+      "source": "installed VPK directory listing, R/Shard source unit; C++ call sites/CP/engine presentation pending"
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_corrosion_debuff.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_corrosion_debuff.vpcf_c",
+      "sha256": "2c03980a35b86ac4ed8451480b10a2d65e3a032af44ad8ec008d41876f0f13c4",
+      "bytes": 2334,
+      "source": "installed VPK directory listing, R/Shard source unit; C++ call sites/CP/engine presentation pending"
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_shard_fireball.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_shard_fireball.vpcf_c",
+      "sha256": "e230485949eb2b78e9f27410e06682025270dafd629412099541df4d59a10350",
+      "bytes": 4579,
+      "source": "installed VPK directory listing, R/Shard source unit; C++ call sites/CP/engine presentation pending"
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_shard_fireball_cast.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_shard_fireball_cast.vpcf_c",
+      "sha256": "975d65a57c0cbbc6e7938778e32265bbe6123d4663930b60067843d9043669d6",
+      "bytes": 4167,
+      "source": "installed VPK directory listing, R/Shard source unit; C++ call sites/CP/engine presentation pending"
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_shard_fireball_projectile.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_shard_fireball_projectile.vpcf_c",
+      "sha256": "faa3172831f015fcc50b965de3ade93f7e0def3babfffc4240aa99ae288c8445",
+      "bytes": 1762,
+      "source": "installed VPK directory listing, R/Shard source unit; C++ call sites/CP/engine presentation pending"
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_dragon_tail.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_dragon_tail.vpcf_c",
+      "sha256": "bf0ad3247fbf962e4d9b5be1f5ae08e9f04efe5b627be9aa231ebdb0e7f60d35",
+      "bytes": 1147,
+      "source": "installed VPK directory listing, R/Shard source unit; C++ call sites/CP/engine presentation pending"
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_dragon_tail_dragonform.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_dragon_tail_dragonform.vpcf_c",
+      "sha256": "9592d00b8ef857e4ef2cbac21df0baf14e081340ba8a1f40ab0f10433eb8c3f4",
+      "bytes": 2242,
+      "source": "installed VPK directory listing, R/Shard source unit; C++ call sites/CP/engine presentation pending"
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_dragon_tail_dragonform_proj.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_dragon_tail_dragonform_proj.vpcf_c",
+      "sha256": "bc264a76ba6c5a56f356cff1b892392d0e7c215c31f52eed306049301fb2f752",
+      "bytes": 2630,
+      "source": "installed VPK directory listing, R/Shard source unit; C++ call sites/CP/engine presentation pending"
     }
   ],
   "references": {

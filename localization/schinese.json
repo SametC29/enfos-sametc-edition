@@ -473,8 +473,7 @@
     "DOTA_Tooltip_Ability_enfos_ss_hex_shard_description": "妖术还会变形主目标附近的有限数量敌人，替代通用辅助治疗加成。",
     "DOTA_Tooltip_Ability_enfos_tide_gush_scepter_description": "Scepter：巨浪变为朝指定地点发射的穿透波。射程2200，碰撞半径260，速度1500，基础冷却7秒。命中的敌人受到巨浪伤害、减甲和减速。",
     "DOTA_Tooltip_Ability_enfos_tide_kraken_shell_shard_description": "Shard：受到450点伤害后，免费触发造成50%反射伤害的Anchor Smash，每5秒最多一次。需要学习Anchor Smash。7秒未受伤害时重置计数；破坏禁用触发。 此反应伤害不触发攻击物品效果或吸血。",
-    "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_scepter_description": "阿哈利姆神杖：终极技能法术伤害提高40%，终极技能冷却时间缩短25%。",
-    "DOTA_Tooltip_Ability_enfos_dk_wyrm_vigor_shard_description": "坦克碎片加成：+350生命值，并将受到的敌方伤害的15%以物理伤害反弹。",
+    "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_scepter_description": "神杖：古龙形态提升一阶。基础形态为第三阶时获得黑龙形态，强化腐蚀、溅射和冰霜效果，获得20%魔法抗性并可无视地形移动。",
     "DOTA_Tooltip_Ability_enfos_pudge_dismember_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
     "DOTA_Tooltip_Ability_enfos_pudge_meat_shield_shard_description": "+350生命，将15%敌方伤害以物理伤害反弹。",
     "DOTA_Tooltip_Ability_enfos_underlord_dark_rift_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
@@ -1317,8 +1316,8 @@
     "DOTA_Tooltip_Ability_enfos_dk_dragon_blood_Description": "被动获得 +{{armor}} 护甲和 +{{health_regen}} 生命恢复，另获得相当于力量5%的生命恢复。古龙形态使这些加成提高50%。破坏会禁用此被动；幻象不获得这些加成。",
     "DOTA_Tooltip_Ability_enfos_dk_dragon_blood_SummaryDescription": "被动获得 +{{armor}} 护甲和 +{{health_regen}} 生命恢复，另获得相当于力量5%的生命恢复。古龙形态使这些加成提高50%。破坏会禁用此被动；幻象不获得这些加成。",
     "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form": "远古巨龙形态",
-    "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_Description": "变身为巨龙，持续30 / 33 / 37 / 40 / 43 / 47 / 50 / 53 / 57 / 60秒。获得远程攻击和30 / 40 / 50 / 60 / 70 / 80 / 90 / 100 / 110 / 120点攻击力。攻击会对300范围内的敌人造成相当于80%攻击伤害的物理溅射，并使其移动速度降低30%、攻击速度降低30，持续3秒。",
-    "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_SummaryDescription": "变身为巨龙，持续30 / 33 / 37 / 40 / 43 / 47 / 50 / 53 / 57 / 60秒。获得远程攻击和30 / 40 / 50 / 60 / 70 / 80 / 90 / 100 / 110 / 120点攻击力。攻击会对300范围内的敌人造成相当于80%攻击伤害的物理溅射，并使其移动速度降低30%、攻击速度降低30，持续3秒。",
+    "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_Description": "变身为古龙 {{duration}} 秒，获得远程攻击和 +{{bonus_attack_damage}} 攻击力。R1为绿色古龙，攻击附带腐蚀；R2为红色古龙，增加溅射；R3及以上为蓝色古龙，再增加冰霜效果。后续等级提高持续时间和伤害。龙族血统获得形态加成，神龙摆尾获得形态施法距离。强驱散无法移除此形态。",
+    "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_SummaryDescription": "变身为古龙 {{duration}} 秒，获得远程攻击和 +{{bonus_attack_damage}} 攻击力。R1为绿色古龙，攻击附带腐蚀；R2为红色古龙，增加溅射；R3及以上为蓝色古龙，再增加冰霜效果。后续等级提高持续时间和伤害。龙族血统获得形态加成，神龙摆尾获得形态施法距离。强驱散无法移除此形态。",
     "DOTA_Tooltip_Ability_enfos_dk_wyrm_vigor": "龙之活力",
     "DOTA_Tooltip_Ability_enfos_dk_wyrm_vigor_Description": "攻击造成 {{magic_damage}} 额外魔法伤害。适用的技能和物品作用范围增加 {{bonus_aoe}}。另外获得 +{{magic_resist}}% 魔法抗性和 +{{bonus_strength}} 力量。破坏会禁用这些被动加成；幻象不获得这些加成。",
     "DOTA_Tooltip_Ability_enfos_dk_wyrm_vigor_SummaryDescription": "攻击造成 {{magic_damage}} 额外魔法伤害。适用的技能和物品作用范围增加 {{bonus_aoe}}。另外获得 +{{magic_resist}}% 魔法抗性和 +{{bonus_strength}} 力量。破坏会禁用这些被动加成；幻象不获得这些加成。",
@@ -1326,10 +1325,6 @@
     "DOTA_Tooltip_modifier_enfos_dk_wyrm_vigor_passive_Description": "被动获得10 / 12 / 13 / 15 / 17 / 18 / 20 / 22 / 23 / 25%魔法抗性和10 / 15 / 20 / 25 / 30 / 35 / 40 / 45 / 50 / 55点力量。",
     "DOTA_Tooltip_modifier_enfos_pve_taunt": "被嘲讽",
     "DOTA_Tooltip_modifier_enfos_pve_taunt_Description": "被迫攻击斯温。斯温死亡时嘲讽结束。",
-    "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff": "古龙形态",
-    "DOTA_Tooltip_modifier_enfos_dk_elder_dragon_form_buff_Description": "变为远程攻击的巨龙。攻击力：+%dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%。攻击距离：+%dMODIFIER_PROPERTY_ATTACK_RANGE_BONUS%。攻击溅射附近敌人并使其减速。无法驱散。",
-    "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow": "龙霜",
-    "DOTA_Tooltip_modifier_enfos_dk_dragon_frost_slow_Description": "移速变化：%-dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。攻击速度变化：%-dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%。受到古龙形态溅射攻击的影响。",
     "DOTA_Tooltip_Ability_enfos_lich_frost_shield_Description": "为友军提供持续{{duration}}秒的护盾，使攻击伤害降低{{damage_reduction}}%。每{{pulse_interval}}秒对{{radius}}范围内的敌人造成{{dps}} + 智力的25%的魔法伤害，并使移动速度降低{{movement_slow}}%，持续{{slow_duration}}秒。 可以对自己的冰柱施放；每次脉冲恢复一次英雄攻击的耐久。",
     "DOTA_Tooltip_Ability_enfos_lich_frost_shield_SummaryDescription": "为友军提供持续{{duration}}秒的护盾，使攻击伤害降低{{damage_reduction}}%。每{{pulse_interval}}秒对{{radius}}范围内的敌人造成{{dps}} + 智力的25%的魔法伤害，并使移动速度降低{{movement_slow}}%，持续{{slow_duration}}秒。",
     "DOTA_Tooltip_Ability_enfos_lich_frost_shield": "冰霜护盾",
@@ -1473,6 +1468,7 @@
     "DOTA_Tooltip_Ability_enfos_storm_overload_shard_description": "魔晶使超负荷可主动施放：风暴之灵及750范围内的友方英雄获得3次充能和40攻击速度，最多持续12秒。消耗100魔法，冷却30秒。",
     "DOTA_Tooltip_Ability_enfos_storm_electric_vortex_scepter_description": "神杖将电子涡流变为范围技能，拉拽风暴之灵周围475范围内的敌人。",
     "DOTA_Tooltip_Ability_enfos_storm_ball_lightning_Description": "化为电流飞向指定地点，对路径上{{ball_lightning_aoe}}范围内的敌人造成伤害。每100距离伤害：{{AbilityDamage}} + 智力 × {{intellect_factor}}。到达目标或魔法耗尽时结束飞行。启动消耗：{{ball_lightning_initial_mana_base}} + 最大魔法的{{ball_lightning_initial_mana_percentage}}%。每100距离消耗{{ball_lightning_travel_cost_base}} + 最大魔法的{{ball_lightning_travel_cost_percent}}%。缠绕时无法施放，飞行中风暴之灵无敌。",
-    "DOTA_Tooltip_Ability_enfos_storm_galvanic_core_Description": "提供 {{mana_regen}} 魔法恢复和 {{bonus_int}} 智力；破坏及幻象会禁用这些 Enfos 加成。Galvanized 通过符合条件的击杀及每 3 个英雄等级获得魔法恢复层数，死亡时失去 2 层。每层提供 0.2 魔法恢复，并额外增加持续至本局结束的 0.1 魔法恢复。破坏会阻止从击杀获得新层数。"
+    "DOTA_Tooltip_Ability_enfos_storm_galvanic_core_Description": "提供 {{mana_regen}} 魔法恢复和 {{bonus_int}} 智力；破坏及幻象会禁用这些 Enfos 加成。Galvanized 通过符合条件的击杀及每 3 个英雄等级获得魔法恢复层数，死亡时失去 2 层。每层提供 0.2 魔法恢复，并额外增加持续至本局结束的 0.1 魔法恢复。破坏会阻止从击杀获得新层数。",
+    "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_shard_description": "魔晶：解锁火焰球。选择半径275的区域，使敌人燃烧6秒，每秒造成85魔法伤害；燃烧额外持续2秒。消耗80魔法，冷却20秒，基础施法距离600。适用的作用范围加成生效。"
   }
 }

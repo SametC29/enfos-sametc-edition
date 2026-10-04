@@ -14,6 +14,9 @@ local function route(mod,p)
     local id,key=a:GetAbilityName(),p.ability_special_value
     if id=='enfos_dk_breathe_fire' and key=='damage' then return c,a,'Q' end
     if id=='enfos_dk_dragon_tail' and key=='damage' then return c,a,'W' end
+    if id=='dragon_knight_elder_dragon_form' and (key=='duration' or key=='bonus_attack_damage') then
+        return c,c:FindAbilityByName('enfos_dk_elder_dragon_form'),'R'
+    end
     if id=='dragon_knight_dragon_blood' and (key=='armor' or key=='health_regen') then
         return c,c:FindAbilityByName('enfos_dk_dragon_blood'),'E'
     end
@@ -26,6 +29,12 @@ function M:GetModifierOverrideAbilitySpecialValue(p)
     local c,a,slot=route(self,p)
     if not c or not a or a:IsNull() or a:GetCaster()~=c or a:GetLevel()<1 then return 0 end
     local rank=math.min(10,a:GetLevel())-1
+    if slot=='R' then
+        local key=p.ability_special_value
+        local value=a:GetLevelSpecialValueNoOverride(key,rank)
+        if IsServer() then require('lib/hero_trace'):Log('DK','R','native_form_query key=%s rank=%s value=%s',key,tostring(rank+1),tostring(value)) end
+        return value
+    end
     if slot=='E' or slot=='D' then
         if c:PassivesDisabled() or c:IsIllusion() then return 0 end
         local key=p.ability_special_value

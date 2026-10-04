@@ -3785,8 +3785,13 @@
 	"enfos_dk_elder_dragon_form"
 	{
 		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
+		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
+		"AbilitySound" "Hero_DragonKnight.ElderDragonForm"
+		"FightRecapLevel" "2"
 		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 		"HasScepterUpgrade" "1"
+		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"		"dragon_knight_elder_dragon_form"
@@ -3800,22 +3805,15 @@
 		"AbilityValues"
 		{
 			"duration" "30 33 37 40 43 47 50 53 57 60"
-			"bonus_damage" "30 40 50 60 70 80 90 100 110 120"
-			"attack_range_bonus" "350"
-			"splash_radius" "300"
-			"splash_damage_pct" "80"
-			"splash_slow_duration" "3"
-			"splash_slow_pct" "30"
-			"splash_attack_speed_slow" "30"
+			"bonus_attack_damage" "30 40 50 60 70 80 90 100 110 120"
 		}
-		"ScriptFile"				"abilities/pve_kits"
+		"ScriptFile"				"abilities/heroes/dragon_knight/r"
 	}
 
 	"enfos_dk_wyrm_vigor"
 	{
 		"IsBreakable" "1"
 		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
-		"HasShardUpgrade" "1"
 		"BaseClass"					"ability_lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"		"dragon_knight_wyrms_wrath"

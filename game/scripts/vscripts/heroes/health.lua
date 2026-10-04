@@ -42,6 +42,15 @@ function Health.Report(hero,id)
             end
         end
         if entry.id=='npc_dota_hero_dragon_knight' then
+            local form=hero:FindAbilityByName('dragon_knight_elder_dragon_form')
+            print('[HERO_HEALTH] ability=dragon_knight_elder_dragon_form rank='..tostring(form and not form:IsNull() and form:GetLevel() or 'missing'))
+            if form and not form:IsNull() then
+                print('[HERO_HEALTH] native_form_duration_query='..tostring(form:GetSpecialValueFor('duration'))..
+                    ' native_form_bonus_damage_query='..tostring(form:GetSpecialValueFor('bonus_attack_damage'))..
+                    ' native_form_scepter_levels_query='..tostring(form:GetSpecialValueFor('scepter_bonus_levels')))
+            end
+            local fireball=hero:FindAbilityByName('dragon_knight_fireball')
+            print('[HERO_HEALTH] ability=dragon_knight_fireball rank='..tostring(fireball and not fireball:IsNull() and fireball:GetLevel() or 'missing'))
             local w=hero:FindAbilityByName('enfos_dk_dragon_tail')
             if w and not w:IsNull() then
                 print('[HERO_HEALTH] native_tail_damage_query='..tostring(w:GetSpecialValueFor('damage'))..

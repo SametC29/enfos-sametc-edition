@@ -12,10 +12,10 @@ Hero: `npc_dota_hero_dragon_knight`; role: Tank. Progression target: hero level 
 | 1 | `enfos_dk_breathe_fire` | 10 | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL \| DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | NOT_EXPLICIT | dragon_knight_breathe_fire |
 | 2 | `enfos_dk_dragon_tail` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | NOT_EXPLICIT | dragon_knight_dragon_tail |
 | 3 | `enfos_dk_dragon_blood` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/dragon_knight/e | dragon_knight_dragon_blood |
-| 4 | `enfos_dk_elder_dragon_form` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | dragon_knight_elder_dragon_form |
+| 4 | `enfos_dk_elder_dragon_form` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/heroes/dragon_knight/r | dragon_knight_elder_dragon_form |
 | 5 | `enfos_dk_wyrm_vigor` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/dragon_knight/d | dragon_knight_wyrms_wrath |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/dragon_knight/e](../../../game/scripts/vscripts/abilities/heroes/dragon_knight/e.lua), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [abilities/heroes/dragon_knight/d](../../../game/scripts/vscripts/abilities/heroes/dragon_knight/d.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/dragon_knight/e](../../../game/scripts/vscripts/abilities/heroes/dragon_knight/e.lua), [abilities/heroes/dragon_knight/r](../../../game/scripts/vscripts/abilities/heroes/dragon_knight/r.lua), [abilities/heroes/dragon_knight/d](../../../game/scripts/vscripts/abilities/heroes/dragon_knight/d.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -277,52 +277,46 @@ Change/test record2026-10-04:106 affected source checks/311 hero mocks PASS. SOU
 
 ## Slot 4: `enfos_dk_elder_dragon_form`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `dragon_knight_elder_dragon_form` (installed Ability6).
-Decision and PvE identity rationale: preserve the signature transformation and ranged attack, with bounded rank-scaled splash/slow values.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
-Current versus target rank curve: Elder Dragon Form R ranks 1–10 are KV-gated at levels 5, 10, …, 50; ultimate UI and point behavior remain PENDING.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
-
-2026-10-02 lifecycle repair: the form temporarily replaces the ranged attack
-projectile. The modifier now stores the pre-form projectile name and restores it
-with the model when the form ends. Both API methods were confirmed in the
-installed VScript catalog; mocked lifecycle regression passes. Engine transition
-and death/reconnect cleanup are still PENDING.
+Decision and PvE identity rationale: NATIVE+MINIMAL EXT; recognizable cumulative native dragon tiers replace copied form/splash/frost. Paid ten-rank controller tunes duration30–60 and attack bonus30–120; native provider caps at3 and owns all other tier values.
+Expected cast/travel/impact/ongoing/cleanup behavior: self transformation delegates exactly one native OnSpellStart; provider cooldown follows paid remainder without a second mana charge. Failure refunds paid cooldown/mana. Native owns transformation, projectiles, effects and expiry.
+Normal creep / elite / boss, immunity / dispel / resistance rules: native magical attack procs/non-dispellable form; no bespoke Boss cap or target scan. Engine behavior remains PENDING.
+Current versus target rank curve: paid ranks1–10 at levels5,10,…,50; native R1 green/R2 red/R3–10 blue, Scepter one tier higher including black at native3. No unsupported native rank10.
+Shard / Scepter / Blessing / Evolution / Ascended interactions: exact native Fireball rank1 is conditionally restored through existing upgrade reconciliation; hide/deactivate on loss without reset/removal. Generic Tank Shard and R amp/CDR suppressed only for owned Enfos DK. Native mid-form upgrades/cache remain PENDING.
 
 ### Resource and implementation evidence
 
-- Native ability data source + build + hash/revision: PENDING.
-- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
-- Sound events + declaring banks + emission target + loop termination: PENDING.
-- Model/animation/gesture/icon evidence: PENDING.
-- Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.
-- Precache owner and cold-start test: PENDING.
-- One-shot/persistent cleanup owner and repeated-use test: PENDING.
-- Localization keys and generated mirrors: PENDING.
+- Native ability data source + build + hash/revision: installed6943/revision11069754, fresh unchanged hero SHA2563dcfc11f...3b2043; [snapshot](../../audit/DRAGON_KNIGHT_NATIVE_SOURCE_2026-10-04.json) and [pre-mutation decision/references](../../audit/DRAGON_KNIGHT_NATIVE_FIRST_REVIEW_2026-10-04.md). Boss Survival old model/proc implementation REFERENCE_ONLY, no imports.
+- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments:22 compiled native kit records hashed; green/red/blue/black transforms, corrosion/frost/black attacks, Fireball and W parents retained. Native C++ call sites/CP/presentation remain pending; no Lua CreateParticle.
+- Sound events + declaring banks + emission target + loop termination: exact native ElderDragonForm event/DragonKnight bank retained, no manual emitter. Actual audio pending.
+- Model/animation/gesture/icon evidence: installed DragonKnight model/native form transformations; ACT_INVALID R metadata/native icon. No manual model/skin/projectile setter; engine pending.
+- Modifier links, ownership, refresh, stacks, death/purge/Break rules: existing22-class bootstrap/scaling class reused; native duration/bonus_attack_damage overridden from live paid rank on both contexts. Active form tuning not suppressed by Break. No guessed modifier names or form ForceRefresh.
+- Precache owner and cold-start test: addon startup/native hero kit,22 snapshot records checked; actual cold-load pending.
+- One-shot/persistent cleanup owner and repeated-use test: native sole form/proc/effect owner; idempotent provider and conditional Fireball restore preserve cooldowns/paid ranks. Engine death/recast/reconnect pending.
+- Localization keys and generated mirrors: four authored R descriptions/summaries/Scepter/Shard descriptions and12 mirrors; copied form/frost aliases and old D Shard text retired.
 
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | R gates at levels 5–50 in five-level steps declared; ultimate HUD/point behavior remains PENDING. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
-| Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
-| Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
-| Performance | PENDING | Not evaluated in this dossier setup. |
-| Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Paid R delegates one native cast; ten-rank duration/attack-bonus fixtures pass. Actual form tiers, cache and damage pending. |
+| Targeting | PENDING | Self transform; native Shard Fireball point/AoE targeting and form range need owner session. |
+| Ranks | PENDING | Paid R1 green/R2 red/R3–10 blue; native provider capped at3, native Scepter adds1. Ten paid gates5/5 preserved; HUD/points pending. |
+| VFX | PENDING | 22 verified resource records and native parents precached; actual transform/projectile/fire presentation pending. |
+| SFX | PENDING | Native DragonKnight bank/sound retained, no Lua emitter; actual audio pending. |
+| Animation | PENDING | Native ACT_INVALID transform and Fireball animation5 data verified; actual animations pending. |
+| Modifiers | PENDING | No copied form/frost/proc; native owns model/stats/death/dispel lifecycle. Actual native behavior pending. |
+| Precache | PENDING | Installed compiled roots hashed and explicit startup precache retained; cold-load session pending. |
+| Cleanup | PENDING | No custom form cleanup, thinkers or attack scans. Native death/recast/projectile/effect expiry pending. |
+| Boss | PENDING | Ordinary native attack/spell rules, no skill-specific compensation; actual Boss resistance/damage pending. |
+| Upgrades | PENDING | Exact native Scepter tiers/Shard Fireball replace scoped generic R amp/CDR and Tank HP/reflect. Acquisition/loss/cast fixtures pass; actual upgrades pending. |
+| Localization | PENDING | Four descriptions, upgrade descriptions and12 generated mirrors checked; actual HUD values pending. |
+| Performance | PENDING | Existing periodic upgrade reconciliation reused; no new timer/scan. Dense native gameplay pending. |
+| Reconnect | PENDING | Provider restore never resets paid ranks/points or cooldowns; Shard loss/regrant reuses ability. Actual reconnect pending. |
+| VConsole | PENDING | Automatic read-only native form/Fireball ranks and input queries tested; no owner native R log yet. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Change/test record2026-10-04:116 affected checks/303 hero mocks PASS; full source suite0 failures. SOURCE_REVIEW implemented, AUTOMATED_VALIDATION PASS, OWNER_RUNTIME PENDING. Full restart before owner tests. Static/native-value queries do not certify actual tier/cache/upgrade/gameplay/VFX/SFX results. Prior custom-form lifecycle implementation retired with its copied mocks; native engine now owns lifecycle.
 
 ## Slot 5: `enfos_dk_wyrm_vigor`
 
@@ -332,7 +326,7 @@ Decision and PvE identity rationale: NATIVE+MINIMAL EXT. Exact native attack mag
 Expected cast/travel/impact/ongoing/cleanup behavior: native owns attack magic proc and supported spell/item AoE; raw magic_damage/bonus_aoe bridge selects paid rank, zero if untrained/Break/illusion. No copied attack event/damage or AoE property. Native read paths/behavior PENDING.
 Normal creep / elite / boss, immunity / dispel / resistance rules: ordinary native rules, no Boss exception or independent target scan; actual proc/immunity/attack combinations pending.
 Current versus target rank curve; free rank / point cost: ten ranks are defined; the Enfos passive rank 1 grant is separate from Dota innate metadata, ranks 2–10 are KV-gated at levels 2–10; in-engine points remain pending.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: generic Tank Shard stays until native R/Fireball source unit; it is an extension, not native Wyrm's Wrath. Native AoE application to items/form/Q/W/R and upgrades PENDING.
+Shard / Scepter / Blessing / Evolution / Ascended interactions: native Fireball replaces generic Tank Shard in the R unit; D advertises no unrelated upgrade. Native AoE application to items/form/Q/W/R and upgrades PENDING.
 
 ### Resource and implementation evidence
 
@@ -368,3 +362,5 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: generic Tank Sha
 Change/test record2026-10-04: source123 affected checks/311 hero mocks PASS. FreeD/pre-XP service reused; paid/native/stat restore and22-class client fixtures preserve ranks and ownership. SOURCE_REVIEW implemented, OWNER_RUNTIME PENDING. Full restart later; static/mock evidence does not certify actual proc/AoE/cache/form behavior. No external code/asset import.
 
 2026-09-30 level-cap integration: all five Dragon Knight abilities now declare KV rank gates. Q/W/E and the Enfos passive use one rank per level; passive rank 1 remains a separate Enfos grant. Elder Dragon Form ranks 1–10 unlock on levels 5, 10, …, 50. Static KV contract passes; actual rank buttons, level-up points, ultimate badge and match-start level 6 remain PENDING for owner testing.
+
+2026-10-04 R integration follow-up: all five source units are now implemented. Earlier Q/W/E/D records describe their commit-time dependencies; exact native R and Fireball linkage is now present, while actual range/form amplification/AoE/upgrades/lifecycle acceptance remains OWNER_RUNTIME PENDING. No engine PASS or release certification.

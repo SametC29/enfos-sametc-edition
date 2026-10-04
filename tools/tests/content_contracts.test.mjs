@@ -44,12 +44,9 @@ test('Dragon Knight Elder Dragon Form keeps its native no-cast-animation behavio
 
 test('Dragon Knight skill particles are all present in the addon precache list',()=>{
   const mode=fs.readFileSync('game/scripts/vscripts/addon_game_mode.lua','utf8');
-  const kits=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');
-  const start=kits.indexOf('enfos_dk_elder_dragon_form=class({})');
-  const end=kits.indexOf('-- PUDGE: MEAT HOOK',start);
-  assert.ok(start>=0&&end>start,'Dragon Knight ability implementation region must be found');
-  const assets=[...new Set(kits.slice(start,end).match(/particles\/units\/heroes\/hero_dragon_knight\/[\w/.-]+\.vpcf/g)||[])];
-  assert.equal(assets.length,3,'remaining copied R particles should be inventoried; native Q/W have their own source contracts');
+  const snapshot=JSON.parse(fs.readFileSync('docs/audit/DRAGON_KNIGHT_NATIVE_SOURCE_2026-10-04.json','utf8'));
+  const assets=snapshot.assets.filter(x=>x.path.endsWith('.vpcf')).map(x=>x.path);
+  assert.ok(assets.length>=6,'verified native roots must be inventoried, actual presentation remains pending');
   for(const asset of assets){
     assert.ok(mode.includes(asset),`missing Dragon Knight particle precache: ${asset}`);
   }
@@ -133,8 +130,11 @@ test('every hero exposes correct ultimate/evolution contracts and migrated Enfos
       assert.equal(abilities[h.Ability6].BaseClass,'vengefulspirit_command_aura');
       assert.equal(abilities[h.Ability6].AbilityValues.bonus_base_damage,'0','Native lifecycle bridge must not stack a second damage aura');
     }
-    const shardAbility=['npc_dota_hero_jakiro','npc_dota_hero_lion','npc_dota_hero_antimage','npc_dota_hero_storm_spirit'].includes(id)?h.Ability3:['npc_dota_hero_vengefulspirit','npc_dota_hero_nevermore'].includes(id)?h.Ability1:id==='npc_dota_hero_lich'?h.Ability6:['npc_dota_hero_shadow_shaman','npc_dota_hero_tidehunter','npc_dota_hero_luna'].includes(id)?h.Ability2:h.Ability5;
-    assert.equal(abilities[shardAbility].HasShardUpgrade,'1',id);
+    const shardAbility=id==='npc_dota_hero_dragon_knight'?h.Ability4:['npc_dota_hero_jakiro','npc_dota_hero_lion','npc_dota_hero_antimage','npc_dota_hero_storm_spirit'].includes(id)?h.Ability3:['npc_dota_hero_vengefulspirit','npc_dota_hero_nevermore'].includes(id)?h.Ability1:id==='npc_dota_hero_lich'?h.Ability6:['npc_dota_hero_shadow_shaman','npc_dota_hero_tidehunter','npc_dota_hero_luna'].includes(id)?h.Ability2:h.Ability5;
+    if(id==='npc_dota_hero_dragon_knight'){
+      assert.equal(abilities[h.Ability4].HasShardUpgrade,'1','Native Fireball upgrade belongs to Dragon Form');
+      assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Wyrm Vigor must not advertise removed Tank Shard');
+    }else assert.equal(abilities[shardAbility].HasShardUpgrade,'1',id);
     if(id==='npc_dota_hero_vengefulspirit'){
       assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Retribution must not advertise unrelated healing');
       assert.equal(abilities[h.Ability1].AbilityValues.bounce_range_pct,'75','Magic Missile uses native Shard bounce range');
