@@ -3,7 +3,7 @@ var EnfosHeroSelect = (function () {
     "use strict";
     var roles = ["Tank", "Fighter", "Carry", "Mage", "Support"];
     var containers = {Tank: "TopRoleHeroes", Fighter: "LeftRoleHeroes", Carry: "CarryRoleHeroes", Mage: "BottomRoleHeroes", Support: "RightRoleHeroes"};
-    var roster = [], cards = {}, picks = {}, selected = null, pending = false;
+    var roster = [], cards = {}, picks = {}, selected = null, pending = false, testOpen = false;
     var localId = Players.GetLocalPlayer();
     function tr(key) { return $.Localize("#" + key); }
     function values(table) { return Object.keys(table || {}).sort(function(a,b) { return Number(a)-Number(b); }).map(function(k) { return table[k]; }); }
@@ -15,7 +15,7 @@ var EnfosHeroSelect = (function () {
     function updateControls() {
         localId = Players.GetLocalPlayer();
         Object.keys(cards).forEach(function(id) { cards[id].SetHasClass("HeroCardTaken", sameTeamTaken(id)); cards[id].SetHasClass("HeroCardSelected", !!selected && selected.id === id); });
-        var locked = !!picks[String(localId)], taken = selected && sameTeamTaken(selected.id);
+        var locked = !testOpen && !!picks[String(localId)], taken = selected && sameTeamTaken(selected.id);
         var button = $("#PickHeroBtn");
         button.enabled = !!selected && !locked && !pending && !taken;
         button.SetHasClass("LockedIn", locked);
@@ -52,7 +52,7 @@ var EnfosHeroSelect = (function () {
             var portrait = $.CreatePanel("Image", card, ""); portrait.AddClass("HeroCardImg");
             portrait.SetImage("file://{images}/heroes/" + hero.id + ".png");
             var label = $.CreatePanel("Label", card, ""); label.AddClass("HeroCardName"); label.text = displayName(hero);
-            card.SetPanelEvent("onactivate", function() { if (!picks[String(localId)] && !pending) selectHero(hero); });
+            card.SetPanelEvent("onactivate", function() { if ((testOpen || !picks[String(localId)]) && !pending) selectHero(hero); });
             cards[hero.id] = card;
         });
         var id = picks[String(localId)] || (selected && selected.id);
@@ -71,19 +71,19 @@ var EnfosHeroSelect = (function () {
     function checkVisibility() {
         var state = Game.GetState();
         var visible = state === DOTA_GameState.DOTA_GAMERULES_STATE_HERO_SELECTION || state === DOTA_GameState.DOTA_GAMERULES_STATE_STRATEGY_TIME;
-        $.GetContextPanel().SetHasClass("HeroSelectionHidden", !visible);
+        $.GetContextPanel().SetHasClass("HeroSelectionHidden", !(visible || testOpen));
     }
     function pickCurrentHero() {
         localId = Players.GetLocalPlayer();
-        if (!selected || pending || picks[String(localId)] || sameTeamTaken(selected.id)) return;
+        if (!selected || pending || (!testOpen && picks[String(localId)]) || sameTeamTaken(selected.id)) return;
         pending = true; updateControls();
         // A rejected or lost request must not strand the screen in a fake locked state.
         $.Schedule(2, function() {
-            if (!picks[String(localId)]) { pending = false; updateControls(); $("#PickStatus").text = tr("enfos_select_retry"); }
+            if (testOpen || !picks[String(localId)]) { pending = false; updateControls(); $("#PickStatus").text = tr("enfos_select_retry"); }
         });
         $.Msg("[ENFOS selection] request ", selected.id, " phase=", Game.GetState());
         try {
-            GameEvents.SendCustomGameEventToServer("enfos_lock_in_hero", {hero_name:selected.id});
+            GameEvents.SendCustomGameEventToServer(testOpen ? "enfos_test_room_pick" : "enfos_lock_in_hero", {hero_name:selected.id});
         } catch (error) {
             pending = false; updateControls();
             $("#PickStatus").text = tr("enfos_select_retry");
@@ -94,10 +94,19 @@ var EnfosHeroSelect = (function () {
         if (key.indexOf("roster_") === 0) refreshRoster();
         else if (key === "state" && data) updateState(data);
     });
+    function updateTestSelection(data) {
+        testOpen = !!(data && data.open);
+        if (!testOpen) pending = false;
+        updateControls(); checkVisibility();
+    }
+    CustomNetTables.SubscribeNetTableListener("hero_test_room", function(table, key, data) {
+        if (key === "player_" + Players.GetLocalPlayer()) updateTestSelection(data);
+    });
     GameEvents.Subscribe("game_rules_state_change", checkVisibility);
     refreshRoster();
     var state = CustomNetTables.GetTableValue("hero_selection_state", "state");
     if (state) updateState(state);
+    updateTestSelection(CustomNetTables.GetTableValue("hero_test_room", "player_" + localId));
     checkVisibility();
     return {PickCurrentHero:pickCurrentHero};
 })();

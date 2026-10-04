@@ -33,16 +33,27 @@ function screen(initialPicks = {}, options = {}) {
     entries[Object.keys(entries).length+1] = {id,name:tokens[id],role:hero.Role,primary:hero.AttributePrimary,
       abilities:Object.fromEntries([1,2,3,4,5].map(i=>[i,hero['Ability'+i]]))};
   }
-  let listener;
+  const listeners={};
   const Game={state:4,GetState() { return this.state; }};
   const context={$, Game, DOTA_GameState:{DOTA_GAMERULES_STATE_HERO_SELECTION:4,DOTA_GAMERULES_STATE_STRATEGY_TIME:5},
     Players:{GetLocalPlayer:()=>options.localId ?? 0,GetTeam:id=>id===2?3:2},
-    CustomNetTables:{GetTableValue:(_,key)=>JSON.parse(JSON.stringify(tables[key])),SubscribeNetTableListener:(_,fn)=>listener=fn},
+    CustomNetTables:{GetTableValue:(_,key)=>tables[key]===undefined?null:JSON.parse(JSON.stringify(tables[key])),SubscribeNetTableListener:(table,fn)=>listeners[table]=fn},
     GameEvents:{Subscribe:(name,fn)=>events[name]=fn,SendCustomGameEventToServer:(event,data)=>{ if(options.sendError) throw new Error('transport unavailable'); sent.push({event,data}); }}};
   vm.runInNewContext(source,context);
   return {panels,root,scheduled,sent,context,Game,events,
-    update(picks) { listener('hero_selection_state','state',{remaining_time:40,picks}); }};
+    update(picks) { listeners.hero_selection_state('hero_selection_state','state',{remaining_time:40,picks}); },
+    openTest() {tables.player_0={open:true,pending:false};listeners.hero_test_room('hero_test_room','player_0',tables.player_0);}};
 }
+
+test('Tools selection reopens the roster after lock and routes the next pick through the validated test event',()=>{
+  const s=screen({'0':'npc_dota_hero_luna'});
+  s.Game.state=10;s.events.game_rules_state_change();assert(s.root.classes.has('HeroSelectionHidden'));
+  s.openTest();assert(!s.root.classes.has('HeroSelectionHidden'));
+  const card=s.panels.get('Card_npc_dota_hero_slark');card.handlers.onactivate();
+  s.context.EnfosHeroSelect.PickCurrentHero();
+  assert.equal(s.sent.at(-1).event,'enfos_test_room_pick');
+  assert.equal(s.sent.at(-1).data.hero_name,'npc_dota_hero_slark');
+});
 
 test('production roster shows 40 readable native names and five abilities per selection', () => {
   const s=screen();

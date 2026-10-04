@@ -6,10 +6,46 @@ function Room:Publish()
     CustomNetTables:SetTableValue('game_setup','hero_test_room',{enabled=self:IsEnabled(),available=IsInToolsMode()})
 end
 function Room:Init()
-    self.enabled=false;self.rooms={};self.lastAction={}
+    self.enabled=false;self.rooms={};self.lastAction={};self.selection={}
     CustomGameEventManager:RegisterListener('enfos_test_room_action',function(_,e)self:Action(e)end)
+    CustomGameEventManager:RegisterListener('enfos_test_room_pick',function(_,e)self:Pick(e)end)
     self:Publish()
     if IsInToolsMode() and GetMapName()=='enfos_test' then self:Enable() end
+end
+function Room:PublishSelection(id)
+    local s=self.selection[id]
+    CustomNetTables:SetTableValue('hero_test_room','player_'..id,{open=s and s.open or false,pending=s and s.pending or false})
+end
+function Room:Pick(event)
+    if not self:IsEnabled() or not event then return false end
+    local id,name=event.PlayerID,event.hero_name
+    local state=self.rooms[id]
+    local hero=self:Hero(id)
+    local selection=self.selection[id]
+    if not selection or not selection.open or selection.pending or not hero or not state or state.hero~=hero
+        or type(name)~='string' or name==hero:GetUnitName() then return false end
+    local listed=false
+    for _,entry in ipairs(require('heroes/roster')) do
+        if entry.id==name then listed=true;break end
+    end
+    if not listed then return false end
+    selection.pending=true;self:PublishSelection(id)
+    PrecacheUnitByNameAsync(name,function()
+        if not self:IsEnabled() or self.selection[id]~=selection or self.rooms[id]~=state
+            or self:Hero(id)~=hero then return end
+        local mode=GameRules.EnfosSametC
+        if mode and mode.initializedHeroAbilityPoints then mode.initializedHeroAbilityPoints[id]=nil end
+        local replacement=PlayerResource:ReplaceHeroWith(id,name,0,0)
+        if not replacement or replacement:IsNull() then
+            if mode and mode.initializedHeroAbilityPoints then mode.initializedHeroAbilityPoints[id]=true end
+            selection.pending=false;self:PublishSelection(id)
+            Log:Warn('hero_test','hero_switch_failed player=%d target=%s',id,name)
+            return
+        end
+        selection.open=false;selection.pending=false;self:PublishSelection(id)
+        Log:Info('hero_test','hero_switched player=%d hero=%s',id,name)
+    end,id)
+    return true
 end
 function Room:Plan()
     local waves=require('waves/wave_definitions')
@@ -76,7 +112,7 @@ end
 function Room:Refresh(hero)
     if not hero:IsAlive() then hero:RespawnHero(false,false) end
     hero:SetHealth(hero:GetMaxHealth());hero:SetMana(hero:GetMaxMana())
-    for index=0,31 do local a=hero:GetAbilityByIndex(index);if a and not a:IsNull() then a:EndCooldown() end end
+    for index=0,22 do local a=hero:GetAbilityByIndex(index);if a and not a:IsNull() then a:EndCooldown() end end
     for index=0,8 do local a=hero:GetItemInSlot(index);if a and not a:IsNull() then a:EndCooldown() end end
 end
 function Room:Prepare(hero,state)
@@ -122,7 +158,7 @@ function Room:Tick()
     if not self.resources or not self.resources:IsPlanReady(self.plan) then return end
     for id=0,(DOTA_MAX_TEAM_PLAYERS or 24)-1 do
         local h=self:Hero(id)
-        if h and h:IsAlive() and h:GetLevel()>=6 then
+        if h and h:IsAlive() and h:GetLevel()>=6 and not (self.selection[id] and self.selection[id].open) then
             local state=self.rooms[id]
             if not state or state.hero~=h then
                 if state then self:Clear(state) end
@@ -141,9 +177,11 @@ function Room:Action(event)
     if event.action~='reset' and event.action~='refresh' and event.action~='health' and event.action~='selection' then return false end
     self.lastAction[id]=now
     if event.action=='selection' then
-        -- Map teardown clears engine-owned summons, delayed spells and hero state.
+        -- Reuse the authored roster; the server validates the subsequent pick.
+        self:Clear(state)
+        self.selection[id]={open=true,pending=false}
+        self:PublishSelection(id)
         Log:Info('hero_test','return_to_selection player=%d hero=%s',id,hero:GetUnitName())
-        SendToConsole('dota_launch_custom_game enfos_sametc enfos_test')
         return true
     end
     if not state.ready and event.action=='reset' then state.attempted=true;return self:Prepare(hero,state) end

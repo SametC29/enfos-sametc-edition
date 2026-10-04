@@ -68,7 +68,7 @@ end
 function S:OnTakeDamage(params)
     if not IsServer() or not params or self.triggering then return end
     local c,a=sources(self)
-    if not c or not c:HasShard() then self.damage_counter=0;self.last_damage_time=nil;return end
+    if not c or not require('heroes/aghanim_manager'):HasShard(c) then self.damage_counter=0;self.last_damage_time=nil;return end
     if params.unit~=c or not c:IsAlive() or (params.damage or 0)<=0 then return end
     local now=GameRules:GetGameTime()
     if self.last_damage_time and now-self.last_damage_time>=a:GetSpecialValueFor('shard_reset_interval') then self.damage_counter=0 end

@@ -356,11 +356,13 @@ test('Shell extension bounds reflected Shard smashes without purging, handles Br
  const result=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{encoding:'utf8',input:`
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end
+local shard=true
+package.loaded['heroes/aghanim_manager']={HasShard=function()return shard end}
 require('abilities/heroes/tidehunter/modifiers')
 local server=true;function IsServer()return server end
 local now=0;GameRules={GetGameTime=function()return now end}
 DOTA_DAMAGE_FLAG_REFLECTION=16
-local broken,shard,removed,untrained=false,true,false,false
+local broken,removed,untrained=false,false,false
 local calls=0
 local e={IsNull=function()return removed end,GetLevel=function()return untrained and 0 or 1 end}
 local rank=1;local regen={${w.bonus_hp_regen.split(' ').join(',')}}
@@ -372,7 +374,7 @@ local a={IsNull=function()return removed end,GetLevel=function()return rank end,
  GetSpecialValueFor=function(_,key)if key=='bonus_hp_regen'then return regen[rank]end;return assert(vals[key])end}
 local c={IsNull=function()return removed end,IsIllusion=function()return false end,
  GetStrength=function()return 100 end,
- PassivesDisabled=function()return broken end,HasShard=function()return shard end,IsAlive=function()assert(server);return true end,
+ PassivesDisabled=function()return broken end,IsAlive=function()assert(server);return true end,
  FindAbilityByName=function(_,id)assert(id=='enfos_tide_anchor_smash');return e end,
  StartGesture=function()end,Purge=function()error('Native alone owns cleanse')end}
 local m=setmetatable({GetParent=function()return c end,GetAbility=function()return a end,

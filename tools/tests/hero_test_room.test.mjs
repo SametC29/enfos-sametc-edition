@@ -12,6 +12,7 @@ local ready=false;local plans=0
 package.loaded['bosses/resource_gate']={New=function()return {RequestPlan=function(_,p)assert(#p==2);plans=plans+1 end,IsPlanReady=function()return ready end}end}
 package.loaded['waves/native_roster']={Get=function(n)assert(n==1);return {unit='fixture_creep'}end}
 package.loaded['waves/wave_definitions']={BOSS_HEROES={fixture_reward='fixture_boss'},GetWave=function(_,n)assert(n==5);return {boss_name='fixture_reward'}end}
+package.loaded['heroes/roster']={{id='fixture_hero'},{id='fixture_next'}}
 local bossPrepared,bossRegistered,bossRemoved=0,0,0
 package.loaded['bosses/boss_framework']={PrepareBoss=function(_,u,name,wave,team)assert(u.bossRewardName=='fixture_reward'and name=='fixture_boss'and wave==5 and team==2);bossPrepared=bossPrepared+1;return true end,RegisterBoss=function()bossRegistered=bossRegistered+1;return true end,OnBossKilled=function()bossRemoved=bossRemoved+1 end}
 local V={};V.__index=V;function Vector(x,y,z)return setmetatable({x=x,y=y,z=z},V)end;function V.__add(a,b)return Vector(a.x+b.x,a.y+b.y,a.z+b.z)end
@@ -26,18 +27,20 @@ SetAbilityPoints=function()error('points overwritten')end,SetLevel=function()err
 GetAbsOrigin=function(self)return self.pos end,SetRespawnPosition=function(self,p)self.respawn=p end,
 IsAlive=function(self)return self.alive end,RespawnHero=function(self)self.alive=true end,
 GetMaxHealth=function()return 1000 end,GetMaxMana=function()return 500 end,SetHealth=function(self,n)self.hp=n end,SetMana=function(self,n)self.mana=n end,
-GetAbilityByIndex=function()return nil end,GetItemInSlot=function()return nil end,
+GetAbilityByIndex=function(_,index)assert(index<=22);return nil end,GetItemInSlot=function()return nil end,
 AddItemByName=function(self,name)adds=adds+1;if name=='item_ultimate_scepter'then self.scepter=true else assert(name=='item_aghanims_shard')end;return {IsNull=function()return false end,OnSpellStart=function()consumes=consumes+1;self.shard=true end}end}
 function FindClearSpaceForUnit(h,p)h.pos=p end
 package.loaded['heroes/match_levels']={BuildXPThresholds=function()return {[10]=900}end}
 package.loaded['heroes/aghanim_manager']={HasScepter=function(_,h)return h.scepter end,HasShard=function(_,h)return h.shard end,UpdateHeroAghanimState=function()reconciles=reconciles+1 end}
 package.loaded['heroes/health']={Report=function()health=health+1;return true end}
-PlayerResource={IsValidPlayerID=function(_,id)return id==0 end,GetSelectedHeroEntity=function(_,id)if id==0 then return hero end end}
+local selectedHero=hero;local replacementCalls=0;local precached,finishPrecache
+function PrecacheUnitByNameAsync(name,callback,id)precached=name;finishPrecache=callback;assert(id==0)end
+PlayerResource={IsValidPlayerID=function(_,id)return id==0 end,GetSelectedHeroEntity=function(_,id)if id==0 then return selectedHero end end,
+ReplaceHeroWith=function(_,id,name,gold,experience)assert(id==0 and name=='fixture_next' and gold==0 and experience==0);replacementCalls=replacementCalls+1;selectedHero=setmetatable({GetUnitName=function()return name end},{__index=hero});return selectedHero end}
 DOTA_MAX_TEAM_PLAYERS=1;DOTA_GAMERULES_STATE_PRE_GAME=8;DOTA_ModifyXP_Unspecified=0;DOTA_TEAM_NEUTRALS=4
-local time=0;GameRules={State_Get=function()return 10 end,GetGameTime=function()return time end}
+local time=0;GameRules={State_Get=function()return 10 end,GetGameTime=function()return time end,EnfosSametC={initializedHeroAbilityPoints={[0]=true}}}
 local net={};CustomNetTables={SetTableValue=function(_,table,key,v)net[key]=v end};CustomGameEventManager={RegisterListener=function()end}
 local created,removed={},{};local failAt
-local commands={};function SendToConsole(command)commands[#commands+1]=command end
 function CreateUnitByName(name,pos,clear,a,b,team)
  if #created+1==failAt then return nil end;assert(team==4)
  local u={name=name,pos=pos,IsNull=function()return false end,SetRespawnsDisabled=function()end,
@@ -48,14 +51,20 @@ local room=require('tools/hero_test_room');room:Init()
 assert(not room:IsEnabled());assert(not room:Enable());map='enfos_test'
 `;
 function lua(body){const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{input:setup+body,encoding:'utf8'});assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');}
-test('Return to selection reloads only the fixed test arena for a valid owner; duplicate requests are throttled',()=>lua(`
-assert(not room:Action({PlayerID=0,action='selection'}));assert(#commands==0)
+test('Return to selection reuses the roster, rejects forged picks and swaps only after precache',()=>lua(`
+assert(not room:Action({PlayerID=0,action='selection'}));assert(replacementCalls==0)
 room:Enable();ready=true;room:Tick()
-assert(not room:Action({PlayerID=1,action='selection'}));assert(#commands==0)
-map='enfos';assert(not room:Action({PlayerID=0,action='selection'}));assert(#commands==0);map='enfos_test'
+assert(not room:Action({PlayerID=1,action='selection'}));assert(replacementCalls==0)
+map='enfos';assert(not room:Action({PlayerID=0,action='selection'}));map='enfos_test'
 assert(room:Action({PlayerID=0,action='selection',map='enfos',command='arbitrary'}))
-assert(#commands==1 and commands[1]=='dota_launch_custom_game enfos_sametc enfos_test')
-assert(not room:Action({PlayerID=0,action='selection'}));assert(#commands==1)
+assert(room.selection[0].open and #removed==11 and bossRemoved==1 and replacementCalls==0)
+assert(not room:Pick({PlayerID=0,hero_name='npc_dota_hero_invalid'}))
+assert(not room:Pick({PlayerID=1,hero_name='fixture_next'}))
+assert(room:Pick({PlayerID=0,hero_name='fixture_next'}));assert(precached=='fixture_next' and replacementCalls==0)
+assert(not room:Pick({PlayerID=0,hero_name='fixture_next'}));finishPrecache()
+assert(replacementCalls==1 and selectedHero:GetUnitName()=='fixture_next')
+assert(not room.selection[0].open and GameRules.EnfosSametC.initializedHeroAbilityPoints[0]==nil)
+assert(not room:Action({PlayerID=0,action='selection'}))
 `));
 test('Separate test map automatically enables Tools mode; switching to normal map rejects actions and spawns',()=>lua(`
 room:Init();assert(room:IsEnabled() and plans==1);ready=true;room:Tick();assert(#created==11)
@@ -90,9 +99,9 @@ hero.IsIllusion=function()return true end;assert(not room:Action({PlayerID=0,act
 `));
 test('Test HUD is controlled by authoritative mode and sends only the selected fixed action',()=>{
  let enabled=false,state=10;const panel={visible:false},listeners={},sent=[];
- const context={CustomNetTables:{GetTableValue:()=>({enabled}),SubscribeNetTableListener:(table,fn)=>listeners.net=fn},GameEvents:{Subscribe:(name,fn)=>listeners.state=fn,SendCustomGameEventToServer:(name,data)=>sent.push({name,data})},Game:{GetState:()=>state},$:()=>panel};
+ const context={CustomNetTables:{GetTableValue:(table)=>table==='game_setup'?({enabled}):({open:false}),SubscribeNetTableListener:(table,fn)=>listeners[table]=fn},GameEvents:{Subscribe:(name,fn)=>listeners.state=fn,SendCustomGameEventToServer:(name,data)=>sent.push({name,data})},Game:{GetState:()=>state},Players:{GetLocalPlayer:()=>0},$:()=>panel};
  vm.runInNewContext(fs.readFileSync('content/panorama/scripts/custom_game/hero_test_room.js','utf8'),context);
- assert.equal(panel.visible,false);enabled=true;listeners.net('game_setup','hero_test_room');assert.equal(panel.visible,true);
+ assert.equal(panel.visible,false);enabled=true;listeners.game_setup('game_setup','hero_test_room');assert.equal(panel.visible,true);
  context.EnfosHeroTest.Action('reset');assert.equal(sent[0].name,'enfos_test_room_action');assert.equal(sent[0].data.action,'reset');state=11;listeners.state();assert.equal(panel.visible,false);
  context.EnfosHeroTest.Action('selection');assert.equal(sent[1].data.action,'selection');
  for(const lang of ['english','turkish','russian','schinese']){const t=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens;for(const key of ['title','details','reset','refresh','health','selection'])assert.ok(t['enfos_test_'+key]);}

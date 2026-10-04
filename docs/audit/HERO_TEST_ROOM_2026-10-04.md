@@ -31,13 +31,16 @@ to the owner; no remote player log collection or publication authorized.
   read-only hero Health. Server validates ownership and throttles requests.
   Reset clears previous tracked targets and Boss registrations; no XP/item
   grants repeat. Partial spawn failures clean up and require explicit retry.
-- Owner-requested return-to-selection button reloads the same single-player
-  Tools arena via the verified native `SendToConsole` client-command API and
-  fixed `dota_launch_custom_game enfos_sametc enfos_test` command. Full map
-  teardown prevents previous heroes' summons, delayed spells and per-player
-  initialization state from carrying into the next test. Mode, player ownership
-  and request throttling remain server-validated; no user-supplied command/map.
-  Runtime command dispatch and returning to selection remain owner-test pending.
+- The owner-test log proved that the original return button's `SendToConsole`
+  command was rejected by the engine's required FCVAR flag. The repair opens
+  the existing roster during gameplay and sends a separate validated pick to
+  the server. `PrecacheUnitByNameAsync` completes before native
+  `PlayerResource:ReplaceHeroWith`; the new hero's normal spawn path then
+  receives starting points and test preparation. Target cleanup occurs before
+  selection; the server checks the mode, owned hero, roster entry and pending
+  switch. The engine swap and any old-hero summons still need live verification.
+- The log also showed `GetAbilityByIndex` warnings for indices 23–31. The
+  refresh scan now stops at 22, the observed highest safe index in this build.
 
 ## Evidence and pending acceptance
 
@@ -45,8 +48,8 @@ Resource compiler succeeded: 20 compiled, 0 failed; playable test VPK 421798
 bytes. Offline terrain preview confirms the small square and 48 raised perimeter
 vertices. Focused tests cover mode isolation, automatic startup, resource waits,
 ordinary leveling, reset cleanup, failure recovery and invalid client actions.
-Seven focused tests passed, including return-to-selection ownership, fixed-command
-dispatch and throttling; the full checks command reported zero failures.
+Focused tests cover selection authorization, resource wait and native swap
+sequencing. Full checks remain a required gate after the repair.
 The native Panorama compiler also accepted the test layout, CSS, JavaScript and
 HUD manifest. It caught a prohibited root panel ID during authoring; the final
 layout uses a root wrapper and an identified child panel.

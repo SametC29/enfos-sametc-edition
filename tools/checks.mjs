@@ -285,7 +285,7 @@ check('production and local Tools map allowlist', () => {
   if (fs.existsSync('content/maps/enfos.vmap')) throw new Error('Unsafe placeholder source in canonical Enfos build tree');
 });
 check('isolated hero test room', () => {
-  const result=spawnSync(process.execPath,['--test','tools/tests/hero_test_room.test.mjs'],{encoding:'utf8'});
+  const result=spawnSync(process.execPath,['--test','tools/tests/hero_test_room.test.mjs','tools/tests/tidehunter_shard_guard.test.mjs'],{encoding:'utf8'});
   if(result.status!==0)throw new Error(result.stderr||result.stdout);
 });
 check('installed map/theme matches recorded playable version', () => {

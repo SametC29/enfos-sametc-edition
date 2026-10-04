@@ -1,5 +1,13 @@
 # Tidehunter: ability evidence dossier
 
+Live owner test, 2026-10-04: `enfos_test` spawned Tidehunter at level 10 with
+Scepter and Shard, but repeated damage triggered ten Lua errors in
+`modifier_enfos_tide_shell_extension:OnTakeDamage` because engine hero handles
+do not expose `HasShard()` (VConsole attachment SHA256
+`A43657E041E5DC8E3AEFA5152C0BBEFE10CB6ED00479A6A0CF73AED9CD854B8A`,
+lines 5444–5498). The call now uses the existing AghanimManager Shard helper;
+mock regression passes. Engine damage/Shard behavior remains PENDING.
+
 This dossier starts UNASSESSED/PENDING. It is a work reference, not proof that the kit works. The existing [structural inventory](../../audit/HERO_ABILITY_CONTRACTS.json) remains the source for static audit candidates.
 
 <!-- BEGIN GENERATED INVENTORY -->

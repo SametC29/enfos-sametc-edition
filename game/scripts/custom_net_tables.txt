@@ -4,6 +4,7 @@
         "wave_info",
         "game_setup",
         "hero_selection_state",
+        "hero_test_room",
         "spellbringer_meta",
         "spellbringer_state",
         "economy_state",
