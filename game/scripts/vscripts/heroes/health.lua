@@ -42,6 +42,15 @@ function Health.Report(hero,id)
             end
         end
         if entry.id=='npc_dota_hero_dragon_knight' then
+            local wrath=hero:FindAbilityByName('dragon_knight_wyrms_wrath')
+            print('[HERO_HEALTH] ability=dragon_knight_wyrms_wrath rank='..tostring(wrath and not wrath:IsNull() and wrath:GetLevel() or 'missing'))
+            if wrath and not wrath:IsNull() then
+                local name=wrath:GetIntrinsicModifierName()
+                local m=name and name~='' and hero:FindModifierByName(name)
+                print('[HERO_HEALTH] wyrms_wrath_intrinsic='..tostring(name)..' present='..tostring(m and not m:IsNull() or false))
+                print('[HERO_HEALTH] native_wrath_magic_damage_query='..tostring(wrath:GetSpecialValueFor('magic_damage'))..
+                    ' native_wrath_bonus_aoe_query='..tostring(wrath:GetSpecialValueFor('bonus_aoe')))
+            end
             local blood=hero:FindAbilityByName('dragon_knight_dragon_blood')
             print('[HERO_HEALTH] ability=dragon_knight_dragon_blood rank='..tostring(blood and not blood:IsNull() and blood:GetLevel() or 'missing'))
             if blood and not blood:IsNull() then

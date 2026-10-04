@@ -753,7 +753,7 @@
     "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form": "Ulu Ejder Formu",
     "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_Description": "{{duration}} saniye boyunca kudretli bir ejderhaya dönüşür. Menzilli saldırılar yapar, saldırıları alana sıçrar ve +{{bonus_damage}} hasar kazanır.",
     "DOTA_Tooltip_Ability_enfos_dk_wyrm_vigor": "Ejderha Kudreti",
-    "DOTA_Tooltip_Ability_enfos_dk_wyrm_vigor_Description": "Pasif olarak +%{{magic_resist}} büyü direnci ve +{{bonus_strength}} güç bahşeder.",
+    "DOTA_Tooltip_Ability_enfos_dk_wyrm_vigor_Description": "Saldırılar {{magic_damage}} ek büyü hasarı verir. Desteklenen büyü ve eşyaların etki alanı +{{bonus_aoe}} artar. Ayrıca +%{{magic_resist}} büyü direnci ve +{{bonus_strength}} Güç kazandırır. Kırılma bu pasif bonusları devre dışı bırakır; illüzyonlar bunları kazanmaz.",
     "DOTA_Tooltip_Ability_enfos_pudge_meat_hook": "Et Kancası",
     "DOTA_Tooltip_Ability_enfos_pudge_meat_hook_Description": "{{hook_range}} menzile {{hook_speed}} hızla kanca fırlatır; çarptığı ilk düşmana {{hook_damage}} + Gücünün %180’i kadar saf hasar verir ve boss olmayan hedefleri Pudge’a çeker.",
     "DOTA_Tooltip_Ability_enfos_pudge_rot": "Çürüme",
@@ -1854,6 +1854,7 @@
     "DOTA_Tooltip_ability_enfos_am_spellbreaker_SummaryDescription": "{{bonus_as}} saldırı hızı ve {{bonus_ms}} hareket hızı verir; Break bu bonusları devre dışı bırakır. Native Persecutor, manası %60’ın altındaki düşmanları saldırılarda 0,75 saniye yavaşlatır; yavaşlatma eksik mana ve kahraman seviyesiyle artar. İllüzyonlar native yavaşlatmayı korur, ek Enfos özelliklerini kazanmaz.",
     "DOTA_Tooltip_Ability_enfos_storm_overload_shard_description": "Shard, Aşırı Yükleme aktivasyonunu açar: Storm ve 750 yarıçaptaki müttefik kahramanlar 3 yük ve 40 saldırı hızı kazanır; en fazla 12 saniye sürer. 100 mana tüketir; bekleme süresi 30 saniyedir.",
     "DOTA_Tooltip_Ability_enfos_storm_electric_vortex_scepter_description": "Scepter, Elektrik Girdabını Storm’un çevresindeki 475 yarıçapta düşmanları çeken alan kullanımına dönüştürür.",
-    "DOTA_Tooltip_Ability_enfos_dk_breathe_fire_SummaryDescription": "Seçilen noktaya veya düşmana genişleyen bir alev dalgası gönderir; {{damage}} + Güç × {{strength_factor}} büyü hasarı verir ve temel saldırı hasarını {{duration}} saniye boyunca %{{reduction}} azaltır. Dalga {{speed}} hızla {{range}} birim ilerler; yarıçapı {{start_radius}} değerinden {{end_radius}} değerine genişler. Büyü engelleme ve büyü yansıtma dalgayı durdurmaz; saldırı azaltması silinebilir."
+    "DOTA_Tooltip_Ability_enfos_dk_breathe_fire_SummaryDescription": "Seçilen noktaya veya düşmana genişleyen bir alev dalgası gönderir; {{damage}} + Güç × {{strength_factor}} büyü hasarı verir ve temel saldırı hasarını {{duration}} saniye boyunca %{{reduction}} azaltır. Dalga {{speed}} hızla {{range}} birim ilerler; yarıçapı {{start_radius}} değerinden {{end_radius}} değerine genişler. Büyü engelleme ve büyü yansıtma dalgayı durdurmaz; saldırı azaltması silinebilir.",
+    "DOTA_Tooltip_Ability_enfos_dk_wyrm_vigor_SummaryDescription": "Saldırılar {{magic_damage}} ek büyü hasarı verir. Desteklenen büyü ve eşyaların etki alanı +{{bonus_aoe}} artar. Ayrıca +%{{magic_resist}} büyü direnci ve +{{bonus_strength}} Güç kazandırır. Kırılma bu pasif bonusları devre dışı bırakır; illüzyonlar bunları kazanmaz."
   }
 }

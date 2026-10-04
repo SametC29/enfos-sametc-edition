@@ -84,6 +84,13 @@ restore, existing21-class bootstrap and read-only Health, four locales,
 106 affected checks/311 hero mocks/full0 failures. E/Q source implemented;
 D Wyrm's Wrath is next prerequisite, then W/R. No whole-kit or engine acceptance.
 
+2026-10-04 Dragon Knight D source progression: exact native Wyrm's Wrath
+attack magic/AoE provider with ten paid raw ranks and preserved MR/STR stats.
+Existing freeD/pre-XP restore, rank0/1 native provider and server paid-upgrade
+refresh, reviewed22-class bootstrap/read-only Health, four locales;123 affected
+checks/311 hero mocks/full0 failures. Q/E/D source implemented. Next W/R linked
+native form/Shard units; actual proc/AoE/form/cache/lifecycle remain owner pending.
+
 2026-10-04 source progression: Bristleback native D and linked Q/W/E/R source
 units are implemented, with paid ten-rank controllers, one native-value bridge,
 native Scepter E, explicit Tank Shard extension, four-language tooltips and

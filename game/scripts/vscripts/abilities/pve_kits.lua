@@ -1,5 +1,6 @@
 require('abilities/heroes/antimage/d')
 require('abilities/heroes/dragon_knight/e')
+require('abilities/heroes/dragon_knight/d')
 require('abilities/heroes/storm_spirit/e')
 require('abilities/heroes/storm_spirit/d')
 require('abilities/heroes/antimage/q')
@@ -207,7 +208,6 @@ local modifier_list = {
     'modifier_enfos_dk_dragon_tail_stun',
     'modifier_enfos_dk_elder_dragon_form_buff',
     'modifier_enfos_dk_dragon_frost_slow',
-    'modifier_enfos_dk_wyrm_vigor_passive',
     'modifier_enfos_pudge_rot_aura',
     'modifier_enfos_pudge_rot_debuff',
     'modifier_enfos_pudge_flesh_heap_passive',
@@ -4559,15 +4559,6 @@ modifier_enfos_dk_dragon_tail_stun=class({})
 function modifier_enfos_dk_dragon_tail_stun:IsDebuff() return true end
 function modifier_enfos_dk_dragon_tail_stun:CheckState() return { [MODIFIER_STATE_STUNNED] = true } end
 
-local function dk_passive_sources(modifier)
-    local c = modifier:GetParent()
-    if not c or (c.IsNull and c:IsNull()) or (c.PassivesDisabled and c:PassivesDisabled())
-        or (c.IsIllusion and c:IsIllusion()) then return nil end
-    local a = modifier:GetAbility()
-    if not a or (a.IsNull and a:IsNull()) or (a.GetLevel and a:GetLevel() <= 0) then return nil end
-    return c, a
-end
-
 enfos_dk_elder_dragon_form=class({})
 function enfos_dk_elder_dragon_form:OnSpellStart()
     if not IsServer() then return end
@@ -4664,24 +4655,6 @@ end
 function modifier_enfos_dk_dragon_frost_slow:GetModifierAttackSpeedBonus_Constant()
     local slow = self:GetAbility() and value(self:GetAbility(), 'splash_attack_speed_slow') or 30
     return -slow
-end
-
-enfos_dk_wyrm_vigor=class({})
-function enfos_dk_wyrm_vigor:GetIntrinsicModifierName() return 'modifier_enfos_dk_wyrm_vigor_passive' end
-
-modifier_enfos_dk_wyrm_vigor_passive=class({})
-function modifier_enfos_dk_wyrm_vigor_passive:DeclareFunctions()
-    return { MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS, MODIFIER_PROPERTY_STATS_STRENGTH_BONUS }
-end
-function modifier_enfos_dk_wyrm_vigor_passive:GetModifierMagicalResistanceBonus()
-    local c, a = dk_passive_sources(self)
-    if not c then return 0 end
-    return value(a, 'magic_resist')
-end
-function modifier_enfos_dk_wyrm_vigor_passive:GetModifierBonusStats_Strength()
-    local c, a = dk_passive_sources(self)
-    if not c then return 0 end
-    return value(a, 'bonus_strength')
 end
 
 -- ----------------------------------------------------------------------------

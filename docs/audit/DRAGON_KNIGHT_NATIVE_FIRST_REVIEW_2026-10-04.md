@@ -202,3 +202,63 @@ STR changes, Break/illusion, native R form50% after R migration, death/respawn/
 reconnect/freeD+ordinarypoints and VConsole. Next source prerequisite: D Wyrm's
 Wrath, followed by W/R native linkage. No DK kit completion, remote push or
 publication; contributor work excluded from commit.
+
+## D pre-mutation decision
+
+TUNE / NATIVE+MINIMAL EXT. Installed6943/11069754 hero SHA256 unchanged,
+re-read before this unit. Exact `dragon_knight_wyrms_wrath` is breakable passive,
+MaxLevel4, magical; exposed keys magic_damage10/20/30/40 and bonus_aoe30/60/90/120.
+Installed description specifies bonus attack magic damage and spell/item AoE.
+It is not an innate, stat-only toughness passive or former color facet.
+Retain paid stable Wyrm Vigor D/free rank1/ten ranks and authored MR10..25,
+STR10..55. Add ten-rank native-key curves10/13/17/20/23/27/30/33/37/40 and
+AoE30/40/50/60/70/80/90/100/110/120, spanning installed endpoints with intermediate
+numeric tuning. Exact native provider stays rank0/1, never ten C++ ranks.
+
+Native owns attack proc, AoE increase, immunity/Break and presentation; do not
+add OnAttackLanded/ApplyDamage or duplicate AoE property. Existing raw scaling
+class forwards current D rank to native keys, zero on untrained/Break/illusions.
+Move existing MR/STR extension to reviewed hero modifier module, with both-context
+owned live raw stat guards. Register that class on existing client/server path;
+no client managers. Restore through existing pre-XP/freeD service, no new timer
+or rank/point setters for paid D. Rank-up queries and refreshes live native
+intrinsic server-only, not on ordinary reconnect/respawn. Native proc cache,
+magic damage ordering, AoE effects on native Q/W/R/items and illusions remain
+owner-engine gates. Do not invent an aura-radius or damage event.
+
+Reference search then full-file retrieval/selected DK block review:
+WorldofDota2880603428 scripts/npc/npc_heroes_custom.txt assigns exact native
+Wyrm's Wrath at Ability3 alongside custom Q/W/R, DragonBlood and Fireball.
+It supplies no evidence of our ten-rank/cache/restore approach. REFERENCE_ONLY,
+version/license unknown; no imports. Re-read [ModDota exposed-variable guidance](https://moddota.com/abilities/ability-keyvalues).
+Installed PassivesDisabled is BOTH; ForceRefresh BOTH but server use only here.
+Generic Tank Shard stays until R/Fireball source unit; it is not native D.
+Remove old D class/shared source helper only after all callers move, preserve
+stat guard coverage and four-language modifier tooltip. Native resources already
+owned by hero precache; no new guessed particle/sound/cosmetic assignment.
+
+D source implementation2026-10-04: stable paid controller moved to hero d.lua;
+MR/STR modifier moved to reviewed both-context module, with live owned raw
+rank/Break/illusion/null guards, visible native icon/nonpurge/death persistence.
+Old class/shared helper/link entry removed only after both E/D callers retired.
+Raw native magic_damage/bonus_aoe queries use ten numeric D curves above; exact
+native provider rank0 until D trained/rank1 afterwards. Native remains sole
+attack/AoE owner, no duplicate damage/attack event/AoE property. Existing freeD
+and pre-XP service restores one provider; ordinary restores retain trained D
+and never refresh. Paid D upgrade alone server-refreshes its live queried
+native intrinsic, leaving Dragon Blood untouched. No timers/counters/points.
+
+Client bootstrap registers22 reviewed classes on existing path, no server
+manager imports; automated Health reads native rank/intrinsic/magic/AoE only.
+Four-language paid descriptions and12mirrors include native effects/defense;
+existing defensive modifier tooltip and generic Tank Shard retained for now.
+123 affected checks/311 hero mocks PASS; full suite0 failures, native/integration
+set141 checks. Initial affected checks rejected unnecessary explicit Innate0
+under existing non-innate D contract; remove it rather than weaken that gate.
+Paid D remains ability_lua/no innate flags; exact native also not an innate.
+OWNER_RUNTIME PENDING: actual attacks/bonus damage/immunity/procs/Break/illusion,
+supported Q/W/R/items AoE/cache, freeD1/rank10/HUD/points, death/respawn/reconnect,
+native form/upgrades/cold-load/presentation/VConsole. Full restart later.
+No native model/particle/sound rewriting, imported reference code, remote push,
+deployment or publication. Next W/R source units, especially exact native form
+linkage and Shard Fireball; Q/E/D source implemented, entire DK still incomplete.

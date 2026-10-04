@@ -14,6 +14,21 @@ local function restoreBlood(hero)
     require('lib/hero_trace'):Log('DK','E','native_blood_ready paid_rank=%s native_rank=%s',tostring(e:GetLevel()),tostring(native:GetLevel()))
     return true
 end
+local function restoreWrath(hero)
+    local d=hero:FindAbilityByName('enfos_dk_wyrm_vigor')
+    if not d then return true end
+    if d:IsNull() or d:GetCaster()~=hero then return false end
+    local native=hero:FindAbilityByName('dragon_knight_wyrms_wrath')
+    if native and native:IsNull() then native=nil end
+    if not native then native=hero:AddAbility('dragon_knight_wyrms_wrath') end
+    if not native or native:IsNull() or native:GetCaster()~=hero then return false end
+    local rank=d:GetLevel()>0 and 1 or 0
+    if native:GetLevel()~=rank then native:SetLevel(rank) end
+    native:SetHidden(true)
+    native:SetActivated(rank>0)
+    require('lib/hero_trace'):Log('DK','D','native_wrath_ready paid_rank=%s native_rank=%s',tostring(d:GetLevel()),tostring(rank))
+    return true
+end
 function Integration.Restore(hero)
     if not IsServer() or not hero or hero:IsNull() or not hero:IsRealHero() or hero:IsIllusion()
         or hero:GetUnitName()~='npc_dota_hero_dragon_knight' then return false end
@@ -24,7 +39,7 @@ function Integration.Restore(hero)
         if not m or m:IsNull() then return false end
     end
     require('lib/hero_trace'):Log('DK','Q','native_scaling_ready paid_rank=%s',tostring(q:GetLevel()))
-    return restoreBlood(hero)
+    return restoreBlood(hero) and restoreWrath(hero)
 end
 function Integration.RefreshDragonBlood(hero)
     if not Integration.Restore(hero) then return false end
@@ -39,6 +54,19 @@ function Integration.RefreshDragonBlood(hero)
         return false
     end
     -- A stat-only native intrinsic; ordinary restore never invokes refresh.
+    m:ForceRefresh()
+    return true
+end
+function Integration.RefreshWyrmsWrath(hero)
+    if not Integration.Restore(hero) then return false end
+    local native=hero:FindAbilityByName('dragon_knight_wyrms_wrath')
+    if not native or native:IsNull() or native:GetLevel()<1 then return false end
+    local name=native:GetIntrinsicModifierName()
+    local m=name and name~='' and hero:FindModifierByName(name)
+    if not m or m:IsNull() then
+        require('lib/hero_trace'):Log('DK','D','native_wrath_intrinsic_missing')
+        return false
+    end
     m:ForceRefresh()
     return true
 end

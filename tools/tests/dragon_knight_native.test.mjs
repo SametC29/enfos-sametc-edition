@@ -10,7 +10,7 @@ const setup=`
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end
 local server=true;function IsServer()return server end
-LUA_MODIFIER_MOTION_NONE=0;function LinkLuaModifier(n,p)assert(n=='modifier_enfos_dk_native_scaling' and p=='abilities/heroes/dragon_knight/modifiers')end
+LUA_MODIFIER_MOTION_NONE=0;function LinkLuaModifier(n,p)assert((n=='modifier_enfos_dk_native_scaling' or n=='modifier_enfos_dk_wyrm_vigor_passive') and p=='abilities/heroes/dragon_knight/modifiers')end
 package.loaded['lib/hero_trace']={Log=function()end}
 local hero={null=false,real=true,illusion=false,name='npc_dota_hero_dragon_knight',str=80,
 IsNull=function(self)return self.null end,IsRealHero=function(self)return self.real end,IsIllusion=function(self)return self.illusion end,
@@ -45,6 +45,82 @@ GetLevel=function(self)return self.rank end,SetLevel=function(self,rank)assert(r
 SetHidden=function(self,v)assert(v);self.hidden=v end,SetActivated=function(self,v)self.active=v end,
 GetIntrinsicModifierName=function()return 'fixture_native_blood'end};return native end
 `;
+const wrathSetup=bloodSetup+`
+local magic={10,13,17,20,23,27,30,33,37,40};local mr={10,12,13,15,17,18,20,22,23,25}
+local d={rank=0,null=false,IsNull=function(self)return self.null end,GetCaster=function()return hero end,
+GetAbilityName=function()return 'enfos_dk_wyrm_vigor'end,GetLevel=function(self)return self.rank end,
+GetSpecialValueFor=function()error('recursive D read')end,
+GetLevelSpecialValueNoOverride=function(self,key,rank)assert(rank==math.min(10,self.rank)-1)
+ if key=='magic_damage'then return magic[rank+1] elseif key=='bonus_aoe'then return 30+10*rank elseif key=='magic_resist'then return mr[rank+1] elseif key=='bonus_strength'then return 10+5*rank end;error(key)end}
+local wrath,dAdds,dRankWrites,dRefreshes=nil,0,0,0
+local di={IsNull=function()return false end,ForceRefresh=function()assert(server);dRefreshes=dRefreshes+1 end}
+local find,add,findmod=hero.FindAbilityByName,hero.AddAbility,hero.FindModifierByName
+hero.FindAbilityByName=function(_,id)if id=='enfos_dk_wyrm_vigor'then return d elseif id=='dragon_knight_wyrms_wrath'then return wrath else return find(hero,id)end end
+hero.FindModifierByName=function(_,name)if name=='fixture_native_wrath'then return di else return findmod(hero,name)end end
+hero.AddAbility=function(_,id)if id~='dragon_knight_wyrms_wrath'then return add(hero,id)end;assert(server);dAdds=dAdds+1
+ wrath={rank=0,IsNull=function()return false end,GetCaster=function()return hero end,GetAbilityName=function()return 'dragon_knight_wyrms_wrath'end,
+GetLevel=function(self)return self.rank end,SetLevel=function(self,rank)assert(rank==0 or rank==1);dRankWrites=dRankWrites+1;self.rank=rank end,
+SetHidden=function(self,v)assert(v);self.hidden=v end,SetActivated=function(self,v)self.active=v end,
+GetIntrinsicModifierName=function()return 'fixture_native_wrath'end};return wrath end
+`;
+
+test('Wyrm Vigor preserves free paid D gates/defense and forwards exact native attack/AoE keys without a copied proc',()=>{
+ const d=all.enfos_dk_wyrm_vigor,n=source.abilities.dragon_knight_wyrms_wrath;
+ assert.equal(d.AbilityUnitDamageType,n.AbilityUnitDamageType);
+ assert.equal(d.BaseClass,'ability_lua');assert.equal(d.ScriptFile,'abilities/heroes/dragon_knight/d');assert.equal(d.Innate,undefined);assert.equal(d.RequiredLevel,'1');assert.equal(d.LevelsBetweenUpgrades,'1');assert.equal(d.MaxLevel,'10');assert.equal(d.IsBreakable,n.IsBreakable);assert.equal(all.dragon_knight_wyrms_wrath,undefined);assert.equal(n.MaxLevel,'4');
+ assert.equal(d.AbilityValues.magic_resist,'10 12 13 15 17 18 20 22 23 25');assert.equal(d.AbilityValues.bonus_strength,'10 15 20 25 30 35 40 45 50 55');
+ for(const key of ['magic_damage','bonus_aoe']){const paid=d.AbilityValues[key].split(' ').map(Number),base=n.AbilityValues[key].value.split(' ').map(Number);assert.equal(paid.length,10);assert.equal(paid[0],base[0]);assert.equal(paid[9],base[3]);assert.ok(paid.every((v,i)=>i===0||v>paid[i-1]));}
+ for(const name of ['modifiers','d','integration'])assert.doesNotMatch(fs.readFileSync('game/scripts/vscripts/abilities/heroes/dragon_knight/'+name+'.lua','utf8'),/OnAttackLanded|ApplyDamage|StartIntervalThink|MODIFIER_PROPERTY_AOE_BONUS/);
+ const kits=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');assert.doesNotMatch(kits,/dk_passive_sources|enfos_dk_wyrm_vigor=class|modifier_enfos_dk_wyrm_vigor_passive/);
+});
+
+test('D native value overrides cover all paid ranks/both contexts and reject unsupported/foreign/untrained/Break/illusion sources',()=>lua(wrathSetup+`
+assert(integration.Restore(hero));local m=hero.mod;local p={ability=wrath,ability_special_value='magic_damage'}
+assert(wrath.rank==0 and not wrath.active and m:GetModifierOverrideAbilitySpecial(p)==1 and m:GetModifierOverrideAbilitySpecialValue(p)==0)
+for _,context in ipairs({true,false})do server=context;for rank=1,10 do d.rank=rank
+assert(m:GetModifierOverrideAbilitySpecialValue(p)==magic[rank]);p.ability_special_value='bonus_aoe';assert(m:GetModifierOverrideAbilitySpecialValue(p)==30+(rank-1)*10);p.ability_special_value='magic_damage'
+end end
+for _,flag in ipairs({'broken','illusion'})do hero[flag]=true;assert(m:GetModifierOverrideAbilitySpecialValue(p)==0);hero[flag]=false end
+d.null=true;assert(m:GetModifierOverrideAbilitySpecialValue(p)==0);d.null=false
+local old=d.GetCaster;d.GetCaster=function()return {}end;assert(m:GetModifierOverrideAbilitySpecialValue(p)==0);d.GetCaster=old
+p.ability_special_value='damage';assert(m:GetModifierOverrideAbilitySpecial(p)==0);p.ability_special_value='bonus_aoe'
+wrath.GetCaster=function()return {}end;assert(m:GetModifierOverrideAbilitySpecial(p)==0);wrath.GetCaster=function()return hero end
+local find=hero.FindAbilityByName;hero.FindAbilityByName=function(_,id)if id~='enfos_dk_wyrm_vigor'then return find(hero,id)end end;assert(m:GetModifierOverrideAbilitySpecial(p)==1 and m:GetModifierOverrideAbilitySpecialValue(p)==0)
+`));
+
+test('D defensive stats use live raw ranks on both contexts and never duplicate on Break/illusions/invalid ownership',()=>lua(wrathSetup+`
+local a=d;local m=setmetatable({GetParent=function()return hero end,GetAbility=function()return a end},{__index=modifier_enfos_dk_wyrm_vigor_passive})
+assert(m:GetModifierMagicalResistanceBonus()==0 and m:GetModifierBonusStats_Strength()==0)
+assert(not m:IsHidden() and not m:IsPurgable() and not m:RemoveOnDeath() and m:GetTexture()=='dragon_knight_wyrms_wrath')
+for _,context in ipairs({true,false})do server=context;for rank=1,10 do d.rank=rank;assert(m:GetModifierMagicalResistanceBonus()==mr[rank] and m:GetModifierBonusStats_Strength()==10+5*(rank-1))end end
+local function zero()assert(m:GetModifierMagicalResistanceBonus()==0 and m:GetModifierBonusStats_Strength()==0)end
+for _,flag in ipairs({'broken','illusion','null'})do hero[flag]=true;zero();hero[flag]=false end
+d.null=true;zero();d.null=false;a=nil;zero();a=d
+d.GetCaster=function()return {}end;zero();d.GetCaster=function()return hero end
+d.GetAbilityName=function()return 'enfos_dk_dragon_blood'end;zero()
+`));
+
+test('D restore caps native rank, preserves free/paid ranks and refreshes only its intrinsic on server paid upgrade',()=>lua(wrathSetup+`
+assert(integration.Restore(hero));d.rank=1;assert(integration.Restore(hero));assert(wrath.rank==1 and wrath.hidden and wrath.active)
+for i=1,3 do assert(integration.Restore(hero))end;assert(adds==1 and dAdds==1 and mods==1 and dRankWrites==1 and dRefreshes==0 and refreshes==0)
+d.rank=10;assert(integration.Restore(hero));assert(d.rank==10 and wrath.rank==1 and dRankWrites==1)
+require('abilities/heroes/dragon_knight/d');local paid=setmetatable({GetCaster=function()return hero end},{__index=enfos_dk_wyrm_vigor})
+assert(paid:GetIntrinsicModifierName()=='modifier_enfos_dk_wyrm_vigor_passive');paid:OnUpgrade();assert(dRefreshes==1 and refreshes==0)
+server=false;paid:OnUpgrade();assert(not integration.RefreshWyrmsWrath(hero) and dRefreshes==1);server=true
+di=nil;assert(not integration.RefreshWyrmsWrath(hero) and dRefreshes==1)
+wrath.GetCaster=function()return {}end;assert(not integration.Restore(hero));assert(d.rank==10 and mods==1)
+`));
+
+test('D Health reports exact provider values read-only; locales/mirrors include attack/AoE and retained defensive curves',()=>{
+ lua(wrathSetup+`
+assert(integration.Restore(hero));hero.GetLevel=function()return 6 end;hero.GetAbilityPoints=function()return 5 end;hero.IsAlive=function()return true end
+native.GetSpecialValueFor=function()return 0 end;wrath.GetSpecialValueFor=function(_,key)return assert(({magic_damage=10,bonus_aoe=30})[key])end
+q.GetIntrinsicModifierName=function()return ''end;q.GetSpecialValueFor=function()return 0 end
+local out={};print=function(s)out[#out+1]=s end;hero.AddAbility=function()error('Health grant')end;di.ForceRefresh=function()error('Health refresh')end
+assert(require('heroes/health').Report(hero,0));local joined=table.concat(out,'|');assert(joined:find('wyrms_wrath_intrinsic=fixture_native_wrath present=true',1,true));assert(joined:find('native_wrath_magic_damage_query=10 native_wrath_bonus_aoe_query=30',1,true));assert(dRefreshes==0)
+`);
+ for(const lang of ['english','turkish','russian','schinese']){const t=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens;for(const suffix of ['Description','SummaryDescription'])for(const key of ['magic_damage','bonus_aoe','magic_resist','bonus_strength'])assert.ok(t['DOTA_Tooltip_Ability_enfos_dk_wyrm_vigor_'+suffix].includes('{{'+key+'}}'));for(const dir of ['game/resource','game/panorama/localization','content/panorama/localization'])assert.ok(fs.readFileSync(dir+'/addon_'+lang+'.txt','utf8').includes('30 / 40 / 50 / 60 / 70 / 80 / 90 / 100 / 110 / 120'));}
+});
 
 test('Dragon Blood is a paid ten-rank controller with the native stat keys and no second armor/regen implementation',()=>{
  const e=all.enfos_dk_dragon_blood,n=source.abilities.dragon_knight_dragon_blood;

@@ -4614,7 +4614,9 @@ end)
 
 test('Dragon Knight Wyrm Vigor respects Break and does not grant illusion stats', function()
     local dk = create_mock_unit('npc_dota_hero_dragon_knight', 2, Vector(0, 0, 0))
-    local ability = { GetSpecialValueFor = function() return 20 end }
+    local ability = { IsNull=function()return false end,GetLevel=function()return 1 end,
+        GetCaster=function()return dk end,GetAbilityName=function()return 'enfos_dk_wyrm_vigor'end,
+        GetLevelSpecialValueNoOverride = function() return 20 end }
     dk.PassivesDisabled = function() return true end
     local vigor = modifier_enfos_dk_wyrm_vigor_passive()
     vigor.GetParent = function() return dk end
@@ -4629,7 +4631,9 @@ end)
 test('Dragon Knight Wyrm Vigor grants no stats from inactive or removed sources', function()
     local dk=create_mock_unit('npc_dota_hero_dragon_knight',2,Vector(0,0,0))
     local a={GetLevel=function() return 0 end,
-        GetSpecialValueFor=function(_,key) return ({magic_resist=25,bonus_strength=40})[key] or 0 end}
+        IsNull=function()return false end,GetCaster=function()return dk end,
+        GetAbilityName=function()return 'enfos_dk_wyrm_vigor'end,
+        GetLevelSpecialValueNoOverride=function(_,key) return ({magic_resist=25,bonus_strength=40})[key] or 0 end}
     local vigor=modifier_enfos_dk_wyrm_vigor_passive()
     local parent,ability=dk,a
     for _,mod in ipairs({vigor}) do
