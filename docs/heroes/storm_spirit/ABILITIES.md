@@ -13,9 +13,9 @@ Hero: `npc_dota_hero_storm_spirit`; role: Mage. Progression target: hero level 5
 | 2 | `enfos_storm_electric_vortex` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | NOT_EXPLICIT | storm_spirit_electric_vortex |
 | 3 | `enfos_storm_overload` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/storm_spirit/e | storm_spirit_overload |
 | 4 | `enfos_storm_ball_lightning` | 10 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES \| DOTA_ABILITY_BEHAVIOR_CAN_SELF_CAST \| DOTA_ABILITY_BEHAVIOR_OPTIONAL_UNIT_TARGET | NOT_EXPLICIT | storm_spirit_ball_lightning |
-| 5 | `enfos_storm_galvanic_core` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | storm_spirit_overload |
+| 5 | `enfos_storm_galvanic_core` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/storm_spirit/d | storm_spirit_overload |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/storm_spirit/e](../../../game/scripts/vscripts/abilities/heroes/storm_spirit/e.lua), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/storm_spirit/e](../../../game/scripts/vscripts/abilities/heroes/storm_spirit/e.lua), [abilities/heroes/storm_spirit/d](../../../game/scripts/vscripts/abilities/heroes/storm_spirit/d.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -215,27 +215,30 @@ Change/test record (2026-09-30): ten-rank KV and Lua behavior updated; static an
 ## Slot 5: `enfos_storm_galvanic_core`
 
 Classification: TUNE
-Native counterpart: `storm_spirit_galvanized is the native innate counterpart (native Ability7); not the Enfos passive slot mapping.`.
-Decision and PvE identity rationale: Uses Enfos-specific mana/intellect passive as a separate fifth slot; rank scales both stats and respects Break/illusion rules.
-Expected behavior: Intrinsic mana regeneration and intellect bonus, disabled under Break and on illusions.
+Native counterpart: `storm_spirit_galvanized (native Ability7); exact rank-one innate separate from paid D`.
+Decision and PvE identity rationale: Restore exact native Galvanized charge/level/death behavior and retain a minimal separate Enfos mana/intellect passive with ten paid ranks. No copied kill counter or native stack writes.
+Expected behavior: Authored mana regeneration1..4.2 and Intelligence4..24 disabled under Break/on illusions. Native Galvanized owns charges, match-local lasting regen and death loss. Actual authored-creep eligibility/level50/replication/lifecycle are OWNER_RUNTIME PENDING.
 Rank target: 10 total ranks per Enfos slot within hero level 50. Skill-point/unlock curve is a separate system acceptance item.
+
+2026-10-04 source update: [D implementation and remaining engine gates](../../audit/STORM_SPIRIT_NATIVE_FIRST_REVIEW_2026-10-04.md).
+65 affected checks/313 hero mocks PASS. Exact innate restore is idempotent; shared client bootstrap registers20 reviewed classes. Source implementation is present; engine acceptance remains pending.
 
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Gameplay | PENDING | Native provider/paid stats contracts pass; actual charge/level/death/Break behavior needs Dota. |
 | Targeting | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Ranks | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Ranks | PENDING | Native provider/paid stats contracts pass; actual charge/level/death/Break behavior needs Dota. |
 | VFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | SFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | Animation | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Modifiers | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Modifiers | PENDING | Native provider/paid stats contracts pass; actual charge/level/death/Break behavior needs Dota. |
 | Precache | PASS | Particle paths found in installed Valve VPK and registered in addon precache; cold-start engine test pending. |
 | Cleanup | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Boss | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Boss | PENDING | Native provider/paid stats contracts pass; actual charge/level/death/Break behavior needs Dota. |
 | Upgrades | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Localization | PASS | Turkish source mirrored to EN/TR/RU/zh-CN; consistency check passed. |
+| Localization | PASS | Four locales and twelve mirrors describe paid stats and match-local Galvanized; source checks pass. |
 | Performance | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | Reconnect | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | VConsole | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |

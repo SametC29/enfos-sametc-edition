@@ -11,7 +11,7 @@ const setup=`
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end
 local server=true;function IsServer()return server end
-LUA_MODIFIER_MOTION_NONE=0;function LinkLuaModifier(n,p)assert(n=='modifier_enfos_storm_native_scaling' and p=='abilities/heroes/storm_spirit/modifiers')end
+LUA_MODIFIER_MOTION_NONE=0;function LinkLuaModifier(n,p)assert((n=='modifier_enfos_storm_native_scaling' or n=='modifier_enfos_storm_galvanic_core_passive') and p=='abilities/heroes/storm_spirit/modifiers')end
 package.loaded['lib/hero_trace']={Log=function()end}
 DOTA_ABILITY_BEHAVIOR_PASSIVE=2;DOTA_ABILITY_BEHAVIOR_HIDDEN=4
 bit={band=function(a,b)return a & b end,bnot=function(a)return ~a end}
@@ -245,4 +245,56 @@ test('Native R four-locale text and twelve mirrors resolve damage header and act
  for(const key of ['AbilityDamage','intellect_factor','ball_lightning_aoe','ball_lightning_initial_mana_base','ball_lightning_initial_mana_percentage','ball_lightning_travel_cost_base','ball_lightning_travel_cost_percent'])assert.ok(desc.includes('{{'+key+'}}'),key);
  for(const dir of ['game/resource','game/panorama/localization','content/panorama/localization']){const s=fs.readFileSync(dir+'/addon_'+lang+'.txt','utf8');assert.doesNotMatch(s,/\{\{/);assert.ok(s.includes('35 / 40 / 45 / 50 / 55 / 60 / 65 / 70 / 75 / 80'));}
  }
+});
+
+test('D separates ten paid ranks and exact native innate; stable modifier has one client/server path',()=>{
+ const d=all.enfos_storm_galvanic_core,n=JSON.parse(fs.readFileSync('docs/audit/STORM_SPIRIT_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.storm_spirit_galvanized;
+ assert.equal(n.Innate,'1');assert.equal(n.MaxLevel,'1');assert.equal(n.AbilityValues.level_divisor,'3');assert.equal(n.AbilityValues.charges_per_death,'2');
+ assert.equal(d.MaxLevel,'10');assert.equal(d.RequiredLevel,'1');assert.equal(d.LevelsBetweenUpgrades,'1');assert.equal(d.ScriptFile,'abilities/heroes/storm_spirit/d');assert.equal(d.Innate,undefined);assert.equal(d.IsBreakable,'1');assert.equal(all.storm_spirit_galvanized,undefined);
+ assert.equal(d.AbilityValues.mana_regen,'1 1.3 1.6 1.9 2.2 2.5 2.9 3.3 3.7 4.2');assert.equal(d.AbilityValues.bonus_int,'4 6 8 10 12 14 16 18 21 24');
+ const kits=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');assert.doesNotMatch(kits,/enfos_storm_galvanic_core=class|modifier_enfos_storm_galvanic_core_passive/);
+ const links=fs.readFileSync('game/scripts/vscripts/abilities/heroes/storm_spirit/modifier_links.lua','utf8');assert.ok(links.includes("LinkLuaModifier('modifier_enfos_storm_galvanic_core_passive','abilities/heroes/storm_spirit/modifiers'"));
+ for(const file of ['d','integration','modifiers'])assert.doesNotMatch(fs.readFileSync('game/scripts/vscripts/abilities/heroes/storm_spirit/'+file+'.lua','utf8'),/:OnDeath\b|OnHeroKilled|OnTakeDamage|SetStackCount|ForceRefresh|StartIntervalThink|SetAbilityPoints/);
+});
+
+test('Native D repeated restoration and paid upgrades preserve native charges and ordinary points',()=>lua(`
+require('abilities/heroes/storm_spirit/d')
+local d={rank=1,IsNull=function()return false end,GetCaster=function()return hero end,GetLevel=function(self)return self.rank end};local g,gadds,gsets=nil,0,0
+local lookup,add=hero.FindAbilityByName,hero.AddAbility
+hero.FindAbilityByName=function(self,id)if id=='enfos_storm_galvanic_core' then return d elseif id=='storm_spirit_galvanized' then return g end;return lookup(self,id)end
+hero.AddAbility=function(self,id)if id~='storm_spirit_galvanized' then return add(self,id)end;gadds=gadds+1
+ g={rank=0,charges=8,IsNull=function()return false end,GetLevel=function(self)return self.rank end,SetLevel=function(self,r)assert(server and r==1);self.rank=r;gsets=gsets+1 end,SetHidden=function(self,v)assert(server);self.hidden=v end,SetActivated=function(self,v)assert(server);self.active=v end};return g end
+assert(integration.Restore(hero));assert(gadds==1 and gsets==1 and g.hidden and g.active)
+local a=setmetatable({GetCaster=function()return hero end},{__index=enfos_storm_galvanic_core})
+for rank=1,10 do d.rank=rank;assert(integration.Restore(hero));a:OnUpgrade()end
+assert(gadds==1 and gsets==1 and g.charges==8 and n.charge==7 and mods==1)
+server=false;a:OnUpgrade();assert(not integration.RestoreGalvanized(hero));assert(gadds==1)
+server=true;hero.illusion=true;assert(not integration.RestoreGalvanized(hero));hero.illusion=false;hero.null=true;assert(not integration.RestoreGalvanized(hero))
+`));
+
+test('Paid D live values cover all ranks on both contexts and reject Break/illusion/null/foreign/untrained without server-only queries',()=>lua(`
+hero.PassivesDisabled=function(self)return self.broken end
+local a={rank=0,null=false,IsNull=function(self)return self.null end,GetCaster=function()return hero end,GetAbilityName=function()return 'enfos_storm_galvanic_core'end,GetLevel=function(self)return self.rank end,
+GetLevelSpecialValueNoOverride=function(self,key,rank)assert(rank==math.min(10,self.rank)-1);local rows={mana_regen={1,1.3,1.6,1.9,2.2,2.5,2.9,3.3,3.7,4.2},bonus_int={4,6,8,10,12,14,16,18,21,24}};return assert(rows[key])[rank+1]end}
+local m=setmetatable({GetParent=function()return hero end,GetAbility=function()return a end},{__index=modifier_enfos_storm_galvanic_core_passive})
+assert(not m:IsHidden() and not m:IsPurgable() and not m:RemoveOnDeath());assert(m:GetModifierConstantManaRegen()==0)
+for _,context in ipairs({true,false})do server=context;for rank=1,10 do a.rank=rank;assert(m:GetModifierConstantManaRegen()==a:GetLevelSpecialValueNoOverride('mana_regen',rank-1));assert(m:GetModifierBonusStats_Intellect()==a:GetLevelSpecialValueNoOverride('bonus_int',rank-1))end end
+hero.broken=true;assert(m:GetModifierConstantManaRegen()==0 and m:GetModifierBonusStats_Intellect()==0);hero.broken=false
+hero.illusion=true;assert(m:GetModifierBonusStats_Intellect()==0);hero.illusion=false
+hero.null=true;assert(m:GetModifierBonusStats_Intellect()==0);hero.null=false;a.null=true;assert(m:GetModifierBonusStats_Intellect()==0);a.null=false
+m.GetAbility=function()return nil end;assert(m:GetModifierBonusStats_Intellect()==0);m.GetAbility=function()return a end;a.GetCaster=function()return {}end;assert(m:GetModifierBonusStats_Intellect()==0)
+`));
+
+test('D automatic Health reports actual native intrinsic and stacks read-only, without guessed modifier name',()=>lua(`
+hero.GetLevel=function()return 6 end;hero.GetAbilityPoints=function()return 5 end;hero.IsAlive=function()return true end
+local g={IsNull=function()return false end,GetLevel=function()return 1 end,GetIntrinsicModifierName=function()return 'fixture_galvanized'end,GetSpecialValueFor=function(_,key)return ({mp_per_kill=.2,level_divisor=3})[key]end}
+local lookup=hero.FindAbilityByName;hero.FindAbilityByName=function(self,id)if id=='storm_spirit_galvanized' then return g end;return lookup(self,id)end
+hero.FindModifierByName=function(_,id)assert(id=='fixture_galvanized');return {IsNull=function()return false end,GetStackCount=function()return 8 end}end
+hero.AddAbility=function()error('Health grants')end;hero.AddNewModifier=function()error('Health mutates')end
+local out={};print=function(s)out[#out+1]=s end;assert(require('heroes/health').Report(hero,0));local s=table.concat(out,'|');assert(s:find('ability=storm_spirit_galvanized rank=1',1,true));assert(s:find('galvanized_intrinsic=fixture_galvanized present=true stacks=8',1,true))
+server=false;assert(not require('heroes/health').Report(hero,0))
+`));
+
+test('D localized stats and match-local innate behavior are present in four locales and twelve mirrors',()=>{
+ for(const lang of ['english','turkish','russian','schinese']){const t=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens,desc=t.DOTA_Tooltip_Ability_enfos_storm_galvanic_core_Description;assert.ok(desc.includes('{{mana_regen}}')&&desc.includes('{{bonus_int}}')&&desc.includes('Galvanized'));for(const dir of ['game/resource','game/panorama/localization','content/panorama/localization']){const s=fs.readFileSync(dir+'/addon_'+lang+'.txt','utf8');assert.doesNotMatch(s,/\{\{/);assert.ok(s.includes('1 / 1.3 / 1.6 / 1.9 / 2.2 / 2.5 / 2.9 / 3.3 / 3.7 / 4.2'));}}
 });

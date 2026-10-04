@@ -50,3 +50,22 @@ function M:GetModifierOverrideAbilitySpecialValue(p)
     end
     return value
 end
+
+modifier_enfos_storm_galvanic_core_passive=class({})
+local D=modifier_enfos_storm_galvanic_core_passive
+function D:IsHidden() return false end
+function D:IsPurgable() return false end
+function D:RemoveOnDeath() return false end
+function D:DeclareFunctions()
+    return {MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,MODIFIER_PROPERTY_STATS_INTELLECT_BONUS}
+end
+local function stat(mod,key)
+    local c,a=mod:GetParent(),mod:GetAbility()
+    if not c or c:IsNull() or c:GetUnitName()~='npc_dota_hero_storm_spirit'
+        or c:IsIllusion() or c:PassivesDisabled()
+        or not a or a:IsNull() or a:GetCaster()~=c
+        or a:GetAbilityName()~='enfos_storm_galvanic_core' or a:GetLevel()<1 then return 0 end
+    return a:GetLevelSpecialValueNoOverride(key,math.min(10,a:GetLevel())-1)
+end
+function D:GetModifierConstantManaRegen() return stat(self,'mana_regen') end
+function D:GetModifierBonusStats_Intellect() return stat(self,'bonus_int') end

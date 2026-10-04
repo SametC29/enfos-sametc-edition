@@ -863,7 +863,7 @@
     "DOTA_Tooltip_Ability_enfos_storm_ball_lightning": "Yıldırım Küresi",
     "DOTA_Tooltip_Ability_enfos_storm_ball_lightning_Description": "Elektriğe dönüşerek seçilen noktaya uçar ve yolundaki düşmanlara {{ball_lightning_aoe}} yarıçapta hasar verir. Her 100 birim için hasar: {{AbilityDamage}} + Zekâ × {{intellect_factor}}. Hedefe varınca veya mana tükenince uçuş biter. Başlangıç manası: {{ball_lightning_initial_mana_base}} + azami mananın %{{ball_lightning_initial_mana_percentage}} kadarı. Her 100 birim {{ball_lightning_travel_cost_base}} + azami mananın %{{ball_lightning_travel_cost_percent}} kadarı mana tüketir. Köklenmişken kullanılamaz; Storm uçuş sırasında dokunulmazdır.",
     "DOTA_Tooltip_Ability_enfos_storm_galvanic_core": "Galvanik Çekirdek",
-    "DOTA_Tooltip_Ability_enfos_storm_galvanic_core_Description": "Pasif olarak +{{mana_regen}} mana yenilenmesi ve +{{bonus_int}} zeka kazandırır.",
+    "DOTA_Tooltip_Ability_enfos_storm_galvanic_core_Description": "{{mana_regen}} mana yenilenmesi ve {{bonus_int}} Zekâ verir; Break ve illüzyonlar bu Enfos bonuslarını devre dışı bırakır. Galvanized uygun öldürmelerden ve her 3 kahraman seviyesinde mana yenilenmesi yükü kazanır, ölümde 2 yük kaybeder. Her yük 0,2 mana yenilenmesi verir ve ayrıca bu maç boyunca kalan 0,1 ekler. Break yeni öldürme yüklerini engeller.",
     "DOTA_Tooltip_Ability_enfos_leshrac_split_earth": "Toprak Yarığı",
     "DOTA_Tooltip_Ability_enfos_leshrac_split_earth_Description": "{{radius}} yarıçapındaki düşmanlara {{damage}} + Zeka x 0,9 büyü hasarı verir ve {{stun_duration}} sn sersemletir. Boss sersemletmesi kısalır.",
     "DOTA_Tooltip_Ability_enfos_leshrac_diabolic_edict": "Şeytani Ferman",

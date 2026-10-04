@@ -42,6 +42,16 @@ function Health.Report(hero,id)
             end
         end
         if entry.id=='npc_dota_hero_storm_spirit' then
+            local innate=hero:FindAbilityByName('storm_spirit_galvanized')
+            print('[HERO_HEALTH] ability=storm_spirit_galvanized rank='..tostring(innate and not innate:IsNull() and innate:GetLevel() or 'missing'))
+            if innate and not innate:IsNull() then
+                local name=innate:GetIntrinsicModifierName()
+                local m=name and name~='' and hero:FindModifierByName(name)
+                print('[HERO_HEALTH] galvanized_intrinsic='..tostring(name)..' present='..tostring(m and not m:IsNull() or false)..
+                    ' stacks='..tostring(m and not m:IsNull() and m:GetStackCount() or 'missing'))
+                print('[HERO_HEALTH] native_galvanized_mp_query='..tostring(innate:GetSpecialValueFor('mp_per_kill'))..
+                    ' native_galvanized_level_divisor_query='..tostring(innate:GetSpecialValueFor('level_divisor')))
+            end
             local r=hero:FindAbilityByName('enfos_storm_ball_lightning')
             if r and not r:IsNull() then
                 print('[HERO_HEALTH] native_ball_damage_getter='..tostring(r:GetAbilityDamage())..

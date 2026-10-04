@@ -305,3 +305,38 @@ Installed build6943/hero hash unchanged; offline API confirms GetAbilityDamage i
 129 affected checks/313 hero mocks PASS. Four focused R contracts cover exact source metadata, ten-rank values, proportional-input multiplier algebra/guards, read-only Health and locales. OWNER_RUNTIME PENDING: actual flight/path damage/distance units/INT ordering/cache, initial and travel mana accounting/exhaustion, root/cast cancellation/recast, optional-unit/self targeting/HUD, invulnerability/items/spells during travel, linked Overload, native remnant metadata behavior, rank10/points, death/reconnect, VFX/SFX/cleanup and VConsole. D source unit remains.
 
 R full source boundary:0 failed check(s). No owner engine session, remote push, deployment or Workshop publication. Existing contributor hunks remain outside this atomic source unit.
+
+## D pre-mutation decision
+
+TUNE / NATIVE+MINIMAL EXT. Restore the exact rank-one native
+storm_spirit_galvanized innate, separate from paid enfos_storm_galvanic_core.
+Installed build6943/revision11069754 and hero hash02996ee5...b02c823c re-read:
+native passive/skip-keybinds, Innate1/MaxLevel1/Break1/no dispel;
+mp_per_kill.2/perma_mp_per_kill.1/radius1200/death loss2/level divisor3.
+Installed description says kills and every3levels grant charges, death loses2,
+and Break prevents new kill stacks. Kill eligibility for authored PvE units,
+level50 and stack replication remain engine questions, not permission to
+clone/convert native counters. Permanent regen here is match-local, no backend.
+
+Keep authored ten-rank mana_regen1..4.2 and bonus_int4..24 in a separate
+paid intrinsic, disabled by Break/illusions, guarded for missing/foreign/null
+ability and queried live on both contexts. Move this existing small extension
+into storm_spirit/d and modifiers, register the stable modifier on the existing
+client bootstrap. Restore innate before existing starting XP, idempotently;
+no native ForceRefresh, stack/death event copy, timers or point changes.
+Ordinary Boss rules remain. Generic Shard/Scepter stay owned by native E/W.
+
+API PassivesDisabled/IsIllusion/GetLevelSpecialValueNoOverride/GetStackCount
+confirmed BOTH. Primary ModDota native BaseClass guidance re-read
+(https://moddota.com/abilities/ability-keyvalues), not C++ acceptance evidence.
+Reference search found only Watcher3164617180 native header assignment;
+REFERENCE_ONLY/no code imports. Existing native hero precache owns resources;
+no invented Galvanized particle/sound/animation callback.
+
+D source implementation: exact native innate is rank1/hidden/active, restored through the existing free-D pre-XP hook and paid OnUpgrade. It is neither refreshed nor assigned stacks/points/cooldowns. Native rank/charges remain separate from paid10-rank stats. Stable paid intrinsic moved out of shared pve_kits; obsolete shared LinkLuaModifier entry removed, one reviewed client/server path registered. Both-context stat getters guard Break/illusion/null/untrained/foreign ownership and query current paid raw rank. No native callback clone, scan, timer or new asset.
+
+Automatic Health reads exact native provider, runtime intrinsic name/presence/stack count and values, without restoring it. Four locales/twelve mirrors describe both mechanics and match-only lasting regen.65 affected checks/313 hero mocks PASS, including all paid ranks/both contexts/guards, idempotent provider+upgrade/charge preservation,20-class client bootstrap, read-only Health, localization and shared respawn fixtures. Static test regex distinguishes OnDeath from RemoveOnDeath; the existing D mock now supplies the real engine ability handle methods.
+
+OWNER_RUNTIME PENDING: pre-XP innate level charges at level6/50, eligible normal-creep/Boss kills and radius, death charge loss/lasting regen, Break new-stack rules and paid stats, illusion replication, rank10/HUD/49 ordinary points/freeD1, respawn/reconnect no duplication, modifier UI/VConsole/resources. Q/W/E/R/D source units are implemented; Storm is not engine-certified. Anti-Mage R native composition remains separately source-pending.
+
+D full source boundary:0 failed check(s). No owner engine session, remote push, deployment or Workshop publication. Existing contributor hunks remain outside this atomic source unit.

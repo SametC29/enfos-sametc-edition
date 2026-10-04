@@ -5243,7 +5243,7 @@
 			"mana_regen"	"1 1.3 1.6 1.9 2.2 2.5 2.9 3.3 3.7 4.2"
 			"bonus_int"	"4 6 8 10 12 14 16 18 21 24"
 		}
-"ScriptFile" "abilities/pve_kits"
+"ScriptFile" "abilities/heroes/storm_spirit/d"
 }
 // LESHRAC ABILITIES (Batch 5 PvE Kit)
 	// =========================================================================

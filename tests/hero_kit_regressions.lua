@@ -6099,7 +6099,14 @@ end)
 test('Storm Galvanic Core rank passive respects Break and illusions', function()
     local storm = create_mock_unit('npc_dota_hero_storm_spirit', 2, Vector(0, 0, 0))
     local ability = enfos_storm_galvanic_core()
-    ability.GetSpecialValueFor = function(_, k) return ({ mana_regen=4.2, bonus_int=24 })[k] or 0 end
+    ability.IsNull = function() return false end
+    ability.GetCaster = function() return storm end
+    ability.GetAbilityName = function() return 'enfos_storm_galvanic_core' end
+    ability.GetLevel = function() return 10 end
+    ability.GetLevelSpecialValueNoOverride = function(_, k, rank)
+        assert(rank==9)
+        return ({ mana_regen=4.2, bonus_int=24 })[k] or 0
+    end
     local mod = modifier_enfos_storm_galvanic_core_passive()
     mod.GetParent = function() return storm end
     mod.GetAbility = function() return ability end

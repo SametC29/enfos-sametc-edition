@@ -242,3 +242,5 @@ Overload/Scepter HUD/lifecycle/presentation remain owner-pending. Next R
 native continuous flight/damage/mana, then D native innate and paid stats.
 
 Storm R source progression: pure native Ball Lightning continuous flight alias; authored damage header/speed/AoE/flat travel cost and exact native percentage costs. Copied teleport, landing-only damage, clamp and Boss cap retired. Minimal owned server outgoing INT multiplier; read-only Health and four locales.129 affected checks/313 mocks PASS; actual native damage units/mana arithmetic/flight/lifecycle/presentation remain owner-pending. Next D native innate and paid stats.
+
+Storm D source progression: exact rank1 Galvanized native innate restored separately from authored ten-rank paid mana/INT. Stable stat modifier moved to hero module and registered once on existing client path; native charges untouched.65 affected checks/313 mocks PASS. Storm five source units implemented; actual kit/rank10/upgrades/flight/charge/death/reconnect/presentation/VConsole acceptance remains owner-pending. Next ordered source discovery Dragon Knight, while Anti-Mage R composition and prior runtime gates remain open.

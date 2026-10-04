@@ -1,5 +1,6 @@
 require('abilities/heroes/antimage/d')
 require('abilities/heroes/storm_spirit/e')
+require('abilities/heroes/storm_spirit/d')
 require('abilities/heroes/antimage/q')
 require('abilities/heroes/ursa/d')
 require('abilities/heroes/ursa/e')
@@ -227,7 +228,6 @@ local modifier_list = {
     'modifier_enfos_void_chronosphere_thinker',
     'modifier_enfos_void_chronosphere_freeze',
     'modifier_enfos_void_backtrack_passive',
-    'modifier_enfos_storm_galvanic_core_passive',
     'modifier_enfos_ss_hex_debuff',
     'modifier_enfos_ss_shackles_channel',
     'modifier_enfos_ss_shackles_debuff',
@@ -5413,23 +5413,7 @@ end
 
 -- Ball Lightning is native; no teleport, distance scan or extra mana/damage.
 
-enfos_storm_galvanic_core=class({})
-function enfos_storm_galvanic_core:GetIntrinsicModifierName() return 'modifier_enfos_storm_galvanic_core_passive' end
-
-modifier_enfos_storm_galvanic_core_passive=class({})
-function modifier_enfos_storm_galvanic_core_passive:DeclareFunctions()
-    return { MODIFIER_PROPERTY_MANA_REGEN_CONSTANT, MODIFIER_PROPERTY_STATS_INTELLECT_BONUS }
-end
-function modifier_enfos_storm_galvanic_core_passive:GetModifierConstantManaRegen()
-    local c = self:GetParent()
-    if c and ((c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion())) then return 0 end
-    return value(self:GetAbility(), 'mana_regen')
-end
-function modifier_enfos_storm_galvanic_core_passive:GetModifierBonusStats_Intellect()
-    local c = self:GetParent()
-    if c and ((c.PassivesDisabled and c:PassivesDisabled()) or (c.IsIllusion and c:IsIllusion())) then return 0 end
-    return value(self:GetAbility(), 'bonus_int')
-end
+-- Galvanic Core stats and native innate restore live in storm_spirit/d.
 
 -- ----------------------------------------------------------------------------
 -- SHADOW SHAMAN: ETHER SHOCK, HEX, SHACKLES, MASS SERPENT WARD, FOWL PLAY
