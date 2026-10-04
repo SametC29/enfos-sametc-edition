@@ -1,3 +1,4 @@
+require('abilities/heroes/ursa/e')
 require('abilities/heroes/tidehunter/d')
 local Helpers = require('abilities/shared/pve_helpers')
 local value, enemies, is_boss, get_int, damage = Helpers.value, Helpers.enemies, Helpers.is_boss, Helpers.get_int, Helpers.damage
@@ -211,8 +212,6 @@ local modifier_list = {
     'modifier_enfos_pudge_meat_shield_passive',
     'modifier_enfos_ursa_earthshock_slow',
     'modifier_enfos_ursa_overpower_buff',
-    'modifier_enfos_ursa_fury_swipes_passive',
-    'modifier_enfos_ursa_fury_swipes_debuff',
     'modifier_enfos_ursa_minor_passive',
     'modifier_enfos_mk_boundless_strike_stun',
     'modifier_enfos_mk_primal_spring_slow',
@@ -5094,47 +5093,7 @@ function modifier_enfos_ursa_overpower_buff:OnAttackLanded(params)
     if count <= 0 then self:Destroy() else self:SetStackCount(count) end
 end
 
-enfos_ursa_fury_swipes=class({})
-function enfos_ursa_fury_swipes:GetIntrinsicModifierName() return 'modifier_enfos_ursa_fury_swipes_passive' end
-
-modifier_enfos_ursa_fury_swipes_passive=class({})
-function modifier_enfos_ursa_fury_swipes_passive:DeclareFunctions() return { MODIFIER_EVENT_ON_ATTACK_LANDED } end
-function modifier_enfos_ursa_fury_swipes_passive:OnAttackLanded(params)
-    if not IsServer() then return end
-    local c = self:GetParent()
-    if params.attacker ~= c or c:PassivesDisabled() or (c.IsIllusion and c:IsIllusion()) then return end
-    local t = params.target
-    if not t or (t.IsNull and t:IsNull()) or not t:IsAlive() or t:GetTeamNumber() == c:GetTeamNumber() then return end
-
-    local mod = t.FindModifierByNameAndCaster
-        and t:FindModifierByNameAndCaster('modifier_enfos_ursa_fury_swipes_debuff', c) or nil
-    if not mod then
-        mod = t:AddNewModifier(c, self:GetAbility(), 'modifier_enfos_ursa_fury_swipes_debuff', { duration = value(self:GetAbility(), 'debuff_duration') })
-    end
-    if mod and mod.SetStackCount then
-        local cur = (mod.GetStackCount and mod:GetStackCount()) or 0
-        local cap = value(self:GetAbility(), is_boss(t) and 'boss_max_stacks' or 'max_stacks')
-        local nextStack = math.min(cap, cur + 1)
-        mod:SetStackCount(nextStack)
-        mod:SetDuration(value(self:GetAbility(), 'debuff_duration'), true)
-
-        local ability = self:GetAbility()
-        local base = value(ability, 'bonus_damage')
-        local agi = get_agi(c)
-        local extra_dmg = nextStack * (base + (agi * value(ability, 'agility_factor')))
-        damage(self:GetAbility(), t, extra_dmg, DAMAGE_TYPE_PHYSICAL)
-        effect('particles/units/heroes/hero_ursa/ursa_fury_swipes.vpcf', t)
-
-        for _, u in ipairs(enemies(c, t:GetAbsOrigin(), value(ability, 'cleave_radius'), DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
-            if u ~= t then damage(ability, u, extra_dmg * value(ability, 'cleave_pct') / 100, DAMAGE_TYPE_PHYSICAL) end
-        end
-    end
-end
-
-modifier_enfos_ursa_fury_swipes_debuff=class({})
-function modifier_enfos_ursa_fury_swipes_debuff:IsDebuff() return true end
-function modifier_enfos_ursa_fury_swipes_debuff:GetEffectName() return 'particles/units/heroes/hero_ursa/ursa_fury_swipes_debuff.vpcf' end
-function modifier_enfos_ursa_fury_swipes_debuff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
+-- Native Fury Swipes owns attacks and target stacks; paid tuning is isolated.
 
 -- Enrage cast, strong dispel and Scepter are native-owned.
 

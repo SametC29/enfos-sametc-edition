@@ -132,3 +132,14 @@ disabledcasting/CD30..18 with scoped genericbonus suppression. Allfourlocales
 and12mirrors agree. 4focusedtests and fullsourcechecks pass (324 hero mocks).
 Engine acceptance remains pending. Q/W/E/D source work remains; next inspect
 FurySwipes E native linkedprovider/QShard before Earthshock migration.
+
+2026-10-04 Ursa E source progression: paid10rank controller with exact native
+FurySwipes provider rank0 untiltrained/rank1 afterwards. Native attacks,
+per-caster target stacks/reset/Break and feedback replace Lua damage/debuffs;
+custom radial cleave and distinctBoss cap removed by recorded native identity
+decision. Minimal raw AGI/rank bridge, idempotent shared restore, server-only
+rank cache refresh,15client classes and read-only Health verified in fixtures.
+115 affected checks,323 hero mocks and fullsourcechecks pass with0failures.
+Native cached AGI/readpath/target-state/rank/Shard/presentation remain owner
+pending. Next source: Q Earthshock linkedidentities and native damage pipeline;
+W/D also pending. Do not advance to Anti-Mage before those source units.

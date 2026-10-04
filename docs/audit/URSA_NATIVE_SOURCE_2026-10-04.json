@@ -258,6 +258,16 @@
       "path": "soundevents/game_sounds_heroes/game_sounds_ursa.vsndevts_c",
       "status": "FILE_VERIFIED",
       "sha256": "14bad18e11663719c05fd98e0888661d5c6fcfb5948ef22d9546a2f07bdb4f10"
+    },
+    {
+      "path": "particles/units/heroes/hero_ursa/ursa_fury_swipes.vpcf_c",
+      "status": "FILE_VERIFIED",
+      "sha256": "ba87585682c52fb8bfd30be8d1b9f305e615dce35994a9df69118064f1bfc5d8"
+    },
+    {
+      "path": "particles/units/heroes/hero_ursa/ursa_fury_swipes_debuff.vpcf_c",
+      "status": "FILE_VERIFIED",
+      "sha256": "d4911c0f92d1919e344f9dbf1ad3e837e8808821bf98986ed5fcb5182f0d5434"
     }
   ],
   "apiEvidence": {
@@ -276,5 +286,33 @@
       "available": "server",
       "note": "For future Q top-level damage bridge; no client use or native pipeline certification"
     }
+  },
+  "eResearch": {
+    "classification": "TUNE",
+    "native": "ursa_fury_swipes",
+    "paidController": "enfos_ursa_fury_swipes",
+    "nativeProviderRank": "0 until trained, then rank1",
+    "ownership": "Native attack/target stacks/reset/Break existing-stack semantics; minimal authored AGI bridge",
+    "removed": "Custom target modifiers/stack writes/radial cleave/normal and Boss stack caps",
+    "rationale": "Native Fury Swipes already supports wave creeps and focused attacks. The native exposed fields have no cleave or custom caps. Restoring focused native identity is preferred over duplicate radial hits with unverified native attack damage attribution/order.",
+    "rankRefresh": "Server-only provider intrinsic ForceRefresh from paid OnUpgrade, never target debuff/stack manipulation; actual native cached AGI/readpath remains pending owner test",
+    "references": [
+      {
+        "id": "1571786267",
+        "path": "scripts/vscripts/abilities/bosses/ursa/ursa.lua",
+        "status": "REFERENCE_ONLY",
+        "note": "Boss-specific Lua ProcAttack damage/maxHP formula; not proof of current native damage attribution; no import"
+      }
+    ],
+    "api": {
+      "GetLevelSpecialValueNoOverride": "both",
+      "GetIntrinsicModifierName": "server",
+      "FindModifierByName": "server",
+      "AddAbility": "server",
+      "ForceRefresh": "both; intentionally server guarded",
+      "GetCaster": "both",
+      "GetAgility": "CDOTA_BaseNPC_Hero: both"
+    },
+    "engineAcceptance": "PENDING OWNER TEST"
   }
 }

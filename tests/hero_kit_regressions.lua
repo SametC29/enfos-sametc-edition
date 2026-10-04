@@ -5259,54 +5259,6 @@ test('Monkey King Wukong pulses within its configured ring and Mischief honors B
         'Mischief bonuses must not be duplicated on illusions')
 end)
 
-test('Ursa Fury Swipes compounds damage on consecutive attacks and cleaves', function()
-    applied_damages = {}
-    local ursa = create_mock_unit('npc_dota_hero_ursa', 2, Vector(0, 0, 0))
-    ursa.agility = 60
-    local boss = create_mock_unit('boss_ursa', 3, Vector(100, 0, 0), 20000)
-    local minion = create_mock_unit('minion_ursa', 3, Vector(150, 0, 0), 500)
-    mock_world_units = { ursa, boss, minion }
-
-    local ab = enfos_ursa_fury_swipes()
-    ab.GetSpecialValueFor = function(_, k)
-        if k == 'bonus_damage' then return 40 end
-        if k == 'agility_factor' then return 0.15 end
-        if k == 'max_stacks' then return 50 end
-        if k == 'boss_max_stacks' then return 25 end
-        if k == 'debuff_duration' then return 6 end
-        if k == 'cleave_radius' then return 250 end
-        if k == 'cleave_pct' then return 35 end
-        return 0
-    end
-    local mod = modifier_enfos_ursa_fury_swipes_passive()
-    mod.GetParent = function() return ursa end
-    mod.GetAbility = function() return ab end
-
-    -- Hit 1: stack = 1. dmg = 1 * (40 + 9) = 49. Cleave to minion = 49 * 0.35 = 17.15
-    mod:OnAttackLanded({ attacker = ursa, target = boss })
-    assert(#applied_damages == 2)
-    assert(applied_damages[1].victim == boss and applied_damages[1].damage == 49)
-    assert(applied_damages[2].victim == minion)
-
-    -- Hit 2: stack = 2. dmg = 2 * 49 = 98
-    mod:OnAttackLanded({ attacker = ursa, target = boss })
-    assert(#applied_damages == 4)
-    assert(applied_damages[3].victim == boss and applied_damages[3].damage == 98)
-    assert(last_find_units_flags == DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-        'Physical Fury Swipes cleave must include magic-immune enemy units')
-
-    local other_ursa = create_mock_unit('npc_dota_hero_ursa', 2, Vector(-50, 0, 0))
-    local foreign_stacks = { caster = other_ursa, stacks = 7 }
-    boss.modifiers['modifier_enfos_ursa_fury_swipes_debuff'] = foreign_stacks
-    local other_passive = modifier_enfos_ursa_fury_swipes_passive()
-    other_passive.GetParent = function() return ursa end
-    other_passive.GetAbility = function() return ab end
-    other_passive:OnAttackLanded({ attacker = ursa, target = boss })
-    local own_stacks = boss:FindModifierByNameAndCaster('modifier_enfos_ursa_fury_swipes_debuff', ursa)
-    assert(own_stacks and own_stacks:GetStackCount() == 1,
-        'Each Ursa must build its own Fury Swipes stacks instead of sharing another caster modifier')
-end)
-
 test('Ursa Earthshock reads radius, rank damage and boss slow cap from KV', function()
     applied_damages = {}
     local ursa = create_mock_unit('npc_dota_hero_ursa', 2, Vector(0, 0, 0))

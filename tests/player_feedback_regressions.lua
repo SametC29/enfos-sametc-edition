@@ -45,7 +45,8 @@ test('all 40 innates receive only their initial free rank; respawn cannot reset 
      or (name=='npc_dota_hero_nevermore' and key=='enfos_sf_shadowraze')
      or (name=='npc_dota_hero_bristleback' and key=='enfos_bb_viscous_nasal_goo')
      or (name=='npc_dota_hero_slark' and key=='enfos_slark_dark_pact')
-     or (name=='npc_dota_hero_tidehunter' and key=='enfos_tide_gush'))
+     or (name=='npc_dota_hero_tidehunter' and key=='enfos_tide_gush')
+     or (name=='npc_dota_hero_ursa' and key=='enfos_ursa_fury_swipes'))
     return nil -- This progression-only fixture has no native kit integration.
    end}
   assert(service:Apply(h) and a.level==1);a.level=4;service:Apply(h);assert(a.level==4);count=count+1

@@ -1,6 +1,6 @@
 # Ursa native-first migration
 
-Status: R SOURCE IMPLEMENTED; Q/W/E/D DISCOVERED / OWNER_RUNTIME PENDING.
+Status: E/R SOURCE IMPLEMENTED; Q/W/D DISCOVERED / OWNER_RUNTIME PENDING.
 Latest owner rollout permits continuing source work without live acceptance.
 
 ## Sources and boundaries
@@ -36,11 +36,11 @@ version/license/distribution permission not established.
 | --- | --- | --- | --- |
 | Q enfos_ursa_earthshock | TUNE | NATIVE + minimal STR bridge | Native250-unit facing hop and magical impact/slow/immunity/VFX/SFX. Retain authored120..660+STR1.5,385 radius, costs/cooldowns and duration; remove Boss-only slow. Exact top AbilityDamage pipeline required. Shard3 native Fury stacks depends on native-linked E/R identity; inspect before exposing it. |
 | W enfos_ursa_overpower | TUNE | NATIVE + minimal heal extension | Native cast/buff/charge consumption including misses, slow resistance25; retain ten-rank attacks/AS/duration. Preserve authored10..28% landed-damage healing as independent extension, no copied charge decrement or particle. Determine actual native buff/readpath and killing-hit eligibility. |
-| E enfos_ursa_fury_swipes | TUNE | NATIVE + minimal AGI/cleave extension | Native per-caster stacks/reset/attack damage/Break existing-stack behavior; tune damage20..92+AGI.15 and reset6..10. Retire bespoke normal/Boss stack caps, native stack progression remains. Investigate exact native linked provider before Q Shard. Minimal bounded wave cleave only if native damage event can be identified without double hits or recursion. |
+| E enfos_ursa_fury_swipes | TUNE | NATIVE + minimal AGI/cleave extension | Native per-caster stacks/reset/attack damage/Break existing-stack behavior; tune damage20..92+AGI.15 and reset6..10. Retire bespoke normal/Boss stack caps, native stack progression remains. Investigate exact native linked provider before Q Shard. The conditional cleave lead is resolved below: restore native focused attacks, retire custom radial cleave. |
 | R enfos_ursa_enrage | TUNE | NATIVE | Native strong dispel, mitigation/status resistance and disabled-cast Scepter; preserve authored60..90% reduction20..60% resistance4.5..8s duration/costs. Explicit ten-rank Scepter cooldown30..18 using installed endpoint interpolation. Retire generic ultimate40% spell amp/25% CDR only for owned Enfos Ursa kit, retaining item stats. No copied purge/buff/wrapper. |
 | D enfos_ursa_ursa_minor | TUNE | NATIVE Maul + minimal Enfos mobility | Keep paid stableD/free1/ranks10/49points. Native rank1 Maul separately owns1.75% currentHP attack bonus; D retains8..30 movement speed, no duplicateHP damage. Verify provider grant/hidden slot/Break/client/restore before mutation. No deprecated Bear Down facet or talents. |
 
-Rows record pre-mutation decisions. R is now source-implemented; the remaining
+Rows record pre-mutation decisions. E/R are now source-implemented; the remaining
 slots are planned work. None is engine-certified. Preserve
 Luna and contributor Lich work; no shared Boss/wave/respawn rewrite. Source
 changes are isolated atomic local commits, no remote push/deploy/Workshop.
@@ -83,3 +83,50 @@ Scepter cooldown/Blessing/refresh/coldVFX/SFX are PENDING OWNER TEST.
 Full source checks pass with0 failures, including324 hero mock regressions.
 All native aliases remain explicitly allowlisted; no blanket class exemption. Next source dependency: native Fury Swipes E
 and Q Shard identity before migrating Q; no unrelated heroes.
+
+## E final decision before source mutation
+
+TUNE, NATIVE + minimal paid-value/AGI bridge. Exact native Fury Swipes
+rank0 until paid E learned, then rank1; stable paid E keeps10rank/gates.
+No second native alias intrinsic: paid controller only supplies tuning.
+Native owns attack damage, target stacks/reset/multiple casters and Break
+retaining existing-stack effects. No exposed cleave/cap fields in current
+native definition. Retire radial extra damage and custom normal/Boss caps
+to restore focused Ursa identity instead of duplicating a native attack with
+unverified damage attribution/event ordering. This resolves the provisional
+cleave investigation in the original matrix; no partial cleave dispatcher.
+AGI bridge and rank-refresh use existing shared restoration entry, no interval,
+attack listener, new manager or forced target stack writes. Native intrinsic
+ForceRefresh on rank changes only; no target debuff refresh or count mutation.
+Actual cached damage/AGI and QShard lookup remain owner evidence gates.
+
+## E source implementation and acceptance
+
+Stable paidE ability_lua under abilities/heroes/ursa/e controls10ranks; one
+exact native ursa_fury_swipes provider is hidden/active/rank1 when trained,
+rank0 otherwise. No duplicate native alias with another attack intrinsic.
+Existing Innates restoration installs tuning first, adds provider once and
+preserves existing handles/target state/points on repeated death/reconnect
+restore. OnUpgrade invokes server-only intrinsic name lookup/ForceRefresh
+for the caster cache, never target stacks; client rank-up returns before
+loading integration. One persistent hidden non-purgable bridge class is
+registered and linked on both contexts through existing client entry; total
+15 reviewed client classes, no server managers imported by that entry.
+Raw rank damage20..92 +AGI.15, reset6..10, nativeRoshan8/stun0 are scoped to
+the native provider of this parent and exact keys. Break is not checked by
+the numeric bridge because native retains existing-stack damage; native
+controls new-stack/illusion eligibility. No IsAlive in client getters.
+Custom stack/debuff/attack handler, max/Boss caps and radial damage removed.
+Native attack/target/modifier/immunity/feedback/expiry own these semantics;
+asset existence does not establish live behavior. Native hit/debuff resources
+are hash-verified and existing precache retained. Four languages/12mirrors
+match native reset/Break and the authored AGI curve, no old cleave/cap claims.
+Automatic Health reports native provider/intrinsic and damage query without
+restoration or mutation; query is not actual measured attack damage.
+
+115 affected checks and323 hero mock regressions pass. Full source checks
+pass with0 failures. The progression-only fixture now allows the exactUrsa
+E lookup while preserving all free-rank/respawn/49point assertions. Actual native cached damage, changing AGI without rank-up, rank
+refresh preserving target stacks, killing hits, two Ursas, Break existing
+stacks, QShard and cold native VFX/SFX remain PENDING OWNER TEST. Next: Q
+Earthshock native linked identities and damage pipeline; W/D pending too.

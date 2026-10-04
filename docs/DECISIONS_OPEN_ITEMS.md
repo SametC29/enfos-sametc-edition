@@ -532,3 +532,13 @@ only for owned EnfosUrsa. This is explicit tuning, not ten-rank C++ acceptance.
 Q physical->native magical hop, E native stack/Break/Shard links, W native
 charges/heal extension and Maul+D separation remain documented decisions
 with source implementation pending. No shared Boss/wave changes.
+
+## Ursa E native identity decision, 2026-10-04
+
+TUNE: native Fury Swipes already works against creeps. Exact rank1 native
+provider plus paid10rank/AGI tuning replaces all custom stack/damage listeners.
+No native cleave/cap fields; retire custom radial cleave and distinct Boss
+stack cap instead of a guessed secondary damage event. Native focused attack
+identity, per-caster target state, reset and Break retaining existing damage
+are the target. This resolves the earlier conditional cleave lead; actual
+AGI/native cache/refresh/Shard interaction stays owner pending.

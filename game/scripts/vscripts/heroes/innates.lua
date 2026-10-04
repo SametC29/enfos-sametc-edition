@@ -25,6 +25,9 @@ function Innates:Apply(hero)
     if id=='enfos_tide_colossal_presence' then
         require('abilities/heroes/tidehunter/integration').Restore(hero)
     end
+    if id=='enfos_ursa_ursa_minor' then
+        require('abilities/heroes/ursa/integration').Restore(hero)
+    end
     return true
 end
 return Innates

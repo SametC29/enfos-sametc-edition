@@ -2675,21 +2675,21 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
           "callbacks": [
-            "GetIntrinsicModifierName"
+            "GetIntrinsicModifierName",
+            "OnUpgrade"
           ],
           "specials": {
-            "bonus_damage": "20 28 36 44 52 60 68 76 84 92",
+            "damage_per_stack": "20 28 36 44 52 60 68 76 84 92",
             "agility_factor": "0.15",
-            "debuff_duration": "6 6.4 6.8 7.2 7.6 8 8.4 8.8 9.4 10",
-            "max_stacks": "12 16 20 24 28 32 36 40 45 50",
-            "cleave_radius": "250",
-            "cleave_pct": "20 23 26 29 32 35 38 41 44 47",
-            "boss_max_stacks": "8 10 12 14 16 18 20 22 24 25"
+            "bonus_reset_time_roshan": "8",
+            "stun_stack_count": "0",
+            "stun_duration": "0",
+            "bonus_reset_time": "6 6.4 6.8 7.2 7.6 8 8.4 8.8 9.4 10"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
           "hasSound": false,
-          "hasParticle": true
+          "hasParticle": false
         },
         {
           "slot": 4,
