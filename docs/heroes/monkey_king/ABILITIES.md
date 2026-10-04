@@ -60,6 +60,20 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-04 native-first discovery: installed6943/revision11069754 freshly
+read, unchanged SHA2566d7a10c...313a6; nine definitions, three deprecated facets,
+native English tokens and ten compiled resources hashed in the [current
+snapshot](../../audit/MONKEY_KING_NATIVE_SOURCE_2026-10-04.json). [Pre-mutation
+five-slot matrix and provenance](../../audit/MONKEY_KING_NATIVE_FIRST_REVIEW_2026-10-04.md)
+records Q TUNE/native candidate, W REPLACE/native tree-channel linkage, E/R
+PVE-CONVERT hero-only restrictions, D KEEP authored passive plus separate native
+Mischief innate. Production remains CUSTOM Lua below; no source migration or
+engine PASS. Jingu per-target hero-only acquisition and soldier hero-only
+targeting are explicit technical gates, not solved by unverified KV flags.
+Existing level/point/restore/client services retained. Next focused Q/link
+research; all skill/upgrades/lifecycle/presentation acceptance stays PENDING.
+
+
 2026-10-02 source review: the installed hero KV maps its native sound bank to `soundevents/game_sounds_heroes/game_sounds_monkey_king.vsndevts`; the Enfos kit emits multiple `Hero_MonkeyKing` events but the bank was absent from startup precache. Added it. Native Boundless Strike AbilityDefinitions specify the distinct `ACT_DOTA_MK_STRIKE` gesture, which was missing from the custom ability KV and is now set. Native Primal Spring and Wukong's Command specify `ACT_INVALID`; no guessed animation was added for those conversions. Static checks cover Boundless Strike and bank registration; rendered gesture and live sound playback remain PENDING owner Dota/VConsole review.
 
 2026-09-30 Boundless Strike targeting repair: a cursor position equal to Monkey King's origin produced a zero-length direction. Lua now falls back to the caster's facing after flattening the vector to the ground plane. A mock regression sets facing along Y and confirms the strike hits the enemy along that line when the cursor is at the caster. The current hero-kit mock suite passes 191 tests. In-game targeting, display, animation, audio, damage balance and rank/HUD checks remain PENDING for owner testing.
