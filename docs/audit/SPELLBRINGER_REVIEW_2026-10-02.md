@@ -1,7 +1,7 @@
 # Spellbringer eight-ability review — 2026-10-02
 
-SOURCE_REVIEW: reviewed all eight service/UI paths; movement root cause unresolved.
-AUTOMATED_VALIDATION: recorded below after checks. OWNER_RUNTIME: PENDING.
+SOURCE_REVIEW: reviewed all eight service/UI paths; October 4 direct-motor comparison isolated reinforcement movement to the ordinary order path.
+AUTOMATED_VALIDATION: recorded below after checks. OWNER_RUNTIME: movement repair and full eight-spell presentation PENDING.
 Result: PARTIAL / IMPLEMENTED BUT NOT ENGINE-VERIFIED.
 
 ## Reported movement failure
@@ -12,8 +12,10 @@ order. This is not merely an absent automatic march. Production creates five
 and calls `SetControllableByPlayer(playerID, true)`. The Boolean means
 `skipAdjustingPosition`, not enable/disable control. All selected normal profiles
 have ground movement and positive speed. The native unit base has turn rate 0.5;
-omitting it is not evidence of zero turning. The order filter rejects only custom
-Ascended sell orders. The mouse callback returns false after casting/cancelling.
+omitting it is not evidence of zero turning. At the October 2 baseline, the
+order filter rejected only custom Ascended sell orders; the later repair also
+forwards allied movement without rejecting the original group order. The mouse
+callback returns false after casting/cancelling.
 Future units do not receive hostile lane AI; adding that AI would overwrite
 manual orders and introduce the wrong goal/leak behavior.
 
@@ -76,10 +78,10 @@ walk/attack/cast animations still require actual Dota verification.
 | war_standard | Stationary neutral standard, 800 aura, 20s, +25% damage/+40 speed; defendingTeam filter | Healing-ward model, LegionCommander.Duel.Cast; generic Enigma acknowledgement | PENDING aura replication, model/idle, audio |
 | thorn_idol | Stationary neutral idol, 800 aura, 15s; 25% physical reflection capped at 25% max HP, reflection-loop guard | Pugna-ward model, BladeMail.Activate; generic acknowledgement | PENDING reflects, aura, model/idle, audio |
 | rift_surge | Two neutral attackers, nearest central route, 30s, no Life/rewards | Eidolon model, corrected Enigma event, generic acknowledgement | PENDING actual route/combat/walk/attack/expiry/audio |
-| whole_displacement | 450 area; non-Boss registered hostiles to own route start, waypoint reset; stationary summons may also match | Chen.TeleportOut per affected unit; generic acknowledgement | PENDING route, stationary-summon eligibility, Boss exclusion, audio |
+| whole_displacement | 450 area; mobile non-Boss registered hostiles with a lane route return to their own start, waypoint reset; stationary/unrouted summons excluded | Chen.TeleportOut per affected unit; generic acknowledgement | PENDING in-engine route, Boss exclusion, audio |
 | reveal | 900 area, 15s; friendly-source thinker, FOW and native truesight aura filtered to own-arena hostiles; thinker removed | Dust radius CP1, own-team ring/event; DustOfAppearance.Activate | PENDING invisibility/immune/FOW, render, audio |
 | purification | 600 area; removes three named buffs, 800 pure damage to hostile summons; strong allied hero purge | Omniknight root CP1 repair; Omniknight.Purification | PENDING damage/dispel, aura reapplication, render/audio |
-| future_reinforcements | Five controllable +5 profiles, Boss fallback, campaign cap, match scaling, 30s, no gold/XP/Life; specials configured | Native creep model/projectile/SoundSet; Silencer.GlobalSilence.Effect; generic acknowledgement | PENDING reported manual movement, combat, ability commands, walk/attack/cast animations/expiry/audio |
+| future_reinforcements | Five controllable +5 profiles, Boss fallback, campaign cap, match scaling, 30s, no gold/XP/Life; specials configured; owner move and attack-move now forwarded to NPC motor | Native creep model/projectile/SoundSet; Silencer.GlobalSilence.Effect; generic acknowledgement | PENDING repaired manual movement retest, combat, ability commands, walk/attack/cast animations/expiry/audio |
 
 Additional engine/design questions, not silently changed: most acknowledgement
 bursts reuse a native Enigma **model-based** particle with a CP1 path and CP0
@@ -94,9 +96,10 @@ claim every transferred special is automatically exercised against neutral PvE.
 
 Use a fresh Tools match. Casting Future Reinforcements now automatically arms
 the read-only diagnostic for its five actual spawn handles. No console command
-is needed for the next reproduction. To inspect an existing group manually in
-**server** console:
-`script require("tools/spellbringer_audit").Run(0)` (replace 0 with caster player ID).
+is needed for the next reproduction. The earlier `script ...` console instruction
+was invalid in the owner's VConsole. For an optional Tools-only comparison after
+casting and ordering an early wave-6 group, use `enfos_spellbringer_compare 0`
+(replace 0 with caster player ID) in VConsole.
 Select one unit, move at least 300 traversable world units, attack a neutral wave
 unit, stop, hold, and repeat using the group. Retain `[SPELLBRINGER_AUDIT]` and
 `[SPELLBRINGER_ORDER]` lines, tested commit/build and cast wave. A client-scope
@@ -236,3 +239,9 @@ The replacement `enfos_spellbringer_compare 0` command registered and ran in the
 The same log repeatedly reports invalid engine order with error 26, "Target can't be seen by the unit's team," after the comparison. The diagnostic moved by position (order type 1); the warning is not attributed to it from this log. Investigate the source of repeated target orders separately without treating 26 as a movement order type.
 
 The next Tools-only comparison now adds a second phase on the temporary bare custom and native priest fixtures: after the original three-second server-order sample, call `MoveToPosition` directly and measure displacement two seconds later, before their eight-second expiry. Do not move the owner's hero or original reinforcement in this phase. `direct_displacement>0` with first-phase zero points toward the order path; another zero leaves shared motor/navigation conditions open. Mock callback regression passes; owner Dota/VConsole result is pending. No automatic production behavior changed by this diagnostic.
+
+## Owner direct-motor comparison and focused repair — October 4
+
+Owner supplied a second local Tools VConsole capture (`9b8d69b8-6ba0-4dc0-8722-246e5e16083c`). Manual ground-move orders to the five real reinforcements reached the order filter with `reachable=true` and all five sampled at 0.0 displacement. The four-case server-order comparison again measured 0.0 for original, custom bare, custom heal and native priest. The new direct-motor phase moved the bare custom fixture 110.4 units and native priest 248.9 units. This isolates the failure to the ordinary player/server order path for these player-owned spawned creeps, rather than their KV, heal, physical motor or a disconnected route.
+
+Production repair forwards only valid owner's manual MOVE_TO_POSITION and ATTACK_MOVE orders for `is_allied_reinforcement` wave creeps to `MoveToPosition` / `MoveToPositionAggressive` on the unit's next tick. The original group order still returns true, so selected heroes and other units keep their native order. The deferred callback checks that the unit remains alive and owned; the same named unit think replaces rapid repeated clicks, limiting queued work. Other order types and all other units are untouched. Mock tests cover mixed selection, wrong owner, ordinary move, aggressive move, invalid destination, removed unit and nonmovement order. Real player-controlled movement after this repair remains PENDING owner Dota testing; do not mark the Spellbringer ability DONE until move and attack-move are observed in-game.

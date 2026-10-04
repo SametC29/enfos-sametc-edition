@@ -156,6 +156,9 @@ function EnfosSametC:OrderFilter(filterTable)
 	end
 	local playerID = filterTable.issuer_player_id_const
 	if playerID == nil or not PlayerResource:IsValidPlayerID(playerID) then return true end
+	-- Keep the original group order for heroes and other selected units. The
+	-- allied reinforcements need their own NPC motor call after that order.
+	require("spellbringer/manual_orders").Forward(filterTable)
 	if DOTA_UNIT_ORDER_CAST_TOGGLE_AUTO and filterTable.order_type==DOTA_UNIT_ORDER_CAST_TOGGLE_AUTO then
 		require("abilities/heroes/bristleback/integration").AutocastOrder(filterTable)
 	end
