@@ -214,8 +214,6 @@ local modifier_list = {
     'modifier_enfos_pudge_dismember_channel',
     'modifier_enfos_pudge_dismember_target',
     'modifier_enfos_pudge_meat_shield_passive',
-    'modifier_enfos_slark_pounce_leash',
-    'modifier_enfos_slark_pounce_dash',
     'modifier_enfos_slark_fish_bait_passive',
     'modifier_enfos_slark_fish_bait_debuff',
     'modifier_enfos_ursa_earthshock_slow',
@@ -5364,78 +5362,6 @@ end
 -- ----------------------------------------------------------------------------
 -- SLARK: DARK PACT, POUNCE, ESSENCE SHIFT, SHADOW DANCE, FISH BAIT
 -- ----------------------------------------------------------------------------
-
-enfos_slark_pounce=class({})
-function enfos_slark_pounce:OnSpellStart()
-    local c = self:GetCaster()
-    c:EmitSound('Hero_Slark.Pounce.Cast')
-    local distance = value(self, 'pounce_distance')
-    if distance <= 0 then distance = 700 end
-    effect('particles/units/heroes/hero_slark/slark_pounce_start.vpcf', c)
-    local speed = value(self, 'dash_speed')
-    if speed <= 0 then speed = 1400 end
-    c:AddNewModifier(c, self, 'modifier_enfos_slark_pounce_dash', { distance = distance, speed = speed })
-end
-
-modifier_enfos_slark_pounce_dash=class({})
-function modifier_enfos_slark_pounce_dash:IsHidden() return true end
-function modifier_enfos_slark_pounce_dash:IsPurgable() return false end
-function modifier_enfos_slark_pounce_dash:OnCreated(kv)
-    if not IsServer() then return end
-    local c = self:GetParent()
-    self.origin = c:GetAbsOrigin()
-    self.direction = c.GetForwardVector and c:GetForwardVector() or Vector(1, 0, 0)
-    self.distance = math.max(0, tonumber(kv and kv.distance) or value(self:GetAbility(), 'pounce_distance'))
-    self.speed = math.max(1, tonumber(kv and kv.speed) or value(self:GetAbility(), 'dash_speed'))
-    if self.distance <= 0 then self.distance = 700 end
-    if self.speed <= 0 then self.speed = 1400 end
-    self.elapsed = 0
-    self:StartIntervalThink(0.03)
-    self.pfx = ParticleManager:CreateParticle('particles/units/heroes/hero_slark/slark_pounce_trail.vpcf', PATTACH_ABSORIGIN_FOLLOW, c)
-end
-function modifier_enfos_slark_pounce_dash:OnIntervalThink()
-    local c = self:GetParent()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then self:Destroy(); return end
-    self.elapsed = (self.elapsed or 0) + 0.03
-    local fraction = math.min(1, self.elapsed * self.speed / self.distance)
-    local position = self.origin + (self.direction * (self.distance * fraction))
-    c:SetAbsOrigin(position)
-    if fraction >= 1 then
-        FindClearSpaceForUnit(c, position, true)
-        effect('particles/units/heroes/hero_slark/slark_pounce_splash.vpcf', c)
-        local ability = self:GetAbility()
-        local radius = value(ability, 'impact_radius')
-        if radius <= 0 then radius = 250 end
-        local base = value(ability, 'damage')
-        if base <= 0 then base = 180 end
-        local dealt = base + (get_agi(c) * value(ability, 'agility_factor'))
-        for _, u in ipairs(enemies(c, position, radius)) do
-            damage(ability, u, dealt, DAMAGE_TYPE_PHYSICAL)
-            effect('particles/units/heroes/hero_slark/slark_pounce_leash.vpcf', u)
-            local duration = value(ability, 'leash_duration')
-            if is_boss(u) then
-                local boss_duration = value(ability, 'boss_leash_duration')
-                if boss_duration > 0 then duration = boss_duration end
-            end
-            u:AddNewModifier(c, ability, 'modifier_enfos_slark_pounce_leash', { duration = duration })
-            break
-        end
-        self:Destroy()
-    end
-end
-function modifier_enfos_slark_pounce_dash:OnDestroy()
-    if self.pfx and ParticleManager then
-        ParticleManager:DestroyParticle(self.pfx, false)
-        ParticleManager:ReleaseParticleIndex(self.pfx)
-        self.pfx = nil
-    end
-end
-
-modifier_enfos_slark_pounce_leash=class({})
-function modifier_enfos_slark_pounce_leash:IsDebuff() return true end
-function modifier_enfos_slark_pounce_leash:CheckState() return { [MODIFIER_STATE_TETHERED] = true } end
-function modifier_enfos_slark_pounce_leash:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
-function modifier_enfos_slark_pounce_leash:GetModifierMoveSpeedBonus_Percentage() return -80 end
 
 enfos_slark_fish_bait=class({})
 function enfos_slark_fish_bait:GetIntrinsicModifierName() return 'modifier_enfos_slark_fish_bait_passive' end

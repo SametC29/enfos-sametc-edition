@@ -450,7 +450,7 @@
     "DOTA_Tooltip_Ability_enfos_wd_death_ward_scepter_description": "+40% урона заклинаний ультимейта; его перезарядка сокращена на 25%.",
     "DOTA_Tooltip_Ability_enfos_wd_voodoo_switcheroo_shard_description": "Открывает способность «Вуду-перевоплощение».",
     "DOTA_Tooltip_Ability_enfos_bb_warpath_shard_description": "+350 здоровья. Отражает 15% входящего вражеского урона физическим уроном.",
-    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_scepter_description": "Перезарядка Танца теней сокращается на 25%. Способность не наносит прямого урона.",
+    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_scepter_description": "Pounce получает 2 заряда с восстановлением 12 сек.; дальность прыжка становится 900.",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift": "Смена сущности (Essence Shift)",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift_Description": "Атаки по вражеским героям крадут по {{stat_loss}} каждого атрибута и дают {{bonus_agi}} ловкости на {{duration}} сек. Нативная Essence Shift может навсегда украсть ловкость при смерти героя в радиусе {{steal_radius}}, только на текущий матч. Атаки по вражеским крипам дают {{bonus_agi}} ловкости, до {{max_stacks}} зарядов; каждый удар обновляет их общую длительность {{duration}} сек. Истощение блокирует новые временные заряды, но сохраняет существующие бонусы.",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait": "Наживка (Fish Bait)",
@@ -1451,6 +1451,9 @@
     "DOTA_Tooltip_Ability_enfos_slark_shadow_dance": "Танец теней",
     "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_Description": "Когда враги не видят Slark, получает {{bonus_movement_speed}}% скорости передвижения и {{bonus_regen}} здоровья в секунду. Урон от нейтралов отключает пассивные бонусы на 2 сек. Активация скрывает Slark в видимом облаке на {{duration}} сек.; атаки, способности и предметы не раскрывают его.",
     "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff": "Эссенция крипов",
-    "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff_Description": "Временная ловкость от атак по вражеским крипам. Новые удары обновляют общую длительность. Истощение блокирует новые заряды, но сохраняет существующие бонусы."
+    "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff_Description": "Временная ловкость от атак по вражеским крипам. Новые удары обновляют общую длительность. Истощение блокирует новые заряды, но сохраняет существующие бонусы.",
+    "DOTA_Tooltip_Ability_enfos_slark_pounce": "Прыжок (Pounce)",
+    "DOTA_Tooltip_Ability_enfos_slark_pounce_Description": "Прыгает на {{pounce_distance}} в направлении взгляда, привязывая первого вражеского героя в радиусе {{pounce_radius}} на {{leash_duration}} сек. в пределах {{leash_radius}} и накладывая {{essence_stacks}} зарядов Essence Shift, если она изучена. Перепрыгивает крипов, не наносит прямого урона. Нельзя начать под оцепенением.",
+    "DOTA_Tooltip_Ability_enfos_slark_pounce_scepter_description": "Pounce получает 2 заряда с восстановлением 12 сек.; дальность прыжка становится 900."
   }
 }

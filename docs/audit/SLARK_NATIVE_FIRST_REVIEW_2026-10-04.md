@@ -24,7 +24,7 @@ Luna/SF/BB are reused; no new hero manager or spawn listener is needed.
 | Slot | Exact native counterpart | Class | Preferred implementation and evidence boundary |
 | --- | --- | --- | --- |
 | Q enfos_slark_dark_pact | slark_dark_pact | TUNE | NATIVE plus one AGI special-value bridge. Self-purge and radial damage already fit waves. Restore native delay, self-damage, strong dispel, effects and cleanup; preserve authored damage/cost/CD/radius and AGI scaling. No Lua pulse replica. |
-| W enfos_slark_pounce | slark_pounce | PVE-CONVERT | NATIVE leap/Scepter charges first; convert only hero-only contact to useful creep contact if necessary. Installed description explicitly names first hero, while current Lua only checks an endpoint circle, not the travelled path. A tether state/slow alone does not prove native leash-radius enforcement. Verify the native modifier/API constructor before adding an extension; no guessed motion or CPs. |
+| W enfos_slark_pounce | slark_pounce | TUNE (reviewed2026-10-04) | NATIVE directional leap, first-hero leash and Scepter charges. Mobility remains meaningful against waves; Q provides wave damage/purge, E provides creep attack scaling and R concealment/sustain. A wave nuke/root is unnecessary to preserve this slot’s role. Preserve native hero-only latch and zero direct damage; remove endpoint-only movement/control imitation. Native KV keys tune paid leash/CD/mana curves; ten-rank C++ acceptance remains pending. |
 | E enfos_slark_essence_shift | slark_essence_shift | PVE-CONVERT | NATIVE hero essence/attribute interactions with minimal bounded creep AGI extension. Native is hidden, nonlearnable, innate rank1 and supports hero kill AGI within the match. Paid ten-rank E must remain separate from innate auto-scaling. Creeps lack the hero attributes assumed by native stealing; avoid duplicating the native hero attack bonus. Existing whole-buff refresh/cap is an authored creep conversion, not proof of native per-stack expiry. |
 | R enfos_slark_shadow_dance | slark_shadow_dance | TUNE | NATIVE concealment/passive visibility rules and native regen, with minimal authored rank integration. Source bonus_regen is flat 60/90/120, not the current custom health_regen_pct=8..18; do not silently route percentages into that field. Native passive works while not visible to enemy team and has neutral damage suppression. Current custom invisibility/truesight states do not prove those rules. |
 | D enfos_slark_fish_bait | slark_saltwater_shiv (historical design counterpart); slark_fish_bait is a different shard active | PVE-CONVERT | Resolve native attack-proc integration first. Saltwater Shiv steals movement, regen and health-restoration from heroes; this is not the current random physical cleave/armor stacks. Native active hero-only targeting and limited creep healing make a direct passive alias invalid. Preserve five-slot passive/10-rank contract; document any necessary custom portion instead of calling the old rewrite native. |
@@ -197,3 +197,61 @@ Final E source boundary: node tools/checks.mjs passes with zero failed checks.
 Q/R/E source units are implemented; W/D remain open. All native C++ queries,
 rank HUD, actual stats, effects/audio, upgrades, respawn/reconnect and clean
 VConsole remain PENDING OWNER TEST. No remote push or publication occurred.
+
+## W decision before implementation — supersedes provisional conversion
+
+The initial PVE-CONVERT lead depended on creep contact being necessary. Full
+kit review shows a separate role for native mobility: position Dark Pact,
+engage/disengage and move around wave bodies without adding another wave nuke.
+Q/E already provide wave offense and R sustain; native first-hero latch also
+retains PvEvP identity. The installed Pounce description and pounce_damage0
+support native mobility/control, not the old physical endpoint blast. Reclassify
+W as TUNE before changes: native stable alias, pounce_damage0, native radius120,
+distance700/speed933.33/acceleration7000/leash-radius400, authored leash2.5–4.3,
+CD12–6 and mana75–140. This explicitly removes the old100–550+0.8AGI endpoint
+damage, fixed80% slow and boss-specific short duration. Creeps are passed over;
+no custom creep root, damage or guessed native modifier constructor is added.
+This is a role/identity decision, not a claim that custom contact was verified.
+
+Retain native Scepter max_charges2, charge_restore_time12 and distance900 using
+installed special_bonus_scepter fields. Replace the generic R25% cooldown
+reduction with W's native Scepter; preserve existing role Shard until D review.
+Paid W has ten ranks directly; native essence_stacks endpoints1–4 are mapped
+to ten explicit ranks, and its exact hidden Essence Shift provider exists from
+the E unit. C++ ten-rank reads/charges/linked E still require owner verification.
+
+Primary ModDota built-in modifier guide confirms constructor fields are specific;
+older official China Workshop modifier-name list confirms names only, not current
+constructor semantics. Reference-only World of Dota2880603428 custom pounce
+lines4/283/298/601 shows a custom class, not a native constructor. No source is
+imported, and no external name list is treated as native engine proof.
+
+## W source implementation and validation
+
+Native stable alias installed with authored ten-rank leash/CD/mana and native
+charge keys. Removed custom dash, endpoint blast, fake slow/tether, manual
+particles and links; removed the imitation-only dash mock. Exact E provider
+remains owned by existing restore service. Native ownership guard suppresses
+generic R spell amp/CD and hides that obsolete upgrade modifier only for the
+owned Slark W; missing/invalid ability and unrelated heroes keep their behavior.
+Four languages now describe directional movement, hero-only latch, no direct
+damage, root restriction and native Scepter2/12/900.
+
+Ten focused Slark contracts and twelve Luna/shared client tests pass. The broad
+run uncovered two stale source contracts: dossier classification parser requires
+a bare classification line, and roster upgrade inventory still assumed Slark's
+Scepter belongs to R. Corrected dossier format and changed the inventory check
+to verify Slark Ability2 instead of Ability4, supported by installed source and
+the independent native-key/suppression tests. No acceptance gate was removed.
+
+Final W source boundary: node tools/checks.mjs passes with zero failed checks.
+Ten focused Slark tests, twelve shared Luna/client tests and93 content contracts
+pass. These establish source consistency only. Actual native movement/rank10,
+hero latch/creep pass-over, root restrictions, essence stacks, Scepter/Blessing
+charge HUD/restore, Refresher, effects/audio and lifecycle/VConsole remain
+PENDING OWNER TEST. Q/W/E/R source units are implemented; D source work remains
+open. No Dota control, remote push or publication occurred.
+
+References checked2026-10-04: [ModDota built-in modifiers](https://moddota.com/abilities/reutilizing-built-in-modifiers),
+[official China Workshop modifier list](https://www.dota2.com.cn/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Modifier_Names.htm).
+Neither name lists nor examples verify Pounce's current private constructor.

@@ -266,6 +266,7 @@ function modifier_enfos_scepter_upgrade:IsHidden()
     return name == "npc_dota_hero_lion" or name == "npc_dota_hero_jakiro" or name == "npc_dota_hero_vengefulspirit" or name == "npc_dota_hero_lich" or name == "npc_dota_hero_sven" or name == "npc_dota_hero_shadow_shaman" or name == "npc_dota_hero_tidehunter"
         or require('abilities/heroes/luna/integration').UsesNativeScepter(parent)
         or require('abilities/heroes/nevermore/ownership').IsEnfos(parent)
+        or require('abilities/heroes/slark/ownership').UsesNativeScepter(parent)
 end
 function modifier_enfos_scepter_upgrade:IsPurgable() return false end
 function modifier_enfos_scepter_upgrade:IsPermanent() return true end
@@ -279,6 +280,7 @@ function modifier_enfos_scepter_upgrade:DeclareFunctions()
 	}
 end
 function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event)
+    if require('abilities/heroes/slark/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/bristleback/ownership').IsEnfos(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/nevermore/ownership').IsEnfos(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/luna/integration').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
@@ -293,6 +295,7 @@ function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event
 	return a and a:GetAbilityType()==DOTA_ABILITY_TYPE_ULTIMATE and 40 or 0
 end
 function modifier_enfos_scepter_upgrade:GetModifierPercentageCooldown(event)
+    if require('abilities/heroes/slark/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/bristleback/ownership').IsEnfos(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/nevermore/ownership').IsEnfos(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/luna/integration').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end

@@ -122,7 +122,7 @@ test('every hero exposes correct ultimate/evolution contracts and migrated Enfos
     assert.equal(abilities[h.Ability5].Innate,undefined,id+': Enfos passive must not be marked as Dota innate');
     assert.ok(abilities[h.Ability5].AbilityBehavior?.includes('DOTA_ABILITY_BEHAVIOR_PASSIVE'),id+': fifth Enfos ability must be passive');
     assert.equal(abilities[h.Ability4].AbilityType,'DOTA_ABILITY_TYPE_ULTIMATE',id);
-    const scepterAbility=id==='npc_dota_hero_tidehunter'?h.Ability1:['npc_dota_hero_lich','npc_dota_hero_vengefulspirit','npc_dota_hero_bristleback'].includes(id)?h.Ability3:h.Ability4;
+    const scepterAbility=id==='npc_dota_hero_slark'?h.Ability2:id==='npc_dota_hero_tidehunter'?h.Ability1:['npc_dota_hero_lich','npc_dota_hero_vengefulspirit','npc_dota_hero_bristleback'].includes(id)?h.Ability3:h.Ability4;
     assert.equal(abilities[scepterAbility].HasScepterUpgrade,'1',id);
     if(id==='npc_dota_hero_tidehunter') assert.equal(abilities[h.Ability4].HasScepterUpgrade,undefined,'Ravage must not advertise the removed generic Scepter');
     if(id==='npc_dota_hero_lich') assert.equal(abilities[h.Ability4].HasScepterUpgrade,undefined,'Chain Frost must not advertise the replaced generic Scepter');

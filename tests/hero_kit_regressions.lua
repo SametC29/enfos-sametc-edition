@@ -5422,33 +5422,6 @@ test('Pudge Meat Shield accumulates damage to a KV threshold, caps bursts and ho
         'Illusions must not gain Meat Shield bonuses or trigger damage bursts')
 end)
 
-test('Slark Pounce performs a visible timed dash and applies a true capped leash on impact', function()
-    applied_damages = {}
-    local slark = create_mock_unit('npc_dota_hero_slark', 2, Vector(0, 0, 0))
-    slark.agility = 50
-    local creep = create_mock_unit('creep_pounce', 3, Vector(700, 0, 0), 1000)
-    mock_world_units = { slark, creep }
-    local ability = enfos_slark_pounce()
-    ability.GetCaster = function() return slark end
-    ability.GetSpecialValueFor = function(_, key)
-        return ({ pounce_distance=700, dash_speed=1400, impact_radius=250, damage=200, agility_factor=0.8,
-            leash_duration=3, boss_leash_duration=1 })[key] or 0
-    end
-    ability:OnSpellStart()
-    assert(slark:GetAbsOrigin().x == 0, 'Pounce must travel over time rather than teleport on cast')
-    local dash = slark:FindModifierByName('modifier_enfos_slark_pounce_dash')
-    dash.GetParent = function() return slark end
-    dash.GetAbility = function() return ability end
-    dash.StartIntervalThink = function() end
-    dash.Destroy = function(self) self.completed = true; self:OnDestroy() end
-    dash:OnCreated(dash.params)
-    while not dash.completed do dash:OnIntervalThink() end
-    assert(slark:GetAbsOrigin().x == 700 and #applied_damages == 1)
-    assert(applied_damages[1].damage == 240 and applied_damages[1].damage_type == DAMAGE_TYPE_PHYSICAL)
-    local leash = creep:FindModifierByName('modifier_enfos_slark_pounce_leash')
-    assert(leash and leash.params.duration == 3 and leash:CheckState()[MODIFIER_STATE_TETHERED])
-end)
-
 test('Slark Fish Bait uses its rank values for cleave and stacked armor reduction', function()
     applied_damages = {}
     local slark = create_mock_unit('npc_dota_hero_slark', 2, Vector(0, 0, 0))

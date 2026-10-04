@@ -10,12 +10,12 @@ Hero: `npc_dota_hero_slark`; role: Fighter. Progression target: hero level 50 / 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
 | 1 | `enfos_slark_dark_pact` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE | NOT_EXPLICIT | slark_dark_pact |
-| 2 | `enfos_slark_pounce` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | slark_pounce |
+| 2 | `enfos_slark_pounce` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | NOT_EXPLICIT | slark_pounce |
 | 3 | `enfos_slark_essence_shift` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/slark/essence_shift | slark_essence_shift |
 | 4 | `enfos_slark_shadow_dance` | 10 | DOTA_ABILITY_BEHAVIOR_IMMEDIATE \| DOTA_ABILITY_BEHAVIOR_NO_TARGET | NOT_EXPLICIT | slark_shadow_dance |
 | 5 | `enfos_slark_fish_bait` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | slark_fish_bait |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [abilities/heroes/slark/essence_shift](../../../game/scripts/vscripts/abilities/heroes/slark/essence_shift.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/slark/essence_shift](../../../game/scripts/vscripts/abilities/heroes/slark/essence_shift.lua), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -69,7 +69,7 @@ The shared spawn service restores only the scaler; no points or native providers
 are added. Both client/server register the class separately from server services.
 EN/TR/RU/zh-CN descriptions include delay, blood cost and configured total.
 Three native/source/scaling tests pass; actual C++ ten-rank reads, damage, purge,
-VFX/SFX and lifecycle remain PENDING OWNER TEST. W/D source work remains open.
+VFX/SFX and lifecycle remain PENDING OWNER TEST. D source work remains open.
 
 R source implementation2026-10-04: Shadow Dance now delegates to native
 slark_shadow_dance through its stable ten-rank alias. The custom invisibility,
@@ -140,46 +140,47 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 ## Slot 2: `enfos_slark_pounce`
 
-Classification: PVE-CONVERT
+Classification: TUNE
+2026-10-04 full-kit native-first review supersedes provisional creep conversion.
 Native counterpart: `slark_pounce` (installed Ability2).
-Decision and PvE identity rationale: preserve Slark's forward leap and leash while resolving the previous instant teleport and adding boss-limited tether duration.
-Expected cast/travel/impact/ongoing/cleanup behavior: PENDING.
-Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
+Decision and PvE identity rationale: preserve native mobility to position Dark Pact and engage/disengage around waves. Native first-hero contact controls heroes; Q/E already provide wave offense. Remove the custom endpoint blast/slow/boss exception rather than invent a new root or an unverified built-in modifier constructor.
+Expected behavior: native directional leap (face direction), first-hero latch, leash and learned Essence Shift stacks. Engine owns motion/landing/tree handling/targets/feedback/cleanup. Creeps are passed over; no direct damage. This intentionally removes the former100–550+0.8AGI physical endpoint blast.
+Targets: native hero-only latch; ordinary creep/boss movement remains possible. No Elite units or boss-specific leash compensation. Root disables cast start; native non-dispellability/immune metadata retained. Actual native target/resistance rules remain owner engine gates.
 Current versus target rank curve: Pounce W ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
+Scepter: native2 charges, restore12s, distance900; replaces generic R amp/CD. Shard role extension remains until D source unit. Scepter/Blessing/HUD/Refresher behavior remains PENDING OWNER TEST.
 
 ### Resource and implementation evidence
 
-- Native ability data source + build + hash/revision: PENDING.
-- Cast/travel/impact/persistent particle paths + type + CP meanings + attachments: PENDING.
-- Sound events + declaring banks + emission target + loop termination: PENDING.
+- Native source: SLARK_NATIVE_SOURCE_2026-10-04.json build6943/rev11069754 hero SHA c3bf34ff95deb386eaa918b14920ecd76b5a2a6060d7c07868ac39b8047cc752. Exact native keys retained; scalar native speed/radius/distance/acceleration/leash radius and zero damage.
+- Engine owns native W particles and CPs. Removed manual start/trail/splash/leash particle creation and custom motion modifier. Existing Slark precache retained; actual display/cleanup remains pending.
+- Verified native Hero_Slark.Pounce.Cast and existing verified Slark soundbank; native engine emits/cleans sound. Actual audible cold-start remains pending.
 - Model/animation/gesture/icon evidence: PENDING.
-- Modifier links, ownership, refresh, stacks, death/purge/Break rules: PENDING.
+- Removed custom dash/leash classes and links. Native owns casting/motion/leash/cleanup; exact native Essence Shift provider from E integration supports linked lookup, with engine behavior pending.
 - Precache owner and cold-start test: PENDING.
 - One-shot/persistent cleanup owner and repeated-use test: PENDING.
-- Localization keys and generated mirrors: PENDING.
+- EN/TR/RU/zh-CN descriptions disclose directional hero-only contact, zero damage and root restriction; native Scepter text uses2/12/900.
 
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Source reviewed2026-10-04; owner engine evidence pending; see native-first review. |
+| Targeting | PENDING | Source reviewed2026-10-04; owner engine evidence pending; see native-first review. |
 | Ranks | PENDING | W gates levels 1–10 declared; HUD/point behavior remains PENDING engine verification. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
-| Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
-| Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
-| Performance | PENDING | Not evaluated in this dossier setup. |
-| Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | PENDING | Not evaluated in this dossier setup. |
+| VFX | PENDING | Source reviewed2026-10-04; owner engine evidence pending; see native-first review. |
+| SFX | PENDING | Source reviewed2026-10-04; owner engine evidence pending; see native-first review. |
+| Animation | PENDING | Source reviewed2026-10-04; owner engine evidence pending; see native-first review. |
+| Modifiers | PENDING | Source reviewed2026-10-04; owner engine evidence pending; see native-first review. |
+| Precache | PENDING | Source reviewed2026-10-04; owner engine evidence pending; see native-first review. |
+| Cleanup | PENDING | Source reviewed2026-10-04; owner engine evidence pending; see native-first review. |
+| Boss | PENDING | Source reviewed2026-10-04; owner engine evidence pending; see native-first review. |
+| Upgrades | PENDING | Source reviewed2026-10-04; owner engine evidence pending; see native-first review. |
+| Localization | PENDING | Source reviewed2026-10-04; owner engine evidence pending; see native-first review. |
+| Performance | PENDING | Source reviewed2026-10-04; owner engine evidence pending; see native-first review. |
+| Reconnect | PENDING | Source reviewed2026-10-04; owner engine evidence pending; see native-first review. |
+| VConsole | PENDING | Source reviewed2026-10-04; owner engine evidence pending; see native-first review. |
 
-Change/test record: PENDING. Record exact build, date, reproduction steps, result and evidence paths. A mock pass is not ENGINE_PASS.
+Source checks recorded in SLARK_NATIVE_FIRST_REVIEW_2026-10-04.md; native metadata, ten-rank arrays, no custom motion, native Scepter keys and suppression of generic bonuses are covered. C++ rank acceptance, actual movement/contact/charges/points, effects/audio, upgrades/lifecycle and VConsole remain PENDING OWNER TEST.
 
 ## Slot 3: `enfos_slark_essence_shift`
 

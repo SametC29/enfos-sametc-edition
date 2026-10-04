@@ -696,8 +696,8 @@
     "DOTA_Tooltip_Ability_enfos_bb_hairball_Description": "Seçilen noktaya bir tüy yumağı fırlatır. İsabette {{radius}} alanına {{goo_stacks}} Goo yükü ve {{quill_stacks}} diken yükü uygular; Goo ve Quill Spray değerlerini kullanır.",
     "DOTA_Tooltip_Ability_enfos_slark_dark_pact": "Karanlık Anlaşma (Dark Pact)",
     "DOTA_Tooltip_Ability_enfos_slark_dark_pact_Description": "{{delay}} sn sonra {{radius}} alanında {{total_pulses}} nabız salar; toplam {{total_damage}} + Çeviklik × {{agility_factor}} büyü hasarı verir ve olumsuz etkileri güçlü arındırmayla temizler. Nabız aralığı {{pulse_interval}} sn. Slark da hasarın %{{self_damage_pct}} kadarını alır.",
-    "DOTA_Tooltip_Ability_enfos_slark_pounce": "Üstüne Atlama (Pounce)",
-    "DOTA_Tooltip_Ability_enfos_slark_pounce_Description": "İleri doğru {{pounce_distance}} birim atılır. Varışta yakındaki düşmanlara {{damage}} + çevikliğinin %80’i kadar fiziksel hasar verir ve onları {{leash_duration}} saniye bağlar. Boss bağı {{boss_leash_duration}} saniyedir.",
+    "DOTA_Tooltip_Ability_enfos_slark_pounce": "Sıçrama (Pounce)",
+    "DOTA_Tooltip_Ability_enfos_slark_pounce_Description": "Yüzünün dönük olduğu yöne {{pounce_distance}} sıçrar; {{pounce_radius}} içindeki ilk düşman kahramanı {{leash_duration}} sn boyunca {{leash_radius}} içinde bağlar ve Öz Değişimi öğrenildiyse {{essence_stacks}} yük uygular. Yaratıkların üzerinden geçer; doğrudan hasar vermez. Sabitlenmişken başlatılamaz.",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift": "Öz Değişimi (Essence Shift)",
     "DOTA_Tooltip_Ability_enfos_slark_essence_shift_Description": "Düşman kahramanlara saldırılar her özellikten {{stat_loss}} çalar ve {{duration}} sn boyunca {{bonus_agi}} çeviklik kazandırır. Native Öz Değişimi, {{steal_radius}} yarıçapındaki kahraman ölümlerinden yalnız bu maç için kalıcı çeviklik çalabilir. Düşman yaratıklara saldırılar {{bonus_agi}} çeviklik kazandırır; en fazla {{max_stacks}} yük, her vuruşta ortak {{duration}} sn süre yenilenir. Kırılma yeni geçici yükleri durdurur; mevcut bonuslar korunur.",
     "DOTA_Tooltip_Ability_enfos_slark_shadow_dance": "Gölge Dansı (Shadow Dance)",
@@ -1078,7 +1078,7 @@
     "DOTA_Tooltip_Ability_enfos_wd_death_ward_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_wd_gris_gris_shard_description": "Verilen iyileştirme +%25.",
     "DOTA_Tooltip_Ability_enfos_bb_warpath_shard_description": "+350 can. Düşmandan gelen hasarın %15’ini fiziksel olarak yansıtır.",
-    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_scepter_description": "Gölge Dansı bekleme süresi %25 azalır. Bu yetenek doğrudan büyü hasarı vermez.",
+    "DOTA_Tooltip_Ability_enfos_slark_shadow_dance_scepter_description": "Sıçrama 2 yük kazanır; yük yenilenmesi 12 sn, sıçrama mesafesi 900 olur.",
     "DOTA_Tooltip_Ability_enfos_slark_fish_bait_shard_description": "+35 saldırı hızı. Saldırılar hedefin hareket hızını %25, saldırı hızını 25 azaltır (3 sn).",
     "DOTA_Tooltip_Ability_enfos_luna_eclipse_scepter_description": "2500 menzilde dost birim veya zemin hedeflemeyi açar, ışın aralığını 0,3 saniyeye indirir ve tutulma rankına göre ışın sayısını ve hedef başına vuruş sınırını artırır.",
     "DOTA_Tooltip_Ability_enfos_luna_lunar_orbit_shard_description": "Ay Yörüngesi etkinken ilave %10 hasar azaltma ve %20 hareket hızı sağlar.",
@@ -1841,6 +1841,7 @@
     "DOTA_Tooltip_Ability_enfos_bb_bristleback_scepter_description": "Bristleback aktifini açar: seçilen yöne beş Quill Spray salar. Bekleme 24 sn; mana 125. Hairball için ek hasar veya bekleme bonusu vermez.",
     "DOTA_Tooltip_Ability_enfos_bb_native_hairball": "Kıl Yumağı (Hairball)",
     "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff": "Yaratık Özü",
-    "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff_Description": "Düşman yaratıklara saldırılardan kazanılan geçici çeviklik. Yeni vuruşlar ortak süreyi yeniler. Kırılma yeni yükleri durdurur; mevcut bonusları korur."
+    "DOTA_Tooltip_modifier_enfos_slark_essence_shift_buff_Description": "Düşman yaratıklara saldırılardan kazanılan geçici çeviklik. Yeni vuruşlar ortak süreyi yeniler. Kırılma yeni yükleri durdurur; mevcut bonusları korur.",
+    "DOTA_Tooltip_Ability_enfos_slark_pounce_scepter_description": "Sıçrama 2 yük kazanır; yük yenilenmesi 12 sn, sıçrama mesafesi 900 olur."
   }
 }

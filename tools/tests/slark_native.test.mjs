@@ -179,3 +179,49 @@ test('creep essence is bounded, ignores native hero hits, preserves existing sta
  assert(buff:GetModifierBonusStats_Agility()==124);listener:OnAttackLanded({attacker=hero,target=target});assert(buff.count==31)
  `);
 });
+
+test('Pounce native alias keeps motion, hero-only contact and cleanup with no custom endpoint dash',()=>{
+ const w=all.enfos_slark_pounce;const native=JSON.parse(fs.readFileSync('docs/audit/SLARK_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.slark_pounce;
+ assert.ok(isVerifiedNativeAbility('enfos_slark_pounce',w));
+ for(const key of ['AbilityBehavior','SpellImmunityType','AbilityUnitDamageType','SpellDispellableType','AbilitySound','AbilityCastAnimation','HasScepterUpgrade'])assert.equal(w[key],native[key],key);
+ for(const key of ['pounce_damage','pounce_distance','pounce_speed','pounce_acceleration','pounce_radius','leash_radius'])
+  assert.equal(w.AbilityValues[key],native.AbilityValues[key].value??native.AbilityValues[key],key);
+ assert.equal(w.MaxLevel,'10');assert.equal(w.RequiredLevel,'1');assert.equal(w.LevelsBetweenUpgrades,'1');
+ assert.equal(w.AbilityValues.leash_duration,'2.5 2.7 2.9 3.1 3.3 3.5 3.7 3.9 4.1 4.3');
+ assert.equal(w.AbilityValues.AbilityCooldown,w.AbilityCooldown);
+ for(const key of ['damage','agility_factor','boss_leash_duration','impact_radius','dash_speed'])assert.equal(w.AbilityValues[key],undefined);
+ assert.doesNotMatch(fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8'),/enfos_slark_pounce=class|modifier_enfos_slark_pounce_dash|modifier_enfos_slark_pounce_leash/);
+ assert.equal(all.slark_pounce,undefined);
+});
+
+test('Pounce owns native Scepter charge keys and all languages describe directional hero latch without endpoint damage',()=>{
+ const w=all.enfos_slark_pounce;const native=JSON.parse(fs.readFileSync('docs/audit/SLARK_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.slark_pounce;
+ for(const key of ['max_charges','charge_restore_time','pounce_distance_scepter'])assert.deepEqual({...w.AbilityValues[key]},native.AbilityValues[key],key);
+ const levels=native.AbilityValues.essence_stacks.value.split(' ').map(Number);
+ assert.deepEqual(w.AbilityValues.essence_stacks.split(' ').map(Number),Array.from({length:10},(_,i)=>Math.round(levels[0]+i*(levels.at(-1)-levels[0])/9)));
+ assert.equal(all.enfos_slark_shadow_dance.HasScepterUpgrade,undefined);
+ for(const lang of ['english','turkish','russian','schinese']){
+  const tokens=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens,desc=tokens.DOTA_Tooltip_Ability_enfos_slark_pounce_Description;
+  for(const key of ['pounce_distance','pounce_radius','leash_duration','leash_radius','essence_stacks'])assert.ok(desc.includes('{{'+key+'}}'),lang+'.'+key);
+  assert.ok(!desc.includes('{{damage}}')&&!desc.includes('{{agility_factor}}'));
+  const upgrade=tokens.DOTA_Tooltip_Ability_enfos_slark_pounce_scepter_description;
+  for(const n of ['2','12','900'])assert.ok(upgrade.includes(n),lang+'.'+n);
+ }
+});
+
+test('native Pounce Scepter suppresses old generic ultimate bonuses only for owned Slark kit',()=>runLua(`
+package.path='game/scripts/vscripts/?.lua;'..package.path
+function class(t)t.__index=t;return t end
+function LinkLuaModifier()end
+require('heroes/aghanim_manager')
+DOTA_ABILITY_TYPE_ULTIMATE=1
+local unit='npc_dota_hero_slark';local present=true
+local w={IsNull=function()return false end}
+local hero={IsNull=function()return false end,GetUnitName=function()return unit end,FindAbilityByName=function(_,id)if id=='enfos_slark_pounce' and present then return w end end}
+local m=setmetatable({GetParent=function()return hero end},modifier_enfos_scepter_upgrade)
+local r={GetAbilityType=function()return 1 end};local event={inflictor=r,ability=r}
+assert(m:IsHidden() and m:GetModifierSpellAmplify_Percentage(event)==0 and m:GetModifierPercentageCooldown(event)==0)
+present=false;assert(not m:IsHidden() and m:GetModifierSpellAmplify_Percentage(event)==40 and m:GetModifierPercentageCooldown(event)==25)
+present=true;unit='npc_dota_hero_drow_ranger';assert(m:GetModifierSpellAmplify_Percentage(event)==40 and m:GetModifierPercentageCooldown(event)==25)
+unit='npc_dota_hero_slark';w.IsNull=function()return true end;assert(not m:IsHidden() and m:GetModifierPercentageCooldown(event)==25)
+`));

@@ -430,3 +430,16 @@ double-gain or permanent creep steal. Break stops new temporary gains while
 existing bonuses persist, correcting the old behavior against installed Note4.
 Runtime native special reads, actual creep/boss classification, cold-start
 feedback, upgrades, life-cycle and balance remain provisional pending owner tests.
+
+## Slark Pounce native movement role and upgrades, 2026-10-04 — provisional balance
+
+Full-kit review reclassifies W from provisional PVE-CONVERT to TUNE: native
+directional movement remains valuable for wave positioning without another
+wave nuke. Retain native hero-only latch and zero direct damage, explicitly
+removing the old physical100–550+0.8AGI endpoint blast, fixed80% slow and
+boss-specific short leash. Native radius120/speed933.33/distance700 replace
+the custom dash; authored leash2.5–4.3/CD12–6/mana75–140 remain. Native Scepter
+is2 charges/12s restore/distance900, replacing generic R25% cooldown reduction.
+No guessed native leash constructor, creep root or new wave damage is added.
+Balance, C++ rank/scaling, targeting, HUD, upgrades and actual movement remain
+pending owner engine tests; reopen on contradictory gameplay evidence.

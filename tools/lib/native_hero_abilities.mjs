@@ -13,6 +13,7 @@ export const nativeHeroAbilities = new Map([
   ['enfos_bb_warpath', 'bristleback_warpath'],
   ['enfos_bb_native_hairball', 'bristleback_hairball'],
   ['enfos_slark_dark_pact', 'slark_dark_pact'],
+  ['enfos_slark_pounce', 'slark_pounce'],
   ['enfos_slark_shadow_dance', 'slark_shadow_dance'],
 ]);
 
