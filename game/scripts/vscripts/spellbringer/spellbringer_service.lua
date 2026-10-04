@@ -13,6 +13,17 @@ local RandomFloat = _G.RandomFloat or function(a, b) return a + math.random() * 
 
 local SpellbringerService = {}
 SpellbringerService.__index = SpellbringerService
+
+local REINFORCEMENT_FORMATION_RADIUS = 128
+
+local function reinforcementSpawnPosition(center, index, count)
+	local angle = (index - 1) * (2 * math.pi / count)
+	return center + Vector(
+		math.cos(angle) * REINFORCEMENT_FORMATION_RADIUS,
+		math.sin(angle) * REINFORCEMENT_FORMATION_RADIUS,
+		0
+	)
+end
 local MAX_TARGET_COORDINATE = 12000
 local ICONS = {
 	spellbringer_arcane_barrier="abaddon_aphotic_shield", spellbringer_war_standard="legion_commander_press_the_attack",
@@ -651,7 +662,11 @@ function SpellbringerService:CastFutureReinforcements(casterTeam, def, targetPos
 	local spawnedUnits={}
 
 	for i = 1, def.count do
-		local unit = CreateUnitByName(future.unit, spawnPos + Vector(RandomFloat(-60, 60), RandomFloat(-60, 60), 0), true, owner, owner, casterTeam)
+		-- The old random 120x120 square let units overlap (observed spawn
+		-- spacing was as low as 6 units), while isolated movement fixtures were
+		-- spaced 160 apart and moved normally. Keep the five allies in a compact
+		-- ring with >149 units between neighbours, preserving the chosen target.
+		local unit = CreateUnitByName(future.unit, reinforcementSpawnPosition(spawnPos, i, def.count), true, owner, owner, casterTeam)
 		if unit then
 			created=created+1
 			if owner then unit:SetOwner(owner);unit:SetControllableByPlayer(playerID,true) end

@@ -55,10 +55,21 @@ for wave=1,60 do
  local hp,dmg=Balance.Multipliers(snapshot,power)
  for _,u in ipairs(spawned) do
   assert(u.name==profile.unit and u.waveNumber==power)
-  assert(u.hp==math.floor(stats.hp*hp) and u.lo==math.floor(stats.damage*dmg))
+  assert(u.hp==math.floor(stats.hp*hp*(snapshot.regularHP or 1)) and u.lo==math.floor(stats.damage*dmg))
   assert(u.armor==stats.armor and u.speed==stats.speed and u.resistance==stats.magicResistance)
   assert(u.life==30 and u.controller==0 and u.enfosNoReward and u.is_allied_reinforcement)
  end
+ for i=1,#spawned do
+  for j=i+1,#spawned do
+   local dx,dy=spawned[i].pos.x-spawned[j].pos.x,spawned[i].pos.y-spawned[j].pos.y
+   assert(dx*dx+dy*dy>=149*149,
+    'reinforcements must spawn in a collision-free formation, not the old tight cluster')
+  end
+ end
+ local centerX,centerY=0,0
+ for _,u in ipairs(spawned) do centerX=centerX+u.pos.x;centerY=centerY+u.pos.y end
+ assert(math.abs(centerX/#spawned-position.x)<1e-6 and math.abs(centerY/#spawned-position.y)<1e-6,
+  'the formation must remain centered on the selected target')
  assert(events[#events].name=='enfos_spellbringer_effect' and events[#events].data.x==7500)
 end
 local before=#events
