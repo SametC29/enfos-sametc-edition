@@ -22,6 +22,9 @@ function Innates:Apply(hero)
     if id=='enfos_slark_fish_bait' then
         require('abilities/heroes/slark/integration').Restore(hero)
     end
+    if id=='enfos_tide_colossal_presence' then
+        require('abilities/heroes/tidehunter/integration').Restore(hero)
+    end
     return true
 end
 return Innates

@@ -339,8 +339,8 @@ test('Tidehunter Scepter metadata and localized values belong to the piercing Gu
   const gush=abilities.enfos_tide_gush;
   assert.equal(gush.HasScepterUpgrade,'1');
   assert.equal(abilities.enfos_tide_ravage.HasScepterUpgrade,undefined);
-  const fields={scepter_range:'2200',scepter_radius:'260',scepter_speed:'1500',scepter_cooldown:'7'};
-  for(const [key,value] of Object.entries(fields)) assert.equal(gush.AbilityValues[key],value);
+  const fields={cast_range_scepter:'2200',aoe_scepter:'260',speed_scepter:'1500',cooldown_scepter:'7'};
+  for(const [key,value] of Object.entries(fields)) assert.equal(gush.AbilityValues[key].special_bonus_scepter,value);
   for(const lang of ['english','turkish','russian','schinese']){
     const tokens=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens;
     const desc=tokens.DOTA_Tooltip_Ability_enfos_tide_gush_scepter_description;

@@ -471,7 +471,7 @@
     "DOTA_Tooltip_Ability_enfos_sf_requiem_of_souls_scepter_description": "原生魂之挽歌会返回，造成伤害并治疗影魔。冷却时间减少30秒，最低为1秒。",
     "DOTA_Tooltip_Ability_enfos_ss_mass_serpent_ward_scepter_description": "其中一个蛇棒变为超级蛇棒，伤害和生命值为4倍，外观大小为2倍。蛇棒总数不变；终极技能冷却时间缩短25%。",
     "DOTA_Tooltip_Ability_enfos_ss_hex_shard_description": "妖术还会变形主目标附近的有限数量敌人，替代通用辅助治疗加成。",
-    "DOTA_Tooltip_Ability_enfos_tide_gush_scepter_description": "Scepter：Gush变为向指定地点发射的穿透波。射程2200，碰撞半径260，速度1500，基础冷却最多7秒。命中的每个敌人受到Gush伤害、减甲和减速。替代通用终极技能伤害和冷却加成。",
+    "DOTA_Tooltip_Ability_enfos_tide_gush_scepter_description": "Scepter：巨浪变为朝指定地点发射的穿透波。射程2200，碰撞半径260，速度1500，基础冷却7秒。命中的敌人受到巨浪伤害、减甲和减速。",
     "DOTA_Tooltip_Ability_enfos_tide_kraken_shell_shard_description": "Shard：Kraken Shell净化时免费触发一次造成50%伤害的Anchor Smash，最多每5秒触发一次。使用已学习Anchor Smash的范围和攻击伤害降低效果。需要学习Anchor Smash；破坏效果禁用触发。不消耗魔法，也不改变主动Anchor Smash的冷却。替代通用生命和反伤加成。",
     "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_scepter_description": "阿哈利姆神杖：终极技能法术伤害提高40%，终极技能冷却时间缩短25%。",
     "DOTA_Tooltip_Ability_enfos_dk_wyrm_vigor_shard_description": "坦克碎片加成：+350生命值，并将受到的敌方伤害的15%以物理伤害反弹。",
@@ -1091,7 +1091,7 @@
     "DOTA_Tooltip_Ability_enfos_tide_colossal_presence": "巨人气场",
     "DOTA_Tooltip_Ability_enfos_tide_colossal_presence_Description": "Enfos被动：为潮汐猎人提供{{bonus_health}}点生命和{{bonus_armor}}点护甲。{{radius}}范围内敌人的移动速度和基础攻击伤害分别降低{{enemy_slow_pct}}%和{{enemy_damage_reduction}}%。破坏效果会禁用此被动。",
     "DOTA_Tooltip_Ability_enfos_tide_gush": "巨浪冲击",
-    "DOTA_Tooltip_Ability_enfos_tide_gush_Description": "对敌人造成{{gush_damage}} + 力量 × {{strength_factor}}点魔法伤害，使其护甲降低{{armor_reduction}}、移动速度降低{{slow_pct}}%，持续{{duration}}秒。法术抵挡会吸收本次施法。",
+    "DOTA_Tooltip_Ability_enfos_tide_gush_Description": "水流对敌人造成{{gush_damage}} + 力量 × {{strength_factor}}点魔法伤害，使护甲降低{{negative_armor}}，移动速度降低{{movement_speed|abs}}%，持续4.5秒。",
     "DOTA_Tooltip_Ability_enfos_tide_kraken_shell": "海妖外壳",
     "DOTA_Tooltip_Ability_enfos_tide_kraken_shell_Description": "被动格挡{{damage_block}} + 力量 × {{strength_factor}}点物理伤害，并提高{{bonus_hp_regen}}点生命恢复。累计受到{{purge_damage_threshold}}点伤害后，净化Tidehunter身上的负面效果。破坏效果会禁用这些被动效果。 若{{purge_reset_interval}}秒未受到伤害，累计伤害会重置。",
     "DOTA_Tooltip_Ability_enfos_tide_ravage": "毁灭",
@@ -1331,8 +1331,6 @@
     "DOTA_Tooltip_modifier_enfos_dk_dragon_blood_passive_Description": "被动获得6 / 8 / 10 / 12 / 14 / 16 / 18 / 20 / 22 / 24点护甲和10 / 13 / 17 / 20 / 23 / 27 / 30 / 33 / 37 / 40点生命恢复，并额外获得相当于自身力量5%的生命恢复。",
     "DOTA_Tooltip_modifier_enfos_dk_wyrm_vigor_passive": "龙之活力",
     "DOTA_Tooltip_modifier_enfos_dk_wyrm_vigor_passive_Description": "被动获得10 / 12 / 13 / 15 / 17 / 18 / 20 / 22 / 23 / 25%魔法抗性和10 / 15 / 20 / 25 / 30 / 35 / 40 / 45 / 50 / 55点力量。",
-    "DOTA_Tooltip_modifier_enfos_tide_gush_debuff": "巨浪",
-    "DOTA_Tooltip_modifier_enfos_tide_gush_debuff_Description": "护甲变化：%dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%。移动速度变化：%dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%。可驱散。",
     "DOTA_Tooltip_modifier_enfos_tide_anchor_smash_debuff": "锚击",
     "DOTA_Tooltip_modifier_enfos_tide_anchor_smash_debuff_Description": "基础攻击伤害变化：%dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%。可驱散。",
     "DOTA_Tooltip_modifier_enfos_tide_ravage_stun": "毁灭",
@@ -1456,6 +1454,7 @@
     "DOTA_Tooltip_Ability_enfos_slark_pounce_Description": "朝面向方向跳跃{{pounce_distance}}，将{{pounce_radius}}范围内接触的第一个敌方英雄束缚在{{leash_radius}}范围内，持续{{leash_duration}}秒；若已学习能量转移，则施加{{essence_stacks}}层。跳过小兵，不造成直接伤害。被缠绕时无法开始。",
     "DOTA_Tooltip_Ability_enfos_slark_pounce_scepter_description": "突袭获得2次充能，每次恢复需12秒，跳跃距离变为900。",
     "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff": "鱼饵",
-    "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff_Description": "护甲因斯拉克的攻击触发效果而降低。"
+    "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff_Description": "护甲因斯拉克的攻击触发效果而降低。",
+    "DOTA_Tooltip_Ability_enfos_tide_gush_SummaryDescription": "水流对敌人造成{{gush_damage}} + 力量 × {{strength_factor}}点魔法伤害，使护甲降低{{negative_armor}}，移动速度降低{{movement_speed|abs}}%，持续4.5秒。"
   }
 }

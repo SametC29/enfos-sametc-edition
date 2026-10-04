@@ -88,3 +88,9 @@ Enfos D are implemented. Native Scepter belongs to W; Fighter Shard is an
 explicit extension. Full source checks pass; all engine/rank HUD/VFX/SFX/lifecycle
 cases remain pending in Slark's dossier and current review. Proceed to
 Tidehunter as the next ordered source unit, without waiting for live tests.
+
+2026-10-04 Tidehunter source progression: Q now delegates Gush to native,
+with one client/server STR bridge, explicit Scepter fields and four-language
+tooltips. Remaining W/E/R/D are not migrated; proceed with Kraken Shell next.
+Owner BB log reopens Hairball damage; dbc8aa2 fixes missing native provider data,
+client E range error and delayed Health reporting, pending owner retest.

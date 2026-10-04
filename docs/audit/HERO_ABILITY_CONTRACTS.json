@@ -2199,30 +2199,21 @@
           "id": "enfos_tide_gush",
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
-          "callbacks": [
-            "GetBehavior",
-            "GetCastRange",
-            "GetCooldown",
-            "OnProjectileHit",
-            "OnProjectileHit_ExtraData",
-            "OnSpellStart"
-          ],
+          "callbacks": [],
+          "implementationOwner": "NATIVE",
+          "nativeBaseClass": "tidehunter_gush",
+          "engineAcceptance": "PENDING OWNER TEST",
           "specials": {
             "gush_damage": "110 137 163 190 217 243 270 297 323 350",
-            "scepter_range": "2200",
-            "scepter_radius": "260",
-            "scepter_speed": "1500",
-            "scepter_cooldown": "7",
             "projectile_speed": "2500",
             "strength_factor": "1.0",
-            "armor_reduction": "4 5 5 6 6 7 8 8 9 10",
-            "duration": "4.5",
-            "slow_pct": "30 32 33 35 37 38 40 42 43 45"
+            "negative_armor": "4 5 5 6 6 7 8 8 9 10",
+            "movement_speed": "-30 -32 -33 -35 -37 -38 -40 -42 -43 -45"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
           "hasSound": true,
-          "hasParticle": true
+          "hasParticle": false
         },
         {
           "slot": 2,

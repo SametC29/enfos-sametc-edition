@@ -169,7 +169,6 @@ local modifier_list = {
     'modifier_enfos_dazzle_nothl_weave_debuff',
     -- Bristleback
     -- Tidehunter
-    'modifier_enfos_tide_gush_debuff',
     'modifier_enfos_tide_kraken_shell_passive',
     'modifier_enfos_tide_anchor_smash_debuff',
     'modifier_enfos_tide_ravage_stun',
@@ -328,6 +327,7 @@ local isolatedModifiers = require('abilities/heroes/lich/init')
 require('abilities/heroes/nevermore/modifier_links')
 require('abilities/heroes/bristleback/modifier_links')
 require('abilities/heroes/slark/modifier_links')
+require('abilities/heroes/tidehunter/modifier_links')
 require('abilities/heroes/slark/essence_shift')
 for name, path in pairs(require('abilities/heroes/vengefulspirit/init')) do
     isolatedModifiers[name] = path
@@ -3326,106 +3326,7 @@ end
 -- TIDEHUNTER: GUSH, KRAKEN SHELL, ANCHOR SMASH, RAVAGE, COLOSSAL PRESENCE
 -- ----------------------------------------------------------------------------
 
-enfos_tide_gush=class({})
-function enfos_tide_gush:GetBehavior()
-    local c = self:GetCaster()
-    return c and not c:IsNull() and c.HasScepter and c:HasScepter()
-        and DOTA_ABILITY_BEHAVIOR_POINT or DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
-end
-function enfos_tide_gush:GetCastRange(location, target)
-    local c = self:GetCaster()
-    if c and not c:IsNull() and c.HasScepter and c:HasScepter() then return value(self, 'scepter_range') end
-    return self.BaseClass.GetCastRange(self, location, target)
-end
-function enfos_tide_gush:GetCooldown(level)
-    local c = self:GetCaster()
-    local ordinary = self.BaseClass.GetCooldown(self, level)
-    if c and not c:IsNull() and c.HasScepter and c:HasScepter() then return math.min(ordinary, value(self, 'scepter_cooldown')) end
-    return ordinary
-end
-function enfos_tide_gush:OnSpellStart()
-    local c = self:GetCaster()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
-    if c.HasScepter and c:HasScepter() then
-        if not ProjectileManager or not ProjectileManager.CreateLinearProjectile then return end
-        local origin = c:GetAbsOrigin()
-        local direction = self:GetCursorPosition() - origin
-        direction.z = 0
-        if direction:Length2D() <= 0.01 then direction = c:GetForwardVector() end
-        direction = direction:Normalized()
-        ProjectileManager:CreateLinearProjectile({
-            Source = c, Ability = self, vSpawnOrigin = origin,
-            EffectName = 'particles/units/heroes/hero_tidehunter/tidehunter_gush_upgrade.vpcf',
-            fDistance = value(self, 'scepter_range'),
-            fStartRadius = value(self, 'scepter_radius'), fEndRadius = value(self, 'scepter_radius'),
-            vVelocity = direction * value(self, 'scepter_speed'),
-            iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
-            iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-            iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
-            bDeleteOnHit = false, bProvidesVision = false,
-            ExtraData = { piercing = 1 }
-        })
-        return
-    end
-    local t = self:GetCursorTarget()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or (t.IsNull and t:IsNull())
-        or not t:IsAlive() or t:GetTeamNumber() == c:GetTeamNumber() then return end
-    if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
-
-    if not ProjectileManager or not ProjectileManager.CreateTrackingProjectile then return end
-    local speed = value(self, 'projectile_speed')
-    if speed <= 0 then speed = 2500 end
-    ProjectileManager:CreateTrackingProjectile({
-        Target = t,
-        Source = c,
-        Ability = self,
-        EffectName = 'particles/units/heroes/hero_tidehunter/tidehunter_gush.vpcf',
-        iMoveSpeed = speed,
-        bDodgeable = true,
-        bVisibleToEnemies = true,
-        bProvidesVision = false
-    })
-end
-
-function enfos_tide_gush:OnProjectileHit_ExtraData(target, location, data)
-    self:OnProjectileHit(target)
-    return not (data and tonumber(data.piercing) == 1)
-end
-
-function enfos_tide_gush:OnProjectileHit(t)
-    local c = self:GetCaster()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive()
-        or not t or (t.IsNull and t:IsNull()) or not t:IsAlive()
-        or t:GetTeamNumber() == c:GetTeamNumber() then return true end
-
-    local base = value(self, 'gush_damage')
-    if base <= 0 then base = value(self, 'damage') end
-    if base <= 0 then base = 220 end
-    local str = get_str(c)
-    local dmg = base + (str * value(self, 'strength_factor'))
-
-    damage(self, t, dmg, DAMAGE_TYPE_MAGICAL)
-    if (self.IsNull and self:IsNull()) or c:IsNull() or not c:IsAlive()
-        or t:IsNull() or not t:IsAlive() or t:GetTeamNumber() == c:GetTeamNumber() then return true end
-    t:AddNewModifier(c, self, 'modifier_enfos_tide_gush_debuff', { duration = value(self, 'duration') })
-    return true
-end
-
-modifier_enfos_tide_gush_debuff=class({})
-function modifier_enfos_tide_gush_debuff:GetTexture() return 'tidehunter_gush' end
-function modifier_enfos_tide_gush_debuff:IsDebuff() return true end
-function modifier_enfos_tide_gush_debuff:IsPurgable() return true end
-function modifier_enfos_tide_gush_debuff:IsPurgeException() return false end
-function modifier_enfos_tide_gush_debuff:DeclareFunctions()
-    return { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS, MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE }
-end
-function modifier_enfos_tide_gush_debuff:GetModifierPhysicalArmorBonus()
-    return -((self.GetAbility and value(self:GetAbility(), 'armor_reduction')) or 5)
-end
-function modifier_enfos_tide_gush_debuff:GetModifierMoveSpeedBonus_Percentage()
-    return -((self.GetAbility and value(self:GetAbility(), 'slow_pct')) or 40)
-end
-
+-- Gush delegates gameplay/presentation to native; STR scaling is isolated.
 enfos_tide_kraken_shell=class({})
 function enfos_tide_kraken_shell:GetIntrinsicModifierName() return 'modifier_enfos_tide_kraken_shell_passive' end
 

@@ -1,6 +1,6 @@
 # Tidehunter native-first source migration
 
-Status: DISCOVERY / IMPLEMENTATION PENDING / OWNER_RUNTIME PENDING.
+Status: Q SOURCE IMPLEMENTED / W/E/R/D IMPLEMENTATION PENDING / OWNER_RUNTIME PENDING.
 This record supersedes the old PvE-conversion assumption for the migration
 plan, not the existing production implementation or its proven source fixes.
 The owner permits proceeding to the next source hero without live acceptance.
@@ -15,8 +15,9 @@ ability definitions, installed English descriptions, exact source hashes,
 hero assignments and queried API availability. The unchanged hero hash does
 not establish engine compatibility or acceptance.
 
-Current implementation: five Lua abilities in `abilities/pve_kits.lua` with
-stable `enfos_tide_*` IDs and ten ranks. The native header explicitly assigns
+At discovery: five Lua abilities in `abilities/pve_kits.lua` with stable
+`enfos_tide_*` IDs and ten ranks. Q is now a native alias; W/E/R/D remain Lua.
+The native header explicitly assigns
 Gush, Kraken Shell, Anchor Smash, Dead in the Water, Ravage and Leviathan's
 Catch. Arm of the Deep and Blubber also have definitions; definition presence
 alone does not establish automatic grant or an additional innate requirement.
@@ -31,7 +32,8 @@ projectile speed; installed2500 takes precedence. No external code is imported.
 
 ## Five-slot decisions before implementation
 
-These are migration decisions/leads; no row below claims migration delivered.
+These are migration decisions/leads. Only Q is source-implemented; it is not
+engine-certified. Remaining rows describe planned work.
 
 | Slot / stable ID | Current behavior | Verified native counterpart | Primary class | Intended ownership / reason |
 | --- | --- | --- | --- | --- |
@@ -120,5 +122,44 @@ items, R damage/STR/radius/speed/status resistance/bosses, D native even-level
 and wave behavior, Shard, Break, illusion, invalid handles, repeated casts,
 death/respawn/reconnect, client HUD/tooltips, precache/VFX/SFX and VConsole.
 Health report runs automatically; owner supplies logs. No collector or Dota
-control is authorized. Next implementation unit is Q; resolve the remaining
+control is authorized. Resolve the remaining
 native dependencies sequentially through this hero before moving to Ursa.
+
+## Q source implementation, 2026-10-04
+
+Stable Q now aliases `tidehunter_gush`, with explicit target/cast/immunity/dispel
+fields and all used native named values. No native ID is shadowed. The custom
+tracking/linear projectile, hit callback, Gush debuff class/link and obsolete
+modifier localization are retired. Preserve other Tidehunter Lua abilities and
+their historical invalidation/presentation repairs. This is not a whole-kit
+rewrite. Existing ordinary cast range750 and authored CD/mana/damage/armor/slow
+remain tuning choices; native Scepter field names and metadata are copied exactly.
+Scepter now exposes native base cooldown7, replacing the former Lua min-rule at
+ranks9/10. The full native C++ Scepter path still needs owner verification.
+
+One hidden, nonpurgable, death-persistent modifier overrides only Q gush_damage
+as raw paid rank damage + live STR * strength_factor. Missing/untrained/removed
+query sources return0; client uses GetStrength and raw special API, never IsAlive
+or native modifier-handle lookup. Existing Innates service restores it once,
+without providers, rank grants or new points. Server and client register the
+class through isolated modifier_links; client test checks all12 current classes
+and prohibits server integration imports. Native getters, projectile snapshots
+and actual damage consumption are engine questions.
+
+Four-language descriptions use the negative native movement_speed through the
+existing abs display formatter. Existing Q ordinary/upgraded roots and native
+sound bank remain precached; compiled resource hashes are recorded in the snapshot.
+Native owns animation, sounds, projectile/debuff lifetime, block/reflect/immunity
+and modifiers. File existence never establishes correct rendered/audio behavior.
+
+Focused evidence:108 native/client/content contracts pass;340 hero-kit mock
+regressions pass after removing obsolete Lua-Gush imitation tests and retaining
+the independent Anchor invalidation/dispels cases. Actual KV ranks1–10 smoke
+passes; static audit/localization/reference inventories regenerate successfully.
+Final repository checks report0 failed after the shared free-passive fixture
+recognizes the new Q restore lookup without inventing a native kit or changing
+point-budget assertions. This is source validation only.
+No Dota control was used. Owner Q ranks1/10, actual damage/STR, ordinary/Scepter
+aiming, rank9/10 upgraded cooldown, Blessing, dodge/reflect/dispel, caster/target
+death, respawn/reconnect, VFX/SFX/cold start and logs all remain pending.
+Next source unit: W Kraken Shell and its native cleanse/Shard dependency.

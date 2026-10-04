@@ -356,5 +356,22 @@
         "scope": "Special-value block; does not prove native Ravage top-level AbilityDamage consumption."
       }
     ]
-  }
+  },
+  "qResources": [
+    {
+      "path": "particles/units/heroes/hero_tidehunter/tidehunter_gush.vpcf_c",
+      "sha256": "a4dd6e7f2dcecc19c900e1070decba44b44c7cac5ec22d108bdd8c8a20cbac77",
+      "status": "FILE_VERIFIED; engine presentation pending"
+    },
+    {
+      "path": "particles/units/heroes/hero_tidehunter/tidehunter_gush_upgrade.vpcf_c",
+      "sha256": "d2c74c8e0fec46288306ef60c2620b3505260054e55884d66bca1dc305539bef",
+      "status": "FILE_VERIFIED; engine presentation pending"
+    },
+    {
+      "path": "soundevents/game_sounds_heroes/game_sounds_tidehunter.vsndevts_c",
+      "sha256": "8dfa2f24660fadef4bc67ab0e6b03f7032bcb41757f6cf062afe038fc65a1d6f",
+      "status": "FILE_VERIFIED; engine presentation pending"
+    }
+  ]
 }

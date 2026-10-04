@@ -454,3 +454,14 @@ hit damage, killing-hit cleave, caster-specific armor stacks and invalid handles
 Keep Fighter Shard35AS/3-second attack slow as explicit Enfos extension; do not
 add native active Depth Shroud or a second passive/resource transaction.
 Source/rank/stack/client/trace checks are separate from owner engine acceptance.
+
+## Tidehunter Q native-first tuning, 2026-10-04
+
+Classify Q TUNE: native Gush targets waves already; retire the custom projectile
+and debuff replicas. Preserve authored ten-rank damage/STR/armor/slow/CD/mana and
+ordinary range750 as tuning. Copy native Scepter range2200/radius260/speed1500
+and base cooldown7; this deliberately removes the old min(7,rank cooldown) rule
+at ranks9/10. No blanket wave nuke or boss-only exception is added. Stable ID,
+shared level/point/passive restore and generic Tidehunter upgrade suppression
+stay compatible. Actual native special consumption, Scepter/Blessing, HUD,
+VFX/SFX and lifecycle remain owner-test pending. W/E/R/D migration is not complete.

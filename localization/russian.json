@@ -471,7 +471,7 @@
     "DOTA_Tooltip_Ability_enfos_sf_requiem_of_souls_scepter_description": "Стандартные волны Requiem возвращаются, наносят урон и исцеляют Shadow Fiend. Перезарядка уменьшается на 30 секунд, минимум — 1 секунда.",
     "DOTA_Tooltip_Ability_enfos_ss_mass_serpent_ward_scepter_description": "Один тотем группы становится мега-тотемом с 4-кратными уроном и здоровьем и двойным размером. Число тотемов не меняется; перезарядка ультимейта сокращается на 25%.",
     "DOTA_Tooltip_Ability_enfos_ss_hex_shard_description": "Сглаз также превращает ограниченное число врагов рядом с основной целью. Заменяет общий бонус лечения поддержки.",
-    "DOTA_Tooltip_Ability_enfos_tide_gush_scepter_description": "Scepter: Gush превращается в проникающую волну, направляемую в выбранную точку. Дальность 2200, радиус столкновения 260, скорость 1500, базовая перезарядка не более 7 сек. Каждый задетый враг получает урон, снижение брони и замедление Gush. Заменяет общий бонус урона и перезарядки ультимейта.",
+    "DOTA_Tooltip_Ability_enfos_tide_gush_scepter_description": "Scepter: Gush становится проникающей волной, направленной в выбранную точку. Дальность 2200, радиус столкновения 260, скорость 1500, базовая перезарядка 7 сек. Задетые враги получают урон, снижение брони и замедление Gush.",
     "DOTA_Tooltip_Ability_enfos_tide_kraken_shell_shard_description": "Shard: очищение Kraken Shell бесплатно вызывает Anchor Smash с 50% урона, не чаще раза в 5 сек. Использует радиус и снижение урона атаки изученного Anchor Smash. Требует изученного Anchor Smash; пробивание отключает срабатывание. Не расходует ману и не меняет перезарядку активного Anchor Smash. Заменяет общий бонус здоровья и отражения.",
     "DOTA_Tooltip_Ability_enfos_dk_elder_dragon_form_scepter_description": "Скипетр: +40% к урону заклинаний ультимейта и перезарядка ультимейта снижена на 25%.",
     "DOTA_Tooltip_Ability_enfos_dk_wyrm_vigor_shard_description": "Бонус осколка для танка: +350 здоровья и отражение 15% получаемого от врагов урона физическим уроном.",
@@ -1091,7 +1091,7 @@
     "DOTA_Tooltip_Ability_enfos_tide_colossal_presence": "Гигантское присутствие",
     "DOTA_Tooltip_Ability_enfos_tide_colossal_presence_Description": "Пассивная способность Enfos: дает Tidehunter {{bonus_health}} здоровья и {{bonus_armor}} брони. Скорость передвижения и базовый урон атак врагов в радиусе {{radius}} снижены на {{enemy_slow_pct}}% и {{enemy_damage_reduction}}%. Break отключает пассивный эффект.",
     "DOTA_Tooltip_Ability_enfos_tide_gush": "Водяной всплеск",
-    "DOTA_Tooltip_Ability_enfos_tide_gush_Description": "Наносит врагу {{gush_damage}} + сила × {{strength_factor}} магического урона, снижает броню на {{armor_reduction}} и скорость передвижения на {{slow_pct}}% на {{duration}} сек. Блок заклинаний поглощает применение.",
+    "DOTA_Tooltip_Ability_enfos_tide_gush_Description": "Поток воды наносит врагу {{gush_damage}} + сила × {{strength_factor}} магического урона, снижает броню на {{negative_armor}} и скорость передвижения на {{movement_speed|abs}}% на 4.5 сек.",
     "DOTA_Tooltip_Ability_enfos_tide_kraken_shell": "Панцирь кракена",
     "DOTA_Tooltip_Ability_enfos_tide_kraken_shell_Description": "Пассивно блокирует {{damage_block}} + сила × {{strength_factor}} физического урона и дает +{{bonus_hp_regen}} к восстановлению здоровья. Снимает отрицательные эффекты с Tidehunter после получения {{purge_damage_threshold}} суммарного урона. Пробивание отключает пассивные эффекты. Накопленный урон сбрасывается после {{purge_reset_interval}} сек. без получения урона.",
     "DOTA_Tooltip_Ability_enfos_tide_ravage": "Опустошение",
@@ -1331,8 +1331,6 @@
     "DOTA_Tooltip_modifier_enfos_dk_dragon_blood_passive_Description": "Пассивно даёт 6 / 8 / 10 / 12 / 14 / 16 / 18 / 20 / 22 / 24 брони и 10 / 13 / 17 / 20 / 23 / 27 / 30 / 33 / 37 / 40 здоровья в секунду, а также дополнительное восстановление здоровья в размере 5% от силы.",
     "DOTA_Tooltip_modifier_enfos_dk_wyrm_vigor_passive": "Мощь дракона",
     "DOTA_Tooltip_modifier_enfos_dk_wyrm_vigor_passive_Description": "Пассивно даёт 10 / 12 / 13 / 15 / 17 / 18 / 20 / 22 / 23 / 25% сопротивления магии и 10 / 15 / 20 / 25 / 30 / 35 / 40 / 45 / 50 / 55 силы.",
-    "DOTA_Tooltip_modifier_enfos_tide_gush_debuff": "Gush",
-    "DOTA_Tooltip_modifier_enfos_tide_gush_debuff_Description": "Изменение брони: %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Изменение скорости передвижения: %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Можно развеять.",
     "DOTA_Tooltip_modifier_enfos_tide_anchor_smash_debuff": "Anchor Smash",
     "DOTA_Tooltip_modifier_enfos_tide_anchor_smash_debuff_Description": "Изменение базового урона атак: %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%%. Можно развеять.",
     "DOTA_Tooltip_modifier_enfos_tide_ravage_stun": "Ravage",
@@ -1456,6 +1454,7 @@
     "DOTA_Tooltip_Ability_enfos_slark_pounce_Description": "Прыгает на {{pounce_distance}} в направлении взгляда, привязывая первого вражеского героя в радиусе {{pounce_radius}} на {{leash_duration}} сек. в пределах {{leash_radius}} и накладывая {{essence_stacks}} зарядов Essence Shift, если она изучена. Перепрыгивает крипов, не наносит прямого урона. Нельзя начать под оцепенением.",
     "DOTA_Tooltip_Ability_enfos_slark_pounce_scepter_description": "Pounce получает 2 заряда с восстановлением 12 сек.; дальность прыжка становится 900.",
     "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff": "Наживка",
-    "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff_Description": "Броня снижена срабатываниями атак Сларка."
+    "DOTA_Tooltip_modifier_enfos_slark_fish_bait_debuff_Description": "Броня снижена срабатываниями атак Сларка.",
+    "DOTA_Tooltip_Ability_enfos_tide_gush_SummaryDescription": "Поток воды наносит врагу {{gush_damage}} + сила × {{strength_factor}} магического урона, снижает броню на {{negative_armor}} и скорость передвижения на {{movement_speed|abs}}% на 4.5 сек."
   }
 }

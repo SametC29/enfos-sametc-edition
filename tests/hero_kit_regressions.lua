@@ -3226,73 +3226,6 @@ test('Tidehunter active and reactive Anchor particles receive their gameplay rad
     end
 end)
 
-test('Tidehunter Gush launches a native-speed projectile and impacts only a live enemy', function()
-    applied_damages = {}
-    last_tracking_projectile = nil
-    local tide = create_mock_unit('npc_dota_hero_tidehunter', 2, Vector(0, 0, 0))
-    local enemy = create_mock_unit('enemy', 3, Vector(100, 0, 0))
-    local ab = enfos_tide_gush()
-    ab.GetCaster = function() return tide end
-    ab.GetCursorTarget = function() return enemy end
-    ab.GetSpecialValueFor = function(_, key) return ({gush_damage=100,damage=100,duration=3,strength_factor=1,projectile_speed=2500})[key] or 0 end
-    enemy.TriggerSpellAbsorb = function() return true end
-    ab:OnSpellStart()
-    assert(last_tracking_projectile == nil and #applied_damages == 0 and not enemy:HasModifier('modifier_enfos_tide_gush_debuff'))
-    enemy.TriggerSpellAbsorb = function() return false end
-    enemy.team = 2
-    ab:OnSpellStart()
-    assert(last_tracking_projectile == nil and #applied_damages == 0, 'Gush must not target a friendly unit')
-    enemy.team = 3
-    tide.strength = 50
-    ab:OnSpellStart()
-    assert(#applied_damages == 0, 'Gush damage must wait for the projectile impact')
-    assert(last_tracking_projectile.Target == enemy and last_tracking_projectile.Source == tide)
-    assert(last_tracking_projectile.iMoveSpeed == 2500 and last_tracking_projectile.bDodgeable)
-    assert(last_tracking_projectile.EffectName == 'particles/units/heroes/hero_tidehunter/tidehunter_gush.vpcf')
-    enemy.alive = false
-    assert(ab:OnProjectileHit(enemy) == true and #applied_damages == 0,
-        'Gush must end without damage if its target dies before impact')
-    enemy.alive = true
-    assert(ab:OnProjectileHit(enemy) == true)
-    assert(applied_damages[1].damage == 150,
-        'Gush must apply its KV Strength-scaled damage on impact')
-    assert(enemy:HasModifier('modifier_enfos_tide_gush_debuff'), 'Gush debuff must apply on impact')
-end)
-
-test('Tidehunter Scepter Gush is a piercing point wave and item removal preserves in-flight hits', function()
-    local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
-    local hasScepter=true;hero.HasScepter=function() return hasScepter end
-    hero.GetForwardVector=function() return Vector(1,0,0) end
-    local a=enfos_tide_gush();a.GetCaster=function() return hero end
-    a.GetCursorPosition=function() return Vector(0,0,0) end
-    a.GetCursorTarget=function() error('Point wave cannot request a unit target') end
-    a.GetSpecialValueFor=function(_,k) return ({scepter_range=2200,scepter_radius=260,scepter_speed=1500,scepter_cooldown=7,
-        gush_damage=100,strength_factor=1,duration=4.5})[k] or 0 end
-    a.BaseClass={GetCastRange=function() return 750 end,GetCooldown=function(_,level) return level==9 and 6 or 12 end}
-    local oldPoint,oldUnit=DOTA_ABILITY_BEHAVIOR_POINT,DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
-    DOTA_ABILITY_BEHAVIOR_POINT=16;DOTA_ABILITY_BEHAVIOR_UNIT_TARGET=8
-    assert(a:GetBehavior()==16 and a:GetCastRange()==2200 and a:GetCooldown(0)==7)
-    assert(a:GetCooldown(9)==6,'Scepter cannot increase the already shorter rank-ten cooldown')
-    local oldManager=ProjectileManager;local wave
-    ProjectileManager={CreateLinearProjectile=function(_,info) wave=info end}
-    a:OnSpellStart()
-    assert(wave and wave.fDistance==2200 and wave.fStartRadius==260 and wave.fEndRadius==260)
-    assert(wave.vVelocity.x==1500 and wave.vVelocity.z==0,'Zero-distance casts use horizontal forward direction')
-    assert(wave.bDeleteOnHit==false and wave.iUnitTargetFlags==DOTA_UNIT_TARGET_FLAG_NONE)
-    assert(wave.EffectName=='particles/units/heroes/hero_tidehunter/tidehunter_gush_upgrade.vpcf')
-    hasScepter=false;applied_damages={}
-    assert(a:GetBehavior()==8 and a:GetCastRange()==750 and a:GetCooldown(0)==12)
-    for i=1,2 do
-        local target=create_mock_unit('scepter_gush_target',3,Vector(i*100,0,0))
-        assert(a:OnProjectileHit_ExtraData(target,nil,wave.ExtraData)==false,'Cast metadata must preserve piercing after item drop')
-        assert(target:HasModifier('modifier_enfos_tide_gush_debuff'))
-    end
-    assert(#applied_damages==2 and applied_damages[1].damage==150)
-    assert(a:OnProjectileHit_ExtraData(nil,nil,wave.ExtraData)==false)
-    ProjectileManager=oldManager
-    DOTA_ABILITY_BEHAVIOR_POINT=oldPoint;DOTA_ABILITY_BEHAVIOR_UNIT_TARGET=oldUnit
-end)
-
 test('Tidehunter unique Scepter suppresses generic ultimate bonuses without affecting other tanks', function()
     local name='npc_dota_hero_tidehunter'
     local parent={GetUnitName=function() return name end}
@@ -3305,7 +3238,7 @@ end)
 
 test('Tidehunter impacts cannot apply debuffs after synchronous target or source removal', function()
     local oldDamage=ApplyDamage
-    for _,className in ipairs({'enfos_tide_gush','enfos_tide_anchor_smash'}) do
+    for _,className in ipairs({'enfos_tide_anchor_smash'}) do
         for _,mode in ipairs({'target','caster','ability'}) do
             local hero=create_mock_unit('npc_dota_hero_tidehunter',2,Vector(0,0,0))
             local target=create_mock_unit('tide_impact_target',3,Vector(100,0,0))
@@ -3320,7 +3253,7 @@ test('Tidehunter impacts cannot apply debuffs after synchronous target or source
             ApplyDamage=function()
                 removedTarget=mode=='target';removedCaster=mode=='caster';removedAbility=mode=='ability'
             end
-            if className=='enfos_tide_gush' then a:OnProjectileHit(target) else a:OnSpellStart() end
+            a:OnSpellStart()
         end
     end
     ApplyDamage=oldDamage
@@ -3431,7 +3364,7 @@ test('Tidehunter Shard replaces generic tank health and reflection while other t
 end)
 
 test('Tidehunter modifiers declare basic, strong-only and intrinsic dispel policies', function()
-    for _,cls in ipairs({modifier_enfos_tide_gush_debuff,modifier_enfos_tide_anchor_smash_debuff}) do
+    for _,cls in ipairs({modifier_enfos_tide_anchor_smash_debuff}) do
         local m=cls()
         assert(m.IsPurgable and m:IsPurgable()==true,'Ordinary Tidehunter debuffs must explicitly allow basic dispel')
         assert(m.IsPurgeException and m:IsPurgeException()==false)

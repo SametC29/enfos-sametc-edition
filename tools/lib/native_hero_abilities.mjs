@@ -3,6 +3,7 @@
 // SF source: docs/audit/SHADOW_FIEND_NATIVE_SOURCE_2026-10-04.json (build 6943).
 // BB source: docs/audit/BRISTLEBACK_NATIVE_SOURCE_2026-10-04.json (build 6943).
 // Slark source: docs/audit/SLARK_NATIVE_SOURCE_2026-10-04.json (build 6943).
+// Tidehunter source: docs/audit/TIDEHUNTER_NATIVE_SOURCE_2026-10-04.json (build 6943).
 export const nativeHeroAbilities = new Map([
   ['enfos_luna_moon_glaives', 'luna_moon_glaive'],
   ['enfos_luna_lunar_orbit', 'luna_lunar_orbit'],
@@ -15,6 +16,7 @@ export const nativeHeroAbilities = new Map([
   ['enfos_slark_dark_pact', 'slark_dark_pact'],
   ['enfos_slark_pounce', 'slark_pounce'],
   ['enfos_slark_shadow_dance', 'slark_shadow_dance'],
+  ['enfos_tide_gush', 'tidehunter_gush'],
 ]);
 
 export function isVerifiedNativeAbility(id, definition) {

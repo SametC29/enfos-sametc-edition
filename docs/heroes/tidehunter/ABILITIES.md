@@ -9,7 +9,7 @@ Hero: `npc_dota_hero_tidehunter`; role: Tank. Progression target: hero level 50 
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_tide_gush` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | tidehunter_gush |
+| 1 | `enfos_tide_gush` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | NOT_EXPLICIT | tidehunter_gush |
 | 2 | `enfos_tide_kraken_shell` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | tidehunter_kraken_shell |
 | 3 | `enfos_tide_anchor_smash` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | tidehunter_anchor_smash |
 | 4 | `enfos_tide_ravage` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | tidehunter_ravage |
@@ -101,17 +101,19 @@ balance change and no engine acceptance claim.
 
 ## Slot 1: `enfos_tide_gush`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `tidehunter_gush` (native Ability1).
-Decision and PvE identity rationale: Keep the recognizable single-target Gush impact; convert PvP-only utility to wave damage and a short armor/movement slow. Native source mapping verified in installed hero KV (ClientVersion 6943, SourceRevision 11069754).
-Expected cast/travel/impact/ongoing/cleanup behavior: On valid enemy cast, launch the verified native Gush tracking particle at 2500 speed; apply damage and armor/movement debuff only on live-target projectile impact; a dodged, dead, missing or friendly target has no impact. Tracking projectile ends on callback return.
+Decision and PvE identity rationale: Native Gush already supports enemy heroes and creeps. Delegate cast, projectile, impact, debuff and Scepter to native tidehunter_gush; retain authored ten-rank numeric tuning and a minimal STR query bridge. No wave-specific replacement is needed.
+Expected cast/travel/impact/ongoing/cleanup behavior: Native unit-target Gush at ordinary range750/speed2500; native Scepter point wave at range2200/radius260/speed1500 and base cooldown7. Native owns target loss, spell block/reflect, debuff/immunity and cleanup. Actual rendering/audio and C++ special consumption remain pending.
 Normal creep / elite / boss, immunity / dispel / resistance rules: PENDING.
 Current versus target rank curve: Gush Q ranks 1–10 are KV-gated at levels 1–10; engine point/UI behavior remains PENDING.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING.
+Shard / Scepter / Blessing / Evolution / Ascended interactions: Native Scepter Gush replaces the old Lua wave; generic Tidehunter R upgrade suppression is retained. Blessing follows Scepter ownership. W reactive Shard stays unchanged for its later unit. Owner tests remain PENDING.
+
+2026-10-04 source migration: Q uses native BaseClass with explicit installed target/cast fields and named values. Server/client modifier registration is isolated under abilities/heroes/tidehunter; existing Innates service restores it. The current review and snapshot supersede historical custom behavior below. Engine acceptance remains pending.
 
 ### Resource and implementation evidence
 
-#### 2026-10-02 projectile correction
+#### Historical 2026-10-02 projectile correction (Lua owner retired by native migration)
 
 Static root cause confirmed: Lua previously attached the native travel trail at the target and applied damage/modifiers immediately, while the installed VPCF is a source-to-target travelling projectile. Gush now uses a tracking projectile at the native 2500 speed and applies damage/debuff on impact. Regression coverage checks cast delay, particle/speed, lost target, spell block/ally rejection and the existing Strength-scaled impact. Dota runtime VFX, audio, dodge and collision behavior remain pending owner testing. Native Scepter speed/AoE/range modifiers are not claimed as implemented; Enfos Scepter policy needs a separate review.
 
@@ -128,21 +130,21 @@ Static root cause confirmed: Lua previously attached the native travel trail at 
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | Not evaluated in this dossier setup. |
-| Ranks | PENDING | Q gate levels 1–10 are declared; in-game HUD and point behavior remain PENDING. |
-| VFX | PENDING | Not evaluated in this dossier setup. |
-| SFX | PENDING | Not evaluated in this dossier setup. |
-| Animation | PENDING | Not evaluated in this dossier setup. |
-| Modifiers | PENDING | Not evaluated in this dossier setup. |
-| Precache | PENDING | Not evaluated in this dossier setup. |
-| Cleanup | PENDING | Not evaluated in this dossier setup. |
-| Boss | PENDING | Not evaluated in this dossier setup. |
-| Upgrades | PENDING | Not evaluated in this dossier setup. |
-| Localization | PENDING | Not evaluated in this dossier setup. |
-| Performance | PENDING | Not evaluated in this dossier setup. |
-| Reconnect | PENDING | Not evaluated in this dossier setup. |
-| VConsole | PENDING | Not evaluated in this dossier setup. |
+| Gameplay | PENDING | Native alias and live STR bridge source-implemented; query/mock coverage does not prove actual damage. |
+| Targeting | PENDING | Installed enemy HERO|BASIC metadata copied; native ordinary/Scepter targeting needs owner test. |
+| Ranks | PENDING | Ten gates/raw curves covered, shared free D/points untouched; native rank HUD/read-path pending. |
+| VFX | PENDING | Native owns ordinary/upgraded Gush; both compiled roots hash-verified; owner rendering pending. |
+| SFX | PENDING | Native Ability.GushCast and verified Tidehunter bank retained; owner sound pending. |
+| Animation | PENDING | Installed ACT_DOTA_CAST_ABILITY_1/cast point0.3 retained; owner gesture pending. |
+| Modifiers | PENDING | One hidden STR bridge linked on both realms; custom Gush debuff retired; native gameplay pending. |
+| Precache | PENDING | Existing Q root/upgrade/sound bank precache retained and VPK files verified; cold start pending. |
+| Cleanup | PENDING | Lua projectiles/debuff callbacks removed; native projectile and modifier cleanup needs owner repeat test. |
+| Boss | PENDING | Ordinary native target/immunity/resistance rules; no added boss-only exception; owner test pending. |
+| Upgrades | PENDING | Native Scepter fields copied; cooldown7 replaces old min(7,rank cooldown); owner/Blessing test pending. |
+| Localization | PENDING | Four languages and generated mirrors aligned; signed speed displayed through abs formatter; engine HUD pending. |
+| Performance | PENDING | Only event restore and numeric getter; no Lua query/timer/pulse loop; dense-wave engine behavior pending. |
+| Reconnect | PENDING | Existing Innates restore installs scaling once without points/providers; actual reconnect pending. |
+| VConsole | PENDING | Client bootstrap and null-source mocks pass; no owner Tidehunter log yet. |
 
 Change/test record (2026-09-30): mapped native counterparts from the installed Tidehunter hero KV (ClientVersion 6941, SourceRevision 11041083); set all five Enfos slots to MaxLevel 10; added Gush spell-absorb/friendly-target guards and localization alignment; made Kraken Shell block/regen obey Break; made Anchor Smash read its documented bonus special while retaining attack and Strength damage; moved Ravage boss stun cap into KV; removed the false Dota Innate marker and made Colossal Presence values data-driven/Break-aware. Automated regression status: PASS — `node_modules/.bin/fengari tests/hero_kit_regressions.lua` (98 mock regressions) and `node tools/checks.mjs` (0 failed checks); all three particle paths exist in the installed Valve VPK. Dota/VConsole gameplay, visual/audio quality, particle control-point placement, live boss behavior, and cold-start precache verification remain PENDING; mocks are not ENGINE_PASS.
 
