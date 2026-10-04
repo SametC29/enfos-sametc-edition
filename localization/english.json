@@ -881,7 +881,7 @@
     "DOTA_Tooltip_Ability_enfos_sniper_shrapnel_Description": "Targets an area and deals {{shrapnel_damage}} + 35% of Agility as physical damage each second for {{duration}}s, slowing enemies by {{slow_pct}}%.",
     "DOTA_Tooltip_Ability_enfos_mk_wukongs_command_Description": "{{duration}} sn süren, {{ring_radius}} yarıçaplı bir savaş alanı kurar. Her {{attack_interval}} sn düşmanlara saldırı hasarının %{{soldier_damage}} kadarıyla fiziksel hasar verir.",
     "DOTA_Tooltip_Ability_enfos_void_chronosphere_Description": "Creates a {{radius}} radius sphere for {{duration}} seconds, freezing enemies. Allies remain free. Each boss is frozen once per cast for 0.6 seconds. At most 3 areas from this ability can be active; a new area replaces the oldest.",
-    "DOTA_Tooltip_Ability_enfos_storm_static_remnant_Description": "Leaves a remnant for up to {{duration}} sec. It detonates when an enemy enters {{trigger_radius}} range, dealing {{damage}} + Intelligence × 1.2 magic damage in the area. Up to 3 remnants can exist; placing another removes the oldest.",
+    "DOTA_Tooltip_Ability_enfos_storm_static_remnant_Description": "Creates a remnant that walks to the chosen point and lasts up to {{AbilityDuration}} seconds. It arms after {{static_remnant_delay}} seconds and detonates when an enemy enters {{static_remnant_radius}} radius, dealing {{static_remnant_damage}} + Intelligence × {{intellect_factor}} magic damage in a {{static_remnant_damage_radius}} radius. Can be self-cast to place it at Storm’s position.",
     "enfos_evo_stat_radius": "Area",
     "enfos_evo_stat_damage_block": "Damage block",
     "enfos_evo_stat_duration": "Duration (s)",

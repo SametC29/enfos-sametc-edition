@@ -3,8 +3,10 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import {parseKV} from '../lib/kv.mjs';
+import {isVerifiedNativeAbility} from '../lib/native_hero_abilities.mjs';
 const all=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.txt','utf8')).DOTAAbilities;
 const native=JSON.parse(fs.readFileSync('docs/audit/STORM_SPIRIT_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.storm_spirit_overload;
+const remnant=JSON.parse(fs.readFileSync('docs/audit/STORM_SPIRIT_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.storm_spirit_static_remnant;
 const setup=`
 package.path='game/scripts/vscripts/?.lua;'..package.path
 function class(t)t.__index=t;return t end
@@ -15,7 +17,7 @@ DOTA_ABILITY_BEHAVIOR_PASSIVE=2;DOTA_ABILITY_BEHAVIOR_HIDDEN=4
 bit={band=function(a,b)return a & b end,bnot=function(a)return ~a end}
 local hero={null=false,real=true,illusion=false,name='npc_dota_hero_storm_spirit',int=100,
 IsNull=function(self)return self.null end,IsRealHero=function(self)return self.real end,IsIllusion=function(self)return self.illusion end,
-GetUnitName=function(self)return self.name end,GetIntellect=function(self)return self.int end,
+GetUnitName=function(self)return self.name end,GetIntellect=function(self,skipNoConsume)assert(skipNoConsume==false);return self.int end,
 IsAlive=function()error('server-only getter')end,SetAbilityPoints=function()error('point mutation')end}
 local paid={rank=0,null=false,IsNull=function(self)return self.null end,GetLevel=function(self)return self.rank end,GetCaster=function()return hero end,
 GetLevelSpecialValueNoOverride=function(self,key,rank)
@@ -109,5 +111,52 @@ test('Four locale descriptions and twelve mirrors use new canonical keys and nat
  for(const lang of ['english','turkish','russian','schinese']){const t=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens;
  assert.ok(t.DOTA_Tooltip_Ability_enfos_storm_overload_Description.includes('{{overload_damage}}'));assert.ok(t.DOTA_Tooltip_Ability_enfos_storm_overload_shard_description.includes('750'));assert.equal(t.DOTA_Tooltip_Ability_enfos_storm_galvanic_core_shard_description,undefined);
  for(const dir of ['game/resource','game/panorama/localization','content/panorama/localization']){const s=fs.readFileSync(dir+'/addon_'+lang+'.txt','utf8');assert.doesNotMatch(s,/\{\{/);assert.ok(s.includes('25 / 40 / 55 / 70 / 85 / 100 / 120 / 140 / 165 / 190'));}
+ }
+});
+
+test('Remnant is a pure native alias retaining verified dynamic point fields and ten-rank authored curves',()=>{
+ const q=all.enfos_storm_static_remnant;assert.ok(isVerifiedNativeAbility('enfos_storm_static_remnant',q));assert.equal(q.ScriptFile,undefined);assert.equal(q.MaxLevel,'10');assert.equal(q.RequiredLevel,'1');assert.equal(q.LevelsBetweenUpgrades,'1');
+ for(const key of ['AbilityBehavior','AbilityUnitDamageType','SpellImmunityType','FightRecapLevel','AbilitySound','AbilityCastPoint','AbilityCastAnimation'])assert.equal(q[key],remnant[key],key);
+ for(const key of ['is_point_targeted','AbilityCastRange','static_remnant_travel_speed','static_remnant_delay','static_remnant_radius','static_remnant_vision_radius_day','static_remnant_vision_radius_night'])assert.deepEqual(JSON.parse(JSON.stringify(q.AbilityValues[key])),remnant.AbilityValues[key],key);
+ assert.equal(q.AbilityValues.static_remnant_damage.value,'100 130 160 190 220 250 280 315 350 390');assert.equal(q.AbilityValues.intellect_factor,'1.2');assert.equal(q.AbilityDuration,'8 8.5 9 9.5 10 10.5 11 11.5 12 12');assert.equal(q.AbilityCooldown,'3.5 3.4 3.3 3.2 3.1 3.0 2.9 2.8 2.7 2.6');assert.equal(q.AbilityValues.AbilityCooldown.value,q.AbilityCooldown);assert.equal(q.AbilityManaCost,'70 75 80 85 90 95 100 105 110 115');
+ assert.equal(q.AbilityValues.static_remnant_damage_radius.affected_by_aoe_increase,remnant.AbilityValues.static_remnant_damage_radius.affected_by_aoe_increase);assert.equal(q.AbilityValues.static_remnant_damage_radius.DamageTypeTooltip,remnant.AbilityValues.static_remnant_damage_radius.DamageTypeTooltip);
+ const radius=q.AbilityValues.static_remnant_damage_radius.value.split(' ').map(Number);assert.equal(radius.length,10);assert.deepEqual(radius,[240,250,260,270,280,290,300,310,320,330]);assert.ok(radius.every(r=>r>Number(q.AbilityValues.static_remnant_radius.value)));
+ assert.equal(all.storm_spirit_static_remnant,undefined);
+ const kits=fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8');assert.doesNotMatch(kits,/enfos_storm_static_remnant=class|modifier_enfos_storm_static_remnant_thinker/);
+ const row=JSON.parse(fs.readFileSync('docs/audit/HERO_ABILITY_CONTRACTS.json','utf8')).heroes.find(x=>x.id==='npc_dota_hero_storm_spirit').abilities.find(x=>x.id==='enfos_storm_static_remnant');assert.equal(row.implementationOwner,'NATIVE');assert.equal(row.engineAcceptance,'PENDING OWNER TEST');
+});
+
+test('Q raw native damage scales through rank ten on both contexts; Break/death do not disable this active spell or alter Overload',()=>lua(`
+assert(integration.Restore(hero));local m=hero.mod
+local q={rank=0,null=false,IsNull=function(self)return self.null end,GetLevel=function(self)return self.rank end,
+GetCaster=function()return hero end,GetAbilityName=function()return 'enfos_storm_static_remnant'end,
+GetLevelSpecialValueNoOverride=function(self,key,rank)assert(rank==self.rank-1);if key=='intellect_factor' then return 1.2 end;assert(key=='static_remnant_damage');return ({100,130,160,190,220,250,280,315,350,390})[rank+1]end,
+GetSpecialValueFor=function()error('recursive Q query')end}
+local p={ability=q,ability_special_value='static_remnant_damage'}
+assert(m:GetModifierOverrideAbilitySpecial(p)==1 and m:GetModifierOverrideAbilitySpecialValue(p)==0)
+hero.PassivesDisabled=function()error('Break cannot suppress active Q damage')end
+for _,context in ipairs({true,false})do server=context;for rank=1,10 do q.rank=rank;assert(m:GetModifierOverrideAbilitySpecialValue(p)==q:GetLevelSpecialValueNoOverride('static_remnant_damage',rank-1)+120)end end
+hero.int=150;assert(m:GetModifierOverrideAbilitySpecialValue(p)==570);assert(n.charge==7 and n.rank==0 and adds==1 and mods==1)
+for _,key in ipairs({'static_remnant_radius','static_remnant_damage_radius','AbilityCooldown','is_point_targeted'})do p.ability_special_value=key;assert(m:GetModifierOverrideAbilitySpecial(p)==0)end
+p.ability_special_value='static_remnant_damage';q.GetCaster=function()return {}end;assert(m:GetModifierOverrideAbilitySpecial(p)==0)
+`));
+
+test('Native Q Health queries remain read-only even when the native special returns zero',()=>lua(`
+assert(integration.Restore(hero));local lookup=hero.FindAbilityByName
+local q={IsNull=function()return false end,GetLevel=function()return 0 end,
+GetIntrinsicModifierName=function()return ''end,GetSpecialValueFor=function(_,key)return ({static_remnant_damage=0,static_remnant_radius=235,static_remnant_damage_radius=240,is_point_targeted=1})[key]end}
+hero.FindAbilityByName=function(self,id)if id=='enfos_storm_static_remnant' then return q end;return lookup(self,id)end
+hero.GetLevel=function()return 6 end;hero.GetAbilityPoints=function()return 5 end;hero.IsAlive=function()return true end
+n.GetIntrinsicModifierName=function()return ''end;n.GetSpecialValueFor=function()return 0 end
+hero.AddAbility=function()error('Health grants')end;hero.AddNewModifier=function()error('Health mutates')end
+local out={};print=function(s)out[#out+1]=s end;assert(require('heroes/health').Report(hero,0))
+assert(table.concat(out,'|'):find('native_remnant_damage_query=0 native_remnant_trigger_query=235 native_remnant_damage_radius_query=240 native_remnant_point_query=1',1,true))
+`));
+
+test('Native remnant text uses verified point, arming, trigger/damage and duration keys in four locales and twelve mirrors',()=>{
+ for(const lang of ['english','turkish','russian','schinese']){const t=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens;
+ const desc=t.DOTA_Tooltip_Ability_enfos_storm_static_remnant_Description;
+ for(const key of ['AbilityDuration','static_remnant_delay','static_remnant_radius','static_remnant_damage','static_remnant_damage_radius','intellect_factor'])assert.ok(desc.includes('{{'+key+'}}'),key);
+ for(const dir of ['game/resource','game/panorama/localization','content/panorama/localization']){const s=fs.readFileSync(dir+'/addon_'+lang+'.txt','utf8');assert.doesNotMatch(s,/\{\{/);assert.ok(s.includes('100 / 130 / 160 / 190 / 220 / 250 / 280 / 315 / 350 / 390'));}
  }
 });

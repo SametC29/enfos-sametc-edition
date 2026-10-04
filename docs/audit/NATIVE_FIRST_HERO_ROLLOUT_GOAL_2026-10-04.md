@@ -224,3 +224,11 @@ Shard HUD/cast forwarded, Storm-only generic Mage amp suppressed, automatic
 Health and19client links covered.117 affected checks/316 mocks PASS. Actual
 native charging/damage cache/Shard/lifecycle/presentation remain owner-pending.
 Next source unit Q native remnant targeting and linked charging; W/R/D remain.
+
+Storm Q source progression: pure native remnant alias with installed point/
+range/travel/arming/vision metadata; authored damage/CD/cost/lifetime and
+effective damage radius retained, trigger235native. Minimal raw INT1.2,
+read-only Health and bounded trace; copied thinker/scan/damage/feedback
+retired.121 affected checks/315 mocks PASS; all actual targeting/cache/
+linked charges/lifecycle/presentation remain owner-pending. Next W pull and
+Scepter; R/D remain open. Full structural restart before later owner tests.

@@ -837,7 +837,7 @@
     "DOTA_Tooltip_Ability_enfos_sniper_shrapnel_Description": "Наносит врагам в выбранной области {{shrapnel_damage}} + 35% от ловкости физического урона каждую секунду в течение {{duration}} сек. и замедляет их на {{slow_pct}}%.",
     "DOTA_Tooltip_Ability_enfos_mk_wukongs_command_Description": "{{duration}} sn süren, {{ring_radius}} yarıçaplı bir savaş alanı kurar. Her {{attack_interval}} sn düşmanlara saldırı hasarının %{{soldier_damage}} kadarıyla fiziksel hasar verir.",
     "DOTA_Tooltip_Ability_enfos_void_chronosphere_Description": "Создаёт сферу радиусом {{radius}} на {{duration}} секунд, замораживая врагов. Союзники свободны. Каждый босс замораживается один раз за применение на 0,6 секунды. Не более 3 областей одновременно; новая заменяет самую старую.",
-    "DOTA_Tooltip_Ability_enfos_storm_static_remnant_Description": "Оставляет остаточное изображение на срок до {{duration}} сек. Оно взрывается, когда враг подходит на {{trigger_radius}}, нанося врагам в области {{damage}} + интеллект × 1,2 магического урона. Одновременно могут существовать не более 3 образов; новый удаляет самый старый.",
+    "DOTA_Tooltip_Ability_enfos_storm_static_remnant_Description": "Создаёт копию, которая идёт к выбранной точке и существует до {{AbilityDuration}} секунд. Активируется через {{static_remnant_delay}} секунды и взрывается, когда враг входит в радиус {{static_remnant_radius}}, нанося {{static_remnant_damage}} + интеллект × {{intellect_factor}} магического урона в радиусе {{static_remnant_damage_radius}}. Можно применить на себя, чтобы оставить копию на месте.",
     "enfos_evo_stat_radius": "Область",
     "enfos_evo_stat_damage_block": "Блок урона",
     "enfos_evo_stat_duration": "Длительность (с)",

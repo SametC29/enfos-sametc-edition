@@ -172,3 +172,49 @@ E full source boundary:0 failed check(s). Initial failures identified missing
 bootstrap import, progression/refund fixture coverage and stale generated
 records; fixed and rerun successfully. Static unreferenced overload_aoe
 candidate is a routing-key heuristic, not a gameplay failure. No engine test.
+
+## Q pre-mutation decision
+
+TUNE / NATIVE+MINIMAL EXT. Use a pure native static_remnant alias, not a
+custom cast wrapper. Copy installed fields including NO_TARGET header and
+is_point_targeted1/range800/travel300, .75 arming delay, vision and animation.
+Preserve authored damage100..390 + INT1.2, CD3.5..2.6, mana70..115 and
+lifetime8..12. Keep native trigger235; map the old240..330 effective damage
+radius to static_remnant_damage_radius. This intentionally narrows the old
+trigger at higher ranks while preserving its damage area. Damage radius is
+larger than trigger at every rank; copying the old trigger330 with fixed
+native damage300 would allow a trigger outside the damage circle.
+The old3-remnant eviction policy retires with the copied thinker: native
+expiry/cooldown owns lifetime, not a second Lua timer/cap. Actual repeated
+cast/expiry/performance behavior remains owner-pending. The existing scaling
+modifier only overrides the native damage special with raw rank + INT;
+it must not spawn, damage or scan. Q targeting and native read-time/cache
+remain owner gates; do not force a POINT flag or fabricate a facet.
+
+Q source implementation: native alias and explicit installed AbilityValues
+now replace custom OnSpellStart/thinker/.2s scans/manual damage/VFX/SFX.
+The existing E-created scaling modifier supplies only native raw damage
++INT1.2 and remains installed while E is untrained; no extra native Q
+provider, intrinsic or cast is created. Q uses no ScriptFile/empty wrapper.
+Native talent metadata is preserved but no talent is unhidden/granted.
+No new client classes, server managers, timers, entities or target writes.
+An optional default-off bounded Q trace reports the extension value query;
+it does not prove a damage application. Native damage caching, caster death
+and Break behavior still need actual observations.
+
+Automatic Health reads native Q damage/trigger/damage-radius/point fields;
+rank0/zero queries are valid diagnostic evidence, not damage certification.
+Four localized descriptions and12mirrors describe walking/arming/self-cast,
+separate radii and ranked lifetime, and retire the3-remnant claim.
+Four Q-focused contracts cover exact alias metadata, geometry/curves,
+raw queries on both contexts and read-only Health/locales. The replaced
+old remnant mock asserted copied thinker behavior and is retired.
+121 affected checks and315 hero mock regressions PASS. OWNER_RUNTIME
+PENDING for Q aiming/HUD, ten ranks/points, native delay/travel/vision,
+actual damage/INT/cache, remnant expiry/repeated casts/caster death,
+Overload charge generation and VFX/SFX/cleanup/VConsole. W/R/D remain.
+
+Q full source boundary:0 failed check(s). The generic Health fixture now
+provides the real read-only special getter; KV/native JSON comparisons
+normalize parser object prototypes without relaxing field comparisons.
+No engine launch, console action or publication occurred.

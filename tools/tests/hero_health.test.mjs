@@ -21,6 +21,7 @@ local function hero(entry)
  h.FindAbilityByName=function(_,id)
   for _,name in ipairs(entry.abilities)do if id==name then return {IsNull=function()return false end,
    GetLevel=function()return 0 end,GetAbilityDamage=function()return 0 end,
+   GetSpecialValueFor=function()return 0 end,
    GetIntrinsicModifierName=function()return nil end}end end
  end
  return h

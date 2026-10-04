@@ -855,7 +855,7 @@
     "DOTA_Tooltip_Ability_enfos_tb_demon_zeal": "İblis Şevki",
     "DOTA_Tooltip_Ability_enfos_tb_demon_zeal_Description": "Pasif olarak +{{bonus_as}} saldırı hızı ve +{{bonus_ms}} hareket hızı verir; Pasifleri Devre Dışı Bırak etkisi ve illüzyonlarda çalışmaz.",
     "DOTA_Tooltip_Ability_enfos_storm_static_remnant": "Statik Kalıntı",
-    "DOTA_Tooltip_Ability_enfos_storm_static_remnant_Description": "En fazla {{duration}} sn kalan kalıntı bırakır. Düşman {{trigger_radius}} menzile girince patlayarak bu alanda {{damage}} + Zeka × 1,2 büyü hasarı verir. Aynı anda en fazla 3 alan etkin olabilir; yeni alan en eskisini kaldırır.",
+    "DOTA_Tooltip_Ability_enfos_storm_static_remnant_Description": "Seçilen noktaya yürüyen ve en fazla {{AbilityDuration}} saniye kalan bir kopya oluşturur. {{static_remnant_delay}} saniyede etkinleşir; bir düşman {{static_remnant_radius}} yarıçapa girdiğinde patlayarak {{static_remnant_damage_radius}} yarıçapta {{static_remnant_damage}} + Zekâ × {{intellect_factor}} büyü hasarı verir. Kendine kullanılarak Storm’un konumuna yerleştirilebilir.",
     "DOTA_Tooltip_Ability_enfos_storm_electric_vortex": "Elektrik Girdabı",
     "DOTA_Tooltip_Ability_enfos_storm_electric_vortex_Description": "Hedefin çevresindeki düşmanları {{radius}} yarıçap içinde {{duration}} sn sersemletir. Boss sersemletme süresi {{boss_duration}} sn olur. Çekme veya hasar verme etkisi yoktur.",
     "DOTA_Tooltip_Ability_enfos_storm_overload": "Aşırı Yükleme",

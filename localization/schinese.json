@@ -837,7 +837,7 @@
     "DOTA_Tooltip_Ability_enfos_sniper_shrapnel_Description": "在目标区域内每秒造成{{shrapnel_damage}} + 敏捷的35%物理伤害，持续{{duration}}秒，并使敌人减速{{slow_pct}}%。",
     "DOTA_Tooltip_Ability_enfos_mk_wukongs_command_Description": "{{duration}} sn süren, {{ring_radius}} yarıçaplı bir savaş alanı kurar. Her {{attack_interval}} sn düşmanlara saldırı hasarının %{{soldier_damage}} kadarıyla fiziksel hasar verir.",
     "DOTA_Tooltip_Ability_enfos_void_chronosphere_Description": "创建半径{{radius}}、持续{{duration}}秒的时间球，冻结敌人。友军可自由行动。每次施法对每个首领仅冻结一次，持续0.6秒。 最多同时存在3个区域，新区域替换最早的区域。",
-    "DOTA_Tooltip_Ability_enfos_storm_static_remnant_Description": "留下持续至多 {{duration}} 秒的残影。敌人进入 {{trigger_radius}} 范围时残影爆炸，对范围内敌人造成 {{damage}} + 智力 × 1.2 魔法伤害。最多同时存在 3 个残影；放置新残影会移除最早的一个。",
+    "DOTA_Tooltip_Ability_enfos_storm_static_remnant_Description": "创造一个走向指定地点的残影，最多持续{{AbilityDuration}}秒。残影在{{static_remnant_delay}}秒后就绪，敌人进入{{static_remnant_radius}}范围时引爆，在{{static_remnant_damage_radius}}范围内造成{{static_remnant_damage}} + 智力 × {{intellect_factor}}魔法伤害。可对自身施放，在风暴之灵当前位置留下残影。",
     "enfos_evo_stat_radius": "范围",
     "enfos_evo_stat_damage_block": "伤害格挡",
     "enfos_evo_stat_duration": "持续时间（秒）",

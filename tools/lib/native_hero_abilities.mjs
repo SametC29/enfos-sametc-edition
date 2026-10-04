@@ -6,6 +6,7 @@
 // Tidehunter source: docs/audit/TIDEHUNTER_NATIVE_SOURCE_2026-10-04.json (build 6943).
 // Ursa source: docs/audit/URSA_NATIVE_SOURCE_2026-10-04.json (build 6943).
 // Anti-Mage source: docs/audit/ANTIMAGE_NATIVE_SOURCE_2026-10-04.json (build 6943).
+// Storm source: docs/audit/STORM_SPIRIT_NATIVE_SOURCE_2026-10-04.json (build 6943).
 export const nativeHeroAbilities = new Map([
   ['enfos_luna_moon_glaives', 'luna_moon_glaive'],
   ['enfos_luna_lunar_orbit', 'luna_lunar_orbit'],
@@ -27,6 +28,7 @@ export const nativeHeroAbilities = new Map([
   ['enfos_ursa_earthshock', 'ursa_earthshock'],
   ['enfos_am_blink', 'antimage_blink'],
   ['enfos_am_counterspell', 'antimage_counterspell'],
+  ['enfos_storm_static_remnant', 'storm_spirit_static_remnant'],
 ]);
 
 export function isVerifiedNativeAbility(id, definition) {

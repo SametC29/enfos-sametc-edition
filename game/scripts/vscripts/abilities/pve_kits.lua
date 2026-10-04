@@ -227,7 +227,6 @@ local modifier_list = {
     'modifier_enfos_void_chronosphere_thinker',
     'modifier_enfos_void_chronosphere_freeze',
     'modifier_enfos_void_backtrack_passive',
-    'modifier_enfos_storm_static_remnant_thinker',
     'modifier_enfos_storm_electric_vortex_debuff',
     'modifier_enfos_storm_galvanic_core_passive',
     'modifier_enfos_ss_hex_debuff',
@@ -5407,52 +5406,7 @@ end
 -- STORM SPIRIT: STATIC REMNANT, VORTEX, OVERLOAD, BALL LIGHTNING, GALVANIC CORE
 -- ----------------------------------------------------------------------------
 
-enfos_storm_static_remnant=class({})
-function enfos_storm_static_remnant:OnSpellStart()
-    local c = self:GetCaster()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
-    local pos = c:GetAbsOrigin()
-    c:EmitSound('Hero_StormSpirit.StaticRemnantPlant')
-    ground_effect(c, self, 'modifier_enfos_storm_static_remnant_thinker', { duration = value(self, 'duration') }, pos)
-end
-
-modifier_enfos_storm_static_remnant_thinker=class({})
-function modifier_enfos_storm_static_remnant_thinker:OnCreated()
-    if not IsServer() then return end
-    local parent = self:GetParent()
-    local pos = parent:GetAbsOrigin()
-    self.pfx = ParticleManager:CreateParticle('particles/units/heroes/hero_stormspirit/stormspirit_static_remnant.vpcf', PATTACH_WORLDORIGIN, nil)
-    ParticleManager:SetParticleControl(self.pfx, 0, pos)
-    ParticleManager:SetParticleControl(self.pfx, 1, Vector(value(self:GetAbility(), 'trigger_radius'), 0, 0))
-    self:StartIntervalThink(0.2)
-end
-function modifier_enfos_storm_static_remnant_thinker:OnDestroy()
-    if not IsServer() then return end
-    if self.pfx then
-        ParticleManager:DestroyParticle(self.pfx, false)
-        ParticleManager:ReleaseParticleIndex(self.pfx)
-        self.pfx = nil
-    end
-    remove_ground_effect(self)
-end
-function modifier_enfos_storm_static_remnant_thinker:OnIntervalThink()
-    local c = self:GetCaster()
-    local a = self:GetAbility()
-    local t = self:GetParent()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then self:Destroy() return end
-
-    local targets = enemies(c, t:GetAbsOrigin(), value(a, 'trigger_radius'))
-    if #targets > 0 then
-        t:EmitSound('Hero_StormSpirit.StaticRemnantExplode')
-        local base = (a and value(a, 'damage')) or 100
-        local dmg = base + (get_int(c) * 1.2)
-        for _, u in ipairs(targets) do
-            damage(a, u, dmg, DAMAGE_TYPE_MAGICAL)
-            effect('particles/units/heroes/hero_stormspirit/stormspirit_static_remnant_glow.vpcf', u)
-        end
-        self:Destroy()
-    end
-end
+-- Static Remnant is a pure native alias; no copied cast/thinker.
 
 enfos_storm_electric_vortex=class({})
 function enfos_storm_electric_vortex:OnSpellStart()

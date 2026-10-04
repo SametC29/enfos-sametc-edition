@@ -6096,19 +6096,6 @@ test('Terrorblade Demon Zeal rank passive respects Break and illusions', functio
     assert(mod:GetModifierAttackSpeedBonus_Constant() == 0 and mod:GetModifierMoveSpeedBonus_Constant() == 0)
 end)
 
-test('Storm Static Remnant uses rank values and triggers on nearby enemies', function()
-    applied_damages = {}
-    local storm = create_mock_unit('npc_dota_hero_storm_spirit', 2, Vector(0, 0, 0))
-    storm.intellect = 100
-    local creep = create_mock_unit('creep_storm', 3, Vector(100, 0, 0), 2000)
-    mock_world_units = { storm, creep }
-    local ability = enfos_storm_static_remnant()
-    ability.GetCaster = function() return storm end
-    ability.GetSpecialValueFor = function(_, k) return ({ duration=12, trigger_radius=330, damage=390 })[k] or 0 end
-    ability:OnSpellStart()
-    assert(#applied_damages == 1 and applied_damages[1].damage == 510 and applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
-end)
-
 test('Storm Electric Vortex respects spell block and applies ranked boss stun', function()
     applied_damages = {}
     local storm = create_mock_unit('npc_dota_hero_storm_spirit', 2, Vector(0, 0, 0))

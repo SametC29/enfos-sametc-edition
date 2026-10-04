@@ -42,6 +42,13 @@ function Health.Report(hero,id)
             end
         end
         if entry.id=='npc_dota_hero_storm_spirit' then
+            local q=hero:FindAbilityByName('enfos_storm_static_remnant')
+            if q and not q:IsNull() then
+                print('[HERO_HEALTH] native_remnant_damage_query='..tostring(q:GetSpecialValueFor('static_remnant_damage'))..
+                    ' native_remnant_trigger_query='..tostring(q:GetSpecialValueFor('static_remnant_radius'))..
+                    ' native_remnant_damage_radius_query='..tostring(q:GetSpecialValueFor('static_remnant_damage_radius'))..
+                    ' native_remnant_point_query='..tostring(q:GetSpecialValueFor('is_point_targeted')))
+            end
             local a=hero:FindAbilityByName('storm_spirit_overload')
             print('[HERO_HEALTH] ability=storm_spirit_overload rank='..tostring(a and not a:IsNull() and a:GetLevel() or 'missing'))
             if a and not a:IsNull() then

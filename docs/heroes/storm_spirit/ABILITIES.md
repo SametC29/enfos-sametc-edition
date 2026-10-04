@@ -9,7 +9,7 @@ Hero: `npc_dota_hero_storm_spirit`; role: Mage. Progression target: hero level 5
 
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `enfos_storm_static_remnant` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | storm_spirit_static_remnant |
+| 1 | `enfos_storm_static_remnant` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | NOT_EXPLICIT | storm_spirit_static_remnant |
 | 2 | `enfos_storm_electric_vortex` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | storm_spirit_electric_vortex |
 | 3 | `enfos_storm_overload` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/storm_spirit/e | storm_spirit_overload |
 | 4 | `enfos_storm_ball_lightning` | 10 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/pve_kits | storm_spirit_ball_lightning |
@@ -78,26 +78,28 @@ of this proposed native kit. No production change in this discovery unit.
 
 ## Slot 1: `enfos_storm_static_remnant`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `storm_spirit_static_remnant (native Ability1)`.
-Decision and PvE identity rationale: Keeps the placed electric remnant and timed proximity detonation identity; scales rank damage/radius/lifetime, with bounded simultaneous ground effects.
-Expected behavior: Place at Storm location; detonate on enemy entry; remove particle and thinker on trigger/expiry.
+Decision and PvE identity rationale: Native remnant owns placement/walking/arming/detonation/vision/expiry; minimal raw INT damage bridge preserves ENFOS scaling without another thinker.
+Expected behavior: Native chosen-point walking/self-cast remnant, .75 arming delay, trigger235 and damage radius240..330; damage100..390 + INT1.2, lifetime8..12. Actual targeting/cache/cleanup remains owner-pending.
 Rank target: 10 total ranks per Enfos slot within hero level 50. Skill-point/unlock curve is a separate system acceptance item.
+
+2026-10-04 native Q source: [implementation and evidence](../../audit/STORM_SPIRIT_NATIVE_FIRST_REVIEW_2026-10-04.md). 121 affected checks/315 hero mocks PASS. Pure native alias, no ScriptFile/wrapper; previous Lua thinker/test retired. Full structural restart required before owner testing.
 
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Gameplay | PENDING | Native alias/raw scaling source checked; actual targeting, rank/cache and engine effects remain owner-pending. |
 | Targeting | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Ranks | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Ranks | PENDING | Native alias/raw scaling source checked; actual targeting, rank/cache and engine effects remain owner-pending. |
 | VFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | SFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | Animation | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Modifiers | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Modifiers | PENDING | Native alias/raw scaling source checked; actual targeting, rank/cache and engine effects remain owner-pending. |
 | Precache | PASS | Particle paths found in installed Valve VPK and registered in addon precache; cold-start engine test pending. |
 | Cleanup | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Boss | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Boss | PENDING | Native alias/raw scaling source checked; actual targeting, rank/cache and engine effects remain owner-pending. |
 | Upgrades | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | Localization | PASS | Turkish source mirrored to EN/TR/RU/zh-CN; consistency check passed. |
 | Performance | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
