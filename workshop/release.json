@@ -1,9 +1,9 @@
 {
   "appid": "570",
   "publishedfileid": "3809160125",
-  "version": "1.0.14",
-  "title": "Enfos Team Survival - SametC Edition V1.0.14",
-  "changenote": "V1.0.14 - Individual Lion Q/W/E/R/passive audit and repairs: travelling Earth Spike with launch/landing, real Hex, hostile mana transfer and mana-less PvE conversion, Shard drain targets and immunity, delayed Finger/Scepter splash, melee empowerment and bounded kill stacks. Four-language tooltips, owned effects, cleanup and diagnostics reviewed. Automated source/regression checks passed; owner Dota gameplay, VFX/audio, engine event ordering and balance tests remain pending. Published at the owner's explicit request; hero audit goal pauses after this checkpoint.",
+  "version": "1.0.15",
+  "title": "Enfos Team Survival - SametC Edition V1.0.15",
+  "changenote": "V1.0.15 - Owner-authorized public test checkpoint with current committed hero reviews, wave and Boss tuning, four-language UI synchronization and Spellbringer diagnostics. Automated release checks passed. Known issue: Future Reinforcements units remain stationary in the owner's Tools test despite accepted movement commands; movement is not certified fixed. Hero gameplay, visuals, audio and balance acceptance remain pending. Uncommitted contributor work is excluded.",
   "visibility": "0",
   "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3809160125"
 }
