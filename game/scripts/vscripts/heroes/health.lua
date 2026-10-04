@@ -41,7 +41,18 @@ function Health.Report(hero,id)
                 end
             end
         end
-        if entry.id=='npc_dota_hero_antimage' then
+        if entry.id=='npc_dota_hero_storm_spirit' then
+            local a=hero:FindAbilityByName('storm_spirit_overload')
+            print('[HERO_HEALTH] ability=storm_spirit_overload rank='..tostring(a and not a:IsNull() and a:GetLevel() or 'missing'))
+            if a and not a:IsNull() then
+                local name=a:GetIntrinsicModifierName()
+                local m=name and name~='' and hero:FindModifierByName(name)
+                print('[HERO_HEALTH] overload_intrinsic='..tostring(name)..' present='..tostring(m and not m:IsNull() or false))
+                print('[HERO_HEALTH] native_overload_damage_query='..tostring(a:GetSpecialValueFor('overload_damage'))..
+                    ' native_overload_aoe_query='..tostring(a:GetSpecialValueFor('overload_aoe'))..
+                    ' native_shard_charges_query='..tostring(a:GetSpecialValueFor('shard_activation_charges')))
+            end
+        elseif entry.id=='npc_dota_hero_antimage' then
             local a=hero:FindAbilityByName('antimage_mana_break')
             print('[HERO_HEALTH] ability=antimage_mana_break rank='..tostring(a and not a:IsNull() and a:GetLevel() or 'missing'))
             if a and not a:IsNull() then

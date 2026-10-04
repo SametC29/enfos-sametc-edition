@@ -494,7 +494,6 @@
     "DOTA_Tooltip_Ability_enfos_tb_sunder_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
     "DOTA_Tooltip_Ability_enfos_tb_demon_zeal_shard_description": "+15%移速，攻击额外造成12%纯粹伤害。",
     "DOTA_Tooltip_Ability_enfos_storm_ball_lightning_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
-    "DOTA_Tooltip_Ability_enfos_storm_galvanic_core_shard_description": "+15%法术增强。",
     "DOTA_Tooltip_Ability_enfos_leshrac_pulse_nova_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
     "DOTA_Tooltip_Ability_enfos_leshrac_defilement_shard_description": "+15%法术增强。",
     "DOTA_Tooltip_Ability_enfos_invoker_emp_scepter_description": "终极技能法术伤害+40%，冷却时间减少25%。",
@@ -1144,7 +1143,7 @@
     "DOTA_Tooltip_Ability_enfos_centaur_colossal_hide": "巨躯之皮",
     "DOTA_Tooltip_Ability_enfos_centaur_colossal_hide_Description": "Enfos 被动：每次受到攻击时格挡 {{damage_block}} + 力量 × {{strength_block_factor}} 点物理伤害，并使最大生命值提高 {{bonus_health_pct}}%。破坏效果会使该被动失效。",
     "DOTA_Tooltip_Ability_enfos_storm_electric_vortex_Description": "使目标周围 {{radius}} 范围内的敌人眩晕 {{duration}} 秒。首领眩晕持续 {{boss_duration}} 秒。此技能不会牵引目标或造成伤害。",
-    "DOTA_Tooltip_Ability_enfos_storm_overload_Description": "风暴之灵施放其他技能后，5 秒内首次攻击敌人时，对目标周围 {{radius}} 范围内的敌人造成 {{bonus_damage}} + 智力 × 0.6 魔法伤害，并减速 {{slow_pct}}%，持续 {{slow_duration}} 秒。破坏效果和幻象会使此被动失效。",
+    "DOTA_Tooltip_Ability_enfos_storm_overload_Description": "施放法术为风暴之灵的下一次攻击充能，在{{overload_aoe}}范围内造成{{overload_damage}} + 智力 × {{intellect_factor}}魔法伤害。超负荷降低80%移动速度和90攻击速度，持续0.8秒。破坏会禁用被动效果。",
     "DOTA_Tooltip_Ability_enfos_invoker_chaos_meteor_Description": "经过 {{impact_delay}} 秒落地预警后，陨石对 {{radius}} 范围内的敌人造成 {{impact_damage}} + 智力 × 1.2 点魔法伤害；对首领的落地伤害不超过最大生命值的 {{boss_impact_cap_pct}}%。燃烧持续 {{burn_duration}} 秒，每 {{burn_tick_interval}} 秒造成 {{burn_dps}} × 间隔 + 智力 × {{burn_int_factor}} 点魔法伤害。对首领的每次燃烧伤害不超过最大生命值的 {{boss_burn_tick_cap_pct}}%。",
     "DOTA_Tooltip_Ability_enfos_puck_phase_shift_Description": "持续 {{duration}} 秒，帕克暂时脱离世界，无法被选中且处于无敌状态。",
     "enfos_evo_stat_damage_per_stack": "伤害",
@@ -1473,6 +1472,7 @@
     "DOTA_Tooltip_Ability_enfos_am_spellbreaker_Description": "提供{{bonus_as}}攻击速度和{{bonus_ms}}移动速度，破坏会禁用这些加成。原生迫害使攻击对魔法值低于60%的敌人施加0.75秒减速；减速随魔法损失和英雄等级增加。幻象保留原生减速，但不获得额外Enfos属性。",
     "DOTA_Tooltip_Ability_enfos_am_spellbreaker_SummaryDescription": "提供{{bonus_as}}攻击速度和{{bonus_ms}}移动速度，破坏会禁用这些加成。原生迫害使攻击对魔法值低于60%的敌人施加0.75秒减速；减速随魔法损失和英雄等级增加。幻象保留原生减速，但不获得额外Enfos属性。",
     "DOTA_Tooltip_ability_enfos_am_spellbreaker_Description": "提供{{bonus_as}}攻击速度和{{bonus_ms}}移动速度，破坏会禁用这些加成。原生迫害使攻击对魔法值低于60%的敌人施加0.75秒减速；减速随魔法损失和英雄等级增加。幻象保留原生减速，但不获得额外Enfos属性。",
-    "DOTA_Tooltip_ability_enfos_am_spellbreaker_SummaryDescription": "提供{{bonus_as}}攻击速度和{{bonus_ms}}移动速度，破坏会禁用这些加成。原生迫害使攻击对魔法值低于60%的敌人施加0.75秒减速；减速随魔法损失和英雄等级增加。幻象保留原生减速，但不获得额外Enfos属性。"
+    "DOTA_Tooltip_ability_enfos_am_spellbreaker_SummaryDescription": "提供{{bonus_as}}攻击速度和{{bonus_ms}}移动速度，破坏会禁用这些加成。原生迫害使攻击对魔法值低于60%的敌人施加0.75秒减速；减速随魔法损失和英雄等级增加。幻象保留原生减速，但不获得额外Enfos属性。",
+    "DOTA_Tooltip_Ability_enfos_storm_overload_shard_description": "魔晶使超负荷可主动施放：风暴之灵及750范围内的友方英雄获得3次充能和40攻击速度，最多持续12秒。消耗100魔法，冷却30秒。"
   }
 }

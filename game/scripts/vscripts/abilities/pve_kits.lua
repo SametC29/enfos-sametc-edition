@@ -1,4 +1,5 @@
 require('abilities/heroes/antimage/d')
+require('abilities/heroes/storm_spirit/e')
 require('abilities/heroes/antimage/q')
 require('abilities/heroes/ursa/d')
 require('abilities/heroes/ursa/e')
@@ -228,8 +229,6 @@ local modifier_list = {
     'modifier_enfos_void_backtrack_passive',
     'modifier_enfos_storm_static_remnant_thinker',
     'modifier_enfos_storm_electric_vortex_debuff',
-    'modifier_enfos_storm_overload_passive',
-    'modifier_enfos_storm_overload_slow',
     'modifier_enfos_storm_galvanic_core_passive',
     'modifier_enfos_ss_hex_debuff',
     'modifier_enfos_ss_shackles_channel',
@@ -5476,50 +5475,7 @@ modifier_enfos_storm_electric_vortex_debuff=class({})
 function modifier_enfos_storm_electric_vortex_debuff:IsDebuff() return true end
 function modifier_enfos_storm_electric_vortex_debuff:CheckState() return { [MODIFIER_STATE_STUNNED] = true } end
 
-enfos_storm_overload=class({})
-function enfos_storm_overload:GetIntrinsicModifierName() return 'modifier_enfos_storm_overload_passive' end
-
-modifier_enfos_storm_overload_passive=class({})
-function modifier_enfos_storm_overload_passive:DeclareFunctions()
-    return { MODIFIER_EVENT_ON_ABILITY_FULLY_CAST, MODIFIER_EVENT_ON_ATTACK_LANDED }
-end
-function modifier_enfos_storm_overload_passive:OnAbilityFullyCast(params)
-    if not IsServer() then return end
-    local c = self:GetParent()
-    if params.unit == c and params.ability ~= self:GetAbility()
-        and not (c.PassivesDisabled and c:PassivesDisabled()) and not (c.IsIllusion and c:IsIllusion()) then
-        self.charged = true
-        self.chargedAt = (GameRules and GameRules.GetGameTime and GameRules:GetGameTime()) or 0
-    end
-end
-function modifier_enfos_storm_overload_passive:OnAttackLanded(params)
-    if not IsServer() then return end
-    local c = self:GetParent()
-    if params.attacker == c and self.charged and not (c.PassivesDisabled and c:PassivesDisabled())
-        and not (c.IsIllusion and c:IsIllusion()) then
-        local t = params.target
-        if not t or (t.IsNull and t:IsNull()) or not t:IsAlive() or t:GetTeamNumber() == c:GetTeamNumber() then return end
-        local now = (GameRules and GameRules.GetGameTime and GameRules:GetGameTime()) or 0
-        self.charged = false
-        if now - (self.chargedAt or now) > 5 then return end
-
-        c:EmitSound('Hero_StormSpirit.Overload')
-        local ability = self:GetAbility()
-        local base = value(ability, 'bonus_damage')
-        local dmg = base + (get_int(c) * 0.6)
-
-        for _, u in ipairs(enemies(c, t:GetAbsOrigin(), value(ability, 'radius'))) do
-            damage(ability, u, dmg, DAMAGE_TYPE_MAGICAL)
-            effect('particles/units/heroes/hero_stormspirit/stormspirit_overload_discharge.vpcf', u)
-            u:AddNewModifier(c, ability, 'modifier_enfos_storm_overload_slow', { duration = value(ability, 'slow_duration') })
-        end
-    end
-end
-
-modifier_enfos_storm_overload_slow=class({})
-function modifier_enfos_storm_overload_slow:IsDebuff() return true end
-function modifier_enfos_storm_overload_slow:DeclareFunctions() return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE } end
-function modifier_enfos_storm_overload_slow:GetModifierMoveSpeedBonus_Percentage() return -value(self:GetAbility(), 'slow_pct') end
+-- Overload delegates to one exact native provider in storm_spirit/e.
 
 enfos_storm_ball_lightning=class({})
 function enfos_storm_ball_lightning:GetCastRange() return value(self, 'max_distance') end

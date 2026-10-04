@@ -3520,18 +3520,26 @@
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
           "callbacks": [
-            "GetIntrinsicModifierName"
+            "GetAOERadius",
+            "GetBehavior",
+            "GetCastRange",
+            "GetCooldown",
+            "GetIntrinsicModifierName",
+            "GetManaCost",
+            "OnSpellStart",
+            "OnUpgrade"
           ],
           "specials": {
-            "bonus_damage": "25 40 55 70 85 100 120 140 165 190",
-            "radius": "220 235 250 265 280 295 310 325 340 360",
-            "slow_duration": "0.4 0.5 0.6 0.7 0.8 0.9 1 1.1 1.2 1.3",
-            "slow_pct": "18 22 26 30 34 38 42 46 50 55"
+            "overload_damage": "25 40 55 70 85 100 120 140 165 190",
+            "overload_aoe": "220 235 250 265 280 295 310 325 340 360",
+            "intellect_factor": "0.6"
           },
-          "unreferencedSpecials": [],
+          "unreferencedSpecials": [
+            "overload_aoe"
+          ],
           "legacyLuaSpecials": [],
-          "hasSound": true,
-          "hasParticle": true
+          "hasSound": false,
+          "hasParticle": false
         },
         {
           "slot": 4,

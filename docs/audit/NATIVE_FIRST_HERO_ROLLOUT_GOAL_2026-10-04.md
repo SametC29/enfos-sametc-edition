@@ -217,3 +217,10 @@ Q/W/R casts. Anti-Mage R preference/composition and all outstanding runtime
 gates stay open. The earlier assistant-added restriction on Storm advance
 does not supersede the owner's instruction to continue source work while
 deferring live tests. No production Storm behavior changed in discovery.
+
+Storm E source progression: exact native Overload rank0/1 plus paid ten-rank
+raw damage/radius/INT bridge; no copied charge/damage/slow. Conditional native
+Shard HUD/cast forwarded, Storm-only generic Mage amp suppressed, automatic
+Health and19client links covered.117 affected checks/316 mocks PASS. Actual
+native charging/damage cache/Shard/lifecycle/presentation remain owner-pending.
+Next source unit Q native remnant targeting and linked charging; W/R/D remain.

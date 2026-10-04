@@ -323,6 +323,7 @@ function modifier_enfos_shard_upgrade:IsHidden()
     return name == "npc_dota_hero_lion" or name == "npc_dota_hero_jakiro" or name == "npc_dota_hero_lich" or name == "npc_dota_hero_sven" or name == "npc_dota_hero_shadow_shaman" or name == "npc_dota_hero_tidehunter"
         or require('abilities/heroes/luna/integration').UsesNativeShard(parent)
         or require('abilities/heroes/antimage/ownership').UsesNativeShard(parent)
+        or require('abilities/heroes/storm_spirit/ownership').UsesNativeShard(parent)
         or require('abilities/heroes/nevermore/ownership').IsEnfos(parent)
 end
 function modifier_enfos_shard_upgrade:IsPurgable() return false end
@@ -369,6 +370,7 @@ function modifier_enfos_shard_upgrade:GetModifierMoveSpeedBonus_Percentage()
 end
 
 function modifier_enfos_shard_upgrade:GetModifierSpellAmplify_Percentage()
+    if require('abilities/heroes/storm_spirit/ownership').UsesNativeShard(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/nevermore/ownership').IsEnfos(self.GetParent and self:GetParent()) then return 0 end
 	if self.role == "Mage" then return 15 end
 	return 0

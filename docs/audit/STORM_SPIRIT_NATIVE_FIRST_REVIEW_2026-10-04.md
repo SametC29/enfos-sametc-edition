@@ -120,3 +120,55 @@ D level milestones, Break, death/respawn and creep/hero kill credit. Cover
 rank1/10, points/HUD, dense waves, visual/audio loops, cleanup and reconnect.
 VConsole must be correlated to the tested revision. No engine PASS until
 actual observations establish each applicable acceptance field.
+
+## E source unit — implemented, engine pending
+
+Paid E now uses abilities/heroes/storm_spirit/e.lua with one exact native
+storm_spirit_overload provider. Native rank0 until learned, rank1 thereafter;
+the hidden provider satisfies exact-name lookup compatibility without a
+second native intrinsic on the paid slot. Existing pre-XP free-D restoration
+creates the scaling modifier before provider rank-up, only for the real
+owned hero. Restore never refreshes charges, writes stacks/points or resets
+cooldown. All ten paid ranks use raw overload_damage25..190/overload_aoe220..360
+plus INT.6; C++ owns charging, item/miss/killing-hit decisions and feedback.
+Whether it reads those raw values at creation or discharge is engine-pending.
+
+Decision: native movement slow80%, attack slow90 and duration.8 replace
+the former18..55% movement-only slow/.4..1.3 duration. The five-second Lua
+charge timeout and manual damage/slow/particle/sound paths are retired.
+Break/illusion charge behavior remains native; do not infer its acceptance
+from the removed custom guards. Paid E forwards dynamic native behavior,
+strips HIDDEN for the HUD, reads conditional native Shard cost/CD/radius and
+delegates one server-only native OnSpellStart. It does not grant Electric Rave.
+Actual Shard activation through this bridge, charge count and whether the
+paid cast itself generates an unintended charge remain owner test gates.
+
+GetBehavior/GetSpecialValueFor are BOTH, OnSpellStart SERVER;
+CDOTA_BaseNPC_Hero:GetIntellect(skipNoConsume) BOTH, called with false.
+CDOTA_BaseNPC:HasShard was not found: no guessed call was added. Native
+conditional Shard values determine cost/CD without importing server managers
+into client callbacks. GetCastRange returns0; no client native range call.
+One new scaling class makes19 reviewed client links; native intrinsic name
+is queried by automatic Health rather than hard-coded. Health reads rank,
+presence, damage/radius/Shard charges without mutation or a new timer.
+
+Storm-only Shard ownership hides/disables generic Mage15% spell amp and
+removes paid D's obsolete Shard flag/tooltip. Manager mana_restore_pct5 is
+configuration only: no mana-restoration callback exists there, so do not
+claim a removed implemented5% restore. Other Mage bonuses remain unchanged.
+Scepter stays for the later W unit. Storm sound bank is now explicitly
+registered; its compiled file hash was verified, actual audibility pending.
+Four descriptions/Shard explanations and12mirrors agree with these changes.
+
+AUTOMATED_VALIDATION:117 affected checks and316 hero mock regressions pass.
+The old Overload test asserted the retired copy; replaced by8 meaningful
+native ownership/raw values/context/restore/Shard/Health/locale contracts.
+OWNER_RUNTIME:PENDING for all E gameplay, ranks/HUD, damage read/cache,
+item casts/miss/killing hits, Break/illusions, Shard acquisition/activation,
+death/reconnect and VFX/SFX/cleanup. Full restart required before later tests.
+Q/W/R/D source migrations remain open; do not mark the kit complete.
+
+E full source boundary:0 failed check(s). Initial failures identified missing
+bootstrap import, progression/refund fixture coverage and stale generated
+records; fixed and rerun successfully. Static unreferenced overload_aoe
+candidate is a routing-key heuristic, not a gameplay failure. No engine test.

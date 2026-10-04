@@ -446,6 +446,7 @@ for _, hero_info in ipairs(roster) do
             ab.GetAbilityName = function() return ab_name end
             ab.GetCooldownTimeRemaining = function() return 0 end
             ab.EndCooldown = function() end
+            ab.RefundManaCost = function(self) self.refundedManaCost=true end
             ab.StartCooldown = function() end
 
             local success, err_msg = pcall(function()

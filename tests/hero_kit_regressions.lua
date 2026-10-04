@@ -6127,27 +6127,6 @@ test('Storm Electric Vortex respects spell block and applies ranked boss stun', 
     assert(boss:FindModifierByName('modifier_enfos_storm_electric_vortex_debuff') == stun)
 end)
 
-test('Storm Overload is one charged, ranked proc and expires after timeout', function()
-    applied_damages = {}
-    local storm = create_mock_unit('npc_dota_hero_storm_spirit', 2, Vector(0, 0, 0))
-    storm.intellect = 100
-    local creep = create_mock_unit('creep_storm', 3, Vector(50, 0, 0), 1000)
-    mock_world_units = { storm, creep }
-    local ability = enfos_storm_overload()
-    ability.GetSpecialValueFor = function(_, k) return ({ bonus_damage=190, radius=360, slow_duration=1.3, slow_pct=55 })[k] or 0 end
-    local mod = modifier_enfos_storm_overload_passive()
-    mod.GetParent = function() return storm end
-    mod.GetAbility = function() return ability end
-    mod:OnAbilityFullyCast({ unit=storm, ability=enfos_storm_static_remnant() })
-    local ally = create_mock_unit('ally_storm', 2, Vector(30, 0, 0), 1000)
-    mod:OnAttackLanded({ attacker=storm, target=ally })
-    assert(mod.charged, 'Attacking a friendly unit must not consume the enemy proc')
-    mod:OnAttackLanded({ attacker=storm, target=creep })
-    assert(#applied_damages == 1 and applied_damages[1].damage == 250)
-    local slow = creep:FindModifierByName('modifier_enfos_storm_overload_slow')
-    assert(slow and slow.params.duration == 1.3 and slow:GetModifierMoveSpeedBonus_Percentage() == -55)
-end)
-
 test('Storm Ball Lightning spends distance mana and caps boss damage', function()
     applied_damages = {}
     local storm = create_mock_unit('npc_dota_hero_storm_spirit', 2, Vector(0, 0, 0))

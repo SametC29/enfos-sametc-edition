@@ -11,11 +11,11 @@ Hero: `npc_dota_hero_storm_spirit`; role: Mage. Progression target: hero level 5
 | --- | --- | --- | --- | --- | --- |
 | 1 | `enfos_storm_static_remnant` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | storm_spirit_static_remnant |
 | 2 | `enfos_storm_electric_vortex` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | storm_spirit_electric_vortex |
-| 3 | `enfos_storm_overload` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | storm_spirit_overload |
+| 3 | `enfos_storm_overload` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/storm_spirit/e | storm_spirit_overload |
 | 4 | `enfos_storm_ball_lightning` | 10 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/pve_kits | storm_spirit_ball_lightning |
 | 5 | `enfos_storm_galvanic_core` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | storm_spirit_overload |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [abilities/heroes/storm_spirit/e](../../../game/scripts/vscripts/abilities/heroes/storm_spirit/e.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -50,7 +50,7 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 - `enfos_storm_static_remnant`: cast/impact/modifier contract and lifetime.
 - `enfos_storm_electric_vortex`: target flags, immunity, spell block/reflect if applicable, target loss.
-- `enfos_storm_overload`: intrinsic modifier, Break/illusion behavior, live rank refresh.
+- `enfos_storm_overload`: intrinsic modifier, Break/illusion behavior, live rank refresh; static unreferenced-special candidates: overload_aoe (not confirmed defects).
 - `enfos_storm_ball_lightning`: world position, travel/impact timing and radius alignment; ultimate unlock curve, Scepter/Blessing and boss burst.
 - `enfos_storm_galvanic_core`: Enfos passive free starting rank, native innate separation, respawn/point budget; intrinsic modifier, Break/illusion behavior, live rank refresh.
 
@@ -140,28 +140,35 @@ Change/test record (2026-09-30): ten-rank KV and Lua behavior updated; static an
 
 ## Slot 3: `enfos_storm_overload`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `storm_spirit_overload (native Ability3)`.
-Decision and PvE identity rationale: Keeps spell-charged attack discharge identity; one short-lived charge triggers ranked magic damage and slow in an area.
-Expected behavior: Cast ability to charge; next enemy attack discharges once; charge expires after five seconds; Break/illusion suppressed.
+Decision and PvE identity rationale: Exact native provider owns charging, discharge, slows and Shard; minimal raw ten-rank damage/radius/INT bridge preserves paid scaling. The old five-second charge/damage/slow copy is retired.
+Expected behavior: Native spell-charged attack; damage25..190 + INT0.6 and radius220..360; native movement80%/attack90 slow for0.8 seconds; native Shard activation forwarded by paid E. Actual linked casts, cache, Break/illusion and Shard behavior are OWNER_RUNTIME PENDING.
 Rank target: 10 total ranks per Enfos slot within hero level 50. Skill-point/unlock curve is a separate system acceptance item.
+
+2026-10-04 source update: [E implementation and remaining engine gates](../../audit/STORM_SPIRIT_NATIVE_FIRST_REVIEW_2026-10-04.md).
+117 affected checks/316 hero mocks PASS. SOURCE_IMPLEMENTATION implemented;
+all actual gameplay/ranks/modifiers/Boss/visual/audio/cleanup/upgrades/reconnect
+acceptance is PENDING. Historical PASS rows below describe earlier mocks only,
+not the native provider. Exact provider rank0/1 consumes no points and does not
+refresh charges during restore. Shared client bootstrap now registers19 classes.
 
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Gameplay | PENDING | Native E implementation and raw bridge covered by focused fixtures; actual charging/damage needs Dota. |
 | Targeting | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Ranks | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Ranks | PENDING | Paid ten-rank KV/raw queries checked; native cache/rank-up/HUD/points need Dota. |
 | VFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | SFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | Animation | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Modifiers | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Modifiers | PENDING | Shared client registration/idempotent restore covered; actual native intrinsic/charges remain unverified. |
 | Precache | PASS | Particle paths found in installed Valve VPK and registered in addon precache; cold-start engine test pending. |
 | Cleanup | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Boss | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Boss | PENDING | Ordinary native target rules; no skill-specific Boss compensation. Actual effect needs Dota. |
 | Upgrades | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Localization | PASS | Turkish source mirrored to EN/TR/RU/zh-CN; consistency check passed. |
+| Localization | PASS | Native E description/Shard metadata updated in four locales and twelve mirrors; source checks pass. |
 | Performance | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | Reconnect | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | VConsole | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
