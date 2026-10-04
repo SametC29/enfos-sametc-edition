@@ -210,7 +210,6 @@ local modifier_list = {
     'modifier_enfos_pudge_dismember_channel',
     'modifier_enfos_pudge_dismember_target',
     'modifier_enfos_pudge_meat_shield_passive',
-    'modifier_enfos_ursa_overpower_buff',
     'modifier_enfos_ursa_minor_passive',
     'modifier_enfos_mk_boundless_strike_stun',
     'modifier_enfos_mk_primal_spring_slow',
@@ -5034,35 +5033,7 @@ end
 
 -- Earthshock hop, impact and slow are native-owned; STR tuning is isolated.
 
-enfos_ursa_overpower=class({})
-function enfos_ursa_overpower:OnSpellStart()
-    local c = self:GetCaster()
-    c:EmitSound('Hero_Ursa.Overpower')
-    local mod = c:AddNewModifier(c, self, 'modifier_enfos_ursa_overpower_buff', { duration = value(self, 'buff_duration') })
-    if mod and mod.SetStackCount then mod:SetStackCount(value(self, 'max_attacks')) end
-end
-
-modifier_enfos_ursa_overpower_buff=class({})
-function modifier_enfos_ursa_overpower_buff:GetEffectName() return 'particles/units/heroes/hero_ursa/ursa_overpower_buff.vpcf' end
-function modifier_enfos_ursa_overpower_buff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
-function modifier_enfos_ursa_overpower_buff:DeclareFunctions()
-    return { MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_EVENT_ON_ATTACK_LANDED }
-end
-function modifier_enfos_ursa_overpower_buff:GetModifierAttackSpeedBonus_Constant() return value(self:GetAbility(), 'attack_speed') end
-function modifier_enfos_ursa_overpower_buff:OnAttackLanded(params)
-    if not IsServer() then return end
-    local c = self:GetParent()
-    if params.attacker ~= c then return end
-    local target = params.target
-    if not target or (target.IsNull and target:IsNull()) or not target:IsAlive()
-        or target:GetTeamNumber() == c:GetTeamNumber() then return end
-    if params.damage and params.damage > 0 then
-        c:Heal(params.damage * value(self:GetAbility(), 'attack_heal_pct') / 100, self:GetAbility())
-    end
-
-    local count = (self:GetStackCount() or 1) - 1
-    if count <= 0 then self:Destroy() else self:SetStackCount(count) end
-end
+-- Native Overpower owns cast/buff/charges; landed healing is isolated.
 
 -- Native Fury Swipes owns attacks and target stacks; paid tuning is isolated.
 

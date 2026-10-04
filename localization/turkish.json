@@ -777,7 +777,7 @@
     "DOTA_Tooltip_Ability_enfos_ursa_earthshock": "Yer Sarsıntısı",
     "DOTA_Tooltip_Ability_enfos_ursa_earthshock_Description": "Yüzünün dönük olduğu yöne {{hop_distance}} birim sıçrar. {{shock_radius}} yarıçapındaki düşmanlara {{AbilityDamage}} + Güç × {{strength_factor}} büyü hasarı verir; {{AbilityDuration}} sn boyunca hareket hızını %{{movement_slow|abs}} azaltır.",
     "DOTA_Tooltip_Ability_enfos_ursa_overpower": "Ezici Güç",
-    "DOTA_Tooltip_Ability_enfos_ursa_overpower_Description": "{{buff_duration}} sn boyunca saldırı hızını +{{attack_speed}} artırır. En fazla {{max_attacks}} düşman saldırısı; her vuruş Ursa’yı verilen hasarın %{{attack_heal_pct}} kadarı iyileştirir.",
+    "DOTA_Tooltip_Ability_enfos_ursa_overpower_Description": "{{AbilityDuration}} sn boyunca {{max_attacks}} saldırı için +{{attack_speed_bonus_pct}} saldırı hızı ve %{{slow_resist}} yavaşlatma direnci verir. Iskalar da bir saldırı hakkı tüketir. İsabet eden güçlendirilmiş saldırı, öldürücü vuruşlar dahil, verdiği hasarın %{{attack_heal_pct}} kadarı Ursa’yı iyileştirir.",
     "DOTA_Tooltip_Ability_enfos_ursa_fury_swipes": "Öfke Pençeleri",
     "DOTA_Tooltip_Ability_enfos_ursa_fury_swipes_Description": "Aynı düşmana art arda saldırılar Öfke Pençeleri yükleri biriktirir. Her yük {{damage_per_stack}} + Çeviklik × {{agility_factor}} fiziksel hasar ekler. Yeni saldırı gelmezse yükler {{bonus_reset_time}} sn sonra sıfırlanır (Roshan: {{bonus_reset_time_roshan}} sn). Kırılma yeni yükleri engeller; mevcut yüklerin hasarı korunur.",
     "DOTA_Tooltip_Ability_enfos_ursa_enrage": "Hiddet",

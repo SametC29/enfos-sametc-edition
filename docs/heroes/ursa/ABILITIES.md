@@ -10,12 +10,12 @@ Hero: `npc_dota_hero_ursa`; role: Fighter. Progression target: hero level 50 / a
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
 | 1 | `enfos_ursa_earthshock` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE \| DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | NOT_EXPLICIT | ursa_earthshock |
-| 2 | `enfos_ursa_overpower` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | ursa_overpower |
+| 2 | `enfos_ursa_overpower` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | NOT_EXPLICIT | ursa_overpower |
 | 3 | `enfos_ursa_fury_swipes` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/ursa/e | ursa_fury_swipes |
 | 4 | `enfos_ursa_enrage` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE | NOT_EXPLICIT | ursa_enrage |
 | 5 | `enfos_ursa_ursa_minor` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | ursa_fury_swipes |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [abilities/heroes/ursa/e](../../../game/scripts/vscripts/abilities/heroes/ursa/e.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/ursa/e](../../../game/scripts/vscripts/abilities/heroes/ursa/e.lua), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -108,8 +108,8 @@ Change/test record: 2026-09-30 — ten-rank KV/Lua update. Current hero-kit suit
 
 Classification: PVE-CONVERT
 Native counterpart: ursa_overpower (installed native Ability2; same source snapshot).
-Decision and PvE identity rationale: Preserve Ursa’s rapid-attack window while scaling attack speed and attack charges over ten ranks; heal only from landed attacks on living enemies.
-Expected cast/travel/impact/ongoing/cleanup behavior: No-target cast applies the buff particle, attack-speed bonus, duration and charge count from KV; enemy attacks consume one charge and heal by configured share of landed damage; allied attacks do not consume charges.
+Decision and PvE identity rationale: Preserve Ursa’s rapid-attack window while scaling attack speed and attack charges over ten ranks; preserve landed-attack healing, including killing blows.
+Expected cast/travel/impact/ongoing/cleanup behavior: Native no-target cast owns dispellable buff, AS, slow resistance25, charges (misses consume), presentation and cleanup. A bounded attack-record extension heals empowered enemy hits including final-charge/killing hits; no custom charge mutation. Actual event order and native buff ownership remain owner test pending.
 Normal/elite/boss: native Fury Swipes uses ordinary enemy/stack rules without a custom Boss cap. Earthshock uses ordinary engine slow without a custom Boss cap. Engine immunity, dispel and resistance interactions remain PENDING OWNER TEST.
 Current versus target rank curve; free rank / point cost: 10 ranks in KV; charges 3→10, attack speed 350→800, duration 8→15s, attack-heal share 10→28%. Rank gates at levels 1–10 are now declared; in-game points/HUD remain pending.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING engine review; no upgrade handler was changed in this pass.
@@ -321,3 +321,5 @@ not proof of currentnativeShard lookup. No directcast/purge/points/targetstate
 mutation. 120 focused/322hero mocks pass; actual hop, damage pipeline/stacking,
 Shard effects incl.no unlearnedR purge, coldVFX/SFX and ranks remain ownerpending.
 Q/E/R source implemented; W/D next. See currentreview/snapshot for provenance.
+
+2026-10-04 W source migration: native Overpower alias with correct exposed AS key, slow resistance25 and duration header; preserves authored ten-rank curves. Copied cast, buff, charge decrement and VFX/SFX removed. Independent bounded32-record sustain covers final-charge and killing hits without native mutation. Server-only/event-driven caster modifier enumeration uses originating W handle, not a guessed modifier ID. Native event ordering/charge exposure/healing amount, miss/purge/death/reconnect/upgrades and cold presentation remain PENDING OWNER TEST. 117 affected checks/321 mocks/full checks pass with0failures; no engine certification.

@@ -97,7 +97,7 @@ test('Paid Fury uses an exact native provider with native metadata and no copied
  assert.doesNotMatch(shared,/modifier_enfos_ursa_fury_swipes_|enfos_ursa_fury_swipes=class/);
  for(const module of ['modifiers','integration','e']){
  const source=fs.readFileSync('game/scripts/vscripts/abilities/heroes/ursa/'+module+'.lua','utf8');
- assert.doesNotMatch(source,/ApplyDamage|FindUnits|OnAttackLanded|SetStackCount|SetDuration|CreateParticle|EmitSound|StartIntervalThink|CreateTimer|is_boss/);
+ assert.doesNotMatch(source,/ApplyDamage|FindUnits|SetStackCount|SetDuration|CreateParticle|EmitSound|StartIntervalThink|CreateTimer|is_boss/);
  }
 });
 

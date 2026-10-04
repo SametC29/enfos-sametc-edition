@@ -6,8 +6,15 @@ function M:IsPurgable() return false end
 function M:RemoveOnDeath() return false end
 function M:DeclareFunctions()
     return {MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL,MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL_VALUE,
-        MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE}
+        MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE,MODIFIER_EVENT_ON_ATTACK_RECORD,
+        MODIFIER_EVENT_ON_ATTACK_LANDED,MODIFIER_EVENT_ON_ATTACK_FAIL,
+        MODIFIER_EVENT_ON_ATTACK_RECORD_DESTROY,MODIFIER_EVENT_ON_DEATH}
 end
+function M:OnAttackRecord(p) if IsServer() then require('abilities/heroes/ursa/w_heal').Record(self,p) end end
+function M:OnAttackLanded(p) if IsServer() then require('abilities/heroes/ursa/w_heal').Landed(self,p) end end
+function M:OnAttackFail(p) if IsServer() then require('abilities/heroes/ursa/w_heal').Forget(self,p) end end
+function M:OnAttackRecordDestroy(p) if IsServer() then require('abilities/heroes/ursa/w_heal').Forget(self,p) end end
+function M:OnDeath(p) if IsServer() then require('abilities/heroes/ursa/w_heal').Death(self,p) end end
 local keys={['damage_per_stack']=true,['bonus_reset_time']=true,['bonus_reset_time_roshan']=true,
     ['stun_stack_count']=true,['stun_duration']=true}
 local enrage_keys={['duration']=true,['damage_reduction']=true,['status_resistance']=true,

@@ -1,6 +1,6 @@
 # Ursa native-first migration
 
-Status: Q/E/R SOURCE IMPLEMENTED; W/D DISCOVERED / OWNER_RUNTIME PENDING.
+Status: Q/W/E/R SOURCE IMPLEMENTED; D DISCOVERED / OWNER_RUNTIME PENDING.
 Latest owner rollout permits continuing source work without live acceptance.
 
 ## Sources and boundaries
@@ -40,7 +40,7 @@ version/license/distribution permission not established.
 | R enfos_ursa_enrage | TUNE | NATIVE | Native strong dispel, mitigation/status resistance and disabled-cast Scepter; preserve authored60..90% reduction20..60% resistance4.5..8s duration/costs. Explicit ten-rank Scepter cooldown30..18 using installed endpoint interpolation. Retire generic ultimate40% spell amp/25% CDR only for owned Enfos Ursa kit, retaining item stats. No copied purge/buff/wrapper. |
 | D enfos_ursa_ursa_minor | TUNE | NATIVE Maul + minimal Enfos mobility | Keep paid stableD/free1/ranks10/49points. Native rank1 Maul separately owns1.75% currentHP attack bonus; D retains8..30 movement speed, no duplicateHP damage. Verify provider grant/hidden slot/Break/client/restore before mutation. No deprecated Bear Down facet or talents. |
 
-Rows record pre-mutation decisions. Q/E/R are now source-implemented; the remaining
+Rows record pre-mutation decisions. Q/W/E/R are now source-implemented; the remaining
 slots are planned work. None is engine-certified. Preserve
 Luna and contributor Lich work; no shared Boss/wave/respawn rewrite. Source
 changes are isolated atomic local commits, no remote push/deploy/Workshop.
@@ -184,3 +184,45 @@ pass. Fullsourcechecks pass with0failures. Owner: native hop centre/root/path/im
 actualSTR damage/mitigation/itemamp/property stacking, learned/unlearnedR/E
 Shard3Fury and no undescribedEnrage/purge, r1/r10 cost/CD/slow, coldVFX/SFX/
 lifecycle/reconnect/densewaveVConsole. W/D source work remains; nextW Overpower.
+
+## W decision before mutation
+
+TUNE, native Overpower alias plus independent landed-attack healing only.
+Fresh installed hero SHA256 matches the snapshot. Native NO_TARGET +
+IGNORE_BACKSWING, castpoint0.3, dispellable buff, gestureDEFAULT, attack speed
+key attack_speed_bonus_pct and slow_resist25 replace copied cast/AS/charges.
+Retain authored3..10 attacks,350..800 AS,8..15 header AbilityDuration,
+12..6 CD,40..145 mana and10..28% healing. No talent or new upgrade grant.
+Healing snapshots the active native buff by originating ability handle at
+OnAttackRecord, then consumes that record at OnAttackLanded; never writes
+native charges. This preserves final-charge healing even if native destroys
+the buff before landing, includes killing hits, rejects friendly/illusion
+attacks and duplicate records. Bound memory to32 outstanding records; clear
+on fail/record destruction/death. No timers, global searches or extra VFX.
+Caster modifier enumeration is server-only/event-driven. Native modifier
+name is not guessed; require exact W ability ownership, positive charge
+count and remaining duration. Actual native event order, charge exposure and
+landed-event damage field remain owner-engine gates; do not certify from mocks.
+WORLD OF DOTA2880603428 Ursa Overpower source is reference-only: copies buff
+and consumes in OnAttack, with custom talents/particles. License/version not
+established, no code imported and no evidence it proves current C++ order.
+ModDota native BaseClass exposed-variable documentation re-read; C++ itself
+remains inaccessible. Existing Ursa precache/15 client classes retained.
+
+## W source validation
+
+117 affected tests,321 hero mock regressions and full source checks pass
+with0failures. Five focused W checks cover native metadata/ten-rank
+curves, native ownership without replica, last-charge/killing-hit healing,
+all10healranks, duplicates/wrongtargets/deadcaster/client guards, memory32
+eviction and fail/destroy/death cleanup, four languages/12mirrors.
+Existing persistent tuning modifier hosts server-guarded callbacks, with no
+new client class, server-manager import, restore grant or point mutation.
+Read-only Health reports owned native buff/charges when available; no cast.
+Native alias and extension keep existing Ursa soundbank/particle precache.
+API FindAllModifiers SERVER; GetAbility/GetStackCount/GetRemainingTime BOTH;
+Heal SERVER; attack record/landed/fail/destroy/death callbacks verified in
+API enum. Actual ordering, damage-field semantics, native buff ability/charge
+exposure, extra attacks, dispel-mid-attack, all ranks and cold VFX/SFX remain
+OWNER_RUNTIME PENDING. No source test supplies that engine evidence.
+Next unit: D native Maul plus paid mobility, before Anti-Mage.

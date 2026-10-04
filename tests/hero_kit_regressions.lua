@@ -5259,23 +5259,6 @@ test('Monkey King Wukong pulses within its configured ring and Mischief honors B
         'Mischief bonuses must not be duplicated on illusions')
 end)
 
-test('Ursa Overpower reads attack count and only consumes on enemy attacks', function()
-    local ursa = create_mock_unit('npc_dota_hero_ursa', 2, Vector(0, 0, 0), 200)
-    local ally = create_mock_unit('ally_ursa', 2, Vector(100, 0, 0))
-    local enemy = create_mock_unit('creep_ursa', 3, Vector(100, 0, 0))
-    local ability = enfos_ursa_overpower()
-    ability.GetCaster = function() return ursa end
-    ability.GetSpecialValueFor = function(_, key) return ({ buff_duration=12, max_attacks=7, attack_speed=650, attack_heal_pct=25 })[key] or 0 end
-    ability:OnSpellStart()
-    local buff = ursa:FindModifierByName('modifier_enfos_ursa_overpower_buff')
-    assert(buff and buff:GetStackCount() == 7 and buff.params.duration == 12)
-    assert(buff:GetModifierAttackSpeedBonus_Constant() == 650)
-    buff:OnAttackLanded({ attacker=ursa, target=ally, damage=100 })
-    assert(buff:GetStackCount() == 7 and ursa.hp == 200)
-    buff:OnAttackLanded({ attacker=ursa, target=enemy, damage=100 })
-    assert(buff:GetStackCount() == 6 and ursa.hp == 200) -- already at full health
-end)
-
 test('Ursa Enfos passive honors configured values and Break', function()
     local ursa = create_mock_unit('npc_dota_hero_ursa', 2, Vector(0, 0, 0))
     local passive = modifier_enfos_ursa_minor_passive()

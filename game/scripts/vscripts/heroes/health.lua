@@ -59,6 +59,12 @@ function Health.Report(hero,id)
             end
             local r=hero:FindAbilityByName('ursa_enrage')
             print('[HERO_HEALTH] ability=ursa_enrage rank='..tostring(r and not r:IsNull() and r:GetLevel() or 'missing'))
+            local w=hero:FindAbilityByName('enfos_ursa_overpower')
+            if w and not w:IsNull() and hero.FindAllModifiers then
+                local buff=require('abilities/heroes/ursa/w_heal').NativeBuff(hero,w)
+                print('[HERO_HEALTH] native_overpower_buff='..tostring(buff~=nil)..
+                    ' charges='..tostring(buff and buff:GetStackCount() or 'missing'))
+            end
         elseif entry.id=='npc_dota_hero_tidehunter' then
             local a=hero:FindAbilityByName('tidehunter_leviathans_catch')
             print('[HERO_HEALTH] ability=tidehunter_leviathans_catch rank='..tostring(a and not a:IsNull() and a:GetLevel() or 'missing'))

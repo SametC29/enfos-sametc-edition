@@ -152,3 +152,12 @@ no manual cast or duplicate damage. Read-only Health reports Q damage and
 linked identity. 120 affected checks,322 hero mocks and full source checks
 pass with0failures. Native damage/Shard/untrained R and presentation remain
 OWNER_RUNTIME PENDING. Next source unit: W Overpower, then D Maul/mobility.
+
+2026-10-04 Ursa W source progression: native Overpower buff/charges/misses,
+AS and slow resistance restored; authored curves retained. Copied native
+cast/presentation/charge logic removed. Minimal independent bounded attack
+record healing, including final-charge/killing hits, and automatic read-only
+Health implemented. 117 affected checks,321 hero mocks and full checks pass
+with0failures. Native event order/ownership/damage/presentation remain owner
+runtime pending. Q/W/E/R source implemented; next D Maul/mobility, then
+Anti-Mage. No new gameplay tests requested while owner defers live testing.

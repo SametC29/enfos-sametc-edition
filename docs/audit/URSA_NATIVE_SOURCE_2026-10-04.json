@@ -336,5 +336,25 @@
     },
     "references": "Pathfinders Q Lua not in harvested corpus; no shard_enrage_duration matches; old KV reviewed previously, reference only, no import",
     "engineAcceptance": "PENDING OWNER TEST, especially native attribution/header STR factor stacking and actual Q Shard/Enrage identity"
+  },
+  "wResearch": {
+    "date": "2026-10-04",
+    "sourceSha256": "613c2cefe0a70e0a5582c5dd9def317fb93da2a346d0da650070a147b4faad9a",
+    "api": {
+      "FindAllModifiers": "SERVER",
+      "Heal": "SERVER",
+      "GetAbility": "BOTH",
+      "GetStackCount": "BOTH",
+      "GetRemainingTime": "BOTH"
+    },
+    "nativeOwnership": "Originating W ability handle; no guessed modifier name",
+    "extension": "Bounded32 OnAttackRecord snapshot -> OnAttackLanded heal; fail/destroy/death cleanup, no native charge writes",
+    "reference": "WORLD OF DOTA2880603428 scripts/vscripts/heroes/npc_dota_hero_ursa_custom/ursa_overpower_custom.lua REFERENCE_ONLY; no imported code; version/license unestablished",
+    "enginePending": [
+      "Native attack-event ordering and charge exposure",
+      "Landed-event damage semantics and actual healing",
+      "Extra attacks/dispel-mid-attack/misses/all10ranks",
+      "Cold VFX/SFX and lifecycle/reconnect"
+    ]
   }
 }
