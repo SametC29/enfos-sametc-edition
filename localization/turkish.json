@@ -821,7 +821,7 @@
     "DOTA_Tooltip_Ability_enfos_am_counterspell": "Karşı Büyü",
     "DOTA_Tooltip_Ability_enfos_am_counterspell_Description": "Pasif olarak %{{magic_resistance}} büyü direnci verir. {{duration}} saniyelik kalkan, hedefli büyüleri engeller ve yansıtır. Break pasif direnci devre dışı bırakır.",
     "DOTA_Tooltip_Ability_enfos_am_mana_void": "Mana Boşluğu",
-    "DOTA_Tooltip_Ability_enfos_am_mana_void_Description": "Hedefin eksik manası üzerinden patlama yaratır: {{base_damage}} + eksik mana x {{damage_per_missing_mana}} + Çeviklik x {{agility_factor}} büyü hasarı verir (yarıçap {{radius}}). Boss hasarı en fazla canının %{{boss_damage_cap_pct}} kadardır; bosslar sersemletilmez.",
+    "DOTA_Tooltip_Ability_enfos_am_mana_void_Description": "Hedefin çevresindeki {{radius}} yarıçapta {{base_damage}} + eksik mana × {{damage_per_missing_mana}} + Çeviklik × {{agility_factor}} büyü hasarı verir. Yalnız ana hedef {{stun_duration}} saniye sersemletilir; süre durum direnciyle azalır. Olumsuz etki bağışıklığını delmez.",
     "DOTA_Tooltip_Ability_enfos_am_spellbreaker": "Büyü Kırıcı",
     "DOTA_Tooltip_Ability_enfos_am_spellbreaker_Description": "Pasif olarak +{{bonus_as}} saldırı hızı ve +{{bonus_ms}} hareket hızı sağlar; Pasifleri Devre Dışı Bırak etkisiyle kapanır.",
     "DOTA_Tooltip_Ability_enfos_void_time_walk": "Zaman Yürüyüşü",
@@ -1101,8 +1101,6 @@
     "DOTA_Tooltip_Ability_enfos_troll_rampage_shard_description": "+35 saldırı hızı. Saldırılar hedefin hareket hızını %25, saldırı hızını 25 azaltır (3 sn).",
     "DOTA_Tooltip_Ability_enfos_ck_phantasm_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_ck_entropy_shard_description": "+35 saldırı hızı. Saldırılar hedefin hareket hızını %25, saldırı hızını 25 azaltır (3 sn).",
-    "DOTA_Tooltip_Ability_enfos_am_mana_void_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
-    "DOTA_Tooltip_Ability_enfos_am_spellbreaker_shard_description": "+%15 hareket hızı. Saldırılar hasarın %12’si kadar ek saf hasar verir.",
     "DOTA_Tooltip_Ability_enfos_void_chronosphere_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_void_backtrack_shard_description": "+%15 hareket hızı. Saldırılar hasarın %12’si kadar ek saf hasar verir.",
     "DOTA_Tooltip_Ability_enfos_medusa_stone_gaze_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
@@ -1850,6 +1848,9 @@
     "DOTA_Tooltip_ability_enfos_am_counterspell": "Karşı Büyü",
     "DOTA_Tooltip_ability_enfos_am_counterspell_Description": "Pasif olarak %{{magic_resistance}} büyü direnci verir. {{duration}} saniyelik kalkan, hedefli büyüleri engeller ve yansıtır. Break pasif direnci devre dışı bırakır.",
     "DOTA_Tooltip_ability_enfos_am_counterspell_SummaryDescription": "Pasif olarak %{{magic_resistance}} büyü direnci verir. {{duration}} saniyelik kalkan, hedefli büyüleri engeller ve yansıtır. Break pasif direnci devre dışı bırakır.",
-    "DOTA_Tooltip_ability_enfos_am_counterspell_shard_description": "Birime hedeflenen bir büyü yansıtıldığında, büyüyü kullananın yanında {{duration_illusion}} saniyeliğine bir kopya oluşur."
+    "DOTA_Tooltip_ability_enfos_am_counterspell_shard_description": "Birime hedeflenen bir büyü yansıtıldığında, büyüyü kullananın yanında {{duration_illusion}} saniyeliğine bir kopya oluşur.",
+    "DOTA_Tooltip_Ability_enfos_am_mana_void_SummaryDescription": "Hedefin çevresindeki {{radius}} yarıçapta {{base_damage}} + eksik mana × {{damage_per_missing_mana}} + Çeviklik × {{agility_factor}} büyü hasarı verir. Yalnız ana hedef {{stun_duration}} saniye sersemletilir; süre durum direnciyle azalır. Olumsuz etki bağışıklığını delmez.",
+    "DOTA_Tooltip_ability_enfos_am_mana_void_Description": "Hedefin çevresindeki {{radius}} yarıçapta {{base_damage}} + eksik mana × {{damage_per_missing_mana}} + Çeviklik × {{agility_factor}} büyü hasarı verir. Yalnız ana hedef {{stun_duration}} saniye sersemletilir; süre durum direnciyle azalır. Olumsuz etki bağışıklığını delmez.",
+    "DOTA_Tooltip_ability_enfos_am_mana_void_SummaryDescription": "Hedefin çevresindeki {{radius}} yarıçapta {{base_damage}} + eksik mana × {{damage_per_missing_mana}} + Çeviklik × {{agility_factor}} büyü hasarı verir. Yalnız ana hedef {{stun_duration}} saniye sersemletilir; süre durum direnciyle azalır. Olumsuz etki bağışıklığını delmez."
   }
 }

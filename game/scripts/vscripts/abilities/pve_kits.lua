@@ -5221,12 +5221,16 @@ end
 -- Native Mana Break owns mana damage; minimal physical proc is isolated.
 
 enfos_am_mana_void=class({})
+function enfos_am_mana_void:GetAOERadius() return value(self, 'radius') end
 function enfos_am_mana_void:OnSpellStart()
+    if not IsServer() then return end
     local c = self:GetCaster()
     local t = self:GetCursorTarget()
     if not c or (c.IsNull and c:IsNull()) or not t or (t.IsNull and t:IsNull()) or not t:IsAlive()
         or t:GetTeamNumber() == c:GetTeamNumber() then return end
-    if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
+    if UnitFilter(t, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+        DOTA_UNIT_TARGET_FLAG_NONE, c:GetTeamNumber()) ~= UF_SUCCESS then return end
+    if t:TriggerSpellAbsorb(self) then return end
 
     c:EmitSound('Hero_Antimage.ManaVoid')
     effect('particles/units/heroes/hero_antimage/antimage_manavoid.vpcf', t)
@@ -5239,15 +5243,11 @@ function enfos_am_mana_void:OnSpellStart()
         + (missing_mana * value(self, 'damage_per_missing_mana'))
         + (get_agi(c) * value(self, 'agility_factor'))
 
-    for _, u in ipairs(enemies(c, t:GetAbsOrigin(), value(self, 'radius'), DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)) do
-        local unit_damage = dmg
-        if is_boss(u) and u.GetMaxHealth then
-            unit_damage = math.min(unit_damage, u:GetMaxHealth() * value(self, 'boss_damage_cap_pct') / 100)
-        end
-        damage(self, u, unit_damage, DAMAGE_TYPE_MAGICAL)
-        if not is_boss(u) and u.AddNewModifier then
-            u:AddNewModifier(c, self, 'modifier_enfos_am_mana_void_stun', { duration = value(self, 'stun_duration') })
-        end
+    -- Native Mana Void controls only its main target. No Boss exception.
+    t:AddNewModifier(c, self, 'modifier_enfos_am_mana_void_stun', {
+        duration = value(self, 'stun_duration') * (1 - t:GetStatusResistance()) })
+    for _, u in ipairs(enemies(c, t:GetAbsOrigin(), value(self, 'radius'), DOTA_UNIT_TARGET_FLAG_NONE)) do
+        damage(self, u, dmg, DAMAGE_TYPE_MAGICAL)
     end
 end
 

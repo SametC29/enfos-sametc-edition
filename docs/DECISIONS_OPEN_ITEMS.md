@@ -555,3 +555,12 @@ Enrage cast/purge or new points. NativeQ STR1.5 outgoingfactor/servergetter
 readpath and actuallinkedShard/mitigation/strongdispelliveness remainownerpending.
 
 2026-10-04 Anti-Mage native-first pre-mutation decisions: preserve authored Q flat40..150 +AGI.4..9 as a real-hero PvE attack bonus alongside restored native mana burn; retire custom radial cleave. Native mana-derived damage is additional where mana exists, an explicit numerical change rather than claimed parity. E restores targeted block/reflect and retires copied active60..100 resistance, retaining passive20..50/duration/cost curves. R retires per-Boss cap/no-stun logic; native mechanics plus authored PvE flat/AGI component are preferred, but extension sequencing must preserve block/reflect before implementation. This remaining issue is technical evidence, not a new owner approval requirement. Keep Q/W Scepter and E Shard current; no deprecated facets or unassigned legacy buttons. [Evidence and matrix](audit/ANTIMAGE_NATIVE_FIRST_REVIEW_2026-10-04.md). No production ability changed in this discovery unit.
+
+Anti-Mage R technical gate (2026-10-04): installed native exposes only
+missing-mana coefficient/control/radius, no verified flat damage input.
+Keep owner-authored flat100..650+AGI.4..1.5 at zero missing/maxmana while
+preserving one native block/reflection flow; reject guessed AbilityDamage,
+division by zero and duplicate absorb/native casts. Source corrections
+remove Boss cap/exemption and restore primary-only control/immunity/AoE;
+R full native migration remains unresolved pending construction evidence.
+D source work remains available. This is not a new product approval request.

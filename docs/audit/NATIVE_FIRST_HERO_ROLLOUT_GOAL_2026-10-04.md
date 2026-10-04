@@ -195,3 +195,10 @@ Anti-Mage E source unit: native Counterspell self block/reflect/Shard
 metadata, authored ten-rank defense/duration/costs; retired broad active
 resistance. Generic Carry Shard suppressed only for owned Anti-Mage kit.
 123 affected checks/317 mocks PASS; all engine gates owner-pending. R/D remain.
+
+Anti-Mage R focused correction: remove Boss cap/exemption, primary-only
+control/status resistance, native AoE/immunity metadata/ordinary UnitFilter,
+Q/W Scepter ownership replaces generic R amp/CDR; retire D generic Shard
+claim (E owns it).125 affected/317 mocks PASS. R native flat-at-zero/block/
+reflect composition remains technical SOURCE_PENDING, all engine gates
+owner-pending. D source action remains; no hero completion/advance yet.

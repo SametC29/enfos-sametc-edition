@@ -122,8 +122,9 @@ test('every hero exposes correct ultimate/evolution contracts and migrated Enfos
     assert.equal(abilities[h.Ability5].Innate,undefined,id+': Enfos passive must not be marked as Dota innate');
     assert.ok(abilities[h.Ability5].AbilityBehavior?.includes('DOTA_ABILITY_BEHAVIOR_PASSIVE'),id+': fifth Enfos ability must be passive');
     assert.equal(abilities[h.Ability4].AbilityType,'DOTA_ABILITY_TYPE_ULTIMATE',id);
-    const scepterAbility=id==='npc_dota_hero_slark'?h.Ability2:id==='npc_dota_hero_tidehunter'?h.Ability1:['npc_dota_hero_lich','npc_dota_hero_vengefulspirit','npc_dota_hero_bristleback'].includes(id)?h.Ability3:h.Ability4;
+    const scepterAbility=['npc_dota_hero_slark','npc_dota_hero_antimage'].includes(id)?h.Ability2:id==='npc_dota_hero_tidehunter'?h.Ability1:['npc_dota_hero_lich','npc_dota_hero_vengefulspirit','npc_dota_hero_bristleback'].includes(id)?h.Ability3:h.Ability4;
     assert.equal(abilities[scepterAbility].HasScepterUpgrade,'1',id);
+    if(id==='npc_dota_hero_antimage'){assert.equal(abilities[h.Ability1].HasScepterUpgrade,'1');assert.equal(abilities[h.Ability4].HasScepterUpgrade,undefined);assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined);}
     if(id==='npc_dota_hero_tidehunter') assert.equal(abilities[h.Ability4].HasScepterUpgrade,undefined,'Ravage must not advertise the removed generic Scepter');
     if(id==='npc_dota_hero_lich') assert.equal(abilities[h.Ability4].HasScepterUpgrade,undefined,'Chain Frost must not advertise the replaced generic Scepter');
     if(id==='npc_dota_hero_vengefulspirit'){
@@ -132,7 +133,7 @@ test('every hero exposes correct ultimate/evolution contracts and migrated Enfos
       assert.equal(abilities[h.Ability6].BaseClass,'vengefulspirit_command_aura');
       assert.equal(abilities[h.Ability6].AbilityValues.bonus_base_damage,'0','Native lifecycle bridge must not stack a second damage aura');
     }
-    const shardAbility=['npc_dota_hero_jakiro','npc_dota_hero_lion'].includes(id)?h.Ability3:['npc_dota_hero_vengefulspirit','npc_dota_hero_nevermore'].includes(id)?h.Ability1:id==='npc_dota_hero_lich'?h.Ability6:['npc_dota_hero_shadow_shaman','npc_dota_hero_tidehunter','npc_dota_hero_luna'].includes(id)?h.Ability2:h.Ability5;
+    const shardAbility=['npc_dota_hero_jakiro','npc_dota_hero_lion','npc_dota_hero_antimage'].includes(id)?h.Ability3:['npc_dota_hero_vengefulspirit','npc_dota_hero_nevermore'].includes(id)?h.Ability1:id==='npc_dota_hero_lich'?h.Ability6:['npc_dota_hero_shadow_shaman','npc_dota_hero_tidehunter','npc_dota_hero_luna'].includes(id)?h.Ability2:h.Ability5;
     assert.equal(abilities[shardAbility].HasShardUpgrade,'1',id);
     if(id==='npc_dota_hero_vengefulspirit'){
       assert.equal(abilities[h.Ability5].HasShardUpgrade,undefined,'Retribution must not advertise unrelated healing');

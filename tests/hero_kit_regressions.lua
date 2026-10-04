@@ -5273,7 +5273,14 @@ test('Ursa Enfos passive honors configured values and Break', function()
     assert(passive:GetModifierMoveSpeedBonus_Constant() == 0)
 end)
 
-test('Anti-Mage Mana Void uses missing mana, magical damage and a per-boss health cap', function()
+test('Anti-Mage Mana Void preserves PvE damage and applies ordinary eligibility with primary-only control', function()
+    local oldFilter,oldSuccess=UnitFilter,UF_SUCCESS
+    UF_SUCCESS=0
+    local invalid=false
+    UnitFilter=function(unit,team,types,flags,ownerTeam)
+        assert(flags==DOTA_UNIT_TARGET_FLAG_NONE and ownerTeam==2)
+        return invalid and 1 or UF_SUCCESS
+    end
     applied_damages = {}
     local am = create_mock_unit('npc_dota_hero_antimage', 2, Vector(0, 0, 0))
     am.agility = 100
@@ -5288,18 +5295,35 @@ test('Anti-Mage Mana Void uses missing mana, magical damage and a per-boss healt
     ab.GetCursorTarget = function() return target end
     ab.GetSpecialValueFor = function(_, k)
         return ({ radius = 500, base_damage = 100, damage_per_missing_mana = 0.5,
-            agility_factor = 1, boss_damage_cap_pct = 5, stun_duration = 1.2 })[k] or 0
+            agility_factor = 1, stun_duration = 1.2 })[k] or 0
     end
     ab:OnSpellStart()
-    assert(last_find_units_flags == DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-        'Mana Void AoE search must include spell-immune enemies to match its piercing KV')
+    assert(ab:GetAOERadius()==500)
+    assert(last_find_units_flags == DOTA_UNIT_TARGET_FLAG_NONE,
+        'Mana Void must use ordinary native immunity eligibility')
     -- 100 base + 800 missing mana x .5 + 100 Agility = 600.
     assert(#applied_damages == 2)
     assert(applied_damages[1].victim == target and applied_damages[1].damage == 600)
     assert(applied_damages[1].damage_type == DAMAGE_TYPE_MAGICAL)
-    assert(applied_damages[2].victim == boss and applied_damages[2].damage == 500)
+    assert(applied_damages[2].victim == boss and applied_damages[2].damage == 600)
     assert(boss:FindModifierByName('modifier_enfos_am_mana_void_stun') == nil)
     assert(target:FindModifierByName('modifier_enfos_am_mana_void_stun').params.duration == 1.2)
+    -- A Boss primary uses the same control and damage rules, with native status resistance.
+    boss.status_res=.25
+    ab.GetCursorTarget=function()return boss end
+    ab:OnSpellStart()
+    assert(boss:FindModifierByName('modifier_enfos_am_mana_void_stun').params.duration==1.2*.75)
+    local before=#applied_damages
+    boss.TriggerSpellAbsorb=function()return true end;ab:OnSpellStart();assert(#applied_damages==before)
+    boss.TriggerSpellAbsorb=function()error('Invalid target must not consume block')end
+    invalid=true;ab:OnSpellStart();assert(#applied_damages==before)
+    invalid=false;boss.TriggerSpellAbsorb=function()return false end
+    -- Full/zero max mana keeps the authored flat+Agility component.
+    boss.mana=0;boss.max_mana=0;ab:OnSpellStart()
+    assert(applied_damages[#applied_damages].damage==200)
+    local oldServer=IsServer;IsServer=function()return false end
+    ab.GetCaster=function()error('Client must not query live caster')end;ab:OnSpellStart()
+    IsServer=oldServer;UnitFilter,UF_SUCCESS=oldFilter,oldSuccess
 end)
 
 test('Anti-Mage Spellbreaker rank stats honor Break', function()

@@ -440,5 +440,32 @@
       "Ten native ranks/passive Break/illusions/points/HUD",
       "cold VFX/SFX/respawn/reconnect"
     ]
+  },
+  "rResearch": {
+    "date": "2026-10-04",
+    "verifiedBuild": "6943/rev11069754",
+    "sourceCorrections": [
+      "Native target/AoE/immunity metadata with server UnitFilter",
+      "Primary-only control with status resistance; no Boss cap/exemption",
+      "Scepter owned by Q/W, not generic ultimate amp/CDR; E owns Shard not D"
+    ],
+    "constructionStatus": "NATIVE_EXTENSION_UNRESOLVED: flat at zero missing/max mana plus one native spell-block/reflection flow needs engine evidence",
+    "rejectedUnprovedPaths": [
+      "AbilityDamage header read by native R",
+      "Divide PvE flat by missing mana when missing mana is zero",
+      "OnAbilityExecuted proves successful unblocked native cast",
+      "Controller absorb then native OnSpellStart with no duplicate absorb/reflection"
+    ],
+    "api": {
+      "SetCursorCastTarget": "SERVER",
+      "OnSpellStart": "SERVER",
+      "UnitFilter": "BOTH"
+    },
+    "reference": {
+      "id": "2880603428",
+      "path": "scripts/vscripts/heroes/npc_dota_hero_antimage_custom/antimage_mana_void_custom.lua",
+      "status": "REFERENCE_ONLY; no imports; pure custom missing-mana-only damage"
+    },
+    "runtime": "PENDING OWNER TEST"
   }
 }

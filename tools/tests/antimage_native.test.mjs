@@ -7,6 +7,14 @@ import {isVerifiedNativeAbility} from '../lib/native_hero_abilities.mjs';
 const all=parseKV(fs.readFileSync('game/scripts/npc/npc_abilities_custom.txt','utf8')).DOTAAbilities;
 const q=all.enfos_am_mana_break;
 const native=JSON.parse(fs.readFileSync('docs/audit/ANTIMAGE_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.antimage_mana_break;
+test('Mana Void focused corrections match installed targeting and immunity without falsely declaring native ownership',()=>{
+ const r=all.enfos_am_mana_void,source=JSON.parse(fs.readFileSync('docs/audit/ANTIMAGE_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.antimage_mana_void;
+ for(const key of ['AbilityBehavior','SpellImmunityType','AbilityUnitTargetTeam','AbilityUnitTargetType','AbilityUnitDamageType','AbilityCastRange','AbilityCastAnimation'])assert.equal(r[key],source[key],key);
+ assert.equal(r.HasScepterUpgrade,undefined);assert.equal(r.AbilityValues.boss_damage_cap_pct,undefined);
+ assert.equal(r.BaseClass,'ability_lua');assert.equal(isVerifiedNativeAbility('enfos_am_mana_void',r),false,'Native flat extension construction remains unresolved');
+ assert.equal(r.AbilityValues.base_damage,'100 150 200 250 300 350 420 490 560 650');assert.equal(r.AbilityValues.agility_factor,'0.4 0.5 0.6 0.7 0.8 0.9 1 1.15 1.3 1.5');
+ for(const lang of ['english','turkish','russian','schinese']){const t=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens,p='DOTA_Tooltip_Ability_enfos_am_mana_void';assert.doesNotMatch(t[p+'_Description'],/boss_damage_cap_pct/);assert.ok(t[p+'_Description'].includes('{{stun_duration}}'));assert.equal(t[p+'_scepter_description'],undefined);}
+});
 test('Counterspell delegates installed reflection, Shard, dispel, illusion and animation metadata',()=>{
  const e=all.enfos_am_counterspell,source=JSON.parse(fs.readFileSync('docs/audit/ANTIMAGE_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.antimage_counterspell;
  assert.ok(isVerifiedNativeAbility('enfos_am_counterspell',e));assert.equal(all.antimage_counterspell,undefined);
@@ -75,6 +83,20 @@ c.FindModifierByName=function(_,name)if name=='fixture_mana_break' then return i
 local integration=require('abilities/heroes/antimage/integration')
 `;
 function lua(body){const r=spawnSync(process.execPath,['node_modules/fengari-node-cli/src/lua-cli.js','-'],{encoding:'utf8',input:setup+body});assert.equal(r.status,0,r.stderr);assert.equal(r.stderr,'');}
+test('Native Q/Blink Scepter ownership suppresses generic ultimate amplification and cooldown only for the owned Anti-Mage kit',()=>lua(`
+function LinkLuaModifier()end
+package.loaded['abilities/heroes/luna/integration']={UsesNativeScepter=function()return false end}
+package.loaded['abilities/heroes/nevermore/ownership']={IsEnfos=function()return false end}
+require('heroes/aghanim_manager')
+local w={IsNull=function()return false end};local hero={GetUnitName=function()return 'npc_dota_hero_antimage'end,FindAbilityByName=function(_,name)assert(name=='enfos_am_blink');return w end}
+local owner=require('abilities/heroes/antimage/ownership');assert(owner.UsesNativeScepter(hero));server=false;assert(owner.UsesNativeScepter(hero))
+assert(not owner.UsesNativeScepter(nil));assert(not owner.UsesNativeScepter({}));w.IsNull=function()return true end;assert(not owner.UsesNativeScepter(hero));w.IsNull=function()return false end
+local m=setmetatable({GetParent=function()return hero end},{__index=modifier_enfos_scepter_upgrade})
+assert(m:IsHidden());assert(m:GetModifierSpellAmplify_Percentage({})==0);assert(m:GetModifierPercentageCooldown({})==0)
+hero.GetUnitName=function()return 'npc_dota_hero_faceless_void'end;assert(not owner.UsesNativeScepter(hero))
+DOTA_ABILITY_TYPE_ULTIMATE=1;local r={GetAbilityType=function()return DOTA_ABILITY_TYPE_ULTIMATE end}
+assert(m:GetModifierSpellAmplify_Percentage({inflictor=r})==40);assert(m:GetModifierPercentageCooldown({ability=r})==25)
+`));
 test('Native Shard ownership is client-safe and rejects missing, null and foreign kits',()=>lua(`
 server=false;local ownership=require('abilities/heroes/antimage/ownership')
 local e={IsNull=function()return false end}

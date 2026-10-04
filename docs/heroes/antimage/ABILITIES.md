@@ -12,7 +12,7 @@ Hero: `npc_dota_hero_antimage`; role: Carry. Progression target: hero level 50 /
 | 1 | `enfos_am_mana_break` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/antimage/q | antimage_mana_break |
 | 2 | `enfos_am_blink` | 10 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES \| DOTA_ABILITY_BEHAVIOR_OVERSHOOT | NOT_EXPLICIT | antimage_blink |
 | 3 | `enfos_am_counterspell` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE | NOT_EXPLICIT | antimage_counterspell |
-| 4 | `enfos_am_mana_void` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | antimage_mana_void |
+| 4 | `enfos_am_mana_void` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET \| DOTA_ABILITY_BEHAVIOR_AOE | abilities/pve_kits | antimage_mana_void |
 | 5 | `enfos_am_spellbreaker` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | antimage_mana_overload |
 
 Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/antimage/q](../../../game/scripts/vscripts/abilities/heroes/antimage/q.lua), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
@@ -213,11 +213,11 @@ Change/test record (2026-09-30): mock verifies passive/active rank values, durat
 
 Classification: PVE-CONVERT
 Native counterpart: `antimage_mana_void` (native Ability6).
-Decision and PvE identity rationale: restore native missing-mana burst, adapt it to area PvE impact, and cap boss burst so large boss mana pools cannot produce runaway damage.
-Expected cast/travel/impact/ongoing/cleanup behavior: blockable enemy target; compute base + missing-mana coefficient + Agility scaling; play target impact and apply magical AoE, normal-creep stun and per-boss health cap.
-Normal creep / elite / boss, immunity / dispel / resistance rules: spell block honored; status-resistance-scaled stun excludes bosses; boss damage is capped by max-health percentage. Spell-immunity behavior still needs engine verification.
+Decision and PvE identity rationale: restore native missing-mana burst, adapt it to area PvE impact, and retain a small flat/Agility PvE component against manasless waves; native composition still unresolved.
+Expected cast/travel/impact/ongoing/cleanup behavior: blockable enemy target; compute base + missing-mana coefficient + Agility scaling; play target impact and apply magical AoE with primary-only status-resistance-scaled stun; no Boss exception.
+Normal creep / elite / boss, immunity / dispel / resistance rules: spell block checked after ordinary UnitFilter; only main target is stunned including Boss targets. Native immunity metadata restored; actual engine eligibility and reflection still pending.
 Current versus target rank curve; free rank / point cost: Mana Void slot 4 ranks 1–10 are gated at hero levels 5, 10, …, 50, one rank every five levels; engine ultimate HUD/point behavior remains PENDING.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: Scepter flag retained; actual upgrade hook remains to be tested.
+Shard / Scepter / Blessing / Evolution / Ascended interactions: native Q/W Scepter replaces generic ultimate40%amp/25%CDR. R advertises no Scepter upgrade.
 
 ### Resource and implementation evidence
 
@@ -235,7 +235,7 @@ Shard / Scepter / Blessing / Evolution / Ascended interactions: Scepter flag ret
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
 | Gameplay | PENDING | Not evaluated in this dossier setup. |
-| Targeting | PENDING | KV permits enemy spell-immune targets; Lua radius query now explicitly includes them and a regression checks the query flag. Actual Dota immunity, damage and control behavior remains PENDING. |
+| Targeting | PENDING | KV matches native SPELL_IMMUNITY_ENEMIES_NO and AoE, with ordinary server UnitFilter/query flags. Actual Dota immunity, damage and control behavior remains PENDING. |
 | Ranks | PENDING | Static gates put rank 10 by level 50; owner live test must confirm engine points and ability HUD. |
 | VFX | PENDING | Not evaluated in this dossier setup. |
 | SFX | PENDING | Not evaluated in this dossier setup. |
@@ -260,7 +260,7 @@ Decision and PvE identity rationale: rank-scaled attack/movement speed supports 
 Expected cast/travel/impact/ongoing/cleanup behavior: intrinsic modifier supplies attack and movement speed; no cast, particle or timer.
 Normal creep / elite / boss, immunity / dispel / resistance rules: self-only; Break disables both bonuses.
 Current versus target rank curve; free rank / point cost: Enfos passive rank 1 is granted separately; Spellbreaker ranks 2–10 are gated at hero levels 2–10. Engine passive grant, points and HUD behavior remain PENDING.
-Shard / Scepter / Blessing / Evolution / Ascended interactions: shard flag retained; effect needs separate runtime review.
+Shard / Scepter / Blessing / Evolution / Ascended interactions: obsolete generic D Shard flag/tooltip retired; E owns native Shard. D stats remain unchanged pending separate migration.
 
 ### Resource and implementation evidence
 
@@ -342,3 +342,20 @@ reflection/Shard/Break/ten-rank/lifecycle gates PENDING OWNER TEST.
 WORLD OF DOTA reference not imported; associated-primary query SERVER only.
 No extra ally/legacy provider, innate/facet guess or gameplay timer.
 See audit/ANTIMAGE_NATIVE_FIRST_REVIEW_2026-10-04.md for E decision/retest.
+
+## R focused source corrections (2026-10-04; native construction pending)
+
+Current build6943/rev11069754 snapshot rResearch records native unit+AoE
+and immunity metadata, server-only cast guard/ordinary UnitFilter,
+primary-only status-resistance-scaled stun with no Boss cap/exemption.
+Authored ten-rank flat/AGI/missing-mana/radius/costs kept. Native Q/W
+Scepter suppresses generic ultimate40%amp/25%CDR for owned Anti-Mage
+only; R no Scepter flag/tooltip, D no generic Shard flag/tooltip; E owns
+Shard. No duplicate native R provider or native/custom casts introduced.
+125 affected checks/317 mock regressions PASS, source only. R remains Lua
+in pve_kits; NATIVE_EXTENSION_UNRESOLVED for flat damage at zero missing/
+maxmana plus native block/reflection. Not native-migration completion.
+Zero/fullmana, primary Boss/secondary control, blocked/reflected/immune
+spell casts, targeting circle, upgrades, cleanup/VFX/SFX and lifecycle
+remain PENDING OWNER TEST. D source work can proceed while R gate stays
+open; no next-hero closure from these checks.

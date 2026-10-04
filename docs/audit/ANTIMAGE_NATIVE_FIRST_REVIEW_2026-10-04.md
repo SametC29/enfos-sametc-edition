@@ -233,3 +233,49 @@ Break/passive MR/ten ranks/HUD/points/cold VFX/SFX/respawn/reconnect/VConsole.
 Source unit E only; generic Scepter review and R extension unresolved next.
 
 Full source checks:0 failed check(s). Engine verification remains pending.
+
+## R focused corrections before native construction
+
+Fresh installed build6943/rev11069754 hero hash unchanged. Native R
+UNIT_TARGET|AOE, SPELL_IMMUNITY_ENEMIES_NO, magical,600range/.3castpoint;
+ministun main target only; no HasScepterUpgrade or Boss exception. Current
+custom R contradicts all three, and generic Scepter incorrectly boosts R
+although installed upgrade belongs to Q/W. Correct these independent source
+defects now: ordinary flags/UnitFilter validation and AoE targeting radius,
+remove Boss cap/non-stun branch, one primary status-resistance-scaled stun,
+suppress generic40%amp/25%CD only owned Anti-Mage W kit; remove obsolete
+R Scepter claim/flag. Preserve flat/AGI/missingmana/rank/cost curves.
+This is NOT native R migration completion. Installed R only exposes mana
+coefficient/ministun/radius, not confirmed flat damage input. Neither extra
+AbilityDamage header nor zero-native-damage outgoing property establishes
+flat100..650+AGI.4..1.5 at full/zero maxmana. Executed-cast events do not
+prove spell-block success; custom first absorb plus native OnSpellStart
+may duplicate checks/reflection. Reject these unproved composition shortcuts.
+Native controller pattern SF is untargeted and cannot prove R block path.
+SetCursorCastTarget and OnSpellStart APIs SERVER reverified; UnitFilter
+BOTH. WORLD OF DOTA2880603428 mana_void_custom.lua re-read: custom
+primary stun then missing-mana-only AoE, no current native flat-extension
+example. REFERENCE_ONLY/no import; license/version not established.
+ModDota current ability-keyvalues re-read: exposed variables only, locked
+C++ composition; engine-only zero-damage/absorbed/reflected cases remain
+a technical open gate. No native grant/cast, no temporary enemy mana,
+new global filter/manager, or duplicate damage introduced to evade this gate.
+
+Upgrade metadata follow-through: retire D HasShardUpgrade and its generic
+Carry tooltip; current native E owns Shard. D gameplay unchanged in this
+unit, awaiting separate Persecutor/paid stats migration. Shared contracts
+now check Anti-Mage Q/W Scepter and E Shard instead of generic R/D flags.
+
+R focused validation:125 affected checks/317 mocks PASS. Existing R mock
+now covers ordinary filter/invalid and absorbed casts/client guard, normal
+and Boss primary/secondary distinction/status resistance, uncapped shared
+formula and zero maxmana flat+AGI. Two focused contracts compare actual
+native metadata/retained authored values and selectively suppress generic
+Scepter for owned Q/W kit without changing other Carry ultimate outputs.
+All observed outputs are mocks/source. R stays SOURCE_PENDING for native
+composition, D source pending; do not mark kit complete or move hero yet.
+
+Full checks initially exposed a missing UnitFilter mock API in the all200
+dispatch fixture, not a missing installed API. Added signature/team smoke
+fixture without claiming engine immunity acceptance; focused dispatch PASS,
+full source checks then0failures. R native composition remains unresolved.

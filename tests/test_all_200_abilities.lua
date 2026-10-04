@@ -27,6 +27,14 @@ end
 DOTA_UNIT_CAP_MELEE_ATTACK=1
 DOTA_UNIT_CAP_RANGED_ATTACK=2
 function IsServer() return true end
+-- API dispatch smoke only; engine immunity/visibility eligibility is owner-tested.
+UF_SUCCESS = 0
+function UnitFilter(unit, teamFilter, typeFilter, flagFilter, team)
+    assert(unit and type(teamFilter)=='number' and type(typeFilter)=='number'
+        and type(flagFilter)=='number' and type(team)=='number')
+    if teamFilter==DOTA_UNIT_TARGET_TEAM_ENEMY and unit:GetTeamNumber()==team then return 1 end
+    return UF_SUCCESS
+end
 function EmitGlobalSound() end
 function EmitSoundOn() end
 function EmitSoundOnLocationWithCaster() end

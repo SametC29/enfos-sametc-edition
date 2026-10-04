@@ -531,8 +531,6 @@
     "DOTA_Tooltip_Ability_enfos_troll_rampage_shard_description": "+35 attack speed. Attacks slow movement by 25% and attack speed by 25 for 3s.",
     "DOTA_Tooltip_Ability_enfos_ck_phantasm_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
     "DOTA_Tooltip_Ability_enfos_ck_entropy_shard_description": "+35 attack speed. Attacks slow movement by 25% and attack speed by 25 for 3s.",
-    "DOTA_Tooltip_Ability_enfos_am_mana_void_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
-    "DOTA_Tooltip_Ability_enfos_am_spellbreaker_shard_description": "+15% movement speed. Attacks deal 12% additional pure damage.",
     "DOTA_Tooltip_Ability_enfos_void_chronosphere_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
     "DOTA_Tooltip_Ability_enfos_void_backtrack_shard_description": "+15% movement speed. Attacks deal 12% additional pure damage.",
     "DOTA_Tooltip_Ability_enfos_medusa_stone_gaze_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
@@ -1527,6 +1525,10 @@
     "DOTA_Tooltip_ability_enfos_am_counterspell": "Counterspell",
     "DOTA_Tooltip_ability_enfos_am_counterspell_Description": "Passively grants {{magic_resistance}}% magic resistance. Activate a shell for {{duration}} seconds to block and reflect targeted spells. Break disables passive resistance.",
     "DOTA_Tooltip_ability_enfos_am_counterspell_SummaryDescription": "Passively grants {{magic_resistance}}% magic resistance. Activate a shell for {{duration}} seconds to block and reflect targeted spells. Break disables passive resistance.",
-    "DOTA_Tooltip_ability_enfos_am_counterspell_shard_description": "Reflecting a unit-targeted spell creates a blinked fragment beside its caster for {{duration_illusion}} seconds."
+    "DOTA_Tooltip_ability_enfos_am_counterspell_shard_description": "Reflecting a unit-targeted spell creates a blinked fragment beside its caster for {{duration_illusion}} seconds.",
+    "DOTA_Tooltip_Ability_enfos_am_mana_void_Description": "Deals {{base_damage}} + missing mana × {{damage_per_missing_mana}} + Agility × {{agility_factor}} magical damage around the target in a {{radius}} radius. Only the main target is stunned for {{stun_duration}} seconds, reduced by status resistance. Does not pierce debuff immunity.",
+    "DOTA_Tooltip_Ability_enfos_am_mana_void_SummaryDescription": "Deals {{base_damage}} + missing mana × {{damage_per_missing_mana}} + Agility × {{agility_factor}} magical damage around the target in a {{radius}} radius. Only the main target is stunned for {{stun_duration}} seconds, reduced by status resistance. Does not pierce debuff immunity.",
+    "DOTA_Tooltip_ability_enfos_am_mana_void_Description": "Deals {{base_damage}} + missing mana × {{damage_per_missing_mana}} + Agility × {{agility_factor}} magical damage around the target in a {{radius}} radius. Only the main target is stunned for {{stun_duration}} seconds, reduced by status resistance. Does not pierce debuff immunity.",
+    "DOTA_Tooltip_ability_enfos_am_mana_void_SummaryDescription": "Deals {{base_damage}} + missing mana × {{damage_per_missing_mana}} + Agility × {{agility_factor}} magical damage around the target in a {{radius}} radius. Only the main target is stunned for {{stun_duration}} seconds, reduced by status resistance. Does not pierce debuff immunity."
   }
 }
