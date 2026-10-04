@@ -12,7 +12,7 @@ Hero: `npc_dota_hero_ursa`; role: Fighter. Progression target: hero level 50 / a
 | 1 | `enfos_ursa_earthshock` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | ursa_earthshock |
 | 2 | `enfos_ursa_overpower` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | ursa_overpower |
 | 3 | `enfos_ursa_fury_swipes` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | ursa_fury_swipes |
-| 4 | `enfos_ursa_enrage` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | abilities/pve_kits | ursa_enrage |
+| 4 | `enfos_ursa_enrage` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET \| DOTA_ABILITY_BEHAVIOR_IMMEDIATE | NOT_EXPLICIT | ursa_enrage |
 | 5 | `enfos_ursa_ursa_minor` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | ursa_fury_swipes |
 
 Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [Lua](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
@@ -194,8 +194,8 @@ Change/test record: PENDING. Record exact build, date, reproduction steps, resul
 
 Classification: TUNE
 Native counterpart: ursa_enrage (installed native Ability6; same source snapshot).
-Decision and PvE identity rationale: Keep the recognizable self-buff and purge while making ten-rank mitigation, duration and status resistance explicit and KV-driven.
-Expected cast/travel/impact/ongoing/cleanup behavior: Cast sound, purge, and attached Enrage buff; incoming damage reduction and status resistance read current rank values and end with the modifier.
+Decision and PvE identity rationale: Native Enrage with authored ten-rank tuning preserves self-defense and strong dispel; native Scepter owns disabled casting and explicit30..18 cooldown.
+Expected cast/travel/impact/ongoing/cleanup behavior: Native Enrage owns cast, strong dispel, buff, reduction/status resistance and expiry. No Lua purge/buff replica remains.
 Normal/elite/boss: enemies only; Fury Swipes has a separate boss stack cap, Earthshock has a boss slow cap. Engine immunity, dispel and resistance interactions remain to be confirmed in Dota.
 Current versus target rank curve; free rank / point cost: 10 ranks in KV; duration 4.5→8s, reduction 60→90%, status resistance 20→60%. The shared level-50 XP/point curve is implemented; engine point/HUD behavior remains pending owner verification.
 Shard / Scepter / Blessing / Evolution / Ascended interactions: PENDING engine review; no upgrade handler was changed in this pass.
@@ -286,3 +286,22 @@ matching the Lua passive checks; Ursa Minor's move-speed bonus also suppresses
 on illusions. Mock regressions cover caster-separated stacks, the physical
 cleave target flag and the existing Break behavior. Actual Dota verification of
 these interactions remains pending.
+
+2026-10-04 native-first discovery supersedes the earlier blanket PvE-conversion
+assumption for future work. Fresh build6943/revision11069754 hero hash unchanged;
+[full native snapshot](../../audit/URSA_NATIVE_SOURCE_2026-10-04.json) and
+[pre-mutation matrix](../../audit/URSA_NATIVE_FIRST_REVIEW_2026-10-04.md) distinguish
+source decisions from engine acceptance. Native Q hop/magical damage, W miss
+consumption/slow resistance, E Break retaining existing stacks, R native
+strong dispel/disabled Scepter and rank1 currentHP Maul need restoration.
+Allfive primary classifications are TUNE. Existing production remains Lua at
+this discovery boundary; no Dota/VConsole acceptance inferred from resources.
+
+2026-10-04 R source migration: native alias `enfos_ursa_enrage` -> `ursa_enrage`
+retains authored10 ranks/gates/mitigation/status resistance/duration/costs.
+Explicit installed instant cast/immunity/dispel/animation/sound metadata;
+Scepter cooldown30..18 overtenranks, no generic ultimateamp/CDR double bonus
+for this ownedkit. No Lua class, purge, copiedbuff or emptywrapper. Fourlocales
+and12mirrors updated. 4native source/ownership/localization tests pass; actual
+Scepter disabledcasting/strongdispel/mitigation/ranks/lifecycle/VFX/SFX remain
+PENDING OWNER TEST. Q/W/E/D stay currentLua until subsequent source units.

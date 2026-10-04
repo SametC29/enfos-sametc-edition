@@ -522,3 +522,13 @@ second block getter or creep hero-kill duplication. Break suspends wave bonuses
 without deleting loads; death/rank/reconnect use current values. Old flat armor
 and enemy aura are retired. Initial native free fish/points/UI and stats/cleanup
 are owner pending. Native assets are file-verified only; no engine acceptance.
+
+## Ursa native-first R tuning, 2026-10-04
+
+Native Enrage preserves authored ten-rank mitigation60..90/status resistance
+20..60/duration4.5..8/ordinaryCD50..30. Scepter native disabled casting and
+30..18 seconds interpolated overtenranks replace the generic ultimateamp/CDR
+only for owned EnfosUrsa. This is explicit tuning, not ten-rank C++ acceptance.
+Q physical->native magical hop, E native stack/Break/Shard links, W native
+charges/heal extension and Maul+D separation remain documented decisions
+with source implementation pending. No shared Boss/wave changes.

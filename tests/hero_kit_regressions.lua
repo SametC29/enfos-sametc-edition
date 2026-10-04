@@ -5342,17 +5342,8 @@ test('Ursa Overpower reads attack count and only consumes on enemy attacks', fun
     assert(buff:GetStackCount() == 6 and ursa.hp == 200) -- already at full health
 end)
 
-test('Ursa Enrage and Enfos passive honor configured values and Break', function()
+test('Ursa Enfos passive honors configured values and Break', function()
     local ursa = create_mock_unit('npc_dota_hero_ursa', 2, Vector(0, 0, 0))
-    local enrage = enfos_ursa_enrage()
-    enrage.GetCaster = function() return ursa end
-    enrage.GetSpecialValueFor = function(_, key) return ({ duration=7, damage_reduction=86, status_resistance=54 })[key] or 0 end
-    enrage:OnSpellStart()
-    local buff = ursa:FindModifierByName('modifier_enfos_ursa_enrage_buff')
-    assert(buff and buff.params.duration == 7)
-    assert(buff:GetModifierIncomingDamage_Percentage() == -86)
-    assert(buff:GetModifierStatusResistanceStacking() == 54)
-
     local passive = modifier_enfos_ursa_minor_passive()
     passive.GetParent = function() return ursa end
     local passiveAbility = enfos_ursa_ursa_minor()

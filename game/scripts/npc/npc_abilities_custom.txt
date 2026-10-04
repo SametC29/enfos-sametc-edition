@@ -4123,23 +4123,40 @@
 	{
 		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
 		"HasScepterUpgrade" "1"
-		"BaseClass"					"ability_lua"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"		"ursa_enrage"
-		"AbilityCastAnimation"	"ACT_DOTA_OVERRIDE_ABILITY_4"
-		"RequiredLevel"	"5"
-		"LevelsBetweenUpgrades"	"5"
-		"AbilityCastPoint"			"0.0"
-		"AbilityCooldown"			"50 47.8 45.6 43.3 41.1 38.9 36.7 34.4 32.2 30"
-		"AbilityManaCost"			"0"
-		"MaxLevel"					"10"
+		"BaseClass" "ursa_enrage"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_YES"
+		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
+		"FightRecapLevel" "1"
+		"AbilitySound" "Hero_Ursa.Enrage"
+		"AbilityTextureName" "ursa_enrage"
+		"AbilityCastAnimation" "ACT_DOTA_OVERRIDE_ABILITY_4"
+		"AbilityCastGestureSlot" "DEFAULT"
+		"AbilityCastRange" "0"
+		"RequiredLevel" "5"
+		"LevelsBetweenUpgrades" "5"
+		"AbilityCastPoint" "0"
+		"AbilityCooldown" "50 47.8 45.6 43.3 41.1 38.9 36.7 34.4 32.2 30"
+		"AbilityManaCost" "0"
+		"MaxLevel" "10"
 		"AbilityValues"
 		{
+			"AbilityCooldown"
+			{
+				"value" "50 47.8 45.6 43.3 41.1 38.9 36.7 34.4 32.2 30"
+				"special_bonus_scepter" "=30 =28.7 =27.3 =26 =24.7 =23.3 =22 =20.7 =19.3 =18"
+			}
 			"duration" "4.5 4.8 5.1 5.4 5.7 6 6.4 6.8 7.4 8"
 			"damage_reduction" "60 63 66 69 72 75 78 82 86 90"
 			"status_resistance" "20 24 28 32 36 40 44 48 54 60"
+			"aoe_radius"
+			{
+				"value" "0"
+				"affected_by_aoe_increase" "1"
+			}
+			"damage_increase" "0"
+			"damage_increase_duration" "0"
 		}
-		"ScriptFile"				"abilities/pve_kits"
 	}
 
 	"enfos_ursa_ursa_minor"

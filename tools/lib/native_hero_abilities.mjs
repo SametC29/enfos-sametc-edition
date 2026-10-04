@@ -4,6 +4,7 @@
 // BB source: docs/audit/BRISTLEBACK_NATIVE_SOURCE_2026-10-04.json (build 6943).
 // Slark source: docs/audit/SLARK_NATIVE_SOURCE_2026-10-04.json (build 6943).
 // Tidehunter source: docs/audit/TIDEHUNTER_NATIVE_SOURCE_2026-10-04.json (build 6943).
+// Ursa source: docs/audit/URSA_NATIVE_SOURCE_2026-10-04.json (build 6943).
 export const nativeHeroAbilities = new Map([
   ['enfos_luna_moon_glaives', 'luna_moon_glaive'],
   ['enfos_luna_lunar_orbit', 'luna_lunar_orbit'],
@@ -20,6 +21,7 @@ export const nativeHeroAbilities = new Map([
   ['enfos_tide_kraken_shell', 'tidehunter_kraken_shell'],
   ['enfos_tide_anchor_smash', 'tidehunter_anchor_smash'],
   ['enfos_tide_ravage', 'tidehunter_ravage'],
+  ['enfos_ursa_enrage', 'ursa_enrage'],
 ]);
 
 export function isVerifiedNativeAbility(id, definition) {

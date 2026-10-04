@@ -124,3 +124,11 @@ failures,119 affected checks and324 hero mock regressions. All five Tidehunter
 slots are source-implemented; native fish initialization, rank/HUD/points, actual
 damage/lifecycle/presentation remain OWNER_RUNTIME PENDING. Next source hero:
 Ursa; do not wait for live acceptance or certify it from mocks.
+
+2026-10-04 Ursa discovery/R source progression: fresh installedbuild6943
+snapshot and five-slot TUNE matrix recorded. Native Enrage replaces copied
+purge/buff, retains ten-rank authored defense and explicit native Scepter
+disabledcasting/CD30..18 with scoped genericbonus suppression. Allfourlocales
+and12mirrors agree. 4focusedtests and fullsourcechecks pass (324 hero mocks).
+Engine acceptance remains pending. Q/W/E/D source work remains; next inspect
+FurySwipes E native linkedprovider/QShard before Earthshock migration.

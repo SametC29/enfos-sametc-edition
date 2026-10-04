@@ -213,7 +213,6 @@ local modifier_list = {
     'modifier_enfos_ursa_overpower_buff',
     'modifier_enfos_ursa_fury_swipes_passive',
     'modifier_enfos_ursa_fury_swipes_debuff',
-    'modifier_enfos_ursa_enrage_buff',
     'modifier_enfos_ursa_minor_passive',
     'modifier_enfos_mk_boundless_strike_stun',
     'modifier_enfos_mk_primal_spring_slow',
@@ -5137,22 +5136,7 @@ function modifier_enfos_ursa_fury_swipes_debuff:IsDebuff() return true end
 function modifier_enfos_ursa_fury_swipes_debuff:GetEffectName() return 'particles/units/heroes/hero_ursa/ursa_fury_swipes_debuff.vpcf' end
 function modifier_enfos_ursa_fury_swipes_debuff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 
-enfos_ursa_enrage=class({})
-function enfos_ursa_enrage:OnSpellStart()
-    local c = self:GetCaster()
-    c:EmitSound('Hero_Ursa.Enrage')
-    if c.Purge then c:Purge(false, true, false, true, true) end
-    c:AddNewModifier(c, self, 'modifier_enfos_ursa_enrage_buff', { duration = value(self, 'duration') })
-end
-
-modifier_enfos_ursa_enrage_buff=class({})
-function modifier_enfos_ursa_enrage_buff:GetEffectName() return 'particles/units/heroes/hero_ursa/ursa_enrage_buff.vpcf' end
-function modifier_enfos_ursa_enrage_buff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
-function modifier_enfos_ursa_enrage_buff:DeclareFunctions()
-    return { MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE, MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING }
-end
-function modifier_enfos_ursa_enrage_buff:GetModifierIncomingDamage_Percentage() return -value(self:GetAbility(), 'damage_reduction') end
-function modifier_enfos_ursa_enrage_buff:GetModifierStatusResistanceStacking() return value(self:GetAbility(), 'status_resistance') end
+-- Enrage cast, strong dispel and Scepter are native-owned.
 
 enfos_ursa_ursa_minor=class({})
 function enfos_ursa_ursa_minor:GetIntrinsicModifierName() return 'modifier_enfos_ursa_minor_passive' end

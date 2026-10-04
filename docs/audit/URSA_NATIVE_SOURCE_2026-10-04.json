@@ -1,0 +1,280 @@
+{
+  "observedAt": "2026-10-04T02:29:56.160Z",
+  "source": "scripts/npc/heroes/npc_dota_hero_ursa.txt",
+  "sha256": "613c2cefe0a70e0a5582c5dd9def317fb93da2a346d0da650070a147b4faad9a",
+  "build": "ClientVersion=6943\r\nServerVersion=6943\r\nProductName=dota2_workshop\r\nappID=570\r\nServerAppID=373310\r\nCustomGameServerAppID=471280\r\nToolsAppID=316570\r\nSourceRevision=11069754\r\nVersionDate=Oct 01 2026\r\nVersionTime=15:53:48\r\n",
+  "header": {
+    "Model": "models/heroes/ursa/ursa.vmdl",
+    "Ability1": "ursa_earthshock",
+    "Ability2": "ursa_overpower",
+    "Ability3": "ursa_fury_swipes",
+    "Ability4": "ursa_maul",
+    "Ability5": "generic_hidden",
+    "Ability6": "ursa_enrage",
+    "Ability10": "special_bonus_unique_ursa_4",
+    "Ability11": "special_bonus_mp_regen_175",
+    "Ability12": "special_bonus_unique_ursa_maul_health",
+    "Ability13": "special_bonus_unique_ursa_8",
+    "Ability14": "special_bonus_unique_ursa_2",
+    "Ability15": "special_bonus_unique_ursa",
+    "Ability16": "special_bonus_unique_ursa_3",
+    "Ability17": "special_bonus_unique_ursa_7",
+    "Facets": {
+      "ursa_grudge_bearer": {
+        "Icon": "damage",
+        "Color": "Red",
+        "GradientID": "0",
+        "Deprecated": "true"
+      },
+      "ursa_debuff_reduce": {
+        "Icon": "cooldown",
+        "Color": "Blue",
+        "GradientID": "0",
+        "Deprecated": "true",
+        "Abilities": {
+          "Ability1": {
+            "AbilityName": "ursa_bear_down"
+          }
+        }
+      }
+    },
+    "GameSoundsFile": "soundevents/game_sounds_heroes/game_sounds_ursa.vsndevts"
+  },
+  "abilities": {
+    "ursa_earthshock": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING",
+      "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+      "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+      "SpellDispellableType": "SPELL_DISPELLABLE_YES",
+      "FightRecapLevel": "1",
+      "AbilitySound": "Hero_Ursa.Earthshock",
+      "AbilityCastRange": "0",
+      "HasShardUpgrade": "1",
+      "AbilityDuration": "4.0",
+      "AbilityDamage": "75 125 175 225",
+      "AbilityManaCost": "95",
+      "AbilityValues": {
+        "shock_radius": {
+          "value": "385",
+          "affected_by_aoe_increase": "1",
+          "special_bonus_unique_ursa_2": "+300"
+        },
+        "movement_slow": "-22 -28 -34 -40",
+        "hop_distance": {
+          "value": "250"
+        },
+        "hop_duration": "0.25",
+        "hop_height": "83",
+        "shard_enrage_duration": {},
+        "fury_swipe_stacks_on_hit": {
+          "special_bonus_shard": "+3"
+        },
+        "AbilityCooldown": {
+          "value": "15 13 11 9",
+          "special_bonus_unique_ursa_3": "=0.25"
+        },
+        "AbilityCharges": {
+          "value": "0",
+          "special_bonus_unique_ursa_3": "+2"
+        },
+        "AbilityChargeRestoreTime": {
+          "value": "15 13 11 9"
+        }
+      },
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1",
+      "AbilityCastGestureSlot": "DEFAULT"
+    },
+    "ursa_overpower": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING",
+      "SpellDispellableType": "SPELL_DISPELLABLE_YES",
+      "AbilitySound": "Hero_Ursa.Overpower",
+      "AbilityCastAnimation": "ACT_DOTA_OVERRIDE_ABILITY_3",
+      "AbilityCastGestureSlot": "DEFAULT",
+      "AbilityCastRange": "0",
+      "AbilityCastPoint": "0.3 0.3 0.3 0.3",
+      "AbilityCooldown": "12 11 10 9",
+      "AbilityDuration": "20",
+      "AbilityManaCost": "45 50 55 60",
+      "AbilityValues": {
+        "max_attacks": {
+          "value": "3 4 5 6",
+          "special_bonus_unique_ursa_7": "+3"
+        },
+        "attack_speed_bonus_pct": "400",
+        "slow_resist": "25"
+      }
+    },
+    "ursa_fury_swipes": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+      "AbilityUnitDamageType": "DAMAGE_TYPE_PHYSICAL",
+      "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_YES",
+      "SpellDispellableType": "SPELL_DISPELLABLE_NO",
+      "IsBreakable": "1",
+      "AbilityValues": {
+        "bonus_reset_time": {
+          "value": "8 12 16 20",
+          "special_bonus_unique_ursa_4": "+9"
+        },
+        "bonus_reset_time_roshan": "8",
+        "damage_per_stack": {
+          "value": "12 20 28 36",
+          "special_bonus_unique_ursa": "+6"
+        },
+        "stun_stack_count": {
+          "value": "0",
+          "special_bonus_unique_ursa_furyswipes_stun": "+5"
+        },
+        "stun_duration": {
+          "value": "0",
+          "special_bonus_unique_ursa_furyswipes_stun": "+1.5"
+        }
+      },
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_3"
+    },
+    "ursa_enrage": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE",
+      "AbilityType": "ABILITY_TYPE_ULTIMATE",
+      "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_YES",
+      "SpellDispellableType": "SPELL_DISPELLABLE_NO",
+      "FightRecapLevel": "1",
+      "AbilitySound": "Hero_Ursa.Enrage",
+      "HasScepterUpgrade": "1",
+      "AbilityCastAnimation": "ACT_DOTA_OVERRIDE_ABILITY_4",
+      "AbilityCastGestureSlot": "DEFAULT",
+      "AbilityCastRange": "0",
+      "AbilityManaCost": "0 0 0",
+      "AbilityValues": {
+        "AbilityCooldown": {
+          "value": "60 45 30",
+          "special_bonus_scepter": "=30 =24 =18"
+        },
+        "damage_reduction": "80",
+        "status_resistance": {
+          "value": "50",
+          "special_bonus_unique_ursa_8": "+25"
+        },
+        "duration": {
+          "value": "4 4.5 5"
+        },
+        "aoe_radius": {
+          "value": "0",
+          "affected_by_aoe_increase": "1"
+        },
+        "damage_increase": {
+          "value": "0",
+          "special_bonus_facet_ursa_grudge_bearer": "=5"
+        },
+        "damage_increase_duration": {
+          "value": "0",
+          "special_bonus_facet_ursa_grudge_bearer": "=5"
+        }
+      }
+    },
+    "ursa_maul": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE",
+      "MaxLevel": "1",
+      "Innate": "1",
+      "IsBreakable": "1",
+      "AbilityValues": {
+        "health_as_damage_pct": {
+          "value": "1.75",
+          "special_bonus_unique_ursa_maul_health": "+0.5"
+        }
+      },
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_3"
+    },
+    "ursa_bear_down": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN",
+      "SpellDispellableType": "SPELL_DISPELLABLE_NO",
+      "MaxLevel": "1",
+      "AbilityValues": {
+        "debuff_amp": "15"
+      }
+    }
+  },
+  "localization": {
+    "source": "resource/localization/abilities_english.txt",
+    "sha256": "562494850a6a660994fcfe7ea39ce0b04ada85f30311a34635fa4a4e7e0cc5d0",
+    "tokens": {
+      "DOTA_Tooltip_ability_ursa_earthshock": "Earthshock",
+      "DOTA_Tooltip_ability_ursa_earthshock_Description": "Ursa leaps forward %hop_distance% units and slams the earth, causing a powerful shock to damage and slow all enemy units in a nearby area for %abilityduration% seconds.",
+      "DOTA_Tooltip_ability_ursa_earthshock_shard_description": "Earthshock applies %fury_swipe_stacks_on_hit% Fury Swipes to enemies hit.",
+      "DOTA_Tooltip_ability_ursa_earthshock_Lore": "The very steps of a male ursine shake the ground as well as the resolve of opposing warriors.",
+      "DOTA_Tooltip_ability_ursa_earthshock_movement_slow": "%SLOW:",
+      "DOTA_Tooltip_ability_ursa_earthshock_shock_radius": "RADIUS:",
+      "DOTA_Tooltip_ability_ursa_earthshock_abilitydraft_note": "<span class=\\\"ADWarning\\\">Requires <b>Enrage</b> to also be drafted to utilize Shard upgrade.</span>",
+      "DOTA_Tooltip_ability_ursa_overpower": "Overpower",
+      "DOTA_Tooltip_ability_ursa_overpower_Lore": "For a behemoth of his size, Ursa is deceptively nimble.",
+      "DOTA_Tooltip_ability_ursa_overpower_Description": "Using his skill in combat, Ursa gains increased attack speed and slow resistance for a number of subsequent attacks.",
+      "DOTA_Tooltip_ability_ursa_overpower_Note0": "Missing an attack still consumes a charge of Overpower.",
+      "DOTA_Tooltip_ability_ursa_overpower_max_attacks": "ATTACKS:",
+      "DOTA_Tooltip_ability_ursa_overpower_attack_speed_bonus_pct": "BONUS ATTACK SPEED:",
+      "DOTA_Tooltip_ability_ursa_overpower_slow_resist": "%SLOW RESISTANCE:",
+      "DOTA_Tooltip_ability_ursa_overpower_abilityduration": "DURATION:",
+      "DOTA_Tooltip_ability_ursa_fury_swipes": "Fury Swipes",
+      "DOTA_Tooltip_ability_ursa_fury_swipes_Lore": "In nature, the wounded rarely survive the attacks of hungry predators.",
+      "DOTA_Tooltip_ability_ursa_fury_swipes_Description": "Ursa's claws dig deeper wounds in the enemy, causing consecutive attacks to the same enemy to deal more damage.  If the same target is not attacked after %bonus_reset_time% seconds, the bonus damage is lost.",
+      "DOTA_Tooltip_ability_ursa_fury_swipes_Note0": "Break disables the application of new stacks.",
+      "DOTA_Tooltip_ability_ursa_fury_swipes_Note1": "Break does not disable the effects of existing stacks.",
+      "DOTA_Tooltip_ability_ursa_fury_swipes_damage_per_stack": "DAMAGE PER ATTACK:",
+      "DOTA_Tooltip_ability_ursa_fury_swipes_bonus_reset_time": "RESET TIME:",
+      "DOTA_Tooltip_ability_ursa_fury_swipes_bonus_reset_time_roshan": "RESET TIME (ROSHAN):",
+      "DOTA_Tooltip_ability_ursa_enrage": "Enrage",
+      "DOTA_Tooltip_ability_ursa_enrage_Lore": "Ulfsaar succumbs to his ancient spirit, becoming the most ferocious creature on the battlefield.",
+      "DOTA_Tooltip_ability_ursa_enrage_Facet_ursa_grudge_bearer": "When damaged during Enrage, Ursa gains bonus attack damage.",
+      "DOTA_Tooltip_ability_ursa_enrage_Description": "Ursa goes into a frenzy, providing damage reduction and status resistance. Removes any existing debuffs.\\n\\nDISPEL TYPE: Strong Dispel",
+      "DOTA_Tooltip_ability_ursa_enrage_scepter_description": "Reduces cooldown and allows Ursa to use Enrage while disabled.",
+      "DOTA_Tooltip_ability_ursa_enrage_damage_reduction": "%DAMAGE REDUCTION:",
+      "DOTA_Tooltip_ability_ursa_enrage_status_resistance": "%STATUS RESISTANCE:",
+      "DOTA_Tooltip_ability_ursa_enrage_duration": "DURATION:",
+      "DOTA_Tooltip_ability_ursa_enrage_AbilityCooldown": "COOLDOWN:",
+      "DOTA_Tooltip_ability_ursa_enrage_damage_increase": "%DAMAGE ABSORBED TO DAMAGE:",
+      "DOTA_Tooltip_ability_ursa_enrage_damage_increase_duration": "DAMAGE INCREASE LINGER DURATION:",
+      "DOTA_Tooltip_ability_ursa_maul": "Maul",
+      "DOTA_Tooltip_ability_ursa_maul_Description": "Ursa gains bonus damage equal to a percentage of his Current HP.",
+      "DOTA_Tooltip_ability_ursa_maul_health_as_damage_pct": "%HEALTH AS DAMAGE:",
+      "DOTA_Tooltip_ability_ursa_bear_down": "Bear Down",
+      "DOTA_Tooltip_ability_ursa_bear_down_Description": "Debuffs inflicted by Ursa last longer.",
+      "DOTA_Tooltip_ability_ursa_bear_down_debuff_amp": "%DURATION BONUS:"
+    }
+  },
+  "resources": [
+    {
+      "path": "particles/units/heroes/hero_ursa/ursa_earthshock.vpcf_c",
+      "status": "FILE_VERIFIED",
+      "sha256": "1ce5d5a5eac0c537e984e005cc579f1834ab4c822ce30a96236422283e319348"
+    },
+    {
+      "path": "particles/units/heroes/hero_ursa/ursa_overpower_buff.vpcf_c",
+      "status": "FILE_VERIFIED",
+      "sha256": "97cd8df7fabe211ee187c929f5221d1c7863d506d2fa3e623757ccfbafb2adc8"
+    },
+    {
+      "path": "particles/units/heroes/hero_ursa/ursa_enrage_buff.vpcf_c",
+      "status": "FILE_VERIFIED",
+      "sha256": "f567a23fbab06eb585af4913410d980f949d5c024ece4720dc6d88292ec5483e"
+    },
+    {
+      "path": "soundevents/game_sounds_heroes/game_sounds_ursa.vsndevts_c",
+      "status": "FILE_VERIFIED",
+      "sha256": "14bad18e11663719c05fd98e0888661d5c6fcfb5948ef22d9546a2f07bdb4f10"
+    }
+  ],
+  "apiEvidence": {
+    "GetUnitName": {
+      "owner": "CDOTA_BaseNPC",
+      "available": "both",
+      "observedAt": "2026-10-04"
+    },
+    "FindAbilityByName": {
+      "owner": "CDOTA_BaseNPC",
+      "available": "both",
+      "observedAt": "2026-10-04"
+    },
+    "GetAbilityDamage": {
+      "owner": "CDOTABaseAbility",
+      "available": "server",
+      "note": "For future Q top-level damage bridge; no client use or native pipeline certification"
+    }
+  }
+}

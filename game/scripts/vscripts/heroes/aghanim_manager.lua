@@ -267,6 +267,7 @@ function modifier_enfos_scepter_upgrade:IsHidden()
         or require('abilities/heroes/luna/integration').UsesNativeScepter(parent)
         or require('abilities/heroes/nevermore/ownership').IsEnfos(parent)
         or require('abilities/heroes/slark/ownership').UsesNativeScepter(parent)
+        or require('abilities/heroes/ursa/ownership').UsesNativeScepter(parent)
 end
 function modifier_enfos_scepter_upgrade:IsPurgable() return false end
 function modifier_enfos_scepter_upgrade:IsPermanent() return true end
@@ -280,6 +281,7 @@ function modifier_enfos_scepter_upgrade:DeclareFunctions()
 	}
 end
 function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event)
+    if require('abilities/heroes/ursa/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/slark/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/bristleback/ownership').IsEnfos(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/nevermore/ownership').IsEnfos(self.GetParent and self:GetParent()) then return 0 end
@@ -295,6 +297,7 @@ function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event
 	return a and a:GetAbilityType()==DOTA_ABILITY_TYPE_ULTIMATE and 40 or 0
 end
 function modifier_enfos_scepter_upgrade:GetModifierPercentageCooldown(event)
+    if require('abilities/heroes/ursa/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/slark/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/bristleback/ownership').IsEnfos(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/nevermore/ownership').IsEnfos(self.GetParent and self:GetParent()) then return 0 end

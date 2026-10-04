@@ -2695,19 +2695,24 @@
           "slot": 4,
           "id": "enfos_ursa_enrage",
           "maxLevel": 10,
-          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
-          "callbacks": [
-            "OnSpellStart"
-          ],
+          "behavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE",
+          "callbacks": [],
+          "implementationOwner": "NATIVE",
+          "nativeBaseClass": "ursa_enrage",
+          "engineAcceptance": "PENDING OWNER TEST",
           "specials": {
+            "AbilityCooldown": "50 47.8 45.6 43.3 41.1 38.9 36.7 34.4 32.2 30",
             "duration": "4.5 4.8 5.1 5.4 5.7 6 6.4 6.8 7.4 8",
             "damage_reduction": "60 63 66 69 72 75 78 82 86 90",
-            "status_resistance": "20 24 28 32 36 40 44 48 54 60"
+            "status_resistance": "20 24 28 32 36 40 44 48 54 60",
+            "aoe_radius": "0",
+            "damage_increase": "0",
+            "damage_increase_duration": "0"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
           "hasSound": true,
-          "hasParticle": true
+          "hasParticle": false
         },
         {
           "slot": 5,
