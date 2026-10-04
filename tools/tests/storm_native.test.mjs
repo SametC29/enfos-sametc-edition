@@ -198,3 +198,51 @@ test('Vortex localization describes pull and Scepter, retires the generic R upgr
  for(const dir of ['game/resource','game/panorama/localization','content/panorama/localization']){const s=fs.readFileSync(dir+'/addon_'+lang+'.txt','utf8');assert.doesNotMatch(s,/\{\{/);assert.ok(s.includes('180 / 193.3 / 206.7 / 220 / 233.3 / 246.7 / 260 / 273.3 / 286.7 / 300'));}
  }
 });
+
+test('Ball Lightning uses exact native flight/root/self/optional-target fields and named percentage mana keys, not copied teleport or Boss cap',()=>{
+ const r=all.enfos_storm_ball_lightning,n=JSON.parse(fs.readFileSync('docs/audit/STORM_SPIRIT_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.storm_spirit_ball_lightning;
+ assert.ok(isVerifiedNativeAbility('enfos_storm_ball_lightning',r));assert.equal(r.ScriptFile,undefined);assert.equal(r.MaxLevel,'10');assert.equal(r.RequiredLevel,'5');assert.equal(r.LevelsBetweenUpgrades,'5');assert.equal(r.AbilityType,'DOTA_ABILITY_TYPE_ULTIMATE');assert.equal(r.HasScepterUpgrade,undefined);
+ for(const key of ['AbilityBehavior','AbilityUnitDamageType','SpellImmunityType','AbilitySound','AbilityCastPoint','AbilityCastAnimation','AbilityManaCost'])assert.equal(r[key],n[key],key);
+ for(const key of ['ball_lightning_initial_mana_base','ball_lightning_initial_mana_percentage','ball_lightning_travel_cost_percent','ball_lightning_vision_radius','blocker_duration','scepter_remnant_interval','auto_remnant_interval'])assert.deepEqual(JSON.parse(JSON.stringify(r.AbilityValues[key])),n.AbilityValues[key],key);
+ assert.equal(r.AbilityDamage,'35 40 45 50 55 60 65 70 75 80');assert.equal(r.AbilityValues.intellect_factor,'0.1');assert.equal(r.AbilityValues.ball_lightning_travel_cost_base,'18 17 16 15 14 13 12 11 10 9');assert.equal(r.AbilityValues.ball_lightning_move_speed,'1400 1500 1600 1700 1800 1900 2000 2100 2200 2300');assert.equal(r.AbilityValues.ball_lightning_aoe.value,'240 250 260 270 280 290 300 310 320 330');assert.equal(r.AbilityValues.ball_lightning_aoe.affected_by_aoe_increase,'1');
+ assert.equal(r.AbilityCastRange,undefined);for(const key of ['max_distance','boss_damage_cap_pct','damage_per_100','mana_per_100'])assert.equal(r.AbilityValues[key],undefined,key);assert.equal(all.storm_spirit_ball_lightning,undefined);
+ assert.doesNotMatch(fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8'),/enfos_storm_ball_lightning=class/);
+ const m=fs.readFileSync('game/scripts/vscripts/abilities/heroes/storm_spirit/modifiers.lua','utf8');assert.doesNotMatch(m,/ApplyDamage|SpendMana|FindClearSpace|GetAbsOrigin|FindUnits|CreateParticle|StartIntervalThink/);
+});
+
+test('R outgoing multiplier preserves authored INT coefficient at all ranks for a proportional native input without calculating flight or adding damage',()=>lua(`
+assert(integration.Restore(hero));local m=hero.mod;local base=0;local a={rank=0,null=false,
+IsNull=function(self)return self.null end,GetCaster=function()return hero end,GetAbilityName=function()return 'enfos_storm_ball_lightning'end,
+GetLevel=function(self)return self.rank end,GetAbilityDamage=function()assert(server);return base end,
+GetSpecialValueFor=function(_,key)assert(key=='intellect_factor');return .1 end}
+local p={inflictor=a,original_damage=100};assert(m:GetModifierTotalDamageOutgoing_Percentage(p)==0)
+for rank=1,10 do a.rank=rank;base=35+5*(rank-1)
+local percent=m:GetModifierTotalDamageOutgoing_Percentage(p);assert(math.abs(percent-100*100*.1/base)<.000001)
+for _,multiple in ipairs({1,5,10})do local original=base*multiple
+assert(math.abs(original*(1+percent/100)-(base+10)*multiple)<.000001)end end
+hero.int=150;assert(math.abs(m:GetModifierTotalDamageOutgoing_Percentage(p)-18.75)<.000001)
+base=0;assert(m:GetModifierTotalDamageOutgoing_Percentage(p)==0);base=80
+hero.illusion=true;assert(m:GetModifierTotalDamageOutgoing_Percentage(p)==0);hero.illusion=false
+a.GetCaster=function()return {}end;assert(m:GetModifierTotalDamageOutgoing_Percentage(p)==0);a.GetCaster=function()return hero end
+a.GetAbilityName=function()return 'enfos_storm_electric_vortex'end;assert(m:GetModifierTotalDamageOutgoing_Percentage(p)==0)
+server=false;a.GetAbilityDamage=function()error('client header query')end;assert(m:GetModifierTotalDamageOutgoing_Percentage(p)==0)
+assert(n.charge==7 and adds==1 and mods==1)
+`));
+
+test('R Health exposes server header and percentage mana inputs without manually consuming mana or starting flight',()=>lua(`
+local lookup=hero.FindAbilityByName;local r={IsNull=function()return false end,GetLevel=function()return 1 end,
+GetIntrinsicModifierName=function()return ''end,GetAbilityDamage=function()assert(server);return 35 end,
+GetSpecialValueFor=function(_,key)return ({ball_lightning_initial_mana_base=25,ball_lightning_initial_mana_percentage=7.5,ball_lightning_travel_cost_base=18,ball_lightning_travel_cost_percent=.65})[key]end}
+hero.FindAbilityByName=function(self,id)if id=='enfos_storm_ball_lightning' then return r end;return lookup(self,id)end
+hero.GetLevel=function()return 6 end;hero.GetAbilityPoints=function()return 5 end;hero.IsAlive=function()return true end
+hero.AddAbility=function()error('Health grants')end;hero.AddNewModifier=function()error('Health mutates')end;hero.SpendMana=function()error('Health mana')end
+local out={};print=function(s)out[#out+1]=s end;local h=require('heroes/health');assert(h.Report(hero,0));assert(table.concat(out,'|'):find('native_ball_damage_getter=35 native_ball_initial_base_query=25 native_ball_initial_pct_query=7.5 native_ball_travel_base_query=18 native_ball_travel_pct_query=0.65',1,true))
+server=false;local count=#out;assert(not h.Report(hero,0) and #out==count)
+`));
+
+test('Native R four-locale text and twelve mirrors resolve damage header and actual named mana fields',()=>{
+ for(const lang of ['english','turkish','russian','schinese']){const t=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens,desc=t.DOTA_Tooltip_Ability_enfos_storm_ball_lightning_Description;
+ for(const key of ['AbilityDamage','intellect_factor','ball_lightning_aoe','ball_lightning_initial_mana_base','ball_lightning_initial_mana_percentage','ball_lightning_travel_cost_base','ball_lightning_travel_cost_percent'])assert.ok(desc.includes('{{'+key+'}}'),key);
+ for(const dir of ['game/resource','game/panorama/localization','content/panorama/localization']){const s=fs.readFileSync(dir+'/addon_'+lang+'.txt','utf8');assert.doesNotMatch(s,/\{\{/);assert.ok(s.includes('35 / 40 / 45 / 50 / 55 / 60 / 65 / 70 / 75 / 80'));}
+ }
+});

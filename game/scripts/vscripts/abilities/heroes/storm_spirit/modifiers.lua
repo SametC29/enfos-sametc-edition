@@ -5,7 +5,8 @@ function M:IsHidden() return true end
 function M:IsPurgable() return false end
 function M:RemoveOnDeath() return false end
 function M:DeclareFunctions()
-    return {MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL,MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL_VALUE}
+    return {MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL,MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL_VALUE,
+        MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE}
 end
 local keys={overload_damage=true,overload_aoe=true}
 local function route(mod,p)
@@ -21,6 +22,20 @@ local function route(mod,p)
     return c,e
 end
 function M:GetModifierOverrideAbilitySpecial(p) return route(self,p) and 1 or 0 end
+function M:GetModifierTotalDamageOutgoing_Percentage(p)
+    if not IsServer() or not p then return 0 end
+    local c,a=self:GetParent(),p.inflictor
+    if not c or c:IsNull() or c:GetUnitName()~='npc_dota_hero_storm_spirit' or c:IsIllusion()
+        or not a or a:IsNull() or a:GetCaster()~=c or a:GetAbilityName()~='enfos_storm_ball_lightning'
+        or a:GetLevel()<1 then return 0 end
+    local base=a:GetAbilityDamage()
+    if base<=0 then return 0 end
+    local intellect=c:GetIntellect(false)
+    local percent=100*intellect*a:GetSpecialValueFor('intellect_factor')/base
+    require('lib/hero_trace'):Log('STORM','R','native_outgoing_query base=%s int=%s percent=%s original=%s',
+        tostring(base),tostring(intellect),tostring(percent),tostring(p.original_damage))
+    return percent
+end
 function M:GetModifierOverrideAbilitySpecialValue(p)
     local c,e=route(self,p)
     if not c or e:GetLevel()<1 then return 0 end

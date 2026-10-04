@@ -240,3 +240,5 @@ Storm; automatic read-only pull/duration/radius Health and four locales.
 125 affected checks/314 mocks PASS. Native actual pull/block/reflect/linked
 Overload/Scepter HUD/lifecycle/presentation remain owner-pending. Next R
 native continuous flight/damage/mana, then D native innate and paid stats.
+
+Storm R source progression: pure native Ball Lightning continuous flight alias; authored damage header/speed/AoE/flat travel cost and exact native percentage costs. Copied teleport, landing-only damage, clamp and Boss cap retired. Minimal owned server outgoing INT multiplier; read-only Health and four locales.129 affected checks/313 mocks PASS; actual native damage units/mana arithmetic/flight/lifecycle/presentation remain owner-pending. Next D native innate and paid stats.

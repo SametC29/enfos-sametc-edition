@@ -12,7 +12,7 @@ Hero: `npc_dota_hero_storm_spirit`; role: Mage. Progression target: hero level 5
 | 1 | `enfos_storm_static_remnant` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | NOT_EXPLICIT | storm_spirit_static_remnant |
 | 2 | `enfos_storm_electric_vortex` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | NOT_EXPLICIT | storm_spirit_electric_vortex |
 | 3 | `enfos_storm_overload` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/storm_spirit/e | storm_spirit_overload |
-| 4 | `enfos_storm_ball_lightning` | 10 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/pve_kits | storm_spirit_ball_lightning |
+| 4 | `enfos_storm_ball_lightning` | 10 | DOTA_ABILITY_BEHAVIOR_POINT \| DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES \| DOTA_ABILITY_BEHAVIOR_CAN_SELF_CAST \| DOTA_ABILITY_BEHAVIOR_OPTIONAL_UNIT_TARGET | NOT_EXPLICIT | storm_spirit_ball_lightning |
 | 5 | `enfos_storm_galvanic_core` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | storm_spirit_overload |
 
 Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/storm_spirit/e](../../../game/scripts/vscripts/abilities/heroes/storm_spirit/e.lua), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
@@ -51,7 +51,7 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 - `enfos_storm_static_remnant`: cast/impact/modifier contract and lifetime.
 - `enfos_storm_electric_vortex`: target flags, immunity, spell block/reflect if applicable, target loss.
 - `enfos_storm_overload`: intrinsic modifier, Break/illusion behavior, live rank refresh; static unreferenced-special candidates: overload_aoe (not confirmed defects).
-- `enfos_storm_ball_lightning`: world position, travel/impact timing and radius alignment; ultimate unlock curve, Scepter/Blessing and boss burst.
+- `enfos_storm_ball_lightning`: target flags, immunity, spell block/reflect if applicable, target loss; world position, travel/impact timing and radius alignment; ultimate unlock curve, Scepter/Blessing and boss burst.
 - `enfos_storm_galvanic_core`: Enfos passive free starting rank, native innate separation, respawn/point budget; intrinsic modifier, Break/illusion behavior, live rank refresh.
 
 <!-- END GENERATED INVENTORY -->
@@ -181,28 +181,31 @@ Change/test record (2026-09-30): ten-rank KV and Lua behavior updated; static an
 
 ## Slot 4: `enfos_storm_ball_lightning`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `storm_spirit_ball_lightning (native Ability6)`.
-Decision and PvE identity rationale: Keeps point-target mobility ultimate; rank improves maximum travel and mana efficiency; damage scales with distance and bosses are capped.
-Expected behavior: Clamp travel to rank range, charge distance-based mana, move to landing point, then damage nearby enemies.
+Decision and PvE identity rationale: Pure native Ball Lightning restores continuous flight, path hits, mana exhaustion, invulnerability and cleanup. Minimal outgoing INT bridge preserves authored scaling without a second damage event.
+Expected behavior: Native flight to the selected destination while mana permits, with path damage and native percentage mana costs. Authored damage35..80 maps to AbilityDamage (per100 source inference); INT0.1 uses a scoped multiplier. Actual engine arithmetic/read path is OWNER_RUNTIME PENDING.
 Rank target: 10 total ranks per Enfos slot within hero level 50. Skill-point/unlock curve is a separate system acceptance item.
+
+2026-10-04 source update: [R implementation and remaining engine gates](../../audit/STORM_SPIRIT_NATIVE_FIRST_REVIEW_2026-10-04.md).
+129 affected checks/313 hero mocks PASS. SOURCE_IMPLEMENTATION implemented; native damage units, mana accounting, travel geometry and outgoing multiplier remain unmeasured. Historical copied teleport/Boss-cap mock retired. No native flight acceptance is claimed.
 
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Gameplay | PENDING | Native source contracts and scoped multiplier fixtures pass; actual Dota behavior remains unverified. |
 | Targeting | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Ranks | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Ranks | PENDING | Native source contracts and scoped multiplier fixtures pass; actual Dota behavior remains unverified. |
 | VFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | SFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | Animation | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Modifiers | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Modifiers | PENDING | Native source contracts and scoped multiplier fixtures pass; actual Dota behavior remains unverified. |
 | Precache | PASS | Particle paths found in installed Valve VPK and registered in addon precache; cold-start engine test pending. |
 | Cleanup | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Boss | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Boss | PENDING | Native source contracts and scoped multiplier fixtures pass; actual Dota behavior remains unverified. |
 | Upgrades | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Localization | PASS | Turkish source mirrored to EN/TR/RU/zh-CN; consistency check passed. |
+| Localization | PASS | Native flight/path damage/cost text updated in four locales and twelve mirrors; consistency checks pass. |
 | Performance | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | Reconnect | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | VConsole | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |

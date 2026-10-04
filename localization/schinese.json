@@ -1473,6 +1473,7 @@
     "DOTA_Tooltip_ability_enfos_am_spellbreaker_Description": "提供{{bonus_as}}攻击速度和{{bonus_ms}}移动速度，破坏会禁用这些加成。原生迫害使攻击对魔法值低于60%的敌人施加0.75秒减速；减速随魔法损失和英雄等级增加。幻象保留原生减速，但不获得额外Enfos属性。",
     "DOTA_Tooltip_ability_enfos_am_spellbreaker_SummaryDescription": "提供{{bonus_as}}攻击速度和{{bonus_ms}}移动速度，破坏会禁用这些加成。原生迫害使攻击对魔法值低于60%的敌人施加0.75秒减速；减速随魔法损失和英雄等级增加。幻象保留原生减速，但不获得额外Enfos属性。",
     "DOTA_Tooltip_Ability_enfos_storm_overload_shard_description": "魔晶使超负荷可主动施放：风暴之灵及750范围内的友方英雄获得3次充能和40攻击速度，最多持续12秒。消耗100魔法，冷却30秒。",
-    "DOTA_Tooltip_Ability_enfos_storm_electric_vortex_scepter_description": "神杖将电子涡流变为范围技能，拉拽风暴之灵周围475范围内的敌人。"
+    "DOTA_Tooltip_Ability_enfos_storm_electric_vortex_scepter_description": "神杖将电子涡流变为范围技能，拉拽风暴之灵周围475范围内的敌人。",
+    "DOTA_Tooltip_Ability_enfos_storm_ball_lightning_Description": "化为电流飞向指定地点，对路径上{{ball_lightning_aoe}}范围内的敌人造成伤害。每100距离伤害：{{AbilityDamage}} + 智力 × {{intellect_factor}}。到达目标或魔法耗尽时结束飞行。启动消耗：{{ball_lightning_initial_mana_base}} + 最大魔法的{{ball_lightning_initial_mana_percentage}}%。每100距离消耗{{ball_lightning_travel_cost_base}} + 最大魔法的{{ball_lightning_travel_cost_percent}}%。缠绕时无法施放，飞行中风暴之灵无敌。"
   }
 }

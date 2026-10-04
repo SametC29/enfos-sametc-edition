@@ -6096,22 +6096,6 @@ test('Terrorblade Demon Zeal rank passive respects Break and illusions', functio
     assert(mod:GetModifierAttackSpeedBonus_Constant() == 0 and mod:GetModifierMoveSpeedBonus_Constant() == 0)
 end)
 
-test('Storm Ball Lightning spends distance mana and caps boss damage', function()
-    applied_damages = {}
-    local storm = create_mock_unit('npc_dota_hero_storm_spirit', 2, Vector(0, 0, 0))
-    storm.intellect = 100
-    local boss = create_mock_unit('enfos_boss_storm', 3, Vector(800, 0, 0), 10000)
-    boss.is_boss = true
-    mock_world_units = { storm, boss }
-    local ability = enfos_storm_ball_lightning()
-    ability.GetCaster = function() return storm end
-    ability.GetCursorPosition = function() return Vector(800, 0, 0) end
-    ability.GetSpecialValueFor = function(_, k) return ({ damage_per_100=80, radius=330, mana_per_100=9, boss_damage_cap_pct=3, max_distance=1800 })[k] or 0 end
-    ability:OnSpellStart()
-    assert(storm.mana == 428 and storm:GetAbsOrigin().x == 800)
-    assert(#applied_damages == 1 and applied_damages[1].damage == 300)
-end)
-
 test('Storm Galvanic Core rank passive respects Break and illusions', function()
     local storm = create_mock_unit('npc_dota_hero_storm_spirit', 2, Vector(0, 0, 0))
     local ability = enfos_storm_galvanic_core()

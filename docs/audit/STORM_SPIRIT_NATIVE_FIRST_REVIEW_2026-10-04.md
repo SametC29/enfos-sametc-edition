@@ -270,3 +270,38 @@ cleanup and VConsole. R/D source units remain; no kit completion claim.
 W full source boundary:0 failed check(s). No owner engine session, remote
 push, deployment or Workshop publication. Existing contributor hunks remain
 outside this atomic source unit.
+
+## R pre-mutation decision
+
+TUNE / NATIVE+MINIMAL EXT. Pure native Ball Lightning owns continuous
+flight, path hits, mana exhaustion, invulnerability, rooting, recasts,
+feedback and cleanup. Retire instant teleport/landing-only AoE, custom
+distance clamp900..1800 and per-Boss cap; preserve authored damage35..80,
+radius240..330 and flat travel mana18..9 in native exposed fields.
+Installed AbilityDamage6/10/14 is the native damage carrier, and installed
+description labels damage per100 units. Mapping authored damage_per_100
+to that existing header is a source inference, not measured C++ behavior;
+actual distance/hit geometry and damage units remain explicit owner gates.
+Do not invent a special called damage_per_100 or simulate traveled distance.
+
+Native percentage costs7.5% initially/.65% per100 and initialbase25/header
+mana30 are copied intact. No Lua SpendMana or additional cost; actual
+header-versus-C++ arithmetic needs owner measurement. Speed1400..2300
+is interpolated across ten ranks from native endpoints. Preserve cast.3,
+root/self/optional-unit behavior, animation4 and native remnant metadata
+without assigning a Scepter upgrade to R or granting talents/facets.
+INT.1 per100 uses a server-only scoped outgoing multiplier based on the
+existing damage header, preserving native distance multiplication instead
+of adding another damage event. GetAbilityDamage is SERVER, never a client
+getter; guard untrained/null/foreign/illusion/zero base. This bridge's actual
+engine damage ordering/read path remains owner-pending.
+
+R source implementation: pure alias includes native root/self/optional-unit targeting, castpoint/animation/mana header and named cost/vision/remnant fields. Authored AbilityDamage35..80, AoE240..330, speed1400..2300 and flat travel18..9 span ten ranks. No range clamp, copied teleport, landing-only damage, Boss cap, Lua mana spending or flight timer remains. No extra provider or Scepter/talent grant.
+
+Existing raw scaling modifier adds a server-only outgoing percentage for this owned R inflictor; guards reject client/untrained/null/foreign/illusion/zero base. It neither calculates distance nor issues damage. Automatic Health reads the server damage header and native mana inputs without casting or writing state. Four localized descriptions and twelve mirrors match exposed fields. Native percentage cost arithmetic and damage ordering are not inferred from fixtures.
+
+Installed build6943/hero hash unchanged; offline API confirms GetAbilityDamage is SERVER. Reference search found only Watcher native assignments, REFERENCE_ONLY/no imports. Native source damage header plus installed per100 description support the mapping decision, not an engine result. Verified existing Ball Lightning particles/bank remain under precache.
+
+129 affected checks/313 hero mocks PASS. Four focused R contracts cover exact source metadata, ten-rank values, proportional-input multiplier algebra/guards, read-only Health and locales. OWNER_RUNTIME PENDING: actual flight/path damage/distance units/INT ordering/cache, initial and travel mana accounting/exhaustion, root/cast cancellation/recast, optional-unit/self targeting/HUD, invulnerability/items/spells during travel, linked Overload, native remnant metadata behavior, rank10/points, death/reconnect, VFX/SFX/cleanup and VConsole. D source unit remains.
+
+R full source boundary:0 failed check(s). No owner engine session, remote push, deployment or Workshop publication. Existing contributor hunks remain outside this atomic source unit.

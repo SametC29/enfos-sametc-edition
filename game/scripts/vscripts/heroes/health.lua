@@ -42,6 +42,14 @@ function Health.Report(hero,id)
             end
         end
         if entry.id=='npc_dota_hero_storm_spirit' then
+            local r=hero:FindAbilityByName('enfos_storm_ball_lightning')
+            if r and not r:IsNull() then
+                print('[HERO_HEALTH] native_ball_damage_getter='..tostring(r:GetAbilityDamage())..
+                    ' native_ball_initial_base_query='..tostring(r:GetSpecialValueFor('ball_lightning_initial_mana_base'))..
+                    ' native_ball_initial_pct_query='..tostring(r:GetSpecialValueFor('ball_lightning_initial_mana_percentage'))..
+                    ' native_ball_travel_base_query='..tostring(r:GetSpecialValueFor('ball_lightning_travel_cost_base'))..
+                    ' native_ball_travel_pct_query='..tostring(r:GetSpecialValueFor('ball_lightning_travel_cost_percent')))
+            end
             local w=hero:FindAbilityByName('enfos_storm_electric_vortex')
             if w and not w:IsNull() then
                 print('[HERO_HEALTH] native_vortex_pull_query='..tostring(w:GetSpecialValueFor('electric_vortex_pull_distance'))..

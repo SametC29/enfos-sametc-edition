@@ -5411,38 +5411,7 @@ end
 
 -- Overload delegates to one exact native provider in storm_spirit/e.
 
-enfos_storm_ball_lightning=class({})
-function enfos_storm_ball_lightning:GetCastRange() return value(self, 'max_distance') end
-function enfos_storm_ball_lightning:OnSpellStart()
-    local c = self:GetCaster()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() then return end
-    local target_pos = self:GetCursorPosition()
-    local origin = c:GetAbsOrigin()
-    local offset = target_pos - origin
-    local dist = offset:Length2D()
-    local maxDistance = value(self, 'max_distance')
-    if dist > maxDistance then
-        target_pos = origin + (offset:Normalized() * maxDistance)
-        dist = maxDistance
-    end
-    local manaCost = (dist / 100) * value(self, 'mana_per_100')
-    if c.GetMana and c:GetMana() < manaCost then return end
-    if c.SpendMana and manaCost > 0 then c:SpendMana(manaCost, self) end
-    c:EmitSound('Hero_StormSpirit.BallLightning')
-    local fx = ParticleManager:CreateParticle('particles/units/heroes/hero_stormspirit/stormspirit_ball_lightning.vpcf', PATTACH_WORLDORIGIN, nil)
-    ParticleManager:SetParticleControl(fx, 0, origin)
-    ParticleManager:SetParticleControl(fx, 1, target_pos)
-    ParticleManager:ReleaseParticleIndex(fx)
-    FindClearSpaceForUnit(c, target_pos, true)
-    local int = get_int(c)
-    local dmg = (dist / 100) * (value(self, 'damage_per_100') + (int * 0.1))
-
-    for _, u in ipairs(enemies(c, target_pos, value(self, 'radius'))) do
-        local hitDamage = dmg
-        if is_boss(u) and u.GetMaxHealth then hitDamage = math.min(hitDamage, u:GetMaxHealth() * value(self, 'boss_damage_cap_pct') / 100) end
-        damage(self, u, hitDamage, DAMAGE_TYPE_MAGICAL)
-    end
-end
+-- Ball Lightning is native; no teleport, distance scan or extra mana/damage.
 
 enfos_storm_galvanic_core=class({})
 function enfos_storm_galvanic_core:GetIntrinsicModifierName() return 'modifier_enfos_storm_galvanic_core_passive' end
