@@ -261,6 +261,7 @@ end
 -- Scepter Major Upgrade Modifier
 modifier_enfos_scepter_upgrade = class({})
 function modifier_enfos_scepter_upgrade:IsHidden()
+    if require('abilities/heroes/storm_spirit/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return true end
     local parent = self.GetParent and self:GetParent()
     local name = parent and parent.GetUnitName and parent:GetUnitName()
     return name == "npc_dota_hero_lion" or name == "npc_dota_hero_jakiro" or name == "npc_dota_hero_vengefulspirit" or name == "npc_dota_hero_lich" or name == "npc_dota_hero_sven" or name == "npc_dota_hero_shadow_shaman" or name == "npc_dota_hero_tidehunter"
@@ -282,6 +283,7 @@ function modifier_enfos_scepter_upgrade:DeclareFunctions()
 	}
 end
 function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event)
+    if require('abilities/heroes/storm_spirit/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/ursa/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/antimage/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/slark/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
@@ -299,6 +301,7 @@ function modifier_enfos_scepter_upgrade:GetModifierSpellAmplify_Percentage(event
 	return a and a:GetAbilityType()==DOTA_ABILITY_TYPE_ULTIMATE and 40 or 0
 end
 function modifier_enfos_scepter_upgrade:GetModifierPercentageCooldown(event)
+    if require('abilities/heroes/storm_spirit/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/ursa/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/antimage/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end
     if require('abilities/heroes/slark/ownership').UsesNativeScepter(self.GetParent and self:GetParent()) then return 0 end

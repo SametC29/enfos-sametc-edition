@@ -160,3 +160,41 @@ test('Native remnant text uses verified point, arming, trigger/damage and durati
  for(const dir of ['game/resource','game/panorama/localization','content/panorama/localization']){const s=fs.readFileSync(dir+'/addon_'+lang+'.txt','utf8');assert.doesNotMatch(s,/\{\{/);assert.ok(s.includes('100 / 130 / 160 / 190 / 220 / 250 / 280 / 315 / 350 / 390'));}
  }
 });
+
+test('Vortex is a complete native alias with ten-rank tuning and conditional Scepter radius; no copied stun or absorb',()=>{
+ const w=all.enfos_storm_electric_vortex,n=JSON.parse(fs.readFileSync('docs/audit/STORM_SPIRIT_NATIVE_SOURCE_2026-10-04.json','utf8')).abilities.storm_spirit_electric_vortex;
+ assert.ok(isVerifiedNativeAbility('enfos_storm_electric_vortex',w));assert.equal(w.ScriptFile,undefined);assert.equal(w.MaxLevel,'10');assert.equal(w.RequiredLevel,'1');assert.equal(w.LevelsBetweenUpgrades,'1');
+ for(const key of ['AbilityBehavior','AbilityUnitTargetTeam','AbilityUnitTargetType','SpellImmunityType','SpellDispellableType','FightRecapLevel','HasScepterUpgrade','AbilitySound','AbilityCastPoint','AbilityCastAnimation'])assert.equal(w[key],n[key],key);
+ for(const key of ['electric_vortex_pull_tether_range','electric_vortex_self_slow','electric_vortex_self_slow_duration','radius_scepter','enemy_overload_duration'])assert.deepEqual(JSON.parse(JSON.stringify(w.AbilityValues[key])),n.AbilityValues[key],key);
+ assert.equal(w.AbilityValues.radius_scepter.value,undefined);assert.equal(w.AbilityValues.radius_scepter.special_bonus_scepter,'475');assert.equal(w.AbilityDuration,'0.8 1 1.2 1.4 1.6 1.8 2 2.2 2.4 2.6');assert.equal(w.AbilityValues.AbilityDuration.value,w.AbilityDuration);assert.equal(w.AbilityCooldown,'16 15 14 13 12 11 10 9 8 7');assert.equal(w.AbilityManaCost,'80 90 100 110 120 130 140 150 160 170');assert.equal(w.AbilityCastRange,'450');
+ const pull=w.AbilityValues.electric_vortex_pull_distance.split(' ').map(Number);assert.equal(pull.length,10);for(let i=0;i<10;i++)assert.ok(Math.abs(pull[i]-(180+120*i/9))<.051);
+ for(const key of ['radius','duration','boss_duration'])assert.equal(w.AbilityValues[key],undefined);assert.equal(all.enfos_storm_ball_lightning.HasScepterUpgrade,undefined);assert.equal(all.storm_spirit_electric_vortex,undefined);
+ assert.doesNotMatch(fs.readFileSync('game/scripts/vscripts/abilities/pve_kits.lua','utf8'),/enfos_storm_electric_vortex=class|modifier_enfos_storm_electric_vortex_debuff/);
+});
+
+test('Scepter ownership replaces generic R amp/CDR only for Storm kit, safely on client and when native W is untrained',()=>lua(`
+local lookup=hero.FindAbilityByName;local w={IsNull=function()return false end}
+hero.FindAbilityByName=function(self,id)if id=='enfos_storm_electric_vortex' then return w end;return lookup(self,id)end
+function LinkLuaModifier()end;require('heroes/aghanim_manager');local owner=require('abilities/heroes/storm_spirit/ownership')
+local m=setmetatable({GetParent=function()return hero end},{__index=modifier_enfos_scepter_upgrade})
+for _,context in ipairs({true,false})do server=context;assert(owner.UsesNativeScepter(hero));assert(m:IsHidden());assert(m:GetModifierSpellAmplify_Percentage({})==0 and m:GetModifierPercentageCooldown({})==0)end
+w.IsNull=function()return true end;assert(not owner.UsesNativeScepter(hero));assert(not owner.UsesNativeScepter(nil));w.IsNull=function()return false end
+hero.name='npc_dota_hero_lina';DOTA_ABILITY_TYPE_ULTIMATE=1;local r={GetAbilityType=function()return 1 end}
+assert(not owner.UsesNativeScepter(hero));assert(not m:IsHidden());assert(m:GetModifierSpellAmplify_Percentage({inflictor=r})==40 and m:GetModifierPercentageCooldown({ability=r})==25)
+`));
+
+test('Vortex Health reads real pull/duration/conditional Scepter values without repair or extra native grants',()=>lua(`
+local lookup=hero.FindAbilityByName;local w={IsNull=function()return false end,GetLevel=function()return 0 end,GetIntrinsicModifierName=function()return ''end,
+GetSpecialValueFor=function(_,key)return ({electric_vortex_pull_distance=180,AbilityDuration=.8,radius_scepter=0})[key]end}
+hero.FindAbilityByName=function(self,id)if id=='enfos_storm_electric_vortex' then return w end;return lookup(self,id)end
+hero.GetLevel=function()return 6 end;hero.GetAbilityPoints=function()return 5 end;hero.IsAlive=function()return true end
+hero.AddAbility=function()error('Health native grant')end;hero.AddNewModifier=function()error('Health mutation')end
+local out={};print=function(s)out[#out+1]=s end;assert(require('heroes/health').Report(hero,0));assert(table.concat(out,'|'):find('native_vortex_pull_query=180 native_vortex_duration_query=0.8 native_vortex_scepter_radius_query=0',1,true))
+`));
+
+test('Vortex localization describes pull and Scepter, retires the generic R upgrade in all locales/mirrors',()=>{
+ for(const lang of ['english','turkish','russian','schinese']){const t=JSON.parse(fs.readFileSync('localization/'+lang+'.json','utf8')).Tokens;
+ const desc=t.DOTA_Tooltip_Ability_enfos_storm_electric_vortex_Description;assert.ok(desc.includes('{{AbilityDuration}}')&&desc.includes('{{electric_vortex_pull_distance}}'));assert.ok(t.DOTA_Tooltip_Ability_enfos_storm_electric_vortex_scepter_description.includes('475'));assert.equal(t.DOTA_Tooltip_Ability_enfos_storm_ball_lightning_scepter_description,undefined);
+ for(const dir of ['game/resource','game/panorama/localization','content/panorama/localization']){const s=fs.readFileSync(dir+'/addon_'+lang+'.txt','utf8');assert.doesNotMatch(s,/\{\{/);assert.ok(s.includes('180 / 193.3 / 206.7 / 220 / 233.3 / 246.7 / 260 / 273.3 / 286.7 / 300'));}
+ }
+});

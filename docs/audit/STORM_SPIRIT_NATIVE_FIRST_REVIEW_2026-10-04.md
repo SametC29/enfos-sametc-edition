@@ -218,3 +218,55 @@ Q full source boundary:0 failed check(s). The generic Health fixture now
 provides the real read-only special getter; KV/native JSON comparisons
 normalize parser object prototypes without relaxing field comparisons.
 No engine launch, console action or publication occurred.
+
+## W pre-mutation decision
+
+TUNE / NATIVE. Replace copied AoE stun/Boss duration with native Electric
+Vortex pull. Keep authored duration.8..2.6, CD16..7, mana80..170 and range450;
+restore native castpoint.3/animation2/strong dispel/ordinary enemy targeting.
+Populate native pull_distance180..300 across ten ranks by linear interpolation
+of installed four-rank endpoints; tether1200/self-slow source fields preserved.
+Scepter radius475 remains conditional with no base value. Native W gets the
+exact installed Overload provider from the existing E restore; no second
+charge cast, manual absorb, stun, motion controller or Lua wrapper.
+Move Scepter ownership from generic R40%amp/25%CDR to native W only for
+the owned Storm kit; remove obsolete R flag/tooltip. Actual pull/status
+resistance/block/reflect/Overload and dynamic Scepter behavior remain pending.
+
+W source implementation: pure native alias now includes all installed
+target/immunity/strong-dispel/cast/animation/source fields. Duration is
+declared consistently in header and AbilityValues; authored range450/cost/
+CD and ten-rank gates retained. No manual spell absorb, radius scan,
+damage/stun, motion controller, particle or sound call remains in Lua.
+No extra provider, points, client class, timer or native state write.
+Shared Boss AI/stats/waves/is_boss logic is unchanged. Conditional Scepter
+metadata includes475 without a base value; no unconditional ordinary AoE.
+Existing exact native E is the linkage compatibility path, still unverified
+in actual Q/W/R casts. R's obsolete generic Scepter flag/tooltip removed;
+native W ownership suppresses generic40%amp/25%CDR only for Storm, on both
+contexts. Other Mages retain their bonuses; Shard remains native E.
+
+Automatic Health reads pull distance/duration/conditional Scepter radius
+without restoring anything. Native zero/untrained queries are not errors
+or proof of target effect. Four localized descriptions/upgrade explanations
+and12mirrors now describe pull. Native Scepter targeting/HUD behavior must
+be observed after full restart; no POINT/AOE flag is guessed to force it.
+
+Reference search storm_spirit_electric_vortex found only Watcher3164617180
+native header assignments, no conversion implementation. REFERENCE_ONLY,
+no imports. Installed hero hash/build6943 remain unchanged; ModDota native
+alias guidance rechecked, not used as proof of C++ internals. Existing
+verified Vortex particles and Storm bank stay under startup precache.
+
+125 affected checks/314 hero mock regressions PASS. Four W-focused tests
+cover exact native field/conditional upgrade data, ten-rank interpolation,
+scoped both-context upgrade suppression, read-only Health and locales.
+Retired the old mock asserting copied Boss AoE stun. OWNER_RUNTIME PENDING:
+native pull, movement interruption/target death, strong dispel/status
+resistance/immune targets, block/reflect, Scepter acquisition/removal/HUD,
+Overload charging, ten-rank progression/points, death/reconnect, VFX/SFX/
+cleanup and VConsole. R/D source units remain; no kit completion claim.
+
+W full source boundary:0 failed check(s). No owner engine session, remote
+push, deployment or Workshop publication. Existing contributor hunks remain
+outside this atomic source unit.

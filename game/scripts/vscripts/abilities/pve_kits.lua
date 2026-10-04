@@ -227,7 +227,6 @@ local modifier_list = {
     'modifier_enfos_void_chronosphere_thinker',
     'modifier_enfos_void_chronosphere_freeze',
     'modifier_enfos_void_backtrack_passive',
-    'modifier_enfos_storm_electric_vortex_debuff',
     'modifier_enfos_storm_galvanic_core_passive',
     'modifier_enfos_ss_hex_debuff',
     'modifier_enfos_ss_shackles_channel',
@@ -5408,26 +5407,7 @@ end
 
 -- Static Remnant is a pure native alias; no copied cast/thinker.
 
-enfos_storm_electric_vortex=class({})
-function enfos_storm_electric_vortex:OnSpellStart()
-    local c = self:GetCaster()
-    local t = self:GetCursorTarget()
-    if not c or (c.IsNull and c:IsNull()) or not c:IsAlive() or not t or (t.IsNull and t:IsNull())
-        or not t:IsAlive() or t:GetTeamNumber() == c:GetTeamNumber() then return end
-    if t.TriggerSpellAbsorb and t:TriggerSpellAbsorb(self) then return end
-
-    c:EmitSound('Hero_StormSpirit.ElectricVortex')
-    effect('particles/units/heroes/hero_stormspirit/stormspirit_electric_vortex.vpcf', t)
-    local dur = is_boss(t) and value(self, 'boss_duration') or value(self, 'duration')
-    for _, u in ipairs(enemies(c, t:GetAbsOrigin(), value(self, 'radius'))) do
-        u:AddNewModifier(c, self, 'modifier_enfos_storm_electric_vortex_debuff', { duration = dur })
-        effect('particles/units/heroes/hero_stormspirit/stormspirit_electric_vortex_debuff.vpcf', u)
-    end
-end
-
-modifier_enfos_storm_electric_vortex_debuff=class({})
-function modifier_enfos_storm_electric_vortex_debuff:IsDebuff() return true end
-function modifier_enfos_storm_electric_vortex_debuff:CheckState() return { [MODIFIER_STATE_STUNNED] = true } end
+-- Electric Vortex is native; engine owns pull and Scepter target changes.
 
 -- Overload delegates to one exact native provider in storm_spirit/e.
 

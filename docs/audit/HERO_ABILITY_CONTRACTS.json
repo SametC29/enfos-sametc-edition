@@ -3510,18 +3510,22 @@
           "id": "enfos_storm_electric_vortex",
           "maxLevel": 10,
           "behavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
-          "callbacks": [
-            "OnSpellStart"
-          ],
+          "callbacks": [],
+          "implementationOwner": "NATIVE",
+          "nativeBaseClass": "storm_spirit_electric_vortex",
+          "engineAcceptance": "PENDING OWNER TEST",
           "specials": {
-            "radius": "240 255 270 285 300 315 330 345 360 375",
-            "duration": "0.8 1 1.2 1.4 1.6 1.8 2 2.2 2.4 2.6",
-            "boss_duration": "0.35 0.4 0.45 0.5 0.55 0.6 0.65 0.7 0.75 0.8"
+            "electric_vortex_pull_distance": "180 193.3 206.7 220 233.3 246.7 260 273.3 286.7 300",
+            "electric_vortex_pull_tether_range": "1200.0",
+            "electric_vortex_self_slow": "-50",
+            "electric_vortex_self_slow_duration": "3.0",
+            "AbilityDuration": "0.8 1 1.2 1.4 1.6 1.8 2 2.2 2.4 2.6",
+            "enemy_overload_duration": "0"
           },
           "unreferencedSpecials": [],
           "legacyLuaSpecials": [],
           "hasSound": true,
-          "hasParticle": true
+          "hasParticle": false
         },
         {
           "slot": 3,

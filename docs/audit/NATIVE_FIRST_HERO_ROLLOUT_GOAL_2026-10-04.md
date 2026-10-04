@@ -232,3 +232,11 @@ read-only Health and bounded trace; copied thinker/scan/damage/feedback
 retired.121 affected checks/315 mocks PASS; all actual targeting/cache/
 linked charges/lifecycle/presentation remain owner-pending. Next W pull and
 Scepter; R/D remain open. Full structural restart before later owner tests.
+
+Storm W source progression: native Electric Vortex pull alias, ten-rank
+duration/CD/cost/range and explicit conditional native Scepter metadata.
+Copied AoE/Boss stun retired, generic R Scepter amp/CDR replaced only for
+Storm; automatic read-only pull/duration/radius Health and four locales.
+125 affected checks/314 mocks PASS. Native actual pull/block/reflect/linked
+Overload/Scepter HUD/lifecycle/presentation remain owner-pending. Next R
+native continuous flight/damage/mana, then D native innate and paid stats.

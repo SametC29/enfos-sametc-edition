@@ -6096,24 +6096,6 @@ test('Terrorblade Demon Zeal rank passive respects Break and illusions', functio
     assert(mod:GetModifierAttackSpeedBonus_Constant() == 0 and mod:GetModifierMoveSpeedBonus_Constant() == 0)
 end)
 
-test('Storm Electric Vortex respects spell block and applies ranked boss stun', function()
-    applied_damages = {}
-    local storm = create_mock_unit('npc_dota_hero_storm_spirit', 2, Vector(0, 0, 0))
-    local boss = create_mock_unit('enfos_boss_storm', 3, Vector(100, 0, 0), 10000)
-    boss.is_boss = true
-    mock_world_units = { storm, boss }
-    local ability = enfos_storm_electric_vortex()
-    ability.GetCaster = function() return storm end
-    ability.GetCursorTarget = function() return boss end
-    ability.GetSpecialValueFor = function(_, k) return ({ radius=375, duration=2.6, boss_duration=0.8 })[k] or 0 end
-    ability:OnSpellStart()
-    local stun = boss:FindModifierByName('modifier_enfos_storm_electric_vortex_debuff')
-    assert(stun and stun.params.duration == 0.8 and #applied_damages == 0)
-    boss.TriggerSpellAbsorb = function() return true end
-    ability:OnSpellStart()
-    assert(boss:FindModifierByName('modifier_enfos_storm_electric_vortex_debuff') == stun)
-end)
-
 test('Storm Ball Lightning spends distance mana and caps boss damage', function()
     applied_damages = {}
     local storm = create_mock_unit('npc_dota_hero_storm_spirit', 2, Vector(0, 0, 0))

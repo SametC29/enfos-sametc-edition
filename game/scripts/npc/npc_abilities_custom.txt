@@ -5119,27 +5119,48 @@
 	}
 
 "enfos_storm_electric_vortex"
-{
-"BaseClass" "ability_lua"
-"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
-"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-"AbilityTextureName" "storm_spirit_electric_vortex"
-"AbilityCastRange" "450"
-"AbilityCastPoint" "0.2"
-"AbilityCooldown" "16 15 14 13 12 11 10 9 8 7"
-"AbilityManaCost" "80 90 100 110 120 130 140 150 160 170"
-"MaxLevel" "10"
-						"RequiredLevel"					"1"
-						"LevelsBetweenUpgrades"	"1"
-"AbilityValues"
+	{
+		"BaseClass" "storm_spirit_electric_vortex"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES_STRONG"
+		"FightRecapLevel" "1"
+		"HasScepterUpgrade" "1"
+		"AbilitySound" "Hero_StormSpirit.ElectricVortex"
+		"AbilityCastPoint" "0.3 0.3 0.3 0.3"
+		"AbilityCastRange" "450"
+		"AbilityCooldown" "16 15 14 13 12 11 10 9 8 7"
+		"AbilityManaCost" "80 90 100 110 120 130 140 150 160 170"
+		"AbilityValues"
 		{
-			"radius"	"240 255 270 285 300 315 330 345 360 375"
-			"duration"	"0.8 1 1.2 1.4 1.6 1.8 2 2.2 2.4 2.6"
-			"boss_duration"	"0.35 0.4 0.45 0.5 0.55 0.6 0.65 0.7 0.75 0.8"
+			"electric_vortex_pull_distance" "180 193.3 206.7 220 233.3 246.7 260 273.3 286.7 300"
+			"electric_vortex_pull_tether_range" "1200.0"
+			"electric_vortex_self_slow" "-50"
+			"electric_vortex_self_slow_duration" "3.0"
+			"AbilityDuration"
+			{
+				"value" "0.8 1 1.2 1.4 1.6 1.8 2 2.2 2.4 2.6"
+				"special_bonus_unique_storm_spirit" "+0.2"
+			}
+			"radius_scepter"
+			{
+				"special_bonus_scepter" "475"
+				"affected_by_aoe_increase" "1"
+			}
+			"enemy_overload_duration"
+			{
+				"value" "0"
+			}
 		}
-"ScriptFile" "abilities/pve_kits"
-}
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_2"
+		"AbilityTextureName" "storm_spirit_electric_vortex"
+		"MaxLevel" "10"
+		"RequiredLevel" "1"
+		"LevelsBetweenUpgrades" "1"
+		"AbilityDuration" "0.8 1 1.2 1.4 1.6 1.8 2 2.2 2.4 2.6"
+	}
 
 "enfos_storm_overload"
 {
@@ -5167,7 +5188,6 @@
 "enfos_storm_ball_lightning"
 {
 "AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
-"HasScepterUpgrade" "1"
 "BaseClass" "ability_lua"
 "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_POINT"
 "AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"

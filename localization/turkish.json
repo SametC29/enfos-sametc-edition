@@ -857,7 +857,7 @@
     "DOTA_Tooltip_Ability_enfos_storm_static_remnant": "Statik Kalıntı",
     "DOTA_Tooltip_Ability_enfos_storm_static_remnant_Description": "Seçilen noktaya yürüyen ve en fazla {{AbilityDuration}} saniye kalan bir kopya oluşturur. {{static_remnant_delay}} saniyede etkinleşir; bir düşman {{static_remnant_radius}} yarıçapa girdiğinde patlayarak {{static_remnant_damage_radius}} yarıçapta {{static_remnant_damage}} + Zekâ × {{intellect_factor}} büyü hasarı verir. Kendine kullanılarak Storm’un konumuna yerleştirilebilir.",
     "DOTA_Tooltip_Ability_enfos_storm_electric_vortex": "Elektrik Girdabı",
-    "DOTA_Tooltip_Ability_enfos_storm_electric_vortex_Description": "Hedefin çevresindeki düşmanları {{radius}} yarıçap içinde {{duration}} sn sersemletir. Boss sersemletme süresi {{boss_duration}} sn olur. Çekme veya hasar verme etkisi yoktur.",
+    "DOTA_Tooltip_Ability_enfos_storm_electric_vortex_Description": "Hedef düşmanı {{AbilityDuration}} saniye boyunca Storm’a doğru çeker. Çekme mesafesi: {{electric_vortex_pull_distance}}.",
     "DOTA_Tooltip_Ability_enfos_storm_overload": "Aşırı Yükleme",
     "DOTA_Tooltip_Ability_enfos_storm_overload_Description": "Büyü kullanmak Storm’un sonraki saldırısını {{overload_aoe}} yarıçapta {{overload_damage}} + Zekâ × {{intellect_factor}} büyü hasarıyla yükler. Aşırı Yükleme, hareket hızını %80 ve saldırı hızını 90 azaltır; 0,8 saniye sürer. Break pasifi devre dışı bırakır.",
     "DOTA_Tooltip_Ability_enfos_storm_ball_lightning": "Yıldırım Küresi",
@@ -1107,7 +1107,6 @@
     "DOTA_Tooltip_Ability_enfos_medusa_gorgon_gaze_shard_description": "+%15 hareket hızı. Saldırılar hasarın %12’si kadar ek saf hasar verir.",
     "DOTA_Tooltip_Ability_enfos_tb_sunder_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_tb_demon_zeal_shard_description": "+%15 hareket hızı. Saldırılar hasarın %12’si kadar ek saf hasar verir.",
-    "DOTA_Tooltip_Ability_enfos_storm_ball_lightning_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_leshrac_pulse_nova_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
     "DOTA_Tooltip_Ability_enfos_leshrac_defilement_shard_description": "+%15 büyü hasarı.",
     "DOTA_Tooltip_Ability_enfos_invoker_emp_scepter_description": "Nihai yeteneğin büyü hasarı +%40, bekleme süresi -%25.",
@@ -1854,6 +1853,7 @@
     "DOTA_Tooltip_Ability_enfos_am_spellbreaker_SummaryDescription": "{{bonus_as}} saldırı hızı ve {{bonus_ms}} hareket hızı verir; Break bu bonusları devre dışı bırakır. Native Persecutor, manası %60’ın altındaki düşmanları saldırılarda 0,75 saniye yavaşlatır; yavaşlatma eksik mana ve kahraman seviyesiyle artar. İllüzyonlar native yavaşlatmayı korur, ek Enfos özelliklerini kazanmaz.",
     "DOTA_Tooltip_ability_enfos_am_spellbreaker_Description": "{{bonus_as}} saldırı hızı ve {{bonus_ms}} hareket hızı verir; Break bu bonusları devre dışı bırakır. Native Persecutor, manası %60’ın altındaki düşmanları saldırılarda 0,75 saniye yavaşlatır; yavaşlatma eksik mana ve kahraman seviyesiyle artar. İllüzyonlar native yavaşlatmayı korur, ek Enfos özelliklerini kazanmaz.",
     "DOTA_Tooltip_ability_enfos_am_spellbreaker_SummaryDescription": "{{bonus_as}} saldırı hızı ve {{bonus_ms}} hareket hızı verir; Break bu bonusları devre dışı bırakır. Native Persecutor, manası %60’ın altındaki düşmanları saldırılarda 0,75 saniye yavaşlatır; yavaşlatma eksik mana ve kahraman seviyesiyle artar. İllüzyonlar native yavaşlatmayı korur, ek Enfos özelliklerini kazanmaz.",
-    "DOTA_Tooltip_Ability_enfos_storm_overload_shard_description": "Shard, Aşırı Yükleme aktivasyonunu açar: Storm ve 750 yarıçaptaki müttefik kahramanlar 3 yük ve 40 saldırı hızı kazanır; en fazla 12 saniye sürer. 100 mana tüketir; bekleme süresi 30 saniyedir."
+    "DOTA_Tooltip_Ability_enfos_storm_overload_shard_description": "Shard, Aşırı Yükleme aktivasyonunu açar: Storm ve 750 yarıçaptaki müttefik kahramanlar 3 yük ve 40 saldırı hızı kazanır; en fazla 12 saniye sürer. 100 mana tüketir; bekleme süresi 30 saniyedir.",
+    "DOTA_Tooltip_Ability_enfos_storm_electric_vortex_scepter_description": "Scepter, Elektrik Girdabını Storm’un çevresindeki 475 yarıçapta düşmanları çeken alan kullanımına dönüştürür."
   }
 }

@@ -1,4 +1,9 @@
 local Ownership={}
+function Ownership.UsesNativeScepter(hero)
+    if not hero or not hero.GetUnitName or hero:GetUnitName()~='npc_dota_hero_storm_spirit' or not hero.FindAbilityByName then return false end
+    local w=hero:FindAbilityByName('enfos_storm_electric_vortex')
+    return w and not w:IsNull() or false
+end
 function Ownership.UsesNativeShard(hero)
     if not hero or not hero.GetUnitName or hero:GetUnitName()~='npc_dota_hero_storm_spirit' or not hero.FindAbilityByName then return false end
     local e=hero:FindAbilityByName('enfos_storm_overload')

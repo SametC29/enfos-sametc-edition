@@ -537,7 +537,6 @@
     "DOTA_Tooltip_Ability_enfos_medusa_gorgon_gaze_shard_description": "+15% movement speed. Attacks deal 12% additional pure damage.",
     "DOTA_Tooltip_Ability_enfos_tb_sunder_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
     "DOTA_Tooltip_Ability_enfos_tb_demon_zeal_shard_description": "+15% movement speed. Attacks deal 12% additional pure damage.",
-    "DOTA_Tooltip_Ability_enfos_storm_ball_lightning_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
     "DOTA_Tooltip_Ability_enfos_leshrac_pulse_nova_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
     "DOTA_Tooltip_Ability_enfos_leshrac_defilement_shard_description": "+15% spell amplification.",
     "DOTA_Tooltip_Ability_enfos_invoker_emp_scepter_description": "Ultimate spell damage +40%; ultimate cooldown reduced by 25%.",
@@ -1204,7 +1203,7 @@
     "DOTA_Tooltip_Ability_enfos_centaur_stampede_Description": "Allied heroes gain {{movespeed}} movement speed, {{incoming_damage_pct|abs}}% damage reduction and free movement for {{duration}} sec. On first contact with each enemy, each ally deals {{trample_damage}} + Strength × {{strength_damage_factor}} physical damage and slows it by {{slow_pct}}% for {{slow_duration}} sec.",
     "DOTA_Tooltip_Ability_enfos_centaur_colossal_hide": "Colossal Hide",
     "DOTA_Tooltip_Ability_enfos_centaur_colossal_hide_Description": "Enfos passive: blocks {{damage_block}} + Strength × {{strength_block_factor}} physical damage per hit and grants {{bonus_health_pct}}% max health. Break disables this passive.",
-    "DOTA_Tooltip_Ability_enfos_storm_electric_vortex_Description": "Stuns enemies within {{radius}} radius of the targeted unit for {{duration}} sec. Boss stun duration is {{boss_duration}} sec. It does not pull or deal damage.",
+    "DOTA_Tooltip_Ability_enfos_storm_electric_vortex_Description": "Pulls the target enemy toward Storm for {{AbilityDuration}} seconds. Pull distance: {{electric_vortex_pull_distance}}.",
     "DOTA_Tooltip_Ability_enfos_storm_overload_Description": "Casting a spell charges Storm’s next attack with {{overload_damage}} + Intelligence × {{intellect_factor}} magic damage in a {{overload_aoe}} radius. Overload slows movement by 80% and attack speed by 90 for 0.8 seconds. Break disables the passive.",
     "DOTA_Tooltip_Ability_enfos_invoker_chaos_meteor_Description": "After a {{impact_delay}} sec warning, the meteor hits enemies within {{radius}} radius for {{impact_damage}} + Intelligence × 1.2 magic damage; boss impact is capped at {{boss_impact_cap_pct}}% max health. It burns for {{burn_duration}} sec, ticking every {{burn_tick_interval}} sec for {{burn_dps}} DPS × tick interval + Intelligence × {{burn_int_factor}} magic damage. Each boss burn tick is capped at {{boss_burn_tick_cap_pct}}% max health.",
     "DOTA_Tooltip_Ability_enfos_puck_phase_shift_Description": "For {{duration}} sec, Puck phases out of the world and becomes untargetable and invulnerable.",
@@ -1533,6 +1532,7 @@
     "DOTA_Tooltip_Ability_enfos_am_spellbreaker_SummaryDescription": "Grants {{bonus_as}} attack speed and {{bonus_ms}} movement speed; Break disables these bonuses. Native Persecutor attacks slow enemies below 60% mana for 0.75 seconds, increasing as mana falls and with hero level. Illusions retain the native slow but gain no added Enfos stats.",
     "DOTA_Tooltip_ability_enfos_am_spellbreaker_Description": "Grants {{bonus_as}} attack speed and {{bonus_ms}} movement speed; Break disables these bonuses. Native Persecutor attacks slow enemies below 60% mana for 0.75 seconds, increasing as mana falls and with hero level. Illusions retain the native slow but gain no added Enfos stats.",
     "DOTA_Tooltip_ability_enfos_am_spellbreaker_SummaryDescription": "Grants {{bonus_as}} attack speed and {{bonus_ms}} movement speed; Break disables these bonuses. Native Persecutor attacks slow enemies below 60% mana for 0.75 seconds, increasing as mana falls and with hero level. Illusions retain the native slow but gain no added Enfos stats.",
-    "DOTA_Tooltip_Ability_enfos_storm_overload_shard_description": "Shard enables Overload activation: Storm and allied heroes within 750 radius receive 3 charges and 40 attack speed, lasting up to 12 seconds. Costs 100 mana; 30-second cooldown."
+    "DOTA_Tooltip_Ability_enfos_storm_overload_shard_description": "Shard enables Overload activation: Storm and allied heroes within 750 radius receive 3 charges and 40 attack speed, lasting up to 12 seconds. Costs 100 mana; 30-second cooldown.",
+    "DOTA_Tooltip_Ability_enfos_storm_electric_vortex_scepter_description": "Scepter changes Electric Vortex into an area cast that pulls enemies within 475 radius around Storm."
   }
 }

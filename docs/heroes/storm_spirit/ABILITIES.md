@@ -10,12 +10,12 @@ Hero: `npc_dota_hero_storm_spirit`; role: Mage. Progression target: hero level 5
 | Slot | Stable ability ID | Current explicit MaxLevel | Behavior | Script | Icon (not native counterpart proof) |
 | --- | --- | --- | --- | --- | --- |
 | 1 | `enfos_storm_static_remnant` | 10 | DOTA_ABILITY_BEHAVIOR_NO_TARGET | NOT_EXPLICIT | storm_spirit_static_remnant |
-| 2 | `enfos_storm_electric_vortex` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | abilities/pve_kits | storm_spirit_electric_vortex |
+| 2 | `enfos_storm_electric_vortex` | 10 | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | NOT_EXPLICIT | storm_spirit_electric_vortex |
 | 3 | `enfos_storm_overload` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/heroes/storm_spirit/e | storm_spirit_overload |
 | 4 | `enfos_storm_ball_lightning` | 10 | DOTA_ABILITY_BEHAVIOR_POINT | abilities/pve_kits | storm_spirit_ball_lightning |
 | 5 | `enfos_storm_galvanic_core` | 10 | DOTA_ABILITY_BEHAVIOR_PASSIVE | abilities/pve_kits | storm_spirit_overload |
 
-Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [abilities/heroes/storm_spirit/e](../../../game/scripts/vscripts/abilities/heroes/storm_spirit/e.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
+Source: [hero KV](../../../game/scripts/npc/npc_heroes_custom.txt), [ability KV](../../../game/scripts/npc/npc_abilities_custom.txt), [abilities/heroes/storm_spirit/e](../../../game/scripts/vscripts/abilities/heroes/storm_spirit/e.lua), [abilities/pve_kits](../../../game/scripts/vscripts/abilities/pve_kits.lua), [structural contracts](../../audit/HERO_ABILITY_CONTRACTS.json).
 
 ### Installed native source (not a custom-slot mapping)
 
@@ -112,26 +112,28 @@ Change/test record (2026-09-30): the five Storm Spirit skill KV blocks now expos
 
 ## Slot 2: `enfos_storm_electric_vortex`
 
-Classification: PVE-CONVERT
+Classification: TUNE
 Native counterpart: `storm_spirit_electric_vortex (native Ability2)`.
-Decision and PvE identity rationale: Keeps the Electric Vortex control identity as a target-centered AoE stun for PvE packs; the current implementation does not pull or deal damage, unlike native Vortex. That conversion is documented as current Enfos behavior, not a claim of native mechanical parity.
-Expected behavior: Enemy target respects spell block; applies ranked stun to nearby enemies with reduced boss duration. No pull or damage is applied.
+Decision and PvE identity rationale: Pure native Electric Vortex restores pull, native target rules and Scepter AoE; authored ten-rank duration/CD/cost/range retained. Copied AoE stun and Boss-specific duration retired.
+Expected behavior: Pull target toward Storm with duration0.8..2.6 and pull distance180..300; native Scepter changes targeting to radius475 around Storm. Actual pull, dispel/status resistance, block/reflect and Overload charge remain owner-pending.
 Rank target: 10 total ranks per Enfos slot within hero level 50. Skill-point/unlock curve is a separate system acceptance item.
+
+2026-10-04 native W source: [implementation and remaining gates](../../audit/STORM_SPIRIT_NATIVE_FIRST_REVIEW_2026-10-04.md). 125 affected checks/314 mocks PASS. Pure native alias has no ScriptFile or empty wrapper. Full structural restart required before owner testing.
 
 ### Acceptance ledger
 
 | Area | Status | Source/build/test evidence or N/A reason |
 | --- | --- | --- |
-| Gameplay | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Gameplay | PENDING | Native alias source covered; actual pull/target/rank/lifecycle remains owner-pending. |
 | Targeting | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Ranks | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Ranks | PENDING | Native alias source covered; actual pull/target/rank/lifecycle remains owner-pending. |
 | VFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | SFX | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | Animation | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Modifiers | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Modifiers | PENDING | Native alias source covered; actual pull/target/rank/lifecycle remains owner-pending. |
 | Precache | PASS | Particle paths found in installed Valve VPK and registered in addon precache; cold-start engine test pending. |
 | Cleanup | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
-| Boss | PASS | Mock regression coverage in tests/hero_kit_regressions.lua and ten-rank KV smoke; not ENGINE_PASS. |
+| Boss | PENDING | Native alias source covered; actual pull/target/rank/lifecycle remains owner-pending. |
 | Upgrades | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |
 | Localization | PASS | Turkish source mirrored to EN/TR/RU/zh-CN; consistency check passed. |
 | Performance | PENDING | Live Dota/VConsole verification has not been performed; static and mock checks do not certify engine behavior. |

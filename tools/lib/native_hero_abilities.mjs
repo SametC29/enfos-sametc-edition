@@ -29,6 +29,7 @@ export const nativeHeroAbilities = new Map([
   ['enfos_am_blink', 'antimage_blink'],
   ['enfos_am_counterspell', 'antimage_counterspell'],
   ['enfos_storm_static_remnant', 'storm_spirit_static_remnant'],
+  ['enfos_storm_electric_vortex', 'storm_spirit_electric_vortex'],
 ]);
 
 export function isVerifiedNativeAbility(id, definition) {

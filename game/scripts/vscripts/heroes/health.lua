@@ -42,6 +42,12 @@ function Health.Report(hero,id)
             end
         end
         if entry.id=='npc_dota_hero_storm_spirit' then
+            local w=hero:FindAbilityByName('enfos_storm_electric_vortex')
+            if w and not w:IsNull() then
+                print('[HERO_HEALTH] native_vortex_pull_query='..tostring(w:GetSpecialValueFor('electric_vortex_pull_distance'))..
+                    ' native_vortex_duration_query='..tostring(w:GetSpecialValueFor('AbilityDuration'))..
+                    ' native_vortex_scepter_radius_query='..tostring(w:GetSpecialValueFor('radius_scepter')))
+            end
             local q=hero:FindAbilityByName('enfos_storm_static_remnant')
             if q and not q:IsNull() then
                 print('[HERO_HEALTH] native_remnant_damage_query='..tostring(q:GetSpecialValueFor('static_remnant_damage'))..
