@@ -57,6 +57,21 @@ Archive provenance: [source snapshot](../../audit/HERO_REFERENCE_SOURCE_SNAPSHOT
 
 ## Human decisions and runtime evidence (preserve on refresh)
 
+2026-10-04 native-first discovery: current installed build6943/revision11069754
+and unchanged hero SHA2563dcfc11f...3b2043 re-read. Six native definitions,
+eleven compiled resource hashes and English tokens recorded in
+[native snapshot](../../audit/DRAGON_KNIGHT_NATIVE_SOURCE_2026-10-04.json).
+The [pre-mutation five-slot matrix](../../audit/DRAGON_KNIGHT_NATIVE_FIRST_REVIEW_2026-10-04.md)
+classifies all slots TUNE / NATIVE+MINIMAL EXT as implementation candidates.
+Production still uses the earlier CUSTOM Lua below; no native migration or
+engine PASS is claimed. Native Q travels, W is magical/non-piercing, Dragon
+Blood is an innate with a50% form bonus, Wyrm's Wrath is attack magic/AoE,
+R has cumulative green/red/blue plus Scepter black tiers and Shard Fireball.
+Old color facets are Deprecated=true. Ten-rank native form-tier/read paths
+and exact linked providers require focused implementation; do not infer C++
+rank10 support or use old facet-reference code. Existing lifecycle fixes stay.
+Next source unit Q; all gameplay/presentation/upgrade/lifecycle gates PENDING.
+
 2026-10-03 form policy/presentation: current6943 native R source explicitly
 declares no dispel. The authored PVE-CONVERT form now has `IsPurgable=false`
 and matching ability KV metadata; cast has server/valid-caster guards. Real

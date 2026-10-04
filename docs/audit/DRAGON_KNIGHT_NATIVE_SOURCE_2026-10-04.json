@@ -1,0 +1,436 @@
+{
+  "observedAt": "2026-10-04T05:15:18.287Z",
+  "source": "scripts/npc/heroes/npc_dota_hero_dragon_knight.txt",
+  "sha256": "3dcfc11fbe634effac91207ead048537ffdda6b22ad030c7c097c1d43b3b2043",
+  "build": "ClientVersion=6943\r\nServerVersion=6943\r\nProductName=dota2_workshop\r\nappID=570\r\nServerAppID=373310\r\nCustomGameServerAppID=471280\r\nToolsAppID=316570\r\nSourceRevision=11069754\r\nVersionDate=Oct 01 2026\r\nVersionTime=15:53:48\r\n",
+  "parserNote": "Strict parser only on extracted AbilityDefinitions and Facets; headerRaw preserves repeated resource keys. Primitive hero header read only at depth2, excluding AbilityDraft.",
+  "header": {
+    "Model": "models/heroes/dragon_knight/dragon_knight.vmdl",
+    "IdleExpression": "scenes/dragon_knight/dragon_knight_exp_idle_01.vcd",
+    "SoundSet": "Hero_DragonKnight",
+    "Enabled": "1",
+    "HeroPool1": "1",
+    "HeroPool2": "1",
+    "HeroUnlockOrder": "0",
+    "Role": "Carry,Pusher,Durable,Disabler,Initiator,Nuker",
+    "Rolelevels": "2,3,2,2,1,1",
+    "Complexity": "1",
+    "Team": "Good",
+    "HeroID": "49",
+    "HeroOrderID": "58",
+    "ModelScale": "0.840000",
+    "VersusScale": "0.84",
+    "TransformedLoadoutScale": "1.00",
+    "HeroGlowColor": "209 143 71",
+    "PickSound": "dragon_knight_drag_spawn_01",
+    "BanSound": "dragon_knight_drag_anger_06",
+    "CMEnabled": "1",
+    "BotImplemented": "1",
+    "NameAliases": "dk,davion,dragon's blood",
+    "workshop_guide_name": "Dragon Knight",
+    "new_player_enable": "1",
+    "SimilarHeroes": "18,109,42",
+    "LastHitChallengeRival": "npc_dota_hero_sven",
+    "HeroSelectSoundEffect": "Hero_DragonKnight.Pick",
+    "GibType": "default",
+    "Ability1": "dragon_knight_breathe_fire",
+    "Ability2": "dragon_knight_dragon_tail",
+    "Ability3": "dragon_knight_wyrms_wrath",
+    "Ability4": "dragon_knight_fireball",
+    "Ability5": "dragon_knight_dragon_blood",
+    "Ability6": "dragon_knight_elder_dragon_form",
+    "Ability10": "special_bonus_attack_damage_15",
+    "Ability11": "special_bonus_unique_dragon_knight_3",
+    "Ability12": "special_bonus_unique_dragon_knight_2",
+    "Ability13": "special_bonus_hp_300",
+    "Ability14": "special_bonus_unique_dragon_knight_7",
+    "Ability15": "special_bonus_unique_dragon_knight_9",
+    "Ability16": "special_bonus_unique_dragon_knight",
+    "Ability17": "special_bonus_unique_dragon_knight_wyrms_wrath_damage",
+    "ArmorPhysical": "0",
+    "AttackCapabilities": "DOTA_UNIT_CAP_MELEE_ATTACK",
+    "AttackDamageMin": "34",
+    "AttackDamageMax": "40",
+    "AttackRate": "1.600000",
+    "AttackAnimationPoint": "0.500000",
+    "AttackAcquisitionRange": "600",
+    "AttackRange": "150",
+    "ProjectileSpeed": "900",
+    "AttributePrimary": "DOTA_ATTRIBUTE_STRENGTH",
+    "AttributeBaseStrength": "21",
+    "AttributeStrengthGain": "3.200000",
+    "AttributeBaseAgility": "14",
+    "AttributeAgilityGain": "2.000000",
+    "AttributeBaseIntelligence": "18",
+    "AttributeIntelligenceGain": "1.700000",
+    "MovementSpeed": "310",
+    "HasAggressiveStance": "1",
+    "BoundsHullName": "DOTA_HULL_SIZE_HERO",
+    "particle_folder": "particles/units/heroes/hero_dragon_knight",
+    "GameSoundsFile": "soundevents/game_sounds_heroes/game_sounds_dragon_knight.vsndevts",
+    "VoiceFile": "soundevents/voscripts/game_sounds_vo_dragon_knight.vsndevts"
+  },
+  "facets": {
+    "dragon_knight_fire_dragon": {
+      "Icon": "dragon_fire",
+      "Color": "Red",
+      "GradientID": "1",
+      "Deprecated": "true"
+    },
+    "dragon_knight_corrosive_dragon": {
+      "Icon": "dragon_poison",
+      "Color": "Green",
+      "GradientID": "0",
+      "Deprecated": "true"
+    },
+    "dragon_knight_frost_dragon": {
+      "Icon": "dragon_frost",
+      "Color": "Blue",
+      "GradientID": "0",
+      "Deprecated": "true"
+    }
+  },
+  "headerRaw": "\"DOTAHeroes\"\r\n{\r\n\t\"npc_dota_hero_dragon_knight\"\r\n\t{\r\n\t\t\"Model\"\t\t\"models/heroes/dragon_knight/dragon_knight.vmdl\"\r\n\t\t\"IdleExpression\"\t\t\"scenes/dragon_knight/dragon_knight_exp_idle_01.vcd\"\r\n\t\t\"SoundSet\"\t\t\"Hero_DragonKnight\"\r\n\t\t\"Enabled\"\t\t\"1\"\r\n\t\t\"HeroPool1\"\t\t\"1\"\r\n\t\t\"HeroPool2\"\t\t\"1\"\r\n\t\t\"HeroUnlockOrder\"\t\t\"0\"\r\n\t\t\"Role\"\t\t\t\"Carry,Pusher,Durable,Disabler,Initiator,Nuker\"\r\n\t\t\"Rolelevels\"\t\"2,3,2,2,1,1\"\r\n\t\t\"Complexity\"\t\"1\"\r\n\t\t\"Team\"\t\t\"Good\"\r\n\t\t\"HeroID\"\t\t\"49\"\r\n\t\t\"HeroOrderID\"\t\"58\"\r\n\t\t\"ModelScale\"\t\t\"0.840000\"\r\n\t\t\"VersusScale\"\t\t\"0.84\"\r\n\t\t\"TransformedLoadoutScale\"  \"1.00\"\t\t//dragon\r\n\t\t\"HeroGlowColor\"\t\t\"209 143 71\"\r\n\t\t\"PickSound\"\t\t\"dragon_knight_drag_spawn_01\"\r\n\t\t\"BanSound\"\t\t\"dragon_knight_drag_anger_06\"\r\n\t\t\"CMEnabled\"\t\t\"1\"\r\n\t\t\"BotImplemented\"\t\t\"1\"\r\n\t\t\"NameAliases\"\t\t\"dk,davion,dragon's blood\"\r\n\t\t\"workshop_guide_name\"\t\t\"Dragon Knight\"\r\n\t\t\"new_player_enable\"\t\t\"1\"\r\n\t\t\"SimilarHeroes\"\t\t\"18,109,42\"\r\n\t\t\"Adjectives\"\r\n\t\t{\r\n\t\t\t\"Fiery\"\t\t\t\"1\"\r\n\t\t\t\"Red\"\t\t\t\"1\"\r\n\t\t}\r\n\t\t\"Persona\"\r\n\t\t{\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\"1\"\r\n\t\t\t{\r\n\t\t\t\t\"name\"\t\t\t\t\t\"npc_dota_hero_dragon_knight_persona1\"\r\n\t\t\t\t\"token\"\t\t\t\t\t\"#npc_dota_hero_dragon_knight_persona1\"\r\n\t\t\t\t\"token_english\"\t\t\t\"#npc_dota_hero_dragon_knight_persona1__en\"\r\n\t\t\t\t\"cosmetic_group_name\"\t\"#npc_dota_hero_dragon_knight_persona1_cosmetic_group_name\"\r\n\t\t\t\t\"Model\"\t\t\t\t\t\"models/heroes/dragon_knight_persona/dk_persona_base.vmdl\"\t// For tools only\r\n\t\t\t\t\"mvp_map_override\"\t\t\"maps/scenes/mvp/mvp_dragon_knight_persona.vmap\"\r\n\t\t\t}\r\n\t\t}\r\n\t\t\"LastHitChallengeRival\"\t\t\"npc_dota_hero_sven\"\r\n\t\t\"HeroSelectSoundEffect\"\t\t\"Hero_DragonKnight.Pick\"\r\n\t\t\"GibType\"\t\t\"default\"\r\n\t\t\"Ability1\"\t\t\"dragon_knight_breathe_fire\"\r\n\t\t\"Ability2\"\t\t\"dragon_knight_dragon_tail\"\r\n\t\t\"Ability3\"\t\t\"dragon_knight_wyrms_wrath\"\r\n\t\t\"Ability4\"\t\t\"dragon_knight_fireball\"\r\n\t\t\"Ability5\"\t\t\"dragon_knight_dragon_blood\"\r\n\t\t\"Ability6\"\t\t\"dragon_knight_elder_dragon_form\"\r\n\t\t\"Ability10\"\t\t\"special_bonus_attack_damage_15\"\r\n\t\t\"Ability11\"\t\t\"special_bonus_unique_dragon_knight_3\"\r\n\t\t\"Ability12\"\t\t\"special_bonus_unique_dragon_knight_2\"\r\n\t\t\"Ability13\"\t\t\"special_bonus_hp_300\"\r\n\t\t\"Ability14\"\t\t\"special_bonus_unique_dragon_knight_7\"\r\n\t\t\"Ability15\"\t\t\"special_bonus_unique_dragon_knight_9\"\r\n\t\t\"Ability16\"\t\t\"special_bonus_unique_dragon_knight\"\r\n\t\t\"Ability17\"\t\t\"special_bonus_unique_dragon_knight_wyrms_wrath_damage\"\r\n\t\t\"Facets\"\r\n\t\t{\r\n\t\t\t\"dragon_knight_fire_dragon\" \r\n\t\t\t{\r\n\t\t\t\t\"Icon\"\t\t\t\t\"dragon_fire\"\r\n\t\t\t\t\"Color\"\t\t\t\t\"Red\"\r\n\t\t\t\t\"GradientID\"\t\t\"1\"\r\n\t\t\t\t\"Deprecated\"\t\t\"true\"\r\n\t\t\t}\r\n\t\t\t\"dragon_knight_corrosive_dragon\" \r\n\t\t\t{\r\n\t\t\t\t\"Icon\"\t\t\t\t\"dragon_poison\"\r\n\t\t\t\t\"Color\"\t\t\t\t\"Green\"\r\n\t\t\t\t\"GradientID\"\t\t\"0\"\r\n\t\t\t\t\"Deprecated\"\t\t\"true\"\r\n\t\t\t}\r\n\r\n\t\t\t\"dragon_knight_frost_dragon\" \r\n\t\t\t{\r\n\t\t\t\t\"Icon\"\t\t\t\t\"dragon_frost\"\r\n\t\t\t\t\"Color\"\t\t\t\t\"Blue\"\r\n\t\t\t\t\"GradientID\"\t\t\"0\"\r\n\t\t\t\t\"Deprecated\"\t\t\"true\"\t\t\t\t\r\n\t\t\t}\r\n\t\t}\r\n\r\n\t\t\"AbilityDraftAbilities\"\r\n\t\t{\r\n\t\t\t\"Ability1\"\t\t\"dragon_knight_breathe_fire\"\r\n\t\t\t\"Ability2\"\t\t\"dragon_knight_dragon_tail\"\r\n\t\t\t\"Ability3\"\t\t\"dragon_knight_wyrms_wrath\"\r\n\t\t\t\"Ability4\"\t\t\"dragon_knight_elder_dragon_form\"\r\n\t\t}\r\n\t\t\"ArmorPhysical\"\t\t\"0\"\r\n\t\t\"AttackCapabilities\"\t\t\"DOTA_UNIT_CAP_MELEE_ATTACK\"\r\n\t\t\"AttackDamageMin\"\t\t\"34\"\r\n\t\t\"AttackDamageMax\"\t\t\"40\"\r\n\t\t\"AttackRate\"\t\t\"1.600000\"\r\n\t\t\"AttackAnimationPoint\"\t\t\"0.500000\"\r\n\t\t\"AttackAcquisitionRange\"\t\t\"600\"\r\n\t\t\"AttackRange\"\t\t\"150\"\r\n\t\t\"AttackSpeedActivityModifiers\"\r\n\t\t{\r\n\t\t\t\"fast\"\t\t\"140\"\r\n\t\t}\t\r\n\t\t\"AttackRangeActivityModifiers\"\r\n\t\t{\r\n\t\t\t\"attack_closest_range\"\t\"0\"\r\n\t\t\t\"attack_normal_range\"\t\"90\"\r\n\t\t}\r\n\t\t\"animation_transitions\"\r\n\t\t{\r\n\t\t\t\"ACT_DOTA_RUN\"\r\n\t\t\t{\r\n\t\t\t\t\"regular\"\t\t\"0.300000\"\r\n\t\t\t}\r\n\t\t\t\"ACT_DOTA_IDLE\"\r\n\t\t\t{\r\n\t\t\t\t\"regular\"\t\t\"0.50000\"\r\n\t\t\t}\r\n\t\t}\r\n\t\t\"ProjectileSpeed\"\t\t\"900\"\r\n\t\t\"AttributePrimary\"\t\t\"DOTA_ATTRIBUTE_STRENGTH\"\r\n\t\t\"AttributeBaseStrength\"\t\t\"21\"\r\n\t\t\"AttributeStrengthGain\"\t\t\"3.200000\"\r\n\t\t\"AttributeBaseAgility\"\t\t\"14\"\r\n\t\t\"AttributeAgilityGain\"\t\t\"2.000000\"\r\n\t\t\"AttributeBaseIntelligence\"\t\t\"18\"\r\n\t\t\"AttributeIntelligenceGain\"\t\t\"1.700000\"\r\n\t\t\"MovementSpeed\"\t\t\"310\"\r\n\t\t\"HasAggressiveStance\"\t\t\"1\"\r\n\t\t\"BoundsHullName\"\t\t\"DOTA_HULL_SIZE_HERO\"\r\n\t\t\"particle_folder\"\t\t\"particles/units/heroes/hero_dragon_knight\"\r\n\t\t\"GameSoundsFile\"\t\t\"soundevents/game_sounds_heroes/game_sounds_dragon_knight.vsndevts\"\r\n\t\t\"VoiceFile\"\t\t\"soundevents/voscripts/game_sounds_vo_dragon_knight.vsndevts\"\r\n\t\t\"RenderablePortrait\"\r\n\t\t{\r\n\t\t\t\"Particles\"\r\n\t\t\t{\r\n\t\t\t\t\"particles/units/heroes/hero_dragon_knight/dragon_knight_loadout.vpcf\"\t\t\"loadout\"\r\n\t\t\t}\r\n\t\t}\r\n\t\t\"Bot\"\r\n\t\t{\r\n\t\t\t\"SupportsEasyMode\"\t\"1\"\r\n\t\t\t\"Loadout\"\r\n\t\t\t{\r\n\t\t\t\t\"item_tango\"\t\t\"ITEM_CORE | ITEM_SELLABLE\"\r\n\t\t\t\t\"item_flask\"\t\t\"ITEM_CORE | ITEM_SELLABLE\"\r\n\r\n\t\t\t\t\"item_boots\"\t\t\t\"ITEM_CORE\"\r\n\t\t\t\t\"item_belt_of_strength\"\t\"ITEM_CORE\"\r\n\t\t\t\t\"item_gloves\"\t\t\t\"ITEM_CORE\"\r\n\t\t\t\t\"item_power_treads\"\t\t\"ITEM_DERIVED\"\r\n\r\n\t\t\t\t\"item_helm_of_iron_will\"\t\"ITEM_CORE\"\r\n\t\t\t\t\"item_gloves\"\t\t\t\t\"ITEM_CORE\"\r\n\t\t\t\t\"item_blades_of_attack\"\t\t\"ITEM_CORE\"\r\n\t\t\t\t\"item_recipe_armlet\"\t\t\"ITEM_CORE\"\r\n\t\t\t\t\"item_armlet\"\t\t\t\t\"ITEM_DERIVED\"\r\n\r\n\t\t\t\t\"item_ogre_axe\"\t\t\"ITEM_LUXURY\"\r\n\t\t\t\t\"item_mithril_hammer\"\t\t\"ITEM_LUXURY\"\r\n\t\t\t\t\"item_recipe_black_king_bar\"\t\t\"ITEM_LUXURY\"\r\n\t\t\t\t\"item_black_king_bar\"\t\t\"ITEM_DERIVED\"\r\n\r\n\t\t\t\t\"item_lifesteal\"\t\t\"ITEM_LUXURY\"\r\n\t\t\t\t\"item_reaver\"\t\t\t\"ITEM_LUXURY\"\r\n\t\t\t\t\"item_claymore\"\t\t\t\"ITEM_LUXURY\"\r\n\t\t\t\t\"item_recipe_satanic\"\t\"ITEM_LUXURY\"\r\n\t\t\t\t\"item_satanic\"\t\t\t\"ITEM_DERIVED\"\r\n\r\n\t\t\t\t\"item_ring_of_protection\"   \"ITEM_LUXURY\"\r\n\t\t\t\t\"item_recipe_buckler\"\t\"ITEM_LUXURY\"\r\n\t\t\t\t\"item_buckler\"\t\t\t\"ITEM_DERIVED\"\r\n\t\t\t\t\"item_platemail\"\t\t\"ITEM_LUXURY\"\r\n\t\t\t\t\"item_hyperstone\"\t\t\"ITEM_LUXURY\"\r\n\t\t\t\t\"item_recipe_assault\"\t\"ITEM_LUXURY\"\r\n\t\t\t\t\"item_assault\"\t\t\t\"ITEM_DERIVED\"\r\n\t\t\t}\r\n\t\t\t\"Build\"\r\n\t\t\t{\r\n\t\t\t\t\"1\"\t\t\"dragon_knight_breathe_fire\"\r\n\t\t\t\t\"2\"\t\t\"dragon_knight_dragon_blood\"\r\n\t\t\t\t\"3\"\t\t\"dragon_knight_breathe_fire\"\r\n\t\t\t\t\"4\"\t\t\"dragon_knight_dragon_tail\"\r\n\t\t\t\t\"5\"\t\t\"dragon_knight_breathe_fire\"\r\n\t\t\t\t\"6\"\t\t\"dragon_knight_elder_dragon_form\"\r\n\t\t\t\t\"7\"\t\t\"dragon_knight_breathe_fire\"\r\n\t\t\t\t\"8\"\t\t\"dragon_knight_dragon_blood\"\r\n\t\t\t\t\"9\"\t\t\"dragon_knight_dragon_blood\"\r\n\t\t\t\t\"10\"\t\t\"special_bonus_attack_damage_15\"\r\n\t\t\t\t\"11\"\t\t\"dragon_knight_dragon_blood\"\r\n\t\t\t\t\"12\"\t\t\"dragon_knight_elder_dragon_form\"\r\n\t\t\t\t\"13\"\t\t\"dragon_knight_dragon_tail\"\r\n\t\t\t\t\"14\"\t\t\"dragon_knight_dragon_tail\"\r\n\t\t\t\t\"15\"\t\t\"special_bonus_hp_300\"\r\n\t\t\t\t\"16\"\t\t\"dragon_knight_dragon_tail\"\r\n\t\t\t\t\"17\"\t\t\"\"\r\n\t\t\t\t\"18\"\t\t\"dragon_knight_elder_dragon_form\"\r\n\t\t\t\t\"19\"\t\t\"\"\r\n\t\t\t\t\"20\"\t\t\"special_bonus_unique_dragon_knight_7\"\r\n\t\t\t\t\"21\"\t\t\"\"\r\n\t\t\t\t\"22\"\t\t\"\"\r\n\t\t\t\t\"23\"\t\t\"\"\r\n\t\t\t\t\"24\"\t\t\"\"\r\n\t\t\t\t\"25\"\t\t\"special_bonus_unique_dragon_knight\"\r\n\t\t\t}\r\n\t\t\t\"HeroType\"\t\t\"DOTA_BOT_TANK | DOTA_BOT_SEMI_CARRY | DOTA_BOT_STUN_SUPPORT\"\r\n\t\t\t\"LaningInfo\"\r\n\t\t\t{\r\n\t\t\t\t\"SoloDesire\"\t\t\"0\"\r\n\t\t\t\t\"RequiresBabysit\"\t\t\"1\"\r\n\t\t\t\t\"ProvidesBabysit\"\t\t\"1\"\r\n\t\t\t\t\"SurvivalRating\"\t\t\"1\"\r\n\t\t\t\t\"RequiresFarm\"\t\t\"2\"\r\n\t\t\t\t\"ProvidesSetup\"\t\t\"2\"\r\n\t\t\t\t\"RequiresSetup\"\t\t\"1\"\r\n\t\t\t}\r\n\t\t}\r\n\t\t\"ItemSlots\"\r\n\t\t{\r\n\t\t\t\"0\"\r\n\t\t\t{\r\n\t\t\t\t\"SlotIndex\"\t\t\"0\"\r\n\t\t\t\t\"SlotName\"\t\t\"weapon\"\r\n\t\t\t\t\"SlotText\"\t\t\"#LoadoutSlot_Weapon\"\r\n\t\t\t\t\"TextureWidth\"\t\t\"256\"\r\n\t\t\t\t\"TextureHeight\"\t\t\"256\"\r\n\t\t\t\t\"MaxPolygonsLOD0\"\t\t\"2500\"\r\n\t\t\t\t\"MaxPolygonsLOD1\"\t\t\"1000\"\r\n\t\t\t}\r\n\t\t\t\"1\"\r\n\t\t\t{\r\n\t\t\t\t\"SlotIndex\"\t\t\"1\"\r\n\t\t\t\t\"SlotName\"\t\t\"head\"\r\n\t\t\t\t\"SlotText\"\t\t\"#LoadoutSlot_Head_Accessory\"\r\n\t\t\t\t\"TextureWidth\"\t\t\"512\"\r\n\t\t\t\t\"TextureHeight\"\t\t\"512\"\r\n\t\t\t\t\"MaxPolygonsLOD0\"\t\t\"3000\"\r\n\t\t\t\t\"MaxPolygonsLOD1\"\t\t\"1200\"\r\n\t\t\t}\r\n\t\t\t\"2\"\r\n\t\t\t{\r\n\t\t\t\t\"SlotIndex\"\t\t\"2\"\r\n\t\t\t\t\"SlotName\"\t\t\"offhand_weapon\"\r\n\t\t\t\t\"SlotText\"\t\t\"#LoadoutSlot_Shield\"\r\n\t\t\t\t\"TextureWidth\"\t\t\"256\"\r\n\t\t\t\t\"TextureHeight\"\t\t\"256\"\r\n\t\t\t\t\"MaxPolygonsLOD0\"\t\t\"2500\"\r\n\t\t\t\t\"MaxPolygonsLOD1\"\t\t\"1000\"\r\n\t\t\t}\r\n\t\t\t\"3\"\r\n\t\t\t{\r\n\t\t\t\t\"SlotIndex\"\t\t\"3\"\r\n\t\t\t\t\"SlotName\"\t\t\"back\"\r\n\t\t\t\t\"SlotText\"\t\t\"#LoadoutSlot_Back\"\r\n\t\t\t\t\"TextureWidth\"\t\t\"256\"\r\n\t\t\t\t\"TextureHeight\"\t\t\"256\"\r\n\t\t\t\t\"MaxPolygonsLOD0\"\t\t\"2500\"\r\n\t\t\t\t\"MaxPolygonsLOD1\"\t\t\"1000\"\r\n\t\t\t}\r\n\t\t\t\"4\"\r\n\t\t\t{\r\n\t\t\t\t\"SlotIndex\"\t\t\"4\"\r\n\t\t\t\t\"SlotName\"\t\t\"shoulder\"\r\n\t\t\t\t\"SlotText\"\t\t\"#LoadoutSlot_Shoulder\"\r\n\t\t\t\t\"TextureWidth\"\t\t\"512\"\r\n\t\t\t\t\"TextureHeight\"\t\t\"512\"\r\n\t\t\t\t\"MaxPolygonsLOD0\"\t\t\"3000\"\r\n\t\t\t\t\"MaxPolygonsLOD1\"\t\t\"1200\"\r\n\t\t\t}\r\n\t\t\t\"5\"\r\n\t\t\t{\r\n\t\t\t\t\"SlotIndex\"\t\t\"5\"\r\n\t\t\t\t\"SlotName\"\t\t\"arms\"\r\n\t\t\t\t\"SlotText\"\t\t\"#LoadoutSlot_Arms\"\r\n\t\t\t\t\"TextureWidth\"\t\t\"256\"\r\n\t\t\t\t\"TextureHeight\"\t\t\"256\"\r\n\t\t\t\t\"MaxPolygonsLOD0\"\t\t\"1500\"\r\n\t\t\t\t\"MaxPolygonsLOD1\"\t\t\"600\"\r\n\t\t\t}\r\n\t\t\t\"6\"\r\n\t\t\t{\r\n\t\t\t\t\"SlotIndex\"\t\t\"6\"\r\n\t\t\t\t\"SlotName\"\t\t\"shapeshift\"\r\n\t\t\t\t\"SlotText\"\t\t\"#LoadoutSlot_Elder_Dragon\"\r\n\t\t\t\t\"no_import\"\t\t\"1\"\r\n\t\t\t\t\"TextureWidth\"\t\t\"1024\"\r\n\t\t\t\t\"TextureHeight\"\t\t\"1024\"\r\n\t\t\t\t\"MaxPolygonsLOD0\"\t\t\"16000\"\r\n\t\t\t\t\"MaxPolygonsLOD1\"\t\t\"6400\"\r\n\t\t\t\t\"LoadoutPreviewMode\"\t\t\"transformation\"\r\n\t\t\t}\r\n\t\t\t\"7\"\r\n\t\t\t{\r\n\t\t\t\t\"SlotIndex\"\t\t\"7\"\r\n\t\t\t\t\"SlotName\"\t\t\"taunt\"\r\n\t\t\t\t\"SlotText\"\t\t\"#LoadoutSlot_Taunt\"\r\n\t\t\t}\r\n\t\t\t\"8\"\r\n\t\t\t{\r\n\t\t\t\t\"SlotIndex\"\t\t\"8\"\r\n\t\t\t\t\"SlotName\"\t\t\"head_persona_1\"\r\n\t\t\t\t\"SlotText\"\t\t\"#LoadoutSlot_Head\"\r\n\t\t\t\t//\"TextureWidth\"\t\t\"256\"\r\n\t\t\t\t//\"TextureHeight\"\t\t\"256\"\r\n\t\t\t\t//\"MaxPolygonsLOD0\"\t\t\"1000\"\r\n\t\t\t\t//\"MaxPolygonsLOD1\"\t\t\"500\"\r\n\t\t\t}\r\n\t\t\t\"9\"\r\n\t\t\t{\r\n\t\t\t\t\"SlotIndex\"\t\t\"9\"\r\n\t\t\t\t\"SlotName\"\t\t\"armor_persona_1\"\r\n\t\t\t\t\"SlotText\"\t\t\"#LoadoutSlot_Armor\"\r\n\t\t\t\t//\"TextureWidth\"\t\t\"256\"\r\n\t\t\t\t//\"TextureHeight\"\t\t\"256\"\r\n\t\t\t\t//\"MaxPolygonsLOD0\"\t\t\"650\"\r\n\t\t\t\t//\"MaxPolygonsLOD1\"\t\t\"650\"\r\n\t\t\t}\r\n\t\t\t\"10\"\r\n\t\t\t{\r\n\t\t\t\t\"SlotIndex\"\t\t\"10\"\r\n\t\t\t\t\"SlotName\"\t\t\"weapon_persona_1\"\r\n\t\t\t\t\"SlotText\"\t\t\"#LoadoutSlot_Weapon\"\r\n\t\t\t\t//\"TextureWidth\"\t\t\"256\"\r\n\t\t\t\t//\"TextureHeight\"\t\t\"256\"\r\n\t\t\t\t//\"MaxPolygonsLOD0\"\t\t\"800\"\r\n\t\t\t\t//\"MaxPolygonsLOD1\"\t\t\"600\"\r\n\t\t\t}\r\n\t\t\t\"11\"\r\n\t\t\t{\r\n\t\t\t\t\"SlotIndex\"\t\t\"11\"\r\n\t\t\t\t\"SlotName\"\t\t\"shapeshift_persona_1\"\r\n\t\t\t\t\"SlotText\"\t\t\"#LoadoutSlot_Persona_Elder_Dragon\"\r\n\t\t\t\t\"no_import\"\t\t\"1\"\r\n\t\t\t\t//\"TextureWidth\"\t\t\"1024\"\r\n\t\t\t\t//\"TextureHeight\"\t\t\"512\"\r\n\t\t\t\t//\"MaxPolygonsLOD0\"\t\t\"16000\"\r\n\t\t\t\t//\"MaxPolygonsLOD1\"\t\t\"6400\"\r\n\t\t\t\t\"LoadoutPreviewMode\"\t\t\"transformation\"\r\n\t\t\t}\r\n\t\t\t\"12\"\r\n\t\t\t{\r\n\t\t\t\t\"SlotIndex\"\t\t\"12\"\r\n\t\t\t\t\"SlotName\"\t\t\"taunt_persona_1\"\r\n\t\t\t\t\"SlotText\"\t\t\"#LoadoutSlot_Taunt_Antimage_Persona\"\r\n\t\t\t\t\"DisplayInLoadout\" \"1\"\r\n\t\t\t}\r\n\t\t\t\"13\"\r\n\t\t\t{\r\n\t\t\t\t\"SlotIndex\" \"13\"\r\n\t\t\t\t\"SlotName\" \"ability_effects_2\"\r\n\t\t\t\t\"SlotText\" \"dragon_knight_dragon_tail\"\r\n\t\t\t\t\"DisplayInLoadout\" \"0\"\r\n\t\t\t}\r\n\t\t\t// NOTE: persona_selector should be after persona item slots, so that those item slots can override its asset modifiers. See CEconItemView::CacheAssetModifiers\r\n\t\t\t\"14\"\r\n\t\t\t{\r\n\t\t\t\t\"SlotIndex\"\t\t\"14\"\r\n\t\t\t\t\"SlotName\"\t\t\"persona_selector\"\r\n\t\t\t\t\"SlotText\"\t\t\"#LoadoutSlot_Persona_Selector\"\r\n\t\t\t}\r\n\t\t\t\"15\"\r\n\t\t\t{\r\n\t\t\t\t\"SlotIndex\"\t\t\"15\"\r\n\t\t\t\t\"SlotName\"\t\t\"hero_effigy\"\r\n\t\t\t\t\"SlotText\"\t\t\"#LoadoutSlot_HeroEffigy\"\r\n\t\t\t}\r\n\t\t\t\"16\"\r\n\t\t\t{\r\n\t\t\t\t\"SlotIndex\"\t\t\"16\"\r\n\t\t\t\t\"SlotName\"\t\t\"hero_effigy_persona_1\"\r\n\t\t\t\t\"SlotText\"\t\t\"#LoadoutSlot_HeroEffigy\"\r\n\t\t\t}\r\n\t\t}\r\n\t\t\"precache\"\r\n\t\t{\r\n\t\t\t\"model\"\t\t\"models/heroes/dragon_knight/dragon_knight_dragon.vmdl\"\r\n\t\t\t\"particle\"\t\t\"particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_corrosive.vpcf\"\r\n\t\t\t\"particle\"\t\t\"particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_fire.vpcf\"\r\n\t\t\t\"particle\"\t\t\"particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_frost.vpcf\"\r\n\t\t\t\"particle\"\t\t\"particles/econ/events/frostivus_2024/frostivus_2024_hat_ambient_npc_dota_hero_dragon_knight.vpcf\"\r\n\t\t\t\"particle\"\t\t\"particles/econ/events/frostivus_2024/frostivus_2024_hat_ambient_npc_dota_hero_dragon_knight_persona1.vpcf\"\r\n\t\t}\r\n\t\t\"party_hat_effects\"\r\n\t\t{\r\n\t\t\t\"party_hat_effect_0\"\t\t\t\"particles/econ/events/frostivus_2024/frostivus_2024_hat_ambient_npc_dota_hero_dragon_knight.vpcf\"\r\n\t\t\t\"party_hat_effect_persona_0\"\t\"particles/econ/events/frostivus_2024/frostivus_2024_hat_ambient_npc_dota_hero_dragon_knight_persona1.vpcf\"\r\n\t\t}\r\n\t\t\"showcase_attachments\"\r\n\t\t{\r\n\t\t\t\"attach_head\"\t\t\"1\"\r\n\t\t\t\"attach_attack2\"\t\"2\"\r\n\t\t\t\"attach_attack1\"\t\"3\"\r\n\t\t}\r\n\r\n\t\t",
+  "abilities": {
+    "dragon_knight_fireball": {
+      "MaxLevel": "1",
+      "AbilityType": "ABILITY_TYPE_BASIC",
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_HIDDEN  | DOTA_ABILITY_BEHAVIOR_SHOW_IN_GUIDES",
+      "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+      "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+      "FightRecapLevel": "1",
+      "IsGrantedByShard": "1",
+      "AbilityCastPoint": "0.2",
+      "AbilityCooldown": "20",
+      "AbilityManaCost": "80",
+      "AbilityCastRange": "600",
+      "AbilityValues": {
+        "radius": {
+          "value": "275",
+          "affected_by_aoe_increase": "1"
+        },
+        "damage": {
+          "value": "85",
+          "CalculateSpellDamageTooltip": "1"
+        },
+        "duration": "6.0",
+        "burn_interval": "0.5",
+        "linger_duration": "2"
+      },
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_5"
+    },
+    "dragon_knight_breathe_fire": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+      "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+      "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+      "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+      "SpellDispellableType": "SPELL_DISPELLABLE_YES",
+      "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+      "FightRecapLevel": "1",
+      "AbilitySound": "Hero_DragonKnight.BreathFire",
+      "AbilityCastPoint": "0.2",
+      "AbilityManaCost": "90 95 100 105",
+      "AbilityValues": {
+        "start_radius": {
+          "value": "150 150 150 150",
+          "affected_by_aoe_increase": "1"
+        },
+        "end_radius": {
+          "value": "250 250 250 250",
+          "affected_by_aoe_increase": "1"
+        },
+        "range": "750",
+        "AbilityCastRange": "1000",
+        "AbilityCooldown": {
+          "value": "14 13 12 11",
+          "special_bonus_unique_dragon_knight_3": "-2"
+        },
+        "speed": "1050",
+        "damage": {
+          "value": "80 160 240 320",
+          "special_bonus_unique_dragon_knight_9": "+220",
+          "CalculateSpellDamageTooltip": "1"
+        },
+        "reduction": {
+          "value": "20 24 28 32"
+        },
+        "dragon_form_bonus_pct": {
+          "value": "0"
+        },
+        "duration": "11"
+      },
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_1"
+    },
+    "dragon_knight_dragon_tail": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET",
+      "AbilityUnitTargetTeam": "DOTA_UNIT_TARGET_TEAM_ENEMY",
+      "AbilityUnitTargetType": "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC",
+      "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+      "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_NO",
+      "SpellDispellableType": "SPELL_DISPELLABLE_YES_STRONG",
+      "FightRecapLevel": "1",
+      "AbilitySound": "Hero_DragonKnight.DragonTail.Target",
+      "AbilityCastRange": "150",
+      "AbilityCastPoint": "0.0 0.0 0.0 0.0",
+      "AbilityCooldown": "16 14 12 10",
+      "AbilityManaCost": "70 80 90 100",
+      "AbilityValues": {
+        "stun_duration": {
+          "value": "1.8 2.0 2.2 2.4",
+          "special_bonus_unique_dragon_knight_2": "+0.4"
+        },
+        "damage": "60 90 120 150",
+        "damage_pct": "0",
+        "dragon_cast_range": "150",
+        "projectile_speed": "1600",
+        "aoe": {
+          "value": "50",
+          "affected_by_aoe_increase": "1"
+        }
+      },
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_2"
+    },
+    "dragon_knight_dragon_blood": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE  |  DOTA_ABILITY_BEHAVIOR_SHOW_IN_GUIDES | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE",
+      "IsBreakable": "1",
+      "Innate": "1",
+      "AbilityValues": {
+        "health_regen": {
+          "value": "2",
+          "hero_levelup": "+0.5",
+          "special_bonus_unique_dragon_knight": "+12"
+        },
+        "armor": {
+          "value": "2",
+          "hero_levelup": "+0.5",
+          "special_bonus_unique_dragon_knight": "+12"
+        },
+        "regen_and_armor_multiplier_during_dragon_form": {
+          "value": "50"
+        }
+      },
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_3"
+    },
+    "dragon_knight_wyrms_wrath": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_PASSIVE",
+      "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+      "MaxLevel": "4",
+      "IsBreakable": "1",
+      "AbilityValues": {
+        "magic_damage": {
+          "value": "10 20 30 40",
+          "special_bonus_unique_dragon_knight_wyrms_wrath_damage": "+50%"
+        },
+        "bonus_aoe": {
+          "value": "30 60 90 120",
+          "special_bonus_unique_dragon_knight_wyrms_wrath_damage": "+50%"
+        }
+      },
+      "AbilityCastAnimation": "ACT_DOTA_CAST_ABILITY_3"
+    },
+    "dragon_knight_elder_dragon_form": {
+      "AbilityBehavior": "DOTA_ABILITY_BEHAVIOR_NO_TARGET",
+      "AbilityType": "ABILITY_TYPE_ULTIMATE",
+      "AbilityUnitDamageType": "DAMAGE_TYPE_MAGICAL",
+      "SpellDispellableType": "SPELL_DISPELLABLE_NO",
+      "SpellImmunityType": "SPELL_IMMUNITY_ENEMIES_YES",
+      "FightRecapLevel": "2",
+      "AbilitySound": "Hero_DragonKnight.ElderDragonForm",
+      "HasScepterUpgrade": "1",
+      "RestrictValuesToMaxLevel": "1",
+      "MaxLevel": "3",
+      "AbilityDraftExtraAbilities": {
+        "dragon_knight_fireball": "shard"
+      },
+      "AbilityCastAnimation": "ACT_INVALID",
+      "AbilityCooldown": "100",
+      "AbilityManaCost": "50",
+      "AbilityModifierSupportValue": "0.35",
+      "AbilityValues": {
+        "duration": "60",
+        "bonus_movement_speed": "25 30 35 40",
+        "bonus_attack_range": {
+          "value": "350",
+          "special_bonus_unique_dragon_knight_7": "+150"
+        },
+        "bonus_ability_cast_range": "350",
+        "bonus_attack_damage": "0",
+        "model_scale": "10 15 20 30",
+        "corrosive_duration": "3 3 3 3",
+        "corrosive_damage_per_second": "25 25 25 35",
+        "ranged_splash_damage_pct": "0 75 75 100",
+        "ranged_splash_radius": {
+          "value": "0 275 275 350",
+          "affected_by_aoe_increase": "1"
+        },
+        "health_bar_offset": "300",
+        "magic_resistance": "0 0 0 20",
+        "flying_movement": "0 0 0 1",
+        "frost_duration": "0 0 3 3",
+        "frost_bonus_movement_speed": "0 0 30 45",
+        "frost_bonus_attack_speed": "0 0 50 65",
+        "frost_healing_reduction": "0",
+        "scepter_bonus_levels": "1"
+      }
+    }
+  },
+  "localization": {
+    "source": "resource/localization/abilities_english.txt",
+    "sha256": "562494850a6a660994fcfe7ea39ce0b04ada85f30311a34635fa4a4e7e0cc5d0",
+    "tokens": {
+      "DOTA_Tooltip_ability_dragon_knight_breathe_fire": "Breathe Fire",
+      "DOTA_Tooltip_ability_dragon_knight_breathe_fire_Description": "Unleashes a breath of fire in front of Dragon Knight that burns enemies and reduces the damage their attacks deal.",
+      "DOTA_Tooltip_ability_dragon_knight_breathe_fire_reduction": "%DAMAGE REDUCTION:",
+      "DOTA_Tooltip_ability_dragon_knight_breathe_fire_duration": "REDUCTION DURATION:",
+      "DOTA_Tooltip_ability_dragon_knight_breathe_fire_damage": "DAMAGE:",
+      "DOTA_Tooltip_ability_dragon_knight_breathe_fire_start_radius": "START RADIUS:",
+      "DOTA_Tooltip_ability_dragon_knight_breathe_fire_end_radius": "END RADIUS:",
+      "DOTA_Tooltip_ability_dragon_knight_breathe_fire_Lore": "Knight Davion's breath has become that of the mighty Eldwurm Slyrak, remembered for burning numerous other knights to a crisp.",
+      "DOTA_Tooltip_ability_dragon_knight_breathe_fire_Note0": "Does not trigger spell block or spell reflect.",
+      "DOTA_Tooltip_ability_dragon_knight_breathe_fire_Facet_dragon_knight_corrosive_dragon": "Damage type changed to Physical.",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_tail": "Dragon Tail",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_tail_Description": "Dragon Knight smites an enemy unit with his shield, stunning and damaging it and units close to it.",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_tail_Lore": "Davion's combination of dragon talents and knightly skills makes him a vicious opponent in melee combat.",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_tail_stun_duration": "STUN DURATION:",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_tail_damage": "DAMAGE:",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_tail_aoe": "AOE:",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_tail_Facet_dragon_knight_corrosive_dragon": "Damage type changed to Physical.",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_blood": "Dragon Blood",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_blood_Description": "The life blood of the Dragon improves Dragon Knight's health regeneration and armor.  <br><br>Regen and armor are increased by %regen_and_armor_multiplier_during_dragon_form%%% during Elder Dragon Form.",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_blood_armor": "BONUS ARMOR:",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_blood_health_regen": "BONUS HP REGEN:",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_blood_Facet_dragon_knight_corrosive_dragon": "Attacks are filled with lethal poison that affects enemy units and structures, reducing armor and dealing physical damage over time.",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_blood_Facet_dragon_knight_fire_dragon": "Attacks deal additional magic damage to enemy units. Spells and items have increased AoE.",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_blood_Facet_dragon_knight_frost_dragon": "Attacks are filled with frost that affects enemy units, slowing movement speed, attack speed, and reducing health restoration.",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_blood_Lore": "Slyrak's blood still courses through Davion's veins, giving him twice the vitality of an ordinary knight.",
+      "DOTA_Tooltip_ability_dragon_knight_wyrms_wrath": "Wyrm's Wrath",
+      "DOTA_Tooltip_ability_dragon_knight_wyrms_wrath_Description": "The life blood of the Dragon improves Dragon Knight's abilities and items to have increased AoE and causes his attacks to deal additional magic damage to enemy units.",
+      "DOTA_Tooltip_ability_dragon_knight_wyrms_wrath_Lore": "Slyrak's blood still courses through Davion's veins, giving him twice the vitality of an ordinary knight.",
+      "DOTA_Tooltip_ability_dragon_knight_wyrms_wrath_magic_damage": "MAGIC DAMAGE:",
+      "DOTA_Tooltip_ability_dragon_knight_wyrms_wrath_bonus_aoe": "AOE BONUS:",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_blood_corrosive_breath_damage": "CORROSIVE DAMAGE PER SECOND:",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_blood_corrosive_breath_duration": "CORROSIVE DURATION:",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_blood_corrosive_breath_armor_reduction": "CORROSIVE ARMOR REDUCTION:",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_blood_magic_damage": "MAGIC DAMAGE:",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_blood_bonus_aoe": "AOE BONUS:",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_blood_frost_bonus_movement_speed": "%FROST MOVESPEED SLOW:",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_blood_frost_bonus_attack_speed": "FROST ATTACK SPEED SLOW:",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_blood_frost_duration": "FROST DURATION:",
+      "DOTA_Tooltip_ability_dragon_knight_dragon_blood_frost_healing_reduction": "%FROST HEALTH RESTORATION REDUCTION:",
+      "DOTA_Tooltip_ability_dragon_knight_elder_dragon_form": "Elder Dragon Form",
+      "DOTA_Tooltip_ability_dragon_knight_elder_dragon_form_Description": "Dragon Knight assumes the form of the Elder Dragon, increasing the range of his abilities, gaining bonus movement speed, and a ranged attack with various properties.  The Dragon evolves per level. The bonuses are cumulative. <br><br>Level 1 <font color=\\\"#9acd32\\\">Green</font>: Grants a corrosive damage over time that can also damage buildings.<br><br>Level 2 <font color=\\\"#FF0000\\\">Red</font>: Grants splash damage to the dragon's attacks.<br><br>Level 3 <font color=\\\"#87ceeb\\\">Blue</font>: Grants a debuff immunity piercing movement and attack frost slow on attack.",
+      "DOTA_Tooltip_ability_dragon_knight_elder_dragon_form_scepter_description": "Increases the current level of Dragon Form by one. Adds a Level 4 Black Dragon that has free pathing, bonus magic resistance, and increased other bonuses.",
+      "DOTA_Tooltip_ability_dragon_knight_elder_dragon_form_Lore": "The dormant dragon power springs forth from within Davion, combining the powers of a legendary knight with a legendary Eldwurm.",
+      "DOTA_Tooltip_ability_dragon_knight_elder_dragon_form_duration": "DURATION:",
+      "DOTA_Tooltip_ability_dragon_knight_elder_dragon_form_bonus_movement_speed": "BONUS MOVE SPEED:",
+      "DOTA_Tooltip_ability_dragon_knight_elder_dragon_form_bonus_attack_range": "BONUS ATTACK RANGE:",
+      "DOTA_Tooltip_ability_dragon_knight_elder_Dragon_form_bonus_ability_cast_range": "BONUS ABILITY RANGE:",
+      "DOTA_Tooltip_ability_dragon_knight_elder_dragon_form_corrosive_duration": "<font color=\\\"#9acd32\\\">CORROSIVE DURATION:</font>",
+      "DOTA_Tooltip_ability_dragon_knight_elder_dragon_form_corrosive_damage_per_second": "<font color=\\\"#9acd32\\\">CORROSIVE DAMAGE:</font>",
+      "DOTA_Tooltip_ability_dragon_knight_elder_dragon_form_ranged_splash_damage_pct": "%<font color=\\\"#FF0000\\\">SPLASH DAMAGE:</font>",
+      "DOTA_Tooltip_ability_dragon_knight_elder_dragon_form_ranged_splash_radius": "<font color=\\\"#FF0000\\\">SPLASH RADIUS:</font>",
+      "DOTA_Tooltip_ability_dragon_knight_elder_dragon_form_frost_duration": "<font color=\\\"#87ceeb\\\">FROST DURATION:</font>",
+      "DOTA_Tooltip_ability_dragon_knight_elder_dragon_form_frost_bonus_movement_speed": "%<font color=\\\"#87ceeb\\\">FROST MOVEMENT SLOW:</font>",
+      "DOTA_Tooltip_ability_dragon_knight_elder_dragon_form_frost_bonus_attack_speed": "<font color=\\\"#87ceeb\\\">FROST ATTACK SLOW:</font>",
+      "DOTA_Tooltip_ability_dragon_knight_elder_dragon_form_abilitydraft_note": "Shard: Grants Fireball.",
+      "DOTA_Tooltip_ability_dragon_knight_fireball": "Fireball",
+      "DOTA_Tooltip_ability_dragon_knight_fireball_Description": "Ignites an area, dealing damage over time that lingers on enemies in it. Has reduced cast range when melee.",
+      "DOTA_Tooltip_ability_dragon_knight_fireball_Lore": "Most Dragon Knights name no greater horror than the scourge of dragon's fire.",
+      "DOTA_Tooltip_ability_dragon_knight_fireball_Facet_dragon_knight_corrosive_dragon": "Damage type changed to Physical.",
+      "DOTA_Tooltip_ability_dragon_knight_fireball_radius": "RADIUS:",
+      "DOTA_Tooltip_ability_dragon_knight_fireball_duration": "DURATION:",
+      "DOTA_Tooltip_ability_dragon_knight_fireball_damage": "DAMAGE PER SECOND:",
+      "DOTA_Tooltip_ability_dragon_knight_fireball_linger_duration": "LINGER DURATION:",
+      "DOTA_Tooltip_ability_dragon_knight_fireball_dragon_form_cast_range": "DRAGON FORM CAST RANGE:",
+      "DOTA_Tooltip_ability_dragon_knight_fireball_melee_cast_range": "MELEE CAST RANGE:"
+    }
+  },
+  "assets": [
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire.vpcf_c",
+      "sha256": "601e91feb7fb84c3277fcf7914c7af5c69fa5b78f67fb83d2946a9355b97f813",
+      "bytes": 3671
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_dragon_tail_impact.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_dragon_tail_impact.vpcf_c",
+      "sha256": "b602660dcf14e4a2e1a82e2df848fd38aee02590725e93ff4fd42be9e32b6592",
+      "bytes": 2763
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire_explosion.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire_explosion.vpcf_c",
+      "sha256": "01dd19e1a46fe67ff2ea1ef09dbe151dde9d0b539d822998edf35e2e88b127d9",
+      "bytes": 2145
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_transform_red.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_transform_red.vpcf_c",
+      "sha256": "6f0b05721d619558b5e1d97ff85d9393133131a271d348b26614acc7ed0091c2",
+      "bytes": 2008
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_fire.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_fire.vpcf_c",
+      "sha256": "6ab2197adf718b5b49a0d20617678875c200fcb2b37c144b117754ef8bd9372f",
+      "bytes": 2833
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_fire_explosion.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_fire_explosion.vpcf_c",
+      "sha256": "78d2bc2460cee1daf5dc35b34ac2fa8356b7e8cc5ad04d460c26f55d7dff70e2",
+      "bytes": 2671
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_corrosive.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_corrosive.vpcf_c",
+      "sha256": "15e22764bdbfc9e5bf2be963a2aefeb95276b2b613dbc45e72283f19946b6cf3",
+      "bytes": 2880
+    },
+    {
+      "path": "particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_frost.vpcf",
+      "compiled": "particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_frost.vpcf_c",
+      "sha256": "33b2f91e8a5c7ad3d22693792ba0c06a2f91c83ad3562e6889dbf7f2e2881ee0",
+      "bytes": 3007
+    },
+    {
+      "path": "models/heroes/dragon_knight/dragon_knight_dragon.vmdl",
+      "compiled": "models/heroes/dragon_knight/dragon_knight_dragon.vmdl_c",
+      "sha256": "112bba4e4e27f3d08f352bae1f26edde033aa2af3ff32581957753331d44b380",
+      "bytes": 366093
+    },
+    {
+      "path": "models/heroes/dragon_knight/dragon_knight.vmdl",
+      "compiled": "models/heroes/dragon_knight/dragon_knight.vmdl_c",
+      "sha256": "020ac764576a0dc980994e073d428397b986e5abaa9da399a2e988a67360b390",
+      "bytes": 446842
+    },
+    {
+      "path": "soundevents/game_sounds_heroes/game_sounds_dragon_knight.vsndevts",
+      "compiled": "soundevents/game_sounds_heroes/game_sounds_dragon_knight.vsndevts_c",
+      "sha256": "69775797eb737494a3f873c9354c855120d8782d06227bb5d030f9a8f19d9ac9",
+      "bytes": 4782
+    }
+  ],
+  "references": {
+    "status": "REFERENCE_ONLY; exact source version/license compatibility unknown; no imports",
+    "files": [
+      {
+        "id": "2208582400",
+        "path": "scripts/npc/heroes/dragon_knight/npc_abilities_dragon_knight.txt",
+        "review": "ability_lua faceted form and separate inherited-vigor/Dragon Blood; obsolete facet-dependent schema differs from installed deprecated facets"
+      },
+      {
+        "id": "1571786267",
+        "path": "scripts/npc/npc_abilities_custom.txt",
+        "review": "includes Lua form, discovered in reference search; implementation not yet inspected"
+      },
+      {
+        "id": "2880603428",
+        "path": "scripts/npc/npc_heroes_custom.txt",
+        "review": "native wyrms_wrath assignment found in reference search, not runtime acceptance"
+      }
+    ]
+  }
+}
